@@ -4,7 +4,8 @@
   "description": "Generator for tapis-typescript",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "systems": "./generate.sh systems"
   },
   "repository": {
     "type": "git",
