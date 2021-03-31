@@ -1,0 +1,23 @@
+{
+  "name": "tapis-typescript",
+  "version": "1.0.0",
+  "description": "Generator for tapis-typescript",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tapis-project/tapis-typescript.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/tapis-project/tapis-typescript/issues"
+  },
+  "homepage": "https://github.com/tapis-project/tapis-typescript#readme",
+  "dependencies": {
+    "@openapitools/openapi-generator-cli": "^2.2.4",
+    "swagger-parser": "^10.0.2"
+  }
+}
