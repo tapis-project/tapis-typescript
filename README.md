@@ -16,6 +16,8 @@ Output directory of `tapis-typescript` npm package
 
 Transformation scripts
 
+- [`utils.js`](./transforms/utils.js): Utility functions for working with yml files
+
 ### [`transformed_openapi`](./transformed_openapi)
 
 Transformation script output files
