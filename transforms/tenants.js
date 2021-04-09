@@ -8,7 +8,9 @@ try {
 
   // Rename schemas
   const schemas = {
-    NewLDAP: 'ReqCreateLdap'
+    NewLDAP: 'ReqCreateLdap',
+    NewTenant: 'ReqCreateTenant',
+    NewSite: 'ReqCreateSite'
   }
   Object.keys(schemas).forEach(
     oldSchema => {

@@ -9,10 +9,10 @@ src/apis/index.ts
 src/index.ts
 src/models/BasicResponse.ts
 src/models/LDAP.ts
-src/models/NewSite.ts
-src/models/NewTenant.ts
 src/models/Owner.ts
 src/models/ReqCreateLdap.ts
+src/models/ReqCreateSite.ts
+src/models/ReqCreateTenant.ts
 src/models/Site.ts
 src/models/Tenant.ts
 src/models/index.ts

@@ -16,88 +16,88 @@ import { exists, mapValues } from '../runtime';
 /**
  * 
  * @export
- * @interface NewTenant
+ * @interface ReqCreateTenant
  */
-export interface NewTenant {
+export interface ReqCreateTenant {
     /**
      * The unique identifier for the tenant.
      * @type {string}
-     * @memberof NewTenant
+     * @memberof ReqCreateTenant
      */
     tenant_id: string;
     /**
      * The base URL for the tenant.
      * @type {string}
-     * @memberof NewTenant
+     * @memberof ReqCreateTenant
      */
     base_url: string;
     /**
      * The site for which the tenant belongs.
      * @type {string}
-     * @memberof NewTenant
+     * @memberof ReqCreateTenant
      */
     site_id: string;
     /**
      * The resolvable location of the token service for the tenant.
      * @type {string}
-     * @memberof NewTenant
+     * @memberof ReqCreateTenant
      */
     token_service: string;
     /**
      * The resolvable location of the security kernel for the tenant.
      * @type {string}
-     * @memberof NewTenant
+     * @memberof ReqCreateTenant
      */
     security_kernel: string;
     /**
      * The resolvable location of the authenticator for the tenant.
      * @type {string}
-     * @memberof NewTenant
+     * @memberof ReqCreateTenant
      */
     authenticator: string;
     /**
      * The email address of the primary owner and contact for the tenant.
      * @type {string}
-     * @memberof NewTenant
+     * @memberof ReqCreateTenant
      */
     owner: string;
     /**
      * The username of the user that is automatically assigned the tenant_admin role by the Security Kernel.
      * @type {string}
-     * @memberof NewTenant
+     * @memberof ReqCreateTenant
      */
     admin_user: string;
     /**
      * The list of services that are automatically granted the token_generator role for this tenant by the Security Kernel.
      * @type {Array<string>}
-     * @memberof NewTenant
+     * @memberof ReqCreateTenant
      */
     token_gen_services: Array<string>;
     /**
      * The unique identifier for the LDAP object for service accounts in the tenant.
      * @type {string}
-     * @memberof NewTenant
+     * @memberof ReqCreateTenant
      */
     service_ldap_connection_id?: string;
     /**
      * The unique identifier for the LDAP object for user accounts in the tenant.
      * @type {string}
-     * @memberof NewTenant
+     * @memberof ReqCreateTenant
      */
     user_ldap_connection_id?: string;
     /**
      * A description of the tenant.
      * @type {string}
-     * @memberof NewTenant
+     * @memberof ReqCreateTenant
      */
     description?: string;
 }
 
-export function NewTenantFromJSON(json: any): NewTenant {
-    return NewTenantFromJSONTyped(json, false);
+export function ReqCreateTenantFromJSON(json: any): ReqCreateTenant {
+    return ReqCreateTenantFromJSONTyped(json, false);
 }
 
-export function NewTenantFromJSONTyped(json: any, ignoreDiscriminator: boolean): NewTenant {
+export function ReqCreateTenantFromJSONTyped(json: any, ignoreDiscriminator: boolean): ReqCreateTenant {
     if ((json === undefined) || (json === null)) {
         return json;
     }
@@ -118,7 +118,7 @@ export function NewTenantFromJSONTyped(json: any, ignoreDiscriminator: boolean):
     };
 }
 
-export function NewTenantToJSON(value?: NewTenant | null): any {
+export function ReqCreateTenantToJSON(value?: ReqCreateTenant | null): any {
     if (value === undefined) {
         return undefined;
     }

@@ -16,52 +16,52 @@ import { exists, mapValues } from '../runtime';
 /**
  * 
  * @export
- * @interface NewSite
+ * @interface ReqCreateSite
  */
-export interface NewSite {
+export interface ReqCreateSite {
     /**
      * The unique identifier for the site.
      * @type {string}
-     * @memberof NewSite
+     * @memberof ReqCreateSite
      */
     site_id: string;
     /**
      * The base URL for the site.
      * @type {string}
-     * @memberof NewSite
+     * @memberof ReqCreateSite
      */
     base_url: string;
     /**
      * Whether the site is the primary site.
      * @type {boolean}
-     * @memberof NewSite
+     * @memberof ReqCreateSite
      */
     primary: boolean;
     /**
      * The list of services for this site.
      * @type {Array<string>}
-     * @memberof NewSite
+     * @memberof ReqCreateSite
      */
     services: Array<string>;
     /**
      * For primary site only; The template string represening the base URL for a tenant.
      * @type {string}
-     * @memberof NewSite
+     * @memberof ReqCreateSite
      */
     tenant_base_url_template?: string;
     /**
      * Tenant ID of this site's tenant.
      * @type {string}
-     * @memberof NewSite
+     * @memberof ReqCreateSite
      */
     site_admin_tenant_id: string;
 }
 
-export function NewSiteFromJSON(json: any): NewSite {
-    return NewSiteFromJSONTyped(json, false);
+export function ReqCreateSiteFromJSON(json: any): ReqCreateSite {
+    return ReqCreateSiteFromJSONTyped(json, false);
 }
 
-export function NewSiteFromJSONTyped(json: any, ignoreDiscriminator: boolean): NewSite {
+export function ReqCreateSiteFromJSONTyped(json: any, ignoreDiscriminator: boolean): ReqCreateSite {
     if ((json === undefined) || (json === null)) {
         return json;
     }
@@ -76,7 +76,7 @@ export function NewSiteFromJSONTyped(json: any, ignoreDiscriminator: boolean): N
     };
 }
 
-export function NewSiteToJSON(value?: NewSite | null): any {
+export function ReqCreateSiteToJSON(value?: ReqCreateSite | null): any {
     if (value === undefined) {
         return undefined;
     }
