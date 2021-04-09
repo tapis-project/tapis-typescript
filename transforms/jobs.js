@@ -8,6 +8,14 @@ try {
   transformed = utils.setTag(transformed, '/jobs/hello', 'Health');
   transformed = utils.setTag(transformed, '/jobs/healthcheck', 'Health');
   transformed = utils.prependPaths(transformed, '/v3');
+  // Remove /v3 from end of servers
+  transformed.servers.forEach(
+    server => {
+      if (server.url.endsWith('v3')) {
+        server.url = server.url.substring(0, server.url.length - 'v3'.length);
+      }
+    }
+  )
 
   utils.write(transformed, 'jobs');
 } catch (e) {

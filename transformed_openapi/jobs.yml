@@ -13,7 +13,7 @@ externalDocs:
   description: Tapis Home
   url: https://tacc-cloud.readthedocs.io/projects/agave/en/latest/
 servers:
-  - url: http://localhost:8080/v3
+  - url: http://localhost:8080/
     description: Local test environment
     variables: {}
 tags:
