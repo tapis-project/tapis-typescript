@@ -73,6 +73,18 @@ const renameSchema = (doc, oldSchema, newSchema) => {
     return result;
 }
 
+
+const prependPaths = (doc, prefix) => {
+    const result = { ...doc };
+    Object.keys(result.paths).forEach(
+        path => {
+            result.paths[`${prefix}${path}`] = { ...result.paths[path] };
+            delete result.paths[path]
+        }
+    )
+    return result;
+}
+
 /**
  * Copy a service's yml file directly to the transformed_openapi directory
  * if no transformations are required 
@@ -100,3 +112,4 @@ module.exports.copy = copy;
 module.exports.read = read;
 module.exports.write = write;
 module.exports.renameSchema = renameSchema;
+module.exports.prependPaths = prependPaths;
