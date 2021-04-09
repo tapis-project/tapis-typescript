@@ -1,0 +1,16 @@
+.gitignore
+.npmignore
+.openapi-generator-ignore
+README.md
+package.json
+src/apis/AggregationApi.ts
+src/apis/CollectionApi.ts
+src/apis/DbApi.ts
+src/apis/DocumentApi.ts
+src/apis/GeneralApi.ts
+src/apis/IndexApi.ts
+src/apis/RootApi.ts
+src/apis/index.ts
+src/index.ts
+src/runtime.ts
+tsconfig.json

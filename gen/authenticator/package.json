@@ -1,7 +1,7 @@
 {
-  "name": "@tapis/tapis-typescript-tenants",
+  "name": "@tapis/tapis-typescript-authenticator",
   "version": "1.0.0",
-  "description": "OpenAPI client for @tapis/tapis-typescript-tenants",
+  "description": "OpenAPI client for @tapis/tapis-typescript-authenticator",
   "author": "OpenAPI-Generator",
   "main": "./dist/index.js",
   "typings": "./dist/index.d.ts",
