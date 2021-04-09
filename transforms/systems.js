@@ -1,4 +1,9 @@
-const fs = require('fs');
+const utils = require('./utils');
 
 console.log("Systems API transform");
-fs.copyFileSync('./tapis_openapi/systems.yml', './transformed_openapi/systems.yml');
+try {
+    // Copy systems spec  without transforms
+    utils.copy('systems');
+} catch (error) {
+    console.error(error);
+}
