@@ -414,10 +414,6 @@ components:
                   description: >-
                     The value to use in the where clause when comparing rows to
                     be updated.
-                  oneOf:
-                    - type: integer
-                    - type: string
-                    - type: boolean
       additionalProperties:
         type: object
       required:

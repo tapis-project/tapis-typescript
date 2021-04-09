@@ -17,6 +17,20 @@ try {
     }
   )
 
+  // Remove type restriction on UpdateMultipleCollectionItem
+  // due to incompatibility with generator
+  delete transformed
+    .components
+    .schemas
+    .UpdateMultipleCollectionItem
+    .properties
+    .where
+    .properties
+    .sub_value
+    .properties
+    .value
+    .oneOf;
+    
   utils.write(transformed, 'pgrest');
 } catch (e) {
   console.error(e);

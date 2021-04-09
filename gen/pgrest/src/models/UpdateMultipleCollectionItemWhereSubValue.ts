@@ -27,10 +27,10 @@ export interface UpdateMultipleCollectionItemWhereSubValue {
     operator?: string;
     /**
      * The value to use in the where clause when comparing rows to be updated.
-     * @type {number | string | boolean}
+     * @type {any}
      * @memberof UpdateMultipleCollectionItemWhereSubValue
      */
-    value?: number | string | boolean;
+    value?: any | null;
 }
 
 export function UpdateMultipleCollectionItemWhereSubValueFromJSON(json: any): UpdateMultipleCollectionItemWhereSubValue {
@@ -44,7 +44,7 @@ export function UpdateMultipleCollectionItemWhereSubValueFromJSONTyped(json: any
     return {
         
         'operator': !exists(json, 'operator') ? undefined : json['operator'],
-        'value': !exists(json, 'value') ? undefined : (number | string | booleanFromJSON(json['value'])),
+        'value': !exists(json, 'value') ? undefined : json['value'],
     };
 }
 
@@ -58,7 +58,7 @@ export function UpdateMultipleCollectionItemWhereSubValueToJSON(value?: UpdateMu
     return {
         
         'operator': value.operator,
-        'value': number | string | booleanToJSON(value.value),
+        'value': value.value,
     };
 }
 
