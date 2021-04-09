@@ -3,7 +3,6 @@ const utils = require('./utils');
 console.log("Actors API transform");
 try {
   const doc = utils.read('actors');
-  // Remove extra tags (such as LDAP) from the /v3/tenants endpoints
   let transformed = utils.setTag(
     doc, '/v3/actors/{actor_id}/executions/{execution_id}/results', 'Executions'
   );
