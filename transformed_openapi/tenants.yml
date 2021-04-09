@@ -271,7 +271,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/NewLDAP'
+              $ref: '#/components/schemas/ReqCreateLdap'
       responses:
         '201':
           description: Created
@@ -458,45 +458,6 @@ components:
           enum:
             - success
             - error
-    NewLDAP:
-      type: object
-      properties:
-        ldap_id:
-          type: string
-          description: Unique id for the LDAP object.
-        url:
-          type: string
-          description: url to the LDAP
-        port:
-          type: integer
-          description: port for the LDAP
-        use_ssl:
-          type: boolean
-          description: Whether to use SSL with the LDAP
-        user_dn:
-          type: string
-          description: base DN for users
-        bind_dn:
-          type: string
-          description: DN used for binding to the LDAP.
-        bind_credential:
-          type: string
-          description: Pointed to a Tapis credential for binding to the LDAP.
-        account_type:
-          type: string
-          description: Whether this LDAP is used for service accounts or user accounts.
-          enum:
-            - service
-            - user
-      required:
-        - ldap_id
-        - url
-        - port
-        - use_ssl
-        - user_dn
-        - bind_dn
-        - bind_credential
-        - account_type
     LDAP:
       type: object
       properties:
@@ -763,3 +724,42 @@ components:
       type: array
       items:
         $ref: '#/components/schemas/Owner'
+    ReqCreateLdap:
+      type: object
+      properties:
+        ldap_id:
+          type: string
+          description: Unique id for the LDAP object.
+        url:
+          type: string
+          description: url to the LDAP
+        port:
+          type: integer
+          description: port for the LDAP
+        use_ssl:
+          type: boolean
+          description: Whether to use SSL with the LDAP
+        user_dn:
+          type: string
+          description: base DN for users
+        bind_dn:
+          type: string
+          description: DN used for binding to the LDAP.
+        bind_credential:
+          type: string
+          description: Pointed to a Tapis credential for binding to the LDAP.
+        account_type:
+          type: string
+          description: Whether this LDAP is used for service accounts or user accounts.
+          enum:
+            - service
+            - user
+      required:
+        - ldap_id
+        - url
+        - port
+        - use_ssl
+        - user_dn
+        - bind_dn
+        - bind_credential
+        - account_type

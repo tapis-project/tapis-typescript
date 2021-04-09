@@ -16,73 +16,73 @@ import { exists, mapValues } from '../runtime';
 /**
  * 
  * @export
- * @interface NewLDAP
+ * @interface ReqCreateLdap
  */
-export interface NewLDAP {
+export interface ReqCreateLdap {
     /**
      * Unique id for the LDAP object.
      * @type {string}
-     * @memberof NewLDAP
+     * @memberof ReqCreateLdap
      */
     ldap_id: string;
     /**
      * url to the LDAP
      * @type {string}
-     * @memberof NewLDAP
+     * @memberof ReqCreateLdap
      */
     url: string;
     /**
      * port for the LDAP
      * @type {number}
-     * @memberof NewLDAP
+     * @memberof ReqCreateLdap
      */
     port: number;
     /**
      * Whether to use SSL with the LDAP
      * @type {boolean}
-     * @memberof NewLDAP
+     * @memberof ReqCreateLdap
      */
     use_ssl: boolean;
     /**
      * base DN for users
      * @type {string}
-     * @memberof NewLDAP
+     * @memberof ReqCreateLdap
      */
     user_dn: string;
     /**
      * DN used for binding to the LDAP.
      * @type {string}
-     * @memberof NewLDAP
+     * @memberof ReqCreateLdap
      */
     bind_dn: string;
     /**
      * Pointed to a Tapis credential for binding to the LDAP.
      * @type {string}
-     * @memberof NewLDAP
+     * @memberof ReqCreateLdap
      */
     bind_credential: string;
     /**
      * Whether this LDAP is used for service accounts or user accounts.
      * @type {string}
-     * @memberof NewLDAP
+     * @memberof ReqCreateLdap
      */
-    account_type: NewLDAPAccountTypeEnum;
+    account_type: ReqCreateLdapAccountTypeEnum;
 }
 
 /**
 * @export
 * @enum {string}
 */
-export enum NewLDAPAccountTypeEnum {
+export enum ReqCreateLdapAccountTypeEnum {
     Service = 'service',
     User = 'user'
 }
 
-export function NewLDAPFromJSON(json: any): NewLDAP {
-    return NewLDAPFromJSONTyped(json, false);
+export function ReqCreateLdapFromJSON(json: any): ReqCreateLdap {
+    return ReqCreateLdapFromJSONTyped(json, false);
 }
 
-export function NewLDAPFromJSONTyped(json: any, ignoreDiscriminator: boolean): NewLDAP {
+export function ReqCreateLdapFromJSONTyped(json: any, ignoreDiscriminator: boolean): ReqCreateLdap {
     if ((json === undefined) || (json === null)) {
         return json;
     }
@@ -99,7 +99,7 @@ export function NewLDAPFromJSONTyped(json: any, ignoreDiscriminator: boolean): N
     };
 }
 
-export function NewLDAPToJSON(value?: NewLDAP | null): any {
+export function ReqCreateLdapToJSON(value?: ReqCreateLdap | null): any {
     if (value === undefined) {
         return undefined;
     }
