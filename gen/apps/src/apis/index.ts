@@ -1,3 +1,3 @@
 export * from './ApplicationsApi';
-export * from './GeneralApi';
+export * from './HealthApi';
 export * from './PermissionsApi';

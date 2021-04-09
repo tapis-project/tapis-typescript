@@ -23,7 +23,7 @@ import {
 /**
  * 
  */
-export class GeneralApi extends runtime.BaseAPI {
+export class HealthApi extends runtime.BaseAPI {
 
     /**
      * Health check.

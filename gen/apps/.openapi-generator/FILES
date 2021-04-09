@@ -4,7 +4,7 @@
 README.md
 package.json
 src/apis/ApplicationsApi.ts
-src/apis/GeneralApi.ts
+src/apis/HealthApi.ts
 src/apis/PermissionsApi.ts
 src/apis/index.ts
 src/index.ts

@@ -1,24 +1,26 @@
 openapi: 3.0.3
 info:
   title: Tapis Applications API
-  description: The Tapis Applications API provides for management of Tapis applications including permissions.
-  version: '0.0.1'
-  termsOfService: "https://tapis-project.org"
+  description: >-
+    The Tapis Applications API provides for management of Tapis applications
+    including permissions.
+  version: 0.0.1
+  termsOfService: https://tapis-project.org
   contact:
-    name: "Applications API - CICSupport"
-    url: "https://tapis-project.org"
-    email: "cicsupport@tacc.utexas.edu"
+    name: Applications API - CICSupport
+    url: https://tapis-project.org
+    email: cicsupport@tacc.utexas.edu
   license:
     name: 3-Clause BSD License
-    url: 'https://opensource.org/licenses/BSD-3-Clause'
+    url: https://opensource.org/licenses/BSD-3-Clause
 externalDocs:
   description: Tapis Project
-  url: 'https://tapis-project.org'
+  url: https://tapis-project.org
 servers:
-  - url: 'http://localhost:8080/'
+  - url: http://localhost:8080/
     description: Local test environment
     variables: {}
-  - url: 'https://dev.develop.tapis.io/'
+  - url: https://dev.develop.tapis.io/
     description: Development environment
     variables: {}
 security:
@@ -26,17 +28,11 @@ security:
 tags:
   - name: Applications
     description: manage applications
-
-# ------------------------------------------------------------------------------
-# --- Paths -------------------------------------------------------------------
-# ------------------------------------------------------------------------------
 paths:
-
-  # --- Paths for /apps -----------------------------------------------------
-  '/v3/apps/healthcheck':
+  /v3/apps/healthcheck:
     get:
       tags:
-        - General
+        - Health
       description: Health check.
       operationId: healthCheck
       responses:
@@ -48,10 +44,10 @@ paths:
                 $ref: '#/components/schemas/RespBasic'
         '500':
           description: Server error.
-  '/v3/apps/readycheck':
+  /v3/apps/readycheck:
     get:
       tags:
-        - General
+        - Health
       description: Ready check.
       operationId: readyCheck
       responses:
@@ -63,13 +59,14 @@ paths:
                 $ref: '#/components/schemas/RespBasic'
         '503':
           description: Service unavailable.
-
-  '/v3/apps':
+  /v3/apps:
     get:
       tags:
         - Applications
       summary: Retrieve applications.
-      description: Retrieve applications. Use search and select query parameters to limit results.
+      description: >-
+        Retrieve applications. Use search and select query parameters to limit
+        results.
       operationId: getApps
       parameters:
         - name: pretty
@@ -79,7 +76,9 @@ paths:
             type: boolean
         - name: search
           in: query
-          description: Search conditions as a single query paramter. For example search=(id.like.MyApp*)~(enabled.eq.true)
+          description: >-
+            Search conditions as a single query paramter. For example
+            search=(id.like.MyApp*)~(enabled.eq.true)
           schema:
             type: string
       responses:
@@ -111,7 +110,11 @@ paths:
       tags:
         - Applications
       summary: Create a new version of an application
-      description: Create an application using a request body. App id+version must be unique within tenant and can be composed of alphanumeric characters and the following special characters [-._~]. Id must begin with an alphabetic character and can be no more than 256 characters in length.'
+      description: >-
+        Create an application using a request body. App id+version must be
+        unique within tenant and can be composed of alphanumeric characters and
+        the following special characters [-._~]. Id must begin with an
+        alphabetic character and can be no more than 256 characters in length.'
       operationId: createAppVersion
       parameters:
         - name: pretty
@@ -157,12 +160,16 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/RespBasic'
-  '/v3/apps/search/apps':
+  /v3/apps/search/apps:
     get:
       tags:
         - Applications
-      summary: Retrieve applications matching search conditions specified as query parameters.
-      description: Retrieve details for applications. Use query parameters to specify search conditions. For example ?owner.eq=jdoe&port.gt=1024
+      summary: >-
+        Retrieve applications matching search conditions specified as query
+        parameters.
+      description: >-
+        Retrieve details for applications. Use query parameters to specify
+        search conditions. For example ?owner.eq=jdoe&port.gt=1024
       operationId: searchAppsQueryParameters
       parameters:
         - name: pretty
@@ -199,7 +206,9 @@ paths:
       tags:
         - Applications
       summary: Retrieve applications matching search conditions.
-      description: Retrieve details for applications. Use request body to specify SQL-like search conditions.
+      description: >-
+        Retrieve details for applications. Use request body to specify SQL-like
+        search conditions.
       operationId: searchAppsRequestBody
       parameters:
         - name: pretty
@@ -209,7 +218,9 @@ paths:
             type: boolean
       requestBody:
         required: true
-        description: A JSON object specifying SQL-like search conditions as an array of strings. Strings are concatenated to form full search query.
+        description: >-
+          A JSON object specifying SQL-like search conditions as an array of
+          strings. Strings are concatenated to form full search query.
         content:
           application/json:
             schema:
@@ -239,7 +250,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/RespBasic'
-  '/v3/apps/{appId}':
+  /v3/apps/{appId}:
     get:
       tags:
         - Applications
@@ -336,7 +347,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/RespBasic'
-  '/v3/apps/{appId}/{appVersion}':
+  /v3/apps/{appId}/{appVersion}:
     get:
       tags:
         - Applications
@@ -400,7 +411,9 @@ paths:
       tags:
         - Applications
       summary: Update an existing version of an application
-      description: Update existing version of an application. Attributes that may be updated are description, enabled, TBD, tags, notes.
+      description: >-
+        Update existing version of an application. Attributes that may be
+        updated are description, enabled, TBD, tags, notes.
       operationId: updateApp
       parameters:
         - name: appId
@@ -456,7 +469,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/RespBasic'
-  '/v3/apps/{appId}/changeOwner/{userName}':
+  /v3/apps/{appId}/changeOwner/{userName}:
     post:
       tags:
         - Applications
@@ -504,9 +517,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/RespBasic'
-
-  # --- Paths for /perms -------------------------------------------------------
-  '/v3/apps/perms/{appId}/user/{userName}':
+  /v3/apps/perms/{appId}/user/{userName}:
     get:
       tags:
         - Permissions
@@ -564,7 +575,9 @@ paths:
       tags:
         - Permissions
       summary: Create application user permissions
-      description: Create permissions in the Security Kernel for a user. Requester must be owner. Permissions are READ, MODIFY, EXECUTE.
+      description: >-
+        Create permissions in the Security Kernel for a user. Requester must be
+        owner. Permissions are READ, MODIFY, EXECUTE.
       operationId: grantUserPerms
       parameters:
         - name: appId
@@ -614,13 +627,14 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/RespBasic'
-
-  '/v3/apps/perms/{appId}/user/{userName}/revoke':
+  /v3/apps/perms/{appId}/user/{userName}/revoke:
     post:
       tags:
         - Permissions
       summary: Revoke app user permissions
-      description: Revoke permissions in the Security Kernel for a user. Requester must be owner. Permissions are READ, MODIFY, EXECUTE.
+      description: >-
+        Revoke permissions in the Security Kernel for a user. Requester must be
+        owner. Permissions are READ, MODIFY, EXECUTE.
       operationId: revokeUserPerms
       parameters:
         - name: appId
@@ -664,13 +678,14 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/RespBasic'
-
-  '/v3/apps/perms/{appId}/user/{userName}/{permission}':
+  /v3/apps/perms/{appId}/user/{userName}/{permission}:
     delete:
       tags:
         - Permissions
       summary: Revoke app user permission
-      description: Revoke user permission in the Security Kernel. Requester must be owner. Permissions are READ, MODIFY, EXECUTE.
+      description: >-
+        Revoke user permission in the Security Kernel. Requester must be owner.
+        Permissions are READ, MODIFY, EXECUTE.
       operationId: revokeUserPerm
       parameters:
         - name: appId
@@ -718,10 +733,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/RespBasic'
-
-# ------------------------------------------------------------------------------
-# --- Components ---------------------------------------------------------------
-# ------------------------------------------------------------------------------
 components:
   securitySchemes:
     TapisJWT:
@@ -730,10 +741,6 @@ components:
       name: X-Tapis-Token
       in: header
   schemas:
-    # ------------------------------------------------------------------------------
-    # --- Model objects ------------------------------------------------------------
-    # ------------------------------------------------------------------------------
-    # --- App ------------------------------------------------------------------
     App:
       type: object
       properties:
@@ -752,7 +759,7 @@ components:
           $ref: '#/components/schemas/AppTypeEnum'
         owner:
           type: string
-          default: "${apiUserId}"
+          default: ${apiUserId}
         enabled:
           type: boolean
           default: true
@@ -787,7 +794,6 @@ components:
           type: string
         updated:
           type: string
-    # --- JobAttributes --------------------------------------------------------
     JobAttributes:
       type: object
       properties:
@@ -839,7 +845,6 @@ components:
           type: array
           items:
             type: string
-    # --- ParameterSet --------------------------------------------------------
     ParameterSet:
       type: object
       properties:
@@ -870,7 +875,6 @@ components:
               type: array
               items:
                 type: string
-    # --- FileInputDefinition --------------------------------------------------------
     FileInputDefinition:
       type: object
       properties:
@@ -883,7 +887,6 @@ components:
           default: false
         meta:
           $ref: '#/components/schemas/ArgMetaSpec'
-    # --- ArgSpec --------------------------------------------------------------
     ArgSpec:
       type: object
       properties:
@@ -891,7 +894,6 @@ components:
           type: string
         meta:
           $ref: '#/components/schemas/ArgMetaSpec'
-    # --- ArgMetaSpec ----------------------------------------------------------
     ArgMetaSpec:
       type: object
       properties:
@@ -906,7 +908,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/KeyValuePair'
-    # --- KeyValuePair -------------------------------------------------------
     KeyValuePair:
       type: object
       properties:
@@ -914,7 +915,6 @@ components:
           type: string
         value:
           type: string
-    # --- NotificationSubscription -------------------------------------------
     NotificationSubscription:
       type: object
       properties:
@@ -924,7 +924,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/NotificationMechanism'
-    # --- NotificationMechanism -------------------------------------------
     NotificationMechanism:
       type: object
       properties:
@@ -934,10 +933,6 @@ components:
           type: string
         emailAddress:
           type: string
-
-    # -------------------------------------------------------------------------
-    # --- Request objects -----------------------------------------------------
-    # -------------------------------------------------------------------------
     ReqCreateApp:
       type: object
       properties:
@@ -951,7 +946,7 @@ components:
           $ref: '#/components/schemas/AppTypeEnum'
         owner:
           type: string
-          default: "${apiUserId}"
+          default: ${apiUserId}
         enabled:
           type: boolean
           default: true
@@ -1007,10 +1002,6 @@ components:
           type: array
           items:
             type: string
-
-    # -------------------------------------------------------------------------
-    # --- Response objects ----------------------------------------------------
-    # -------------------------------------------------------------------------
     RespBasic:
       type: object
       properties:
@@ -1097,9 +1088,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/App'
-    # -------------------------------------------------------------------------
-    # --- Enums ---------------------------------------------------------------
-    # -------------------------------------------------------------------------
     AppTypeEnum:
       type: string
       enum:
