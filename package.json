@@ -38,11 +38,10 @@
     "@openapitools/openapi-generator-cli": "^2.2.4",
     "@types/chai": "^4.2.16",
     "@types/jest": "^26.0.22",
-    "@types/mocha": "^8.2.2",
     "chai": "^4.3.4",
     "js-yaml": "^4.0.0",
     "mocha": "^8.3.2",
     "ts-node": "^9.1.1",
-    "typescript": "^2.4"
+    "typescript": "~3.8.0"
   }
 }
