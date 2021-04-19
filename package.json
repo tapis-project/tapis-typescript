@@ -6,7 +6,7 @@
   "typings": "./dist/index.d.ts",
   "scripts": {
     "build": "tsc",
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "env TS_NODE_COMPILER_OPTIONS='{\"module\": \"commonjs\" }' mocha -r ts-node/register 'tests/**/*.ts'",
     "systems": "./generate.sh systems",
     "tenants": "./generate.sh tenants"
   },
@@ -36,8 +36,13 @@
   },
   "devDependencies": {
     "@openapitools/openapi-generator-cli": "^2.2.4",
+    "@types/chai": "^4.2.16",
+    "@types/jest": "^26.0.22",
+    "@types/mocha": "^8.2.2",
+    "chai": "^4.3.4",
     "js-yaml": "^4.0.0",
     "mocha": "^8.3.2",
+    "ts-node": "^9.1.1",
     "typescript": "^2.4"
   }
 }
