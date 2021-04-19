@@ -7,6 +7,7 @@ import * as Meta from '@tapis/tapis-typescript-meta';
 import * as PGRest from '@tapis/tapis-typescript-pgrest';
 import * as SK from '@tapis/tapis-typescript-sk';
 import * as Streams from '@tapis/tapis-typescript-streams';
+import * as Systems from '@tapis/tapis-typescript-systems';
 import * as Tenants from '@tapis/tapis-typescript-tenants';
 import * as Tokens from '@tapis/tapis-typescript-tokens';
 
@@ -20,6 +21,7 @@ export {
   PGRest,
   SK,
   Streams,
+  Systems,
   Tenants,
   Tokens
 }
