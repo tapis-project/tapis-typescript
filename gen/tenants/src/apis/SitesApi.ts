@@ -18,13 +18,13 @@ import {
     BasicResponse,
     BasicResponseFromJSON,
     BasicResponseToJSON,
-    NewSite,
-    NewSiteFromJSON,
-    NewSiteToJSON,
+    ReqCreateSite,
+    ReqCreateSiteFromJSON,
+    ReqCreateSiteToJSON,
 } from '../models';
 
 export interface CreateSiteRequest {
-    newSite: NewSite;
+    reqCreateSite: ReqCreateSite;
 }
 
 export interface DeleteSiteRequest {
@@ -50,8 +50,8 @@ export class SitesApi extends runtime.BaseAPI {
      * Create a site.
      */
     async createSiteRaw(requestParameters: CreateSiteRequest): Promise<runtime.ApiResponse<BasicResponse>> {
-        if (requestParameters.newSite === null || requestParameters.newSite === undefined) {
-            throw new runtime.RequiredError('newSite','Required parameter requestParameters.newSite was null or undefined when calling createSite.');
+        if (requestParameters.reqCreateSite === null || requestParameters.reqCreateSite === undefined) {
+            throw new runtime.RequiredError('reqCreateSite','Required parameter requestParameters.reqCreateSite was null or undefined when calling createSite.');
         }
 
         const queryParameters: any = {};
@@ -65,7 +65,7 @@ export class SitesApi extends runtime.BaseAPI {
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
-            body: NewSiteToJSON(requestParameters.newSite),
+            body: ReqCreateSiteToJSON(requestParameters.reqCreateSite),
         });
 
         return new runtime.JSONApiResponse(response, (jsonValue) => BasicResponseFromJSON(jsonValue));

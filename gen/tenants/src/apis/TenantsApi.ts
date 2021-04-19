@@ -18,19 +18,19 @@ import {
     BasicResponse,
     BasicResponseFromJSON,
     BasicResponseToJSON,
-    NewLDAP,
-    NewLDAPFromJSON,
-    NewLDAPToJSON,
-    NewTenant,
-    NewTenantFromJSON,
-    NewTenantToJSON,
     Owner,
     OwnerFromJSON,
     OwnerToJSON,
+    ReqCreateLdap,
+    ReqCreateLdapFromJSON,
+    ReqCreateLdapToJSON,
+    ReqCreateTenant,
+    ReqCreateTenantFromJSON,
+    ReqCreateTenantToJSON,
 } from '../models';
 
 export interface CreateLdapRequest {
-    newLDAP: NewLDAP;
+    reqCreateLdap: ReqCreateLdap;
 }
 
 export interface CreateOwnerRequest {
@@ -38,7 +38,7 @@ export interface CreateOwnerRequest {
 }
 
 export interface CreateTenantRequest {
-    newTenant: NewTenant;
+    reqCreateTenant: ReqCreateTenant;
 }
 
 export interface DeleteLdapRequest {
@@ -90,8 +90,8 @@ export class TenantsApi extends runtime.BaseAPI {
      * Create an ldap
      */
     async createLdapRaw(requestParameters: CreateLdapRequest): Promise<runtime.ApiResponse<BasicResponse>> {
-        if (requestParameters.newLDAP === null || requestParameters.newLDAP === undefined) {
-            throw new runtime.RequiredError('newLDAP','Required parameter requestParameters.newLDAP was null or undefined when calling createLdap.');
+        if (requestParameters.reqCreateLdap === null || requestParameters.reqCreateLdap === undefined) {
+            throw new runtime.RequiredError('reqCreateLdap','Required parameter requestParameters.reqCreateLdap was null or undefined when calling createLdap.');
         }
 
         const queryParameters: any = {};
@@ -105,7 +105,7 @@ export class TenantsApi extends runtime.BaseAPI {
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
-            body: NewLDAPToJSON(requestParameters.newLDAP),
+            body: ReqCreateLdapToJSON(requestParameters.reqCreateLdap),
         });
 
         return new runtime.JSONApiResponse(response, (jsonValue) => BasicResponseFromJSON(jsonValue));
@@ -160,8 +160,8 @@ export class TenantsApi extends runtime.BaseAPI {
      * Create a tenant.
      */
     async createTenantRaw(requestParameters: CreateTenantRequest): Promise<runtime.ApiResponse<BasicResponse>> {
-        if (requestParameters.newTenant === null || requestParameters.newTenant === undefined) {
-            throw new runtime.RequiredError('newTenant','Required parameter requestParameters.newTenant was null or undefined when calling createTenant.');
+        if (requestParameters.reqCreateTenant === null || requestParameters.reqCreateTenant === undefined) {
+            throw new runtime.RequiredError('reqCreateTenant','Required parameter requestParameters.reqCreateTenant was null or undefined when calling createTenant.');
         }
 
         const queryParameters: any = {};
@@ -175,7 +175,7 @@ export class TenantsApi extends runtime.BaseAPI {
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
-            body: NewTenantToJSON(requestParameters.newTenant),
+            body: ReqCreateTenantToJSON(requestParameters.reqCreateTenant),
         });
 
         return new runtime.JSONApiResponse(response, (jsonValue) => BasicResponseFromJSON(jsonValue));

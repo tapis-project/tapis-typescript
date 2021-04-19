@@ -1,0 +1,15 @@
+{
+  "name": "@tapis/tapis-typescript-authenticator",
+  "version": "1.0.0",
+  "description": "OpenAPI client for @tapis/tapis-typescript-authenticator",
+  "author": "OpenAPI-Generator",
+  "main": "./dist/index.js",
+  "typings": "./dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "prepare": "npm run build"
+  },
+  "devDependencies": {
+    "typescript": "^2.4"
+  }
+}

@@ -59,7 +59,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/NewSite'
+              $ref: '#/components/schemas/ReqCreateSite'
       responses:
         '201':
           description: Created
@@ -165,7 +165,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/NewTenant'
+              $ref: '#/components/schemas/ReqCreateTenant'
       responses:
         '201':
           description: Created
@@ -271,7 +271,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/NewLDAP'
+              $ref: '#/components/schemas/ReqCreateLdap'
       responses:
         '201':
           description: Created
@@ -458,45 +458,6 @@ components:
           enum:
             - success
             - error
-    NewLDAP:
-      type: object
-      properties:
-        ldap_id:
-          type: string
-          description: Unique id for the LDAP object.
-        url:
-          type: string
-          description: url to the LDAP
-        port:
-          type: integer
-          description: port for the LDAP
-        use_ssl:
-          type: boolean
-          description: Whether to use SSL with the LDAP
-        user_dn:
-          type: string
-          description: base DN for users
-        bind_dn:
-          type: string
-          description: DN used for binding to the LDAP.
-        bind_credential:
-          type: string
-          description: Pointed to a Tapis credential for binding to the LDAP.
-        account_type:
-          type: string
-          description: Whether this LDAP is used for service accounts or user accounts.
-          enum:
-            - service
-            - user
-      required:
-        - ldap_id
-        - url
-        - port
-        - use_ssl
-        - user_dn
-        - bind_dn
-        - bind_credential
-        - account_type
     LDAP:
       type: object
       properties:
@@ -537,67 +498,6 @@ components:
       type: array
       items:
         $ref: '#/components/schemas/LDAP'
-    NewTenant:
-      type: object
-      properties:
-        tenant_id:
-          type: string
-          pattern: ^[a-zA-Z0-9-]*$
-          description: The unique identifier for the tenant.
-        base_url:
-          type: string
-          description: The base URL for the tenant.
-        site_id:
-          type: string
-          description: The site for which the tenant belongs.
-        token_service:
-          type: string
-          description: The resolvable location of the token service for the tenant.
-        security_kernel:
-          type: string
-          description: The resolvable location of the security kernel for the tenant.
-        authenticator:
-          type: string
-          description: The resolvable location of the authenticator for the tenant.
-        owner:
-          type: string
-          description: The email address of the primary owner and contact for the tenant.
-        admin_user:
-          type: string
-          description: >-
-            The username of the user that is automatically assigned the
-            tenant_admin role by the Security Kernel.
-        token_gen_services:
-          type: array
-          items:
-            type: string
-            pattern: ^[a-zA-Z0-9-]*$
-          description: >-
-            The list of services that are automatically granted the
-            token_generator role for this tenant by the Security Kernel.
-        service_ldap_connection_id:
-          type: string
-          description: >-
-            The unique identifier for the LDAP object for service accounts in
-            the tenant.
-        user_ldap_connection_id:
-          type: string
-          description: >-
-            The unique identifier for the LDAP object for user accounts in the
-            tenant.
-        description:
-          type: string
-          description: A description of the tenant.
-      required:
-        - tenant_id
-        - base_url
-        - site_id
-        - token_service
-        - security_kernel
-        - authenticator
-        - owner
-        - admin_user
-        - token_gen_services
     Tenant:
       type: object
       properties:
@@ -672,38 +572,6 @@ components:
       type: array
       items:
         $ref: '#/components/schemas/Tenant'
-    NewSite:
-      type: object
-      properties:
-        site_id:
-          type: string
-          description: The unique identifier for the site.
-        base_url:
-          type: string
-          description: The base URL for the site.
-        primary:
-          type: boolean
-          description: Whether the site is the primary site.
-        services:
-          type: array
-          items:
-            type: string
-            pattern: ^[a-zA-Z0-9-]*$
-          description: The list of services for this site.
-        tenant_base_url_template:
-          type: string
-          description: >-
-            For primary site only; The template string represening the base URL
-            for a tenant.
-        site_admin_tenant_id:
-          type: string
-          description: Tenant ID of this site's tenant.
-      required:
-        - site_id
-        - base_url
-        - primary
-        - services
-        - site_admin_tenant_id
     Site:
       type: object
       properties:
@@ -763,3 +631,135 @@ components:
       type: array
       items:
         $ref: '#/components/schemas/Owner'
+    ReqCreateLdap:
+      type: object
+      properties:
+        ldap_id:
+          type: string
+          description: Unique id for the LDAP object.
+        url:
+          type: string
+          description: url to the LDAP
+        port:
+          type: integer
+          description: port for the LDAP
+        use_ssl:
+          type: boolean
+          description: Whether to use SSL with the LDAP
+        user_dn:
+          type: string
+          description: base DN for users
+        bind_dn:
+          type: string
+          description: DN used for binding to the LDAP.
+        bind_credential:
+          type: string
+          description: Pointed to a Tapis credential for binding to the LDAP.
+        account_type:
+          type: string
+          description: Whether this LDAP is used for service accounts or user accounts.
+          enum:
+            - service
+            - user
+      required:
+        - ldap_id
+        - url
+        - port
+        - use_ssl
+        - user_dn
+        - bind_dn
+        - bind_credential
+        - account_type
+    ReqCreateTenant:
+      type: object
+      properties:
+        tenant_id:
+          type: string
+          pattern: ^[a-zA-Z0-9-]*$
+          description: The unique identifier for the tenant.
+        base_url:
+          type: string
+          description: The base URL for the tenant.
+        site_id:
+          type: string
+          description: The site for which the tenant belongs.
+        token_service:
+          type: string
+          description: The resolvable location of the token service for the tenant.
+        security_kernel:
+          type: string
+          description: The resolvable location of the security kernel for the tenant.
+        authenticator:
+          type: string
+          description: The resolvable location of the authenticator for the tenant.
+        owner:
+          type: string
+          description: The email address of the primary owner and contact for the tenant.
+        admin_user:
+          type: string
+          description: >-
+            The username of the user that is automatically assigned the
+            tenant_admin role by the Security Kernel.
+        token_gen_services:
+          type: array
+          items:
+            type: string
+            pattern: ^[a-zA-Z0-9-]*$
+          description: >-
+            The list of services that are automatically granted the
+            token_generator role for this tenant by the Security Kernel.
+        service_ldap_connection_id:
+          type: string
+          description: >-
+            The unique identifier for the LDAP object for service accounts in
+            the tenant.
+        user_ldap_connection_id:
+          type: string
+          description: >-
+            The unique identifier for the LDAP object for user accounts in the
+            tenant.
+        description:
+          type: string
+          description: A description of the tenant.
+      required:
+        - tenant_id
+        - base_url
+        - site_id
+        - token_service
+        - security_kernel
+        - authenticator
+        - owner
+        - admin_user
+        - token_gen_services
+    ReqCreateSite:
+      type: object
+      properties:
+        site_id:
+          type: string
+          description: The unique identifier for the site.
+        base_url:
+          type: string
+          description: The base URL for the site.
+        primary:
+          type: boolean
+          description: Whether the site is the primary site.
+        services:
+          type: array
+          items:
+            type: string
+            pattern: ^[a-zA-Z0-9-]*$
+          description: The list of services for this site.
+        tenant_base_url_template:
+          type: string
+          description: >-
+            For primary site only; The template string represening the base URL
+            for a tenant.
+        site_admin_tenant_id:
+          type: string
+          description: Tenant ID of this site's tenant.
+      required:
+        - site_id
+        - base_url
+        - primary
+        - services
+        - site_admin_tenant_id
