@@ -1,4 +1,4 @@
-import { describe, it } from 'mocha';
+import 'mocha';
 import { Actors } from '../src';
 import { expect } from 'chai';
 
