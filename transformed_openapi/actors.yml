@@ -55,11 +55,7 @@ paths:
           content:
             application/json:
               schema:
-                allOf:
-                  - $ref: '#/components/schemas/BasicResponse'
-                properties:
-                  result:
-                    $ref: '#/components/schemas/ArrayOfActors'
+                $ref: '#/components/schemas/ResplistActors'
     post:
       tags:
         - Actors
@@ -78,11 +74,7 @@ paths:
           content:
             application/json:
               schema:
-                allOf:
-                  - $ref: '#/components/schemas/BasicResponse'
-                properties:
-                  result:
-                    $ref: '#/components/schemas/Actor'
+                $ref: '#/components/schemas/RespcreateActor'
   /v3/actors/{actor_id}:
     get:
       tags:
@@ -153,14 +145,7 @@ paths:
           content:
             application/json:
               schema:
-                allOf:
-                  - $ref: '#/components/schemas/BasicResponse'
-                properties:
-                  result:
-                    type: string
-                    nullable: true
-                    enum:
-                      - null
+                $ref: '#/components/schemas/RespdeleteActor'
   /v3/actors/{actor_id}/messages:
     get:
       tags:
@@ -181,11 +166,7 @@ paths:
           content:
             application/json:
               schema:
-                allOf:
-                  - $ref: '#/components/schemas/BasicResponse'
-                properties:
-                  result:
-                    $ref: '#/components/schemas/ActorMessages'
+                $ref: '#/components/schemas/RespgetMessages'
     delete:
       tags:
         - Messages
@@ -205,14 +186,7 @@ paths:
           content:
             application/json:
               schema:
-                allOf:
-                  - $ref: '#/components/schemas/BasicResponse'
-                properties:
-                  result:
-                    type: string
-                    nullable: true
-                    enum:
-                      - null
+                $ref: '#/components/schemas/RespdeletePendingMessages'
     post:
       tags:
         - Messages
@@ -252,11 +226,7 @@ paths:
           content:
             application/json:
               schema:
-                allOf:
-                  - $ref: '#/components/schemas/BasicResponse'
-                properties:
-                  result:
-                    $ref: '#/components/schemas/MessageJsonResponse'
+                $ref: '#/components/schemas/RespsendMessage'
   /actors/{actor_id}//messages:
     post:
       tags:
@@ -291,11 +261,7 @@ paths:
           content:
             application/json:
               schema:
-                allOf:
-                  - $ref: '#/components/schemas/BasicResponse'
-                properties:
-                  result:
-                    $ref: '#/components/schemas/MessageJsonResponse'
+                $ref: '#/components/schemas/RespsendBinaryMessage'
   /actors/{actor_id}///messages:
     post:
       tags:
@@ -330,11 +296,7 @@ paths:
           content:
             application/json:
               schema:
-                allOf:
-                  - $ref: '#/components/schemas/BasicResponse'
-                properties:
-                  result:
-                    $ref: '#/components/schemas/MessageJsonResponse'
+                $ref: '#/components/schemas/RespsendJSONMessage'
   /v3/actors/{actor_id}/executions:
     get:
       tags:
@@ -355,11 +317,7 @@ paths:
           content:
             application/json:
               schema:
-                allOf:
-                  - $ref: '#/components/schemas/BasicResponse'
-                properties:
-                  result:
-                    $ref: '#/components/schemas/ActorExecutionSummaries'
+                $ref: '#/components/schemas/ResplistExecutions'
   /v3/actors/{actor_id}/nonces:
     get:
       tags:
@@ -380,11 +338,7 @@ paths:
           content:
             application/json:
               schema:
-                allOf:
-                  - $ref: '#/components/schemas/BasicResponse'
-                properties:
-                  result:
-                    $ref: '#/components/schemas/ActorNonces'
+                $ref: '#/components/schemas/ResplistNonces'
     post:
       tags:
         - Nonces
@@ -410,11 +364,7 @@ paths:
           content:
             application/json:
               schema:
-                allOf:
-                  - $ref: '#/components/schemas/BasicResponse'
-                properties:
-                  result:
-                    $ref: '#/components/schemas/ActorNonces'
+                $ref: '#/components/schemas/RespcreateNonce'
   /v3/actors/{actor_id}/nonces/{nonce_id}:
     get:
       tags:
@@ -441,11 +391,7 @@ paths:
           content:
             application/json:
               schema:
-                allOf:
-                  - $ref: '#/components/schemas/BasicResponse'
-                properties:
-                  result:
-                    $ref: '#/components/schemas/ActorNonce'
+                $ref: '#/components/schemas/RespgetNonce'
     delete:
       tags:
         - Nonces
@@ -471,14 +417,7 @@ paths:
           content:
             application/json:
               schema:
-                allOf:
-                  - $ref: '#/components/schemas/BasicResponse'
-                properties:
-                  result:
-                    type: string
-                    nullable: true
-                    enum:
-                      - null
+                $ref: '#/components/schemas/RespdeleteNonce'
   /v3/actors/{actor_id}/state:
     get:
       tags:
@@ -499,12 +438,7 @@ paths:
           content:
             application/json:
               schema:
-                allOf:
-                  - $ref: '#/components/schemas/BasicResponse'
-                properties:
-                  result:
-                    type: object
-                    description: An arbitrary JSON-serializable object.
+                $ref: '#/components/schemas/RespgetState'
     post:
       tags:
         - State
@@ -531,11 +465,7 @@ paths:
           content:
             application/json:
               schema:
-                allOf:
-                  - $ref: '#/components/schemas/BasicResponse'
-                properties:
-                  result:
-                    $ref: '#/components/schemas/ActorNonces'
+                $ref: '#/components/schemas/RespupdateState'
   /v3/actors/{actor_id}/executions/{execution_id}:
     get:
       tags:
@@ -562,11 +492,7 @@ paths:
           content:
             application/json:
               schema:
-                allOf:
-                  - $ref: '#/components/schemas/BasicResponse'
-                properties:
-                  result:
-                    $ref: '#/components/schemas/ActorExecution'
+                $ref: '#/components/schemas/RespgetExecution'
   /v3/actors/{actor_id}/executions/{execution_id}/logs:
     get:
       tags:
@@ -593,11 +519,7 @@ paths:
           content:
             application/json:
               schema:
-                allOf:
-                  - $ref: '#/components/schemas/BasicResponse'
-                properties:
-                  result:
-                    $ref: '#/components/schemas/ActorExecutionLogs'
+                $ref: '#/components/schemas/RespgetExecutionLogs'
   /v3/actors/{actor_id}/executions/{execution_id}/results:
     get:
       tags:
@@ -646,11 +568,7 @@ paths:
           content:
             application/json:
               schema:
-                allOf:
-                  - $ref: '#/components/schemas/BasicResponse'
-                properties:
-                  result:
-                    $ref: '#/components/schemas/ActorPermissions'
+                $ref: '#/components/schemas/ResplistPermissions'
     post:
       tags:
         - Permissions
@@ -676,11 +594,7 @@ paths:
           content:
             application/json:
               schema:
-                allOf:
-                  - $ref: '#/components/schemas/BasicResponse'
-                properties:
-                  result:
-                    $ref: '#/components/schemas/ActorPermissions'
+                $ref: '#/components/schemas/RespupdatePermissions'
   /v3/actors/{actor_id}/workers:
     get:
       tags:
@@ -733,11 +647,7 @@ paths:
           content:
             application/json:
               schema:
-                allOf:
-                  - $ref: '#/components/schemas/BasicResponse'
-                properties:
-                  result:
-                    $ref: '#/components/schemas/MessageJsonResponse'
+                $ref: '#/components/schemas/RespmanageWorkerPoolSize'
             application/octet-stream:
               schema:
                 type: string
@@ -769,11 +679,7 @@ paths:
           content:
             application/json:
               schema:
-                allOf:
-                  - $ref: '#/components/schemas/BasicResponse'
-                properties:
-                  result:
-                    $ref: '#/components/schemas/ArrayOfAliases'
+                $ref: '#/components/schemas/ResplistAliases'
     post:
       tags:
         - Aliases
@@ -792,11 +698,7 @@ paths:
           content:
             application/json:
               schema:
-                allOf:
-                  - $ref: '#/components/schemas/BasicResponse'
-                properties:
-                  result:
-                    $ref: '#/components/schemas/Alias'
+                $ref: '#/components/schemas/RespcreateAlias'
   /v3/actors/aliases/{alias}:
     get:
       tags:
@@ -817,11 +719,7 @@ paths:
           content:
             application/json:
               schema:
-                allOf:
-                  - $ref: '#/components/schemas/BasicResponse'
-                properties:
-                  result:
-                    $ref: '#/components/schemas/Alias'
+                $ref: '#/components/schemas/RespgetAlias'
     put:
       tags:
         - Aliases
@@ -847,11 +745,7 @@ paths:
           content:
             application/json:
               schema:
-                allOf:
-                  - $ref: '#/components/schemas/BasicResponse'
-                properties:
-                  result:
-                    $ref: '#/components/schemas/Alias'
+                $ref: '#/components/schemas/RespupdateActorAlias'
     delete:
       tags:
         - Aliases
@@ -871,14 +765,7 @@ paths:
           content:
             application/json:
               schema:
-                allOf:
-                  - $ref: '#/components/schemas/BasicResponse'
-                properties:
-                  result:
-                    type: string
-                    nullable: true
-                    enum:
-                      - null
+                $ref: '#/components/schemas/RespdeleteAlias'
   /actors/search/{search_type}:
     get:
       tags:
@@ -919,8 +806,7 @@ paths:
           content:
             application/json:
               schema:
-                allOf:
-                  - $ref: '#/components/schemas/BasicResponse'
+                $ref: '#/components/schemas/RespsearchDatabase'
 components:
   securitySchemes:
     wso2jwtDevAuth:
@@ -1293,6 +1179,459 @@ components:
           items:
             type: string
           description: The roles associated with the nonce.
+    ResplistActors:
+      type: object
+      properties:
+        version:
+          type: string
+          description: Version of the API
+        message:
+          type: string
+          description: Brief description of the response
+        status:
+          type: string
+          description: Whether the request was a success or failure.
+          enum:
+            - success
+            - failure
+        result:
+          $ref: '#/components/schemas/ArrayOfActors'
+    RespcreateActor:
+      type: object
+      properties:
+        version:
+          type: string
+          description: Version of the API
+        message:
+          type: string
+          description: Brief description of the response
+        status:
+          type: string
+          description: Whether the request was a success or failure.
+          enum:
+            - success
+            - failure
+        result:
+          $ref: '#/components/schemas/Actor'
+    RespdeleteActor:
+      type: object
+      properties:
+        version:
+          type: string
+          description: Version of the API
+        message:
+          type: string
+          description: Brief description of the response
+        status:
+          type: string
+          description: Whether the request was a success or failure.
+          enum:
+            - success
+            - failure
+        result:
+          type: string
+          nullable: true
+          enum:
+            - null
+    RespgetMessages:
+      type: object
+      properties:
+        version:
+          type: string
+          description: Version of the API
+        message:
+          type: string
+          description: Brief description of the response
+        status:
+          type: string
+          description: Whether the request was a success or failure.
+          enum:
+            - success
+            - failure
+        result:
+          $ref: '#/components/schemas/ActorMessages'
+    RespdeletePendingMessages:
+      type: object
+      properties:
+        version:
+          type: string
+          description: Version of the API
+        message:
+          type: string
+          description: Brief description of the response
+        status:
+          type: string
+          description: Whether the request was a success or failure.
+          enum:
+            - success
+            - failure
+        result:
+          type: string
+          nullable: true
+          enum:
+            - null
+    RespsendMessage:
+      type: object
+      properties:
+        version:
+          type: string
+          description: Version of the API
+        message:
+          type: string
+          description: Brief description of the response
+        status:
+          type: string
+          description: Whether the request was a success or failure.
+          enum:
+            - success
+            - failure
+        result:
+          $ref: '#/components/schemas/MessageJsonResponse'
+    RespsendBinaryMessage:
+      type: object
+      properties:
+        version:
+          type: string
+          description: Version of the API
+        message:
+          type: string
+          description: Brief description of the response
+        status:
+          type: string
+          description: Whether the request was a success or failure.
+          enum:
+            - success
+            - failure
+        result:
+          $ref: '#/components/schemas/MessageJsonResponse'
+    RespsendJSONMessage:
+      type: object
+      properties:
+        version:
+          type: string
+          description: Version of the API
+        message:
+          type: string
+          description: Brief description of the response
+        status:
+          type: string
+          description: Whether the request was a success or failure.
+          enum:
+            - success
+            - failure
+        result:
+          $ref: '#/components/schemas/MessageJsonResponse'
+    ResplistExecutions:
+      type: object
+      properties:
+        version:
+          type: string
+          description: Version of the API
+        message:
+          type: string
+          description: Brief description of the response
+        status:
+          type: string
+          description: Whether the request was a success or failure.
+          enum:
+            - success
+            - failure
+        result:
+          $ref: '#/components/schemas/ActorExecutionSummaries'
+    ResplistNonces:
+      type: object
+      properties:
+        version:
+          type: string
+          description: Version of the API
+        message:
+          type: string
+          description: Brief description of the response
+        status:
+          type: string
+          description: Whether the request was a success or failure.
+          enum:
+            - success
+            - failure
+        result:
+          $ref: '#/components/schemas/ActorNonces'
+    RespcreateNonce:
+      type: object
+      properties:
+        version:
+          type: string
+          description: Version of the API
+        message:
+          type: string
+          description: Brief description of the response
+        status:
+          type: string
+          description: Whether the request was a success or failure.
+          enum:
+            - success
+            - failure
+        result:
+          $ref: '#/components/schemas/ActorNonces'
+    RespgetNonce:
+      type: object
+      properties:
+        version:
+          type: string
+          description: Version of the API
+        message:
+          type: string
+          description: Brief description of the response
+        status:
+          type: string
+          description: Whether the request was a success or failure.
+          enum:
+            - success
+            - failure
+        result:
+          $ref: '#/components/schemas/ActorNonce'
+    RespdeleteNonce:
+      type: object
+      properties:
+        version:
+          type: string
+          description: Version of the API
+        message:
+          type: string
+          description: Brief description of the response
+        status:
+          type: string
+          description: Whether the request was a success or failure.
+          enum:
+            - success
+            - failure
+        result:
+          type: string
+          nullable: true
+          enum:
+            - null
+    RespgetState:
+      type: object
+      properties:
+        version:
+          type: string
+          description: Version of the API
+        message:
+          type: string
+          description: Brief description of the response
+        status:
+          type: string
+          description: Whether the request was a success or failure.
+          enum:
+            - success
+            - failure
+        result:
+          type: object
+          description: An arbitrary JSON-serializable object.
+    RespupdateState:
+      type: object
+      properties:
+        version:
+          type: string
+          description: Version of the API
+        message:
+          type: string
+          description: Brief description of the response
+        status:
+          type: string
+          description: Whether the request was a success or failure.
+          enum:
+            - success
+            - failure
+        result:
+          $ref: '#/components/schemas/ActorNonces'
+    RespgetExecution:
+      type: object
+      properties:
+        version:
+          type: string
+          description: Version of the API
+        message:
+          type: string
+          description: Brief description of the response
+        status:
+          type: string
+          description: Whether the request was a success or failure.
+          enum:
+            - success
+            - failure
+        result:
+          $ref: '#/components/schemas/ActorExecution'
+    RespgetExecutionLogs:
+      type: object
+      properties:
+        version:
+          type: string
+          description: Version of the API
+        message:
+          type: string
+          description: Brief description of the response
+        status:
+          type: string
+          description: Whether the request was a success or failure.
+          enum:
+            - success
+            - failure
+        result:
+          $ref: '#/components/schemas/ActorExecutionLogs'
+    ResplistPermissions:
+      type: object
+      properties:
+        version:
+          type: string
+          description: Version of the API
+        message:
+          type: string
+          description: Brief description of the response
+        status:
+          type: string
+          description: Whether the request was a success or failure.
+          enum:
+            - success
+            - failure
+        result:
+          $ref: '#/components/schemas/ActorPermissions'
+    RespupdatePermissions:
+      type: object
+      properties:
+        version:
+          type: string
+          description: Version of the API
+        message:
+          type: string
+          description: Brief description of the response
+        status:
+          type: string
+          description: Whether the request was a success or failure.
+          enum:
+            - success
+            - failure
+        result:
+          $ref: '#/components/schemas/ActorPermissions'
+    RespmanageWorkerPoolSize:
+      type: object
+      properties:
+        version:
+          type: string
+          description: Version of the API
+        message:
+          type: string
+          description: Brief description of the response
+        status:
+          type: string
+          description: Whether the request was a success or failure.
+          enum:
+            - success
+            - failure
+        result:
+          $ref: '#/components/schemas/MessageJsonResponse'
+    ResplistAliases:
+      type: object
+      properties:
+        version:
+          type: string
+          description: Version of the API
+        message:
+          type: string
+          description: Brief description of the response
+        status:
+          type: string
+          description: Whether the request was a success or failure.
+          enum:
+            - success
+            - failure
+        result:
+          $ref: '#/components/schemas/ArrayOfAliases'
+    RespcreateAlias:
+      type: object
+      properties:
+        version:
+          type: string
+          description: Version of the API
+        message:
+          type: string
+          description: Brief description of the response
+        status:
+          type: string
+          description: Whether the request was a success or failure.
+          enum:
+            - success
+            - failure
+        result:
+          $ref: '#/components/schemas/Alias'
+    RespgetAlias:
+      type: object
+      properties:
+        version:
+          type: string
+          description: Version of the API
+        message:
+          type: string
+          description: Brief description of the response
+        status:
+          type: string
+          description: Whether the request was a success or failure.
+          enum:
+            - success
+            - failure
+        result:
+          $ref: '#/components/schemas/Alias'
+    RespupdateActorAlias:
+      type: object
+      properties:
+        version:
+          type: string
+          description: Version of the API
+        message:
+          type: string
+          description: Brief description of the response
+        status:
+          type: string
+          description: Whether the request was a success or failure.
+          enum:
+            - success
+            - failure
+        result:
+          $ref: '#/components/schemas/Alias'
+    RespdeleteAlias:
+      type: object
+      properties:
+        version:
+          type: string
+          description: Version of the API
+        message:
+          type: string
+          description: Brief description of the response
+        status:
+          type: string
+          description: Whether the request was a success or failure.
+          enum:
+            - success
+            - failure
+        result:
+          type: string
+          nullable: true
+          enum:
+            - null
+    RespsearchDatabase:
+      type: object
+      properties:
+        version:
+          type: string
+          description: Version of the API
+        message:
+          type: string
+          description: Brief description of the response
+        status:
+          type: string
+          description: Whether the request was a success or failure.
+          enum:
+            - success
+            - failure
     ReqCreateAlias:
       type: object
       properties:

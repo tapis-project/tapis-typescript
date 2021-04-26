@@ -15,9 +15,12 @@
 
 import * as runtime from '../runtime';
 import {
-    BasicResponse,
-    BasicResponseFromJSON,
-    BasicResponseToJSON,
+    RespgetState,
+    RespgetStateFromJSON,
+    RespgetStateToJSON,
+    RespupdateState,
+    RespupdateStateFromJSON,
+    RespupdateStateToJSON,
 } from '../models';
 
 export interface GetStateRequest {
@@ -38,7 +41,7 @@ export class StateApi extends runtime.BaseAPI {
      * Get state for an actor.
      * getState
      */
-    async getStateRaw(requestParameters: GetStateRequest): Promise<runtime.ApiResponse<BasicResponse>> {
+    async getStateRaw(requestParameters: GetStateRequest): Promise<runtime.ApiResponse<RespgetState>> {
         if (requestParameters.actorId === null || requestParameters.actorId === undefined) {
             throw new runtime.RequiredError('actorId','Required parameter requestParameters.actorId was null or undefined when calling getState.');
         }
@@ -62,14 +65,14 @@ export class StateApi extends runtime.BaseAPI {
             query: queryParameters,
         });
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => BasicResponseFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => RespgetStateFromJSON(jsonValue));
     }
 
     /**
      * Get state for an actor.
      * getState
      */
-    async getState(requestParameters: GetStateRequest): Promise<BasicResponse> {
+    async getState(requestParameters: GetStateRequest): Promise<RespgetState> {
         const response = await this.getStateRaw(requestParameters);
         return await response.value();
     }
@@ -78,7 +81,7 @@ export class StateApi extends runtime.BaseAPI {
      * Update state for an actor.
      * updateState
      */
-    async updateStateRaw(requestParameters: UpdateStateRequest): Promise<runtime.ApiResponse<BasicResponse>> {
+    async updateStateRaw(requestParameters: UpdateStateRequest): Promise<runtime.ApiResponse<RespupdateState>> {
         if (requestParameters.actorId === null || requestParameters.actorId === undefined) {
             throw new runtime.RequiredError('actorId','Required parameter requestParameters.actorId was null or undefined when calling updateState.');
         }
@@ -109,14 +112,14 @@ export class StateApi extends runtime.BaseAPI {
             body: requestParameters.body as any,
         });
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => BasicResponseFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => RespupdateStateFromJSON(jsonValue));
     }
 
     /**
      * Update state for an actor.
      * updateState
      */
-    async updateState(requestParameters: UpdateStateRequest): Promise<BasicResponse> {
+    async updateState(requestParameters: UpdateStateRequest): Promise<RespupdateState> {
         const response = await this.updateStateRaw(requestParameters);
         return await response.value();
     }

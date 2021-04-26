@@ -15,12 +15,21 @@
 
 import * as runtime from '../runtime';
 import {
-    BasicResponse,
-    BasicResponseFromJSON,
-    BasicResponseToJSON,
     ReqCreateClient,
     ReqCreateClientFromJSON,
     ReqCreateClientToJSON,
+    RespCreateClient,
+    RespCreateClientFromJSON,
+    RespCreateClientToJSON,
+    RespDeleteClient,
+    RespDeleteClientFromJSON,
+    RespDeleteClientToJSON,
+    RespGetClient,
+    RespGetClientFromJSON,
+    RespGetClientToJSON,
+    RespListClients,
+    RespListClientsFromJSON,
+    RespListClientsToJSON,
 } from '../models';
 
 export interface CreateClientRequest {
@@ -47,7 +56,7 @@ export class ClientsApi extends runtime.BaseAPI {
 
     /**
      */
-    async createClientRaw(requestParameters: CreateClientRequest): Promise<runtime.ApiResponse<BasicResponse>> {
+    async createClientRaw(requestParameters: CreateClientRequest): Promise<runtime.ApiResponse<RespCreateClient>> {
         if (requestParameters.reqCreateClient === null || requestParameters.reqCreateClient === undefined) {
             throw new runtime.RequiredError('reqCreateClient','Required parameter requestParameters.reqCreateClient was null or undefined when calling createClient.');
         }
@@ -66,12 +75,12 @@ export class ClientsApi extends runtime.BaseAPI {
             body: ReqCreateClientToJSON(requestParameters.reqCreateClient),
         });
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => BasicResponseFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => RespCreateClientFromJSON(jsonValue));
     }
 
     /**
      */
-    async createClient(requestParameters: CreateClientRequest): Promise<BasicResponse> {
+    async createClient(requestParameters: CreateClientRequest): Promise<RespCreateClient> {
         const response = await this.createClientRaw(requestParameters);
         return await response.value();
     }
@@ -80,7 +89,7 @@ export class ClientsApi extends runtime.BaseAPI {
      * Permenantly delete a client.
      * Delete a tenant
      */
-    async deleteClientRaw(requestParameters: DeleteClientRequest): Promise<runtime.ApiResponse<BasicResponse>> {
+    async deleteClientRaw(requestParameters: DeleteClientRequest): Promise<runtime.ApiResponse<RespDeleteClient>> {
         if (requestParameters.clientId === null || requestParameters.clientId === undefined) {
             throw new runtime.RequiredError('clientId','Required parameter requestParameters.clientId was null or undefined when calling deleteClient.');
         }
@@ -96,14 +105,14 @@ export class ClientsApi extends runtime.BaseAPI {
             query: queryParameters,
         });
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => BasicResponseFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => RespDeleteClientFromJSON(jsonValue));
     }
 
     /**
      * Permenantly delete a client.
      * Delete a tenant
      */
-    async deleteClient(requestParameters: DeleteClientRequest): Promise<BasicResponse> {
+    async deleteClient(requestParameters: DeleteClientRequest): Promise<RespDeleteClient> {
         const response = await this.deleteClientRaw(requestParameters);
         return await response.value();
     }
@@ -112,7 +121,7 @@ export class ClientsApi extends runtime.BaseAPI {
      * Get details of a specific client by its id.
      * Get client details
      */
-    async getClientRaw(requestParameters: GetClientRequest): Promise<runtime.ApiResponse<BasicResponse>> {
+    async getClientRaw(requestParameters: GetClientRequest): Promise<runtime.ApiResponse<RespGetClient>> {
         if (requestParameters.clientId === null || requestParameters.clientId === undefined) {
             throw new runtime.RequiredError('clientId','Required parameter requestParameters.clientId was null or undefined when calling getClient.');
         }
@@ -128,21 +137,21 @@ export class ClientsApi extends runtime.BaseAPI {
             query: queryParameters,
         });
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => BasicResponseFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => RespGetClientFromJSON(jsonValue));
     }
 
     /**
      * Get details of a specific client by its id.
      * Get client details
      */
-    async getClient(requestParameters: GetClientRequest): Promise<BasicResponse> {
+    async getClient(requestParameters: GetClientRequest): Promise<RespGetClient> {
         const response = await this.getClientRaw(requestParameters);
         return await response.value();
     }
 
     /**
      */
-    async listClientsRaw(requestParameters: ListClientsRequest): Promise<runtime.ApiResponse<BasicResponse>> {
+    async listClientsRaw(requestParameters: ListClientsRequest): Promise<runtime.ApiResponse<RespListClients>> {
         const queryParameters: any = {};
 
         if (requestParameters.limit !== undefined) {
@@ -162,12 +171,12 @@ export class ClientsApi extends runtime.BaseAPI {
             query: queryParameters,
         });
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => BasicResponseFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => RespListClientsFromJSON(jsonValue));
     }
 
     /**
      */
-    async listClients(requestParameters: ListClientsRequest): Promise<BasicResponse> {
+    async listClients(requestParameters: ListClientsRequest): Promise<RespListClients> {
         const response = await this.listClientsRaw(requestParameters);
         return await response.value();
     }

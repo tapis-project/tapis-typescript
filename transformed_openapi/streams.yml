@@ -31,11 +31,7 @@ paths:
           content:
             application/json:
               schema:
-                allOf:
-                  - $ref: '#/components/schemas/BasicResponse'
-                properties:
-                  result:
-                    type: string
+                $ref: '#/components/schemas/Resphello'
         '400':
           description: Input error.
           content:
@@ -68,11 +64,7 @@ paths:
           content:
             application/json:
               schema:
-                allOf:
-                  - $ref: '#/components/schemas/BasicResponse'
-                properties:
-                  result:
-                    type: string
+                $ref: '#/components/schemas/Respready'
         '400':
           description: Input error.
           content:
@@ -112,11 +104,7 @@ paths:
           content:
             application/json:
               schema:
-                allOf:
-                  - $ref: '#/components/schemas/BasicResponse'
-                properties:
-                  result:
-                    type: string
+                $ref: '#/components/schemas/Resphealthcheck'
         '400':
           description: Input error.
           content:
@@ -165,13 +153,7 @@ paths:
           content:
             application/json:
               schema:
-                allOf:
-                  - $ref: '#/components/schemas/BasicResponse'
-                properties:
-                  result:
-                    type: array
-                    items:
-                      $ref: '#/components/schemas/Project'
+                $ref: '#/components/schemas/RespListProjects'
         '400':
           description: Input error.
           content:
@@ -209,13 +191,7 @@ paths:
           content:
             application/json:
               schema:
-                allOf:
-                  - $ref: '#/components/schemas/BasicResponse'
-                properties:
-                  result:
-                    type: array
-                    items:
-                      $ref: '#/components/schemas/Project'
+                $ref: '#/components/schemas/RespCreateProject'
         '400':
           description: Input error.
           content:
@@ -255,11 +231,7 @@ paths:
           content:
             application/json:
               schema:
-                allOf:
-                  - $ref: '#/components/schemas/BasicResponse'
-                properties:
-                  result:
-                    $ref: '#/components/schemas/Project'
+                $ref: '#/components/schemas/RespGetProject'
         '400':
           description: Input error.
           content:
@@ -310,11 +282,7 @@ paths:
           content:
             application/json:
               schema:
-                allOf:
-                  - $ref: '#/components/schemas/BasicResponse'
-                properties:
-                  result:
-                    $ref: '#/components/schemas/Project'
+                $ref: '#/components/schemas/RespUpdateProject'
         '400':
           description: Input error.
           content:
@@ -359,11 +327,7 @@ paths:
           content:
             application/json:
               schema:
-                allOf:
-                  - $ref: '#/components/schemas/BasicResponse'
-                properties:
-                  result:
-                    $ref: '#/components/schemas/Project'
+                $ref: '#/components/schemas/RespDeleteProject'
         '400':
           description: Input error.
           content:
@@ -424,13 +388,7 @@ paths:
           content:
             application/json:
               schema:
-                allOf:
-                  - $ref: '#/components/schemas/BasicResponse'
-                properties:
-                  result:
-                    type: array
-                    items:
-                      $ref: '#/components/schemas/Site'
+                $ref: '#/components/schemas/RespListSites'
         '400':
           description: Input error.
           content:
@@ -475,13 +433,7 @@ paths:
           content:
             application/json:
               schema:
-                allOf:
-                  - $ref: '#/components/schemas/BasicResponse'
-                properties:
-                  result:
-                    type: array
-                    items:
-                      $ref: '#/components/schemas/Site'
+                $ref: '#/components/schemas/RespCreateSite'
         '400':
           description: Input error.
           content:
@@ -527,11 +479,7 @@ paths:
           content:
             application/json:
               schema:
-                allOf:
-                  - $ref: '#/components/schemas/BasicResponse'
-                properties:
-                  result:
-                    $ref: '#/components/schemas/Site'
+                $ref: '#/components/schemas/RespGetSite'
         '400':
           description: Input error.
           content:
@@ -588,11 +536,7 @@ paths:
           content:
             application/json:
               schema:
-                allOf:
-                  - $ref: '#/components/schemas/BasicResponse'
-                properties:
-                  result:
-                    $ref: '#/components/schemas/Site'
+                $ref: '#/components/schemas/RespUpdateSite'
         '400':
           description: Input error.
           content:
@@ -643,11 +587,7 @@ paths:
           content:
             application/json:
               schema:
-                allOf:
-                  - $ref: '#/components/schemas/BasicResponse'
-                properties:
-                  result:
-                    $ref: '#/components/schemas/Site'
+                $ref: '#/components/schemas/RespDeleteSite'
         '400':
           description: Input error.
           content:
@@ -713,13 +653,7 @@ paths:
           content:
             application/json:
               schema:
-                allOf:
-                  - $ref: '#/components/schemas/BasicResponse'
-                properties:
-                  result:
-                    type: array
-                    items:
-                      $ref: '#/components/schemas/Instrument'
+                $ref: '#/components/schemas/RespListInstruments'
         '400':
           description: Input error.
           content:
@@ -769,13 +703,7 @@ paths:
           content:
             application/json:
               schema:
-                allOf:
-                  - $ref: '#/components/schemas/BasicResponse'
-                properties:
-                  result:
-                    type: array
-                    items:
-                      $ref: '#/components/schemas/Instrument'
+                $ref: '#/components/schemas/RespCreateInstrument'
         '400':
           description: Input error.
           content:
@@ -826,11 +754,7 @@ paths:
           content:
             application/json:
               schema:
-                allOf:
-                  - $ref: '#/components/schemas/BasicResponse'
-                properties:
-                  result:
-                    $ref: '#/components/schemas/Instrument'
+                $ref: '#/components/schemas/RespGetInstrument'
         '400':
           description: Input error.
           content:
@@ -892,13 +816,7 @@ paths:
           content:
             application/json:
               schema:
-                allOf:
-                  - $ref: '#/components/schemas/BasicResponse'
-                properties:
-                  result:
-                    type: array
-                    items:
-                      $ref: '#/components/schemas/Instrument'
+                $ref: '#/components/schemas/RespUpdateInstrument'
         '400':
           description: Input error.
           content:
@@ -954,11 +872,7 @@ paths:
           content:
             application/json:
               schema:
-                allOf:
-                  - $ref: '#/components/schemas/BasicResponse'
-                properties:
-                  result:
-                    $ref: '#/components/schemas/Instrument'
+                $ref: '#/components/schemas/RespDeleteInstrument'
         '400':
           description: Input error.
           content:
@@ -1030,13 +944,7 @@ paths:
           content:
             application/json:
               schema:
-                allOf:
-                  - $ref: '#/components/schemas/BasicResponse'
-                properties:
-                  result:
-                    type: array
-                    items:
-                      $ref: '#/components/schemas/Variable'
+                $ref: '#/components/schemas/RespListVariables'
         '400':
           description: Input error.
           content:
@@ -1092,13 +1000,7 @@ paths:
           content:
             application/json:
               schema:
-                allOf:
-                  - $ref: '#/components/schemas/BasicResponse'
-                properties:
-                  result:
-                    type: array
-                    items:
-                      $ref: '#/components/schemas/Variable'
+                $ref: '#/components/schemas/RespCreateVariable'
         '400':
           description: Input error.
           content:
@@ -1155,11 +1057,7 @@ paths:
           content:
             application/json:
               schema:
-                allOf:
-                  - $ref: '#/components/schemas/BasicResponse'
-                properties:
-                  result:
-                    $ref: '#/components/schemas/Variable'
+                $ref: '#/components/schemas/RespGetVariable'
         '400':
           description: Input error.
           content:
@@ -1227,11 +1125,7 @@ paths:
           content:
             application/json:
               schema:
-                allOf:
-                  - $ref: '#/components/schemas/BasicResponse'
-                properties:
-                  result:
-                    $ref: '#/components/schemas/Variable'
+                $ref: '#/components/schemas/RespUpdateVariable'
         '400':
           description: Input error.
           content:
@@ -1293,11 +1187,7 @@ paths:
           content:
             application/json:
               schema:
-                allOf:
-                  - $ref: '#/components/schemas/BasicResponse'
-                properties:
-                  result:
-                    $ref: '#/components/schemas/Variable'
+                $ref: '#/components/schemas/RespDeleteVariable'
         '400':
           description: Input error.
           content:
@@ -1341,13 +1231,7 @@ paths:
           content:
             application/json:
               schema:
-                allOf:
-                  - $ref: '#/components/schemas/BasicResponse'
-                properties:
-                  result:
-                    type: array
-                    items:
-                      $ref: '#/components/schemas/Measurement'
+                $ref: '#/components/schemas/RespCreateMeasurement'
         '400':
           description: Input error.
           content:
@@ -1411,13 +1295,7 @@ paths:
           content:
             application/json:
               schema:
-                allOf:
-                  - $ref: '#/components/schemas/BasicResponse'
-                properties:
-                  result:
-                    type: array
-                    items:
-                      $ref: '#/components/schemas/Measurement'
+                $ref: '#/components/schemas/RespDownloadMeasurements.'
         '400':
           description: Input error.
           content:
@@ -1503,13 +1381,7 @@ paths:
           content:
             application/json:
               schema:
-                allOf:
-                  - $ref: '#/components/schemas/BasicResponse'
-                properties:
-                  result:
-                    type: array
-                    items:
-                      $ref: '#/components/schemas/Measurement'
+                $ref: '#/components/schemas/RespListMeasurements'
         '400':
           description: Input error.
           content:
@@ -1557,13 +1429,7 @@ paths:
           content:
             application/json:
               schema:
-                allOf:
-                  - $ref: '#/components/schemas/BasicResponse'
-                properties:
-                  result:
-                    type: array
-                    items:
-                      $ref: '#/components/schemas/Ontology'
+                $ref: '#/components/schemas/RespListOntologies'
         '400':
           description: Input error.
           content:
@@ -1600,13 +1466,7 @@ paths:
           content:
             application/json:
               schema:
-                allOf:
-                  - $ref: '#/components/schemas/BasicResponse'
-                properties:
-                  result:
-                    type: array
-                    items:
-                      $ref: '#/components/schemas/Ontology'
+                $ref: '#/components/schemas/RespAddOntology'
         '400':
           description: Input error.
           content:
@@ -1645,11 +1505,7 @@ paths:
           content:
             application/json:
               schema:
-                allOf:
-                  - $ref: '#/components/schemas/BasicResponse'
-                properties:
-                  result:
-                    $ref: '#/components/schemas/Ontology'
+                $ref: '#/components/schemas/RespGetOntology'
         '400':
           description: Input error.
           content:
@@ -1699,11 +1555,7 @@ paths:
           content:
             application/json:
               schema:
-                allOf:
-                  - $ref: '#/components/schemas/BasicResponse'
-                properties:
-                  result:
-                    $ref: '#/components/schemas/Ontology'
+                $ref: '#/components/schemas/RespUpdateOntology'
         '400':
           description: Input error.
           content:
@@ -1747,11 +1599,7 @@ paths:
           content:
             application/json:
               schema:
-                allOf:
-                  - $ref: '#/components/schemas/BasicResponse'
-                properties:
-                  result:
-                    $ref: '#/components/schemas/Ontology'
+                $ref: '#/components/schemas/RespDeleteOntology'
         '400':
           description: Input error.
           content:
@@ -1806,13 +1654,7 @@ paths:
           content:
             application/json:
               schema:
-                allOf:
-                  - $ref: '#/components/schemas/BasicResponse'
-                properties:
-                  result:
-                    type: array
-                    items:
-                      $ref: '#/components/schemas/Channel'
+                $ref: '#/components/schemas/RespListChannels'
         '400':
           description: Input error.
           content:
@@ -1850,13 +1692,7 @@ paths:
           content:
             application/json:
               schema:
-                allOf:
-                  - $ref: '#/components/schemas/BasicResponse'
-                properties:
-                  result:
-                    type: array
-                    items:
-                      $ref: '#/components/schemas/Channel'
+                $ref: '#/components/schemas/RespCreateChannels'
         '400':
           description: Input error.
           content:
@@ -1895,11 +1731,7 @@ paths:
           content:
             application/json:
               schema:
-                allOf:
-                  - $ref: '#/components/schemas/BasicResponse'
-                properties:
-                  result:
-                    $ref: '#/components/schemas/Channel'
+                $ref: '#/components/schemas/RespGetChannel'
         '400':
           description: Input error.
           content:
@@ -1950,11 +1782,7 @@ paths:
           content:
             application/json:
               schema:
-                allOf:
-                  - $ref: '#/components/schemas/BasicResponse'
-                properties:
-                  result:
-                    $ref: '#/components/schemas/Channel'
+                $ref: '#/components/schemas/RespUpdateChannel'
         '400':
           description: Input error.
           content:
@@ -1999,11 +1827,7 @@ paths:
           content:
             application/json:
               schema:
-                allOf:
-                  - $ref: '#/components/schemas/BasicResponse'
-                properties:
-                  result:
-                    $ref: '#/components/schemas/Channel'
+                $ref: '#/components/schemas/RespDeleteChannel'
         '400':
           description: Input error.
           content:
@@ -2054,11 +1878,7 @@ paths:
           content:
             application/json:
               schema:
-                allOf:
-                  - $ref: '#/components/schemas/BasicResponse'
-                properties:
-                  result:
-                    $ref: '#/components/schemas/Channel'
+                $ref: '#/components/schemas/RespUpdateStatus'
         '400':
           description: Input error.
           content:
@@ -2103,13 +1923,7 @@ paths:
           content:
             application/json:
               schema:
-                allOf:
-                  - $ref: '#/components/schemas/BasicResponse'
-                properties:
-                  result:
-                    type: array
-                    items:
-                      $ref: '#/components/schemas/Alert'
+                $ref: '#/components/schemas/RespListAlerts'
         '400':
           description: Input error.
           content:
@@ -2164,13 +1978,7 @@ paths:
           content:
             application/json:
               schema:
-                allOf:
-                  - $ref: '#/components/schemas/BasicResponse'
-                properties:
-                  result:
-                    type: array
-                    items:
-                      $ref: '#/components/schemas/Template'
+                $ref: '#/components/schemas/RespListTemplates'
         '400':
           description: Input error.
           content:
@@ -2208,13 +2016,7 @@ paths:
           content:
             application/json:
               schema:
-                allOf:
-                  - $ref: '#/components/schemas/BasicResponse'
-                properties:
-                  result:
-                    type: array
-                    items:
-                      $ref: '#/components/schemas/Template'
+                $ref: '#/components/schemas/RespCreateTemplate'
         '400':
           description: Input error.
           content:
@@ -2254,13 +2056,7 @@ paths:
           content:
             application/json:
               schema:
-                allOf:
-                  - $ref: '#/components/schemas/BasicResponse'
-                properties:
-                  result:
-                    type: array
-                    items:
-                      $ref: '#/components/schemas/Template'
+                $ref: '#/components/schemas/RespGetTemplate'
         '400':
           description: Input error.
           content:
@@ -2305,11 +2101,7 @@ paths:
           content:
             application/json:
               schema:
-                allOf:
-                  - $ref: '#/components/schemas/BasicResponse'
-                properties:
-                  result:
-                    $ref: '#/components/schemas/Template'
+                $ref: '#/components/schemas/RespUpdateTemplate'
         '400':
           description: Input error.
           content:
@@ -2358,13 +2150,7 @@ paths:
           content:
             application/json:
               schema:
-                allOf:
-                  - $ref: '#/components/schemas/BasicResponse'
-                properties:
-                  result:
-                    type: array
-                    items:
-                      $ref: '#/components/schemas/Unit'
+                $ref: '#/components/schemas/RespListUnits'
         '400':
           description: Input error.
           content:
@@ -2419,13 +2205,7 @@ paths:
           content:
             application/json:
               schema:
-                allOf:
-                  - $ref: '#/components/schemas/BasicResponse'
-                properties:
-                  result:
-                    type: array
-                    items:
-                      $ref: '#/components/schemas/MeasuredProperty'
+                $ref: '#/components/schemas/RespListMeasuredProperties'
         '400':
           description: Input error.
           content:
@@ -2863,6 +2643,754 @@ components:
           type: string
     Application:
       type: object
+    Resphello:
+      type: object
+      properties:
+        version:
+          type: string
+          description: Version of the API
+        message:
+          type: string
+          description: Brief description of the response
+        status:
+          type: string
+          description: Whether the request was a success or failure.
+          enum:
+            - success
+        result:
+          type: string
+    Respready:
+      type: object
+      properties:
+        version:
+          type: string
+          description: Version of the API
+        message:
+          type: string
+          description: Brief description of the response
+        status:
+          type: string
+          description: Whether the request was a success or failure.
+          enum:
+            - success
+        result:
+          type: string
+    Resphealthcheck:
+      type: object
+      properties:
+        version:
+          type: string
+          description: Version of the API
+        message:
+          type: string
+          description: Brief description of the response
+        status:
+          type: string
+          description: Whether the request was a success or failure.
+          enum:
+            - success
+        result:
+          type: string
+    RespListProjects:
+      type: object
+      properties:
+        version:
+          type: string
+          description: Version of the API
+        message:
+          type: string
+          description: Brief description of the response
+        status:
+          type: string
+          description: Whether the request was a success or failure.
+          enum:
+            - success
+        result:
+          type: array
+          items:
+            $ref: '#/components/schemas/Project'
+    RespCreateProject:
+      type: object
+      properties:
+        version:
+          type: string
+          description: Version of the API
+        message:
+          type: string
+          description: Brief description of the response
+        status:
+          type: string
+          description: Whether the request was a success or failure.
+          enum:
+            - success
+        result:
+          type: array
+          items:
+            $ref: '#/components/schemas/Project'
+    RespGetProject:
+      type: object
+      properties:
+        version:
+          type: string
+          description: Version of the API
+        message:
+          type: string
+          description: Brief description of the response
+        status:
+          type: string
+          description: Whether the request was a success or failure.
+          enum:
+            - success
+        result:
+          $ref: '#/components/schemas/Project'
+    RespUpdateProject:
+      type: object
+      properties:
+        version:
+          type: string
+          description: Version of the API
+        message:
+          type: string
+          description: Brief description of the response
+        status:
+          type: string
+          description: Whether the request was a success or failure.
+          enum:
+            - success
+        result:
+          $ref: '#/components/schemas/Project'
+    RespDeleteProject:
+      type: object
+      properties:
+        version:
+          type: string
+          description: Version of the API
+        message:
+          type: string
+          description: Brief description of the response
+        status:
+          type: string
+          description: Whether the request was a success or failure.
+          enum:
+            - success
+        result:
+          $ref: '#/components/schemas/Project'
+    RespListSites:
+      type: object
+      properties:
+        version:
+          type: string
+          description: Version of the API
+        message:
+          type: string
+          description: Brief description of the response
+        status:
+          type: string
+          description: Whether the request was a success or failure.
+          enum:
+            - success
+        result:
+          type: array
+          items:
+            $ref: '#/components/schemas/Site'
+    RespCreateSite:
+      type: object
+      properties:
+        version:
+          type: string
+          description: Version of the API
+        message:
+          type: string
+          description: Brief description of the response
+        status:
+          type: string
+          description: Whether the request was a success or failure.
+          enum:
+            - success
+        result:
+          type: array
+          items:
+            $ref: '#/components/schemas/Site'
+    RespGetSite:
+      type: object
+      properties:
+        version:
+          type: string
+          description: Version of the API
+        message:
+          type: string
+          description: Brief description of the response
+        status:
+          type: string
+          description: Whether the request was a success or failure.
+          enum:
+            - success
+        result:
+          $ref: '#/components/schemas/Site'
+    RespUpdateSite:
+      type: object
+      properties:
+        version:
+          type: string
+          description: Version of the API
+        message:
+          type: string
+          description: Brief description of the response
+        status:
+          type: string
+          description: Whether the request was a success or failure.
+          enum:
+            - success
+        result:
+          $ref: '#/components/schemas/Site'
+    RespDeleteSite:
+      type: object
+      properties:
+        version:
+          type: string
+          description: Version of the API
+        message:
+          type: string
+          description: Brief description of the response
+        status:
+          type: string
+          description: Whether the request was a success or failure.
+          enum:
+            - success
+        result:
+          $ref: '#/components/schemas/Site'
+    RespListInstruments:
+      type: object
+      properties:
+        version:
+          type: string
+          description: Version of the API
+        message:
+          type: string
+          description: Brief description of the response
+        status:
+          type: string
+          description: Whether the request was a success or failure.
+          enum:
+            - success
+        result:
+          type: array
+          items:
+            $ref: '#/components/schemas/Instrument'
+    RespCreateInstrument:
+      type: object
+      properties:
+        version:
+          type: string
+          description: Version of the API
+        message:
+          type: string
+          description: Brief description of the response
+        status:
+          type: string
+          description: Whether the request was a success or failure.
+          enum:
+            - success
+        result:
+          type: array
+          items:
+            $ref: '#/components/schemas/Instrument'
+    RespGetInstrument:
+      type: object
+      properties:
+        version:
+          type: string
+          description: Version of the API
+        message:
+          type: string
+          description: Brief description of the response
+        status:
+          type: string
+          description: Whether the request was a success or failure.
+          enum:
+            - success
+        result:
+          $ref: '#/components/schemas/Instrument'
+    RespUpdateInstrument:
+      type: object
+      properties:
+        version:
+          type: string
+          description: Version of the API
+        message:
+          type: string
+          description: Brief description of the response
+        status:
+          type: string
+          description: Whether the request was a success or failure.
+          enum:
+            - success
+        result:
+          type: array
+          items:
+            $ref: '#/components/schemas/Instrument'
+    RespDeleteInstrument:
+      type: object
+      properties:
+        version:
+          type: string
+          description: Version of the API
+        message:
+          type: string
+          description: Brief description of the response
+        status:
+          type: string
+          description: Whether the request was a success or failure.
+          enum:
+            - success
+        result:
+          $ref: '#/components/schemas/Instrument'
+    RespListVariables:
+      type: object
+      properties:
+        version:
+          type: string
+          description: Version of the API
+        message:
+          type: string
+          description: Brief description of the response
+        status:
+          type: string
+          description: Whether the request was a success or failure.
+          enum:
+            - success
+        result:
+          type: array
+          items:
+            $ref: '#/components/schemas/Variable'
+    RespCreateVariable:
+      type: object
+      properties:
+        version:
+          type: string
+          description: Version of the API
+        message:
+          type: string
+          description: Brief description of the response
+        status:
+          type: string
+          description: Whether the request was a success or failure.
+          enum:
+            - success
+        result:
+          type: array
+          items:
+            $ref: '#/components/schemas/Variable'
+    RespGetVariable:
+      type: object
+      properties:
+        version:
+          type: string
+          description: Version of the API
+        message:
+          type: string
+          description: Brief description of the response
+        status:
+          type: string
+          description: Whether the request was a success or failure.
+          enum:
+            - success
+        result:
+          $ref: '#/components/schemas/Variable'
+    RespUpdateVariable:
+      type: object
+      properties:
+        version:
+          type: string
+          description: Version of the API
+        message:
+          type: string
+          description: Brief description of the response
+        status:
+          type: string
+          description: Whether the request was a success or failure.
+          enum:
+            - success
+        result:
+          $ref: '#/components/schemas/Variable'
+    RespDeleteVariable:
+      type: object
+      properties:
+        version:
+          type: string
+          description: Version of the API
+        message:
+          type: string
+          description: Brief description of the response
+        status:
+          type: string
+          description: Whether the request was a success or failure.
+          enum:
+            - success
+        result:
+          $ref: '#/components/schemas/Variable'
+    RespCreateMeasurement:
+      type: object
+      properties:
+        version:
+          type: string
+          description: Version of the API
+        message:
+          type: string
+          description: Brief description of the response
+        status:
+          type: string
+          description: Whether the request was a success or failure.
+          enum:
+            - success
+        result:
+          type: array
+          items:
+            $ref: '#/components/schemas/Measurement'
+    RespDownloadMeasurements.:
+      type: object
+      properties:
+        version:
+          type: string
+          description: Version of the API
+        message:
+          type: string
+          description: Brief description of the response
+        status:
+          type: string
+          description: Whether the request was a success or failure.
+          enum:
+            - success
+        result:
+          type: array
+          items:
+            $ref: '#/components/schemas/Measurement'
+    RespListMeasurements:
+      type: object
+      properties:
+        version:
+          type: string
+          description: Version of the API
+        message:
+          type: string
+          description: Brief description of the response
+        status:
+          type: string
+          description: Whether the request was a success or failure.
+          enum:
+            - success
+        result:
+          type: array
+          items:
+            $ref: '#/components/schemas/Measurement'
+    RespListOntologies:
+      type: object
+      properties:
+        version:
+          type: string
+          description: Version of the API
+        message:
+          type: string
+          description: Brief description of the response
+        status:
+          type: string
+          description: Whether the request was a success or failure.
+          enum:
+            - success
+        result:
+          type: array
+          items:
+            $ref: '#/components/schemas/Ontology'
+    RespAddOntology:
+      type: object
+      properties:
+        version:
+          type: string
+          description: Version of the API
+        message:
+          type: string
+          description: Brief description of the response
+        status:
+          type: string
+          description: Whether the request was a success or failure.
+          enum:
+            - success
+        result:
+          type: array
+          items:
+            $ref: '#/components/schemas/Ontology'
+    RespGetOntology:
+      type: object
+      properties:
+        version:
+          type: string
+          description: Version of the API
+        message:
+          type: string
+          description: Brief description of the response
+        status:
+          type: string
+          description: Whether the request was a success or failure.
+          enum:
+            - success
+        result:
+          $ref: '#/components/schemas/Ontology'
+    RespUpdateOntology:
+      type: object
+      properties:
+        version:
+          type: string
+          description: Version of the API
+        message:
+          type: string
+          description: Brief description of the response
+        status:
+          type: string
+          description: Whether the request was a success or failure.
+          enum:
+            - success
+        result:
+          $ref: '#/components/schemas/Ontology'
+    RespDeleteOntology:
+      type: object
+      properties:
+        version:
+          type: string
+          description: Version of the API
+        message:
+          type: string
+          description: Brief description of the response
+        status:
+          type: string
+          description: Whether the request was a success or failure.
+          enum:
+            - success
+        result:
+          $ref: '#/components/schemas/Ontology'
+    RespListChannels:
+      type: object
+      properties:
+        version:
+          type: string
+          description: Version of the API
+        message:
+          type: string
+          description: Brief description of the response
+        status:
+          type: string
+          description: Whether the request was a success or failure.
+          enum:
+            - success
+        result:
+          type: array
+          items:
+            $ref: '#/components/schemas/Channel'
+    RespCreateChannels:
+      type: object
+      properties:
+        version:
+          type: string
+          description: Version of the API
+        message:
+          type: string
+          description: Brief description of the response
+        status:
+          type: string
+          description: Whether the request was a success or failure.
+          enum:
+            - success
+        result:
+          type: array
+          items:
+            $ref: '#/components/schemas/Channel'
+    RespGetChannel:
+      type: object
+      properties:
+        version:
+          type: string
+          description: Version of the API
+        message:
+          type: string
+          description: Brief description of the response
+        status:
+          type: string
+          description: Whether the request was a success or failure.
+          enum:
+            - success
+        result:
+          $ref: '#/components/schemas/Channel'
+    RespUpdateChannel:
+      type: object
+      properties:
+        version:
+          type: string
+          description: Version of the API
+        message:
+          type: string
+          description: Brief description of the response
+        status:
+          type: string
+          description: Whether the request was a success or failure.
+          enum:
+            - success
+        result:
+          $ref: '#/components/schemas/Channel'
+    RespDeleteChannel:
+      type: object
+      properties:
+        version:
+          type: string
+          description: Version of the API
+        message:
+          type: string
+          description: Brief description of the response
+        status:
+          type: string
+          description: Whether the request was a success or failure.
+          enum:
+            - success
+        result:
+          $ref: '#/components/schemas/Channel'
+    RespUpdateStatus:
+      type: object
+      properties:
+        version:
+          type: string
+          description: Version of the API
+        message:
+          type: string
+          description: Brief description of the response
+        status:
+          type: string
+          description: Whether the request was a success or failure.
+          enum:
+            - success
+        result:
+          $ref: '#/components/schemas/Channel'
+    RespListAlerts:
+      type: object
+      properties:
+        version:
+          type: string
+          description: Version of the API
+        message:
+          type: string
+          description: Brief description of the response
+        status:
+          type: string
+          description: Whether the request was a success or failure.
+          enum:
+            - success
+        result:
+          type: array
+          items:
+            $ref: '#/components/schemas/Alert'
+    RespListTemplates:
+      type: object
+      properties:
+        version:
+          type: string
+          description: Version of the API
+        message:
+          type: string
+          description: Brief description of the response
+        status:
+          type: string
+          description: Whether the request was a success or failure.
+          enum:
+            - success
+        result:
+          type: array
+          items:
+            $ref: '#/components/schemas/Template'
+    RespCreateTemplate:
+      type: object
+      properties:
+        version:
+          type: string
+          description: Version of the API
+        message:
+          type: string
+          description: Brief description of the response
+        status:
+          type: string
+          description: Whether the request was a success or failure.
+          enum:
+            - success
+        result:
+          type: array
+          items:
+            $ref: '#/components/schemas/Template'
+    RespGetTemplate:
+      type: object
+      properties:
+        version:
+          type: string
+          description: Version of the API
+        message:
+          type: string
+          description: Brief description of the response
+        status:
+          type: string
+          description: Whether the request was a success or failure.
+          enum:
+            - success
+        result:
+          type: array
+          items:
+            $ref: '#/components/schemas/Template'
+    RespUpdateTemplate:
+      type: object
+      properties:
+        version:
+          type: string
+          description: Version of the API
+        message:
+          type: string
+          description: Brief description of the response
+        status:
+          type: string
+          description: Whether the request was a success or failure.
+          enum:
+            - success
+        result:
+          $ref: '#/components/schemas/Template'
+    RespListUnits:
+      type: object
+      properties:
+        version:
+          type: string
+          description: Version of the API
+        message:
+          type: string
+          description: Brief description of the response
+        status:
+          type: string
+          description: Whether the request was a success or failure.
+          enum:
+            - success
+        result:
+          type: array
+          items:
+            $ref: '#/components/schemas/Unit'
+    RespListMeasuredProperties:
+      type: object
+      properties:
+        version:
+          type: string
+          description: Version of the API
+        message:
+          type: string
+          description: Brief description of the response
+        status:
+          type: string
+          description: Whether the request was a success or failure.
+          enum:
+            - success
+        result:
+          type: array
+          items:
+            $ref: '#/components/schemas/MeasuredProperty'
     ReqCreateProject:
       type: object
       properties:

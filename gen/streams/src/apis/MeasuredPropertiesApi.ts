@@ -15,12 +15,12 @@
 
 import * as runtime from '../runtime';
 import {
-    BasicResponse,
-    BasicResponseFromJSON,
-    BasicResponseToJSON,
     ErrorResponse,
     ErrorResponseFromJSON,
     ErrorResponseToJSON,
+    RespListMeasuredProperties,
+    RespListMeasuredPropertiesFromJSON,
+    RespListMeasuredPropertiesToJSON,
 } from '../models';
 
 export interface ListMeasuredPropertiesRequest {
@@ -38,7 +38,7 @@ export class MeasuredPropertiesApi extends runtime.BaseAPI {
      * List measured_properties.
      * List measured_properties.
      */
-    async listMeasuredPropertiesRaw(requestParameters: ListMeasuredPropertiesRequest): Promise<runtime.ApiResponse<BasicResponse>> {
+    async listMeasuredPropertiesRaw(requestParameters: ListMeasuredPropertiesRequest): Promise<runtime.ApiResponse<RespListMeasuredProperties>> {
         const queryParameters: any = {};
 
         if (requestParameters.query !== undefined) {
@@ -62,14 +62,14 @@ export class MeasuredPropertiesApi extends runtime.BaseAPI {
             query: queryParameters,
         });
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => BasicResponseFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => RespListMeasuredPropertiesFromJSON(jsonValue));
     }
 
     /**
      * List measured_properties.
      * List measured_properties.
      */
-    async listMeasuredProperties(requestParameters: ListMeasuredPropertiesRequest): Promise<BasicResponse> {
+    async listMeasuredProperties(requestParameters: ListMeasuredPropertiesRequest): Promise<RespListMeasuredProperties> {
         const response = await this.listMeasuredPropertiesRaw(requestParameters);
         return await response.value();
     }

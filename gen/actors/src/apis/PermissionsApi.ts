@@ -18,9 +18,12 @@ import {
     ActorPermission,
     ActorPermissionFromJSON,
     ActorPermissionToJSON,
-    BasicResponse,
-    BasicResponseFromJSON,
-    BasicResponseToJSON,
+    ResplistPermissions,
+    ResplistPermissionsFromJSON,
+    ResplistPermissionsToJSON,
+    RespupdatePermissions,
+    RespupdatePermissionsFromJSON,
+    RespupdatePermissionsToJSON,
 } from '../models';
 
 export interface ListPermissionsRequest {
@@ -41,7 +44,7 @@ export class PermissionsApi extends runtime.BaseAPI {
      * List permissions for an actor.
      * listPermissions
      */
-    async listPermissionsRaw(requestParameters: ListPermissionsRequest): Promise<runtime.ApiResponse<BasicResponse>> {
+    async listPermissionsRaw(requestParameters: ListPermissionsRequest): Promise<runtime.ApiResponse<ResplistPermissions>> {
         if (requestParameters.actorId === null || requestParameters.actorId === undefined) {
             throw new runtime.RequiredError('actorId','Required parameter requestParameters.actorId was null or undefined when calling listPermissions.');
         }
@@ -65,14 +68,14 @@ export class PermissionsApi extends runtime.BaseAPI {
             query: queryParameters,
         });
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => BasicResponseFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => ResplistPermissionsFromJSON(jsonValue));
     }
 
     /**
      * List permissions for an actor.
      * listPermissions
      */
-    async listPermissions(requestParameters: ListPermissionsRequest): Promise<BasicResponse> {
+    async listPermissions(requestParameters: ListPermissionsRequest): Promise<ResplistPermissions> {
         const response = await this.listPermissionsRaw(requestParameters);
         return await response.value();
     }
@@ -81,7 +84,7 @@ export class PermissionsApi extends runtime.BaseAPI {
      * Add or update permissions for an actor.
      * updatePermissions
      */
-    async updatePermissionsRaw(requestParameters: UpdatePermissionsRequest): Promise<runtime.ApiResponse<BasicResponse>> {
+    async updatePermissionsRaw(requestParameters: UpdatePermissionsRequest): Promise<runtime.ApiResponse<RespupdatePermissions>> {
         if (requestParameters.actorId === null || requestParameters.actorId === undefined) {
             throw new runtime.RequiredError('actorId','Required parameter requestParameters.actorId was null or undefined when calling updatePermissions.');
         }
@@ -112,14 +115,14 @@ export class PermissionsApi extends runtime.BaseAPI {
             body: ActorPermissionToJSON(requestParameters.actorPermission),
         });
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => BasicResponseFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => RespupdatePermissionsFromJSON(jsonValue));
     }
 
     /**
      * Add or update permissions for an actor.
      * updatePermissions
      */
-    async updatePermissions(requestParameters: UpdatePermissionsRequest): Promise<BasicResponse> {
+    async updatePermissions(requestParameters: UpdatePermissionsRequest): Promise<RespupdatePermissions> {
         const response = await this.updatePermissionsRaw(requestParameters);
         return await response.value();
     }

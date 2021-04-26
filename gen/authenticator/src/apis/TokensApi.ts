@@ -15,12 +15,12 @@
 
 import * as runtime from '../runtime';
 import {
-    BasicResponse,
-    BasicResponseFromJSON,
-    BasicResponseToJSON,
     ReqCreateToken,
     ReqCreateTokenFromJSON,
     ReqCreateTokenToJSON,
+    RespCreateToken,
+    RespCreateTokenFromJSON,
+    RespCreateTokenToJSON,
 } from '../models';
 
 export interface CreateTokenRequest {
@@ -34,7 +34,7 @@ export class TokensApi extends runtime.BaseAPI {
 
     /**
      */
-    async createTokenRaw(requestParameters: CreateTokenRequest): Promise<runtime.ApiResponse<BasicResponse>> {
+    async createTokenRaw(requestParameters: CreateTokenRequest): Promise<runtime.ApiResponse<RespCreateToken>> {
         if (requestParameters.reqCreateToken === null || requestParameters.reqCreateToken === undefined) {
             throw new runtime.RequiredError('reqCreateToken','Required parameter requestParameters.reqCreateToken was null or undefined when calling createToken.');
         }
@@ -53,12 +53,12 @@ export class TokensApi extends runtime.BaseAPI {
             body: ReqCreateTokenToJSON(requestParameters.reqCreateToken),
         });
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => BasicResponseFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => RespCreateTokenFromJSON(jsonValue));
     }
 
     /**
      */
-    async createToken(requestParameters: CreateTokenRequest): Promise<BasicResponse> {
+    async createToken(requestParameters: CreateTokenRequest): Promise<RespCreateToken> {
         const response = await this.createTokenRaw(requestParameters);
         return await response.value();
     }

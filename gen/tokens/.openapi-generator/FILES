@@ -11,6 +11,8 @@ src/models/NewAccessTokenResponse.ts
 src/models/NewRefreshTokenResponse.ts
 src/models/ReqCreateToken.ts
 src/models/ReqRefreshToken.ts
+src/models/RespCreateToken.ts
+src/models/RespRefreshToken.ts
 src/models/Token.ts
 src/models/index.ts
 src/runtime.ts

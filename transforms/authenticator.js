@@ -5,6 +5,8 @@ try {
   const doc = utils.read('authenticator');
   let transformed = { ...doc };
 
+  transformed = utils.expandBasicResponses(transformed);
+
   // Rename schemas
   const schemas = {
     NewClient: 'ReqCreateClient',

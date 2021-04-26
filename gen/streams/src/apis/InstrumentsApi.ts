@@ -15,15 +15,27 @@
 
 import * as runtime from '../runtime';
 import {
-    BasicResponse,
-    BasicResponseFromJSON,
-    BasicResponseToJSON,
     ErrorResponse,
     ErrorResponseFromJSON,
     ErrorResponseToJSON,
     ReqCreateInstrument,
     ReqCreateInstrumentFromJSON,
     ReqCreateInstrumentToJSON,
+    RespCreateInstrument,
+    RespCreateInstrumentFromJSON,
+    RespCreateInstrumentToJSON,
+    RespDeleteInstrument,
+    RespDeleteInstrumentFromJSON,
+    RespDeleteInstrumentToJSON,
+    RespGetInstrument,
+    RespGetInstrumentFromJSON,
+    RespGetInstrumentToJSON,
+    RespListInstruments,
+    RespListInstrumentsFromJSON,
+    RespListInstrumentsToJSON,
+    RespUpdateInstrument,
+    RespUpdateInstrumentFromJSON,
+    RespUpdateInstrumentToJSON,
 } from '../models';
 
 export interface CreateInstrumentRequest {
@@ -68,7 +80,7 @@ export class InstrumentsApi extends runtime.BaseAPI {
      * Create instruments (single or bulk)
      * Create instruments (single or bulk)
      */
-    async createInstrumentRaw(requestParameters: CreateInstrumentRequest): Promise<runtime.ApiResponse<BasicResponse>> {
+    async createInstrumentRaw(requestParameters: CreateInstrumentRequest): Promise<runtime.ApiResponse<RespCreateInstrument>> {
         if (requestParameters.projectUuid === null || requestParameters.projectUuid === undefined) {
             throw new runtime.RequiredError('projectUuid','Required parameter requestParameters.projectUuid was null or undefined when calling createInstrument.');
         }
@@ -95,14 +107,14 @@ export class InstrumentsApi extends runtime.BaseAPI {
             body: ReqCreateInstrumentToJSON(requestParameters.reqCreateInstrument),
         });
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => BasicResponseFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => RespCreateInstrumentFromJSON(jsonValue));
     }
 
     /**
      * Create instruments (single or bulk)
      * Create instruments (single or bulk)
      */
-    async createInstrument(requestParameters: CreateInstrumentRequest): Promise<BasicResponse> {
+    async createInstrument(requestParameters: CreateInstrumentRequest): Promise<RespCreateInstrument> {
         const response = await this.createInstrumentRaw(requestParameters);
         return await response.value();
     }
@@ -111,7 +123,7 @@ export class InstrumentsApi extends runtime.BaseAPI {
      * Delete an instrument
      * Delete an instrument
      */
-    async deleteInstrumentRaw(requestParameters: DeleteInstrumentRequest): Promise<runtime.ApiResponse<BasicResponse>> {
+    async deleteInstrumentRaw(requestParameters: DeleteInstrumentRequest): Promise<runtime.ApiResponse<RespDeleteInstrument>> {
         if (requestParameters.projectUuid === null || requestParameters.projectUuid === undefined) {
             throw new runtime.RequiredError('projectUuid','Required parameter requestParameters.projectUuid was null or undefined when calling deleteInstrument.');
         }
@@ -135,14 +147,14 @@ export class InstrumentsApi extends runtime.BaseAPI {
             query: queryParameters,
         });
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => BasicResponseFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => RespDeleteInstrumentFromJSON(jsonValue));
     }
 
     /**
      * Delete an instrument
      * Delete an instrument
      */
-    async deleteInstrument(requestParameters: DeleteInstrumentRequest): Promise<BasicResponse> {
+    async deleteInstrument(requestParameters: DeleteInstrumentRequest): Promise<RespDeleteInstrument> {
         const response = await this.deleteInstrumentRaw(requestParameters);
         return await response.value();
     }
@@ -151,7 +163,7 @@ export class InstrumentsApi extends runtime.BaseAPI {
      * Get instrument details
      * Get instrument details
      */
-    async getInstrumentRaw(requestParameters: GetInstrumentRequest): Promise<runtime.ApiResponse<BasicResponse>> {
+    async getInstrumentRaw(requestParameters: GetInstrumentRequest): Promise<runtime.ApiResponse<RespGetInstrument>> {
         if (requestParameters.projectUuid === null || requestParameters.projectUuid === undefined) {
             throw new runtime.RequiredError('projectUuid','Required parameter requestParameters.projectUuid was null or undefined when calling getInstrument.');
         }
@@ -175,14 +187,14 @@ export class InstrumentsApi extends runtime.BaseAPI {
             query: queryParameters,
         });
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => BasicResponseFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => RespGetInstrumentFromJSON(jsonValue));
     }
 
     /**
      * Get instrument details
      * Get instrument details
      */
-    async getInstrument(requestParameters: GetInstrumentRequest): Promise<BasicResponse> {
+    async getInstrument(requestParameters: GetInstrumentRequest): Promise<RespGetInstrument> {
         const response = await this.getInstrumentRaw(requestParameters);
         return await response.value();
     }
@@ -191,7 +203,7 @@ export class InstrumentsApi extends runtime.BaseAPI {
      * List instruments
      * List instruments
      */
-    async listInstrumentsRaw(requestParameters: ListInstrumentsRequest): Promise<runtime.ApiResponse<BasicResponse>> {
+    async listInstrumentsRaw(requestParameters: ListInstrumentsRequest): Promise<runtime.ApiResponse<RespListInstruments>> {
         if (requestParameters.projectUuid === null || requestParameters.projectUuid === undefined) {
             throw new runtime.RequiredError('projectUuid','Required parameter requestParameters.projectUuid was null or undefined when calling listInstruments.');
         }
@@ -223,14 +235,14 @@ export class InstrumentsApi extends runtime.BaseAPI {
             query: queryParameters,
         });
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => BasicResponseFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => RespListInstrumentsFromJSON(jsonValue));
     }
 
     /**
      * List instruments
      * List instruments
      */
-    async listInstruments(requestParameters: ListInstrumentsRequest): Promise<BasicResponse> {
+    async listInstruments(requestParameters: ListInstrumentsRequest): Promise<RespListInstruments> {
         const response = await this.listInstrumentsRaw(requestParameters);
         return await response.value();
     }
@@ -239,7 +251,7 @@ export class InstrumentsApi extends runtime.BaseAPI {
      * Update an instrument
      * Update an instrument
      */
-    async updateInstrumentRaw(requestParameters: UpdateInstrumentRequest): Promise<runtime.ApiResponse<BasicResponse>> {
+    async updateInstrumentRaw(requestParameters: UpdateInstrumentRequest): Promise<runtime.ApiResponse<RespUpdateInstrument>> {
         if (requestParameters.projectUuid === null || requestParameters.projectUuid === undefined) {
             throw new runtime.RequiredError('projectUuid','Required parameter requestParameters.projectUuid was null or undefined when calling updateInstrument.');
         }
@@ -270,14 +282,14 @@ export class InstrumentsApi extends runtime.BaseAPI {
             body: ReqCreateInstrumentToJSON(requestParameters.reqCreateInstrument),
         });
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => BasicResponseFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => RespUpdateInstrumentFromJSON(jsonValue));
     }
 
     /**
      * Update an instrument
      * Update an instrument
      */
-    async updateInstrument(requestParameters: UpdateInstrumentRequest): Promise<BasicResponse> {
+    async updateInstrument(requestParameters: UpdateInstrumentRequest): Promise<RespUpdateInstrument> {
         const response = await this.updateInstrumentRaw(requestParameters);
         return await response.value();
     }

@@ -104,7 +104,7 @@ const expandBasicResponses = (doc) => {
                     Object.keys(methodRef.responses).forEach(
                         status => {
                             const statusRef = methodRef.responses[status];
-                            const schemaRef = statusRef['content']['application/json']['schema'];
+                            const schemaRef = statusRef['content'][Object.keys(statusRef.content)[0]]['schema'];
                             
                             if ('allOf' in schemaRef &&
                                 '$ref' in schemaRef['allOf'][0] &&

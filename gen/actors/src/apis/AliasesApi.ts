@@ -15,12 +15,24 @@
 
 import * as runtime from '../runtime';
 import {
-    BasicResponse,
-    BasicResponseFromJSON,
-    BasicResponseToJSON,
     ReqCreateAlias,
     ReqCreateAliasFromJSON,
     ReqCreateAliasToJSON,
+    RespcreateAlias,
+    RespcreateAliasFromJSON,
+    RespcreateAliasToJSON,
+    RespdeleteAlias,
+    RespdeleteAliasFromJSON,
+    RespdeleteAliasToJSON,
+    RespgetAlias,
+    RespgetAliasFromJSON,
+    RespgetAliasToJSON,
+    ResplistAliases,
+    ResplistAliasesFromJSON,
+    ResplistAliasesToJSON,
+    RespupdateActorAlias,
+    RespupdateActorAliasFromJSON,
+    RespupdateActorAliasToJSON,
 } from '../models';
 
 export interface CreateAliasRequest {
@@ -54,7 +66,7 @@ export class AliasesApi extends runtime.BaseAPI {
      * Register an actor alias
      * createAlias
      */
-    async createAliasRaw(requestParameters: CreateAliasRequest): Promise<runtime.ApiResponse<BasicResponse>> {
+    async createAliasRaw(requestParameters: CreateAliasRequest): Promise<runtime.ApiResponse<RespcreateAlias>> {
         if (requestParameters.reqCreateAlias === null || requestParameters.reqCreateAlias === undefined) {
             throw new runtime.RequiredError('reqCreateAlias','Required parameter requestParameters.reqCreateAlias was null or undefined when calling createAlias.');
         }
@@ -81,14 +93,14 @@ export class AliasesApi extends runtime.BaseAPI {
             body: ReqCreateAliasToJSON(requestParameters.reqCreateAlias),
         });
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => BasicResponseFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => RespcreateAliasFromJSON(jsonValue));
     }
 
     /**
      * Register an actor alias
      * createAlias
      */
-    async createAlias(requestParameters: CreateAliasRequest): Promise<BasicResponse> {
+    async createAlias(requestParameters: CreateAliasRequest): Promise<RespcreateAlias> {
         const response = await this.createAliasRaw(requestParameters);
         return await response.value();
     }
@@ -97,7 +109,7 @@ export class AliasesApi extends runtime.BaseAPI {
      * Permenantly delete an actor alias.
      * deleteAlias
      */
-    async deleteAliasRaw(requestParameters: DeleteAliasRequest): Promise<runtime.ApiResponse<BasicResponse>> {
+    async deleteAliasRaw(requestParameters: DeleteAliasRequest): Promise<runtime.ApiResponse<RespdeleteAlias>> {
         if (requestParameters.alias === null || requestParameters.alias === undefined) {
             throw new runtime.RequiredError('alias','Required parameter requestParameters.alias was null or undefined when calling deleteAlias.');
         }
@@ -121,14 +133,14 @@ export class AliasesApi extends runtime.BaseAPI {
             query: queryParameters,
         });
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => BasicResponseFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => RespdeleteAliasFromJSON(jsonValue));
     }
 
     /**
      * Permenantly delete an actor alias.
      * deleteAlias
      */
-    async deleteAlias(requestParameters: DeleteAliasRequest): Promise<BasicResponse> {
+    async deleteAlias(requestParameters: DeleteAliasRequest): Promise<RespdeleteAlias> {
         const response = await this.deleteAliasRaw(requestParameters);
         return await response.value();
     }
@@ -137,7 +149,7 @@ export class AliasesApi extends runtime.BaseAPI {
      * Get details of a specific actor alias.
      * getAlias
      */
-    async getAliasRaw(requestParameters: GetAliasRequest): Promise<runtime.ApiResponse<BasicResponse>> {
+    async getAliasRaw(requestParameters: GetAliasRequest): Promise<runtime.ApiResponse<RespgetAlias>> {
         if (requestParameters.alias === null || requestParameters.alias === undefined) {
             throw new runtime.RequiredError('alias','Required parameter requestParameters.alias was null or undefined when calling getAlias.');
         }
@@ -161,14 +173,14 @@ export class AliasesApi extends runtime.BaseAPI {
             query: queryParameters,
         });
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => BasicResponseFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => RespgetAliasFromJSON(jsonValue));
     }
 
     /**
      * Get details of a specific actor alias.
      * getAlias
      */
-    async getAlias(requestParameters: GetAliasRequest): Promise<BasicResponse> {
+    async getAlias(requestParameters: GetAliasRequest): Promise<RespgetAlias> {
         const response = await this.getAliasRaw(requestParameters);
         return await response.value();
     }
@@ -177,7 +189,7 @@ export class AliasesApi extends runtime.BaseAPI {
      * List all actor aliases available to user
      * listAliases
      */
-    async listAliasesRaw(requestParameters: ListAliasesRequest): Promise<runtime.ApiResponse<BasicResponse>> {
+    async listAliasesRaw(requestParameters: ListAliasesRequest): Promise<runtime.ApiResponse<ResplistAliases>> {
         const queryParameters: any = {};
 
         if (requestParameters.limit !== undefined) {
@@ -205,14 +217,14 @@ export class AliasesApi extends runtime.BaseAPI {
             query: queryParameters,
         });
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => BasicResponseFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => ResplistAliasesFromJSON(jsonValue));
     }
 
     /**
      * List all actor aliases available to user
      * listAliases
      */
-    async listAliases(requestParameters: ListAliasesRequest): Promise<BasicResponse> {
+    async listAliases(requestParameters: ListAliasesRequest): Promise<ResplistAliases> {
         const response = await this.listAliasesRaw(requestParameters);
         return await response.value();
     }
@@ -221,7 +233,7 @@ export class AliasesApi extends runtime.BaseAPI {
      * Update an alias definition.
      * updateActorAlias
      */
-    async updateActorAliasRaw(requestParameters: UpdateActorAliasRequest): Promise<runtime.ApiResponse<BasicResponse>> {
+    async updateActorAliasRaw(requestParameters: UpdateActorAliasRequest): Promise<runtime.ApiResponse<RespupdateActorAlias>> {
         if (requestParameters.alias === null || requestParameters.alias === undefined) {
             throw new runtime.RequiredError('alias','Required parameter requestParameters.alias was null or undefined when calling updateActorAlias.');
         }
@@ -252,14 +264,14 @@ export class AliasesApi extends runtime.BaseAPI {
             body: ReqCreateAliasToJSON(requestParameters.reqCreateAlias),
         });
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => BasicResponseFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => RespupdateActorAliasFromJSON(jsonValue));
     }
 
     /**
      * Update an alias definition.
      * updateActorAlias
      */
-    async updateActorAlias(requestParameters: UpdateActorAliasRequest): Promise<BasicResponse> {
+    async updateActorAlias(requestParameters: UpdateActorAliasRequest): Promise<RespupdateActorAlias> {
         const response = await this.updateActorAliasRaw(requestParameters);
         return await response.value();
     }

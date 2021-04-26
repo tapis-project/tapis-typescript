@@ -15,9 +15,12 @@
 
 import * as runtime from '../runtime';
 import {
-    BasicResponse,
-    BasicResponseFromJSON,
-    BasicResponseToJSON,
+    RespGetProfile,
+    RespGetProfileFromJSON,
+    RespGetProfileToJSON,
+    RespListProfiles,
+    RespListProfilesFromJSON,
+    RespListProfilesToJSON,
 } from '../models';
 
 export interface GetProfileRequest {
@@ -36,7 +39,7 @@ export class ProfilesApi extends runtime.BaseAPI {
 
     /**
      */
-    async getProfileRaw(requestParameters: GetProfileRequest): Promise<runtime.ApiResponse<BasicResponse>> {
+    async getProfileRaw(requestParameters: GetProfileRequest): Promise<runtime.ApiResponse<RespGetProfile>> {
         if (requestParameters.username === null || requestParameters.username === undefined) {
             throw new runtime.RequiredError('username','Required parameter requestParameters.username was null or undefined when calling getProfile.');
         }
@@ -52,19 +55,19 @@ export class ProfilesApi extends runtime.BaseAPI {
             query: queryParameters,
         });
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => BasicResponseFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => RespGetProfileFromJSON(jsonValue));
     }
 
     /**
      */
-    async getProfile(requestParameters: GetProfileRequest): Promise<BasicResponse> {
+    async getProfile(requestParameters: GetProfileRequest): Promise<RespGetProfile> {
         const response = await this.getProfileRaw(requestParameters);
         return await response.value();
     }
 
     /**
      */
-    async listProfilesRaw(requestParameters: ListProfilesRequest): Promise<runtime.ApiResponse<BasicResponse>> {
+    async listProfilesRaw(requestParameters: ListProfilesRequest): Promise<runtime.ApiResponse<RespListProfiles>> {
         const queryParameters: any = {};
 
         if (requestParameters.limit !== undefined) {
@@ -84,12 +87,12 @@ export class ProfilesApi extends runtime.BaseAPI {
             query: queryParameters,
         });
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => BasicResponseFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => RespListProfilesFromJSON(jsonValue));
     }
 
     /**
      */
-    async listProfiles(requestParameters: ListProfilesRequest): Promise<BasicResponse> {
+    async listProfiles(requestParameters: ListProfilesRequest): Promise<RespListProfiles> {
         const response = await this.listProfilesRaw(requestParameters);
         return await response.value();
     }

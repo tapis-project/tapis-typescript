@@ -15,12 +15,12 @@
 
 import * as runtime from '../runtime';
 import {
-    BasicResponse,
-    BasicResponseFromJSON,
-    BasicResponseToJSON,
     ErrorResponse,
     ErrorResponseFromJSON,
     ErrorResponseToJSON,
+    RespListUnits,
+    RespListUnitsFromJSON,
+    RespListUnitsToJSON,
 } from '../models';
 
 export interface ListUnitsRequest {
@@ -38,7 +38,7 @@ export class UnitsApi extends runtime.BaseAPI {
      * List units.
      * List units.
      */
-    async listUnitsRaw(requestParameters: ListUnitsRequest): Promise<runtime.ApiResponse<BasicResponse>> {
+    async listUnitsRaw(requestParameters: ListUnitsRequest): Promise<runtime.ApiResponse<RespListUnits>> {
         const queryParameters: any = {};
 
         if (requestParameters.query !== undefined) {
@@ -62,14 +62,14 @@ export class UnitsApi extends runtime.BaseAPI {
             query: queryParameters,
         });
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => BasicResponseFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => RespListUnitsFromJSON(jsonValue));
     }
 
     /**
      * List units.
      * List units.
      */
-    async listUnits(requestParameters: ListUnitsRequest): Promise<BasicResponse> {
+    async listUnits(requestParameters: ListUnitsRequest): Promise<RespListUnits> {
         const response = await this.listUnitsRaw(requestParameters);
         return await response.value();
     }

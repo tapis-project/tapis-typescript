@@ -7,6 +7,8 @@ try {
     doc, '/v3/actors/{actor_id}/executions/{execution_id}/results', 'Executions'
   );
 
+  transformed = utils.expandBasicResponses(transformed);
+
   // Rename schemas
   const schemas = {
     NewAlias: 'ReqCreateAlias',

@@ -15,15 +15,18 @@
 
 import * as runtime from '../runtime';
 import {
-    BasicResponse,
-    BasicResponseFromJSON,
-    BasicResponseToJSON,
     ReqCreateToken,
     ReqCreateTokenFromJSON,
     ReqCreateTokenToJSON,
     ReqRefreshToken,
     ReqRefreshTokenFromJSON,
     ReqRefreshTokenToJSON,
+    RespCreateToken,
+    RespCreateTokenFromJSON,
+    RespCreateTokenToJSON,
+    RespRefreshToken,
+    RespRefreshTokenFromJSON,
+    RespRefreshTokenToJSON,
 } from '../models';
 
 export interface CreateTokenRequest {
@@ -43,7 +46,7 @@ export class TokensApi extends runtime.BaseAPI {
      * Generate a token.
      * Generate a token.
      */
-    async createTokenRaw(requestParameters: CreateTokenRequest): Promise<runtime.ApiResponse<BasicResponse>> {
+    async createTokenRaw(requestParameters: CreateTokenRequest): Promise<runtime.ApiResponse<RespCreateToken>> {
         if (requestParameters.reqCreateToken === null || requestParameters.reqCreateToken === undefined) {
             throw new runtime.RequiredError('reqCreateToken','Required parameter requestParameters.reqCreateToken was null or undefined when calling createToken.');
         }
@@ -65,14 +68,14 @@ export class TokensApi extends runtime.BaseAPI {
             body: ReqCreateTokenToJSON(requestParameters.reqCreateToken),
         });
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => BasicResponseFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => RespCreateTokenFromJSON(jsonValue));
     }
 
     /**
      * Generate a token.
      * Generate a token.
      */
-    async createToken(requestParameters: CreateTokenRequest): Promise<BasicResponse> {
+    async createToken(requestParameters: CreateTokenRequest): Promise<RespCreateToken> {
         const response = await this.createTokenRaw(requestParameters);
         return await response.value();
     }
@@ -81,7 +84,7 @@ export class TokensApi extends runtime.BaseAPI {
      * Generate a new token from a refresh token.
      * Generate a new token from a refresh token.
      */
-    async refreshTokenRaw(requestParameters: RefreshTokenRequest): Promise<runtime.ApiResponse<BasicResponse>> {
+    async refreshTokenRaw(requestParameters: RefreshTokenRequest): Promise<runtime.ApiResponse<RespRefreshToken>> {
         if (requestParameters.reqRefreshToken === null || requestParameters.reqRefreshToken === undefined) {
             throw new runtime.RequiredError('reqRefreshToken','Required parameter requestParameters.reqRefreshToken was null or undefined when calling refreshToken.');
         }
@@ -100,14 +103,14 @@ export class TokensApi extends runtime.BaseAPI {
             body: ReqRefreshTokenToJSON(requestParameters.reqRefreshToken),
         });
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => BasicResponseFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => RespRefreshTokenFromJSON(jsonValue));
     }
 
     /**
      * Generate a new token from a refresh token.
      * Generate a new token from a refresh token.
      */
-    async refreshToken(requestParameters: RefreshTokenRequest): Promise<BasicResponse> {
+    async refreshToken(requestParameters: RefreshTokenRequest): Promise<RespRefreshToken> {
         const response = await this.refreshTokenRaw(requestParameters);
         return await response.value();
     }
