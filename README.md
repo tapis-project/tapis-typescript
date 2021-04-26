@@ -29,6 +29,12 @@ Generation script that accepts the name of the service as a parameter and runs t
 - Run [`transforms/systems.js`](./transforms/systems.js), which should read [`tapis_openapi/systems.yml`](./tapis_openapi/systems.yml) and output the transformed results to [`transformed_openapi/systems.yml`](./transformed_openapi/systems.yml)
 - Run the `openapi-generator-cli` and pass it [`configs/systems.json`](./configs/systems.json)with an output directory of [`gen/systems`](./gen/systems)
 
-## TODO
+## Building and Testing
 
-- Set up package structure for multiple subpackages for each service
+The `@tapis/typescript` top level package locally references all of the services in the `./gen` folder. These services must be built, and then the top level package can be built. To do so, do the following:
+
+- `npm run build-services`
+- `npm install`
+- `npm run build`
+
+Then you can run `npm run test`
