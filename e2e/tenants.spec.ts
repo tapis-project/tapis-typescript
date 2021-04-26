@@ -30,5 +30,9 @@ describe('Tenants e2e tests', () => {
     const listTenantsRequest: Tenants.ListTenantsRequest = {}
     const response: Tenants.RespListTenants = await api.listTenants(listTenantsRequest);
     expect(response.result.length).to.be.greaterThan(0);
+    const tenantId = response.result[0].tenant_id;
+    const getTenantRequest: Tenants.GetTenantRequest = { tenantId };
+    const getTenantResponse: Tenants.RespGetTenant = await api.getTenant(getTenantRequest);
+    expect(getTenantResponse.result.tenant_id).to.equal(tenantId);
   });
 });
