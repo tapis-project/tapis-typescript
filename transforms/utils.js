@@ -73,13 +73,64 @@ const renameSchema = (doc, oldSchema, newSchema) => {
     return result;
 }
 
-
+/**
+ * Prepend all paths with a prefix
+ * @param {any} doc 
+ * @param {string} prefix 
+ */
 const prependPaths = (doc, prefix) => {
     const result = { ...doc };
     Object.keys(result.paths).forEach(
         path => {
             result.paths[`${prefix}${path}`] = { ...result.paths[path] };
             delete result.paths[path]
+        }
+    )
+    return result;
+}
+
+/**
+ * Expand BasicResponse discriminators into explicit type
+ * @param {any} doc 
+ */
+const expandBasicResponses = (doc) => {
+    const result = { ...doc }
+    Object.keys(result.paths).forEach(
+        path => {
+            const pathRef = result.paths[path];
+            Object.keys(pathRef).forEach(
+                method => {
+                    const methodRef = pathRef[method];
+                    Object.keys(methodRef.responses).forEach(
+                        status => {
+                            const statusRef = methodRef.responses[status];
+                            const schemaRef = statusRef['content']['application/json']['schema'];
+                            
+                            if ('allOf' in schemaRef &&
+                                '$ref' in schemaRef['allOf'][0] &&
+                                schemaRef['allOf'][0]["$ref"] === '#/components/schemas/BasicResponse') {
+                                const newSchema = "Resp" + methodRef.operationId.split('_').reduce(
+                                    (accumulator, current) => {
+                                        return accumulator.charAt(0).toUpperCase() 
+                                            + accumulator.slice(1) 
+                                            + current.charAt(0).toUpperCase() 
+                                            + current.slice(1);
+                                    }
+                                )
+                                result.components.schemas[newSchema] = JSON.parse(JSON.stringify(result.components.schemas.BasicResponse))
+                                result.components.schemas[newSchema].properties = {
+                                    ...result.components.schemas[newSchema].properties,
+                                    ...schemaRef.properties
+                                }
+                                statusRef['content']['application/json']['schema'] = {
+                                    "$ref": `#/components/schemas/${newSchema}`
+                                }
+                            }
+                            
+                        }
+                    )
+                }
+            )
         }
     )
     return result;
@@ -113,3 +164,4 @@ module.exports.read = read;
 module.exports.write = write;
 module.exports.renameSchema = renameSchema;
 module.exports.prependPaths = prependPaths;
+module.exports.expandBasicResponses = expandBasicResponses;

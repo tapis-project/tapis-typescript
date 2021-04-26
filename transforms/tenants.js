@@ -6,6 +6,8 @@ try {
   // Remove extra tags (such as LDAP) from the /v3/tenants endpoints
   let transformed = utils.setTag(doc, '/v3/tenants', 'Tenants');
 
+  transformed = utils.expandBasicResponses(transformed);
+  
   // Rename schemas
   const schemas = {
     NewLDAP: 'ReqCreateLdap',
@@ -18,6 +20,7 @@ try {
       transformed = utils.renameSchema(transformed, oldSchema, newSchema);
     }
   )
+
 
   utils.write(transformed, 'tenants');
 } catch (e) {
