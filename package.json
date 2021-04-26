@@ -9,7 +9,8 @@
     "build-services": "./build-services.sh",
     "test": "env TS_NODE_COMPILER_OPTIONS='{\"module\": \"commonjs\" }' mocha -r ts-node/register 'tests/**/*.ts'",
     "systems": "./generate.sh systems",
-    "tenants": "./generate.sh tenants"
+    "tenants": "./generate.sh tenants",
+    "e2e": "env TS_NODE_COMPILER_OPTIONS='{\"module\": \"commonjs\" }' mocha -r ts-node/register 'e2e/**/*.ts'"
   },
   "repository": {
     "type": "git",
@@ -40,6 +41,8 @@
     "@types/chai": "^4.2.16",
     "@types/jest": "^26.0.22",
     "chai": "^4.3.4",
+    "cross-fetch": "^3.1.4",
+    "dotenv": "^8.2.0",
     "js-yaml": "^4.0.0",
     "mocha": "^8.3.2",
     "ts-node": "^9.1.1",
