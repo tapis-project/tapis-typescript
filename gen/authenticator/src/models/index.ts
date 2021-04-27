@@ -1,5 +1,7 @@
 export * from './BasicResponse';
 export * from './Client';
+export * from './NewAccessTokenResponse';
+export * from './NewTokenResponse';
 export * from './Profile';
 export * from './ReqCreateClient';
 export * from './ReqCreateToken';
@@ -10,4 +12,3 @@ export * from './RespGetClient';
 export * from './RespGetProfile';
 export * from './RespListClients';
 export * from './RespListProfiles';
-export * from './Token';

@@ -10,6 +10,8 @@ src/apis/index.ts
 src/index.ts
 src/models/BasicResponse.ts
 src/models/Client.ts
+src/models/NewAccessTokenResponse.ts
+src/models/NewTokenResponse.ts
 src/models/Profile.ts
 src/models/ReqCreateClient.ts
 src/models/ReqCreateToken.ts
@@ -20,7 +22,6 @@ src/models/RespGetClient.ts
 src/models/RespGetProfile.ts
 src/models/RespListClients.ts
 src/models/RespListProfiles.ts
-src/models/Token.ts
 src/models/index.ts
 src/runtime.ts
 tsconfig.json

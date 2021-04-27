@@ -14,10 +14,10 @@
 
 import { exists, mapValues } from '../runtime';
 import {
-    Token,
-    TokenFromJSON,
-    TokenFromJSONTyped,
-    TokenToJSON,
+    NewTokenResponse,
+    NewTokenResponseFromJSON,
+    NewTokenResponseFromJSONTyped,
+    NewTokenResponseToJSON,
 } from './';
 
 /**
@@ -46,10 +46,10 @@ export interface RespCreateToken {
     status?: RespCreateTokenStatusEnum;
     /**
      * 
-     * @type {Token}
+     * @type {NewTokenResponse}
      * @memberof RespCreateToken
      */
-    result?: Token;
+    result?: NewTokenResponse;
 }
 
 /**
@@ -74,7 +74,7 @@ export function RespCreateTokenFromJSONTyped(json: any, ignoreDiscriminator: boo
         'version': !exists(json, 'version') ? undefined : json['version'],
         'message': !exists(json, 'message') ? undefined : json['message'],
         'status': !exists(json, 'status') ? undefined : json['status'],
-        'result': !exists(json, 'result') ? undefined : TokenFromJSON(json['result']),
+        'result': !exists(json, 'result') ? undefined : NewTokenResponseFromJSON(json['result']),
     };
 }
 
@@ -90,7 +90,7 @@ export function RespCreateTokenToJSON(value?: RespCreateToken | null): any {
         'version': value.version,
         'message': value.message,
         'status': value.status,
-        'result': TokenToJSON(value.result),
+        'result': NewTokenResponseToJSON(value.result),
     };
 }
 
