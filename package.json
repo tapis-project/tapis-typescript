@@ -6,10 +6,9 @@
   "typings": "./dist/index.d.ts",
   "scripts": {
     "build": "tsc",
+    "generate": "./generate_all.sh",
     "build-services": "./build-services.sh",
     "test": "env TS_NODE_COMPILER_OPTIONS='{\"module\": \"commonjs\" }' mocha -r ts-node/register 'tests/**/*.ts'",
-    "systems": "./generate.sh systems",
-    "tenants": "./generate.sh tenants",
     "e2e": "env TS_NODE_COMPILER_OPTIONS='{\"module\": \"commonjs\" }' mocha -r ts-node/register 'e2e/**/*.ts'"
   },
   "repository": {
