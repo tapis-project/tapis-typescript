@@ -23,31 +23,31 @@ import {
 /**
  * 
  * @export
- * @interface ResplistAliases
+ * @interface RespListAliases
  */
-export interface ResplistAliases {
+export interface RespListAliases {
     /**
      * Version of the API
      * @type {string}
-     * @memberof ResplistAliases
+     * @memberof RespListAliases
      */
     version?: string;
     /**
      * Brief description of the response
      * @type {string}
-     * @memberof ResplistAliases
+     * @memberof RespListAliases
      */
     message?: string;
     /**
      * Whether the request was a success or failure.
      * @type {string}
-     * @memberof ResplistAliases
+     * @memberof RespListAliases
      */
-    status?: ResplistAliasesStatusEnum;
+    status?: RespListAliasesStatusEnum;
     /**
      * 
      * @type {Array<Alias>}
-     * @memberof ResplistAliases
+     * @memberof RespListAliases
      */
     result?: Array<Alias>;
 }
@@ -56,16 +56,16 @@ export interface ResplistAliases {
 * @export
 * @enum {string}
 */
-export enum ResplistAliasesStatusEnum {
+export enum RespListAliasesStatusEnum {
     Success = 'success',
     Failure = 'failure'
 }
 
-export function ResplistAliasesFromJSON(json: any): ResplistAliases {
-    return ResplistAliasesFromJSONTyped(json, false);
+export function RespListAliasesFromJSON(json: any): RespListAliases {
+    return RespListAliasesFromJSONTyped(json, false);
 }
 
-export function ResplistAliasesFromJSONTyped(json: any, ignoreDiscriminator: boolean): ResplistAliases {
+export function RespListAliasesFromJSONTyped(json: any, ignoreDiscriminator: boolean): RespListAliases {
     if ((json === undefined) || (json === null)) {
         return json;
     }
@@ -78,7 +78,7 @@ export function ResplistAliasesFromJSONTyped(json: any, ignoreDiscriminator: boo
     };
 }
 
-export function ResplistAliasesToJSON(value?: ResplistAliases | null): any {
+export function RespListAliasesToJSON(value?: RespListAliases | null): any {
     if (value === undefined) {
         return undefined;
     }

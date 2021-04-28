@@ -23,31 +23,31 @@ import {
 /**
  * 
  * @export
- * @interface RespsendBinaryMessage
+ * @interface RespSendBinaryMessage
  */
-export interface RespsendBinaryMessage {
+export interface RespSendBinaryMessage {
     /**
      * Version of the API
      * @type {string}
-     * @memberof RespsendBinaryMessage
+     * @memberof RespSendBinaryMessage
      */
     version?: string;
     /**
      * Brief description of the response
      * @type {string}
-     * @memberof RespsendBinaryMessage
+     * @memberof RespSendBinaryMessage
      */
     message?: string;
     /**
      * Whether the request was a success or failure.
      * @type {string}
-     * @memberof RespsendBinaryMessage
+     * @memberof RespSendBinaryMessage
      */
-    status?: RespsendBinaryMessageStatusEnum;
+    status?: RespSendBinaryMessageStatusEnum;
     /**
      * 
      * @type {MessageJsonResponse}
-     * @memberof RespsendBinaryMessage
+     * @memberof RespSendBinaryMessage
      */
     result?: MessageJsonResponse;
 }
@@ -56,16 +56,16 @@ export interface RespsendBinaryMessage {
 * @export
 * @enum {string}
 */
-export enum RespsendBinaryMessageStatusEnum {
+export enum RespSendBinaryMessageStatusEnum {
     Success = 'success',
     Failure = 'failure'
 }
 
-export function RespsendBinaryMessageFromJSON(json: any): RespsendBinaryMessage {
-    return RespsendBinaryMessageFromJSONTyped(json, false);
+export function RespSendBinaryMessageFromJSON(json: any): RespSendBinaryMessage {
+    return RespSendBinaryMessageFromJSONTyped(json, false);
 }
 
-export function RespsendBinaryMessageFromJSONTyped(json: any, ignoreDiscriminator: boolean): RespsendBinaryMessage {
+export function RespSendBinaryMessageFromJSONTyped(json: any, ignoreDiscriminator: boolean): RespSendBinaryMessage {
     if ((json === undefined) || (json === null)) {
         return json;
     }
@@ -78,7 +78,7 @@ export function RespsendBinaryMessageFromJSONTyped(json: any, ignoreDiscriminato
     };
 }
 
-export function RespsendBinaryMessageToJSON(value?: RespsendBinaryMessage | null): any {
+export function RespSendBinaryMessageToJSON(value?: RespSendBinaryMessage | null): any {
     if (value === undefined) {
         return undefined;
     }

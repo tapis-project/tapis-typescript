@@ -23,31 +23,31 @@ import {
 /**
  * 
  * @export
- * @interface RespgetExecutionLogs
+ * @interface RespGetExecutionLogs
  */
-export interface RespgetExecutionLogs {
+export interface RespGetExecutionLogs {
     /**
      * Version of the API
      * @type {string}
-     * @memberof RespgetExecutionLogs
+     * @memberof RespGetExecutionLogs
      */
     version?: string;
     /**
      * Brief description of the response
      * @type {string}
-     * @memberof RespgetExecutionLogs
+     * @memberof RespGetExecutionLogs
      */
     message?: string;
     /**
      * Whether the request was a success or failure.
      * @type {string}
-     * @memberof RespgetExecutionLogs
+     * @memberof RespGetExecutionLogs
      */
-    status?: RespgetExecutionLogsStatusEnum;
+    status?: RespGetExecutionLogsStatusEnum;
     /**
      * 
      * @type {ActorExecutionLogs}
-     * @memberof RespgetExecutionLogs
+     * @memberof RespGetExecutionLogs
      */
     result?: ActorExecutionLogs;
 }
@@ -56,16 +56,16 @@ export interface RespgetExecutionLogs {
 * @export
 * @enum {string}
 */
-export enum RespgetExecutionLogsStatusEnum {
+export enum RespGetExecutionLogsStatusEnum {
     Success = 'success',
     Failure = 'failure'
 }
 
-export function RespgetExecutionLogsFromJSON(json: any): RespgetExecutionLogs {
-    return RespgetExecutionLogsFromJSONTyped(json, false);
+export function RespGetExecutionLogsFromJSON(json: any): RespGetExecutionLogs {
+    return RespGetExecutionLogsFromJSONTyped(json, false);
 }
 
-export function RespgetExecutionLogsFromJSONTyped(json: any, ignoreDiscriminator: boolean): RespgetExecutionLogs {
+export function RespGetExecutionLogsFromJSONTyped(json: any, ignoreDiscriminator: boolean): RespGetExecutionLogs {
     if ((json === undefined) || (json === null)) {
         return json;
     }
@@ -78,7 +78,7 @@ export function RespgetExecutionLogsFromJSONTyped(json: any, ignoreDiscriminator
     };
 }
 
-export function RespgetExecutionLogsToJSON(value?: RespgetExecutionLogs | null): any {
+export function RespGetExecutionLogsToJSON(value?: RespGetExecutionLogs | null): any {
     if (value === undefined) {
         return undefined;
     }

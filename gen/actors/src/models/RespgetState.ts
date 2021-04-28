@@ -16,31 +16,31 @@ import { exists, mapValues } from '../runtime';
 /**
  * 
  * @export
- * @interface RespgetState
+ * @interface RespGetState
  */
-export interface RespgetState {
+export interface RespGetState {
     /**
      * Version of the API
      * @type {string}
-     * @memberof RespgetState
+     * @memberof RespGetState
      */
     version?: string;
     /**
      * Brief description of the response
      * @type {string}
-     * @memberof RespgetState
+     * @memberof RespGetState
      */
     message?: string;
     /**
      * Whether the request was a success or failure.
      * @type {string}
-     * @memberof RespgetState
+     * @memberof RespGetState
      */
-    status?: RespgetStateStatusEnum;
+    status?: RespGetStateStatusEnum;
     /**
      * An arbitrary JSON-serializable object.
      * @type {object}
-     * @memberof RespgetState
+     * @memberof RespGetState
      */
     result?: object;
 }
@@ -49,16 +49,16 @@ export interface RespgetState {
 * @export
 * @enum {string}
 */
-export enum RespgetStateStatusEnum {
+export enum RespGetStateStatusEnum {
     Success = 'success',
     Failure = 'failure'
 }
 
-export function RespgetStateFromJSON(json: any): RespgetState {
-    return RespgetStateFromJSONTyped(json, false);
+export function RespGetStateFromJSON(json: any): RespGetState {
+    return RespGetStateFromJSONTyped(json, false);
 }
 
-export function RespgetStateFromJSONTyped(json: any, ignoreDiscriminator: boolean): RespgetState {
+export function RespGetStateFromJSONTyped(json: any, ignoreDiscriminator: boolean): RespGetState {
     if ((json === undefined) || (json === null)) {
         return json;
     }
@@ -71,7 +71,7 @@ export function RespgetStateFromJSONTyped(json: any, ignoreDiscriminator: boolea
     };
 }
 
-export function RespgetStateToJSON(value?: RespgetState | null): any {
+export function RespGetStateToJSON(value?: RespGetState | null): any {
     if (value === undefined) {
         return undefined;
     }

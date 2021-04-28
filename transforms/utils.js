@@ -109,14 +109,14 @@ const expandBasicResponses = (doc) => {
                             if ('allOf' in schemaRef &&
                                 '$ref' in schemaRef['allOf'][0] &&
                                 schemaRef['allOf'][0]["$ref"] === '#/components/schemas/BasicResponse') {
-                                const newSchema = "Resp" + methodRef.operationId.split('_').reduce(
+                                const spliced = methodRef.operationId.split('_').reduce(
                                     (accumulator, current) => {
-                                        return accumulator.charAt(0).toUpperCase() 
-                                            + accumulator.slice(1) 
+                                        return accumulator
                                             + current.charAt(0).toUpperCase() 
                                             + current.slice(1);
                                     }
                                 )
+                                const newSchema = "Resp" + spliced.charAt(0).toUpperCase() + spliced.slice(1);
                                 result.components.schemas[newSchema] = JSON.parse(JSON.stringify(result.components.schemas.BasicResponse))
                                 result.components.schemas[newSchema].properties = {
                                     ...result.components.schemas[newSchema].properties,

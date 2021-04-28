@@ -23,31 +23,31 @@ import {
 /**
  * 
  * @export
- * @interface RespcreateActor
+ * @interface RespCreateActor
  */
-export interface RespcreateActor {
+export interface RespCreateActor {
     /**
      * Version of the API
      * @type {string}
-     * @memberof RespcreateActor
+     * @memberof RespCreateActor
      */
     version?: string;
     /**
      * Brief description of the response
      * @type {string}
-     * @memberof RespcreateActor
+     * @memberof RespCreateActor
      */
     message?: string;
     /**
      * Whether the request was a success or failure.
      * @type {string}
-     * @memberof RespcreateActor
+     * @memberof RespCreateActor
      */
-    status?: RespcreateActorStatusEnum;
+    status?: RespCreateActorStatusEnum;
     /**
      * 
      * @type {Actor}
-     * @memberof RespcreateActor
+     * @memberof RespCreateActor
      */
     result?: Actor;
 }
@@ -56,16 +56,16 @@ export interface RespcreateActor {
 * @export
 * @enum {string}
 */
-export enum RespcreateActorStatusEnum {
+export enum RespCreateActorStatusEnum {
     Success = 'success',
     Failure = 'failure'
 }
 
-export function RespcreateActorFromJSON(json: any): RespcreateActor {
-    return RespcreateActorFromJSONTyped(json, false);
+export function RespCreateActorFromJSON(json: any): RespCreateActor {
+    return RespCreateActorFromJSONTyped(json, false);
 }
 
-export function RespcreateActorFromJSONTyped(json: any, ignoreDiscriminator: boolean): RespcreateActor {
+export function RespCreateActorFromJSONTyped(json: any, ignoreDiscriminator: boolean): RespCreateActor {
     if ((json === undefined) || (json === null)) {
         return json;
     }
@@ -78,7 +78,7 @@ export function RespcreateActorFromJSONTyped(json: any, ignoreDiscriminator: boo
     };
 }
 
-export function RespcreateActorToJSON(value?: RespcreateActor | null): any {
+export function RespCreateActorToJSON(value?: RespCreateActor | null): any {
     if (value === undefined) {
         return undefined;
     }

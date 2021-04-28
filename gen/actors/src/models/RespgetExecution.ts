@@ -23,31 +23,31 @@ import {
 /**
  * 
  * @export
- * @interface RespgetExecution
+ * @interface RespGetExecution
  */
-export interface RespgetExecution {
+export interface RespGetExecution {
     /**
      * Version of the API
      * @type {string}
-     * @memberof RespgetExecution
+     * @memberof RespGetExecution
      */
     version?: string;
     /**
      * Brief description of the response
      * @type {string}
-     * @memberof RespgetExecution
+     * @memberof RespGetExecution
      */
     message?: string;
     /**
      * Whether the request was a success or failure.
      * @type {string}
-     * @memberof RespgetExecution
+     * @memberof RespGetExecution
      */
-    status?: RespgetExecutionStatusEnum;
+    status?: RespGetExecutionStatusEnum;
     /**
      * 
      * @type {ActorExecution}
-     * @memberof RespgetExecution
+     * @memberof RespGetExecution
      */
     result?: ActorExecution;
 }
@@ -56,16 +56,16 @@ export interface RespgetExecution {
 * @export
 * @enum {string}
 */
-export enum RespgetExecutionStatusEnum {
+export enum RespGetExecutionStatusEnum {
     Success = 'success',
     Failure = 'failure'
 }
 
-export function RespgetExecutionFromJSON(json: any): RespgetExecution {
-    return RespgetExecutionFromJSONTyped(json, false);
+export function RespGetExecutionFromJSON(json: any): RespGetExecution {
+    return RespGetExecutionFromJSONTyped(json, false);
 }
 
-export function RespgetExecutionFromJSONTyped(json: any, ignoreDiscriminator: boolean): RespgetExecution {
+export function RespGetExecutionFromJSONTyped(json: any, ignoreDiscriminator: boolean): RespGetExecution {
     if ((json === undefined) || (json === null)) {
         return json;
     }
@@ -78,7 +78,7 @@ export function RespgetExecutionFromJSONTyped(json: any, ignoreDiscriminator: bo
     };
 }
 
-export function RespgetExecutionToJSON(value?: RespgetExecution | null): any {
+export function RespGetExecutionToJSON(value?: RespGetExecution | null): any {
     if (value === undefined) {
         return undefined;
     }

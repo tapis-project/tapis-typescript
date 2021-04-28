@@ -16,31 +16,31 @@ import { exists, mapValues } from '../runtime';
 /**
  * 
  * @export
- * @interface RespupdatePermissions
+ * @interface RespUpdatePermissions
  */
-export interface RespupdatePermissions {
+export interface RespUpdatePermissions {
     /**
      * Version of the API
      * @type {string}
-     * @memberof RespupdatePermissions
+     * @memberof RespUpdatePermissions
      */
     version?: string;
     /**
      * Brief description of the response
      * @type {string}
-     * @memberof RespupdatePermissions
+     * @memberof RespUpdatePermissions
      */
     message?: string;
     /**
      * Whether the request was a success or failure.
      * @type {string}
-     * @memberof RespupdatePermissions
+     * @memberof RespUpdatePermissions
      */
-    status?: RespupdatePermissionsStatusEnum;
+    status?: RespUpdatePermissionsStatusEnum;
     /**
      * Key-value pairs where the key is the username and the value is the permission level.
      * @type {object}
-     * @memberof RespupdatePermissions
+     * @memberof RespUpdatePermissions
      */
     result?: object;
 }
@@ -49,16 +49,16 @@ export interface RespupdatePermissions {
 * @export
 * @enum {string}
 */
-export enum RespupdatePermissionsStatusEnum {
+export enum RespUpdatePermissionsStatusEnum {
     Success = 'success',
     Failure = 'failure'
 }
 
-export function RespupdatePermissionsFromJSON(json: any): RespupdatePermissions {
-    return RespupdatePermissionsFromJSONTyped(json, false);
+export function RespUpdatePermissionsFromJSON(json: any): RespUpdatePermissions {
+    return RespUpdatePermissionsFromJSONTyped(json, false);
 }
 
-export function RespupdatePermissionsFromJSONTyped(json: any, ignoreDiscriminator: boolean): RespupdatePermissions {
+export function RespUpdatePermissionsFromJSONTyped(json: any, ignoreDiscriminator: boolean): RespUpdatePermissions {
     if ((json === undefined) || (json === null)) {
         return json;
     }
@@ -71,7 +71,7 @@ export function RespupdatePermissionsFromJSONTyped(json: any, ignoreDiscriminato
     };
 }
 
-export function RespupdatePermissionsToJSON(value?: RespupdatePermissions | null): any {
+export function RespUpdatePermissionsToJSON(value?: RespUpdatePermissions | null): any {
     if (value === undefined) {
         return undefined;
     }

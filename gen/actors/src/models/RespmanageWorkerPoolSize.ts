@@ -23,31 +23,31 @@ import {
 /**
  * 
  * @export
- * @interface RespmanageWorkerPoolSize
+ * @interface RespManageWorkerPoolSize
  */
-export interface RespmanageWorkerPoolSize {
+export interface RespManageWorkerPoolSize {
     /**
      * Version of the API
      * @type {string}
-     * @memberof RespmanageWorkerPoolSize
+     * @memberof RespManageWorkerPoolSize
      */
     version?: string;
     /**
      * Brief description of the response
      * @type {string}
-     * @memberof RespmanageWorkerPoolSize
+     * @memberof RespManageWorkerPoolSize
      */
     message?: string;
     /**
      * Whether the request was a success or failure.
      * @type {string}
-     * @memberof RespmanageWorkerPoolSize
+     * @memberof RespManageWorkerPoolSize
      */
-    status?: RespmanageWorkerPoolSizeStatusEnum;
+    status?: RespManageWorkerPoolSizeStatusEnum;
     /**
      * 
      * @type {MessageJsonResponse}
-     * @memberof RespmanageWorkerPoolSize
+     * @memberof RespManageWorkerPoolSize
      */
     result?: MessageJsonResponse;
 }
@@ -56,16 +56,16 @@ export interface RespmanageWorkerPoolSize {
 * @export
 * @enum {string}
 */
-export enum RespmanageWorkerPoolSizeStatusEnum {
+export enum RespManageWorkerPoolSizeStatusEnum {
     Success = 'success',
     Failure = 'failure'
 }
 
-export function RespmanageWorkerPoolSizeFromJSON(json: any): RespmanageWorkerPoolSize {
-    return RespmanageWorkerPoolSizeFromJSONTyped(json, false);
+export function RespManageWorkerPoolSizeFromJSON(json: any): RespManageWorkerPoolSize {
+    return RespManageWorkerPoolSizeFromJSONTyped(json, false);
 }
 
-export function RespmanageWorkerPoolSizeFromJSONTyped(json: any, ignoreDiscriminator: boolean): RespmanageWorkerPoolSize {
+export function RespManageWorkerPoolSizeFromJSONTyped(json: any, ignoreDiscriminator: boolean): RespManageWorkerPoolSize {
     if ((json === undefined) || (json === null)) {
         return json;
     }
@@ -78,7 +78,7 @@ export function RespmanageWorkerPoolSizeFromJSONTyped(json: any, ignoreDiscrimin
     };
 }
 
-export function RespmanageWorkerPoolSizeToJSON(value?: RespmanageWorkerPoolSize | null): any {
+export function RespManageWorkerPoolSizeToJSON(value?: RespManageWorkerPoolSize | null): any {
     if (value === undefined) {
         return undefined;
     }

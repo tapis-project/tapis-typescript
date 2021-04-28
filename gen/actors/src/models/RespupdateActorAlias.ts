@@ -23,31 +23,31 @@ import {
 /**
  * 
  * @export
- * @interface RespupdateActorAlias
+ * @interface RespUpdateActorAlias
  */
-export interface RespupdateActorAlias {
+export interface RespUpdateActorAlias {
     /**
      * Version of the API
      * @type {string}
-     * @memberof RespupdateActorAlias
+     * @memberof RespUpdateActorAlias
      */
     version?: string;
     /**
      * Brief description of the response
      * @type {string}
-     * @memberof RespupdateActorAlias
+     * @memberof RespUpdateActorAlias
      */
     message?: string;
     /**
      * Whether the request was a success or failure.
      * @type {string}
-     * @memberof RespupdateActorAlias
+     * @memberof RespUpdateActorAlias
      */
-    status?: RespupdateActorAliasStatusEnum;
+    status?: RespUpdateActorAliasStatusEnum;
     /**
      * 
      * @type {Alias}
-     * @memberof RespupdateActorAlias
+     * @memberof RespUpdateActorAlias
      */
     result?: Alias;
 }
@@ -56,16 +56,16 @@ export interface RespupdateActorAlias {
 * @export
 * @enum {string}
 */
-export enum RespupdateActorAliasStatusEnum {
+export enum RespUpdateActorAliasStatusEnum {
     Success = 'success',
     Failure = 'failure'
 }
 
-export function RespupdateActorAliasFromJSON(json: any): RespupdateActorAlias {
-    return RespupdateActorAliasFromJSONTyped(json, false);
+export function RespUpdateActorAliasFromJSON(json: any): RespUpdateActorAlias {
+    return RespUpdateActorAliasFromJSONTyped(json, false);
 }
 
-export function RespupdateActorAliasFromJSONTyped(json: any, ignoreDiscriminator: boolean): RespupdateActorAlias {
+export function RespUpdateActorAliasFromJSONTyped(json: any, ignoreDiscriminator: boolean): RespUpdateActorAlias {
     if ((json === undefined) || (json === null)) {
         return json;
     }
@@ -78,7 +78,7 @@ export function RespupdateActorAliasFromJSONTyped(json: any, ignoreDiscriminator
     };
 }
 
-export function RespupdateActorAliasToJSON(value?: RespupdateActorAlias | null): any {
+export function RespUpdateActorAliasToJSON(value?: RespUpdateActorAlias | null): any {
     if (value === undefined) {
         return undefined;
     }

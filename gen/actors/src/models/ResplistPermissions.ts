@@ -16,31 +16,31 @@ import { exists, mapValues } from '../runtime';
 /**
  * 
  * @export
- * @interface ResplistPermissions
+ * @interface RespListPermissions
  */
-export interface ResplistPermissions {
+export interface RespListPermissions {
     /**
      * Version of the API
      * @type {string}
-     * @memberof ResplistPermissions
+     * @memberof RespListPermissions
      */
     version?: string;
     /**
      * Brief description of the response
      * @type {string}
-     * @memberof ResplistPermissions
+     * @memberof RespListPermissions
      */
     message?: string;
     /**
      * Whether the request was a success or failure.
      * @type {string}
-     * @memberof ResplistPermissions
+     * @memberof RespListPermissions
      */
-    status?: ResplistPermissionsStatusEnum;
+    status?: RespListPermissionsStatusEnum;
     /**
      * Key-value pairs where the key is the username and the value is the permission level.
      * @type {object}
-     * @memberof ResplistPermissions
+     * @memberof RespListPermissions
      */
     result?: object;
 }
@@ -49,16 +49,16 @@ export interface ResplistPermissions {
 * @export
 * @enum {string}
 */
-export enum ResplistPermissionsStatusEnum {
+export enum RespListPermissionsStatusEnum {
     Success = 'success',
     Failure = 'failure'
 }
 
-export function ResplistPermissionsFromJSON(json: any): ResplistPermissions {
-    return ResplistPermissionsFromJSONTyped(json, false);
+export function RespListPermissionsFromJSON(json: any): RespListPermissions {
+    return RespListPermissionsFromJSONTyped(json, false);
 }
 
-export function ResplistPermissionsFromJSONTyped(json: any, ignoreDiscriminator: boolean): ResplistPermissions {
+export function RespListPermissionsFromJSONTyped(json: any, ignoreDiscriminator: boolean): RespListPermissions {
     if ((json === undefined) || (json === null)) {
         return json;
     }
@@ -71,7 +71,7 @@ export function ResplistPermissionsFromJSONTyped(json: any, ignoreDiscriminator:
     };
 }
 
-export function ResplistPermissionsToJSON(value?: ResplistPermissions | null): any {
+export function RespListPermissionsToJSON(value?: RespListPermissions | null): any {
     if (value === undefined) {
         return undefined;
     }

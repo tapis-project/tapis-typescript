@@ -23,31 +23,31 @@ import {
 /**
  * 
  * @export
- * @interface RespupdateState
+ * @interface RespUpdateState
  */
-export interface RespupdateState {
+export interface RespUpdateState {
     /**
      * Version of the API
      * @type {string}
-     * @memberof RespupdateState
+     * @memberof RespUpdateState
      */
     version?: string;
     /**
      * Brief description of the response
      * @type {string}
-     * @memberof RespupdateState
+     * @memberof RespUpdateState
      */
     message?: string;
     /**
      * Whether the request was a success or failure.
      * @type {string}
-     * @memberof RespupdateState
+     * @memberof RespUpdateState
      */
-    status?: RespupdateStateStatusEnum;
+    status?: RespUpdateStateStatusEnum;
     /**
      * 
      * @type {Array<ActorNonce>}
-     * @memberof RespupdateState
+     * @memberof RespUpdateState
      */
     result?: Array<ActorNonce>;
 }
@@ -56,16 +56,16 @@ export interface RespupdateState {
 * @export
 * @enum {string}
 */
-export enum RespupdateStateStatusEnum {
+export enum RespUpdateStateStatusEnum {
     Success = 'success',
     Failure = 'failure'
 }
 
-export function RespupdateStateFromJSON(json: any): RespupdateState {
-    return RespupdateStateFromJSONTyped(json, false);
+export function RespUpdateStateFromJSON(json: any): RespUpdateState {
+    return RespUpdateStateFromJSONTyped(json, false);
 }
 
-export function RespupdateStateFromJSONTyped(json: any, ignoreDiscriminator: boolean): RespupdateState {
+export function RespUpdateStateFromJSONTyped(json: any, ignoreDiscriminator: boolean): RespUpdateState {
     if ((json === undefined) || (json === null)) {
         return json;
     }
@@ -78,7 +78,7 @@ export function RespupdateStateFromJSONTyped(json: any, ignoreDiscriminator: boo
     };
 }
 
-export function RespupdateStateToJSON(value?: RespupdateState | null): any {
+export function RespUpdateStateToJSON(value?: RespUpdateState | null): any {
     if (value === undefined) {
         return undefined;
     }

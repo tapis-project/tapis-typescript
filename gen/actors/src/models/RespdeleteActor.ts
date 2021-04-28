@@ -16,55 +16,55 @@ import { exists, mapValues } from '../runtime';
 /**
  * 
  * @export
- * @interface RespdeleteActor
+ * @interface RespDeleteActor
  */
-export interface RespdeleteActor {
+export interface RespDeleteActor {
     /**
      * Version of the API
      * @type {string}
-     * @memberof RespdeleteActor
+     * @memberof RespDeleteActor
      */
     version?: string;
     /**
      * Brief description of the response
      * @type {string}
-     * @memberof RespdeleteActor
+     * @memberof RespDeleteActor
      */
     message?: string;
     /**
      * Whether the request was a success or failure.
      * @type {string}
-     * @memberof RespdeleteActor
+     * @memberof RespDeleteActor
      */
-    status?: RespdeleteActorStatusEnum;
+    status?: RespDeleteActorStatusEnum;
     /**
      * 
      * @type {string}
-     * @memberof RespdeleteActor
+     * @memberof RespDeleteActor
      */
-    result?: RespdeleteActorResultEnum;
+    result?: RespDeleteActorResultEnum;
 }
 
 /**
 * @export
 * @enum {string}
 */
-export enum RespdeleteActorStatusEnum {
+export enum RespDeleteActorStatusEnum {
     Success = 'success',
     Failure = 'failure'
 }/**
 * @export
 * @enum {string}
 */
-export enum RespdeleteActorResultEnum {
+export enum RespDeleteActorResultEnum {
     Null = 'null'
 }
 
-export function RespdeleteActorFromJSON(json: any): RespdeleteActor {
-    return RespdeleteActorFromJSONTyped(json, false);
+export function RespDeleteActorFromJSON(json: any): RespDeleteActor {
+    return RespDeleteActorFromJSONTyped(json, false);
 }
 
-export function RespdeleteActorFromJSONTyped(json: any, ignoreDiscriminator: boolean): RespdeleteActor {
+export function RespDeleteActorFromJSONTyped(json: any, ignoreDiscriminator: boolean): RespDeleteActor {
     if ((json === undefined) || (json === null)) {
         return json;
     }
@@ -77,7 +77,7 @@ export function RespdeleteActorFromJSONTyped(json: any, ignoreDiscriminator: boo
     };
 }
 
-export function RespdeleteActorToJSON(value?: RespdeleteActor | null): any {
+export function RespDeleteActorToJSON(value?: RespDeleteActor | null): any {
     if (value === undefined) {
         return undefined;
     }

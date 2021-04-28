@@ -23,31 +23,31 @@ import {
 /**
  * 
  * @export
- * @interface ResplistExecutions
+ * @interface RespListExecutions
  */
-export interface ResplistExecutions {
+export interface RespListExecutions {
     /**
      * Version of the API
      * @type {string}
-     * @memberof ResplistExecutions
+     * @memberof RespListExecutions
      */
     version?: string;
     /**
      * Brief description of the response
      * @type {string}
-     * @memberof ResplistExecutions
+     * @memberof RespListExecutions
      */
     message?: string;
     /**
      * Whether the request was a success or failure.
      * @type {string}
-     * @memberof ResplistExecutions
+     * @memberof RespListExecutions
      */
-    status?: ResplistExecutionsStatusEnum;
+    status?: RespListExecutionsStatusEnum;
     /**
      * 
      * @type {ActorExecutionSummaries}
-     * @memberof ResplistExecutions
+     * @memberof RespListExecutions
      */
     result?: ActorExecutionSummaries;
 }
@@ -56,16 +56,16 @@ export interface ResplistExecutions {
 * @export
 * @enum {string}
 */
-export enum ResplistExecutionsStatusEnum {
+export enum RespListExecutionsStatusEnum {
     Success = 'success',
     Failure = 'failure'
 }
 
-export function ResplistExecutionsFromJSON(json: any): ResplistExecutions {
-    return ResplistExecutionsFromJSONTyped(json, false);
+export function RespListExecutionsFromJSON(json: any): RespListExecutions {
+    return RespListExecutionsFromJSONTyped(json, false);
 }
 
-export function ResplistExecutionsFromJSONTyped(json: any, ignoreDiscriminator: boolean): ResplistExecutions {
+export function RespListExecutionsFromJSONTyped(json: any, ignoreDiscriminator: boolean): RespListExecutions {
     if ((json === undefined) || (json === null)) {
         return json;
     }
@@ -78,7 +78,7 @@ export function ResplistExecutionsFromJSONTyped(json: any, ignoreDiscriminator: 
     };
 }
 
-export function ResplistExecutionsToJSON(value?: ResplistExecutions | null): any {
+export function RespListExecutionsToJSON(value?: RespListExecutions | null): any {
     if (value === undefined) {
         return undefined;
     }

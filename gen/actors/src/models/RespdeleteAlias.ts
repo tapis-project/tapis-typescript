@@ -16,55 +16,55 @@ import { exists, mapValues } from '../runtime';
 /**
  * 
  * @export
- * @interface RespdeleteAlias
+ * @interface RespDeleteAlias
  */
-export interface RespdeleteAlias {
+export interface RespDeleteAlias {
     /**
      * Version of the API
      * @type {string}
-     * @memberof RespdeleteAlias
+     * @memberof RespDeleteAlias
      */
     version?: string;
     /**
      * Brief description of the response
      * @type {string}
-     * @memberof RespdeleteAlias
+     * @memberof RespDeleteAlias
      */
     message?: string;
     /**
      * Whether the request was a success or failure.
      * @type {string}
-     * @memberof RespdeleteAlias
+     * @memberof RespDeleteAlias
      */
-    status?: RespdeleteAliasStatusEnum;
+    status?: RespDeleteAliasStatusEnum;
     /**
      * 
      * @type {string}
-     * @memberof RespdeleteAlias
+     * @memberof RespDeleteAlias
      */
-    result?: RespdeleteAliasResultEnum;
+    result?: RespDeleteAliasResultEnum;
 }
 
 /**
 * @export
 * @enum {string}
 */
-export enum RespdeleteAliasStatusEnum {
+export enum RespDeleteAliasStatusEnum {
     Success = 'success',
     Failure = 'failure'
 }/**
 * @export
 * @enum {string}
 */
-export enum RespdeleteAliasResultEnum {
+export enum RespDeleteAliasResultEnum {
     Null = 'null'
 }
 
-export function RespdeleteAliasFromJSON(json: any): RespdeleteAlias {
-    return RespdeleteAliasFromJSONTyped(json, false);
+export function RespDeleteAliasFromJSON(json: any): RespDeleteAlias {
+    return RespDeleteAliasFromJSONTyped(json, false);
 }
 
-export function RespdeleteAliasFromJSONTyped(json: any, ignoreDiscriminator: boolean): RespdeleteAlias {
+export function RespDeleteAliasFromJSONTyped(json: any, ignoreDiscriminator: boolean): RespDeleteAlias {
     if ((json === undefined) || (json === null)) {
         return json;
     }
@@ -77,7 +77,7 @@ export function RespdeleteAliasFromJSONTyped(json: any, ignoreDiscriminator: boo
     };
 }
 
-export function RespdeleteAliasToJSON(value?: RespdeleteAlias | null): any {
+export function RespDeleteAliasToJSON(value?: RespDeleteAlias | null): any {
     if (value === undefined) {
         return undefined;
     }

@@ -16,43 +16,43 @@ import { exists, mapValues } from '../runtime';
 /**
  * 
  * @export
- * @interface RespsearchDatabase
+ * @interface RespSearchDatabase
  */
-export interface RespsearchDatabase {
+export interface RespSearchDatabase {
     /**
      * Version of the API
      * @type {string}
-     * @memberof RespsearchDatabase
+     * @memberof RespSearchDatabase
      */
     version?: string;
     /**
      * Brief description of the response
      * @type {string}
-     * @memberof RespsearchDatabase
+     * @memberof RespSearchDatabase
      */
     message?: string;
     /**
      * Whether the request was a success or failure.
      * @type {string}
-     * @memberof RespsearchDatabase
+     * @memberof RespSearchDatabase
      */
-    status?: RespsearchDatabaseStatusEnum;
+    status?: RespSearchDatabaseStatusEnum;
 }
 
 /**
 * @export
 * @enum {string}
 */
-export enum RespsearchDatabaseStatusEnum {
+export enum RespSearchDatabaseStatusEnum {
     Success = 'success',
     Failure = 'failure'
 }
 
-export function RespsearchDatabaseFromJSON(json: any): RespsearchDatabase {
-    return RespsearchDatabaseFromJSONTyped(json, false);
+export function RespSearchDatabaseFromJSON(json: any): RespSearchDatabase {
+    return RespSearchDatabaseFromJSONTyped(json, false);
 }
 
-export function RespsearchDatabaseFromJSONTyped(json: any, ignoreDiscriminator: boolean): RespsearchDatabase {
+export function RespSearchDatabaseFromJSONTyped(json: any, ignoreDiscriminator: boolean): RespSearchDatabase {
     if ((json === undefined) || (json === null)) {
         return json;
     }
@@ -64,7 +64,7 @@ export function RespsearchDatabaseFromJSONTyped(json: any, ignoreDiscriminator: 
     };
 }
 
-export function RespsearchDatabaseToJSON(value?: RespsearchDatabase | null): any {
+export function RespSearchDatabaseToJSON(value?: RespSearchDatabase | null): any {
     if (value === undefined) {
         return undefined;
     }

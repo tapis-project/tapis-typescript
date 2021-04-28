@@ -16,31 +16,31 @@ import { exists, mapValues } from '../runtime';
 /**
  * 
  * @export
- * @interface Resphello
+ * @interface RespHello
  */
-export interface Resphello {
+export interface RespHello {
     /**
      * Version of the API
      * @type {string}
-     * @memberof Resphello
+     * @memberof RespHello
      */
     version?: string;
     /**
      * Brief description of the response
      * @type {string}
-     * @memberof Resphello
+     * @memberof RespHello
      */
     message?: string;
     /**
      * Whether the request was a success or failure.
      * @type {string}
-     * @memberof Resphello
+     * @memberof RespHello
      */
-    status?: ResphelloStatusEnum;
+    status?: RespHelloStatusEnum;
     /**
      * 
      * @type {string}
-     * @memberof Resphello
+     * @memberof RespHello
      */
     result?: string;
 }
@@ -49,15 +49,15 @@ export interface Resphello {
 * @export
 * @enum {string}
 */
-export enum ResphelloStatusEnum {
+export enum RespHelloStatusEnum {
     Success = 'success'
 }
 
-export function ResphelloFromJSON(json: any): Resphello {
-    return ResphelloFromJSONTyped(json, false);
+export function RespHelloFromJSON(json: any): RespHello {
+    return RespHelloFromJSONTyped(json, false);
 }
 
-export function ResphelloFromJSONTyped(json: any, ignoreDiscriminator: boolean): Resphello {
+export function RespHelloFromJSONTyped(json: any, ignoreDiscriminator: boolean): RespHello {
     if ((json === undefined) || (json === null)) {
         return json;
     }
@@ -70,7 +70,7 @@ export function ResphelloFromJSONTyped(json: any, ignoreDiscriminator: boolean):
     };
 }
 
-export function ResphelloToJSON(value?: Resphello | null): any {
+export function RespHelloToJSON(value?: RespHello | null): any {
     if (value === undefined) {
         return undefined;
     }

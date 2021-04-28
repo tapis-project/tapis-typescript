@@ -23,31 +23,31 @@ import {
 /**
  * 
  * @export
- * @interface RespgetAlias
+ * @interface RespGetAlias
  */
-export interface RespgetAlias {
+export interface RespGetAlias {
     /**
      * Version of the API
      * @type {string}
-     * @memberof RespgetAlias
+     * @memberof RespGetAlias
      */
     version?: string;
     /**
      * Brief description of the response
      * @type {string}
-     * @memberof RespgetAlias
+     * @memberof RespGetAlias
      */
     message?: string;
     /**
      * Whether the request was a success or failure.
      * @type {string}
-     * @memberof RespgetAlias
+     * @memberof RespGetAlias
      */
-    status?: RespgetAliasStatusEnum;
+    status?: RespGetAliasStatusEnum;
     /**
      * 
      * @type {Alias}
-     * @memberof RespgetAlias
+     * @memberof RespGetAlias
      */
     result?: Alias;
 }
@@ -56,16 +56,16 @@ export interface RespgetAlias {
 * @export
 * @enum {string}
 */
-export enum RespgetAliasStatusEnum {
+export enum RespGetAliasStatusEnum {
     Success = 'success',
     Failure = 'failure'
 }
 
-export function RespgetAliasFromJSON(json: any): RespgetAlias {
-    return RespgetAliasFromJSONTyped(json, false);
+export function RespGetAliasFromJSON(json: any): RespGetAlias {
+    return RespGetAliasFromJSONTyped(json, false);
 }
 
-export function RespgetAliasFromJSONTyped(json: any, ignoreDiscriminator: boolean): RespgetAlias {
+export function RespGetAliasFromJSONTyped(json: any, ignoreDiscriminator: boolean): RespGetAlias {
     if ((json === undefined) || (json === null)) {
         return json;
     }
@@ -78,7 +78,7 @@ export function RespgetAliasFromJSONTyped(json: any, ignoreDiscriminator: boolea
     };
 }
 
-export function RespgetAliasToJSON(value?: RespgetAlias | null): any {
+export function RespGetAliasToJSON(value?: RespGetAlias | null): any {
     if (value === undefined) {
         return undefined;
     }

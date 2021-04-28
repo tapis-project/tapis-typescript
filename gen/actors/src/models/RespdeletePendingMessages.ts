@@ -16,55 +16,55 @@ import { exists, mapValues } from '../runtime';
 /**
  * 
  * @export
- * @interface RespdeletePendingMessages
+ * @interface RespDeletePendingMessages
  */
-export interface RespdeletePendingMessages {
+export interface RespDeletePendingMessages {
     /**
      * Version of the API
      * @type {string}
-     * @memberof RespdeletePendingMessages
+     * @memberof RespDeletePendingMessages
      */
     version?: string;
     /**
      * Brief description of the response
      * @type {string}
-     * @memberof RespdeletePendingMessages
+     * @memberof RespDeletePendingMessages
      */
     message?: string;
     /**
      * Whether the request was a success or failure.
      * @type {string}
-     * @memberof RespdeletePendingMessages
+     * @memberof RespDeletePendingMessages
      */
-    status?: RespdeletePendingMessagesStatusEnum;
+    status?: RespDeletePendingMessagesStatusEnum;
     /**
      * 
      * @type {string}
-     * @memberof RespdeletePendingMessages
+     * @memberof RespDeletePendingMessages
      */
-    result?: RespdeletePendingMessagesResultEnum;
+    result?: RespDeletePendingMessagesResultEnum;
 }
 
 /**
 * @export
 * @enum {string}
 */
-export enum RespdeletePendingMessagesStatusEnum {
+export enum RespDeletePendingMessagesStatusEnum {
     Success = 'success',
     Failure = 'failure'
 }/**
 * @export
 * @enum {string}
 */
-export enum RespdeletePendingMessagesResultEnum {
+export enum RespDeletePendingMessagesResultEnum {
     Null = 'null'
 }
 
-export function RespdeletePendingMessagesFromJSON(json: any): RespdeletePendingMessages {
-    return RespdeletePendingMessagesFromJSONTyped(json, false);
+export function RespDeletePendingMessagesFromJSON(json: any): RespDeletePendingMessages {
+    return RespDeletePendingMessagesFromJSONTyped(json, false);
 }
 
-export function RespdeletePendingMessagesFromJSONTyped(json: any, ignoreDiscriminator: boolean): RespdeletePendingMessages {
+export function RespDeletePendingMessagesFromJSONTyped(json: any, ignoreDiscriminator: boolean): RespDeletePendingMessages {
     if ((json === undefined) || (json === null)) {
         return json;
     }
@@ -77,7 +77,7 @@ export function RespdeletePendingMessagesFromJSONTyped(json: any, ignoreDiscrimi
     };
 }
 
-export function RespdeletePendingMessagesToJSON(value?: RespdeletePendingMessages | null): any {
+export function RespDeletePendingMessagesToJSON(value?: RespDeletePendingMessages | null): any {
     if (value === undefined) {
         return undefined;
     }

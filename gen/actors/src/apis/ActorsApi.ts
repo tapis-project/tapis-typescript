@@ -18,15 +18,15 @@ import {
     ReqCreateActor,
     ReqCreateActorFromJSON,
     ReqCreateActorToJSON,
-    RespcreateActor,
-    RespcreateActorFromJSON,
-    RespcreateActorToJSON,
-    RespdeleteActor,
-    RespdeleteActorFromJSON,
-    RespdeleteActorToJSON,
-    ResplistActors,
-    ResplistActorsFromJSON,
-    ResplistActorsToJSON,
+    RespCreateActor,
+    RespCreateActorFromJSON,
+    RespCreateActorToJSON,
+    RespDeleteActor,
+    RespDeleteActorFromJSON,
+    RespDeleteActorToJSON,
+    RespListActors,
+    RespListActorsFromJSON,
+    RespListActorsToJSON,
 } from '../models';
 
 export interface CreateActorRequest {
@@ -60,7 +60,7 @@ export class ActorsApi extends runtime.BaseAPI {
      * Register an actor
      * createActor
      */
-    async createActorRaw(requestParameters: CreateActorRequest): Promise<runtime.ApiResponse<RespcreateActor>> {
+    async createActorRaw(requestParameters: CreateActorRequest): Promise<runtime.ApiResponse<RespCreateActor>> {
         if (requestParameters.reqCreateActor === null || requestParameters.reqCreateActor === undefined) {
             throw new runtime.RequiredError('reqCreateActor','Required parameter requestParameters.reqCreateActor was null or undefined when calling createActor.');
         }
@@ -87,14 +87,14 @@ export class ActorsApi extends runtime.BaseAPI {
             body: ReqCreateActorToJSON(requestParameters.reqCreateActor),
         });
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => RespcreateActorFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => RespCreateActorFromJSON(jsonValue));
     }
 
     /**
      * Register an actor
      * createActor
      */
-    async createActor(requestParameters: CreateActorRequest): Promise<RespcreateActor> {
+    async createActor(requestParameters: CreateActorRequest): Promise<RespCreateActor> {
         const response = await this.createActorRaw(requestParameters);
         return await response.value();
     }
@@ -103,7 +103,7 @@ export class ActorsApi extends runtime.BaseAPI {
      * Permenantly delete an actor.
      * deleteActor
      */
-    async deleteActorRaw(requestParameters: DeleteActorRequest): Promise<runtime.ApiResponse<RespdeleteActor>> {
+    async deleteActorRaw(requestParameters: DeleteActorRequest): Promise<runtime.ApiResponse<RespDeleteActor>> {
         if (requestParameters.actorId === null || requestParameters.actorId === undefined) {
             throw new runtime.RequiredError('actorId','Required parameter requestParameters.actorId was null or undefined when calling deleteActor.');
         }
@@ -127,14 +127,14 @@ export class ActorsApi extends runtime.BaseAPI {
             query: queryParameters,
         });
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => RespdeleteActorFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => RespDeleteActorFromJSON(jsonValue));
     }
 
     /**
      * Permenantly delete an actor.
      * deleteActor
      */
-    async deleteActor(requestParameters: DeleteActorRequest): Promise<RespdeleteActor> {
+    async deleteActor(requestParameters: DeleteActorRequest): Promise<RespDeleteActor> {
         const response = await this.deleteActorRaw(requestParameters);
         return await response.value();
     }
@@ -183,7 +183,7 @@ export class ActorsApi extends runtime.BaseAPI {
      * List summary of all actors owned by user
      * listActors
      */
-    async listActorsRaw(requestParameters: ListActorsRequest): Promise<runtime.ApiResponse<ResplistActors>> {
+    async listActorsRaw(requestParameters: ListActorsRequest): Promise<runtime.ApiResponse<RespListActors>> {
         const queryParameters: any = {};
 
         if (requestParameters.limit !== undefined) {
@@ -211,14 +211,14 @@ export class ActorsApi extends runtime.BaseAPI {
             query: queryParameters,
         });
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => ResplistActorsFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => RespListActorsFromJSON(jsonValue));
     }
 
     /**
      * List summary of all actors owned by user
      * listActors
      */
-    async listActors(requestParameters: ListActorsRequest): Promise<ResplistActors> {
+    async listActors(requestParameters: ListActorsRequest): Promise<RespListActors> {
         const response = await this.listActorsRaw(requestParameters);
         return await response.value();
     }

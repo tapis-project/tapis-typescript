@@ -23,31 +23,31 @@ import {
 /**
  * 
  * @export
- * @interface ResplistActors
+ * @interface RespListActors
  */
-export interface ResplistActors {
+export interface RespListActors {
     /**
      * Version of the API
      * @type {string}
-     * @memberof ResplistActors
+     * @memberof RespListActors
      */
     version?: string;
     /**
      * Brief description of the response
      * @type {string}
-     * @memberof ResplistActors
+     * @memberof RespListActors
      */
     message?: string;
     /**
      * Whether the request was a success or failure.
      * @type {string}
-     * @memberof ResplistActors
+     * @memberof RespListActors
      */
-    status?: ResplistActorsStatusEnum;
+    status?: RespListActorsStatusEnum;
     /**
      * 
      * @type {Array<Actor>}
-     * @memberof ResplistActors
+     * @memberof RespListActors
      */
     result?: Array<Actor>;
 }
@@ -56,16 +56,16 @@ export interface ResplistActors {
 * @export
 * @enum {string}
 */
-export enum ResplistActorsStatusEnum {
+export enum RespListActorsStatusEnum {
     Success = 'success',
     Failure = 'failure'
 }
 
-export function ResplistActorsFromJSON(json: any): ResplistActors {
-    return ResplistActorsFromJSONTyped(json, false);
+export function RespListActorsFromJSON(json: any): RespListActors {
+    return RespListActorsFromJSONTyped(json, false);
 }
 
-export function ResplistActorsFromJSONTyped(json: any, ignoreDiscriminator: boolean): ResplistActors {
+export function RespListActorsFromJSONTyped(json: any, ignoreDiscriminator: boolean): RespListActors {
     if ((json === undefined) || (json === null)) {
         return json;
     }
@@ -78,7 +78,7 @@ export function ResplistActorsFromJSONTyped(json: any, ignoreDiscriminator: bool
     };
 }
 
-export function ResplistActorsToJSON(value?: ResplistActors | null): any {
+export function RespListActorsToJSON(value?: RespListActors | null): any {
     if (value === undefined) {
         return undefined;
     }

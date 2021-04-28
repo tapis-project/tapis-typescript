@@ -16,31 +16,31 @@ import { exists, mapValues } from '../runtime';
 /**
  * 
  * @export
- * @interface Respready
+ * @interface RespReady
  */
-export interface Respready {
+export interface RespReady {
     /**
      * Version of the API
      * @type {string}
-     * @memberof Respready
+     * @memberof RespReady
      */
     version?: string;
     /**
      * Brief description of the response
      * @type {string}
-     * @memberof Respready
+     * @memberof RespReady
      */
     message?: string;
     /**
      * Whether the request was a success or failure.
      * @type {string}
-     * @memberof Respready
+     * @memberof RespReady
      */
-    status?: RespreadyStatusEnum;
+    status?: RespReadyStatusEnum;
     /**
      * 
      * @type {string}
-     * @memberof Respready
+     * @memberof RespReady
      */
     result?: string;
 }
@@ -49,15 +49,15 @@ export interface Respready {
 * @export
 * @enum {string}
 */
-export enum RespreadyStatusEnum {
+export enum RespReadyStatusEnum {
     Success = 'success'
 }
 
-export function RespreadyFromJSON(json: any): Respready {
-    return RespreadyFromJSONTyped(json, false);
+export function RespReadyFromJSON(json: any): RespReady {
+    return RespReadyFromJSONTyped(json, false);
 }
 
-export function RespreadyFromJSONTyped(json: any, ignoreDiscriminator: boolean): Respready {
+export function RespReadyFromJSONTyped(json: any, ignoreDiscriminator: boolean): RespReady {
     if ((json === undefined) || (json === null)) {
         return json;
     }
@@ -70,7 +70,7 @@ export function RespreadyFromJSONTyped(json: any, ignoreDiscriminator: boolean):
     };
 }
 
-export function RespreadyToJSON(value?: Respready | null): any {
+export function RespReadyToJSON(value?: RespReady | null): any {
     if (value === undefined) {
         return undefined;
     }

@@ -23,31 +23,31 @@ import {
 /**
  * 
  * @export
- * @interface RespsendMessage
+ * @interface RespSendMessage
  */
-export interface RespsendMessage {
+export interface RespSendMessage {
     /**
      * Version of the API
      * @type {string}
-     * @memberof RespsendMessage
+     * @memberof RespSendMessage
      */
     version?: string;
     /**
      * Brief description of the response
      * @type {string}
-     * @memberof RespsendMessage
+     * @memberof RespSendMessage
      */
     message?: string;
     /**
      * Whether the request was a success or failure.
      * @type {string}
-     * @memberof RespsendMessage
+     * @memberof RespSendMessage
      */
-    status?: RespsendMessageStatusEnum;
+    status?: RespSendMessageStatusEnum;
     /**
      * 
      * @type {MessageJsonResponse}
-     * @memberof RespsendMessage
+     * @memberof RespSendMessage
      */
     result?: MessageJsonResponse;
 }
@@ -56,16 +56,16 @@ export interface RespsendMessage {
 * @export
 * @enum {string}
 */
-export enum RespsendMessageStatusEnum {
+export enum RespSendMessageStatusEnum {
     Success = 'success',
     Failure = 'failure'
 }
 
-export function RespsendMessageFromJSON(json: any): RespsendMessage {
-    return RespsendMessageFromJSONTyped(json, false);
+export function RespSendMessageFromJSON(json: any): RespSendMessage {
+    return RespSendMessageFromJSONTyped(json, false);
 }
 
-export function RespsendMessageFromJSONTyped(json: any, ignoreDiscriminator: boolean): RespsendMessage {
+export function RespSendMessageFromJSONTyped(json: any, ignoreDiscriminator: boolean): RespSendMessage {
     if ((json === undefined) || (json === null)) {
         return json;
     }
@@ -78,7 +78,7 @@ export function RespsendMessageFromJSONTyped(json: any, ignoreDiscriminator: boo
     };
 }
 
-export function RespsendMessageToJSON(value?: RespsendMessage | null): any {
+export function RespSendMessageToJSON(value?: RespSendMessage | null): any {
     if (value === undefined) {
         return undefined;
     }

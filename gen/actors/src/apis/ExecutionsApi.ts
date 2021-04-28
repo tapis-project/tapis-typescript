@@ -15,15 +15,15 @@
 
 import * as runtime from '../runtime';
 import {
-    RespgetExecution,
-    RespgetExecutionFromJSON,
-    RespgetExecutionToJSON,
-    RespgetExecutionLogs,
-    RespgetExecutionLogsFromJSON,
-    RespgetExecutionLogsToJSON,
-    ResplistExecutions,
-    ResplistExecutionsFromJSON,
-    ResplistExecutionsToJSON,
+    RespGetExecution,
+    RespGetExecutionFromJSON,
+    RespGetExecutionToJSON,
+    RespGetExecutionLogs,
+    RespGetExecutionLogsFromJSON,
+    RespGetExecutionLogsToJSON,
+    RespListExecutions,
+    RespListExecutionsFromJSON,
+    RespListExecutionsToJSON,
 } from '../models';
 
 export interface GetExecutionRequest {
@@ -54,7 +54,7 @@ export class ExecutionsApi extends runtime.BaseAPI {
      * Get details about an execution.
      * getExecution
      */
-    async getExecutionRaw(requestParameters: GetExecutionRequest): Promise<runtime.ApiResponse<RespgetExecution>> {
+    async getExecutionRaw(requestParameters: GetExecutionRequest): Promise<runtime.ApiResponse<RespGetExecution>> {
         if (requestParameters.actorId === null || requestParameters.actorId === undefined) {
             throw new runtime.RequiredError('actorId','Required parameter requestParameters.actorId was null or undefined when calling getExecution.');
         }
@@ -82,14 +82,14 @@ export class ExecutionsApi extends runtime.BaseAPI {
             query: queryParameters,
         });
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => RespgetExecutionFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => RespGetExecutionFromJSON(jsonValue));
     }
 
     /**
      * Get details about an execution.
      * getExecution
      */
-    async getExecution(requestParameters: GetExecutionRequest): Promise<RespgetExecution> {
+    async getExecution(requestParameters: GetExecutionRequest): Promise<RespGetExecution> {
         const response = await this.getExecutionRaw(requestParameters);
         return await response.value();
     }
@@ -98,7 +98,7 @@ export class ExecutionsApi extends runtime.BaseAPI {
      * Get an execution\'s logs.
      * getExecutionLogs
      */
-    async getExecutionLogsRaw(requestParameters: GetExecutionLogsRequest): Promise<runtime.ApiResponse<RespgetExecutionLogs>> {
+    async getExecutionLogsRaw(requestParameters: GetExecutionLogsRequest): Promise<runtime.ApiResponse<RespGetExecutionLogs>> {
         if (requestParameters.actorId === null || requestParameters.actorId === undefined) {
             throw new runtime.RequiredError('actorId','Required parameter requestParameters.actorId was null or undefined when calling getExecutionLogs.');
         }
@@ -126,14 +126,14 @@ export class ExecutionsApi extends runtime.BaseAPI {
             query: queryParameters,
         });
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => RespgetExecutionLogsFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => RespGetExecutionLogsFromJSON(jsonValue));
     }
 
     /**
      * Get an execution\'s logs.
      * getExecutionLogs
      */
-    async getExecutionLogs(requestParameters: GetExecutionLogsRequest): Promise<RespgetExecutionLogs> {
+    async getExecutionLogs(requestParameters: GetExecutionLogsRequest): Promise<RespGetExecutionLogs> {
         const response = await this.getExecutionLogsRaw(requestParameters);
         return await response.value();
     }
@@ -186,7 +186,7 @@ export class ExecutionsApi extends runtime.BaseAPI {
      * List executions for an actor.
      * listExecutions
      */
-    async listExecutionsRaw(requestParameters: ListExecutionsRequest): Promise<runtime.ApiResponse<ResplistExecutions>> {
+    async listExecutionsRaw(requestParameters: ListExecutionsRequest): Promise<runtime.ApiResponse<RespListExecutions>> {
         if (requestParameters.actorId === null || requestParameters.actorId === undefined) {
             throw new runtime.RequiredError('actorId','Required parameter requestParameters.actorId was null or undefined when calling listExecutions.');
         }
@@ -210,14 +210,14 @@ export class ExecutionsApi extends runtime.BaseAPI {
             query: queryParameters,
         });
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => ResplistExecutionsFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => RespListExecutionsFromJSON(jsonValue));
     }
 
     /**
      * List executions for an actor.
      * listExecutions
      */
-    async listExecutions(requestParameters: ListExecutionsRequest): Promise<ResplistExecutions> {
+    async listExecutions(requestParameters: ListExecutionsRequest): Promise<RespListExecutions> {
         const response = await this.listExecutionsRaw(requestParameters);
         return await response.value();
     }

@@ -21,9 +21,9 @@ import {
     InlineObject,
     InlineObjectFromJSON,
     InlineObjectToJSON,
-    RespmanageWorkerPoolSize,
-    RespmanageWorkerPoolSizeFromJSON,
-    RespmanageWorkerPoolSizeToJSON,
+    RespManageWorkerPoolSize,
+    RespManageWorkerPoolSizeFromJSON,
+    RespManageWorkerPoolSizeToJSON,
 } from '../models';
 
 export interface ListWorkersRequest {
@@ -84,7 +84,7 @@ export class WorkersApi extends runtime.BaseAPI {
      * Manage number of workers in actor\'s worker pool. Pool size will not decrease as a result of this action.
      * manageWorkerPoolSize
      */
-    async manageWorkerPoolSizeRaw(requestParameters: ManageWorkerPoolSizeRequest): Promise<runtime.ApiResponse<RespmanageWorkerPoolSize>> {
+    async manageWorkerPoolSizeRaw(requestParameters: ManageWorkerPoolSizeRequest): Promise<runtime.ApiResponse<RespManageWorkerPoolSize>> {
         if (requestParameters.actorId === null || requestParameters.actorId === undefined) {
             throw new runtime.RequiredError('actorId','Required parameter requestParameters.actorId was null or undefined when calling manageWorkerPoolSize.');
         }
@@ -115,14 +115,14 @@ export class WorkersApi extends runtime.BaseAPI {
             body: InlineObjectToJSON(requestParameters.inlineObject),
         });
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => RespmanageWorkerPoolSizeFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => RespManageWorkerPoolSizeFromJSON(jsonValue));
     }
 
     /**
      * Manage number of workers in actor\'s worker pool. Pool size will not decrease as a result of this action.
      * manageWorkerPoolSize
      */
-    async manageWorkerPoolSize(requestParameters: ManageWorkerPoolSizeRequest): Promise<RespmanageWorkerPoolSize> {
+    async manageWorkerPoolSize(requestParameters: ManageWorkerPoolSizeRequest): Promise<RespManageWorkerPoolSize> {
         const response = await this.manageWorkerPoolSizeRaw(requestParameters);
         return await response.value();
     }

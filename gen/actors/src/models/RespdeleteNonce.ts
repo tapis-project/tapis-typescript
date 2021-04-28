@@ -16,55 +16,55 @@ import { exists, mapValues } from '../runtime';
 /**
  * 
  * @export
- * @interface RespdeleteNonce
+ * @interface RespDeleteNonce
  */
-export interface RespdeleteNonce {
+export interface RespDeleteNonce {
     /**
      * Version of the API
      * @type {string}
-     * @memberof RespdeleteNonce
+     * @memberof RespDeleteNonce
      */
     version?: string;
     /**
      * Brief description of the response
      * @type {string}
-     * @memberof RespdeleteNonce
+     * @memberof RespDeleteNonce
      */
     message?: string;
     /**
      * Whether the request was a success or failure.
      * @type {string}
-     * @memberof RespdeleteNonce
+     * @memberof RespDeleteNonce
      */
-    status?: RespdeleteNonceStatusEnum;
+    status?: RespDeleteNonceStatusEnum;
     /**
      * 
      * @type {string}
-     * @memberof RespdeleteNonce
+     * @memberof RespDeleteNonce
      */
-    result?: RespdeleteNonceResultEnum;
+    result?: RespDeleteNonceResultEnum;
 }
 
 /**
 * @export
 * @enum {string}
 */
-export enum RespdeleteNonceStatusEnum {
+export enum RespDeleteNonceStatusEnum {
     Success = 'success',
     Failure = 'failure'
 }/**
 * @export
 * @enum {string}
 */
-export enum RespdeleteNonceResultEnum {
+export enum RespDeleteNonceResultEnum {
     Null = 'null'
 }
 
-export function RespdeleteNonceFromJSON(json: any): RespdeleteNonce {
-    return RespdeleteNonceFromJSONTyped(json, false);
+export function RespDeleteNonceFromJSON(json: any): RespDeleteNonce {
+    return RespDeleteNonceFromJSONTyped(json, false);
 }
 
-export function RespdeleteNonceFromJSONTyped(json: any, ignoreDiscriminator: boolean): RespdeleteNonce {
+export function RespDeleteNonceFromJSONTyped(json: any, ignoreDiscriminator: boolean): RespDeleteNonce {
     if ((json === undefined) || (json === null)) {
         return json;
     }
@@ -77,7 +77,7 @@ export function RespdeleteNonceFromJSONTyped(json: any, ignoreDiscriminator: boo
     };
 }
 
-export function RespdeleteNonceToJSON(value?: RespdeleteNonce | null): any {
+export function RespDeleteNonceToJSON(value?: RespDeleteNonce | null): any {
     if (value === undefined) {
         return undefined;
     }

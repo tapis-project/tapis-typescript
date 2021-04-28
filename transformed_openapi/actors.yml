@@ -55,7 +55,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResplistActors'
+                $ref: '#/components/schemas/RespListActors'
     post:
       tags:
         - Actors
@@ -74,7 +74,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/RespcreateActor'
+                $ref: '#/components/schemas/RespCreateActor'
   /v3/actors/{actor_id}:
     get:
       tags:
@@ -145,7 +145,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/RespdeleteActor'
+                $ref: '#/components/schemas/RespDeleteActor'
   /v3/actors/{actor_id}/messages:
     get:
       tags:
@@ -166,7 +166,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/RespgetMessages'
+                $ref: '#/components/schemas/RespGetMessages'
     delete:
       tags:
         - Messages
@@ -186,7 +186,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/RespdeletePendingMessages'
+                $ref: '#/components/schemas/RespDeletePendingMessages'
     post:
       tags:
         - Messages
@@ -226,7 +226,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/RespsendMessage'
+                $ref: '#/components/schemas/RespSendMessage'
   /actors/{actor_id}//messages:
     post:
       tags:
@@ -261,7 +261,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/RespsendBinaryMessage'
+                $ref: '#/components/schemas/RespSendBinaryMessage'
   /actors/{actor_id}///messages:
     post:
       tags:
@@ -296,7 +296,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/RespsendJSONMessage'
+                $ref: '#/components/schemas/RespSendJSONMessage'
   /v3/actors/{actor_id}/executions:
     get:
       tags:
@@ -317,7 +317,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResplistExecutions'
+                $ref: '#/components/schemas/RespListExecutions'
   /v3/actors/{actor_id}/nonces:
     get:
       tags:
@@ -338,7 +338,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResplistNonces'
+                $ref: '#/components/schemas/RespListNonces'
     post:
       tags:
         - Nonces
@@ -364,7 +364,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/RespcreateNonce'
+                $ref: '#/components/schemas/RespCreateNonce'
   /v3/actors/{actor_id}/nonces/{nonce_id}:
     get:
       tags:
@@ -391,7 +391,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/RespgetNonce'
+                $ref: '#/components/schemas/RespGetNonce'
     delete:
       tags:
         - Nonces
@@ -417,7 +417,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/RespdeleteNonce'
+                $ref: '#/components/schemas/RespDeleteNonce'
   /v3/actors/{actor_id}/state:
     get:
       tags:
@@ -438,7 +438,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/RespgetState'
+                $ref: '#/components/schemas/RespGetState'
     post:
       tags:
         - State
@@ -465,7 +465,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/RespupdateState'
+                $ref: '#/components/schemas/RespUpdateState'
   /v3/actors/{actor_id}/executions/{execution_id}:
     get:
       tags:
@@ -492,7 +492,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/RespgetExecution'
+                $ref: '#/components/schemas/RespGetExecution'
   /v3/actors/{actor_id}/executions/{execution_id}/logs:
     get:
       tags:
@@ -519,7 +519,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/RespgetExecutionLogs'
+                $ref: '#/components/schemas/RespGetExecutionLogs'
   /v3/actors/{actor_id}/executions/{execution_id}/results:
     get:
       tags:
@@ -568,7 +568,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResplistPermissions'
+                $ref: '#/components/schemas/RespListPermissions'
     post:
       tags:
         - Permissions
@@ -594,7 +594,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/RespupdatePermissions'
+                $ref: '#/components/schemas/RespUpdatePermissions'
   /v3/actors/{actor_id}/workers:
     get:
       tags:
@@ -647,7 +647,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/RespmanageWorkerPoolSize'
+                $ref: '#/components/schemas/RespManageWorkerPoolSize'
             application/octet-stream:
               schema:
                 type: string
@@ -679,7 +679,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResplistAliases'
+                $ref: '#/components/schemas/RespListAliases'
     post:
       tags:
         - Aliases
@@ -698,7 +698,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/RespcreateAlias'
+                $ref: '#/components/schemas/RespCreateAlias'
   /v3/actors/aliases/{alias}:
     get:
       tags:
@@ -719,7 +719,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/RespgetAlias'
+                $ref: '#/components/schemas/RespGetAlias'
     put:
       tags:
         - Aliases
@@ -745,7 +745,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/RespupdateActorAlias'
+                $ref: '#/components/schemas/RespUpdateActorAlias'
     delete:
       tags:
         - Aliases
@@ -765,7 +765,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/RespdeleteAlias'
+                $ref: '#/components/schemas/RespDeleteAlias'
   /actors/search/{search_type}:
     get:
       tags:
@@ -806,7 +806,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/RespsearchDatabase'
+                $ref: '#/components/schemas/RespSearchDatabase'
 components:
   securitySchemes:
     wso2jwtDevAuth:
@@ -1179,7 +1179,7 @@ components:
           items:
             type: string
           description: The roles associated with the nonce.
-    ResplistActors:
+    RespListActors:
       type: object
       properties:
         version:
@@ -1196,7 +1196,7 @@ components:
             - failure
         result:
           $ref: '#/components/schemas/ArrayOfActors'
-    RespcreateActor:
+    RespCreateActor:
       type: object
       properties:
         version:
@@ -1213,7 +1213,7 @@ components:
             - failure
         result:
           $ref: '#/components/schemas/Actor'
-    RespdeleteActor:
+    RespDeleteActor:
       type: object
       properties:
         version:
@@ -1233,7 +1233,7 @@ components:
           nullable: true
           enum:
             - null
-    RespgetMessages:
+    RespGetMessages:
       type: object
       properties:
         version:
@@ -1250,7 +1250,7 @@ components:
             - failure
         result:
           $ref: '#/components/schemas/ActorMessages'
-    RespdeletePendingMessages:
+    RespDeletePendingMessages:
       type: object
       properties:
         version:
@@ -1270,7 +1270,7 @@ components:
           nullable: true
           enum:
             - null
-    RespsendMessage:
+    RespSendMessage:
       type: object
       properties:
         version:
@@ -1287,7 +1287,7 @@ components:
             - failure
         result:
           $ref: '#/components/schemas/MessageJsonResponse'
-    RespsendBinaryMessage:
+    RespSendBinaryMessage:
       type: object
       properties:
         version:
@@ -1304,7 +1304,7 @@ components:
             - failure
         result:
           $ref: '#/components/schemas/MessageJsonResponse'
-    RespsendJSONMessage:
+    RespSendJSONMessage:
       type: object
       properties:
         version:
@@ -1321,7 +1321,7 @@ components:
             - failure
         result:
           $ref: '#/components/schemas/MessageJsonResponse'
-    ResplistExecutions:
+    RespListExecutions:
       type: object
       properties:
         version:
@@ -1338,7 +1338,7 @@ components:
             - failure
         result:
           $ref: '#/components/schemas/ActorExecutionSummaries'
-    ResplistNonces:
+    RespListNonces:
       type: object
       properties:
         version:
@@ -1355,7 +1355,7 @@ components:
             - failure
         result:
           $ref: '#/components/schemas/ActorNonces'
-    RespcreateNonce:
+    RespCreateNonce:
       type: object
       properties:
         version:
@@ -1372,7 +1372,7 @@ components:
             - failure
         result:
           $ref: '#/components/schemas/ActorNonces'
-    RespgetNonce:
+    RespGetNonce:
       type: object
       properties:
         version:
@@ -1389,7 +1389,7 @@ components:
             - failure
         result:
           $ref: '#/components/schemas/ActorNonce'
-    RespdeleteNonce:
+    RespDeleteNonce:
       type: object
       properties:
         version:
@@ -1409,7 +1409,7 @@ components:
           nullable: true
           enum:
             - null
-    RespgetState:
+    RespGetState:
       type: object
       properties:
         version:
@@ -1427,7 +1427,7 @@ components:
         result:
           type: object
           description: An arbitrary JSON-serializable object.
-    RespupdateState:
+    RespUpdateState:
       type: object
       properties:
         version:
@@ -1444,7 +1444,7 @@ components:
             - failure
         result:
           $ref: '#/components/schemas/ActorNonces'
-    RespgetExecution:
+    RespGetExecution:
       type: object
       properties:
         version:
@@ -1461,7 +1461,7 @@ components:
             - failure
         result:
           $ref: '#/components/schemas/ActorExecution'
-    RespgetExecutionLogs:
+    RespGetExecutionLogs:
       type: object
       properties:
         version:
@@ -1478,7 +1478,7 @@ components:
             - failure
         result:
           $ref: '#/components/schemas/ActorExecutionLogs'
-    ResplistPermissions:
+    RespListPermissions:
       type: object
       properties:
         version:
@@ -1495,7 +1495,7 @@ components:
             - failure
         result:
           $ref: '#/components/schemas/ActorPermissions'
-    RespupdatePermissions:
+    RespUpdatePermissions:
       type: object
       properties:
         version:
@@ -1512,7 +1512,7 @@ components:
             - failure
         result:
           $ref: '#/components/schemas/ActorPermissions'
-    RespmanageWorkerPoolSize:
+    RespManageWorkerPoolSize:
       type: object
       properties:
         version:
@@ -1529,7 +1529,7 @@ components:
             - failure
         result:
           $ref: '#/components/schemas/MessageJsonResponse'
-    ResplistAliases:
+    RespListAliases:
       type: object
       properties:
         version:
@@ -1546,7 +1546,7 @@ components:
             - failure
         result:
           $ref: '#/components/schemas/ArrayOfAliases'
-    RespcreateAlias:
+    RespCreateAlias:
       type: object
       properties:
         version:
@@ -1563,7 +1563,7 @@ components:
             - failure
         result:
           $ref: '#/components/schemas/Alias'
-    RespgetAlias:
+    RespGetAlias:
       type: object
       properties:
         version:
@@ -1580,7 +1580,7 @@ components:
             - failure
         result:
           $ref: '#/components/schemas/Alias'
-    RespupdateActorAlias:
+    RespUpdateActorAlias:
       type: object
       properties:
         version:
@@ -1597,7 +1597,7 @@ components:
             - failure
         result:
           $ref: '#/components/schemas/Alias'
-    RespdeleteAlias:
+    RespDeleteAlias:
       type: object
       properties:
         version:
@@ -1617,7 +1617,7 @@ components:
           nullable: true
           enum:
             - null
-    RespsearchDatabase:
+    RespSearchDatabase:
       type: object
       properties:
         version:

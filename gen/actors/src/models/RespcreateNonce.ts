@@ -23,31 +23,31 @@ import {
 /**
  * 
  * @export
- * @interface RespcreateNonce
+ * @interface RespCreateNonce
  */
-export interface RespcreateNonce {
+export interface RespCreateNonce {
     /**
      * Version of the API
      * @type {string}
-     * @memberof RespcreateNonce
+     * @memberof RespCreateNonce
      */
     version?: string;
     /**
      * Brief description of the response
      * @type {string}
-     * @memberof RespcreateNonce
+     * @memberof RespCreateNonce
      */
     message?: string;
     /**
      * Whether the request was a success or failure.
      * @type {string}
-     * @memberof RespcreateNonce
+     * @memberof RespCreateNonce
      */
-    status?: RespcreateNonceStatusEnum;
+    status?: RespCreateNonceStatusEnum;
     /**
      * 
      * @type {Array<ActorNonce>}
-     * @memberof RespcreateNonce
+     * @memberof RespCreateNonce
      */
     result?: Array<ActorNonce>;
 }
@@ -56,16 +56,16 @@ export interface RespcreateNonce {
 * @export
 * @enum {string}
 */
-export enum RespcreateNonceStatusEnum {
+export enum RespCreateNonceStatusEnum {
     Success = 'success',
     Failure = 'failure'
 }
 
-export function RespcreateNonceFromJSON(json: any): RespcreateNonce {
-    return RespcreateNonceFromJSONTyped(json, false);
+export function RespCreateNonceFromJSON(json: any): RespCreateNonce {
+    return RespCreateNonceFromJSONTyped(json, false);
 }
 
-export function RespcreateNonceFromJSONTyped(json: any, ignoreDiscriminator: boolean): RespcreateNonce {
+export function RespCreateNonceFromJSONTyped(json: any, ignoreDiscriminator: boolean): RespCreateNonce {
     if ((json === undefined) || (json === null)) {
         return json;
     }
@@ -78,7 +78,7 @@ export function RespcreateNonceFromJSONTyped(json: any, ignoreDiscriminator: boo
     };
 }
 
-export function RespcreateNonceToJSON(value?: RespcreateNonce | null): any {
+export function RespCreateNonceToJSON(value?: RespCreateNonce | null): any {
     if (value === undefined) {
         return undefined;
     }

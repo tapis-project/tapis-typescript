@@ -23,31 +23,31 @@ import {
 /**
  * 
  * @export
- * @interface RespsendJSONMessage
+ * @interface RespSendJSONMessage
  */
-export interface RespsendJSONMessage {
+export interface RespSendJSONMessage {
     /**
      * Version of the API
      * @type {string}
-     * @memberof RespsendJSONMessage
+     * @memberof RespSendJSONMessage
      */
     version?: string;
     /**
      * Brief description of the response
      * @type {string}
-     * @memberof RespsendJSONMessage
+     * @memberof RespSendJSONMessage
      */
     message?: string;
     /**
      * Whether the request was a success or failure.
      * @type {string}
-     * @memberof RespsendJSONMessage
+     * @memberof RespSendJSONMessage
      */
-    status?: RespsendJSONMessageStatusEnum;
+    status?: RespSendJSONMessageStatusEnum;
     /**
      * 
      * @type {MessageJsonResponse}
-     * @memberof RespsendJSONMessage
+     * @memberof RespSendJSONMessage
      */
     result?: MessageJsonResponse;
 }
@@ -56,16 +56,16 @@ export interface RespsendJSONMessage {
 * @export
 * @enum {string}
 */
-export enum RespsendJSONMessageStatusEnum {
+export enum RespSendJSONMessageStatusEnum {
     Success = 'success',
     Failure = 'failure'
 }
 
-export function RespsendJSONMessageFromJSON(json: any): RespsendJSONMessage {
-    return RespsendJSONMessageFromJSONTyped(json, false);
+export function RespSendJSONMessageFromJSON(json: any): RespSendJSONMessage {
+    return RespSendJSONMessageFromJSONTyped(json, false);
 }
 
-export function RespsendJSONMessageFromJSONTyped(json: any, ignoreDiscriminator: boolean): RespsendJSONMessage {
+export function RespSendJSONMessageFromJSONTyped(json: any, ignoreDiscriminator: boolean): RespSendJSONMessage {
     if ((json === undefined) || (json === null)) {
         return json;
     }
@@ -78,7 +78,7 @@ export function RespsendJSONMessageFromJSONTyped(json: any, ignoreDiscriminator:
     };
 }
 
-export function RespsendJSONMessageToJSON(value?: RespsendJSONMessage | null): any {
+export function RespSendJSONMessageToJSON(value?: RespSendJSONMessage | null): any {
     if (value === undefined) {
         return undefined;
     }

@@ -23,31 +23,31 @@ import {
 /**
  * 
  * @export
- * @interface RespcreateAlias
+ * @interface RespCreateAlias
  */
-export interface RespcreateAlias {
+export interface RespCreateAlias {
     /**
      * Version of the API
      * @type {string}
-     * @memberof RespcreateAlias
+     * @memberof RespCreateAlias
      */
     version?: string;
     /**
      * Brief description of the response
      * @type {string}
-     * @memberof RespcreateAlias
+     * @memberof RespCreateAlias
      */
     message?: string;
     /**
      * Whether the request was a success or failure.
      * @type {string}
-     * @memberof RespcreateAlias
+     * @memberof RespCreateAlias
      */
-    status?: RespcreateAliasStatusEnum;
+    status?: RespCreateAliasStatusEnum;
     /**
      * 
      * @type {Alias}
-     * @memberof RespcreateAlias
+     * @memberof RespCreateAlias
      */
     result?: Alias;
 }
@@ -56,16 +56,16 @@ export interface RespcreateAlias {
 * @export
 * @enum {string}
 */
-export enum RespcreateAliasStatusEnum {
+export enum RespCreateAliasStatusEnum {
     Success = 'success',
     Failure = 'failure'
 }
 
-export function RespcreateAliasFromJSON(json: any): RespcreateAlias {
-    return RespcreateAliasFromJSONTyped(json, false);
+export function RespCreateAliasFromJSON(json: any): RespCreateAlias {
+    return RespCreateAliasFromJSONTyped(json, false);
 }
 
-export function RespcreateAliasFromJSONTyped(json: any, ignoreDiscriminator: boolean): RespcreateAlias {
+export function RespCreateAliasFromJSONTyped(json: any, ignoreDiscriminator: boolean): RespCreateAlias {
     if ((json === undefined) || (json === null)) {
         return json;
     }
@@ -78,7 +78,7 @@ export function RespcreateAliasFromJSONTyped(json: any, ignoreDiscriminator: boo
     };
 }
 
-export function RespcreateAliasToJSON(value?: RespcreateAlias | null): any {
+export function RespCreateAliasToJSON(value?: RespCreateAlias | null): any {
     if (value === undefined) {
         return undefined;
     }

@@ -66,6 +66,8 @@ src/models/RespGetProject.ts
 src/models/RespGetSite.ts
 src/models/RespGetTemplate.ts
 src/models/RespGetVariable.ts
+src/models/RespHealthcheck.ts
+src/models/RespHello.ts
 src/models/RespListAlerts.ts
 src/models/RespListChannels.ts
 src/models/RespListInstruments.ts
@@ -77,6 +79,7 @@ src/models/RespListSites.ts
 src/models/RespListTemplates.ts
 src/models/RespListUnits.ts
 src/models/RespListVariables.ts
+src/models/RespReady.ts
 src/models/RespUpdateChannel.ts
 src/models/RespUpdateInstrument.ts
 src/models/RespUpdateOntology.ts
@@ -85,9 +88,6 @@ src/models/RespUpdateSite.ts
 src/models/RespUpdateStatus.ts
 src/models/RespUpdateTemplate.ts
 src/models/RespUpdateVariable.ts
-src/models/Resphealthcheck.ts
-src/models/Resphello.ts
-src/models/Respready.ts
 src/models/Site.ts
 src/models/Template.ts
 src/models/Unit.ts

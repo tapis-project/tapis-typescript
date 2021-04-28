@@ -16,31 +16,31 @@ import { exists, mapValues } from '../runtime';
 /**
  * 
  * @export
- * @interface Resphealthcheck
+ * @interface RespHealthcheck
  */
-export interface Resphealthcheck {
+export interface RespHealthcheck {
     /**
      * Version of the API
      * @type {string}
-     * @memberof Resphealthcheck
+     * @memberof RespHealthcheck
      */
     version?: string;
     /**
      * Brief description of the response
      * @type {string}
-     * @memberof Resphealthcheck
+     * @memberof RespHealthcheck
      */
     message?: string;
     /**
      * Whether the request was a success or failure.
      * @type {string}
-     * @memberof Resphealthcheck
+     * @memberof RespHealthcheck
      */
-    status?: ResphealthcheckStatusEnum;
+    status?: RespHealthcheckStatusEnum;
     /**
      * 
      * @type {string}
-     * @memberof Resphealthcheck
+     * @memberof RespHealthcheck
      */
     result?: string;
 }
@@ -49,15 +49,15 @@ export interface Resphealthcheck {
 * @export
 * @enum {string}
 */
-export enum ResphealthcheckStatusEnum {
+export enum RespHealthcheckStatusEnum {
     Success = 'success'
 }
 
-export function ResphealthcheckFromJSON(json: any): Resphealthcheck {
-    return ResphealthcheckFromJSONTyped(json, false);
+export function RespHealthcheckFromJSON(json: any): RespHealthcheck {
+    return RespHealthcheckFromJSONTyped(json, false);
 }
 
-export function ResphealthcheckFromJSONTyped(json: any, ignoreDiscriminator: boolean): Resphealthcheck {
+export function RespHealthcheckFromJSONTyped(json: any, ignoreDiscriminator: boolean): RespHealthcheck {
     if ((json === undefined) || (json === null)) {
         return json;
     }
@@ -70,7 +70,7 @@ export function ResphealthcheckFromJSONTyped(json: any, ignoreDiscriminator: boo
     };
 }
 
-export function ResphealthcheckToJSON(value?: Resphealthcheck | null): any {
+export function RespHealthcheckToJSON(value?: RespHealthcheck | null): any {
     if (value === undefined) {
         return undefined;
     }

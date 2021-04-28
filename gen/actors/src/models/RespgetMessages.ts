@@ -23,31 +23,31 @@ import {
 /**
  * 
  * @export
- * @interface RespgetMessages
+ * @interface RespGetMessages
  */
-export interface RespgetMessages {
+export interface RespGetMessages {
     /**
      * Version of the API
      * @type {string}
-     * @memberof RespgetMessages
+     * @memberof RespGetMessages
      */
     version?: string;
     /**
      * Brief description of the response
      * @type {string}
-     * @memberof RespgetMessages
+     * @memberof RespGetMessages
      */
     message?: string;
     /**
      * Whether the request was a success or failure.
      * @type {string}
-     * @memberof RespgetMessages
+     * @memberof RespGetMessages
      */
-    status?: RespgetMessagesStatusEnum;
+    status?: RespGetMessagesStatusEnum;
     /**
      * 
      * @type {ActorMessages}
-     * @memberof RespgetMessages
+     * @memberof RespGetMessages
      */
     result?: ActorMessages;
 }
@@ -56,16 +56,16 @@ export interface RespgetMessages {
 * @export
 * @enum {string}
 */
-export enum RespgetMessagesStatusEnum {
+export enum RespGetMessagesStatusEnum {
     Success = 'success',
     Failure = 'failure'
 }
 
-export function RespgetMessagesFromJSON(json: any): RespgetMessages {
-    return RespgetMessagesFromJSONTyped(json, false);
+export function RespGetMessagesFromJSON(json: any): RespGetMessages {
+    return RespGetMessagesFromJSONTyped(json, false);
 }
 
-export function RespgetMessagesFromJSONTyped(json: any, ignoreDiscriminator: boolean): RespgetMessages {
+export function RespGetMessagesFromJSONTyped(json: any, ignoreDiscriminator: boolean): RespGetMessages {
     if ((json === undefined) || (json === null)) {
         return json;
     }
@@ -78,7 +78,7 @@ export function RespgetMessagesFromJSONTyped(json: any, ignoreDiscriminator: boo
     };
 }
 
-export function RespgetMessagesToJSON(value?: RespgetMessages | null): any {
+export function RespGetMessagesToJSON(value?: RespGetMessages | null): any {
     if (value === undefined) {
         return undefined;
     }
