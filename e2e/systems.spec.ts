@@ -59,7 +59,7 @@ describe('Systems e2e tests', async () => {
     const systems: Array<Systems.TapisSystem> = systemsResponse.result;
     expect(
       systems.filter(system => system.id === process.env.TEST_SYSTEM_ID).length
-    ).to.equal(1)
+    ).to.be.greaterThanOrEqual(1)
   });
 
   it('should retrieve the test system', async () => {
@@ -89,7 +89,8 @@ describe('Systems e2e tests', async () => {
   it('should delete a system', async () => {
     try {
       const request: Systems.DeleteSystemRequest = {
-        systemId: process.env.TEST_SYSTEM_ID
+        systemId: process.env.TEST_SYSTEM_ID,
+        confirm: true
       }
       const response: Systems.RespChangeCount = await api.deleteSystem(request);
     } catch (error) {
