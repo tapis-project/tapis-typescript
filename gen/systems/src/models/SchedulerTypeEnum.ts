@@ -17,23 +17,24 @@
  * @export
  * @enum {string}
  */
-export enum DatatypeEnum {
-    String = 'STRING',
-    Integer = 'INTEGER',
-    Boolean = 'BOOLEAN',
-    Number = 'NUMBER',
-    Timestamp = 'TIMESTAMP'
+export enum SchedulerTypeEnum {
+    Slurm = 'SLURM',
+    Condor = 'CONDOR',
+    Pbs = 'PBS',
+    Sge = 'SGE',
+    Uge = 'UGE',
+    Torque = 'TORQUE'
 }
 
-export function DatatypeEnumFromJSON(json: any): DatatypeEnum {
-    return DatatypeEnumFromJSONTyped(json, false);
+export function SchedulerTypeEnumFromJSON(json: any): SchedulerTypeEnum {
+    return SchedulerTypeEnumFromJSONTyped(json, false);
 }
 
-export function DatatypeEnumFromJSONTyped(json: any, ignoreDiscriminator: boolean): DatatypeEnum {
-    return json as DatatypeEnum;
+export function SchedulerTypeEnumFromJSONTyped(json: any, ignoreDiscriminator: boolean): SchedulerTypeEnum {
+    return json as SchedulerTypeEnum;
 }
 
-export function DatatypeEnumToJSON(value?: DatatypeEnum | null): any {
+export function SchedulerTypeEnumToJSON(value?: SchedulerTypeEnum | null): any {
     return value as any;
 }
 

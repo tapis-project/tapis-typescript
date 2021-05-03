@@ -14,55 +14,59 @@
 
 import { exists, mapValues } from '../runtime';
 import {
-    ResultChangeCount,
-    ResultChangeCountFromJSON,
-    ResultChangeCountFromJSONTyped,
-    ResultChangeCountToJSON,
+    RespSystemsMetadata,
+    RespSystemsMetadataFromJSON,
+    RespSystemsMetadataFromJSONTyped,
+    RespSystemsMetadataToJSON,
+    TapisSystem,
+    TapisSystemFromJSON,
+    TapisSystemFromJSONTyped,
+    TapisSystemToJSON,
 } from './';
 
 /**
  * 
  * @export
- * @interface RespChangeCount
+ * @interface RespSystems
  */
-export interface RespChangeCount {
+export interface RespSystems {
     /**
      * 
      * @type {string}
-     * @memberof RespChangeCount
+     * @memberof RespSystems
      */
     status?: string;
     /**
      * 
      * @type {string}
-     * @memberof RespChangeCount
+     * @memberof RespSystems
      */
     message?: string;
     /**
      * 
      * @type {string}
-     * @memberof RespChangeCount
+     * @memberof RespSystems
      */
     version?: string;
     /**
      * 
-     * @type {ResultChangeCount}
-     * @memberof RespChangeCount
+     * @type {Array<TapisSystem>}
+     * @memberof RespSystems
      */
-    result?: ResultChangeCount;
+    result?: Array<TapisSystem>;
     /**
      * 
-     * @type {object}
-     * @memberof RespChangeCount
+     * @type {RespSystemsMetadata}
+     * @memberof RespSystems
      */
-    metadata?: object;
+    metadata?: RespSystemsMetadata;
 }
 
-export function RespChangeCountFromJSON(json: any): RespChangeCount {
-    return RespChangeCountFromJSONTyped(json, false);
+export function RespSystemsFromJSON(json: any): RespSystems {
+    return RespSystemsFromJSONTyped(json, false);
 }
 
-export function RespChangeCountFromJSONTyped(json: any, ignoreDiscriminator: boolean): RespChangeCount {
+export function RespSystemsFromJSONTyped(json: any, ignoreDiscriminator: boolean): RespSystems {
     if ((json === undefined) || (json === null)) {
         return json;
     }
@@ -71,12 +75,12 @@ export function RespChangeCountFromJSONTyped(json: any, ignoreDiscriminator: boo
         'status': !exists(json, 'status') ? undefined : json['status'],
         'message': !exists(json, 'message') ? undefined : json['message'],
         'version': !exists(json, 'version') ? undefined : json['version'],
-        'result': !exists(json, 'result') ? undefined : ResultChangeCountFromJSON(json['result']),
-        'metadata': !exists(json, 'metadata') ? undefined : json['metadata'],
+        'result': !exists(json, 'result') ? undefined : ((json['result'] as Array<any>).map(TapisSystemFromJSON)),
+        'metadata': !exists(json, 'metadata') ? undefined : RespSystemsMetadataFromJSON(json['metadata']),
     };
 }
 
-export function RespChangeCountToJSON(value?: RespChangeCount | null): any {
+export function RespSystemsToJSON(value?: RespSystems | null): any {
     if (value === undefined) {
         return undefined;
     }
@@ -88,8 +92,8 @@ export function RespChangeCountToJSON(value?: RespChangeCount | null): any {
         'status': value.status,
         'message': value.message,
         'version': value.version,
-        'result': ResultChangeCountToJSON(value.result),
-        'metadata': value.metadata,
+        'result': value.result === undefined ? undefined : ((value.result as Array<any>).map(TapisSystemToJSON)),
+        'metadata': RespSystemsMetadataToJSON(value.metadata),
     };
 }
 

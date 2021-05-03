@@ -2,7 +2,7 @@
 /* eslint-disable */
 /**
  * Tapis Systems API
- * The Tapis Systems API provides for management of Tapis Systems including transfer methods, permissions and credentials.
+ * The Tapis Systems API provides for management of Tapis Systems including permissions and credentials.
  *
  * The version of the OpenAPI document: 0.0.1
  * Contact: cicsupport@tacc.utexas.edu
@@ -13,50 +13,49 @@
  */
 
 import { exists, mapValues } from '../runtime';
-import {
-    TSystem,
-    TSystemFromJSON,
-    TSystemFromJSONTyped,
-    TSystemToJSON,
-} from './';
-
 /**
  * 
  * @export
- * @interface RespSystemsArray
+ * @interface RespBoolean
  */
-export interface RespSystemsArray {
+export interface RespBoolean {
     /**
      * 
      * @type {string}
-     * @memberof RespSystemsArray
+     * @memberof RespBoolean
      */
     status?: string;
     /**
      * 
      * @type {string}
-     * @memberof RespSystemsArray
+     * @memberof RespBoolean
      */
     message?: string;
     /**
      * 
      * @type {string}
-     * @memberof RespSystemsArray
+     * @memberof RespBoolean
      */
     version?: string;
     /**
      * 
-     * @type {Array<TSystem>}
-     * @memberof RespSystemsArray
+     * @type {boolean}
+     * @memberof RespBoolean
      */
-    result?: Array<TSystem>;
+    result?: boolean;
+    /**
+     * 
+     * @type {object}
+     * @memberof RespBoolean
+     */
+    metadata?: object;
 }
 
-export function RespSystemsArrayFromJSON(json: any): RespSystemsArray {
-    return RespSystemsArrayFromJSONTyped(json, false);
+export function RespBooleanFromJSON(json: any): RespBoolean {
+    return RespBooleanFromJSONTyped(json, false);
 }
 
-export function RespSystemsArrayFromJSONTyped(json: any, ignoreDiscriminator: boolean): RespSystemsArray {
+export function RespBooleanFromJSONTyped(json: any, ignoreDiscriminator: boolean): RespBoolean {
     if ((json === undefined) || (json === null)) {
         return json;
     }
@@ -65,11 +64,12 @@ export function RespSystemsArrayFromJSONTyped(json: any, ignoreDiscriminator: bo
         'status': !exists(json, 'status') ? undefined : json['status'],
         'message': !exists(json, 'message') ? undefined : json['message'],
         'version': !exists(json, 'version') ? undefined : json['version'],
-        'result': !exists(json, 'result') ? undefined : ((json['result'] as Array<any>).map(TSystemFromJSON)),
+        'result': !exists(json, 'result') ? undefined : json['result'],
+        'metadata': !exists(json, 'metadata') ? undefined : json['metadata'],
     };
 }
 
-export function RespSystemsArrayToJSON(value?: RespSystemsArray | null): any {
+export function RespBooleanToJSON(value?: RespBoolean | null): any {
     if (value === undefined) {
         return undefined;
     }
@@ -81,7 +81,8 @@ export function RespSystemsArrayToJSON(value?: RespSystemsArray | null): any {
         'status': value.status,
         'message': value.message,
         'version': value.version,
-        'result': value.result === undefined ? undefined : ((value.result as Array<any>).map(TSystemToJSON)),
+        'result': value.result,
+        'metadata': value.metadata,
     };
 }
 
