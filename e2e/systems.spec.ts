@@ -48,12 +48,28 @@ describe('Systems e2e tests', async () => {
         reqCreateSystem: Systems.ReqCreateSystemFromJSON(system)
       }
       const response: Systems.RespResourceUrl = await api.createSystem(request);
+      if (response.result.url.includes(process.env.TEST_SYSTEM_ID)) {
+        console.log("Test system created:", process.env.TEST_SYSTEM_ID);       
+      }
     } catch(error) {
-      console.warn("Error while creating test system", await error.json());
+      console.warn("Error while creating test system, attempting to update instead", await error.json());
+      try {
+        const reqUpdateSystem: Systems.ReqUpdateSystem = Systems.ReqUpdateSystemFromJSON(system);
+        const request: Systems.UpdateSystemRequest = {
+          systemId: process.env.TEST_SYSTEM_ID,
+          reqUpdateSystem
+        }
+        const updateResponse: Systems.RespResourceUrl = await api.updateSystem(request);  
+        if (updateResponse.result.url.includes(process.env.TEST_SYSTEM_ID)) {
+          console.log("Test system updated:", process.env.TEST_SYSTEM_ID);
+        }
+      } catch (updateError) {
+        console.warn("Could not update test system", await updateError.json());
+      }
     }
   });
 
-  it('should retrieve a list of systems', async () => {
+  it('should retrieve a list of systems that contains the test system', async () => {
     const systemsRequest: Systems.GetSystemsRequest = {};
     const systemsResponse: Systems.RespSystems = await api.getSystems(systemsRequest);
     const systems: Array<Systems.TapisSystem> = systemsResponse.result;
@@ -79,20 +95,14 @@ describe('Systems e2e tests', async () => {
       reqUpdateSystem
     }
     try {
-      const response: Systems.RespResourceUrl = await api.updateSystem(request);
-    } catch (error) {
-      const errorBody = await error.json();
-      throw errorBody;
-    }
-  });
-
-  it('should delete a system', async () => {
-    try {
-      const request: Systems.DeleteSystemRequest = {
-        systemId: process.env.TEST_SYSTEM_ID,
-        confirm: true
+      const updateResponse: Systems.RespResourceUrl = await api.updateSystem(request);
+      expect(updateResponse.result.url).to.contain(process.env.TEST_SYSTEM_ID)
+      const systemRequest: Systems.GetSystemRequest = {
+        systemId: process.env.TEST_SYSTEM_ID
       }
-      const response: Systems.RespChangeCount = await api.deleteSystem(request);
+      const systemResponse: Systems.RespSystem = await api.getSystem(systemRequest);
+      const system: Systems.TapisSystem = systemResponse.result;
+      expect(system.description).to.equal("updated description");
     } catch (error) {
       const errorBody = await error.json();
       throw errorBody;
