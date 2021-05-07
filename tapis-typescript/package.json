@@ -1,5 +1,5 @@
 {
-  "name": "tapis-typescript",
+  "name": "@tapis/tapis-typescript",
   "version": "0.0.1",
   "description": "TypeScript bindings for tapis.io api",
   "main": "./dist/index.js",
