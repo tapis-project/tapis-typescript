@@ -22,18 +22,18 @@
   },
   "homepage": "https://github.com/tapis-project/tapis-typescript#readme",
   "dependencies": {
-    "@tapis/tapis-typescript-actors": "file:gen/actors",
-    "@tapis/tapis-typescript-apps": "file:gen/apps",
+    "@tapis/tapis-typescript-actors": "file:../gen/actors",
+    "@tapis/tapis-typescript-apps": "file:../gen/apps",
     "@tapis/tapis-typescript-authenticator": "^0.0.1",
-    "@tapis/tapis-typescript-files": "file:gen/files",
-    "@tapis/tapis-typescript-jobs": "file:gen/jobs",
-    "@tapis/tapis-typescript-meta": "file:gen/meta",
-    "@tapis/tapis-typescript-pgrest": "file:gen/pgrest",
-    "@tapis/tapis-typescript-sk": "file:gen/sk",
-    "@tapis/tapis-typescript-streams": "file:gen/streams",
+    "@tapis/tapis-typescript-files": "file:../gen/files",
+    "@tapis/tapis-typescript-jobs": "file:../gen/jobs",
+    "@tapis/tapis-typescript-meta": "file:../gen/meta",
+    "@tapis/tapis-typescript-pgrest": "file:../gen/pgrest",
+    "@tapis/tapis-typescript-sk": "file:../gen/sk",
+    "@tapis/tapis-typescript-streams": "file:../gen/streams",
     "@tapis/tapis-typescript-systems": "^0.0.1",
     "@tapis/tapis-typescript-tenants": "^0.0.1",
-    "@tapis/tapis-typescript-tokens": "file:gen/tokens"
+    "@tapis/tapis-typescript-tokens": "file:../gen/tokens"
   },
   "devDependencies": {
     "@openapitools/openapi-generator-cli": "^2.2.4",
