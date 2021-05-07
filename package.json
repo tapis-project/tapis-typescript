@@ -1,7 +1,7 @@
 {
   "name": "tapis-typescript",
-  "version": "1.0.0",
-  "description": "Generator for tapis-typescript",
+  "version": "0.0.1",
+  "description": "TypeScript bindings for tapis.io api",
   "main": "./dist/index.js",
   "typings": "./dist/index.d.ts",
   "scripts": {
@@ -24,15 +24,15 @@
   "dependencies": {
     "@tapis/tapis-typescript-actors": "file:gen/actors",
     "@tapis/tapis-typescript-apps": "file:gen/apps",
-    "@tapis/tapis-typescript-authenticator": "file:gen/authenticator",
+    "@tapis/tapis-typescript-authenticator": "^0.0.1",
     "@tapis/tapis-typescript-files": "file:gen/files",
     "@tapis/tapis-typescript-jobs": "file:gen/jobs",
     "@tapis/tapis-typescript-meta": "file:gen/meta",
     "@tapis/tapis-typescript-pgrest": "file:gen/pgrest",
     "@tapis/tapis-typescript-sk": "file:gen/sk",
     "@tapis/tapis-typescript-streams": "file:gen/streams",
-    "@tapis/tapis-typescript-systems": "file:gen/systems",
-    "@tapis/tapis-typescript-tenants": "file:gen/tenants",
+    "@tapis/tapis-typescript-systems": "^0.0.1",
+    "@tapis/tapis-typescript-tenants": "^0.0.1",
     "@tapis/tapis-typescript-tokens": "file:gen/tokens"
   },
   "devDependencies": {
