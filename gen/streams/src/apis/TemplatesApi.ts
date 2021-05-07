@@ -15,15 +15,24 @@
 
 import * as runtime from '../runtime';
 import {
-    BasicResponse,
-    BasicResponseFromJSON,
-    BasicResponseToJSON,
     ErrorResponse,
     ErrorResponseFromJSON,
     ErrorResponseToJSON,
     ReqCreateTemplate,
     ReqCreateTemplateFromJSON,
     ReqCreateTemplateToJSON,
+    RespCreateTemplate,
+    RespCreateTemplateFromJSON,
+    RespCreateTemplateToJSON,
+    RespGetTemplate,
+    RespGetTemplateFromJSON,
+    RespGetTemplateToJSON,
+    RespListTemplates,
+    RespListTemplatesFromJSON,
+    RespListTemplatesToJSON,
+    RespUpdateTemplate,
+    RespUpdateTemplateFromJSON,
+    RespUpdateTemplateToJSON,
 } from '../models';
 
 export interface CreateTemplateRequest {
@@ -54,7 +63,7 @@ export class TemplatesApi extends runtime.BaseAPI {
      * Create template.
      * Create template.
      */
-    async createTemplateRaw(requestParameters: CreateTemplateRequest): Promise<runtime.ApiResponse<BasicResponse>> {
+    async createTemplateRaw(requestParameters: CreateTemplateRequest): Promise<runtime.ApiResponse<RespCreateTemplate>> {
         if (requestParameters.reqCreateTemplate === null || requestParameters.reqCreateTemplate === undefined) {
             throw new runtime.RequiredError('reqCreateTemplate','Required parameter requestParameters.reqCreateTemplate was null or undefined when calling createTemplate.');
         }
@@ -73,14 +82,14 @@ export class TemplatesApi extends runtime.BaseAPI {
             body: ReqCreateTemplateToJSON(requestParameters.reqCreateTemplate),
         });
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => BasicResponseFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => RespCreateTemplateFromJSON(jsonValue));
     }
 
     /**
      * Create template.
      * Create template.
      */
-    async createTemplate(requestParameters: CreateTemplateRequest): Promise<BasicResponse> {
+    async createTemplate(requestParameters: CreateTemplateRequest): Promise<RespCreateTemplate> {
         const response = await this.createTemplateRaw(requestParameters);
         return await response.value();
     }
@@ -89,7 +98,7 @@ export class TemplatesApi extends runtime.BaseAPI {
      * Get template.
      * Get templates.
      */
-    async getTemplateRaw(requestParameters: GetTemplateRequest): Promise<runtime.ApiResponse<BasicResponse>> {
+    async getTemplateRaw(requestParameters: GetTemplateRequest): Promise<runtime.ApiResponse<RespGetTemplate>> {
         if (requestParameters.templateId === null || requestParameters.templateId === undefined) {
             throw new runtime.RequiredError('templateId','Required parameter requestParameters.templateId was null or undefined when calling getTemplate.');
         }
@@ -105,14 +114,14 @@ export class TemplatesApi extends runtime.BaseAPI {
             query: queryParameters,
         });
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => BasicResponseFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => RespGetTemplateFromJSON(jsonValue));
     }
 
     /**
      * Get template.
      * Get templates.
      */
-    async getTemplate(requestParameters: GetTemplateRequest): Promise<BasicResponse> {
+    async getTemplate(requestParameters: GetTemplateRequest): Promise<RespGetTemplate> {
         const response = await this.getTemplateRaw(requestParameters);
         return await response.value();
     }
@@ -121,7 +130,7 @@ export class TemplatesApi extends runtime.BaseAPI {
      * List templates.
      * List templates.
      */
-    async listTemplatesRaw(requestParameters: ListTemplatesRequest): Promise<runtime.ApiResponse<BasicResponse>> {
+    async listTemplatesRaw(requestParameters: ListTemplatesRequest): Promise<runtime.ApiResponse<RespListTemplates>> {
         const queryParameters: any = {};
 
         if (requestParameters.query !== undefined) {
@@ -145,14 +154,14 @@ export class TemplatesApi extends runtime.BaseAPI {
             query: queryParameters,
         });
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => BasicResponseFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => RespListTemplatesFromJSON(jsonValue));
     }
 
     /**
      * List templates.
      * List templates.
      */
-    async listTemplates(requestParameters: ListTemplatesRequest): Promise<BasicResponse> {
+    async listTemplates(requestParameters: ListTemplatesRequest): Promise<RespListTemplates> {
         const response = await this.listTemplatesRaw(requestParameters);
         return await response.value();
     }
@@ -161,7 +170,7 @@ export class TemplatesApi extends runtime.BaseAPI {
      * Update template.
      * Update template.
      */
-    async updateTemplateRaw(requestParameters: UpdateTemplateRequest): Promise<runtime.ApiResponse<BasicResponse>> {
+    async updateTemplateRaw(requestParameters: UpdateTemplateRequest): Promise<runtime.ApiResponse<RespUpdateTemplate>> {
         if (requestParameters.templateId === null || requestParameters.templateId === undefined) {
             throw new runtime.RequiredError('templateId','Required parameter requestParameters.templateId was null or undefined when calling updateTemplate.');
         }
@@ -184,14 +193,14 @@ export class TemplatesApi extends runtime.BaseAPI {
             body: ReqCreateTemplateToJSON(requestParameters.reqCreateTemplate),
         });
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => BasicResponseFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => RespUpdateTemplateFromJSON(jsonValue));
     }
 
     /**
      * Update template.
      * Update template.
      */
-    async updateTemplate(requestParameters: UpdateTemplateRequest): Promise<BasicResponse> {
+    async updateTemplate(requestParameters: UpdateTemplateRequest): Promise<RespUpdateTemplate> {
         const response = await this.updateTemplateRaw(requestParameters);
         return await response.value();
     }

@@ -2,7 +2,7 @@
 /* eslint-disable */
 /**
  * Tapis Systems API
- * The Tapis Systems API provides for management of Tapis Systems including transfer methods, permissions and credentials.
+ * The Tapis Systems API provides for management of Tapis Systems including permissions and credentials.
  *
  * The version of the OpenAPI document: 0.0.1
  * Contact: cicsupport@tacc.utexas.edu
@@ -19,7 +19,7 @@
  */
 export enum SystemTypeEnum {
     Linux = 'LINUX',
-    ObjectStore = 'OBJECT_STORE'
+    S3 = 'S3'
 }
 
 export function SystemTypeEnumFromJSON(json: any): SystemTypeEnum {

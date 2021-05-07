@@ -2,7 +2,7 @@
 /* eslint-disable */
 /**
  * Tapis Systems API
- * The Tapis Systems API provides for management of Tapis Systems including transfer methods, permissions and credentials.
+ * The Tapis Systems API provides for management of Tapis Systems including permissions and credentials.
  *
  * The version of the OpenAPI document: 0.0.1
  * Contact: cicsupport@tacc.utexas.edu
@@ -22,10 +22,22 @@ import {
     CapabilityFromJSON,
     CapabilityFromJSONTyped,
     CapabilityToJSON,
-    TransferMethodEnum,
-    TransferMethodEnumFromJSON,
-    TransferMethodEnumFromJSONTyped,
-    TransferMethodEnumToJSON,
+    JobRuntime,
+    JobRuntimeFromJSON,
+    JobRuntimeFromJSONTyped,
+    JobRuntimeToJSON,
+    KeyValuePair,
+    KeyValuePairFromJSON,
+    KeyValuePairFromJSONTyped,
+    KeyValuePairToJSON,
+    LogicalQueue,
+    LogicalQueueFromJSON,
+    LogicalQueueFromJSONTyped,
+    LogicalQueueToJSON,
+    SchedulerTypeEnum,
+    SchedulerTypeEnumFromJSON,
+    SchedulerTypeEnumFromJSONTyped,
+    SchedulerTypeEnumToJSON,
 } from './';
 
 /**
@@ -48,12 +60,6 @@ export interface ReqUpdateSystem {
     host?: string;
     /**
      * 
-     * @type {boolean}
-     * @memberof ReqUpdateSystem
-     */
-    enabled?: boolean;
-    /**
-     * 
      * @type {string}
      * @memberof ReqUpdateSystem
      */
@@ -64,12 +70,6 @@ export interface ReqUpdateSystem {
      * @memberof ReqUpdateSystem
      */
     defaultAuthnMethod?: AuthnEnum;
-    /**
-     * 
-     * @type {Array<TransferMethodEnum>}
-     * @memberof ReqUpdateSystem
-     */
-    transferMethods?: Array<TransferMethodEnum>;
     /**
      * 
      * @type {number}
@@ -94,6 +94,78 @@ export interface ReqUpdateSystem {
      * @memberof ReqUpdateSystem
      */
     proxyPort?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof ReqUpdateSystem
+     */
+    dtnSystemId?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof ReqUpdateSystem
+     */
+    dtnMountPoint?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof ReqUpdateSystem
+     */
+    dtnMountSourcePath?: string;
+    /**
+     * 
+     * @type {Array<JobRuntime>}
+     * @memberof ReqUpdateSystem
+     */
+    jobRuntimes?: Array<JobRuntime>;
+    /**
+     * 
+     * @type {string}
+     * @memberof ReqUpdateSystem
+     */
+    jobWorkingDir?: string;
+    /**
+     * 
+     * @type {Array<KeyValuePair>}
+     * @memberof ReqUpdateSystem
+     */
+    jobEnvVariables?: Array<KeyValuePair>;
+    /**
+     * 
+     * @type {number}
+     * @memberof ReqUpdateSystem
+     */
+    jobMaxJobs?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof ReqUpdateSystem
+     */
+    jobMaxJobsPerUser?: number;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof ReqUpdateSystem
+     */
+    jobIsBatch?: boolean;
+    /**
+     * 
+     * @type {SchedulerTypeEnum}
+     * @memberof ReqUpdateSystem
+     */
+    batchScheduler?: SchedulerTypeEnum;
+    /**
+     * 
+     * @type {Array<LogicalQueue>}
+     * @memberof ReqUpdateSystem
+     */
+    batchLogicalQueues?: Array<LogicalQueue>;
+    /**
+     * 
+     * @type {string}
+     * @memberof ReqUpdateSystem
+     */
+    batchDefaultLogicalQueue?: string;
     /**
      * 
      * @type {Array<Capability>}
@@ -126,14 +198,24 @@ export function ReqUpdateSystemFromJSONTyped(json: any, ignoreDiscriminator: boo
         
         'description': !exists(json, 'description') ? undefined : json['description'],
         'host': !exists(json, 'host') ? undefined : json['host'],
-        'enabled': !exists(json, 'enabled') ? undefined : json['enabled'],
         'effectiveUserId': !exists(json, 'effectiveUserId') ? undefined : json['effectiveUserId'],
         'defaultAuthnMethod': !exists(json, 'defaultAuthnMethod') ? undefined : AuthnEnumFromJSON(json['defaultAuthnMethod']),
-        'transferMethods': !exists(json, 'transferMethods') ? undefined : ((json['transferMethods'] as Array<any>).map(TransferMethodEnumFromJSON)),
         'port': !exists(json, 'port') ? undefined : json['port'],
         'useProxy': !exists(json, 'useProxy') ? undefined : json['useProxy'],
         'proxyHost': !exists(json, 'proxyHost') ? undefined : json['proxyHost'],
         'proxyPort': !exists(json, 'proxyPort') ? undefined : json['proxyPort'],
+        'dtnSystemId': !exists(json, 'dtnSystemId') ? undefined : json['dtnSystemId'],
+        'dtnMountPoint': !exists(json, 'dtnMountPoint') ? undefined : json['dtnMountPoint'],
+        'dtnMountSourcePath': !exists(json, 'dtnMountSourcePath') ? undefined : json['dtnMountSourcePath'],
+        'jobRuntimes': !exists(json, 'jobRuntimes') ? undefined : ((json['jobRuntimes'] as Array<any>).map(JobRuntimeFromJSON)),
+        'jobWorkingDir': !exists(json, 'jobWorkingDir') ? undefined : json['jobWorkingDir'],
+        'jobEnvVariables': !exists(json, 'jobEnvVariables') ? undefined : ((json['jobEnvVariables'] as Array<any>).map(KeyValuePairFromJSON)),
+        'jobMaxJobs': !exists(json, 'jobMaxJobs') ? undefined : json['jobMaxJobs'],
+        'jobMaxJobsPerUser': !exists(json, 'jobMaxJobsPerUser') ? undefined : json['jobMaxJobsPerUser'],
+        'jobIsBatch': !exists(json, 'jobIsBatch') ? undefined : json['jobIsBatch'],
+        'batchScheduler': !exists(json, 'batchScheduler') ? undefined : SchedulerTypeEnumFromJSON(json['batchScheduler']),
+        'batchLogicalQueues': !exists(json, 'batchLogicalQueues') ? undefined : ((json['batchLogicalQueues'] as Array<any>).map(LogicalQueueFromJSON)),
+        'batchDefaultLogicalQueue': !exists(json, 'batchDefaultLogicalQueue') ? undefined : json['batchDefaultLogicalQueue'],
         'jobCapabilities': !exists(json, 'jobCapabilities') ? undefined : ((json['jobCapabilities'] as Array<any>).map(CapabilityFromJSON)),
         'tags': !exists(json, 'tags') ? undefined : json['tags'],
         'notes': !exists(json, 'notes') ? undefined : json['notes'],
@@ -151,14 +233,24 @@ export function ReqUpdateSystemToJSON(value?: ReqUpdateSystem | null): any {
         
         'description': value.description,
         'host': value.host,
-        'enabled': value.enabled,
         'effectiveUserId': value.effectiveUserId,
         'defaultAuthnMethod': AuthnEnumToJSON(value.defaultAuthnMethod),
-        'transferMethods': value.transferMethods === undefined ? undefined : ((value.transferMethods as Array<any>).map(TransferMethodEnumToJSON)),
         'port': value.port,
         'useProxy': value.useProxy,
         'proxyHost': value.proxyHost,
         'proxyPort': value.proxyPort,
+        'dtnSystemId': value.dtnSystemId,
+        'dtnMountPoint': value.dtnMountPoint,
+        'dtnMountSourcePath': value.dtnMountSourcePath,
+        'jobRuntimes': value.jobRuntimes === undefined ? undefined : ((value.jobRuntimes as Array<any>).map(JobRuntimeToJSON)),
+        'jobWorkingDir': value.jobWorkingDir,
+        'jobEnvVariables': value.jobEnvVariables === undefined ? undefined : ((value.jobEnvVariables as Array<any>).map(KeyValuePairToJSON)),
+        'jobMaxJobs': value.jobMaxJobs,
+        'jobMaxJobsPerUser': value.jobMaxJobsPerUser,
+        'jobIsBatch': value.jobIsBatch,
+        'batchScheduler': SchedulerTypeEnumToJSON(value.batchScheduler),
+        'batchLogicalQueues': value.batchLogicalQueues === undefined ? undefined : ((value.batchLogicalQueues as Array<any>).map(LogicalQueueToJSON)),
+        'batchDefaultLogicalQueue': value.batchDefaultLogicalQueue,
         'jobCapabilities': value.jobCapabilities === undefined ? undefined : ((value.jobCapabilities as Array<any>).map(CapabilityToJSON)),
         'tags': value.tags,
         'notes': value.notes,

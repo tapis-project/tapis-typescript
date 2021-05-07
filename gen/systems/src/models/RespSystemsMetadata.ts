@@ -2,7 +2,7 @@
 /* eslint-disable */
 /**
  * Tapis Systems API
- * The Tapis Systems API provides for management of Tapis Systems including transfer methods, permissions and credentials.
+ * The Tapis Systems API provides for management of Tapis Systems including permissions and credentials.
  *
  * The version of the OpenAPI document: 0.0.1
  * Contact: cicsupport@tacc.utexas.edu
@@ -16,52 +16,52 @@ import { exists, mapValues } from '../runtime';
 /**
  * 
  * @export
- * @interface RespSystemsSearchResultMetadata
+ * @interface RespSystemsMetadata
  */
-export interface RespSystemsSearchResultMetadata {
+export interface RespSystemsMetadata {
     /**
      * 
      * @type {number}
-     * @memberof RespSystemsSearchResultMetadata
+     * @memberof RespSystemsMetadata
      */
     recordCount?: number;
     /**
      * 
      * @type {number}
-     * @memberof RespSystemsSearchResultMetadata
+     * @memberof RespSystemsMetadata
      */
     recordLimit?: number;
     /**
      * 
      * @type {number}
-     * @memberof RespSystemsSearchResultMetadata
+     * @memberof RespSystemsMetadata
      */
     recordsSkipped?: number;
     /**
      * 
      * @type {string}
-     * @memberof RespSystemsSearchResultMetadata
+     * @memberof RespSystemsMetadata
      */
-    sortBy?: string;
+    orderBy?: string;
     /**
      * 
      * @type {string}
-     * @memberof RespSystemsSearchResultMetadata
+     * @memberof RespSystemsMetadata
      */
     startAfter?: string;
     /**
      * 
      * @type {number}
-     * @memberof RespSystemsSearchResultMetadata
+     * @memberof RespSystemsMetadata
      */
     totalCount?: number;
 }
 
-export function RespSystemsSearchResultMetadataFromJSON(json: any): RespSystemsSearchResultMetadata {
-    return RespSystemsSearchResultMetadataFromJSONTyped(json, false);
+export function RespSystemsMetadataFromJSON(json: any): RespSystemsMetadata {
+    return RespSystemsMetadataFromJSONTyped(json, false);
 }
 
-export function RespSystemsSearchResultMetadataFromJSONTyped(json: any, ignoreDiscriminator: boolean): RespSystemsSearchResultMetadata {
+export function RespSystemsMetadataFromJSONTyped(json: any, ignoreDiscriminator: boolean): RespSystemsMetadata {
     if ((json === undefined) || (json === null)) {
         return json;
     }
@@ -70,13 +70,13 @@ export function RespSystemsSearchResultMetadataFromJSONTyped(json: any, ignoreDi
         'recordCount': !exists(json, 'recordCount') ? undefined : json['recordCount'],
         'recordLimit': !exists(json, 'recordLimit') ? undefined : json['recordLimit'],
         'recordsSkipped': !exists(json, 'recordsSkipped') ? undefined : json['recordsSkipped'],
-        'sortBy': !exists(json, 'sortBy') ? undefined : json['sortBy'],
+        'orderBy': !exists(json, 'orderBy') ? undefined : json['orderBy'],
         'startAfter': !exists(json, 'startAfter') ? undefined : json['startAfter'],
         'totalCount': !exists(json, 'totalCount') ? undefined : json['totalCount'],
     };
 }
 
-export function RespSystemsSearchResultMetadataToJSON(value?: RespSystemsSearchResultMetadata | null): any {
+export function RespSystemsMetadataToJSON(value?: RespSystemsMetadata | null): any {
     if (value === undefined) {
         return undefined;
     }
@@ -88,7 +88,7 @@ export function RespSystemsSearchResultMetadataToJSON(value?: RespSystemsSearchR
         'recordCount': value.recordCount,
         'recordLimit': value.recordLimit,
         'recordsSkipped': value.recordsSkipped,
-        'sortBy': value.sortBy,
+        'orderBy': value.orderBy,
         'startAfter': value.startAfter,
         'totalCount': value.totalCount,
     };

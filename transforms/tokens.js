@@ -5,6 +5,7 @@ try {
   const doc = utils.read('tokens');
   // Remove extra tags (such as LDAP) from the /v3/tenants endpoints
   let transformed = { ...doc } 
+  transformed = utils.expandBasicResponses(transformed);
 
   // Rename schemas
   const schemas = {

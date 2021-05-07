@@ -2,7 +2,7 @@
 /* eslint-disable */
 /**
  * Tapis Systems API
- * The Tapis Systems API provides for management of Tapis Systems including transfer methods, permissions and credentials.
+ * The Tapis Systems API provides for management of Tapis Systems including permissions and credentials.
  *
  * The version of the OpenAPI document: 0.0.1
  * Contact: cicsupport@tacc.utexas.edu
@@ -29,28 +29,24 @@ import {
 export interface GetUserPermsRequest {
     systemId: string;
     userName: string;
-    pretty?: boolean;
 }
 
 export interface GrantUserPermsRequest {
     systemId: string;
     userName: string;
     reqPerms: ReqPerms;
-    pretty?: boolean;
 }
 
 export interface RevokeUserPermRequest {
     systemId: string;
     userName: string;
     permission: string;
-    pretty?: boolean;
 }
 
 export interface RevokeUserPermsRequest {
     systemId: string;
     userName: string;
     reqPerms: ReqPerms;
-    pretty?: boolean;
 }
 
 /**
@@ -72,10 +68,6 @@ export class PermissionsApi extends runtime.BaseAPI {
         }
 
         const queryParameters: any = {};
-
-        if (requestParameters.pretty !== undefined) {
-            queryParameters['pretty'] = requestParameters.pretty;
-        }
 
         const headerParameters: runtime.HTTPHeaders = {};
 
@@ -104,7 +96,7 @@ export class PermissionsApi extends runtime.BaseAPI {
 
     /**
      * Create permissions in the Security Kernel for a user. Requester must be owner of the system. Permissions are READ, MODIFY, EXECUTE.
-     * Create system user permissions
+     * Grant system user permissions
      */
     async grantUserPermsRaw(requestParameters: GrantUserPermsRequest): Promise<runtime.ApiResponse<RespBasic>> {
         if (requestParameters.systemId === null || requestParameters.systemId === undefined) {
@@ -120,10 +112,6 @@ export class PermissionsApi extends runtime.BaseAPI {
         }
 
         const queryParameters: any = {};
-
-        if (requestParameters.pretty !== undefined) {
-            queryParameters['pretty'] = requestParameters.pretty;
-        }
 
         const headerParameters: runtime.HTTPHeaders = {};
 
@@ -146,7 +134,7 @@ export class PermissionsApi extends runtime.BaseAPI {
 
     /**
      * Create permissions in the Security Kernel for a user. Requester must be owner of the system. Permissions are READ, MODIFY, EXECUTE.
-     * Create system user permissions
+     * Grant system user permissions
      */
     async grantUserPerms(requestParameters: GrantUserPermsRequest): Promise<RespBasic> {
         const response = await this.grantUserPermsRaw(requestParameters);
@@ -154,7 +142,7 @@ export class PermissionsApi extends runtime.BaseAPI {
     }
 
     /**
-     * Revoke system user permission in the Security Kernel. Requester must be owner of the system. Permissions are READ, MODIFY, EXECUTE.
+     * Remove system user permission from the Security Kernel. Requester must be owner of the system. Permissions are READ, MODIFY, EXECUTE.
      * Revoke system user permission
      */
     async revokeUserPermRaw(requestParameters: RevokeUserPermRequest): Promise<runtime.ApiResponse<RespBasic>> {
@@ -171,10 +159,6 @@ export class PermissionsApi extends runtime.BaseAPI {
         }
 
         const queryParameters: any = {};
-
-        if (requestParameters.pretty !== undefined) {
-            queryParameters['pretty'] = requestParameters.pretty;
-        }
 
         const headerParameters: runtime.HTTPHeaders = {};
 
@@ -193,7 +177,7 @@ export class PermissionsApi extends runtime.BaseAPI {
     }
 
     /**
-     * Revoke system user permission in the Security Kernel. Requester must be owner of the system. Permissions are READ, MODIFY, EXECUTE.
+     * Remove system user permission from the Security Kernel. Requester must be owner of the system. Permissions are READ, MODIFY, EXECUTE.
      * Revoke system user permission
      */
     async revokeUserPerm(requestParameters: RevokeUserPermRequest): Promise<RespBasic> {
@@ -202,7 +186,7 @@ export class PermissionsApi extends runtime.BaseAPI {
     }
 
     /**
-     * Revoke permissions in the Security Kernel for a user. Requester must be owner of the system. Permissions are READ, MODIFY, EXECUTE.
+     * Remove permissions from the Security Kernel for a user. Requester must be owner of the system. Permissions are READ, MODIFY, EXECUTE.
      * Revoke system user permissions
      */
     async revokeUserPermsRaw(requestParameters: RevokeUserPermsRequest): Promise<runtime.ApiResponse<RespBasic>> {
@@ -219,10 +203,6 @@ export class PermissionsApi extends runtime.BaseAPI {
         }
 
         const queryParameters: any = {};
-
-        if (requestParameters.pretty !== undefined) {
-            queryParameters['pretty'] = requestParameters.pretty;
-        }
 
         const headerParameters: runtime.HTTPHeaders = {};
 
@@ -244,7 +224,7 @@ export class PermissionsApi extends runtime.BaseAPI {
     }
 
     /**
-     * Revoke permissions in the Security Kernel for a user. Requester must be owner of the system. Permissions are READ, MODIFY, EXECUTE.
+     * Remove permissions from the Security Kernel for a user. Requester must be owner of the system. Permissions are READ, MODIFY, EXECUTE.
      * Revoke system user permissions
      */
     async revokeUserPerms(requestParameters: RevokeUserPermsRequest): Promise<RespBasic> {

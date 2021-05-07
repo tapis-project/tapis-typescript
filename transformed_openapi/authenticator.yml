@@ -45,11 +45,7 @@ paths:
           content:
             application/json:
               schema:
-                allOf:
-                  - $ref: '#/components/schemas/BasicResponse'
-                properties:
-                  result:
-                    $ref: '#/components/schemas/arrayOfClients'
+                $ref: '#/components/schemas/RespListClients'
     post:
       tags:
         - Clients
@@ -66,11 +62,7 @@ paths:
           content:
             application/json:
               schema:
-                allOf:
-                  - $ref: '#/components/schemas/BasicResponse'
-                properties:
-                  result:
-                    $ref: '#/components/schemas/Client'
+                $ref: '#/components/schemas/RespCreateClient'
   /v3/oauth2/clients/{client_id}:
     get:
       tags:
@@ -91,11 +83,7 @@ paths:
           content:
             application/json:
               schema:
-                allOf:
-                  - $ref: '#/components/schemas/BasicResponse'
-                properties:
-                  result:
-                    $ref: '#/components/schemas/Client'
+                $ref: '#/components/schemas/RespGetClient'
     delete:
       tags:
         - Clients
@@ -115,14 +103,7 @@ paths:
           content:
             application/json:
               schema:
-                allOf:
-                  - $ref: '#/components/schemas/BasicResponse'
-                properties:
-                  result:
-                    type: string
-                    nullable: true
-                    enum:
-                      - null
+                $ref: '#/components/schemas/RespDeleteClient'
   /v3/oauth2/tokens:
     post:
       tags:
@@ -140,11 +121,7 @@ paths:
           content:
             application/json:
               schema:
-                allOf:
-                  - $ref: '#/components/schemas/BasicResponse'
-                properties:
-                  result:
-                    $ref: '#/components/schemas/Token'
+                $ref: '#/components/schemas/RespCreateToken'
   /v3/oauth2/profiles:
     get:
       tags:
@@ -167,11 +144,7 @@ paths:
           content:
             application/json:
               schema:
-                allOf:
-                  - $ref: '#/components/schemas/BasicResponse'
-                properties:
-                  result:
-                    $ref: '#/components/schemas/arrayOfProfiles'
+                $ref: '#/components/schemas/RespListProfiles'
   /v3/oauth2/profiles/{username}:
     get:
       tags:
@@ -190,11 +163,7 @@ paths:
           content:
             application/json:
               schema:
-                allOf:
-                  - $ref: '#/components/schemas/BasicResponse'
-                properties:
-                  result:
-                    $ref: '#/components/schemas/Profile'
+                $ref: '#/components/schemas/RespGetProfile'
 components:
   schemas:
     BasicResponse:
@@ -238,12 +207,6 @@ components:
         description:
           type: string
           description: A description of this client.
-    Token:
-      type: object
-      properties:
-        token:
-          type: string
-          description: A jwt token.
     arrayOfClients:
       type: array
       items:
@@ -264,6 +227,145 @@ components:
       type: array
       items:
         $ref: '#/components/schemas/Profile'
+    NewTokenResponse:
+      type: object
+      properties:
+        access_token:
+          $ref: '#/components/schemas/NewAccessTokenResponse'
+    NewAccessTokenResponse:
+      type: object
+      properties:
+        access_token:
+          type: string
+          description: The generated access token.
+        expires_at:
+          type: string
+          description: The date-time string when the generated access token expires.
+        expires_in:
+          type: integer
+          description: The time, in seconds, when the generated access token expires.
+    RespListClients:
+      type: object
+      properties:
+        version:
+          type: string
+          description: Version of the API
+        message:
+          type: string
+          description: Brief description of the response
+        status:
+          type: string
+          description: Whether the request was a success or failure.
+          enum:
+            - success
+            - failure
+        result:
+          $ref: '#/components/schemas/arrayOfClients'
+    RespCreateClient:
+      type: object
+      properties:
+        version:
+          type: string
+          description: Version of the API
+        message:
+          type: string
+          description: Brief description of the response
+        status:
+          type: string
+          description: Whether the request was a success or failure.
+          enum:
+            - success
+            - failure
+        result:
+          $ref: '#/components/schemas/Client'
+    RespGetClient:
+      type: object
+      properties:
+        version:
+          type: string
+          description: Version of the API
+        message:
+          type: string
+          description: Brief description of the response
+        status:
+          type: string
+          description: Whether the request was a success or failure.
+          enum:
+            - success
+            - failure
+        result:
+          $ref: '#/components/schemas/Client'
+    RespDeleteClient:
+      type: object
+      properties:
+        version:
+          type: string
+          description: Version of the API
+        message:
+          type: string
+          description: Brief description of the response
+        status:
+          type: string
+          description: Whether the request was a success or failure.
+          enum:
+            - success
+            - failure
+        result:
+          type: string
+          nullable: true
+          enum:
+            - null
+    RespCreateToken:
+      type: object
+      properties:
+        version:
+          type: string
+          description: Version of the API
+        message:
+          type: string
+          description: Brief description of the response
+        status:
+          type: string
+          description: Whether the request was a success or failure.
+          enum:
+            - success
+            - failure
+        result:
+          $ref: '#/components/schemas/NewTokenResponse'
+    RespListProfiles:
+      type: object
+      properties:
+        version:
+          type: string
+          description: Version of the API
+        message:
+          type: string
+          description: Brief description of the response
+        status:
+          type: string
+          description: Whether the request was a success or failure.
+          enum:
+            - success
+            - failure
+        result:
+          $ref: '#/components/schemas/arrayOfProfiles'
+    RespGetProfile:
+      type: object
+      properties:
+        version:
+          type: string
+          description: Version of the API
+        message:
+          type: string
+          description: Brief description of the response
+        status:
+          type: string
+          description: Whether the request was a success or failure.
+          enum:
+            - success
+            - failure
+        result:
+          $ref: '#/components/schemas/Profile'
     ReqCreateClient:
       type: object
       properties:

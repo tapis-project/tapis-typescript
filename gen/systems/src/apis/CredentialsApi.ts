@@ -2,7 +2,7 @@
 /* eslint-disable */
 /**
  * Tapis Systems API
- * The Tapis Systems API provides for management of Tapis Systems including transfer methods, permissions and credentials.
+ * The Tapis Systems API provides for management of Tapis Systems including permissions and credentials.
  *
  * The version of the OpenAPI document: 0.0.1
  * Contact: cicsupport@tacc.utexas.edu
@@ -30,20 +30,17 @@ export interface CreateUserCredentialRequest {
     systemId: string;
     userName: string;
     credential: Credential;
-    pretty?: boolean;
 }
 
 export interface GetUserCredentialRequest {
     systemId: string;
     userName: string;
-    pretty?: boolean;
     authnMethod?: string;
 }
 
 export interface RemoveUserCredentialRequest {
     systemId: string;
     userName: string;
-    pretty?: boolean;
 }
 
 /**
@@ -69,10 +66,6 @@ export class CredentialsApi extends runtime.BaseAPI {
         }
 
         const queryParameters: any = {};
-
-        if (requestParameters.pretty !== undefined) {
-            queryParameters['pretty'] = requestParameters.pretty;
-        }
 
         const headerParameters: runtime.HTTPHeaders = {};
 
@@ -117,10 +110,6 @@ export class CredentialsApi extends runtime.BaseAPI {
 
         const queryParameters: any = {};
 
-        if (requestParameters.pretty !== undefined) {
-            queryParameters['pretty'] = requestParameters.pretty;
-        }
-
         if (requestParameters.authnMethod !== undefined) {
             queryParameters['authnMethod'] = requestParameters.authnMethod;
         }
@@ -164,10 +153,6 @@ export class CredentialsApi extends runtime.BaseAPI {
         }
 
         const queryParameters: any = {};
-
-        if (requestParameters.pretty !== undefined) {
-            queryParameters['pretty'] = requestParameters.pretty;
-        }
 
         const headerParameters: runtime.HTTPHeaders = {};
 

@@ -15,15 +15,27 @@
 
 import * as runtime from '../runtime';
 import {
-    BasicResponse,
-    BasicResponseFromJSON,
-    BasicResponseToJSON,
     ErrorResponse,
     ErrorResponseFromJSON,
     ErrorResponseToJSON,
     ReqCreateVariable,
     ReqCreateVariableFromJSON,
     ReqCreateVariableToJSON,
+    RespCreateVariable,
+    RespCreateVariableFromJSON,
+    RespCreateVariableToJSON,
+    RespDeleteVariable,
+    RespDeleteVariableFromJSON,
+    RespDeleteVariableToJSON,
+    RespGetVariable,
+    RespGetVariableFromJSON,
+    RespGetVariableToJSON,
+    RespListVariables,
+    RespListVariablesFromJSON,
+    RespListVariablesToJSON,
+    RespUpdateVariable,
+    RespUpdateVariableFromJSON,
+    RespUpdateVariableToJSON,
 } from '../models';
 
 export interface CreateVariableRequest {
@@ -73,7 +85,7 @@ export class VariablesApi extends runtime.BaseAPI {
      * Create variable (single or bulk).
      * Create variable (single or bulk).
      */
-    async createVariableRaw(requestParameters: CreateVariableRequest): Promise<runtime.ApiResponse<BasicResponse>> {
+    async createVariableRaw(requestParameters: CreateVariableRequest): Promise<runtime.ApiResponse<RespCreateVariable>> {
         if (requestParameters.projectUuid === null || requestParameters.projectUuid === undefined) {
             throw new runtime.RequiredError('projectUuid','Required parameter requestParameters.projectUuid was null or undefined when calling createVariable.');
         }
@@ -104,14 +116,14 @@ export class VariablesApi extends runtime.BaseAPI {
             body: ReqCreateVariableToJSON(requestParameters.reqCreateVariable),
         });
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => BasicResponseFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => RespCreateVariableFromJSON(jsonValue));
     }
 
     /**
      * Create variable (single or bulk).
      * Create variable (single or bulk).
      */
-    async createVariable(requestParameters: CreateVariableRequest): Promise<BasicResponse> {
+    async createVariable(requestParameters: CreateVariableRequest): Promise<RespCreateVariable> {
         const response = await this.createVariableRaw(requestParameters);
         return await response.value();
     }
@@ -120,7 +132,7 @@ export class VariablesApi extends runtime.BaseAPI {
      * Delete a variable (single or bulk)
      * Delete a variable (single or bulk)
      */
-    async deleteVariableRaw(requestParameters: DeleteVariableRequest): Promise<runtime.ApiResponse<BasicResponse>> {
+    async deleteVariableRaw(requestParameters: DeleteVariableRequest): Promise<runtime.ApiResponse<RespDeleteVariable>> {
         if (requestParameters.projectUuid === null || requestParameters.projectUuid === undefined) {
             throw new runtime.RequiredError('projectUuid','Required parameter requestParameters.projectUuid was null or undefined when calling deleteVariable.');
         }
@@ -148,14 +160,14 @@ export class VariablesApi extends runtime.BaseAPI {
             query: queryParameters,
         });
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => BasicResponseFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => RespDeleteVariableFromJSON(jsonValue));
     }
 
     /**
      * Delete a variable (single or bulk)
      * Delete a variable (single or bulk)
      */
-    async deleteVariable(requestParameters: DeleteVariableRequest): Promise<BasicResponse> {
+    async deleteVariable(requestParameters: DeleteVariableRequest): Promise<RespDeleteVariable> {
         const response = await this.deleteVariableRaw(requestParameters);
         return await response.value();
     }
@@ -164,7 +176,7 @@ export class VariablesApi extends runtime.BaseAPI {
      * Get details of a specific variable by its id
      * Get variable details
      */
-    async getVariableRaw(requestParameters: GetVariableRequest): Promise<runtime.ApiResponse<BasicResponse>> {
+    async getVariableRaw(requestParameters: GetVariableRequest): Promise<runtime.ApiResponse<RespGetVariable>> {
         if (requestParameters.projectUuid === null || requestParameters.projectUuid === undefined) {
             throw new runtime.RequiredError('projectUuid','Required parameter requestParameters.projectUuid was null or undefined when calling getVariable.');
         }
@@ -192,14 +204,14 @@ export class VariablesApi extends runtime.BaseAPI {
             query: queryParameters,
         });
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => BasicResponseFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => RespGetVariableFromJSON(jsonValue));
     }
 
     /**
      * Get details of a specific variable by its id
      * Get variable details
      */
-    async getVariable(requestParameters: GetVariableRequest): Promise<BasicResponse> {
+    async getVariable(requestParameters: GetVariableRequest): Promise<RespGetVariable> {
         const response = await this.getVariableRaw(requestParameters);
         return await response.value();
     }
@@ -208,7 +220,7 @@ export class VariablesApi extends runtime.BaseAPI {
      * List variables.
      * List variables.
      */
-    async listVariablesRaw(requestParameters: ListVariablesRequest): Promise<runtime.ApiResponse<BasicResponse>> {
+    async listVariablesRaw(requestParameters: ListVariablesRequest): Promise<runtime.ApiResponse<RespListVariables>> {
         if (requestParameters.projectUuid === null || requestParameters.projectUuid === undefined) {
             throw new runtime.RequiredError('projectUuid','Required parameter requestParameters.projectUuid was null or undefined when calling listVariables.');
         }
@@ -244,14 +256,14 @@ export class VariablesApi extends runtime.BaseAPI {
             query: queryParameters,
         });
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => BasicResponseFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => RespListVariablesFromJSON(jsonValue));
     }
 
     /**
      * List variables.
      * List variables.
      */
-    async listVariables(requestParameters: ListVariablesRequest): Promise<BasicResponse> {
+    async listVariables(requestParameters: ListVariablesRequest): Promise<RespListVariables> {
         const response = await this.listVariablesRaw(requestParameters);
         return await response.value();
     }
@@ -260,7 +272,7 @@ export class VariablesApi extends runtime.BaseAPI {
      * Update a variable
      * Update a variable
      */
-    async updateVariableRaw(requestParameters: UpdateVariableRequest): Promise<runtime.ApiResponse<BasicResponse>> {
+    async updateVariableRaw(requestParameters: UpdateVariableRequest): Promise<runtime.ApiResponse<RespUpdateVariable>> {
         if (requestParameters.projectUuid === null || requestParameters.projectUuid === undefined) {
             throw new runtime.RequiredError('projectUuid','Required parameter requestParameters.projectUuid was null or undefined when calling updateVariable.');
         }
@@ -295,14 +307,14 @@ export class VariablesApi extends runtime.BaseAPI {
             body: ReqCreateVariableToJSON(requestParameters.reqCreateVariable),
         });
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => BasicResponseFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => RespUpdateVariableFromJSON(jsonValue));
     }
 
     /**
      * Update a variable
      * Update a variable
      */
-    async updateVariable(requestParameters: UpdateVariableRequest): Promise<BasicResponse> {
+    async updateVariable(requestParameters: UpdateVariableRequest): Promise<RespUpdateVariable> {
         const response = await this.updateVariableRaw(requestParameters);
         return await response.value();
     }

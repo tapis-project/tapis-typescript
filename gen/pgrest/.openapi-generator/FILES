@@ -11,6 +11,16 @@ src/models/BasicResponse.ts
 src/models/Columns.ts
 src/models/ReqCreateInCollection.ts
 src/models/ReqCreateTable.ts
+src/models/RespCreateInCollection.ts
+src/models/RespCreateTable.ts
+src/models/RespDeleteInCollection.ts
+src/models/RespDeleteTable.ts
+src/models/RespGetInCollection.ts
+src/models/RespGetTable.ts
+src/models/RespListInCollection.ts
+src/models/RespListTables.ts
+src/models/RespUpdateInCollection.ts
+src/models/RespUpdateMultipleInCollection.ts
 src/models/Table.ts
 src/models/UpdateMultipleCollectionItem.ts
 src/models/UpdateMultipleCollectionItemWhere.ts

@@ -15,15 +15,27 @@
 
 import * as runtime from '../runtime';
 import {
-    BasicResponse,
-    BasicResponseFromJSON,
-    BasicResponseToJSON,
     ErrorResponse,
     ErrorResponseFromJSON,
     ErrorResponseToJSON,
     ReqCreateSite,
     ReqCreateSiteFromJSON,
     ReqCreateSiteToJSON,
+    RespCreateSite,
+    RespCreateSiteFromJSON,
+    RespCreateSiteToJSON,
+    RespDeleteSite,
+    RespDeleteSiteFromJSON,
+    RespDeleteSiteToJSON,
+    RespGetSite,
+    RespGetSiteFromJSON,
+    RespGetSiteToJSON,
+    RespListSites,
+    RespListSitesFromJSON,
+    RespListSitesToJSON,
+    RespUpdateSite,
+    RespUpdateSiteFromJSON,
+    RespUpdateSiteToJSON,
 } from '../models';
 
 export interface CreateSiteRequest {
@@ -63,7 +75,7 @@ export class SitesApi extends runtime.BaseAPI {
      * Create a site.
      * Create a site.
      */
-    async createSiteRaw(requestParameters: CreateSiteRequest): Promise<runtime.ApiResponse<BasicResponse>> {
+    async createSiteRaw(requestParameters: CreateSiteRequest): Promise<runtime.ApiResponse<RespCreateSite>> {
         if (requestParameters.projectUuid === null || requestParameters.projectUuid === undefined) {
             throw new runtime.RequiredError('projectUuid','Required parameter requestParameters.projectUuid was null or undefined when calling createSite.');
         }
@@ -86,14 +98,14 @@ export class SitesApi extends runtime.BaseAPI {
             body: ReqCreateSiteToJSON(requestParameters.reqCreateSite),
         });
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => BasicResponseFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => RespCreateSiteFromJSON(jsonValue));
     }
 
     /**
      * Create a site.
      * Create a site.
      */
-    async createSite(requestParameters: CreateSiteRequest): Promise<BasicResponse> {
+    async createSite(requestParameters: CreateSiteRequest): Promise<RespCreateSite> {
         const response = await this.createSiteRaw(requestParameters);
         return await response.value();
     }
@@ -102,7 +114,7 @@ export class SitesApi extends runtime.BaseAPI {
      * Delete a site
      * Delete a site
      */
-    async deleteSiteRaw(requestParameters: DeleteSiteRequest): Promise<runtime.ApiResponse<BasicResponse>> {
+    async deleteSiteRaw(requestParameters: DeleteSiteRequest): Promise<runtime.ApiResponse<RespDeleteSite>> {
         if (requestParameters.projectUuid === null || requestParameters.projectUuid === undefined) {
             throw new runtime.RequiredError('projectUuid','Required parameter requestParameters.projectUuid was null or undefined when calling deleteSite.');
         }
@@ -122,14 +134,14 @@ export class SitesApi extends runtime.BaseAPI {
             query: queryParameters,
         });
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => BasicResponseFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => RespDeleteSiteFromJSON(jsonValue));
     }
 
     /**
      * Delete a site
      * Delete a site
      */
-    async deleteSite(requestParameters: DeleteSiteRequest): Promise<BasicResponse> {
+    async deleteSite(requestParameters: DeleteSiteRequest): Promise<RespDeleteSite> {
         const response = await this.deleteSiteRaw(requestParameters);
         return await response.value();
     }
@@ -138,7 +150,7 @@ export class SitesApi extends runtime.BaseAPI {
      * Get site details.
      * Get site details.
      */
-    async getSiteRaw(requestParameters: GetSiteRequest): Promise<runtime.ApiResponse<BasicResponse>> {
+    async getSiteRaw(requestParameters: GetSiteRequest): Promise<runtime.ApiResponse<RespGetSite>> {
         if (requestParameters.projectUuid === null || requestParameters.projectUuid === undefined) {
             throw new runtime.RequiredError('projectUuid','Required parameter requestParameters.projectUuid was null or undefined when calling getSite.');
         }
@@ -158,14 +170,14 @@ export class SitesApi extends runtime.BaseAPI {
             query: queryParameters,
         });
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => BasicResponseFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => RespGetSiteFromJSON(jsonValue));
     }
 
     /**
      * Get site details.
      * Get site details.
      */
-    async getSite(requestParameters: GetSiteRequest): Promise<BasicResponse> {
+    async getSite(requestParameters: GetSiteRequest): Promise<RespGetSite> {
         const response = await this.getSiteRaw(requestParameters);
         return await response.value();
     }
@@ -174,7 +186,7 @@ export class SitesApi extends runtime.BaseAPI {
      * List sites.
      * List sites.
      */
-    async listSitesRaw(requestParameters: ListSitesRequest): Promise<runtime.ApiResponse<BasicResponse>> {
+    async listSitesRaw(requestParameters: ListSitesRequest): Promise<runtime.ApiResponse<RespListSites>> {
         if (requestParameters.projectUuid === null || requestParameters.projectUuid === undefined) {
             throw new runtime.RequiredError('projectUuid','Required parameter requestParameters.projectUuid was null or undefined when calling listSites.');
         }
@@ -202,14 +214,14 @@ export class SitesApi extends runtime.BaseAPI {
             query: queryParameters,
         });
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => BasicResponseFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => RespListSitesFromJSON(jsonValue));
     }
 
     /**
      * List sites.
      * List sites.
      */
-    async listSites(requestParameters: ListSitesRequest): Promise<BasicResponse> {
+    async listSites(requestParameters: ListSitesRequest): Promise<RespListSites> {
         const response = await this.listSitesRaw(requestParameters);
         return await response.value();
     }
@@ -218,7 +230,7 @@ export class SitesApi extends runtime.BaseAPI {
      * Update a site
      * Update a site
      */
-    async updateSiteRaw(requestParameters: UpdateSiteRequest): Promise<runtime.ApiResponse<BasicResponse>> {
+    async updateSiteRaw(requestParameters: UpdateSiteRequest): Promise<runtime.ApiResponse<RespUpdateSite>> {
         if (requestParameters.projectUuid === null || requestParameters.projectUuid === undefined) {
             throw new runtime.RequiredError('projectUuid','Required parameter requestParameters.projectUuid was null or undefined when calling updateSite.');
         }
@@ -245,14 +257,14 @@ export class SitesApi extends runtime.BaseAPI {
             body: ReqCreateSiteToJSON(requestParameters.reqCreateSite),
         });
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => BasicResponseFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => RespUpdateSiteFromJSON(jsonValue));
     }
 
     /**
      * Update a site
      * Update a site
      */
-    async updateSite(requestParameters: UpdateSiteRequest): Promise<BasicResponse> {
+    async updateSite(requestParameters: UpdateSiteRequest): Promise<RespUpdateSite> {
         const response = await this.updateSiteRaw(requestParameters);
         return await response.value();
     }

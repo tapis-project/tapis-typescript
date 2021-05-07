@@ -2,7 +2,7 @@
 /* eslint-disable */
 /**
  * Tapis Systems API
- * The Tapis Systems API provides for management of Tapis Systems including transfer methods, permissions and credentials.
+ * The Tapis Systems API provides for management of Tapis Systems including permissions and credentials.
  *
  * The version of the OpenAPI document: 0.0.1
  * Contact: cicsupport@tacc.utexas.edu
@@ -30,6 +30,9 @@ import {
     RespBasic,
     RespBasicFromJSON,
     RespBasicToJSON,
+    RespBoolean,
+    RespBooleanFromJSON,
+    RespBooleanToJSON,
     RespChangeCount,
     RespChangeCountFromJSON,
     RespChangeCountToJSON,
@@ -39,76 +42,81 @@ import {
     RespSystem,
     RespSystemFromJSON,
     RespSystemToJSON,
-    RespSystemsArray,
-    RespSystemsArrayFromJSON,
-    RespSystemsArrayToJSON,
-    RespSystemsSearch,
-    RespSystemsSearchFromJSON,
-    RespSystemsSearchToJSON,
+    RespSystems,
+    RespSystemsFromJSON,
+    RespSystemsToJSON,
 } from '../models';
 
 export interface ChangeSystemOwnerRequest {
     systemId: string;
     userName: string;
-    pretty?: boolean;
 }
 
 export interface CreateSystemRequest {
     reqCreateSystem: ReqCreateSystem;
-    pretty?: boolean;
 }
 
 export interface DeleteSystemRequest {
     systemId: string;
-    pretty?: boolean;
+    confirm?: boolean;
+}
+
+export interface DisableSystemRequest {
+    systemId: string;
+}
+
+export interface EnableSystemRequest {
+    systemId: string;
 }
 
 export interface GetSystemRequest {
     systemId: string;
-    pretty?: boolean;
     returnCredentials?: boolean;
     authnMethod?: string;
     requireExecPerm?: boolean;
+    select?: string;
 }
 
 export interface GetSystemsRequest {
-    pretty?: boolean;
     search?: string;
     limit?: number;
-    sortBy?: string;
+    orderBy?: string;
     skip?: number;
     startAfter?: string;
     computeTotal?: boolean;
+    select?: string;
+}
+
+export interface IsEnabledRequest {
+    systemId: string;
 }
 
 export interface MatchConstraintsRequest {
     reqMatchConstraints: ReqMatchConstraints;
-    pretty?: boolean;
 }
 
 export interface SearchSystemsQueryParametersRequest {
-    pretty?: boolean;
     limit?: number;
-    sortBy?: string;
+    orderBy?: string;
     skip?: number;
     startAfter?: string;
     computeTotal?: boolean;
+    select?: string;
 }
 
 export interface SearchSystemsRequestBodyRequest {
     reqSearchSystems: ReqSearchSystems;
-    pretty?: boolean;
     limit?: number;
-    sortBy?: string;
+    orderBy?: string;
     skip?: number;
     startAfter?: string;
     computeTotal?: boolean;
+    select?: string;
 }
 
 export interface UpdateSystemRequest {
     systemId: string;
     reqUpdateSystem: ReqUpdateSystem;
-    pretty?: boolean;
 }
 
 /**
@@ -130,10 +138,6 @@ export class SystemsApi extends runtime.BaseAPI {
         }
 
         const queryParameters: any = {};
-
-        if (requestParameters.pretty !== undefined) {
-            queryParameters['pretty'] = requestParameters.pretty;
-        }
 
         const headerParameters: runtime.HTTPHeaders = {};
 
@@ -161,7 +165,7 @@ export class SystemsApi extends runtime.BaseAPI {
     }
 
     /**
-     * Create a system using a request body. System name must be unique within a tenant and can be composed of alphanumeric characters and the following special characters [-._~]. Name must begin with an alphabetic character and can be no more than 256 characters in length. Description is optional with a maximum length of 2048 characters.\'
+     * Create a system using a request body. System name must be unique within a tenant and can be composed of alphanumeric characters and the following special characters [-._~]. Name must begin with an alphabetic character and can be no more than 80 characters in length. Description is optional with a maximum length of 2048 characters.\'
      * Create a system
      */
     async createSystemRaw(requestParameters: CreateSystemRequest): Promise<runtime.ApiResponse<RespResourceUrl>> {
@@ -170,10 +174,6 @@ export class SystemsApi extends runtime.BaseAPI {
         }
 
         const queryParameters: any = {};
-
-        if (requestParameters.pretty !== undefined) {
-            queryParameters['pretty'] = requestParameters.pretty;
-        }
 
         const headerParameters: runtime.HTTPHeaders = {};
 
@@ -195,7 +195,7 @@ export class SystemsApi extends runtime.BaseAPI {
     }
 
     /**
-     * Create a system using a request body. System name must be unique within a tenant and can be composed of alphanumeric characters and the following special characters [-._~]. Name must begin with an alphabetic character and can be no more than 256 characters in length. Description is optional with a maximum length of 2048 characters.\'
+     * Create a system using a request body. System name must be unique within a tenant and can be composed of alphanumeric characters and the following special characters [-._~]. Name must begin with an alphabetic character and can be no more than 80 characters in length. Description is optional with a maximum length of 2048 characters.\'
      * Create a system
      */
     async createSystem(requestParameters: CreateSystemRequest): Promise<RespResourceUrl> {
@@ -204,7 +204,7 @@ export class SystemsApi extends runtime.BaseAPI {
     }
 
     /**
-     * Soft delete a system given the system name.
+     * Soft delete a system given the system name. Must specify confirm=true to complete the action.
      * Soft delete a system
      */
     async deleteSystemRaw(requestParameters: DeleteSystemRequest): Promise<runtime.ApiResponse<RespChangeCount>> {
@@ -214,8 +214,8 @@ export class SystemsApi extends runtime.BaseAPI {
 
         const queryParameters: any = {};
 
-        if (requestParameters.pretty !== undefined) {
-            queryParameters['pretty'] = requestParameters.pretty;
+        if (requestParameters.confirm !== undefined) {
+            queryParameters['confirm'] = requestParameters.confirm;
         }
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -235,11 +235,83 @@ export class SystemsApi extends runtime.BaseAPI {
     }
 
     /**
-     * Soft delete a system given the system name.
+     * Soft delete a system given the system name. Must specify confirm=true to complete the action.
      * Soft delete a system
      */
     async deleteSystem(requestParameters: DeleteSystemRequest): Promise<RespChangeCount> {
         const response = await this.deleteSystemRaw(requestParameters);
+        return await response.value();
+    }
+
+    /**
+     * Mark a system unavailable for use.
+     * Mark a system unavailabe for use.
+     */
+    async disableSystemRaw(requestParameters: DisableSystemRequest): Promise<runtime.ApiResponse<RespChangeCount>> {
+        if (requestParameters.systemId === null || requestParameters.systemId === undefined) {
+            throw new runtime.RequiredError('systemId','Required parameter requestParameters.systemId was null or undefined when calling disableSystem.');
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        if (this.configuration && this.configuration.apiKey) {
+            headerParameters["X-Tapis-Token"] = this.configuration.apiKey("X-Tapis-Token"); // TapisJWT authentication
+        }
+
+        const response = await this.request({
+            path: `/v3/systems/{systemId}/disable`.replace(`{${"systemId"}}`, encodeURIComponent(String(requestParameters.systemId))),
+            method: 'POST',
+            headers: headerParameters,
+            query: queryParameters,
+        });
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => RespChangeCountFromJSON(jsonValue));
+    }
+
+    /**
+     * Mark a system unavailable for use.
+     * Mark a system unavailabe for use.
+     */
+    async disableSystem(requestParameters: DisableSystemRequest): Promise<RespChangeCount> {
+        const response = await this.disableSystemRaw(requestParameters);
+        return await response.value();
+    }
+
+    /**
+     * Mark a system available for use.
+     * Mark a system availabe for use.
+     */
+    async enableSystemRaw(requestParameters: EnableSystemRequest): Promise<runtime.ApiResponse<RespChangeCount>> {
+        if (requestParameters.systemId === null || requestParameters.systemId === undefined) {
+            throw new runtime.RequiredError('systemId','Required parameter requestParameters.systemId was null or undefined when calling enableSystem.');
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        if (this.configuration && this.configuration.apiKey) {
+            headerParameters["X-Tapis-Token"] = this.configuration.apiKey("X-Tapis-Token"); // TapisJWT authentication
+        }
+
+        const response = await this.request({
+            path: `/v3/systems/{systemId}/enable`.replace(`{${"systemId"}}`, encodeURIComponent(String(requestParameters.systemId))),
+            method: 'POST',
+            headers: headerParameters,
+            query: queryParameters,
+        });
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => RespChangeCountFromJSON(jsonValue));
+    }
+
+    /**
+     * Mark a system available for use.
+     * Mark a system availabe for use.
+     */
+    async enableSystem(requestParameters: EnableSystemRequest): Promise<RespChangeCount> {
+        const response = await this.enableSystemRaw(requestParameters);
         return await response.value();
     }
 
@@ -254,10 +326,6 @@ export class SystemsApi extends runtime.BaseAPI {
 
         const queryParameters: any = {};
 
-        if (requestParameters.pretty !== undefined) {
-            queryParameters['pretty'] = requestParameters.pretty;
-        }
-
         if (requestParameters.returnCredentials !== undefined) {
             queryParameters['returnCredentials'] = requestParameters.returnCredentials;
         }
@@ -268,6 +336,10 @@ export class SystemsApi extends runtime.BaseAPI {
 
         if (requestParameters.requireExecPerm !== undefined) {
             queryParameters['requireExecPerm'] = requestParameters.requireExecPerm;
+        }
+
+        if (requestParameters.select !== undefined) {
+            queryParameters['select'] = requestParameters.select;
         }
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -296,15 +368,11 @@ export class SystemsApi extends runtime.BaseAPI {
     }
 
     /**
-     * Retrieve details for systems. Use search and select query parameters to limit results.
+     * Retrieve list of systems. Use search and select query parameters to limit results.
      * Retrieve systems
      */
-    async getSystemsRaw(requestParameters: GetSystemsRequest): Promise<runtime.ApiResponse<RespSystemsArray>> {
+    async getSystemsRaw(requestParameters: GetSystemsRequest): Promise<runtime.ApiResponse<RespSystems>> {
         const queryParameters: any = {};
-
-        if (requestParameters.pretty !== undefined) {
-            queryParameters['pretty'] = requestParameters.pretty;
-        }
 
         if (requestParameters.search !== undefined) {
             queryParameters['search'] = requestParameters.search;
@@ -314,8 +382,8 @@ export class SystemsApi extends runtime.BaseAPI {
             queryParameters['limit'] = requestParameters.limit;
         }
 
-        if (requestParameters.sortBy !== undefined) {
-            queryParameters['sortBy'] = requestParameters.sortBy;
+        if (requestParameters.orderBy !== undefined) {
+            queryParameters['orderBy'] = requestParameters.orderBy;
         }
 
         if (requestParameters.skip !== undefined) {
@@ -328,6 +396,10 @@ export class SystemsApi extends runtime.BaseAPI {
 
         if (requestParameters.computeTotal !== undefined) {
             queryParameters['computeTotal'] = requestParameters.computeTotal;
+        }
+
+        if (requestParameters.select !== undefined) {
+            queryParameters['select'] = requestParameters.select;
         }
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -343,15 +415,51 @@ export class SystemsApi extends runtime.BaseAPI {
             query: queryParameters,
         });
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => RespSystemsArrayFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => RespSystemsFromJSON(jsonValue));
     }
 
     /**
-     * Retrieve details for systems. Use search and select query parameters to limit results.
+     * Retrieve list of systems. Use search and select query parameters to limit results.
      * Retrieve systems
      */
-    async getSystems(requestParameters: GetSystemsRequest): Promise<RespSystemsArray> {
+    async getSystems(requestParameters: GetSystemsRequest): Promise<RespSystems> {
         const response = await this.getSystemsRaw(requestParameters);
+        return await response.value();
+    }
+
+    /**
+     * Check if a system is currently enabled, i.e. available for use.
+     * Check if system is currently enabled
+     */
+    async isEnabledRaw(requestParameters: IsEnabledRequest): Promise<runtime.ApiResponse<RespBoolean>> {
+        if (requestParameters.systemId === null || requestParameters.systemId === undefined) {
+            throw new runtime.RequiredError('systemId','Required parameter requestParameters.systemId was null or undefined when calling isEnabled.');
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        if (this.configuration && this.configuration.apiKey) {
+            headerParameters["X-Tapis-Token"] = this.configuration.apiKey("X-Tapis-Token"); // TapisJWT authentication
+        }
+
+        const response = await this.request({
+            path: `/v3/systems/{systemId}/isEnabled`.replace(`{${"systemId"}}`, encodeURIComponent(String(requestParameters.systemId))),
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        });
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => RespBooleanFromJSON(jsonValue));
+    }
+
+    /**
+     * Check if a system is currently enabled, i.e. available for use.
+     * Check if system is currently enabled
+     */
+    async isEnabled(requestParameters: IsEnabledRequest): Promise<RespBoolean> {
+        const response = await this.isEnabledRaw(requestParameters);
         return await response.value();
     }
 
@@ -359,16 +467,12 @@ export class SystemsApi extends runtime.BaseAPI {
      * Retrieve details for systems. Use request body to specify constraint conditions as an SQL-like WHERE clause.
      * Retrieve systems satisfying specified constraint conditions
      */
-    async matchConstraintsRaw(requestParameters: MatchConstraintsRequest): Promise<runtime.ApiResponse<RespSystemsArray>> {
+    async matchConstraintsRaw(requestParameters: MatchConstraintsRequest): Promise<runtime.ApiResponse<RespSystems>> {
         if (requestParameters.reqMatchConstraints === null || requestParameters.reqMatchConstraints === undefined) {
             throw new runtime.RequiredError('reqMatchConstraints','Required parameter requestParameters.reqMatchConstraints was null or undefined when calling matchConstraints.');
         }
 
         const queryParameters: any = {};
-
-        if (requestParameters.pretty !== undefined) {
-            queryParameters['pretty'] = requestParameters.pretty;
-        }
 
         const headerParameters: runtime.HTTPHeaders = {};
 
@@ -386,35 +490,31 @@ export class SystemsApi extends runtime.BaseAPI {
             body: ReqMatchConstraintsToJSON(requestParameters.reqMatchConstraints),
         });
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => RespSystemsArrayFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => RespSystemsFromJSON(jsonValue));
     }
 
     /**
      * Retrieve details for systems. Use request body to specify constraint conditions as an SQL-like WHERE clause.
      * Retrieve systems satisfying specified constraint conditions
      */
-    async matchConstraints(requestParameters: MatchConstraintsRequest): Promise<RespSystemsArray> {
+    async matchConstraints(requestParameters: MatchConstraintsRequest): Promise<RespSystems> {
         const response = await this.matchConstraintsRaw(requestParameters);
         return await response.value();
     }
 
     /**
      * Retrieve details for systems. Use query parameters to specify search conditions. For example owner.eq=jdoe&port.gt=1024
-     * Retrieve systems matching search conditions specified as query parameters
+     * Retrieve list of systems matching search conditions specified as query parameters
      */
-    async searchSystemsQueryParametersRaw(requestParameters: SearchSystemsQueryParametersRequest): Promise<runtime.ApiResponse<RespSystemsSearch>> {
+    async searchSystemsQueryParametersRaw(requestParameters: SearchSystemsQueryParametersRequest): Promise<runtime.ApiResponse<RespSystems>> {
         const queryParameters: any = {};
-
-        if (requestParameters.pretty !== undefined) {
-            queryParameters['pretty'] = requestParameters.pretty;
-        }
 
         if (requestParameters.limit !== undefined) {
             queryParameters['limit'] = requestParameters.limit;
         }
 
-        if (requestParameters.sortBy !== undefined) {
-            queryParameters['sortBy'] = requestParameters.sortBy;
+        if (requestParameters.orderBy !== undefined) {
+            queryParameters['orderBy'] = requestParameters.orderBy;
         }
 
         if (requestParameters.skip !== undefined) {
@@ -427,6 +527,10 @@ export class SystemsApi extends runtime.BaseAPI {
 
         if (requestParameters.computeTotal !== undefined) {
             queryParameters['computeTotal'] = requestParameters.computeTotal;
+        }
+
+        if (requestParameters.select !== undefined) {
+            queryParameters['select'] = requestParameters.select;
         }
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -436,45 +540,41 @@ export class SystemsApi extends runtime.BaseAPI {
         }
 
         const response = await this.request({
-            path: `/v3/systems/search/systems`,
+            path: `/v3/systems/search`,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
         });
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => RespSystemsSearchFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => RespSystemsFromJSON(jsonValue));
     }
 
     /**
      * Retrieve details for systems. Use query parameters to specify search conditions. For example owner.eq=jdoe&port.gt=1024
-     * Retrieve systems matching search conditions specified as query parameters
+     * Retrieve list of systems matching search conditions specified as query parameters
      */
-    async searchSystemsQueryParameters(requestParameters: SearchSystemsQueryParametersRequest): Promise<RespSystemsSearch> {
+    async searchSystemsQueryParameters(requestParameters: SearchSystemsQueryParametersRequest): Promise<RespSystems> {
         const response = await this.searchSystemsQueryParametersRaw(requestParameters);
         return await response.value();
     }
 
     /**
      * Retrieve details for systems. Use request body to specify SQL-like search conditions.
-     * Retrieve systems matching search conditions
+     * Retrieve list of systems matching search conditions
      */
-    async searchSystemsRequestBodyRaw(requestParameters: SearchSystemsRequestBodyRequest): Promise<runtime.ApiResponse<RespSystemsSearch>> {
+    async searchSystemsRequestBodyRaw(requestParameters: SearchSystemsRequestBodyRequest): Promise<runtime.ApiResponse<RespSystems>> {
         if (requestParameters.reqSearchSystems === null || requestParameters.reqSearchSystems === undefined) {
             throw new runtime.RequiredError('reqSearchSystems','Required parameter requestParameters.reqSearchSystems was null or undefined when calling searchSystemsRequestBody.');
         }
 
         const queryParameters: any = {};
 
-        if (requestParameters.pretty !== undefined) {
-            queryParameters['pretty'] = requestParameters.pretty;
-        }
-
         if (requestParameters.limit !== undefined) {
             queryParameters['limit'] = requestParameters.limit;
         }
 
-        if (requestParameters.sortBy !== undefined) {
-            queryParameters['sortBy'] = requestParameters.sortBy;
+        if (requestParameters.orderBy !== undefined) {
+            queryParameters['orderBy'] = requestParameters.orderBy;
         }
 
         if (requestParameters.skip !== undefined) {
@@ -487,6 +587,10 @@ export class SystemsApi extends runtime.BaseAPI {
 
         if (requestParameters.computeTotal !== undefined) {
             queryParameters['computeTotal'] = requestParameters.computeTotal;
+        }
+
+        if (requestParameters.select !== undefined) {
+            queryParameters['select'] = requestParameters.select;
         }
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -498,27 +602,27 @@ export class SystemsApi extends runtime.BaseAPI {
         }
 
         const response = await this.request({
-            path: `/v3/systems/search/systems`,
+            path: `/v3/systems/search`,
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
             body: ReqSearchSystemsToJSON(requestParameters.reqSearchSystems),
         });
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => RespSystemsSearchFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => RespSystemsFromJSON(jsonValue));
     }
 
     /**
      * Retrieve details for systems. Use request body to specify SQL-like search conditions.
-     * Retrieve systems matching search conditions
+     * Retrieve list of systems matching search conditions
      */
-    async searchSystemsRequestBody(requestParameters: SearchSystemsRequestBodyRequest): Promise<RespSystemsSearch> {
+    async searchSystemsRequestBody(requestParameters: SearchSystemsRequestBodyRequest): Promise<RespSystems> {
         const response = await this.searchSystemsRequestBodyRaw(requestParameters);
         return await response.value();
     }
 
     /**
-     * Update attributes for a system. Attributes that may be updated are description, host, enabled, effectiveUserId, defaultAuthnMethod, transferMethods, port, useProxy, proxyHost, proxyPort, jobCapabilities, tags, notes.
+     * Update attributes for a system. Attributes that may be updated are description, host, effectiveUserId, defaultAuthnMethod, port, useProxy, proxyHost, proxyPort, jobCapabilities, tags, notes.
      * Update a system
      */
     async updateSystemRaw(requestParameters: UpdateSystemRequest): Promise<runtime.ApiResponse<RespResourceUrl>> {
@@ -531,10 +635,6 @@ export class SystemsApi extends runtime.BaseAPI {
         }
 
         const queryParameters: any = {};
-
-        if (requestParameters.pretty !== undefined) {
-            queryParameters['pretty'] = requestParameters.pretty;
-        }
 
         const headerParameters: runtime.HTTPHeaders = {};
 
@@ -556,7 +656,7 @@ export class SystemsApi extends runtime.BaseAPI {
     }
 
     /**
-     * Update attributes for a system. Attributes that may be updated are description, host, enabled, effectiveUserId, defaultAuthnMethod, transferMethods, port, useProxy, proxyHost, proxyPort, jobCapabilities, tags, notes.
+     * Update attributes for a system. Attributes that may be updated are description, host, effectiveUserId, defaultAuthnMethod, port, useProxy, proxyHost, proxyPort, jobCapabilities, tags, notes.
      * Update a system
      */
     async updateSystem(requestParameters: UpdateSystemRequest): Promise<RespResourceUrl> {

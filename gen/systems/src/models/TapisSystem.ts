@@ -2,7 +2,7 @@
 /* eslint-disable */
 /**
  * Tapis Systems API
- * The Tapis Systems API provides for management of Tapis Systems including transfer methods, permissions and credentials.
+ * The Tapis Systems API provides for management of Tapis Systems including permissions and credentials.
  *
  * The version of the OpenAPI document: 0.0.1
  * Contact: cicsupport@tacc.utexas.edu
@@ -38,269 +38,256 @@ import {
     LogicalQueueFromJSON,
     LogicalQueueFromJSONTyped,
     LogicalQueueToJSON,
+    SchedulerTypeEnum,
+    SchedulerTypeEnumFromJSON,
+    SchedulerTypeEnumFromJSONTyped,
+    SchedulerTypeEnumToJSON,
     SystemTypeEnum,
     SystemTypeEnumFromJSON,
     SystemTypeEnumFromJSONTyped,
     SystemTypeEnumToJSON,
-    TransferMethodEnum,
-    TransferMethodEnumFromJSON,
-    TransferMethodEnumFromJSONTyped,
-    TransferMethodEnumToJSON,
 } from './';
 
 /**
  * 
  * @export
- * @interface TSystem
+ * @interface TapisSystem
  */
-export interface TSystem {
-    /**
-     * 
-     * @type {number}
-     * @memberof TSystem
-     */
-    seqId?: number;
+export interface TapisSystem {
     /**
      * 
      * @type {string}
-     * @memberof TSystem
+     * @memberof TapisSystem
      */
     tenant?: string;
     /**
      * 
      * @type {string}
-     * @memberof TSystem
+     * @memberof TapisSystem
      */
     id?: string;
     /**
      * 
      * @type {string}
-     * @memberof TSystem
+     * @memberof TapisSystem
      */
     description?: string;
     /**
      * 
      * @type {SystemTypeEnum}
-     * @memberof TSystem
+     * @memberof TapisSystem
      */
     systemType?: SystemTypeEnum;
     /**
      * 
      * @type {string}
-     * @memberof TSystem
+     * @memberof TapisSystem
      */
     owner?: string;
     /**
      * 
      * @type {string}
-     * @memberof TSystem
+     * @memberof TapisSystem
      */
     host?: string;
     /**
      * 
      * @type {boolean}
-     * @memberof TSystem
+     * @memberof TapisSystem
      */
     enabled?: boolean;
     /**
      * 
      * @type {string}
-     * @memberof TSystem
+     * @memberof TapisSystem
      */
     effectiveUserId?: string;
     /**
      * 
      * @type {AuthnEnum}
-     * @memberof TSystem
+     * @memberof TapisSystem
      */
     defaultAuthnMethod?: AuthnEnum;
     /**
      * 
      * @type {Credential}
-     * @memberof TSystem
+     * @memberof TapisSystem
      */
     authnCredential?: Credential;
     /**
      * 
      * @type {string}
-     * @memberof TSystem
+     * @memberof TapisSystem
      */
     bucketName?: string;
     /**
      * 
      * @type {string}
-     * @memberof TSystem
+     * @memberof TapisSystem
      */
     rootDir?: string;
     /**
      * 
-     * @type {Array<TransferMethodEnum>}
-     * @memberof TSystem
-     */
-    transferMethods?: Array<TransferMethodEnum>;
-    /**
-     * 
      * @type {number}
-     * @memberof TSystem
+     * @memberof TapisSystem
      */
     port?: number;
     /**
      * 
      * @type {boolean}
-     * @memberof TSystem
+     * @memberof TapisSystem
      */
     useProxy?: boolean;
     /**
      * 
      * @type {string}
-     * @memberof TSystem
+     * @memberof TapisSystem
      */
     proxyHost?: string;
     /**
      * 
      * @type {number}
-     * @memberof TSystem
+     * @memberof TapisSystem
      */
     proxyPort?: number;
     /**
      * 
      * @type {string}
-     * @memberof TSystem
+     * @memberof TapisSystem
      */
     dtnSystemId?: string;
     /**
      * 
      * @type {string}
-     * @memberof TSystem
+     * @memberof TapisSystem
      */
     dtnMountPoint?: string;
     /**
      * 
      * @type {string}
-     * @memberof TSystem
+     * @memberof TapisSystem
      */
     dtnMountSourcePath?: string;
     /**
      * 
      * @type {boolean}
-     * @memberof TSystem
+     * @memberof TapisSystem
      */
     isDtn?: boolean;
     /**
      * 
      * @type {boolean}
-     * @memberof TSystem
+     * @memberof TapisSystem
      */
     canExec?: boolean;
     /**
      * 
      * @type {Array<JobRuntime>}
-     * @memberof TSystem
+     * @memberof TapisSystem
      */
     jobRuntimes?: Array<JobRuntime>;
     /**
      * 
      * @type {string}
-     * @memberof TSystem
+     * @memberof TapisSystem
      */
     jobWorkingDir?: string;
     /**
      * 
      * @type {Array<KeyValuePair>}
-     * @memberof TSystem
+     * @memberof TapisSystem
      */
     jobEnvVariables?: Array<KeyValuePair>;
     /**
      * 
      * @type {number}
-     * @memberof TSystem
+     * @memberof TapisSystem
      */
     jobMaxJobs?: number;
     /**
      * 
      * @type {number}
-     * @memberof TSystem
+     * @memberof TapisSystem
      */
     jobMaxJobsPerUser?: number;
     /**
      * 
      * @type {boolean}
-     * @memberof TSystem
+     * @memberof TapisSystem
      */
     jobIsBatch?: boolean;
     /**
      * 
-     * @type {string}
-     * @memberof TSystem
+     * @type {SchedulerTypeEnum}
+     * @memberof TapisSystem
      */
-    batchScheduler?: string;
+    batchScheduler?: SchedulerTypeEnum;
     /**
      * 
      * @type {Array<LogicalQueue>}
-     * @memberof TSystem
+     * @memberof TapisSystem
      */
     batchLogicalQueues?: Array<LogicalQueue>;
     /**
      * 
      * @type {string}
-     * @memberof TSystem
+     * @memberof TapisSystem
      */
     batchDefaultLogicalQueue?: string;
     /**
      * 
      * @type {Array<Capability>}
-     * @memberof TSystem
+     * @memberof TapisSystem
      */
     jobCapabilities?: Array<Capability>;
     /**
      * 
      * @type {Array<string>}
-     * @memberof TSystem
+     * @memberof TapisSystem
      */
     tags?: Array<string>;
     /**
      * 
      * @type {object}
-     * @memberof TSystem
+     * @memberof TapisSystem
      */
     notes?: object;
     /**
      * 
      * @type {string}
-     * @memberof TSystem
+     * @memberof TapisSystem
      */
-    importRefId?: string;
+    uuid?: string;
     /**
      * 
      * @type {boolean}
-     * @memberof TSystem
+     * @memberof TapisSystem
      */
     deleted?: boolean;
     /**
      * 
      * @type {string}
-     * @memberof TSystem
+     * @memberof TapisSystem
      */
     created?: string;
     /**
      * 
      * @type {string}
-     * @memberof TSystem
+     * @memberof TapisSystem
      */
     updated?: string;
 }
 
-export function TSystemFromJSON(json: any): TSystem {
-    return TSystemFromJSONTyped(json, false);
+export function TapisSystemFromJSON(json: any): TapisSystem {
+    return TapisSystemFromJSONTyped(json, false);
 }
 
-export function TSystemFromJSONTyped(json: any, ignoreDiscriminator: boolean): TSystem {
+export function TapisSystemFromJSONTyped(json: any, ignoreDiscriminator: boolean): TapisSystem {
     if ((json === undefined) || (json === null)) {
         return json;
     }
     return {
         
-        'seqId': !exists(json, 'seqId') ? undefined : json['seqId'],
         'tenant': !exists(json, 'tenant') ? undefined : json['tenant'],
         'id': !exists(json, 'id') ? undefined : json['id'],
         'description': !exists(json, 'description') ? undefined : json['description'],
@@ -313,7 +300,6 @@ export function TSystemFromJSONTyped(json: any, ignoreDiscriminator: boolean): T
         'authnCredential': !exists(json, 'authnCredential') ? undefined : CredentialFromJSON(json['authnCredential']),
         'bucketName': !exists(json, 'bucketName') ? undefined : json['bucketName'],
         'rootDir': !exists(json, 'rootDir') ? undefined : json['rootDir'],
-        'transferMethods': !exists(json, 'transferMethods') ? undefined : ((json['transferMethods'] as Array<any>).map(TransferMethodEnumFromJSON)),
         'port': !exists(json, 'port') ? undefined : json['port'],
         'useProxy': !exists(json, 'useProxy') ? undefined : json['useProxy'],
         'proxyHost': !exists(json, 'proxyHost') ? undefined : json['proxyHost'],
@@ -329,20 +315,20 @@ export function TSystemFromJSONTyped(json: any, ignoreDiscriminator: boolean): T
         'jobMaxJobs': !exists(json, 'jobMaxJobs') ? undefined : json['jobMaxJobs'],
         'jobMaxJobsPerUser': !exists(json, 'jobMaxJobsPerUser') ? undefined : json['jobMaxJobsPerUser'],
         'jobIsBatch': !exists(json, 'jobIsBatch') ? undefined : json['jobIsBatch'],
-        'batchScheduler': !exists(json, 'batchScheduler') ? undefined : json['batchScheduler'],
+        'batchScheduler': !exists(json, 'batchScheduler') ? undefined : SchedulerTypeEnumFromJSON(json['batchScheduler']),
         'batchLogicalQueues': !exists(json, 'batchLogicalQueues') ? undefined : ((json['batchLogicalQueues'] as Array<any>).map(LogicalQueueFromJSON)),
         'batchDefaultLogicalQueue': !exists(json, 'batchDefaultLogicalQueue') ? undefined : json['batchDefaultLogicalQueue'],
         'jobCapabilities': !exists(json, 'jobCapabilities') ? undefined : ((json['jobCapabilities'] as Array<any>).map(CapabilityFromJSON)),
         'tags': !exists(json, 'tags') ? undefined : json['tags'],
         'notes': !exists(json, 'notes') ? undefined : json['notes'],
-        'importRefId': !exists(json, 'importRefId') ? undefined : json['importRefId'],
+        'uuid': !exists(json, 'uuid') ? undefined : json['uuid'],
         'deleted': !exists(json, 'deleted') ? undefined : json['deleted'],
         'created': !exists(json, 'created') ? undefined : json['created'],
         'updated': !exists(json, 'updated') ? undefined : json['updated'],
     };
 }
 
-export function TSystemToJSON(value?: TSystem | null): any {
+export function TapisSystemToJSON(value?: TapisSystem | null): any {
     if (value === undefined) {
         return undefined;
     }
@@ -351,7 +337,6 @@ export function TSystemToJSON(value?: TSystem | null): any {
     }
     return {
         
-        'seqId': value.seqId,
         'tenant': value.tenant,
         'id': value.id,
         'description': value.description,
@@ -364,7 +349,6 @@ export function TSystemToJSON(value?: TSystem | null): any {
         'authnCredential': CredentialToJSON(value.authnCredential),
         'bucketName': value.bucketName,
         'rootDir': value.rootDir,
-        'transferMethods': value.transferMethods === undefined ? undefined : ((value.transferMethods as Array<any>).map(TransferMethodEnumToJSON)),
         'port': value.port,
         'useProxy': value.useProxy,
         'proxyHost': value.proxyHost,
@@ -380,13 +364,13 @@ export function TSystemToJSON(value?: TSystem | null): any {
         'jobMaxJobs': value.jobMaxJobs,
         'jobMaxJobsPerUser': value.jobMaxJobsPerUser,
         'jobIsBatch': value.jobIsBatch,
-        'batchScheduler': value.batchScheduler,
+        'batchScheduler': SchedulerTypeEnumToJSON(value.batchScheduler),
         'batchLogicalQueues': value.batchLogicalQueues === undefined ? undefined : ((value.batchLogicalQueues as Array<any>).map(LogicalQueueToJSON)),
         'batchDefaultLogicalQueue': value.batchDefaultLogicalQueue,
         'jobCapabilities': value.jobCapabilities === undefined ? undefined : ((value.jobCapabilities as Array<any>).map(CapabilityToJSON)),
         'tags': value.tags,
         'notes': value.notes,
-        'importRefId': value.importRefId,
+        'uuid': value.uuid,
         'deleted': value.deleted,
         'created': value.created,
         'updated': value.updated,

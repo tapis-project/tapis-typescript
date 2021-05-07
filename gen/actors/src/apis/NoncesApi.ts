@@ -15,12 +15,21 @@
 
 import * as runtime from '../runtime';
 import {
-    BasicResponse,
-    BasicResponseFromJSON,
-    BasicResponseToJSON,
     ReqCreateNonce,
     ReqCreateNonceFromJSON,
     ReqCreateNonceToJSON,
+    RespCreateNonce,
+    RespCreateNonceFromJSON,
+    RespCreateNonceToJSON,
+    RespDeleteNonce,
+    RespDeleteNonceFromJSON,
+    RespDeleteNonceToJSON,
+    RespGetNonce,
+    RespGetNonceFromJSON,
+    RespGetNonceToJSON,
+    RespListNonces,
+    RespListNoncesFromJSON,
+    RespListNoncesToJSON,
 } from '../models';
 
 export interface CreateNonceRequest {
@@ -51,7 +60,7 @@ export class NoncesApi extends runtime.BaseAPI {
      * Create a nonce for an actor.
      * createNonce
      */
-    async createNonceRaw(requestParameters: CreateNonceRequest): Promise<runtime.ApiResponse<BasicResponse>> {
+    async createNonceRaw(requestParameters: CreateNonceRequest): Promise<runtime.ApiResponse<RespCreateNonce>> {
         if (requestParameters.actorId === null || requestParameters.actorId === undefined) {
             throw new runtime.RequiredError('actorId','Required parameter requestParameters.actorId was null or undefined when calling createNonce.');
         }
@@ -82,14 +91,14 @@ export class NoncesApi extends runtime.BaseAPI {
             body: ReqCreateNonceToJSON(requestParameters.reqCreateNonce),
         });
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => BasicResponseFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => RespCreateNonceFromJSON(jsonValue));
     }
 
     /**
      * Create a nonce for an actor.
      * createNonce
      */
-    async createNonce(requestParameters: CreateNonceRequest): Promise<BasicResponse> {
+    async createNonce(requestParameters: CreateNonceRequest): Promise<RespCreateNonce> {
         const response = await this.createNonceRaw(requestParameters);
         return await response.value();
     }
@@ -98,7 +107,7 @@ export class NoncesApi extends runtime.BaseAPI {
      * Delete a nonce.
      * deleteNonce
      */
-    async deleteNonceRaw(requestParameters: DeleteNonceRequest): Promise<runtime.ApiResponse<BasicResponse>> {
+    async deleteNonceRaw(requestParameters: DeleteNonceRequest): Promise<runtime.ApiResponse<RespDeleteNonce>> {
         if (requestParameters.actorId === null || requestParameters.actorId === undefined) {
             throw new runtime.RequiredError('actorId','Required parameter requestParameters.actorId was null or undefined when calling deleteNonce.');
         }
@@ -126,14 +135,14 @@ export class NoncesApi extends runtime.BaseAPI {
             query: queryParameters,
         });
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => BasicResponseFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => RespDeleteNonceFromJSON(jsonValue));
     }
 
     /**
      * Delete a nonce.
      * deleteNonce
      */
-    async deleteNonce(requestParameters: DeleteNonceRequest): Promise<BasicResponse> {
+    async deleteNonce(requestParameters: DeleteNonceRequest): Promise<RespDeleteNonce> {
         const response = await this.deleteNonceRaw(requestParameters);
         return await response.value();
     }
@@ -142,7 +151,7 @@ export class NoncesApi extends runtime.BaseAPI {
      * Get details about a nonce for an actor.
      * getNonce
      */
-    async getNonceRaw(requestParameters: GetNonceRequest): Promise<runtime.ApiResponse<BasicResponse>> {
+    async getNonceRaw(requestParameters: GetNonceRequest): Promise<runtime.ApiResponse<RespGetNonce>> {
         if (requestParameters.actorId === null || requestParameters.actorId === undefined) {
             throw new runtime.RequiredError('actorId','Required parameter requestParameters.actorId was null or undefined when calling getNonce.');
         }
@@ -170,14 +179,14 @@ export class NoncesApi extends runtime.BaseAPI {
             query: queryParameters,
         });
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => BasicResponseFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => RespGetNonceFromJSON(jsonValue));
     }
 
     /**
      * Get details about a nonce for an actor.
      * getNonce
      */
-    async getNonce(requestParameters: GetNonceRequest): Promise<BasicResponse> {
+    async getNonce(requestParameters: GetNonceRequest): Promise<RespGetNonce> {
         const response = await this.getNonceRaw(requestParameters);
         return await response.value();
     }
@@ -186,7 +195,7 @@ export class NoncesApi extends runtime.BaseAPI {
      * List nonces for an actor.
      * listNonces
      */
-    async listNoncesRaw(requestParameters: ListNoncesRequest): Promise<runtime.ApiResponse<BasicResponse>> {
+    async listNoncesRaw(requestParameters: ListNoncesRequest): Promise<runtime.ApiResponse<RespListNonces>> {
         if (requestParameters.actorId === null || requestParameters.actorId === undefined) {
             throw new runtime.RequiredError('actorId','Required parameter requestParameters.actorId was null or undefined when calling listNonces.');
         }
@@ -210,14 +219,14 @@ export class NoncesApi extends runtime.BaseAPI {
             query: queryParameters,
         });
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => BasicResponseFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => RespListNoncesFromJSON(jsonValue));
     }
 
     /**
      * List nonces for an actor.
      * listNonces
      */
-    async listNonces(requestParameters: ListNoncesRequest): Promise<BasicResponse> {
+    async listNonces(requestParameters: ListNoncesRequest): Promise<RespListNonces> {
         const response = await this.listNoncesRaw(requestParameters);
         return await response.value();
     }

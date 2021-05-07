@@ -42,11 +42,7 @@ paths:
           content:
             application/json:
               schema:
-                allOf:
-                  - $ref: '#/components/schemas/BasicResponse'
-                properties:
-                  result:
-                    $ref: '#/components/schemas/arrayOfSites'
+                $ref: '#/components/schemas/RespListSites'
     post:
       tags:
         - Sites
@@ -66,11 +62,7 @@ paths:
           content:
             application/json:
               schema:
-                allOf:
-                  - $ref: '#/components/schemas/BasicResponse'
-                properties:
-                  result:
-                    $ref: '#/components/schemas/Site'
+                $ref: '#/components/schemas/RespCreateSite'
   /v3/sites/{site_id}:
     get:
       tags:
@@ -91,11 +83,7 @@ paths:
           content:
             application/json:
               schema:
-                allOf:
-                  - $ref: '#/components/schemas/BasicResponse'
-                properties:
-                  result:
-                    $ref: '#/components/schemas/Site'
+                $ref: '#/components/schemas/RespGetSite'
     delete:
       tags:
         - Sites
@@ -115,14 +103,7 @@ paths:
           content:
             application/json:
               schema:
-                allOf:
-                  - $ref: '#/components/schemas/BasicResponse'
-                properties:
-                  result:
-                    type: string
-                    nullable: true
-                    enum:
-                      - null
+                $ref: '#/components/schemas/RespDeleteSite'
   /v3/tenants:
     get:
       tags:
@@ -148,11 +129,7 @@ paths:
           content:
             application/json:
               schema:
-                allOf:
-                  - $ref: '#/components/schemas/BasicResponse'
-                properties:
-                  result:
-                    $ref: '#/components/schemas/arrayOfTenants'
+                $ref: '#/components/schemas/RespListTenants'
     post:
       tags:
         - Tenants
@@ -172,11 +149,7 @@ paths:
           content:
             application/json:
               schema:
-                allOf:
-                  - $ref: '#/components/schemas/BasicResponse'
-                properties:
-                  result:
-                    $ref: '#/components/schemas/Tenant'
+                $ref: '#/components/schemas/RespCreateTenant'
   /v3/tenants/{tenant_id}:
     get:
       tags:
@@ -197,11 +170,7 @@ paths:
           content:
             application/json:
               schema:
-                allOf:
-                  - $ref: '#/components/schemas/BasicResponse'
-                properties:
-                  result:
-                    $ref: '#/components/schemas/Tenant'
+                $ref: '#/components/schemas/RespGetTenant'
     delete:
       tags:
         - Tenants
@@ -221,14 +190,7 @@ paths:
           content:
             application/json:
               schema:
-                allOf:
-                  - $ref: '#/components/schemas/BasicResponse'
-                properties:
-                  result:
-                    type: string
-                    nullable: true
-                    enum:
-                      - null
+                $ref: '#/components/schemas/RespDeleteTenant'
   /v3/tenants/ldaps:
     get:
       tags:
@@ -254,11 +216,7 @@ paths:
           content:
             application/json:
               schema:
-                allOf:
-                  - $ref: '#/components/schemas/BasicResponse'
-                properties:
-                  result:
-                    $ref: '#/components/schemas/arrayOfLDAPs'
+                $ref: '#/components/schemas/RespListLdaps'
     post:
       tags:
         - Tenants
@@ -278,11 +236,7 @@ paths:
           content:
             application/json:
               schema:
-                allOf:
-                  - $ref: '#/components/schemas/BasicResponse'
-                properties:
-                  result:
-                    $ref: '#/components/schemas/LDAP'
+                $ref: '#/components/schemas/RespCreateLdap'
   /v3/tenants/ldaps/{ldap_id}:
     get:
       tags:
@@ -303,11 +257,7 @@ paths:
           content:
             application/json:
               schema:
-                allOf:
-                  - $ref: '#/components/schemas/BasicResponse'
-                properties:
-                  result:
-                    $ref: '#/components/schemas/LDAP'
+                $ref: '#/components/schemas/RespGetLdap'
     delete:
       tags:
         - Tenants
@@ -327,14 +277,7 @@ paths:
           content:
             application/json:
               schema:
-                allOf:
-                  - $ref: '#/components/schemas/BasicResponse'
-                properties:
-                  result:
-                    type: string
-                    nullable: true
-                    enum:
-                      - null
+                $ref: '#/components/schemas/RespDeleteLdap'
   /v3/tenants/owners:
     get:
       tags:
@@ -360,11 +303,7 @@ paths:
           content:
             application/json:
               schema:
-                allOf:
-                  - $ref: '#/components/schemas/BasicResponse'
-                properties:
-                  result:
-                    $ref: '#/components/schemas/arrayOfOwners'
+                $ref: '#/components/schemas/RespListOwners'
     post:
       tags:
         - Tenants
@@ -384,11 +323,7 @@ paths:
           content:
             application/json:
               schema:
-                allOf:
-                  - $ref: '#/components/schemas/BasicResponse'
-                properties:
-                  result:
-                    $ref: '#/components/schemas/Owner'
+                $ref: '#/components/schemas/RespCreateOwner'
   /v3/tenants/owners/{email}:
     get:
       tags:
@@ -409,11 +344,7 @@ paths:
           content:
             application/json:
               schema:
-                allOf:
-                  - $ref: '#/components/schemas/BasicResponse'
-                properties:
-                  result:
-                    $ref: '#/components/schemas/Owner'
+                $ref: '#/components/schemas/RespGetOwner'
     delete:
       tags:
         - Tenants
@@ -433,14 +364,7 @@ paths:
           content:
             application/json:
               schema:
-                allOf:
-                  - $ref: '#/components/schemas/BasicResponse'
-                properties:
-                  result:
-                    type: string
-                    nullable: true
-                    enum:
-                      - null
+                $ref: '#/components/schemas/RespDeleteOwner'
 components:
   schemas:
     BasicResponse:
@@ -631,6 +555,290 @@ components:
       type: array
       items:
         $ref: '#/components/schemas/Owner'
+    RespListSites:
+      type: object
+      properties:
+        version:
+          type: string
+          description: Version of the API
+        message:
+          type: string
+          description: Brief description of the response
+        status:
+          type: string
+          description: Whether the request was a success or failure.
+          enum:
+            - success
+            - error
+        result:
+          $ref: '#/components/schemas/arrayOfSites'
+    RespCreateSite:
+      type: object
+      properties:
+        version:
+          type: string
+          description: Version of the API
+        message:
+          type: string
+          description: Brief description of the response
+        status:
+          type: string
+          description: Whether the request was a success or failure.
+          enum:
+            - success
+            - error
+        result:
+          $ref: '#/components/schemas/Site'
+    RespGetSite:
+      type: object
+      properties:
+        version:
+          type: string
+          description: Version of the API
+        message:
+          type: string
+          description: Brief description of the response
+        status:
+          type: string
+          description: Whether the request was a success or failure.
+          enum:
+            - success
+            - error
+        result:
+          $ref: '#/components/schemas/Site'
+    RespDeleteSite:
+      type: object
+      properties:
+        version:
+          type: string
+          description: Version of the API
+        message:
+          type: string
+          description: Brief description of the response
+        status:
+          type: string
+          description: Whether the request was a success or failure.
+          enum:
+            - success
+            - error
+        result:
+          type: string
+          nullable: true
+          enum:
+            - null
+    RespListTenants:
+      type: object
+      properties:
+        version:
+          type: string
+          description: Version of the API
+        message:
+          type: string
+          description: Brief description of the response
+        status:
+          type: string
+          description: Whether the request was a success or failure.
+          enum:
+            - success
+            - error
+        result:
+          $ref: '#/components/schemas/arrayOfTenants'
+    RespCreateTenant:
+      type: object
+      properties:
+        version:
+          type: string
+          description: Version of the API
+        message:
+          type: string
+          description: Brief description of the response
+        status:
+          type: string
+          description: Whether the request was a success or failure.
+          enum:
+            - success
+            - error
+        result:
+          $ref: '#/components/schemas/Tenant'
+    RespGetTenant:
+      type: object
+      properties:
+        version:
+          type: string
+          description: Version of the API
+        message:
+          type: string
+          description: Brief description of the response
+        status:
+          type: string
+          description: Whether the request was a success or failure.
+          enum:
+            - success
+            - error
+        result:
+          $ref: '#/components/schemas/Tenant'
+    RespDeleteTenant:
+      type: object
+      properties:
+        version:
+          type: string
+          description: Version of the API
+        message:
+          type: string
+          description: Brief description of the response
+        status:
+          type: string
+          description: Whether the request was a success or failure.
+          enum:
+            - success
+            - error
+        result:
+          type: string
+          nullable: true
+          enum:
+            - null
+    RespListLdaps:
+      type: object
+      properties:
+        version:
+          type: string
+          description: Version of the API
+        message:
+          type: string
+          description: Brief description of the response
+        status:
+          type: string
+          description: Whether the request was a success or failure.
+          enum:
+            - success
+            - error
+        result:
+          $ref: '#/components/schemas/arrayOfLDAPs'
+    RespCreateLdap:
+      type: object
+      properties:
+        version:
+          type: string
+          description: Version of the API
+        message:
+          type: string
+          description: Brief description of the response
+        status:
+          type: string
+          description: Whether the request was a success or failure.
+          enum:
+            - success
+            - error
+        result:
+          $ref: '#/components/schemas/LDAP'
+    RespGetLdap:
+      type: object
+      properties:
+        version:
+          type: string
+          description: Version of the API
+        message:
+          type: string
+          description: Brief description of the response
+        status:
+          type: string
+          description: Whether the request was a success or failure.
+          enum:
+            - success
+            - error
+        result:
+          $ref: '#/components/schemas/LDAP'
+    RespDeleteLdap:
+      type: object
+      properties:
+        version:
+          type: string
+          description: Version of the API
+        message:
+          type: string
+          description: Brief description of the response
+        status:
+          type: string
+          description: Whether the request was a success or failure.
+          enum:
+            - success
+            - error
+        result:
+          type: string
+          nullable: true
+          enum:
+            - null
+    RespListOwners:
+      type: object
+      properties:
+        version:
+          type: string
+          description: Version of the API
+        message:
+          type: string
+          description: Brief description of the response
+        status:
+          type: string
+          description: Whether the request was a success or failure.
+          enum:
+            - success
+            - error
+        result:
+          $ref: '#/components/schemas/arrayOfOwners'
+    RespCreateOwner:
+      type: object
+      properties:
+        version:
+          type: string
+          description: Version of the API
+        message:
+          type: string
+          description: Brief description of the response
+        status:
+          type: string
+          description: Whether the request was a success or failure.
+          enum:
+            - success
+            - error
+        result:
+          $ref: '#/components/schemas/Owner'
+    RespGetOwner:
+      type: object
+      properties:
+        version:
+          type: string
+          description: Version of the API
+        message:
+          type: string
+          description: Brief description of the response
+        status:
+          type: string
+          description: Whether the request was a success or failure.
+          enum:
+            - success
+            - error
+        result:
+          $ref: '#/components/schemas/Owner'
+    RespDeleteOwner:
+      type: object
+      properties:
+        version:
+          type: string
+          description: Version of the API
+        message:
+          type: string
+          description: Brief description of the response
+        status:
+          type: string
+          description: Whether the request was a success or failure.
+          enum:
+            - success
+            - error
+        result:
+          type: string
+          nullable: true
+          enum:
+            - null
     ReqCreateLdap:
       type: object
       properties:

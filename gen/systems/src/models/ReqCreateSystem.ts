@@ -2,7 +2,7 @@
 /* eslint-disable */
 /**
  * Tapis Systems API
- * The Tapis Systems API provides for management of Tapis Systems including transfer methods, permissions and credentials.
+ * The Tapis Systems API provides for management of Tapis Systems including permissions and credentials.
  *
  * The version of the OpenAPI document: 0.0.1
  * Contact: cicsupport@tacc.utexas.edu
@@ -38,14 +38,14 @@ import {
     LogicalQueueFromJSON,
     LogicalQueueFromJSONTyped,
     LogicalQueueToJSON,
+    SchedulerTypeEnum,
+    SchedulerTypeEnumFromJSON,
+    SchedulerTypeEnumFromJSONTyped,
+    SchedulerTypeEnumToJSON,
     SystemTypeEnum,
     SystemTypeEnumFromJSON,
     SystemTypeEnumFromJSONTyped,
     SystemTypeEnumToJSON,
-    TransferMethodEnum,
-    TransferMethodEnumFromJSON,
-    TransferMethodEnumFromJSONTyped,
-    TransferMethodEnumToJSON,
 } from './';
 
 /**
@@ -120,12 +120,6 @@ export interface ReqCreateSystem {
      * @memberof ReqCreateSystem
      */
     rootDir?: string;
-    /**
-     * 
-     * @type {Array<TransferMethodEnum>}
-     * @memberof ReqCreateSystem
-     */
-    transferMethods?: Array<TransferMethodEnum>;
     /**
      * 
      * @type {number}
@@ -218,10 +212,10 @@ export interface ReqCreateSystem {
     jobIsBatch?: boolean;
     /**
      * 
-     * @type {string}
+     * @type {SchedulerTypeEnum}
      * @memberof ReqCreateSystem
      */
-    batchScheduler?: string;
+    batchScheduler?: SchedulerTypeEnum;
     /**
      * 
      * @type {Array<LogicalQueue>}
@@ -275,7 +269,6 @@ export function ReqCreateSystemFromJSONTyped(json: any, ignoreDiscriminator: boo
         'authnCredential': !exists(json, 'authnCredential') ? undefined : CredentialFromJSON(json['authnCredential']),
         'bucketName': !exists(json, 'bucketName') ? undefined : json['bucketName'],
         'rootDir': !exists(json, 'rootDir') ? undefined : json['rootDir'],
-        'transferMethods': !exists(json, 'transferMethods') ? undefined : ((json['transferMethods'] as Array<any>).map(TransferMethodEnumFromJSON)),
         'port': !exists(json, 'port') ? undefined : json['port'],
         'useProxy': !exists(json, 'useProxy') ? undefined : json['useProxy'],
         'proxyHost': !exists(json, 'proxyHost') ? undefined : json['proxyHost'],
@@ -291,7 +284,7 @@ export function ReqCreateSystemFromJSONTyped(json: any, ignoreDiscriminator: boo
         'jobMaxJobs': !exists(json, 'jobMaxJobs') ? undefined : json['jobMaxJobs'],
         'jobMaxJobsPerUser': !exists(json, 'jobMaxJobsPerUser') ? undefined : json['jobMaxJobsPerUser'],
         'jobIsBatch': !exists(json, 'jobIsBatch') ? undefined : json['jobIsBatch'],
-        'batchScheduler': !exists(json, 'batchScheduler') ? undefined : json['batchScheduler'],
+        'batchScheduler': !exists(json, 'batchScheduler') ? undefined : SchedulerTypeEnumFromJSON(json['batchScheduler']),
         'batchLogicalQueues': !exists(json, 'batchLogicalQueues') ? undefined : ((json['batchLogicalQueues'] as Array<any>).map(LogicalQueueFromJSON)),
         'batchDefaultLogicalQueue': !exists(json, 'batchDefaultLogicalQueue') ? undefined : json['batchDefaultLogicalQueue'],
         'jobCapabilities': !exists(json, 'jobCapabilities') ? undefined : ((json['jobCapabilities'] as Array<any>).map(CapabilityFromJSON)),
@@ -320,7 +313,6 @@ export function ReqCreateSystemToJSON(value?: ReqCreateSystem | null): any {
         'authnCredential': CredentialToJSON(value.authnCredential),
         'bucketName': value.bucketName,
         'rootDir': value.rootDir,
-        'transferMethods': value.transferMethods === undefined ? undefined : ((value.transferMethods as Array<any>).map(TransferMethodEnumToJSON)),
         'port': value.port,
         'useProxy': value.useProxy,
         'proxyHost': value.proxyHost,
@@ -336,7 +328,7 @@ export function ReqCreateSystemToJSON(value?: ReqCreateSystem | null): any {
         'jobMaxJobs': value.jobMaxJobs,
         'jobMaxJobsPerUser': value.jobMaxJobsPerUser,
         'jobIsBatch': value.jobIsBatch,
-        'batchScheduler': value.batchScheduler,
+        'batchScheduler': SchedulerTypeEnumToJSON(value.batchScheduler),
         'batchLogicalQueues': value.batchLogicalQueues === undefined ? undefined : ((value.batchLogicalQueues as Array<any>).map(LogicalQueueToJSON)),
         'batchDefaultLogicalQueue': value.batchDefaultLogicalQueue,
         'jobCapabilities': value.jobCapabilities === undefined ? undefined : ((value.jobCapabilities as Array<any>).map(CapabilityToJSON)),

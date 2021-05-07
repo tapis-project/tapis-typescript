@@ -15,12 +15,21 @@
 
 import * as runtime from '../runtime';
 import {
-    BasicResponse,
-    BasicResponseFromJSON,
-    BasicResponseToJSON,
     ReqCreateTable,
     ReqCreateTableFromJSON,
     ReqCreateTableToJSON,
+    RespCreateTable,
+    RespCreateTableFromJSON,
+    RespCreateTableToJSON,
+    RespDeleteTable,
+    RespDeleteTableFromJSON,
+    RespDeleteTableToJSON,
+    RespGetTable,
+    RespGetTableFromJSON,
+    RespGetTableToJSON,
+    RespListTables,
+    RespListTablesFromJSON,
+    RespListTablesToJSON,
 } from '../models';
 
 export interface CreateTableRequest {
@@ -50,7 +59,7 @@ export class ManageApi extends runtime.BaseAPI {
      * Create a table.
      * Create a tale.
      */
-    async createTableRaw(requestParameters: CreateTableRequest): Promise<runtime.ApiResponse<BasicResponse>> {
+    async createTableRaw(requestParameters: CreateTableRequest): Promise<runtime.ApiResponse<RespCreateTable>> {
         if (requestParameters.reqCreateTable === null || requestParameters.reqCreateTable === undefined) {
             throw new runtime.RequiredError('reqCreateTable','Required parameter requestParameters.reqCreateTable was null or undefined when calling createTable.');
         }
@@ -69,14 +78,14 @@ export class ManageApi extends runtime.BaseAPI {
             body: ReqCreateTableToJSON(requestParameters.reqCreateTable),
         });
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => BasicResponseFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => RespCreateTableFromJSON(jsonValue));
     }
 
     /**
      * Create a table.
      * Create a tale.
      */
-    async createTable(requestParameters: CreateTableRequest): Promise<BasicResponse> {
+    async createTable(requestParameters: CreateTableRequest): Promise<RespCreateTable> {
         const response = await this.createTableRaw(requestParameters);
         return await response.value();
     }
@@ -85,7 +94,7 @@ export class ManageApi extends runtime.BaseAPI {
      * Delete a specific table and all associted data. WARNING -- this action cannot be undone.
      * Delete a specific table and all associted data.
      */
-    async deleteTableRaw(requestParameters: DeleteTableRequest): Promise<runtime.ApiResponse<BasicResponse>> {
+    async deleteTableRaw(requestParameters: DeleteTableRequest): Promise<runtime.ApiResponse<RespDeleteTable>> {
         if (requestParameters.tableId === null || requestParameters.tableId === undefined) {
             throw new runtime.RequiredError('tableId','Required parameter requestParameters.tableId was null or undefined when calling deleteTable.');
         }
@@ -101,14 +110,14 @@ export class ManageApi extends runtime.BaseAPI {
             query: queryParameters,
         });
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => BasicResponseFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => RespDeleteTableFromJSON(jsonValue));
     }
 
     /**
      * Delete a specific table and all associted data. WARNING -- this action cannot be undone.
      * Delete a specific table and all associted data.
      */
-    async deleteTable(requestParameters: DeleteTableRequest): Promise<BasicResponse> {
+    async deleteTable(requestParameters: DeleteTableRequest): Promise<RespDeleteTable> {
         const response = await this.deleteTableRaw(requestParameters);
         return await response.value();
     }
@@ -117,7 +126,7 @@ export class ManageApi extends runtime.BaseAPI {
      * Get details of a specific table.
      * Get details of a specific table.
      */
-    async getTableRaw(requestParameters: GetTableRequest): Promise<runtime.ApiResponse<BasicResponse>> {
+    async getTableRaw(requestParameters: GetTableRequest): Promise<runtime.ApiResponse<RespGetTable>> {
         if (requestParameters.tableId === null || requestParameters.tableId === undefined) {
             throw new runtime.RequiredError('tableId','Required parameter requestParameters.tableId was null or undefined when calling getTable.');
         }
@@ -137,14 +146,14 @@ export class ManageApi extends runtime.BaseAPI {
             query: queryParameters,
         });
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => BasicResponseFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => RespGetTableFromJSON(jsonValue));
     }
 
     /**
      * Get details of a specific table.
      * Get details of a specific table.
      */
-    async getTable(requestParameters: GetTableRequest): Promise<BasicResponse> {
+    async getTable(requestParameters: GetTableRequest): Promise<RespGetTable> {
         const response = await this.getTableRaw(requestParameters);
         return await response.value();
     }
@@ -153,7 +162,7 @@ export class ManageApi extends runtime.BaseAPI {
      * List tables in the tenant\'s schema.
      * List tables.
      */
-    async listTablesRaw(requestParameters: ListTablesRequest): Promise<runtime.ApiResponse<BasicResponse>> {
+    async listTablesRaw(requestParameters: ListTablesRequest): Promise<runtime.ApiResponse<RespListTables>> {
         const queryParameters: any = {};
 
         if (requestParameters.limit !== undefined) {
@@ -173,14 +182,14 @@ export class ManageApi extends runtime.BaseAPI {
             query: queryParameters,
         });
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => BasicResponseFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => RespListTablesFromJSON(jsonValue));
     }
 
     /**
      * List tables in the tenant\'s schema.
      * List tables.
      */
-    async listTables(requestParameters: ListTablesRequest): Promise<BasicResponse> {
+    async listTables(requestParameters: ListTablesRequest): Promise<RespListTables> {
         const response = await this.listTablesRaw(requestParameters);
         return await response.value();
     }

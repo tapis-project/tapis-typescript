@@ -4,6 +4,7 @@ console.log("PGRest API transform");
 try {
   const doc = utils.read('pgrest');
   let transformed = { ...doc };
+  transformed = utils.expandBasicResponses(transformed);
 
   // Rename schemas
   const schemas = {

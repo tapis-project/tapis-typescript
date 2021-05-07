@@ -40,11 +40,7 @@ paths:
           content:
             application/json:
               schema:
-                allOf:
-                  - $ref: '#/components/schemas/BasicResponse'
-                properties:
-                  result:
-                    $ref: '#/components/schemas/Token'
+                $ref: '#/components/schemas/RespCreateToken'
     put:
       tags:
         - Tokens
@@ -63,11 +59,7 @@ paths:
           content:
             application/json:
               schema:
-                allOf:
-                  - $ref: '#/components/schemas/BasicResponse'
-                properties:
-                  result:
-                    $ref: '#/components/schemas/Token'
+                $ref: '#/components/schemas/RespRefreshToken'
 components:
   securitySchemes:
     basicAuth:
@@ -113,6 +105,40 @@ components:
         expires_in:
           type: integer
           description: The time, in seconds, when the generated refresh token expires.
+    RespCreateToken:
+      type: object
+      properties:
+        version:
+          type: string
+          description: Version of the API
+        message:
+          type: string
+          description: Brief description of the response
+        status:
+          type: string
+          description: Whether the request was a success or failure.
+          enum:
+            - success
+            - error
+        result:
+          $ref: '#/components/schemas/Token'
+    RespRefreshToken:
+      type: object
+      properties:
+        version:
+          type: string
+          description: Version of the API
+        message:
+          type: string
+          description: Brief description of the response
+        status:
+          type: string
+          description: Whether the request was a success or failure.
+          enum:
+            - success
+            - error
+        result:
+          $ref: '#/components/schemas/Token'
     ReqCreateToken:
       type: object
       properties:

@@ -15,9 +15,9 @@
 
 import * as runtime from '../runtime';
 import {
-    BasicResponse,
-    BasicResponseFromJSON,
-    BasicResponseToJSON,
+    RespSearchDatabase,
+    RespSearchDatabaseFromJSON,
+    RespSearchDatabaseToJSON,
 } from '../models';
 
 export interface SearchDatabaseRequest {
@@ -36,7 +36,7 @@ export class SearchApi extends runtime.BaseAPI {
      * Return db records that match query
      * searchDatabase
      */
-    async searchDatabaseRaw(requestParameters: SearchDatabaseRequest): Promise<runtime.ApiResponse<BasicResponse>> {
+    async searchDatabaseRaw(requestParameters: SearchDatabaseRequest): Promise<runtime.ApiResponse<RespSearchDatabase>> {
         if (requestParameters.searchType === null || requestParameters.searchType === undefined) {
             throw new runtime.RequiredError('searchType','Required parameter requestParameters.searchType was null or undefined when calling searchDatabase.');
         }
@@ -72,14 +72,14 @@ export class SearchApi extends runtime.BaseAPI {
             query: queryParameters,
         });
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => BasicResponseFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => RespSearchDatabaseFromJSON(jsonValue));
     }
 
     /**
      * Return db records that match query
      * searchDatabase
      */
-    async searchDatabase(requestParameters: SearchDatabaseRequest): Promise<BasicResponse> {
+    async searchDatabase(requestParameters: SearchDatabaseRequest): Promise<RespSearchDatabase> {
         const response = await this.searchDatabaseRaw(requestParameters);
         return await response.value();
     }

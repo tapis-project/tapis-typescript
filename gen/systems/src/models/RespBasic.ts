@@ -2,7 +2,7 @@
 /* eslint-disable */
 /**
  * Tapis Systems API
- * The Tapis Systems API provides for management of Tapis Systems including transfer methods, permissions and credentials.
+ * The Tapis Systems API provides for management of Tapis Systems including permissions and credentials.
  *
  * The version of the OpenAPI document: 0.0.1
  * Contact: cicsupport@tacc.utexas.edu
@@ -43,6 +43,12 @@ export interface RespBasic {
      * @memberof RespBasic
      */
     result?: object;
+    /**
+     * 
+     * @type {object}
+     * @memberof RespBasic
+     */
+    metadata?: object;
 }
 
 export function RespBasicFromJSON(json: any): RespBasic {
@@ -59,6 +65,7 @@ export function RespBasicFromJSONTyped(json: any, ignoreDiscriminator: boolean):
         'message': !exists(json, 'message') ? undefined : json['message'],
         'version': !exists(json, 'version') ? undefined : json['version'],
         'result': !exists(json, 'result') ? undefined : json['result'],
+        'metadata': !exists(json, 'metadata') ? undefined : json['metadata'],
     };
 }
 
@@ -75,6 +82,7 @@ export function RespBasicToJSON(value?: RespBasic | null): any {
         'message': value.message,
         'version': value.version,
         'result': value.result,
+        'metadata': value.metadata,
     };
 }
 

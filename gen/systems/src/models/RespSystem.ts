@@ -2,7 +2,7 @@
 /* eslint-disable */
 /**
  * Tapis Systems API
- * The Tapis Systems API provides for management of Tapis Systems including transfer methods, permissions and credentials.
+ * The Tapis Systems API provides for management of Tapis Systems including permissions and credentials.
  *
  * The version of the OpenAPI document: 0.0.1
  * Contact: cicsupport@tacc.utexas.edu
@@ -14,10 +14,10 @@
 
 import { exists, mapValues } from '../runtime';
 import {
-    TSystem,
-    TSystemFromJSON,
-    TSystemFromJSONTyped,
-    TSystemToJSON,
+    TapisSystem,
+    TapisSystemFromJSON,
+    TapisSystemFromJSONTyped,
+    TapisSystemToJSON,
 } from './';
 
 /**
@@ -46,10 +46,16 @@ export interface RespSystem {
     version?: string;
     /**
      * 
-     * @type {TSystem}
+     * @type {TapisSystem}
      * @memberof RespSystem
      */
-    result?: TSystem;
+    result?: TapisSystem;
+    /**
+     * 
+     * @type {object}
+     * @memberof RespSystem
+     */
+    metadata?: object;
 }
 
 export function RespSystemFromJSON(json: any): RespSystem {
@@ -65,7 +71,8 @@ export function RespSystemFromJSONTyped(json: any, ignoreDiscriminator: boolean)
         'status': !exists(json, 'status') ? undefined : json['status'],
         'message': !exists(json, 'message') ? undefined : json['message'],
         'version': !exists(json, 'version') ? undefined : json['version'],
-        'result': !exists(json, 'result') ? undefined : TSystemFromJSON(json['result']),
+        'result': !exists(json, 'result') ? undefined : TapisSystemFromJSON(json['result']),
+        'metadata': !exists(json, 'metadata') ? undefined : json['metadata'],
     };
 }
 
@@ -81,7 +88,8 @@ export function RespSystemToJSON(value?: RespSystem | null): any {
         'status': value.status,
         'message': value.message,
         'version': value.version,
-        'result': TSystemToJSON(value.result),
+        'result': TapisSystemToJSON(value.result),
+        'metadata': value.metadata,
     };
 }
 

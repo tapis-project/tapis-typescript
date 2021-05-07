@@ -15,12 +15,27 @@
 
 import * as runtime from '../runtime';
 import {
-    BasicResponse,
-    BasicResponseFromJSON,
-    BasicResponseToJSON,
     ReqCreateInCollection,
     ReqCreateInCollectionFromJSON,
     ReqCreateInCollectionToJSON,
+    RespCreateInCollection,
+    RespCreateInCollectionFromJSON,
+    RespCreateInCollectionToJSON,
+    RespDeleteInCollection,
+    RespDeleteInCollectionFromJSON,
+    RespDeleteInCollectionToJSON,
+    RespGetInCollection,
+    RespGetInCollectionFromJSON,
+    RespGetInCollectionToJSON,
+    RespListInCollection,
+    RespListInCollectionFromJSON,
+    RespListInCollectionToJSON,
+    RespUpdateInCollection,
+    RespUpdateInCollectionFromJSON,
+    RespUpdateInCollectionToJSON,
+    RespUpdateMultipleInCollection,
+    RespUpdateMultipleInCollectionFromJSON,
+    RespUpdateMultipleInCollectionToJSON,
 } from '../models';
 
 export interface CreateInCollectionRequest {
@@ -61,7 +76,7 @@ export class DataApi extends runtime.BaseAPI {
     /**
      * Create a new object in the table with root_url {collection}
      */
-    async createInCollectionRaw(requestParameters: CreateInCollectionRequest): Promise<runtime.ApiResponse<BasicResponse>> {
+    async createInCollectionRaw(requestParameters: CreateInCollectionRequest): Promise<runtime.ApiResponse<RespCreateInCollection>> {
         if (requestParameters.collection === null || requestParameters.collection === undefined) {
             throw new runtime.RequiredError('collection','Required parameter requestParameters.collection was null or undefined when calling createInCollection.');
         }
@@ -84,13 +99,13 @@ export class DataApi extends runtime.BaseAPI {
             body: ReqCreateInCollectionToJSON(requestParameters.reqCreateInCollection),
         });
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => BasicResponseFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => RespCreateInCollectionFromJSON(jsonValue));
     }
 
     /**
      * Create a new object in the table with root_url {collection}
      */
-    async createInCollection(requestParameters: CreateInCollectionRequest): Promise<BasicResponse> {
+    async createInCollection(requestParameters: CreateInCollectionRequest): Promise<RespCreateInCollection> {
         const response = await this.createInCollectionRaw(requestParameters);
         return await response.value();
     }
@@ -98,7 +113,7 @@ export class DataApi extends runtime.BaseAPI {
     /**
      * Delete a specific object with id {item} from the table with root_url {collection}.
      */
-    async deleteInCollectionRaw(requestParameters: DeleteInCollectionRequest): Promise<runtime.ApiResponse<BasicResponse>> {
+    async deleteInCollectionRaw(requestParameters: DeleteInCollectionRequest): Promise<runtime.ApiResponse<RespDeleteInCollection>> {
         if (requestParameters.collection === null || requestParameters.collection === undefined) {
             throw new runtime.RequiredError('collection','Required parameter requestParameters.collection was null or undefined when calling deleteInCollection.');
         }
@@ -118,13 +133,13 @@ export class DataApi extends runtime.BaseAPI {
             query: queryParameters,
         });
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => BasicResponseFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => RespDeleteInCollectionFromJSON(jsonValue));
     }
 
     /**
      * Delete a specific object with id {item} from the table with root_url {collection}.
      */
-    async deleteInCollection(requestParameters: DeleteInCollectionRequest): Promise<BasicResponse> {
+    async deleteInCollection(requestParameters: DeleteInCollectionRequest): Promise<RespDeleteInCollection> {
         const response = await this.deleteInCollectionRaw(requestParameters);
         return await response.value();
     }
@@ -132,7 +147,7 @@ export class DataApi extends runtime.BaseAPI {
     /**
      * Get details about the specific object with id {item} on the table with root_url {collection}.
      */
-    async getInCollectionRaw(requestParameters: GetInCollectionRequest): Promise<runtime.ApiResponse<BasicResponse>> {
+    async getInCollectionRaw(requestParameters: GetInCollectionRequest): Promise<runtime.ApiResponse<RespGetInCollection>> {
         if (requestParameters.collection === null || requestParameters.collection === undefined) {
             throw new runtime.RequiredError('collection','Required parameter requestParameters.collection was null or undefined when calling getInCollection.');
         }
@@ -152,13 +167,13 @@ export class DataApi extends runtime.BaseAPI {
             query: queryParameters,
         });
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => BasicResponseFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => RespGetInCollectionFromJSON(jsonValue));
     }
 
     /**
      * Get details about the specific object with id {item} on the table with root_url {collection}.
      */
-    async getInCollection(requestParameters: GetInCollectionRequest): Promise<BasicResponse> {
+    async getInCollection(requestParameters: GetInCollectionRequest): Promise<RespGetInCollection> {
         const response = await this.getInCollectionRaw(requestParameters);
         return await response.value();
     }
@@ -166,7 +181,7 @@ export class DataApi extends runtime.BaseAPI {
     /**
      * List objects in the table with root_url {collection}.
      */
-    async listInCollectionRaw(requestParameters: ListInCollectionRequest): Promise<runtime.ApiResponse<BasicResponse>> {
+    async listInCollectionRaw(requestParameters: ListInCollectionRequest): Promise<runtime.ApiResponse<RespListInCollection>> {
         if (requestParameters.collection === null || requestParameters.collection === undefined) {
             throw new runtime.RequiredError('collection','Required parameter requestParameters.collection was null or undefined when calling listInCollection.');
         }
@@ -182,13 +197,13 @@ export class DataApi extends runtime.BaseAPI {
             query: queryParameters,
         });
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => BasicResponseFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => RespListInCollectionFromJSON(jsonValue));
     }
 
     /**
      * List objects in the table with root_url {collection}.
      */
-    async listInCollection(requestParameters: ListInCollectionRequest): Promise<BasicResponse> {
+    async listInCollection(requestParameters: ListInCollectionRequest): Promise<RespListInCollection> {
         const response = await this.listInCollectionRaw(requestParameters);
         return await response.value();
     }
@@ -196,7 +211,7 @@ export class DataApi extends runtime.BaseAPI {
     /**
      * Update a specific object with id {item} from the table with root_url {collection}.
      */
-    async updateInCollectionRaw(requestParameters: UpdateInCollectionRequest): Promise<runtime.ApiResponse<BasicResponse>> {
+    async updateInCollectionRaw(requestParameters: UpdateInCollectionRequest): Promise<runtime.ApiResponse<RespUpdateInCollection>> {
         if (requestParameters.collection === null || requestParameters.collection === undefined) {
             throw new runtime.RequiredError('collection','Required parameter requestParameters.collection was null or undefined when calling updateInCollection.');
         }
@@ -223,13 +238,13 @@ export class DataApi extends runtime.BaseAPI {
             body: requestParameters.body as any,
         });
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => BasicResponseFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => RespUpdateInCollectionFromJSON(jsonValue));
     }
 
     /**
      * Update a specific object with id {item} from the table with root_url {collection}.
      */
-    async updateInCollection(requestParameters: UpdateInCollectionRequest): Promise<BasicResponse> {
+    async updateInCollection(requestParameters: UpdateInCollectionRequest): Promise<RespUpdateInCollection> {
         const response = await this.updateInCollectionRaw(requestParameters);
         return await response.value();
     }
@@ -237,7 +252,7 @@ export class DataApi extends runtime.BaseAPI {
     /**
      * Update multiple rows in a table atomically.
      */
-    async updateMultipleInCollectionRaw(requestParameters: UpdateMultipleInCollectionRequest): Promise<runtime.ApiResponse<BasicResponse>> {
+    async updateMultipleInCollectionRaw(requestParameters: UpdateMultipleInCollectionRequest): Promise<runtime.ApiResponse<RespUpdateMultipleInCollection>> {
         if (requestParameters.collection === null || requestParameters.collection === undefined) {
             throw new runtime.RequiredError('collection','Required parameter requestParameters.collection was null or undefined when calling updateMultipleInCollection.');
         }
@@ -260,13 +275,13 @@ export class DataApi extends runtime.BaseAPI {
             body: requestParameters.requestBody,
         });
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => BasicResponseFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => RespUpdateMultipleInCollectionFromJSON(jsonValue));
     }
 
     /**
      * Update multiple rows in a table atomically.
      */
-    async updateMultipleInCollection(requestParameters: UpdateMultipleInCollectionRequest): Promise<BasicResponse> {
+    async updateMultipleInCollection(requestParameters: UpdateMultipleInCollectionRequest): Promise<RespUpdateMultipleInCollection> {
         const response = await this.updateMultipleInCollectionRaw(requestParameters);
         return await response.value();
     }

@@ -45,11 +45,7 @@ paths:
           content:
             application/json:
               schema:
-                allOf:
-                  - $ref: '#/components/schemas/BasicResponse'
-                properties:
-                  result:
-                    $ref: '#/components/schemas/arrayOfTables'
+                $ref: '#/components/schemas/RespListTables'
     post:
       tags:
         - Manage
@@ -93,11 +89,7 @@ paths:
           content:
             application/json:
               schema:
-                allOf:
-                  - $ref: '#/components/schemas/BasicResponse'
-                properties:
-                  result:
-                    $ref: '#/components/schemas/Table'
+                $ref: '#/components/schemas/RespCreateTable'
   /v3/pgrest/manage/tables/{table_id}:
     get:
       tags:
@@ -124,11 +116,7 @@ paths:
           content:
             application/json:
               schema:
-                allOf:
-                  - $ref: '#/components/schemas/BasicResponse'
-                properties:
-                  result:
-                    $ref: '#/components/schemas/Table'
+                $ref: '#/components/schemas/RespGetTable'
     delete:
       tags:
         - Manage
@@ -151,8 +139,7 @@ paths:
           content:
             application/json:
               schema:
-                allOf:
-                  - $ref: '#/components/schemas/BasicResponse'
+                $ref: '#/components/schemas/RespDeleteTable'
   /v3/pgrest/data/{collection}:
     get:
       tags:
@@ -172,11 +159,7 @@ paths:
           content:
             application/json:
               schema:
-                allOf:
-                  - $ref: '#/components/schemas/BasicResponse'
-                properties:
-                  result:
-                    $ref: '#/components/schemas/CollectionArray'
+                $ref: '#/components/schemas/RespListInCollection'
     post:
       tags:
         - Data
@@ -201,11 +184,7 @@ paths:
           content:
             application/json:
               schema:
-                allOf:
-                  - $ref: '#/components/schemas/BasicResponse'
-                properties:
-                  result:
-                    $ref: '#/components/schemas/CollectionItem'
+                $ref: '#/components/schemas/RespCreateInCollection'
     put:
       tags:
         - Data
@@ -230,8 +209,7 @@ paths:
           content:
             application/json:
               schema:
-                allOf:
-                  - $ref: '#/components/schemas/BasicResponse'
+                $ref: '#/components/schemas/RespUpdateMultipleInCollection'
   /v3/pgrest/data/{collection}/{item}:
     get:
       tags:
@@ -261,11 +239,7 @@ paths:
           content:
             application/json:
               schema:
-                allOf:
-                  - $ref: '#/components/schemas/BasicResponse'
-                properties:
-                  result:
-                    $ref: '#/components/schemas/CollectionItem'
+                $ref: '#/components/schemas/RespGetInCollection'
     put:
       tags:
         - Data
@@ -300,11 +274,7 @@ paths:
           content:
             application/json:
               schema:
-                allOf:
-                  - $ref: '#/components/schemas/BasicResponse'
-                properties:
-                  result:
-                    $ref: '#/components/schemas/CollectionItem'
+                $ref: '#/components/schemas/RespUpdateInCollection'
     delete:
       tags:
         - Data
@@ -333,8 +303,7 @@ paths:
           content:
             application/json:
               schema:
-                allOf:
-                  - $ref: '#/components/schemas/BasicResponse'
+                $ref: '#/components/schemas/RespDeleteInCollection'
 components:
   schemas:
     BasicResponse:
@@ -430,6 +399,170 @@ components:
         A JSON object of key/value pairs describing the updates to be made to
         the item. Each key should be the name of a column and each corresponding
         value should be the new value to update the column to.
+    RespListTables:
+      type: object
+      properties:
+        version:
+          type: string
+          description: Version of the API
+        message:
+          type: string
+          description: Brief description of the response
+        status:
+          type: string
+          description: Whether the request was a success or failure.
+          enum:
+            - success
+            - error
+        result:
+          $ref: '#/components/schemas/arrayOfTables'
+    RespCreateTable:
+      type: object
+      properties:
+        version:
+          type: string
+          description: Version of the API
+        message:
+          type: string
+          description: Brief description of the response
+        status:
+          type: string
+          description: Whether the request was a success or failure.
+          enum:
+            - success
+            - error
+        result:
+          $ref: '#/components/schemas/Table'
+    RespGetTable:
+      type: object
+      properties:
+        version:
+          type: string
+          description: Version of the API
+        message:
+          type: string
+          description: Brief description of the response
+        status:
+          type: string
+          description: Whether the request was a success or failure.
+          enum:
+            - success
+            - error
+        result:
+          $ref: '#/components/schemas/Table'
+    RespDeleteTable:
+      type: object
+      properties:
+        version:
+          type: string
+          description: Version of the API
+        message:
+          type: string
+          description: Brief description of the response
+        status:
+          type: string
+          description: Whether the request was a success or failure.
+          enum:
+            - success
+            - error
+    RespListInCollection:
+      type: object
+      properties:
+        version:
+          type: string
+          description: Version of the API
+        message:
+          type: string
+          description: Brief description of the response
+        status:
+          type: string
+          description: Whether the request was a success or failure.
+          enum:
+            - success
+            - error
+        result:
+          $ref: '#/components/schemas/CollectionArray'
+    RespCreateInCollection:
+      type: object
+      properties:
+        version:
+          type: string
+          description: Version of the API
+        message:
+          type: string
+          description: Brief description of the response
+        status:
+          type: string
+          description: Whether the request was a success or failure.
+          enum:
+            - success
+            - error
+        result:
+          $ref: '#/components/schemas/CollectionItem'
+    RespUpdateMultipleInCollection:
+      type: object
+      properties:
+        version:
+          type: string
+          description: Version of the API
+        message:
+          type: string
+          description: Brief description of the response
+        status:
+          type: string
+          description: Whether the request was a success or failure.
+          enum:
+            - success
+            - error
+    RespGetInCollection:
+      type: object
+      properties:
+        version:
+          type: string
+          description: Version of the API
+        message:
+          type: string
+          description: Brief description of the response
+        status:
+          type: string
+          description: Whether the request was a success or failure.
+          enum:
+            - success
+            - error
+        result:
+          $ref: '#/components/schemas/CollectionItem'
+    RespUpdateInCollection:
+      type: object
+      properties:
+        version:
+          type: string
+          description: Version of the API
+        message:
+          type: string
+          description: Brief description of the response
+        status:
+          type: string
+          description: Whether the request was a success or failure.
+          enum:
+            - success
+            - error
+        result:
+          $ref: '#/components/schemas/CollectionItem'
+    RespDeleteInCollection:
+      type: object
+      properties:
+        version:
+          type: string
+          description: Version of the API
+        message:
+          type: string
+          description: Brief description of the response
+        status:
+          type: string
+          description: Whether the request was a success or failure.
+          enum:
+            - success
+            - error
     ReqCreateTable:
       type: object
       properties:

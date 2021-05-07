@@ -7,6 +7,7 @@ try {
   let transformed = utils.setTag(doc, '/v3/streams/hello', 'Health');
   transformed = utils.setTag(transformed, '/v3/streams/ready', 'Health');
   transformed = utils.setTag(transformed, '/v3/streams/healthcheck', 'Health');
+  transformed = utils.expandBasicResponses(transformed);
   
   // Rename schemas
   const schemas = {
