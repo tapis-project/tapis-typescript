@@ -4,19 +4,26 @@ const fetch = require('node-fetch');
 
 import { Tenants } from '@tapis/tapis-typescript';
 
+// Asynchronous top level function
+(async function() {
+  // Create a configuration for the service with the target tenant and the fetch client.
+  // In this case, node-fetch.
+  const configurationParameters: Tenants.ConfigurationParameters = {
+    basePath: process.env.TACC_TENANT,
+    fetchApi: fetch
+  };
+  const configuration: Tenants.Configuration = new Tenants.Configuration(configurationParameters);
 
-const configurationParameters: Tenants.ConfigurationParameters = {
-  basePath: process.env.TACC_TENANT,
-  fetchApi: fetch
-}
-const configuration: Tenants.Configuration = new Tenants.Configuration(configurationParameters);
-const tenantsApi: Tenants.TenantsApi = new Tenants.TenantsApi(configuration);
-const sitesApi: Tenants.SitesApi = new Tenants.SitesApi(configuration);
-const listTenantsRequest: Tenants.ListTenantsRequest = {}
-const responsePromise: Promise<Tenants.RespListTenants> = tenantsApi.listTenants(listTenantsRequest);
-responsePromise.then(
-  (response: Tenants.RespListTenants) => {
-    const tenants: Array<Tenants.Tenant> = response.result
-    console.log(tenants);
-  }
-)
+  // Create the service with the configuration
+  const tenantsApi: Tenants.TenantsApi = new Tenants.TenantsApi(configuration);
+
+  // Create a request structure
+  const listTenantsRequest: Tenants.ListTenantsRequest = {};
+
+  // Make the request
+  const response: Tenants.RespListTenants = await tenantsApi.listTenants(listTenantsRequest);
+
+  // Extract the result object
+  const tenants: Array<Tenants.Tenant> = response.result;
+  console.log(tenants);
+}());

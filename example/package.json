@@ -6,6 +6,7 @@
   "scripts": {
     "build": "tsc",
     "tenants": "node ./dist/tenants.js",
+    "systems": "node ./dist/systems.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
