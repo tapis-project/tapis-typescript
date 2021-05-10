@@ -8,7 +8,11 @@ import getToken from './utils';
 
 describe('Authenticator e2e tests', () => {
   it('should retrieve a JWT token', async () => {
-    const token = await getToken();
-    expect(token.access_token.length).to.be.greaterThan(0);
+    try {
+      const token = await getToken();
+      expect(token.access_token.length).to.be.greaterThan(0);  
+    } catch (error) {
+      throw await error.json()
+    }
   });
 });

@@ -1,15 +1,17 @@
 {
-  "name": "tapis-typescript",
-  "version": "1.0.0",
-  "description": "Generator for tapis-typescript",
+  "name": "@tapis/tapis-typescript",
+  "version": "0.0.4",
+  "description": "TypeScript bindings for tapis.io api",
   "main": "./dist/index.js",
   "typings": "./dist/index.d.ts",
+  "types": "./dist/index.d.ts",
   "scripts": {
     "build": "tsc",
     "generate": "./generate_all.sh",
     "build-services": "./build-services.sh",
     "test": "env TS_NODE_COMPILER_OPTIONS='{\"module\": \"commonjs\" }' mocha -r ts-node/register 'tests/**/*.ts'",
-    "e2e": "env TS_NODE_COMPILER_OPTIONS='{\"module\": \"commonjs\" }' mocha -r ts-node/register 'e2e/**/*.ts'"
+    "e2e": "env TS_NODE_COMPILER_OPTIONS='{\"module\": \"commonjs\" }' mocha -r ts-node/register 'e2e/**/*.ts'",
+    "prepare": "tsc"
   },
   "repository": {
     "type": "git",
@@ -22,23 +24,15 @@
   },
   "homepage": "https://github.com/tapis-project/tapis-typescript#readme",
   "dependencies": {
-    "@tapis/tapis-typescript-actors": "file:gen/actors",
-    "@tapis/tapis-typescript-apps": "file:gen/apps",
-    "@tapis/tapis-typescript-authenticator": "file:gen/authenticator",
-    "@tapis/tapis-typescript-files": "file:gen/files",
-    "@tapis/tapis-typescript-jobs": "file:gen/jobs",
-    "@tapis/tapis-typescript-meta": "file:gen/meta",
-    "@tapis/tapis-typescript-pgrest": "file:gen/pgrest",
-    "@tapis/tapis-typescript-sk": "file:gen/sk",
-    "@tapis/tapis-typescript-streams": "file:gen/streams",
-    "@tapis/tapis-typescript-systems": "file:gen/systems",
-    "@tapis/tapis-typescript-tenants": "file:gen/tenants",
-    "@tapis/tapis-typescript-tokens": "file:gen/tokens"
+    "@tapis/tapis-typescript-authenticator": "^0.0.1",
+    "@tapis/tapis-typescript-systems": "^0.0.1",
+    "@tapis/tapis-typescript-tenants": "^0.0.1"
   },
   "devDependencies": {
     "@openapitools/openapi-generator-cli": "^2.2.4",
     "@types/chai": "^4.2.16",
     "@types/jest": "^26.0.22",
+    "@types/node": "^15.0.2",
     "chai": "^4.3.4",
     "cross-fetch": "^3.1.4",
     "dotenv": "^8.2.0",
