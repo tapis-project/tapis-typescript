@@ -1,6 +1,6 @@
 {
 	"npmName": "@tapis/tapis-typescript-streams",
-	"npmVersion": "1.0.0",
+	"npmVersion": "0.0.1",
 	"snapshot" : false,
 	"supportsES6": false,
 	"modelPropertyNaming": "original"
