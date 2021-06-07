@@ -1,37 +1,12 @@
 // Load e2e environment variables into process.env
 require('dotenv').config({ path: 'example.env' });
+import getToken from '../../tapis-typescript/e2e/utils';
 const fetch = require('node-fetch');
 
 import { 
   Authenticator,
   Systems
 } from '@tapis/tapis-typescript';
-
-// A utility function that creates an access_token object, that contains a JWT
-const getToken = async (): Promise<Authenticator.NewAccessTokenResponse> => {
-  // Configure the client
-  const configurationParameters: Authenticator.ConfigurationParameters = {
-    basePath: process.env.TEST_TENANT,
-    fetchApi: fetch
-  }
-  const configuration: Authenticator.Configuration = new Authenticator.Configuration(configurationParameters);
-  const api: Authenticator.TokensApi = new Authenticator.TokensApi(configuration);
-  
-  // Create a request object with the required parameters
-  const createTokenRequest: Authenticator.CreateTokenRequest = {
-    reqCreateToken: {
-      username: process.env.TEST_USER,
-      password: process.env.TEST_PASSWORD,
-      grant_type: "password"
-    }
-  }
-
-  // Retrieve the token
-  const response: Authenticator.RespCreateToken = await api.createToken(createTokenRequest);
-
-  // Return the access_token structure, which contains an 'access_token' field with the JWT
-  return response.result.access_token;
-}
 
 (async function() {
   // Retrieve an access token
