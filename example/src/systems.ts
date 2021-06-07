@@ -4,7 +4,6 @@ import getToken from '../../tapis-typescript/e2e/utils';
 const fetch = require('node-fetch');
 
 import { 
-  Authenticator,
   Systems
 } from '@tapis/tapis-typescript';
 
