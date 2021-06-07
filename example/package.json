@@ -12,7 +12,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@tapis/tapis-typescript": "0.0.4",
+    "@tapis/tapis-typescript": "0.0.5",
     "@types/node-fetch": "^2.5.10",
     "dotenv": "^9.0.1",
     "node-fetch": "^2.6.1"
