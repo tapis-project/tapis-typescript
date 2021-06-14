@@ -2,7 +2,8 @@ import 'mocha';
 import { 
   Authenticator, 
   Systems, 
-  Tenants
+  Tenants,
+  Files
 } from '../src';
 import { expect } from 'chai';
 
@@ -21,5 +22,13 @@ describe('tapis-typescript', () => {
   it('should have Tenants service', () => {
     expect(Tenants).to.have.property('SitesApi');
     expect(Tenants).to.have.property('TenantsApi');
+  });
+  it('should have Files service', () => {
+    expect(Files).to.have.property('ContentApi');
+    expect(Files).to.have.property('FileOperationsApi');
+    expect(Files).to.have.property('HealthApi');
+    expect(Files).to.have.property('PermissionsApi');
+    expect(Files).to.have.property('ShareApi');
+    expect(Files).to.have.property('TransfersApi');
   });
 });
