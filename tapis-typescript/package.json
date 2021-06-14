@@ -27,7 +27,8 @@
     "@tapis/tapis-typescript-authenticator": "^0.0.1",
     "@tapis/tapis-typescript-systems": "^0.0.1",
     "@tapis/tapis-typescript-tenants": "^0.0.1",
-    "@tapis/tapis-typescript-files": "^0.0.1"
+    "@tapis/tapis-typescript-files": "^0.0.1",
+    "@tapis/tapis-typescript-apps": "file:../gen/apps"
   },
   "devDependencies": {
     "@openapitools/openapi-generator-cli": "^2.2.4",

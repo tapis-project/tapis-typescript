@@ -2,10 +2,10 @@ import * as Authenticator from '@tapis/tapis-typescript-authenticator';
 import * as Systems from '@tapis/tapis-typescript-systems';
 import * as Tenants from '@tapis/tapis-typescript-tenants';
 import * as Files from '@tapis/tapis-typescript-files';
+import * as Apps from '@tapis/tapis-typescript-apps';
 
 /*
 import * as Actors from '@tapis/tapis-typescript-actors';
-import * as Apps from '@tapis/tapis-typescript-apps';
 import * as Jobs from '@tapis/tapis-typescript-jobs';
 import * as Meta from '@tapis/tapis-typescript-meta';
 import * as PGRest from '@tapis/tapis-typescript-pgrest';
@@ -18,10 +18,10 @@ export {
   Authenticator,
   Systems,
   Tenants,
-  Files
+  Files,
+  Apps
   /*
   Actors,
-  Apps,
   Jobs,
   Meta,
   PGRest,
