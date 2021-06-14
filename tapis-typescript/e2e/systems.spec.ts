@@ -6,7 +6,7 @@ import { before } from 'mocha';
 import { 
   Systems
 } from '../src';
-import getToken from './utils';
+import { getToken, checkJsonError } from './utils';
 import { expect } from 'chai';
 import fetch from 'cross-fetch';
 
@@ -28,18 +28,26 @@ describe('Systems e2e tests', async () => {
   });
 
   it('should retrieve a list of systems', async () => {
-    const systemsRequest: Systems.GetSystemsRequest = {};
-    const systemsResponse: Systems.RespSystems = await api.getSystems(systemsRequest);
-    const systems: Array<Systems.TapisSystem> = systemsResponse.result;
-    expect(systems.length).to.be.greaterThanOrEqual(1)
+    try {
+      const systemsRequest: Systems.GetSystemsRequest = {};
+      const systemsResponse: Systems.RespSystems = await api.getSystems(systemsRequest);
+      const systems: Array<Systems.TapisSystem> = systemsResponse.result;
+      expect(systems.length).to.be.greaterThanOrEqual(1)
+    } catch (error) {
+      checkJsonError(error);
+    }
   });
 
   it('should retrieve the test system', async () => {
-    const systemRequest: Systems.GetSystemRequest = {
-      systemId: process.env.TEST_SYSTEM_ID
+    try {
+      const systemRequest: Systems.GetSystemRequest = {
+        systemId: process.env.TEST_SYSTEM_ID
+      }
+      const systemResponse: Systems.RespSystem = await api.getSystem(systemRequest);
+      const system: Systems.TapisSystem = systemResponse.result;
+      expect(system.id).to.equal(process.env.TEST_SYSTEM_ID);
+    } catch (error) {
+      checkJsonError(error);
     }
-    const systemResponse: Systems.RespSystem = await api.getSystem(systemRequest);
-    const system: Systems.TapisSystem = systemResponse.result;
-    expect(system.id).to.equal(process.env.TEST_SYSTEM_ID);
   });
 });

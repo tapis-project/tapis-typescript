@@ -8,7 +8,7 @@ import {
 } from '../src';
 import { expect } from 'chai';
 import fetch from 'cross-fetch';
-
+import { checkJsonError } from './utils';
 
 
 
@@ -24,16 +24,24 @@ describe('Tenants e2e tests', () => {
 
   let tenants: Array<Tenants.Tenant>;
   before(async () => {
-    // Retrieve a list of tenants before all tests
-    const listTenantsRequest: Tenants.ListTenantsRequest = {}
-    const response: Tenants.RespListTenants = await tenantsApi.listTenants(listTenantsRequest);
-    tenants = response.result;
+    try {
+      // Retrieve a list of tenants before all tests
+      const listTenantsRequest: Tenants.ListTenantsRequest = {}
+      const response: Tenants.RespListTenants = await tenantsApi.listTenants(listTenantsRequest);
+      tenants = response.result;
+    } catch (error) {
+      checkJsonError(error);
+    }
   });
 
   it('should retrieve a list of sites', async () => {
-    const listSitesRequest: Tenants.ListSitesRequest = {};
-    const response: Tenants.RespListSites = await sitesApi.listSites(listSitesRequest);
-    expect(response.result.length).to.be.greaterThan(0);
+    try {
+      const listSitesRequest: Tenants.ListSitesRequest = {};
+      const response: Tenants.RespListSites = await sitesApi.listSites(listSitesRequest);
+      expect(response.result.length).to.be.greaterThan(0);
+    } catch (error) {
+      checkJsonError(error);
+    }
   });
 
   it('should retrieve a list of tenants', async () => {
@@ -41,9 +49,13 @@ describe('Tenants e2e tests', () => {
   });
 
   it('should retrieve a tenant definition', async() => {
-    const tenantId = tenants[0].tenant_id;
-    const getTenantRequest: Tenants.GetTenantRequest = { tenantId };
-    const getTenantResponse: Tenants.RespGetTenant = await tenantsApi.getTenant(getTenantRequest);
-    expect(getTenantResponse.result.tenant_id).to.equal(tenantId);
+    try {
+      const tenantId = tenants[0].tenant_id;
+      const getTenantRequest: Tenants.GetTenantRequest = { tenantId };
+      const getTenantResponse: Tenants.RespGetTenant = await tenantsApi.getTenant(getTenantRequest);
+      expect(getTenantResponse.result.tenant_id).to.equal(tenantId);
+    } catch (error) {
+      checkJsonError(error);
+    }
   });
 });
