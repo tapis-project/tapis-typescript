@@ -13,6 +13,21 @@
  */
 
 import { exists, mapValues } from '../runtime';
+import {
+    JobAttributes,
+    JobAttributesFromJSON,
+    JobAttributesFromJSONTyped,
+    JobAttributesToJSON,
+    RuntimeEnum,
+    RuntimeEnumFromJSON,
+    RuntimeEnumFromJSONTyped,
+    RuntimeEnumToJSON,
+    RuntimeOptionEnum,
+    RuntimeOptionEnumFromJSON,
+    RuntimeOptionEnumFromJSONTyped,
+    RuntimeOptionEnumToJSON,
+} from './';
+
 /**
  * 
  * @export
@@ -24,19 +39,55 @@ export interface ReqUpdateApp {
      * @type {string}
      * @memberof ReqUpdateApp
      */
-    version?: string;
+    description?: string;
+    /**
+     * 
+     * @type {RuntimeEnum}
+     * @memberof ReqUpdateApp
+     */
+    runtime?: RuntimeEnum;
     /**
      * 
      * @type {string}
      * @memberof ReqUpdateApp
      */
-    description?: string;
+    runtimeVersion?: string;
+    /**
+     * 
+     * @type {Array<RuntimeOptionEnum>}
+     * @memberof ReqUpdateApp
+     */
+    runtimeOptions?: Array<RuntimeOptionEnum>;
+    /**
+     * 
+     * @type {string}
+     * @memberof ReqUpdateApp
+     */
+    containerImage?: string;
+    /**
+     * 
+     * @type {number}
+     * @memberof ReqUpdateApp
+     */
+    maxJobs?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof ReqUpdateApp
+     */
+    maxJobsPerUser?: number;
     /**
      * 
      * @type {boolean}
      * @memberof ReqUpdateApp
      */
-    enabled?: boolean;
+    strictFileInputs?: boolean;
+    /**
+     * 
+     * @type {JobAttributes}
+     * @memberof ReqUpdateApp
+     */
+    jobAttributes?: JobAttributes;
     /**
      * 
      * @type {Array<string>}
@@ -61,9 +112,15 @@ export function ReqUpdateAppFromJSONTyped(json: any, ignoreDiscriminator: boolea
     }
     return {
         
-        'version': !exists(json, 'version') ? undefined : json['version'],
         'description': !exists(json, 'description') ? undefined : json['description'],
-        'enabled': !exists(json, 'enabled') ? undefined : json['enabled'],
+        'runtime': !exists(json, 'runtime') ? undefined : RuntimeEnumFromJSON(json['runtime']),
+        'runtimeVersion': !exists(json, 'runtimeVersion') ? undefined : json['runtimeVersion'],
+        'runtimeOptions': !exists(json, 'runtimeOptions') ? undefined : ((json['runtimeOptions'] as Array<any>).map(RuntimeOptionEnumFromJSON)),
+        'containerImage': !exists(json, 'containerImage') ? undefined : json['containerImage'],
+        'maxJobs': !exists(json, 'maxJobs') ? undefined : json['maxJobs'],
+        'maxJobsPerUser': !exists(json, 'maxJobsPerUser') ? undefined : json['maxJobsPerUser'],
+        'strictFileInputs': !exists(json, 'strictFileInputs') ? undefined : json['strictFileInputs'],
+        'jobAttributes': !exists(json, 'jobAttributes') ? undefined : JobAttributesFromJSON(json['jobAttributes']),
         'tags': !exists(json, 'tags') ? undefined : json['tags'],
         'notes': !exists(json, 'notes') ? undefined : json['notes'],
     };
@@ -78,9 +135,15 @@ export function ReqUpdateAppToJSON(value?: ReqUpdateApp | null): any {
     }
     return {
         
-        'version': value.version,
         'description': value.description,
-        'enabled': value.enabled,
+        'runtime': RuntimeEnumToJSON(value.runtime),
+        'runtimeVersion': value.runtimeVersion,
+        'runtimeOptions': value.runtimeOptions === undefined ? undefined : ((value.runtimeOptions as Array<any>).map(RuntimeOptionEnumToJSON)),
+        'containerImage': value.containerImage,
+        'maxJobs': value.maxJobs,
+        'maxJobsPerUser': value.maxJobsPerUser,
+        'strictFileInputs': value.strictFileInputs,
+        'jobAttributes': JobAttributesToJSON(value.jobAttributes),
         'tags': value.tags,
         'notes': value.notes,
     };

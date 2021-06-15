@@ -27,12 +27,15 @@ import {
     RespApp,
     RespAppFromJSON,
     RespAppToJSON,
-    RespAppArray,
-    RespAppArrayFromJSON,
-    RespAppArrayToJSON,
+    RespApps,
+    RespAppsFromJSON,
+    RespAppsToJSON,
     RespBasic,
     RespBasicFromJSON,
     RespBasicToJSON,
+    RespBoolean,
+    RespBooleanFromJSON,
+    RespBooleanToJSON,
     RespChangeCount,
     RespChangeCountFromJSON,
     RespChangeCountToJSON,
@@ -44,51 +47,79 @@ import {
 export interface ChangeAppOwnerRequest {
     appId: string;
     userName: string;
-    pretty?: boolean;
 }
 
 export interface CreateAppVersionRequest {
     reqCreateApp: ReqCreateApp;
-    pretty?: boolean;
 }
 
 export interface DeleteAppRequest {
     appId: string;
-    pretty?: boolean;
+}
+
+export interface DisableAppRequest {
+    appId: string;
+}
+
+export interface EnableAppRequest {
+    appId: string;
 }
 
 export interface GetAppRequest {
     appId: string;
     appVersion: string;
-    pretty?: boolean;
     requireExecPerm?: boolean;
+    select?: string;
 }
 
 export interface GetAppLatestVersionRequest {
     appId: string;
-    pretty?: boolean;
     requireExecPerm?: boolean;
+    select?: string;
 }
 
 export interface GetAppsRequest {
-    pretty?: boolean;
     search?: string;
+    limit?: number;
+    orderBy?: string;
+    skip?: number;
+    startAfter?: string;
+    computeTotal?: boolean;
+    select?: string;
+    showDeleted?: boolean;
+}
+
+export interface IsEnabledRequest {
+    appId: string;
 }
 
 export interface SearchAppsQueryParametersRequest {
-    pretty?: boolean;
+    limit?: number;
+    orderBy?: string;
+    skip?: number;
+    startAfter?: string;
+    computeTotal?: boolean;
+    select?: string;
 }
 
 export interface SearchAppsRequestBodyRequest {
     reqSearchApps: ReqSearchApps;
-    pretty?: boolean;
+    limit?: number;
+    orderBy?: string;
+    skip?: number;
+    startAfter?: string;
+    computeTotal?: boolean;
+    select?: string;
+}
+
+export interface UndeleteAppRequest {
+    appId: string;
 }
 
 export interface UpdateAppRequest {
     appId: string;
     appVersion: string;
     reqUpdateApp: ReqUpdateApp;
-    pretty?: boolean;
 }
 
 /**
@@ -110,10 +141,6 @@ export class ApplicationsApi extends runtime.BaseAPI {
         }
 
         const queryParameters: any = {};
-
-        if (requestParameters.pretty !== undefined) {
-            queryParameters['pretty'] = requestParameters.pretty;
-        }
 
         const headerParameters: runtime.HTTPHeaders = {};
 
@@ -141,7 +168,7 @@ export class ApplicationsApi extends runtime.BaseAPI {
     }
 
     /**
-     * Create an application using a request body. App id+version must be unique within tenant and can be composed of alphanumeric characters and the following special characters [-._~]. Id must begin with an alphabetic character and can be no more than 256 characters in length.\'
+     *  Create an application using a request body. App id+version must be unique within tenant and can be composed of alphanumeric characters and the following special characters [-._~]. Id must begin with an alphabetic character and can be no more than 80 characters in length.  Note that certain attributes (such as tenant) are allowed but ignored so that the JSON returned by a GET may be modified and used in a POST or PUT to create or update an application. The attributes that are allowed but ignored are    - tenant   - uuid   - deleted   - created   - updated  In addition for a PUT operation the following non-updatable attributes are allowed but ignored    - id   - appType   - owner   - enabled 
      * Create a new version of an application
      */
     async createAppVersionRaw(requestParameters: CreateAppVersionRequest): Promise<runtime.ApiResponse<RespResourceUrl>> {
@@ -150,10 +177,6 @@ export class ApplicationsApi extends runtime.BaseAPI {
         }
 
         const queryParameters: any = {};
-
-        if (requestParameters.pretty !== undefined) {
-            queryParameters['pretty'] = requestParameters.pretty;
-        }
 
         const headerParameters: runtime.HTTPHeaders = {};
 
@@ -175,7 +198,7 @@ export class ApplicationsApi extends runtime.BaseAPI {
     }
 
     /**
-     * Create an application using a request body. App id+version must be unique within tenant and can be composed of alphanumeric characters and the following special characters [-._~]. Id must begin with an alphabetic character and can be no more than 256 characters in length.\'
+     *  Create an application using a request body. App id+version must be unique within tenant and can be composed of alphanumeric characters and the following special characters [-._~]. Id must begin with an alphabetic character and can be no more than 80 characters in length.  Note that certain attributes (such as tenant) are allowed but ignored so that the JSON returned by a GET may be modified and used in a POST or PUT to create or update an application. The attributes that are allowed but ignored are    - tenant   - uuid   - deleted   - created   - updated  In addition for a PUT operation the following non-updatable attributes are allowed but ignored    - id   - appType   - owner   - enabled 
      * Create a new version of an application
      */
     async createAppVersion(requestParameters: CreateAppVersionRequest): Promise<RespResourceUrl> {
@@ -184,8 +207,8 @@ export class ApplicationsApi extends runtime.BaseAPI {
     }
 
     /**
-     * Soft delete an application given the app name.
-     * Soft delete all versions of an application
+     * Mark an application as deleted. Application will not appear in queries unless explicitly requested.
+     * Mark an application as deleted
      */
     async deleteAppRaw(requestParameters: DeleteAppRequest): Promise<runtime.ApiResponse<RespChangeCount>> {
         if (requestParameters.appId === null || requestParameters.appId === undefined) {
@@ -194,10 +217,6 @@ export class ApplicationsApi extends runtime.BaseAPI {
 
         const queryParameters: any = {};
 
-        if (requestParameters.pretty !== undefined) {
-            queryParameters['pretty'] = requestParameters.pretty;
-        }
-
         const headerParameters: runtime.HTTPHeaders = {};
 
         if (this.configuration && this.configuration.apiKey) {
@@ -205,8 +224,8 @@ export class ApplicationsApi extends runtime.BaseAPI {
         }
 
         const response = await this.request({
-            path: `/v3/apps/{appId}`.replace(`{${"appId"}}`, encodeURIComponent(String(requestParameters.appId))),
-            method: 'DELETE',
+            path: `/v3/apps/{appId}/delete`.replace(`{${"appId"}}`, encodeURIComponent(String(requestParameters.appId))),
+            method: 'POST',
             headers: headerParameters,
             query: queryParameters,
         });
@@ -215,8 +234,8 @@ export class ApplicationsApi extends runtime.BaseAPI {
     }
 
     /**
-     * Soft delete an application given the app name.
-     * Soft delete all versions of an application
+     * Mark an application as deleted. Application will not appear in queries unless explicitly requested.
+     * Mark an application as deleted
      */
     async deleteApp(requestParameters: DeleteAppRequest): Promise<RespChangeCount> {
         const response = await this.deleteAppRaw(requestParameters);
@@ -224,7 +243,79 @@ export class ApplicationsApi extends runtime.BaseAPI {
     }
 
     /**
-     * Retrieve information for an application given the app Id and version.
+     * Mark an application unavailable for use. Applies to all versions.
+     * Mark an application unavailabe for use
+     */
+    async disableAppRaw(requestParameters: DisableAppRequest): Promise<runtime.ApiResponse<RespChangeCount>> {
+        if (requestParameters.appId === null || requestParameters.appId === undefined) {
+            throw new runtime.RequiredError('appId','Required parameter requestParameters.appId was null or undefined when calling disableApp.');
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        if (this.configuration && this.configuration.apiKey) {
+            headerParameters["X-Tapis-Token"] = this.configuration.apiKey("X-Tapis-Token"); // TapisJWT authentication
+        }
+
+        const response = await this.request({
+            path: `/v3/apps/{appId}/disable`.replace(`{${"appId"}}`, encodeURIComponent(String(requestParameters.appId))),
+            method: 'POST',
+            headers: headerParameters,
+            query: queryParameters,
+        });
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => RespChangeCountFromJSON(jsonValue));
+    }
+
+    /**
+     * Mark an application unavailable for use. Applies to all versions.
+     * Mark an application unavailabe for use
+     */
+    async disableApp(requestParameters: DisableAppRequest): Promise<RespChangeCount> {
+        const response = await this.disableAppRaw(requestParameters);
+        return await response.value();
+    }
+
+    /**
+     * Mark an application available for use. Applies to all versions.
+     * Mark an application availabe for use
+     */
+    async enableAppRaw(requestParameters: EnableAppRequest): Promise<runtime.ApiResponse<RespChangeCount>> {
+        if (requestParameters.appId === null || requestParameters.appId === undefined) {
+            throw new runtime.RequiredError('appId','Required parameter requestParameters.appId was null or undefined when calling enableApp.');
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        if (this.configuration && this.configuration.apiKey) {
+            headerParameters["X-Tapis-Token"] = this.configuration.apiKey("X-Tapis-Token"); // TapisJWT authentication
+        }
+
+        const response = await this.request({
+            path: `/v3/apps/{appId}/enable`.replace(`{${"appId"}}`, encodeURIComponent(String(requestParameters.appId))),
+            method: 'POST',
+            headers: headerParameters,
+            query: queryParameters,
+        });
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => RespChangeCountFromJSON(jsonValue));
+    }
+
+    /**
+     * Mark an application available for use. Applies to all versions.
+     * Mark an application availabe for use
+     */
+    async enableApp(requestParameters: EnableAppRequest): Promise<RespChangeCount> {
+        const response = await this.enableAppRaw(requestParameters);
+        return await response.value();
+    }
+
+    /**
+     * Retrieve information for an application given the application Id and version.
      * Retrieve details for specific version of an application
      */
     async getAppRaw(requestParameters: GetAppRequest): Promise<runtime.ApiResponse<RespApp>> {
@@ -238,12 +329,12 @@ export class ApplicationsApi extends runtime.BaseAPI {
 
         const queryParameters: any = {};
 
-        if (requestParameters.pretty !== undefined) {
-            queryParameters['pretty'] = requestParameters.pretty;
-        }
-
         if (requestParameters.requireExecPerm !== undefined) {
             queryParameters['requireExecPerm'] = requestParameters.requireExecPerm;
+        }
+
+        if (requestParameters.select !== undefined) {
+            queryParameters['select'] = requestParameters.select;
         }
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -263,7 +354,7 @@ export class ApplicationsApi extends runtime.BaseAPI {
     }
 
     /**
-     * Retrieve information for an application given the app Id and version.
+     * Retrieve information for an application given the application Id and version.
      * Retrieve details for specific version of an application
      */
     async getApp(requestParameters: GetAppRequest): Promise<RespApp> {
@@ -282,12 +373,12 @@ export class ApplicationsApi extends runtime.BaseAPI {
 
         const queryParameters: any = {};
 
-        if (requestParameters.pretty !== undefined) {
-            queryParameters['pretty'] = requestParameters.pretty;
-        }
-
         if (requestParameters.requireExecPerm !== undefined) {
             queryParameters['requireExecPerm'] = requestParameters.requireExecPerm;
+        }
+
+        if (requestParameters.select !== undefined) {
+            queryParameters['select'] = requestParameters.select;
         }
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -316,18 +407,42 @@ export class ApplicationsApi extends runtime.BaseAPI {
     }
 
     /**
-     * Retrieve applications. Use search and select query parameters to limit results.
-     * Retrieve applications.
+     * Retrieve list of applications. Use search and select query parameters to limit results.
+     * Retrieve applications
      */
-    async getAppsRaw(requestParameters: GetAppsRequest): Promise<runtime.ApiResponse<RespAppArray>> {
+    async getAppsRaw(requestParameters: GetAppsRequest): Promise<runtime.ApiResponse<RespApps>> {
         const queryParameters: any = {};
-
-        if (requestParameters.pretty !== undefined) {
-            queryParameters['pretty'] = requestParameters.pretty;
-        }
 
         if (requestParameters.search !== undefined) {
             queryParameters['search'] = requestParameters.search;
+        }
+
+        if (requestParameters.limit !== undefined) {
+            queryParameters['limit'] = requestParameters.limit;
+        }
+
+        if (requestParameters.orderBy !== undefined) {
+            queryParameters['orderBy'] = requestParameters.orderBy;
+        }
+
+        if (requestParameters.skip !== undefined) {
+            queryParameters['skip'] = requestParameters.skip;
+        }
+
+        if (requestParameters.startAfter !== undefined) {
+            queryParameters['startAfter'] = requestParameters.startAfter;
+        }
+
+        if (requestParameters.computeTotal !== undefined) {
+            queryParameters['computeTotal'] = requestParameters.computeTotal;
+        }
+
+        if (requestParameters.select !== undefined) {
+            queryParameters['select'] = requestParameters.select;
+        }
+
+        if (requestParameters.showDeleted !== undefined) {
+            queryParameters['showDeleted'] = requestParameters.showDeleted;
         }
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -343,27 +458,83 @@ export class ApplicationsApi extends runtime.BaseAPI {
             query: queryParameters,
         });
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => RespAppArrayFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => RespAppsFromJSON(jsonValue));
     }
 
     /**
-     * Retrieve applications. Use search and select query parameters to limit results.
-     * Retrieve applications.
+     * Retrieve list of applications. Use search and select query parameters to limit results.
+     * Retrieve applications
      */
-    async getApps(requestParameters: GetAppsRequest): Promise<RespAppArray> {
+    async getApps(requestParameters: GetAppsRequest): Promise<RespApps> {
         const response = await this.getAppsRaw(requestParameters);
         return await response.value();
     }
 
     /**
-     * Retrieve details for applications. Use query parameters to specify search conditions. For example ?owner.eq=jdoe&port.gt=1024
-     * Retrieve applications matching search conditions specified as query parameters.
+     * Check if an application is currently enabled, i.e. available for use.
+     * Check if application is currently enabled
      */
-    async searchAppsQueryParametersRaw(requestParameters: SearchAppsQueryParametersRequest): Promise<runtime.ApiResponse<RespAppArray>> {
+    async isEnabledRaw(requestParameters: IsEnabledRequest): Promise<runtime.ApiResponse<RespBoolean>> {
+        if (requestParameters.appId === null || requestParameters.appId === undefined) {
+            throw new runtime.RequiredError('appId','Required parameter requestParameters.appId was null or undefined when calling isEnabled.');
+        }
+
         const queryParameters: any = {};
 
-        if (requestParameters.pretty !== undefined) {
-            queryParameters['pretty'] = requestParameters.pretty;
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        if (this.configuration && this.configuration.apiKey) {
+            headerParameters["X-Tapis-Token"] = this.configuration.apiKey("X-Tapis-Token"); // TapisJWT authentication
+        }
+
+        const response = await this.request({
+            path: `/v3/apps/{appId}/isEnabled`.replace(`{${"appId"}}`, encodeURIComponent(String(requestParameters.appId))),
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        });
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => RespBooleanFromJSON(jsonValue));
+    }
+
+    /**
+     * Check if an application is currently enabled, i.e. available for use.
+     * Check if application is currently enabled
+     */
+    async isEnabled(requestParameters: IsEnabledRequest): Promise<RespBoolean> {
+        const response = await this.isEnabledRaw(requestParameters);
+        return await response.value();
+    }
+
+    /**
+     * Retrieve details for applications. Use query parameters to specify search conditions. For example ?owner.eq=jdoe&enabled.eq=false
+     * Retrieve list of applications matching search conditions specified as query parameters
+     */
+    async searchAppsQueryParametersRaw(requestParameters: SearchAppsQueryParametersRequest): Promise<runtime.ApiResponse<RespApps>> {
+        const queryParameters: any = {};
+
+        if (requestParameters.limit !== undefined) {
+            queryParameters['limit'] = requestParameters.limit;
+        }
+
+        if (requestParameters.orderBy !== undefined) {
+            queryParameters['orderBy'] = requestParameters.orderBy;
+        }
+
+        if (requestParameters.skip !== undefined) {
+            queryParameters['skip'] = requestParameters.skip;
+        }
+
+        if (requestParameters.startAfter !== undefined) {
+            queryParameters['startAfter'] = requestParameters.startAfter;
+        }
+
+        if (requestParameters.computeTotal !== undefined) {
+            queryParameters['computeTotal'] = requestParameters.computeTotal;
+        }
+
+        if (requestParameters.select !== undefined) {
+            queryParameters['select'] = requestParameters.select;
         }
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -373,37 +544,57 @@ export class ApplicationsApi extends runtime.BaseAPI {
         }
 
         const response = await this.request({
-            path: `/v3/apps/search/apps`,
+            path: `/v3/apps/search`,
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
         });
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => RespAppArrayFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => RespAppsFromJSON(jsonValue));
     }
 
     /**
-     * Retrieve details for applications. Use query parameters to specify search conditions. For example ?owner.eq=jdoe&port.gt=1024
-     * Retrieve applications matching search conditions specified as query parameters.
+     * Retrieve details for applications. Use query parameters to specify search conditions. For example ?owner.eq=jdoe&enabled.eq=false
+     * Retrieve list of applications matching search conditions specified as query parameters
      */
-    async searchAppsQueryParameters(requestParameters: SearchAppsQueryParametersRequest): Promise<RespAppArray> {
+    async searchAppsQueryParameters(requestParameters: SearchAppsQueryParametersRequest): Promise<RespApps> {
         const response = await this.searchAppsQueryParametersRaw(requestParameters);
         return await response.value();
     }
 
     /**
      * Retrieve details for applications. Use request body to specify SQL-like search conditions.
-     * Retrieve applications matching search conditions.
+     * Retrieve applications matching search conditions
      */
-    async searchAppsRequestBodyRaw(requestParameters: SearchAppsRequestBodyRequest): Promise<runtime.ApiResponse<RespAppArray>> {
+    async searchAppsRequestBodyRaw(requestParameters: SearchAppsRequestBodyRequest): Promise<runtime.ApiResponse<RespApps>> {
         if (requestParameters.reqSearchApps === null || requestParameters.reqSearchApps === undefined) {
             throw new runtime.RequiredError('reqSearchApps','Required parameter requestParameters.reqSearchApps was null or undefined when calling searchAppsRequestBody.');
         }
 
         const queryParameters: any = {};
 
-        if (requestParameters.pretty !== undefined) {
-            queryParameters['pretty'] = requestParameters.pretty;
+        if (requestParameters.limit !== undefined) {
+            queryParameters['limit'] = requestParameters.limit;
+        }
+
+        if (requestParameters.orderBy !== undefined) {
+            queryParameters['orderBy'] = requestParameters.orderBy;
+        }
+
+        if (requestParameters.skip !== undefined) {
+            queryParameters['skip'] = requestParameters.skip;
+        }
+
+        if (requestParameters.startAfter !== undefined) {
+            queryParameters['startAfter'] = requestParameters.startAfter;
+        }
+
+        if (requestParameters.computeTotal !== undefined) {
+            queryParameters['computeTotal'] = requestParameters.computeTotal;
+        }
+
+        if (requestParameters.select !== undefined) {
+            queryParameters['select'] = requestParameters.select;
         }
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -415,28 +606,64 @@ export class ApplicationsApi extends runtime.BaseAPI {
         }
 
         const response = await this.request({
-            path: `/v3/apps/search/apps`,
+            path: `/v3/apps/search`,
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
             body: ReqSearchAppsToJSON(requestParameters.reqSearchApps),
         });
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => RespAppArrayFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => RespAppsFromJSON(jsonValue));
     }
 
     /**
      * Retrieve details for applications. Use request body to specify SQL-like search conditions.
-     * Retrieve applications matching search conditions.
+     * Retrieve applications matching search conditions
      */
-    async searchAppsRequestBody(requestParameters: SearchAppsRequestBodyRequest): Promise<RespAppArray> {
+    async searchAppsRequestBody(requestParameters: SearchAppsRequestBodyRequest): Promise<RespApps> {
         const response = await this.searchAppsRequestBodyRaw(requestParameters);
         return await response.value();
     }
 
     /**
-     * Update existing version of an application. Attributes that may be updated are description, enabled, TBD, tags, notes.
-     * Update an existing version of an application
+     * Mark an application as not deleted. Application will appear in queries.
+     * Mark an application as not deleted
+     */
+    async undeleteAppRaw(requestParameters: UndeleteAppRequest): Promise<runtime.ApiResponse<RespChangeCount>> {
+        if (requestParameters.appId === null || requestParameters.appId === undefined) {
+            throw new runtime.RequiredError('appId','Required parameter requestParameters.appId was null or undefined when calling undeleteApp.');
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        if (this.configuration && this.configuration.apiKey) {
+            headerParameters["X-Tapis-Token"] = this.configuration.apiKey("X-Tapis-Token"); // TapisJWT authentication
+        }
+
+        const response = await this.request({
+            path: `/v3/apps/{appId}/undelete`.replace(`{${"appId"}}`, encodeURIComponent(String(requestParameters.appId))),
+            method: 'POST',
+            headers: headerParameters,
+            query: queryParameters,
+        });
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => RespChangeCountFromJSON(jsonValue));
+    }
+
+    /**
+     * Mark an application as not deleted. Application will appear in queries.
+     * Mark an application as not deleted
+     */
+    async undeleteApp(requestParameters: UndeleteAppRequest): Promise<RespChangeCount> {
+        const response = await this.undeleteAppRaw(requestParameters);
+        return await response.value();
+    }
+
+    /**
+     * Update existing version of an application. Request body may only contain updatable attributes.  Attributes that may not be updated via PATCH are    - id   - appType   - owner   - enabled 
+     * Update attributes for an existing version
      */
     async updateAppRaw(requestParameters: UpdateAppRequest): Promise<runtime.ApiResponse<RespResourceUrl>> {
         if (requestParameters.appId === null || requestParameters.appId === undefined) {
@@ -452,10 +679,6 @@ export class ApplicationsApi extends runtime.BaseAPI {
         }
 
         const queryParameters: any = {};
-
-        if (requestParameters.pretty !== undefined) {
-            queryParameters['pretty'] = requestParameters.pretty;
-        }
 
         const headerParameters: runtime.HTTPHeaders = {};
 
@@ -477,8 +700,8 @@ export class ApplicationsApi extends runtime.BaseAPI {
     }
 
     /**
-     * Update existing version of an application. Attributes that may be updated are description, enabled, TBD, tags, notes.
-     * Update an existing version of an application
+     * Update existing version of an application. Request body may only contain updatable attributes.  Attributes that may not be updated via PATCH are    - id   - appType   - owner   - enabled 
+     * Update attributes for an existing version
      */
     async updateApp(requestParameters: UpdateAppRequest): Promise<RespResourceUrl> {
         const response = await this.updateAppRaw(requestParameters);

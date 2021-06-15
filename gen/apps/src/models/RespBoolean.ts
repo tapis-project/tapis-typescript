@@ -14,55 +14,55 @@
 
 import { exists, mapValues } from '../runtime';
 import {
-    ResultNameArray,
-    ResultNameArrayFromJSON,
-    ResultNameArrayFromJSONTyped,
-    ResultNameArrayToJSON,
+    ResultBoolean,
+    ResultBooleanFromJSON,
+    ResultBooleanFromJSONTyped,
+    ResultBooleanToJSON,
 } from './';
 
 /**
  * 
  * @export
- * @interface RespNameArray
+ * @interface RespBoolean
  */
-export interface RespNameArray {
+export interface RespBoolean {
     /**
      * 
      * @type {string}
-     * @memberof RespNameArray
+     * @memberof RespBoolean
      */
     status?: string;
     /**
      * 
      * @type {string}
-     * @memberof RespNameArray
+     * @memberof RespBoolean
      */
     message?: string;
     /**
      * 
      * @type {string}
-     * @memberof RespNameArray
+     * @memberof RespBoolean
      */
     version?: string;
     /**
      * 
-     * @type {ResultNameArray}
-     * @memberof RespNameArray
+     * @type {ResultBoolean}
+     * @memberof RespBoolean
      */
-    result?: ResultNameArray;
+    result?: ResultBoolean;
     /**
      * 
      * @type {object}
-     * @memberof RespNameArray
+     * @memberof RespBoolean
      */
     metadata?: object;
 }
 
-export function RespNameArrayFromJSON(json: any): RespNameArray {
-    return RespNameArrayFromJSONTyped(json, false);
+export function RespBooleanFromJSON(json: any): RespBoolean {
+    return RespBooleanFromJSONTyped(json, false);
 }
 
-export function RespNameArrayFromJSONTyped(json: any, ignoreDiscriminator: boolean): RespNameArray {
+export function RespBooleanFromJSONTyped(json: any, ignoreDiscriminator: boolean): RespBoolean {
     if ((json === undefined) || (json === null)) {
         return json;
     }
@@ -71,12 +71,12 @@ export function RespNameArrayFromJSONTyped(json: any, ignoreDiscriminator: boole
         'status': !exists(json, 'status') ? undefined : json['status'],
         'message': !exists(json, 'message') ? undefined : json['message'],
         'version': !exists(json, 'version') ? undefined : json['version'],
-        'result': !exists(json, 'result') ? undefined : ResultNameArrayFromJSON(json['result']),
+        'result': !exists(json, 'result') ? undefined : ResultBooleanFromJSON(json['result']),
         'metadata': !exists(json, 'metadata') ? undefined : json['metadata'],
     };
 }
 
-export function RespNameArrayToJSON(value?: RespNameArray | null): any {
+export function RespBooleanToJSON(value?: RespBoolean | null): any {
     if (value === undefined) {
         return undefined;
     }
@@ -88,7 +88,7 @@ export function RespNameArrayToJSON(value?: RespNameArray | null): any {
         'status': value.status,
         'message': value.message,
         'version': value.version,
-        'result': ResultNameArrayToJSON(value.result),
+        'result': ResultBooleanToJSON(value.result),
         'metadata': value.metadata,
     };
 }

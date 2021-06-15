@@ -26,153 +26,150 @@ import {
     RuntimeEnumFromJSON,
     RuntimeEnumFromJSONTyped,
     RuntimeEnumToJSON,
+    RuntimeOptionEnum,
+    RuntimeOptionEnumFromJSON,
+    RuntimeOptionEnumFromJSONTyped,
+    RuntimeOptionEnumToJSON,
 } from './';
 
 /**
  * 
  * @export
- * @interface App
+ * @interface TapisApp
  */
-export interface App {
-    /**
-     * 
-     * @type {number}
-     * @memberof App
-     */
-    seq_id?: number;
+export interface TapisApp {
     /**
      * 
      * @type {string}
-     * @memberof App
+     * @memberof TapisApp
      */
     tenant?: string;
     /**
      * 
      * @type {string}
-     * @memberof App
+     * @memberof TapisApp
      */
     id?: string;
     /**
      * 
      * @type {string}
-     * @memberof App
+     * @memberof TapisApp
      */
     version?: string;
     /**
      * 
      * @type {string}
-     * @memberof App
+     * @memberof TapisApp
      */
     description?: string;
     /**
      * 
      * @type {AppTypeEnum}
-     * @memberof App
+     * @memberof TapisApp
      */
     appType?: AppTypeEnum;
     /**
      * 
      * @type {string}
-     * @memberof App
+     * @memberof TapisApp
      */
     owner?: string;
     /**
      * 
      * @type {boolean}
-     * @memberof App
+     * @memberof TapisApp
      */
     enabled?: boolean;
     /**
      * 
      * @type {RuntimeEnum}
-     * @memberof App
+     * @memberof TapisApp
      */
     runtime?: RuntimeEnum;
     /**
      * 
      * @type {string}
-     * @memberof App
+     * @memberof TapisApp
      */
     runtimeVersion?: string;
     /**
      * 
+     * @type {Array<RuntimeOptionEnum>}
+     * @memberof TapisApp
+     */
+    runtimeOptions?: Array<RuntimeOptionEnum>;
+    /**
+     * 
      * @type {string}
-     * @memberof App
+     * @memberof TapisApp
      */
     containerImage?: string;
     /**
      * 
      * @type {number}
-     * @memberof App
+     * @memberof TapisApp
      */
     maxJobs?: number;
     /**
      * 
      * @type {number}
-     * @memberof App
+     * @memberof TapisApp
      */
     maxJobsPerUser?: number;
     /**
      * 
      * @type {boolean}
-     * @memberof App
+     * @memberof TapisApp
      */
     strictFileInputs?: boolean;
     /**
      * 
      * @type {JobAttributes}
-     * @memberof App
+     * @memberof TapisApp
      */
     jobAttributes?: JobAttributes;
     /**
      * 
      * @type {Array<string>}
-     * @memberof App
+     * @memberof TapisApp
      */
     tags?: Array<string>;
     /**
      * 
      * @type {object}
-     * @memberof App
+     * @memberof TapisApp
      */
     notes?: object;
     /**
      * 
-     * @type {string}
-     * @memberof App
-     */
-    importRefId?: string;
-    /**
-     * 
      * @type {boolean}
-     * @memberof App
+     * @memberof TapisApp
      */
     deleted?: boolean;
     /**
      * 
      * @type {string}
-     * @memberof App
+     * @memberof TapisApp
      */
     created?: string;
     /**
      * 
      * @type {string}
-     * @memberof App
+     * @memberof TapisApp
      */
     updated?: string;
 }
 
-export function AppFromJSON(json: any): App {
-    return AppFromJSONTyped(json, false);
+export function TapisAppFromJSON(json: any): TapisApp {
+    return TapisAppFromJSONTyped(json, false);
 }
 
-export function AppFromJSONTyped(json: any, ignoreDiscriminator: boolean): App {
+export function TapisAppFromJSONTyped(json: any, ignoreDiscriminator: boolean): TapisApp {
     if ((json === undefined) || (json === null)) {
         return json;
     }
     return {
         
-        'seq_id': !exists(json, 'seq_id') ? undefined : json['seq_id'],
         'tenant': !exists(json, 'tenant') ? undefined : json['tenant'],
         'id': !exists(json, 'id') ? undefined : json['id'],
         'version': !exists(json, 'version') ? undefined : json['version'],
@@ -182,6 +179,7 @@ export function AppFromJSONTyped(json: any, ignoreDiscriminator: boolean): App {
         'enabled': !exists(json, 'enabled') ? undefined : json['enabled'],
         'runtime': !exists(json, 'runtime') ? undefined : RuntimeEnumFromJSON(json['runtime']),
         'runtimeVersion': !exists(json, 'runtimeVersion') ? undefined : json['runtimeVersion'],
+        'runtimeOptions': !exists(json, 'runtimeOptions') ? undefined : ((json['runtimeOptions'] as Array<any>).map(RuntimeOptionEnumFromJSON)),
         'containerImage': !exists(json, 'containerImage') ? undefined : json['containerImage'],
         'maxJobs': !exists(json, 'maxJobs') ? undefined : json['maxJobs'],
         'maxJobsPerUser': !exists(json, 'maxJobsPerUser') ? undefined : json['maxJobsPerUser'],
@@ -189,14 +187,13 @@ export function AppFromJSONTyped(json: any, ignoreDiscriminator: boolean): App {
         'jobAttributes': !exists(json, 'jobAttributes') ? undefined : JobAttributesFromJSON(json['jobAttributes']),
         'tags': !exists(json, 'tags') ? undefined : json['tags'],
         'notes': !exists(json, 'notes') ? undefined : json['notes'],
-        'importRefId': !exists(json, 'importRefId') ? undefined : json['importRefId'],
         'deleted': !exists(json, 'deleted') ? undefined : json['deleted'],
         'created': !exists(json, 'created') ? undefined : json['created'],
         'updated': !exists(json, 'updated') ? undefined : json['updated'],
     };
 }
 
-export function AppToJSON(value?: App | null): any {
+export function TapisAppToJSON(value?: TapisApp | null): any {
     if (value === undefined) {
         return undefined;
     }
@@ -205,7 +202,6 @@ export function AppToJSON(value?: App | null): any {
     }
     return {
         
-        'seq_id': value.seq_id,
         'tenant': value.tenant,
         'id': value.id,
         'version': value.version,
@@ -215,6 +211,7 @@ export function AppToJSON(value?: App | null): any {
         'enabled': value.enabled,
         'runtime': RuntimeEnumToJSON(value.runtime),
         'runtimeVersion': value.runtimeVersion,
+        'runtimeOptions': value.runtimeOptions === undefined ? undefined : ((value.runtimeOptions as Array<any>).map(RuntimeOptionEnumToJSON)),
         'containerImage': value.containerImage,
         'maxJobs': value.maxJobs,
         'maxJobsPerUser': value.maxJobsPerUser,
@@ -222,7 +219,6 @@ export function AppToJSON(value?: App | null): any {
         'jobAttributes': JobAttributesToJSON(value.jobAttributes),
         'tags': value.tags,
         'notes': value.notes,
-        'importRefId': value.importRefId,
         'deleted': value.deleted,
         'created': value.created,
         'updated': value.updated,

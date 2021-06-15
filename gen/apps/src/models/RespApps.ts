@@ -14,49 +14,59 @@
 
 import { exists, mapValues } from '../runtime';
 import {
-    App,
-    AppFromJSON,
-    AppFromJSONTyped,
-    AppToJSON,
+    RespAppsMetadata,
+    RespAppsMetadataFromJSON,
+    RespAppsMetadataFromJSONTyped,
+    RespAppsMetadataToJSON,
+    TapisApp,
+    TapisAppFromJSON,
+    TapisAppFromJSONTyped,
+    TapisAppToJSON,
 } from './';
 
 /**
  * 
  * @export
- * @interface RespAppArray
+ * @interface RespApps
  */
-export interface RespAppArray {
+export interface RespApps {
     /**
      * 
      * @type {string}
-     * @memberof RespAppArray
+     * @memberof RespApps
      */
     status?: string;
     /**
      * 
      * @type {string}
-     * @memberof RespAppArray
+     * @memberof RespApps
      */
     message?: string;
     /**
      * 
      * @type {string}
-     * @memberof RespAppArray
+     * @memberof RespApps
      */
     version?: string;
     /**
      * 
-     * @type {Array<App>}
-     * @memberof RespAppArray
+     * @type {Array<TapisApp>}
+     * @memberof RespApps
      */
-    result?: Array<App>;
+    result?: Array<TapisApp>;
+    /**
+     * 
+     * @type {RespAppsMetadata}
+     * @memberof RespApps
+     */
+    metadata?: RespAppsMetadata;
 }
 
-export function RespAppArrayFromJSON(json: any): RespAppArray {
-    return RespAppArrayFromJSONTyped(json, false);
+export function RespAppsFromJSON(json: any): RespApps {
+    return RespAppsFromJSONTyped(json, false);
 }
 
-export function RespAppArrayFromJSONTyped(json: any, ignoreDiscriminator: boolean): RespAppArray {
+export function RespAppsFromJSONTyped(json: any, ignoreDiscriminator: boolean): RespApps {
     if ((json === undefined) || (json === null)) {
         return json;
     }
@@ -65,11 +75,12 @@ export function RespAppArrayFromJSONTyped(json: any, ignoreDiscriminator: boolea
         'status': !exists(json, 'status') ? undefined : json['status'],
         'message': !exists(json, 'message') ? undefined : json['message'],
         'version': !exists(json, 'version') ? undefined : json['version'],
-        'result': !exists(json, 'result') ? undefined : ((json['result'] as Array<any>).map(AppFromJSON)),
+        'result': !exists(json, 'result') ? undefined : ((json['result'] as Array<any>).map(TapisAppFromJSON)),
+        'metadata': !exists(json, 'metadata') ? undefined : RespAppsMetadataFromJSON(json['metadata']),
     };
 }
 
-export function RespAppArrayToJSON(value?: RespAppArray | null): any {
+export function RespAppsToJSON(value?: RespApps | null): any {
     if (value === undefined) {
         return undefined;
     }
@@ -81,7 +92,8 @@ export function RespAppArrayToJSON(value?: RespAppArray | null): any {
         'status': value.status,
         'message': value.message,
         'version': value.version,
-        'result': value.result === undefined ? undefined : ((value.result as Array<any>).map(AppToJSON)),
+        'result': value.result === undefined ? undefined : ((value.result as Array<any>).map(TapisAppToJSON)),
+        'metadata': RespAppsMetadataToJSON(value.metadata),
     };
 }
 

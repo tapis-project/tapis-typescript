@@ -26,6 +26,10 @@ import {
     RuntimeEnumFromJSON,
     RuntimeEnumFromJSONTyped,
     RuntimeEnumToJSON,
+    RuntimeOptionEnum,
+    RuntimeOptionEnumFromJSON,
+    RuntimeOptionEnumFromJSONTyped,
+    RuntimeOptionEnumToJSON,
 } from './';
 
 /**
@@ -82,6 +86,12 @@ export interface ReqCreateApp {
      * @memberof ReqCreateApp
      */
     runtimeVersion?: string;
+    /**
+     * 
+     * @type {Array<RuntimeOptionEnum>}
+     * @memberof ReqCreateApp
+     */
+    runtimeOptions?: Array<RuntimeOptionEnum>;
     /**
      * 
      * @type {string}
@@ -144,6 +154,7 @@ export function ReqCreateAppFromJSONTyped(json: any, ignoreDiscriminator: boolea
         'enabled': !exists(json, 'enabled') ? undefined : json['enabled'],
         'runtime': !exists(json, 'runtime') ? undefined : RuntimeEnumFromJSON(json['runtime']),
         'runtimeVersion': !exists(json, 'runtimeVersion') ? undefined : json['runtimeVersion'],
+        'runtimeOptions': !exists(json, 'runtimeOptions') ? undefined : ((json['runtimeOptions'] as Array<any>).map(RuntimeOptionEnumFromJSON)),
         'containerImage': !exists(json, 'containerImage') ? undefined : json['containerImage'],
         'maxJobs': !exists(json, 'maxJobs') ? undefined : json['maxJobs'],
         'maxJobsPerUser': !exists(json, 'maxJobsPerUser') ? undefined : json['maxJobsPerUser'],
@@ -171,6 +182,7 @@ export function ReqCreateAppToJSON(value?: ReqCreateApp | null): any {
         'enabled': value.enabled,
         'runtime': RuntimeEnumToJSON(value.runtime),
         'runtimeVersion': value.runtimeVersion,
+        'runtimeOptions': value.runtimeOptions === undefined ? undefined : ((value.runtimeOptions as Array<any>).map(RuntimeOptionEnumToJSON)),
         'containerImage': value.containerImage,
         'maxJobs': value.maxJobs,
         'maxJobsPerUser': value.maxJobsPerUser,

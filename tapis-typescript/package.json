@@ -1,6 +1,6 @@
 {
   "name": "@tapis/tapis-typescript",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "TypeScript bindings for tapis.io api",
   "main": "./dist/index.js",
   "typings": "./dist/index.d.ts",
@@ -28,7 +28,7 @@
     "@tapis/tapis-typescript-systems": "^0.0.1",
     "@tapis/tapis-typescript-tenants": "^0.0.1",
     "@tapis/tapis-typescript-files": "^0.0.1",
-    "@tapis/tapis-typescript-apps": "^0.0.1"
+    "@tapis/tapis-typescript-apps": "^0.0.2"
   },
   "devDependencies": {
     "@openapitools/openapi-generator-cli": "^2.2.4",

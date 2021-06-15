@@ -68,27 +68,60 @@ paths:
     get:
       tags:
         - Applications
-      summary: Retrieve applications.
-      description: Retrieve applications. Use search and select query parameters to limit results.
+      summary: Retrieve applications
+      description: Retrieve list of applications. Use search and select query parameters to limit results.
       operationId: getApps
       parameters:
-        - name: pretty
-          in: query
-          description: Pretty print the response
-          schema:
-            type: boolean
         - name: search
           in: query
           description: Search conditions as a single query paramter. For example search=(id.like.MyApp*)~(enabled.eq.true)
           schema:
             type: string
+        - name: limit
+          in: query
+          description: Limit number of items returned. For example limit=10. Use -1 for unlimited. Default is unlimited.
+          schema:
+            type: integer
+        - name: orderBy
+          in: query
+          description: Attribute for sorting. Direction may be included. For example orderBy=id(desc). Default direction is (asc).
+          schema:
+            type: string
+        - name: skip
+          in: query
+          description: Number of items to skip. Use one of skip or startAfter. For example skip=10. Default is 0.
+          schema:
+            type: integer
+        - name: startAfter
+          in: query
+          description: Where to start when sorting. Use one of skip or startAfter. Must also specify orderBy. For example, limit=10&orderBy=id(asc)&startAfter=my.app1
+          schema:
+            type: string
+        - name: computeTotal
+          in: query
+          description: Compute total number of results that would have been returned if unlimited. Default is false.
+          schema:
+            type: boolean
+            default: false
+        - name: select
+          in: query
+          description: List of attributes to be included as part of each result item. For example select=id,version,owner
+          schema:
+            type: string
+            default: 'summaryAttributes'
+        - name: showDeleted
+          in: query
+          description: Indicates if Applications marked as deleted should be shown in the results. Default is false.
+          schema:
+            type: boolean
+            default: false
       responses:
         '200':
           description: Success.
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/RespAppArray'
+                $ref: '#/components/schemas/RespApps'
         '400':
           description: Input error.
           content:
@@ -111,14 +144,29 @@ paths:
       tags:
         - Applications
       summary: Create a new version of an application
-      description: Create an application using a request body. App id+version must be unique within tenant and can be composed of alphanumeric characters and the following special characters [-._~]. Id must begin with an alphabetic character and can be no more than 256 characters in length.'
+      description: |
+
+        Create an application using a request body. App id+version must be unique within tenant and can be composed of
+        alphanumeric characters and the following special characters [-._~]. Id must begin with an alphabetic character
+        and can be no more than 80 characters in length.
+
+        Note that certain attributes (such as tenant) are allowed but ignored so that the JSON returned by a GET may be
+        modified and used in a POST or PUT to create or update an application.
+        The attributes that are allowed but ignored are
+
+          - tenant
+          - uuid
+          - deleted
+          - created
+          - updated
+
+        In addition for a PUT operation the following non-updatable attributes are allowed but ignored
+
+          - id
+          - appType
+          - owner
+          - enabled
       operationId: createAppVersion
-      parameters:
-        - name: pretty
-          in: query
-          description: Pretty print the response
-          schema:
-            type: boolean
       requestBody:
         required: true
         description: A JSON object specifying information for the app to be created.
@@ -128,7 +176,7 @@ paths:
               $ref: '#/components/schemas/ReqCreateApp'
       responses:
         '201':
-          description: App created.
+          description: Application created.
           content:
             application/json:
               schema:
@@ -146,7 +194,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/RespBasic'
         '409':
-          description: App already exists.
+          description: Application already exists.
           content:
             application/json:
               schema:
@@ -157,26 +205,53 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/RespBasic'
-  '/v3/apps/search/apps':
+  '/v3/apps/search':
     get:
       tags:
         - Applications
-      summary: Retrieve applications matching search conditions specified as query parameters.
-      description: Retrieve details for applications. Use query parameters to specify search conditions. For example ?owner.eq=jdoe&port.gt=1024
+      summary: Retrieve list of applications matching search conditions specified as query parameters
+      description: Retrieve details for applications. Use query parameters to specify search conditions. For example ?owner.eq=jdoe&enabled.eq=false
       operationId: searchAppsQueryParameters
       parameters:
-        - name: pretty
+        - name: limit
           in: query
-          description: Pretty print the response
+          description: Limit number of items returned. For example limit=10. Use -1 for unlimited. Default is unlimited.
+          schema:
+            type: integer
+        - name: orderBy
+          in: query
+          description: Attribute for sorting. Direction may be included. For example orderBy=id(desc). Default direction is (asc).
+          schema:
+            type: string
+        - name: skip
+          in: query
+          description: Number of items to skip. Use one of skip or startAfter. For example skip=10. Default is 0.
+          schema:
+            type: integer
+        - name: startAfter
+          in: query
+          description: Where to start when sorting. Use one of skip or startAfter. Must also specify orderBy. For example, limit=10&orderBy=id(asc)&startAfter=my.app2
+          schema:
+            type: string
+        - name: computeTotal
+          in: query
+          description: Compute total number of results that would have been returned if unlimited. Default is false.
           schema:
             type: boolean
+            default: false
+        - name: select
+          in: query
+          description: List of attributes to be included as part of each result item. For example select=id,version,owner
+          schema:
+            type: string
+            default: 'summaryAttributes'
       responses:
         '200':
           description: Success.
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/RespAppArray'
+                $ref: '#/components/schemas/RespApps'
         '400':
           description: Input error.
           content:
@@ -198,15 +273,42 @@ paths:
     post:
       tags:
         - Applications
-      summary: Retrieve applications matching search conditions.
+      summary: Retrieve applications matching search conditions
       description: Retrieve details for applications. Use request body to specify SQL-like search conditions.
       operationId: searchAppsRequestBody
       parameters:
-        - name: pretty
+        - name: limit
           in: query
-          description: Pretty print the response
+          description: Limit number of items returned. For example limit=10. Use -1 for unlimited. Default is unlimited.
+          schema:
+            type: integer
+        - name: orderBy
+          in: query
+          description: Attribute for sorting. Direction may be included. For example orderBy=id(desc). Default direction is (asc).
+          schema:
+            type: string
+        - name: skip
+          in: query
+          description: Number of items to skip. Use one of skip or startAfter. For example skip=10. Default is 0.
+          schema:
+            type: integer
+        - name: startAfter
+          in: query
+          description: Where to start when sorting. Use one of skip or startAfter. Must also specify orderBy. For example, limit=10&orderBy=id(asc)&startAfter=my.app1
+          schema:
+            type: string
+        - name: computeTotal
+          in: query
+          description: Compute total number of results that would have been returned if unlimited. Default is false.
           schema:
             type: boolean
+            default: false
+        - name: select
+          in: query
+          description: List of attributes to be included as part of each result item. For example select=id,version,owner
+          schema:
+            type: string
+            default: 'summaryAttributes'
       requestBody:
         required: true
         description: A JSON object specifying SQL-like search conditions as an array of strings. Strings are concatenated to form full search query.
@@ -220,7 +322,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/RespAppArray'
+                $ref: '#/components/schemas/RespApps'
         '400':
           description: Input error.
           content:
@@ -252,20 +354,21 @@ paths:
           required: true
           schema:
             type: string
-        - name: pretty
-          in: query
-          description: Pretty print the response
-          schema:
-            type: boolean
         - name: requireExecPerm
           in: query
           description: check for EXECUTE permission as well as READ permission.
           schema:
             type: boolean
             default: false
+        - name: select
+          in: query
+          description: List of attributes to be included as part of the result item. For example select=id,version,owner
+          schema:
+            type: string
+            default: 'allAttributes'
       responses:
         '200':
-          description: App found.
+          description: Application found.
           content:
             application/json:
               schema:
@@ -283,49 +386,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/RespBasic'
         '404':
-          description: App not found.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/RespBasic'
-        '500':
-          description: Server error.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/RespBasic'
-    delete:
-      tags:
-        - Applications
-      summary: Soft delete all versions of an application
-      description: Soft delete an application given the app name.
-      operationId: deleteApp
-      parameters:
-        - name: appId
-          in: path
-          required: true
-          schema:
-            type: string
-        - name: pretty
-          in: query
-          description: Pretty print the response
-          schema:
-            type: boolean
-      responses:
-        '200':
-          description: App deleted.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/RespChangeCount'
-        '400':
-          description: Input error.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/RespBasic'
-        '401':
-          description: Not authorized.
+          description: Application not found.
           content:
             application/json:
               schema:
@@ -341,7 +402,7 @@ paths:
       tags:
         - Applications
       summary: Retrieve details for specific version of an application
-      description: Retrieve information for an application given the app Id and version.
+      description: Retrieve information for an application given the application Id and version.
       operationId: getApp
       parameters:
         - name: appId
@@ -354,20 +415,21 @@ paths:
           required: true
           schema:
             type: string
-        - name: pretty
-          in: query
-          description: Pretty print the response
-          schema:
-            type: boolean
         - name: requireExecPerm
           in: query
           description: check for EXECUTE permission as well as READ permission.
           schema:
             type: boolean
             default: false
+        - name: select
+          in: query
+          description: List of attributes to be included as part of the result item. For example select=id,version,owner
+          schema:
+            type: string
+            default: 'allAttributes'
       responses:
         '200':
-          description: App found.
+          description: Application found.
           content:
             application/json:
               schema:
@@ -385,7 +447,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/RespBasic'
         '404':
-          description: App not found.
+          description: Application not found.
           content:
             application/json:
               schema:
@@ -399,8 +461,16 @@ paths:
     patch:
       tags:
         - Applications
-      summary: Update an existing version of an application
-      description: Update existing version of an application. Attributes that may be updated are description, enabled, TBD, tags, notes.
+      summary: Update attributes for an existing version
+      description: |
+        Update existing version of an application. Request body may only contain updatable attributes.
+
+        Attributes that may not be updated via PATCH are
+
+          - id
+          - appType
+          - owner
+          - enabled
       operationId: updateApp
       parameters:
         - name: appId
@@ -413,11 +483,6 @@ paths:
           required: true
           schema:
             type: string
-        - name: pretty
-          in: query
-          description: Pretty print the response
-          schema:
-            type: boolean
       requestBody:
         required: true
         description: A JSON object specifying changes to be applied.
@@ -427,7 +492,7 @@ paths:
               $ref: '#/components/schemas/ReqUpdateApp'
       responses:
         '200':
-          description: App updated.
+          description: Application updated.
           content:
             application/json:
               schema:
@@ -445,7 +510,197 @@ paths:
               schema:
                 $ref: '#/components/schemas/RespBasic'
         '404':
-          description: App not found.
+          description: Application not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RespBasic'
+        '500':
+          description: Server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RespBasic'
+  '/v3/apps/{appId}/isEnabled':
+    get:
+      tags:
+        - Applications
+      summary: Check if application is currently enabled
+      description: Check if an application is currently enabled, i.e. available for use.
+      operationId: isEnabled
+      parameters:
+        - name: appId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Check successful.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RespBoolean'
+        '401':
+          description: Not authorized.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RespBasic'
+        '404':
+          description: Application not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RespBasic'
+        '500':
+          description: Server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RespBasic'
+  '/v3/apps/{appId}/enable':
+    post:
+      tags:
+        - Applications
+      summary: Mark an application availabe for use
+      description: Mark an application available for use. Applies to all versions.
+      operationId: enableApp
+      parameters:
+        - name: appId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Application enabled.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RespChangeCount'
+        '401':
+          description: Not authorized.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RespBasic'
+        '404':
+          description: Application not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RespBasic'
+        '500':
+          description: Server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RespBasic'
+  '/v3/apps/{appId}/disable':
+    post:
+      tags:
+        - Applications
+      summary: Mark an application unavailabe for use
+      description: Mark an application unavailable for use. Applies to all versions.
+      operationId: disableApp
+      parameters:
+        - name: appId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Application disabled.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RespChangeCount'
+        '401':
+          description: Not authorized.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RespBasic'
+        '404':
+          description: Application not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RespBasic'
+        '500':
+          description: Server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RespBasic'
+  '/v3/apps/{appId}/delete':
+    post:
+      tags:
+        - Applications
+      summary: Mark an application as deleted
+      description: Mark an application as deleted. Application will not appear in queries unless explicitly requested.
+      operationId: deleteApp
+      parameters:
+        - name: appId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Application deleted.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RespChangeCount'
+        '401':
+          description: Not authorized.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RespBasic'
+        '404':
+          description: Application not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RespBasic'
+        '500':
+          description: Server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RespBasic'
+  '/v3/apps/{appId}/undelete':
+    post:
+      tags:
+        - Applications
+      summary: Mark an application as not deleted
+      description: Mark an application as not deleted. Application will appear in queries.
+      operationId: undeleteApp
+      parameters:
+        - name: appId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Application undeleted.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RespChangeCount'
+        '401':
+          description: Not authorized.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RespBasic'
+        '404':
+          description: Application not found.
           content:
             application/json:
               schema:
@@ -474,14 +729,9 @@ paths:
           required: true
           schema:
             type: string
-        - name: pretty
-          in: query
-          description: Pretty print the response
-          schema:
-            type: boolean
       responses:
         '200':
-          description: App owner updated.
+          description: Application owner updated.
           content:
             application/json:
               schema:
@@ -493,7 +743,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/RespBasic'
         '404':
-          description: App not found.
+          description: Application not found.
           content:
             application/json:
               schema:
@@ -511,7 +761,7 @@ paths:
       tags:
         - Permissions
       summary: Retrieve application user permissions
-      description: Retrieve all application related permissions for a given app and user.
+      description: Retrieve all application related permissions for a given application and user.
       operationId: getUserPerms
       parameters:
         - name: appId
@@ -524,11 +774,6 @@ paths:
           required: true
           schema:
             type: string
-        - name: pretty
-          in: query
-          description: Pretty print the response
-          schema:
-            type: boolean
       responses:
         '200':
           description: Success.
@@ -549,7 +794,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/RespBasic'
         '404':
-          description: App not found.
+          description: Application not found.
           content:
             application/json:
               schema:
@@ -563,7 +808,7 @@ paths:
     post:
       tags:
         - Permissions
-      summary: Create application user permissions
+      summary: Grant application user permissions
       description: Create permissions in the Security Kernel for a user. Requester must be owner. Permissions are READ, MODIFY, EXECUTE.
       operationId: grantUserPerms
       parameters:
@@ -577,11 +822,6 @@ paths:
           required: true
           schema:
             type: string
-        - name: pretty
-          in: query
-          description: Pretty print the response
-          schema:
-            type: boolean
       requestBody:
         required: true
         description: A JSON object specifying a list of permissions.
@@ -619,8 +859,8 @@ paths:
     post:
       tags:
         - Permissions
-      summary: Revoke app user permissions
-      description: Revoke permissions in the Security Kernel for a user. Requester must be owner. Permissions are READ, MODIFY, EXECUTE.
+      summary: Revoke application user permissions
+      description: Remove permissions from the Security Kernel for a user. Requester must be owner. Permissions are READ, MODIFY, EXECUTE.
       operationId: revokeUserPerms
       parameters:
         - name: appId
@@ -633,11 +873,6 @@ paths:
           required: true
           schema:
             type: string
-        - name: pretty
-          in: query
-          description: Pretty print the response
-          schema:
-            type: boolean
       requestBody:
         required: true
         description: A JSON object specifying a list of permissions.
@@ -669,8 +904,8 @@ paths:
     delete:
       tags:
         - Permissions
-      summary: Revoke app user permission
-      description: Revoke user permission in the Security Kernel. Requester must be owner. Permissions are READ, MODIFY, EXECUTE.
+      summary: Revoke application user permission
+      description: Remove user permission from the Security Kernel. Requester must be owner. Permissions are READ, MODIFY, EXECUTE.
       operationId: revokeUserPerm
       parameters:
         - name: appId
@@ -688,11 +923,6 @@ paths:
           required: true
           schema:
             type: string
-        - name: pretty
-          in: query
-          description: Pretty print the response
-          schema:
-            type: boolean
       responses:
         '200':
           description: Permission revoked.
@@ -733,13 +963,10 @@ components:
     # ------------------------------------------------------------------------------
     # --- Model objects ------------------------------------------------------------
     # ------------------------------------------------------------------------------
-    # --- App ------------------------------------------------------------------
-    App:
+    # --- TapisApp ------------------------------------------------------------------
+    TapisApp:
       type: object
       properties:
-        seq_id:
-          type: integer
-          format: int32
         tenant:
           type: string
         id:
@@ -760,6 +987,8 @@ components:
           $ref: '#/components/schemas/RuntimeEnum'
         runtimeVersion:
           type: string
+        runtimeOptions:
+          $ref: '#/components/schemas/RuntimeOptions'
         containerImage:
           type: string
         maxJobs:
@@ -779,14 +1008,17 @@ components:
             type: string
         notes:
           type: object
-        importRefId:
-          type: string
         deleted:
           type: boolean
         created:
           type: string
         updated:
           type: string
+    # --- RuntimeOptions --------------------------------------------------------
+    RuntimeOptions:
+      type: array
+      items:
+        $ref: '#/components/schemas/RuntimeOptionEnum'
     # --- JobAttributes --------------------------------------------------------
     JobAttributes:
       type: object
@@ -934,7 +1166,6 @@ components:
           type: string
         emailAddress:
           type: string
-
     # -------------------------------------------------------------------------
     # --- Request objects -----------------------------------------------------
     # -------------------------------------------------------------------------
@@ -959,6 +1190,8 @@ components:
           $ref: '#/components/schemas/RuntimeEnum'
         runtimeVersion:
           type: string
+        runtimeOptions:
+          $ref: '#/components/schemas/RuntimeOptions'
         containerImage:
           type: string
         maxJobs:
@@ -981,12 +1214,27 @@ components:
     ReqUpdateApp:
       type: object
       properties:
-        version:
-          type: string
         description:
           type: string
-        enabled:
+        runtime:
+          $ref: '#/components/schemas/RuntimeEnum'
+        runtimeVersion:
+          type: string
+        runtimeOptions:
+          $ref: '#/components/schemas/RuntimeOptions'
+        containerImage:
+          type: string
+        maxJobs:
+          type: integer
+          default: -1
+        maxJobsPerUser:
+          type: integer
+          default: -1
+        strictFileInputs:
           type: boolean
+          default: false
+        jobAttributes:
+          $ref: '#/components/schemas/JobAttributes'
         tags:
           type: array
           items:
@@ -1007,7 +1255,6 @@ components:
           type: array
           items:
             type: string
-
     # -------------------------------------------------------------------------
     # --- Response objects ----------------------------------------------------
     # -------------------------------------------------------------------------
@@ -1022,6 +1269,26 @@ components:
           type: string
         result:
           type: object
+        metadata:
+          type: object
+    RespBoolean:
+      type: object
+      properties:
+        status:
+          type: string
+        message:
+          type: string
+        version:
+          type: string
+        result:
+          $ref: '#/components/schemas/ResultBoolean'
+        metadata:
+          type: object
+    ResultBoolean:
+      type: object
+      properties:
+        aBool:
+          type: boolean
     RespNameArray:
       type: object
       properties:
@@ -1033,6 +1300,8 @@ components:
           type: string
         result:
           $ref: '#/components/schemas/ResultNameArray'
+        metadata:
+          type: object
     ResultNameArray:
       type: object
       properties:
@@ -1051,6 +1320,8 @@ components:
           type: string
         result:
           $ref: '#/components/schemas/ResultChangeCount'
+        metadata:
+          type: object
     ResultChangeCount:
       type: object
       properties:
@@ -1068,6 +1339,8 @@ components:
           type: string
         result:
           $ref: '#/components/schemas/ResultResourceUrl'
+        metadata:
+          type: object
     ResultResourceUrl:
       type: object
       properties:
@@ -1083,8 +1356,10 @@ components:
         version:
           type: string
         result:
-          $ref: '#/components/schemas/App'
-    RespAppArray:
+          $ref: '#/components/schemas/TapisApp'
+        metadata:
+          type: object
+    RespApps:
       type: object
       properties:
         status:
@@ -1096,7 +1371,22 @@ components:
         result:
           type: array
           items:
-            $ref: '#/components/schemas/App'
+            $ref: '#/components/schemas/TapisApp'
+        metadata:
+          type: object
+          properties:
+            recordCount:
+              type: integer
+            recordLimit:
+              type: integer
+            recordsSkipped:
+              type: integer
+            orderBy:
+              type: string
+            startAfter:
+              type: string
+            totalCount:
+              type: integer
     # -------------------------------------------------------------------------
     # --- Enums ---------------------------------------------------------------
     # -------------------------------------------------------------------------
@@ -1110,6 +1400,12 @@ components:
       enum:
         - SINGULARITY
         - DOCKER
+    RuntimeOptionEnum:
+      type: string
+      enum:
+        - NONE
+        - SINGULARITY_START
+        - SINGULARITY_RUN
     NotificationMechanismEnum:
       type: string
       enum:
