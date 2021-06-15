@@ -6,7 +6,7 @@ import { before } from 'mocha';
 import { 
   Files
 } from '../src';
-import getToken from './utils';
+import { getToken, checkJsonError } from './utils';
 import { expect } from 'chai';
 import fetch from 'cross-fetch';
 
@@ -37,12 +37,7 @@ describe('Files e2e tests', async () => {
       const files: Array<Files.FileInfo> = response.result;
       expect(files.length).to.be.greaterThanOrEqual(1)
     } catch (error) {
-      // Catch any errors thrown by API calls
-      // Asynchronously wait for the error to be translated
-      const errorBody = await error.json();
-      console.error(errorBody);
-      // Rethrow the error
-      throw errorBody;
+      checkJsonError(error)
     }
 
   });

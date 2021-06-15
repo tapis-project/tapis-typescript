@@ -3,7 +3,8 @@ import {
   Authenticator, 
   Systems, 
   Tenants,
-  Files
+  Files,
+  Apps
 } from '../src';
 import { expect } from 'chai';
 
@@ -30,5 +31,10 @@ describe('tapis-typescript', () => {
     expect(Files).to.have.property('PermissionsApi');
     expect(Files).to.have.property('ShareApi');
     expect(Files).to.have.property('TransfersApi');
+  });
+  it('should have Apps service', () => {
+    expect(Apps).to.have.property('ApplicationsApi');
+    expect(Apps).to.have.property('HealthApi');
+    expect(Apps).to.have.property('PermissionsApi');
   });
 });

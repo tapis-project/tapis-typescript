@@ -5,7 +5,20 @@ import {
   Authenticator
 } from '../src';
 
-const getToken = async (): Promise<Authenticator.NewAccessTokenResponse> => {
+export const checkJsonError = async (error) => {
+  if (error.json) {
+    // Catch any errors thrown by API calls
+    // Asynchronously wait for the error to be translated
+    const errorBody = await error.json();
+    console.error(errorBody);
+    // Rethrow the error
+    throw errorBody;
+  } else {
+    throw error;
+  }
+}
+
+export const getToken = async (): Promise<Authenticator.NewAccessTokenResponse> => {
   const configurationParameters: Authenticator.ConfigurationParameters = {
     basePath: process.env.TEST_TENANT,
     fetchApi: fetch
@@ -22,5 +35,3 @@ const getToken = async (): Promise<Authenticator.NewAccessTokenResponse> => {
   const response: Authenticator.RespCreateToken = await api.createToken(createTokenRequest);
   return response.result.access_token;
 }
-
-export default getToken;

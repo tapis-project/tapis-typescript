@@ -1,6 +1,6 @@
 {
   "name": "@tapis/tapis-typescript",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "TypeScript bindings for tapis.io api",
   "main": "./dist/index.js",
   "typings": "./dist/index.d.ts",
@@ -10,7 +10,7 @@
     "generate": "./generate_all.sh",
     "build-services": "./build-services.sh",
     "test": "env TS_NODE_COMPILER_OPTIONS='{\"module\": \"commonjs\" }' mocha -r ts-node/register 'tests/**/*.ts'",
-    "e2e": "env TS_NODE_COMPILER_OPTIONS='{\"module\": \"commonjs\" }' mocha -r ts-node/register 'e2e/**/*.ts'",
+    "e2e": "env TS_NODE_COMPILER_OPTIONS='{\"module\": \"commonjs\" }' mocha --timeout 10000 -r ts-node/register 'e2e/**/*.ts'",
     "prepare": "tsc"
   },
   "repository": {
@@ -27,7 +27,8 @@
     "@tapis/tapis-typescript-authenticator": "^0.0.1",
     "@tapis/tapis-typescript-systems": "^0.0.1",
     "@tapis/tapis-typescript-tenants": "^0.0.1",
-    "@tapis/tapis-typescript-files": "^0.0.1"
+    "@tapis/tapis-typescript-files": "^0.0.1",
+    "@tapis/tapis-typescript-apps": "^0.0.1"
   },
   "devDependencies": {
     "@openapitools/openapi-generator-cli": "^2.2.4",
