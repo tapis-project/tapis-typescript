@@ -24,6 +24,9 @@ import {
     RespGetJob,
     RespGetJobFromJSON,
     RespGetJobToJSON,
+    RespGetJobStatus,
+    RespGetJobStatusFromJSON,
+    RespGetJobStatusToJSON,
     RespName,
     RespNameFromJSON,
     RespNameToJSON,
@@ -33,6 +36,11 @@ import {
 } from '../models';
 
 export interface GetJobRequest {
+    jobUuid: string;
+    pretty?: boolean;
+}
+
+export interface GetJobStatusRequest {
     jobUuid: string;
     pretty?: boolean;
 }
@@ -87,6 +95,44 @@ export class JobsApi extends runtime.BaseAPI {
      */
     async getJob(requestParameters: GetJobRequest): Promise<RespGetJob> {
         const response = await this.getJobRaw(requestParameters);
+        return await response.value();
+    }
+
+    /**
+     * Retrieve status of a previously submitted job by its UUID.  The caller must be the job owner, creator or a tenant administrator.
+     */
+    async getJobStatusRaw(requestParameters: GetJobStatusRequest): Promise<runtime.ApiResponse<RespGetJobStatus>> {
+        if (requestParameters.jobUuid === null || requestParameters.jobUuid === undefined) {
+            throw new runtime.RequiredError('jobUuid','Required parameter requestParameters.jobUuid was null or undefined when calling getJobStatus.');
+        }
+
+        const queryParameters: any = {};
+
+        if (requestParameters.pretty !== undefined) {
+            queryParameters['pretty'] = requestParameters.pretty;
+        }
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        if (this.configuration && this.configuration.apiKey) {
+            headerParameters["X-Tapis-Token"] = this.configuration.apiKey("X-Tapis-Token"); // TapisJWT authentication
+        }
+
+        const response = await this.request({
+            path: `/v3/jobs/{jobUuid}/status`.replace(`{${"jobUuid"}}`, encodeURIComponent(String(requestParameters.jobUuid))),
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        });
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => RespGetJobStatusFromJSON(jsonValue));
+    }
+
+    /**
+     * Retrieve status of a previously submitted job by its UUID.  The caller must be the job owner, creator or a tenant administrator.
+     */
+    async getJobStatus(requestParameters: GetJobStatusRequest): Promise<RespGetJobStatus> {
+        const response = await this.getJobStatusRaw(requestParameters);
         return await response.value();
     }
 

@@ -42,6 +42,12 @@ export interface RespBasic {
      * @type {object}
      * @memberof RespBasic
      */
+    metadata?: object;
+    /**
+     * 
+     * @type {object}
+     * @memberof RespBasic
+     */
     result?: object;
 }
 
@@ -58,6 +64,7 @@ export function RespBasicFromJSONTyped(json: any, ignoreDiscriminator: boolean):
         'status': !exists(json, 'status') ? undefined : json['status'],
         'message': !exists(json, 'message') ? undefined : json['message'],
         'version': !exists(json, 'version') ? undefined : json['version'],
+        'metadata': !exists(json, 'metadata') ? undefined : json['metadata'],
         'result': !exists(json, 'result') ? undefined : json['result'],
     };
 }
@@ -74,6 +81,7 @@ export function RespBasicToJSON(value?: RespBasic | null): any {
         'status': value.status,
         'message': value.message,
         'version': value.version,
+        'metadata': value.metadata,
         'result': value.result,
     };
 }
