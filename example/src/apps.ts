@@ -24,8 +24,8 @@ import {
   try {
     const api: Apps.ApplicationsApi = new Apps.ApplicationsApi(configuration);
     const getAppsRequest: Apps.GetAppsRequest = {};
-    const response: Apps.RespAppArray = await api.getApps(getAppsRequest);
-    const apps: Array<Apps.App> = response.result
+    const response: Apps.RespApps = await api.getApps(getAppsRequest);
+    const apps: Array<Apps.TapisApp> = response.result
     console.log(apps);
   } catch (error) {
     checkJsonError(error);
