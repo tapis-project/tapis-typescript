@@ -1,6 +1,6 @@
 {
   "name": "@tapis/tapis-typescript",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "description": "TypeScript bindings for tapis.io api",
   "main": "./dist/index.js",
   "typings": "./dist/index.d.ts",
