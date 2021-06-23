@@ -14,10 +14,6 @@
 
 import { exists, mapValues } from '../runtime';
 import {
-    AppTypeEnum,
-    AppTypeEnumFromJSON,
-    AppTypeEnumFromJSONTyped,
-    AppTypeEnumToJSON,
     JobAttributes,
     JobAttributesFromJSON,
     JobAttributesFromJSONTyped,
@@ -35,123 +31,88 @@ import {
 /**
  * 
  * @export
- * @interface ReqCreateApp
+ * @interface ReqPutApp
  */
-export interface ReqCreateApp {
+export interface ReqPutApp {
     /**
      * 
      * @type {string}
-     * @memberof ReqCreateApp
-     */
-    id?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof ReqCreateApp
-     */
-    version?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof ReqCreateApp
+     * @memberof ReqPutApp
      */
     description?: string;
     /**
      * 
-     * @type {AppTypeEnum}
-     * @memberof ReqCreateApp
-     */
-    appType?: AppTypeEnum;
-    /**
-     * 
-     * @type {string}
-     * @memberof ReqCreateApp
-     */
-    owner?: string;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof ReqCreateApp
-     */
-    enabled?: boolean;
-    /**
-     * 
      * @type {RuntimeEnum}
-     * @memberof ReqCreateApp
+     * @memberof ReqPutApp
      */
     runtime?: RuntimeEnum;
     /**
      * 
      * @type {string}
-     * @memberof ReqCreateApp
+     * @memberof ReqPutApp
      */
     runtimeVersion?: string;
     /**
      * 
      * @type {Array<RuntimeOptionEnum>}
-     * @memberof ReqCreateApp
+     * @memberof ReqPutApp
      */
     runtimeOptions?: Array<RuntimeOptionEnum>;
     /**
      * 
      * @type {string}
-     * @memberof ReqCreateApp
+     * @memberof ReqPutApp
      */
     containerImage?: string;
     /**
      * 
      * @type {number}
-     * @memberof ReqCreateApp
+     * @memberof ReqPutApp
      */
     maxJobs?: number;
     /**
      * 
      * @type {number}
-     * @memberof ReqCreateApp
+     * @memberof ReqPutApp
      */
     maxJobsPerUser?: number;
     /**
      * 
      * @type {boolean}
-     * @memberof ReqCreateApp
+     * @memberof ReqPutApp
      */
     strictFileInputs?: boolean;
     /**
      * 
      * @type {JobAttributes}
-     * @memberof ReqCreateApp
+     * @memberof ReqPutApp
      */
     jobAttributes?: JobAttributes;
     /**
      * 
      * @type {Array<string>}
-     * @memberof ReqCreateApp
+     * @memberof ReqPutApp
      */
     tags?: Array<string>;
     /**
      * 
      * @type {object}
-     * @memberof ReqCreateApp
+     * @memberof ReqPutApp
      */
     notes?: object;
 }
 
-export function ReqCreateAppFromJSON(json: any): ReqCreateApp {
-    return ReqCreateAppFromJSONTyped(json, false);
+export function ReqPutAppFromJSON(json: any): ReqPutApp {
+    return ReqPutAppFromJSONTyped(json, false);
 }
 
-export function ReqCreateAppFromJSONTyped(json: any, ignoreDiscriminator: boolean): ReqCreateApp {
+export function ReqPutAppFromJSONTyped(json: any, ignoreDiscriminator: boolean): ReqPutApp {
     if ((json === undefined) || (json === null)) {
         return json;
     }
     return {
         
-        'id': !exists(json, 'id') ? undefined : json['id'],
-        'version': !exists(json, 'version') ? undefined : json['version'],
         'description': !exists(json, 'description') ? undefined : json['description'],
-        'appType': !exists(json, 'appType') ? undefined : AppTypeEnumFromJSON(json['appType']),
-        'owner': !exists(json, 'owner') ? undefined : json['owner'],
-        'enabled': !exists(json, 'enabled') ? undefined : json['enabled'],
         'runtime': !exists(json, 'runtime') ? undefined : RuntimeEnumFromJSON(json['runtime']),
         'runtimeVersion': !exists(json, 'runtimeVersion') ? undefined : json['runtimeVersion'],
         'runtimeOptions': !exists(json, 'runtimeOptions') ? undefined : ((json['runtimeOptions'] as Array<any>).map(RuntimeOptionEnumFromJSON)),
@@ -165,7 +126,7 @@ export function ReqCreateAppFromJSONTyped(json: any, ignoreDiscriminator: boolea
     };
 }
 
-export function ReqCreateAppToJSON(value?: ReqCreateApp | null): any {
+export function ReqPutAppToJSON(value?: ReqPutApp | null): any {
     if (value === undefined) {
         return undefined;
     }
@@ -174,12 +135,7 @@ export function ReqCreateAppToJSON(value?: ReqCreateApp | null): any {
     }
     return {
         
-        'id': value.id,
-        'version': value.version,
         'description': value.description,
-        'appType': AppTypeEnumToJSON(value.appType),
-        'owner': value.owner,
-        'enabled': value.enabled,
         'runtime': RuntimeEnumToJSON(value.runtime),
         'runtimeVersion': value.runtimeVersion,
         'runtimeOptions': value.runtimeOptions === undefined ? undefined : ((value.runtimeOptions as Array<any>).map(RuntimeOptionEnumToJSON)),

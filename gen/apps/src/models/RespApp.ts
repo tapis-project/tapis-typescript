@@ -14,10 +14,10 @@
 
 import { exists, mapValues } from '../runtime';
 import {
-    App,
-    AppFromJSON,
-    AppFromJSONTyped,
-    AppToJSON,
+    TapisApp,
+    TapisAppFromJSON,
+    TapisAppFromJSONTyped,
+    TapisAppToJSON,
 } from './';
 
 /**
@@ -46,10 +46,16 @@ export interface RespApp {
     version?: string;
     /**
      * 
-     * @type {App}
+     * @type {TapisApp}
      * @memberof RespApp
      */
-    result?: App;
+    result?: TapisApp;
+    /**
+     * 
+     * @type {object}
+     * @memberof RespApp
+     */
+    metadata?: object;
 }
 
 export function RespAppFromJSON(json: any): RespApp {
@@ -65,7 +71,8 @@ export function RespAppFromJSONTyped(json: any, ignoreDiscriminator: boolean): R
         'status': !exists(json, 'status') ? undefined : json['status'],
         'message': !exists(json, 'message') ? undefined : json['message'],
         'version': !exists(json, 'version') ? undefined : json['version'],
-        'result': !exists(json, 'result') ? undefined : AppFromJSON(json['result']),
+        'result': !exists(json, 'result') ? undefined : TapisAppFromJSON(json['result']),
+        'metadata': !exists(json, 'metadata') ? undefined : json['metadata'],
     };
 }
 
@@ -81,7 +88,8 @@ export function RespAppToJSON(value?: RespApp | null): any {
         'status': value.status,
         'message': value.message,
         'version': value.version,
-        'result': AppToJSON(value.result),
+        'result': TapisAppToJSON(value.result),
+        'metadata': value.metadata,
     };
 }
 
