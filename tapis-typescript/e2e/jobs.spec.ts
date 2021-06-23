@@ -39,7 +39,7 @@ describe('Jobs e2e tests', async () => {
         reqSubmitJob
       });
       const job: Jobs.Job = response.result;
-      console.info("Submitted job response", job);
+      console.info("Submitted job uuid", job.uuid);
       const statusReq: Jobs.GetJobStatusRequest = {
         jobUuid: job.uuid
       };
@@ -48,6 +48,18 @@ describe('Jobs e2e tests', async () => {
       console.info("Job status", jobStatus);
       expect(jobStatus.status in Jobs.JobStatusEnum).to.equal(true);
     } catch (error) {
+      checkJsonError(error);
+    }
+  });
+
+  it('should get a job listing', async() => {
+    try {
+      const api: Jobs.JobsApi = new Jobs.JobsApi(configuration);
+      const request: Jobs.GetJobListRequest = {};
+      const response: Jobs.RespGetJobList = await api.getJobList(request);
+      const jobs: Array<Jobs.JobListDTO> = response.result;
+      expect(jobs.length).to.be.greaterThanOrEqual(1);
+    } catch(error) {
       checkJsonError(error);
     }
   });
