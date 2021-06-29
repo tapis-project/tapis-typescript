@@ -46,6 +46,12 @@ export interface RespProbe {
     version?: string;
     /**
      * 
+     * @type {object}
+     * @memberof RespProbe
+     */
+    metadata?: object;
+    /**
+     * 
      * @type {JobsProbe}
      * @memberof RespProbe
      */
@@ -65,6 +71,7 @@ export function RespProbeFromJSONTyped(json: any, ignoreDiscriminator: boolean):
         'status': !exists(json, 'status') ? undefined : json['status'],
         'message': !exists(json, 'message') ? undefined : json['message'],
         'version': !exists(json, 'version') ? undefined : json['version'],
+        'metadata': !exists(json, 'metadata') ? undefined : json['metadata'],
         'result': !exists(json, 'result') ? undefined : JobsProbeFromJSON(json['result']),
     };
 }
@@ -81,6 +88,7 @@ export function RespProbeToJSON(value?: RespProbe | null): any {
         'status': value.status,
         'message': value.message,
         'version': value.version,
+        'metadata': value.metadata,
         'result': JobsProbeToJSON(value.result),
     };
 }

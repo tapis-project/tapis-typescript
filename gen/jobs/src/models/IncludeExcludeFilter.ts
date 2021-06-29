@@ -31,6 +31,12 @@ export interface IncludeExcludeFilter {
      * @memberof IncludeExcludeFilter
      */
     excludes?: Array<string>;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof IncludeExcludeFilter
+     */
+    includeLaunchFiles?: boolean;
 }
 
 export function IncludeExcludeFilterFromJSON(json: any): IncludeExcludeFilter {
@@ -45,6 +51,7 @@ export function IncludeExcludeFilterFromJSONTyped(json: any, ignoreDiscriminator
         
         'includes': !exists(json, 'includes') ? undefined : json['includes'],
         'excludes': !exists(json, 'excludes') ? undefined : json['excludes'],
+        'includeLaunchFiles': !exists(json, 'includeLaunchFiles') ? undefined : json['includeLaunchFiles'],
     };
 }
 
@@ -59,6 +66,7 @@ export function IncludeExcludeFilterToJSON(value?: IncludeExcludeFilter | null):
         
         'includes': value.includes,
         'excludes': value.excludes,
+        'includeLaunchFiles': value.includeLaunchFiles,
     };
 }
 

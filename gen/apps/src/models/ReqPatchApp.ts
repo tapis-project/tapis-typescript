@@ -14,10 +14,6 @@
 
 import { exists, mapValues } from '../runtime';
 import {
-    AppTypeEnum,
-    AppTypeEnumFromJSON,
-    AppTypeEnumFromJSONTyped,
-    AppTypeEnumToJSON,
     JobAttributes,
     JobAttributesFromJSON,
     JobAttributesFromJSONTyped,
@@ -26,162 +22,100 @@ import {
     RuntimeEnumFromJSON,
     RuntimeEnumFromJSONTyped,
     RuntimeEnumToJSON,
+    RuntimeOptionEnum,
+    RuntimeOptionEnumFromJSON,
+    RuntimeOptionEnumFromJSONTyped,
+    RuntimeOptionEnumToJSON,
 } from './';
 
 /**
  * 
  * @export
- * @interface App
+ * @interface ReqPatchApp
  */
-export interface App {
-    /**
-     * 
-     * @type {number}
-     * @memberof App
-     */
-    seq_id?: number;
+export interface ReqPatchApp {
     /**
      * 
      * @type {string}
-     * @memberof App
-     */
-    tenant?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof App
-     */
-    id?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof App
-     */
-    version?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof App
+     * @memberof ReqPatchApp
      */
     description?: string;
     /**
      * 
-     * @type {AppTypeEnum}
-     * @memberof App
-     */
-    appType?: AppTypeEnum;
-    /**
-     * 
-     * @type {string}
-     * @memberof App
-     */
-    owner?: string;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof App
-     */
-    enabled?: boolean;
-    /**
-     * 
      * @type {RuntimeEnum}
-     * @memberof App
+     * @memberof ReqPatchApp
      */
     runtime?: RuntimeEnum;
     /**
      * 
      * @type {string}
-     * @memberof App
+     * @memberof ReqPatchApp
      */
     runtimeVersion?: string;
     /**
      * 
+     * @type {Array<RuntimeOptionEnum>}
+     * @memberof ReqPatchApp
+     */
+    runtimeOptions?: Array<RuntimeOptionEnum>;
+    /**
+     * 
      * @type {string}
-     * @memberof App
+     * @memberof ReqPatchApp
      */
     containerImage?: string;
     /**
      * 
      * @type {number}
-     * @memberof App
+     * @memberof ReqPatchApp
      */
     maxJobs?: number;
     /**
      * 
      * @type {number}
-     * @memberof App
+     * @memberof ReqPatchApp
      */
     maxJobsPerUser?: number;
     /**
      * 
      * @type {boolean}
-     * @memberof App
+     * @memberof ReqPatchApp
      */
     strictFileInputs?: boolean;
     /**
      * 
      * @type {JobAttributes}
-     * @memberof App
+     * @memberof ReqPatchApp
      */
     jobAttributes?: JobAttributes;
     /**
      * 
      * @type {Array<string>}
-     * @memberof App
+     * @memberof ReqPatchApp
      */
     tags?: Array<string>;
     /**
      * 
      * @type {object}
-     * @memberof App
+     * @memberof ReqPatchApp
      */
     notes?: object;
-    /**
-     * 
-     * @type {string}
-     * @memberof App
-     */
-    importRefId?: string;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof App
-     */
-    deleted?: boolean;
-    /**
-     * 
-     * @type {string}
-     * @memberof App
-     */
-    created?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof App
-     */
-    updated?: string;
 }
 
-export function AppFromJSON(json: any): App {
-    return AppFromJSONTyped(json, false);
+export function ReqPatchAppFromJSON(json: any): ReqPatchApp {
+    return ReqPatchAppFromJSONTyped(json, false);
 }
 
-export function AppFromJSONTyped(json: any, ignoreDiscriminator: boolean): App {
+export function ReqPatchAppFromJSONTyped(json: any, ignoreDiscriminator: boolean): ReqPatchApp {
     if ((json === undefined) || (json === null)) {
         return json;
     }
     return {
         
-        'seq_id': !exists(json, 'seq_id') ? undefined : json['seq_id'],
-        'tenant': !exists(json, 'tenant') ? undefined : json['tenant'],
-        'id': !exists(json, 'id') ? undefined : json['id'],
-        'version': !exists(json, 'version') ? undefined : json['version'],
         'description': !exists(json, 'description') ? undefined : json['description'],
-        'appType': !exists(json, 'appType') ? undefined : AppTypeEnumFromJSON(json['appType']),
-        'owner': !exists(json, 'owner') ? undefined : json['owner'],
-        'enabled': !exists(json, 'enabled') ? undefined : json['enabled'],
         'runtime': !exists(json, 'runtime') ? undefined : RuntimeEnumFromJSON(json['runtime']),
         'runtimeVersion': !exists(json, 'runtimeVersion') ? undefined : json['runtimeVersion'],
+        'runtimeOptions': !exists(json, 'runtimeOptions') ? undefined : ((json['runtimeOptions'] as Array<any>).map(RuntimeOptionEnumFromJSON)),
         'containerImage': !exists(json, 'containerImage') ? undefined : json['containerImage'],
         'maxJobs': !exists(json, 'maxJobs') ? undefined : json['maxJobs'],
         'maxJobsPerUser': !exists(json, 'maxJobsPerUser') ? undefined : json['maxJobsPerUser'],
@@ -189,14 +123,10 @@ export function AppFromJSONTyped(json: any, ignoreDiscriminator: boolean): App {
         'jobAttributes': !exists(json, 'jobAttributes') ? undefined : JobAttributesFromJSON(json['jobAttributes']),
         'tags': !exists(json, 'tags') ? undefined : json['tags'],
         'notes': !exists(json, 'notes') ? undefined : json['notes'],
-        'importRefId': !exists(json, 'importRefId') ? undefined : json['importRefId'],
-        'deleted': !exists(json, 'deleted') ? undefined : json['deleted'],
-        'created': !exists(json, 'created') ? undefined : json['created'],
-        'updated': !exists(json, 'updated') ? undefined : json['updated'],
     };
 }
 
-export function AppToJSON(value?: App | null): any {
+export function ReqPatchAppToJSON(value?: ReqPatchApp | null): any {
     if (value === undefined) {
         return undefined;
     }
@@ -205,16 +135,10 @@ export function AppToJSON(value?: App | null): any {
     }
     return {
         
-        'seq_id': value.seq_id,
-        'tenant': value.tenant,
-        'id': value.id,
-        'version': value.version,
         'description': value.description,
-        'appType': AppTypeEnumToJSON(value.appType),
-        'owner': value.owner,
-        'enabled': value.enabled,
         'runtime': RuntimeEnumToJSON(value.runtime),
         'runtimeVersion': value.runtimeVersion,
+        'runtimeOptions': value.runtimeOptions === undefined ? undefined : ((value.runtimeOptions as Array<any>).map(RuntimeOptionEnumToJSON)),
         'containerImage': value.containerImage,
         'maxJobs': value.maxJobs,
         'maxJobsPerUser': value.maxJobsPerUser,
@@ -222,10 +146,6 @@ export function AppToJSON(value?: App | null): any {
         'jobAttributes': JobAttributesToJSON(value.jobAttributes),
         'tags': value.tags,
         'notes': value.notes,
-        'importRefId': value.importRefId,
-        'deleted': value.deleted,
-        'created': value.created,
-        'updated': value.updated,
     };
 }
 

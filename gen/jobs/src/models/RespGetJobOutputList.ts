@@ -14,55 +14,55 @@
 
 import { exists, mapValues } from '../runtime';
 import {
-    Job,
-    JobFromJSON,
-    JobFromJSONTyped,
-    JobToJSON,
+    FileInfo,
+    FileInfoFromJSON,
+    FileInfoFromJSONTyped,
+    FileInfoToJSON,
 } from './';
 
 /**
  * 
  * @export
- * @interface RespGetJob
+ * @interface RespGetJobOutputList
  */
-export interface RespGetJob {
+export interface RespGetJobOutputList {
     /**
      * 
      * @type {string}
-     * @memberof RespGetJob
+     * @memberof RespGetJobOutputList
      */
     status?: string;
     /**
      * 
      * @type {string}
-     * @memberof RespGetJob
+     * @memberof RespGetJobOutputList
      */
     message?: string;
     /**
      * 
      * @type {string}
-     * @memberof RespGetJob
+     * @memberof RespGetJobOutputList
      */
     version?: string;
     /**
      * 
      * @type {object}
-     * @memberof RespGetJob
+     * @memberof RespGetJobOutputList
      */
     metadata?: object;
     /**
      * 
-     * @type {Job}
-     * @memberof RespGetJob
+     * @type {Array<FileInfo>}
+     * @memberof RespGetJobOutputList
      */
-    result?: Job;
+    result?: Array<FileInfo>;
 }
 
-export function RespGetJobFromJSON(json: any): RespGetJob {
-    return RespGetJobFromJSONTyped(json, false);
+export function RespGetJobOutputListFromJSON(json: any): RespGetJobOutputList {
+    return RespGetJobOutputListFromJSONTyped(json, false);
 }
 
-export function RespGetJobFromJSONTyped(json: any, ignoreDiscriminator: boolean): RespGetJob {
+export function RespGetJobOutputListFromJSONTyped(json: any, ignoreDiscriminator: boolean): RespGetJobOutputList {
     if ((json === undefined) || (json === null)) {
         return json;
     }
@@ -72,11 +72,11 @@ export function RespGetJobFromJSONTyped(json: any, ignoreDiscriminator: boolean)
         'message': !exists(json, 'message') ? undefined : json['message'],
         'version': !exists(json, 'version') ? undefined : json['version'],
         'metadata': !exists(json, 'metadata') ? undefined : json['metadata'],
-        'result': !exists(json, 'result') ? undefined : JobFromJSON(json['result']),
+        'result': !exists(json, 'result') ? undefined : ((json['result'] as Array<any>).map(FileInfoFromJSON)),
     };
 }
 
-export function RespGetJobToJSON(value?: RespGetJob | null): any {
+export function RespGetJobOutputListToJSON(value?: RespGetJobOutputList | null): any {
     if (value === undefined) {
         return undefined;
     }
@@ -89,7 +89,7 @@ export function RespGetJobToJSON(value?: RespGetJob | null): any {
         'message': value.message,
         'version': value.version,
         'metadata': value.metadata,
-        'result': JobToJSON(value.result),
+        'result': value.result === undefined ? undefined : ((value.result as Array<any>).map(FileInfoToJSON)),
     };
 }
 

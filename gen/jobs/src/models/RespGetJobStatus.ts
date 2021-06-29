@@ -14,55 +14,55 @@
 
 import { exists, mapValues } from '../runtime';
 import {
-    Job,
-    JobFromJSON,
-    JobFromJSONTyped,
-    JobToJSON,
+    JobStatusDisplay,
+    JobStatusDisplayFromJSON,
+    JobStatusDisplayFromJSONTyped,
+    JobStatusDisplayToJSON,
 } from './';
 
 /**
  * 
  * @export
- * @interface RespGetJob
+ * @interface RespGetJobStatus
  */
-export interface RespGetJob {
+export interface RespGetJobStatus {
     /**
      * 
      * @type {string}
-     * @memberof RespGetJob
+     * @memberof RespGetJobStatus
      */
     status?: string;
     /**
      * 
      * @type {string}
-     * @memberof RespGetJob
+     * @memberof RespGetJobStatus
      */
     message?: string;
     /**
      * 
      * @type {string}
-     * @memberof RespGetJob
+     * @memberof RespGetJobStatus
      */
     version?: string;
     /**
      * 
      * @type {object}
-     * @memberof RespGetJob
+     * @memberof RespGetJobStatus
      */
     metadata?: object;
     /**
      * 
-     * @type {Job}
-     * @memberof RespGetJob
+     * @type {JobStatusDisplay}
+     * @memberof RespGetJobStatus
      */
-    result?: Job;
+    result?: JobStatusDisplay;
 }
 
-export function RespGetJobFromJSON(json: any): RespGetJob {
-    return RespGetJobFromJSONTyped(json, false);
+export function RespGetJobStatusFromJSON(json: any): RespGetJobStatus {
+    return RespGetJobStatusFromJSONTyped(json, false);
 }
 
-export function RespGetJobFromJSONTyped(json: any, ignoreDiscriminator: boolean): RespGetJob {
+export function RespGetJobStatusFromJSONTyped(json: any, ignoreDiscriminator: boolean): RespGetJobStatus {
     if ((json === undefined) || (json === null)) {
         return json;
     }
@@ -72,11 +72,11 @@ export function RespGetJobFromJSONTyped(json: any, ignoreDiscriminator: boolean)
         'message': !exists(json, 'message') ? undefined : json['message'],
         'version': !exists(json, 'version') ? undefined : json['version'],
         'metadata': !exists(json, 'metadata') ? undefined : json['metadata'],
-        'result': !exists(json, 'result') ? undefined : JobFromJSON(json['result']),
+        'result': !exists(json, 'result') ? undefined : JobStatusDisplayFromJSON(json['result']),
     };
 }
 
-export function RespGetJobToJSON(value?: RespGetJob | null): any {
+export function RespGetJobStatusToJSON(value?: RespGetJobStatus | null): any {
     if (value === undefined) {
         return undefined;
     }
@@ -89,7 +89,7 @@ export function RespGetJobToJSON(value?: RespGetJob | null): any {
         'message': value.message,
         'version': value.version,
         'metadata': value.metadata,
-        'result': JobToJSON(value.result),
+        'result': JobStatusDisplayToJSON(value.result),
     };
 }
 

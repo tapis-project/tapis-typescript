@@ -30,8 +30,8 @@ describe('Apps e2e tests', async () => {
     try {
       const api: Apps.ApplicationsApi = new Apps.ApplicationsApi(configuration);
       const getAppsRequest: Apps.GetAppsRequest = {};
-      const response: Apps.RespAppArray = await api.getApps(getAppsRequest);
-      const apps: Array<Apps.App> = response.result;
+      const response: Apps.RespApps = await api.getApps(getAppsRequest);
+      const apps: Array<Apps.TapisApp> = response.result;
       expect(apps.length).to.be.greaterThanOrEqual(1)
     } catch (error) {
       checkJsonError(error)
@@ -46,7 +46,7 @@ describe('Apps e2e tests', async () => {
         appVersion: process.env.TEST_APP_VERSION
       }
       const response: Apps.RespApp = await api.getApp(getAppRequest);
-      const app: Apps.App = response.result;
+      const app: Apps.TapisApp = response.result;
       expect(app.id).to.equal(process.env.TEST_APP);
     } catch (error) {
       checkJsonError(error);

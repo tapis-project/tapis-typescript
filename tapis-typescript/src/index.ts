@@ -3,10 +3,10 @@ import * as Systems from '@tapis/tapis-typescript-systems';
 import * as Tenants from '@tapis/tapis-typescript-tenants';
 import * as Files from '@tapis/tapis-typescript-files';
 import * as Apps from '@tapis/tapis-typescript-apps';
+import * as Jobs from '@tapis/tapis-typescript-jobs';
 
 /*
 import * as Actors from '@tapis/tapis-typescript-actors';
-import * as Jobs from '@tapis/tapis-typescript-jobs';
 import * as Meta from '@tapis/tapis-typescript-meta';
 import * as PGRest from '@tapis/tapis-typescript-pgrest';
 import * as SK from '@tapis/tapis-typescript-sk';
@@ -19,10 +19,10 @@ export {
   Systems,
   Tenants,
   Files,
-  Apps
+  Apps,
+  Jobs
   /*
   Actors,
-  Jobs,
   Meta,
   PGRest,
   SK,
