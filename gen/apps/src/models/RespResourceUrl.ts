@@ -50,6 +50,12 @@ export interface RespResourceUrl {
      * @memberof RespResourceUrl
      */
     result?: ResultResourceUrl;
+    /**
+     * 
+     * @type {object}
+     * @memberof RespResourceUrl
+     */
+    metadata?: object;
 }
 
 export function RespResourceUrlFromJSON(json: any): RespResourceUrl {
@@ -66,6 +72,7 @@ export function RespResourceUrlFromJSONTyped(json: any, ignoreDiscriminator: boo
         'message': !exists(json, 'message') ? undefined : json['message'],
         'version': !exists(json, 'version') ? undefined : json['version'],
         'result': !exists(json, 'result') ? undefined : ResultResourceUrlFromJSON(json['result']),
+        'metadata': !exists(json, 'metadata') ? undefined : json['metadata'],
     };
 }
 
@@ -82,6 +89,7 @@ export function RespResourceUrlToJSON(value?: RespResourceUrl | null): any {
         'message': value.message,
         'version': value.version,
         'result': ResultResourceUrlToJSON(value.result),
+        'metadata': value.metadata,
     };
 }
 

@@ -29,28 +29,24 @@ import {
 export interface GetUserPermsRequest {
     appId: string;
     userName: string;
-    pretty?: boolean;
 }
 
 export interface GrantUserPermsRequest {
     appId: string;
     userName: string;
     reqPerms: ReqPerms;
-    pretty?: boolean;
 }
 
 export interface RevokeUserPermRequest {
     appId: string;
     userName: string;
     permission: string;
-    pretty?: boolean;
 }
 
 export interface RevokeUserPermsRequest {
     appId: string;
     userName: string;
     reqPerms: ReqPerms;
-    pretty?: boolean;
 }
 
 /**
@@ -59,7 +55,7 @@ export interface RevokeUserPermsRequest {
 export class PermissionsApi extends runtime.BaseAPI {
 
     /**
-     * Retrieve all application related permissions for a given app and user.
+     * Retrieve all application related permissions for a given application and user.
      * Retrieve application user permissions
      */
     async getUserPermsRaw(requestParameters: GetUserPermsRequest): Promise<runtime.ApiResponse<RespNameArray>> {
@@ -72,10 +68,6 @@ export class PermissionsApi extends runtime.BaseAPI {
         }
 
         const queryParameters: any = {};
-
-        if (requestParameters.pretty !== undefined) {
-            queryParameters['pretty'] = requestParameters.pretty;
-        }
 
         const headerParameters: runtime.HTTPHeaders = {};
 
@@ -94,7 +86,7 @@ export class PermissionsApi extends runtime.BaseAPI {
     }
 
     /**
-     * Retrieve all application related permissions for a given app and user.
+     * Retrieve all application related permissions for a given application and user.
      * Retrieve application user permissions
      */
     async getUserPerms(requestParameters: GetUserPermsRequest): Promise<RespNameArray> {
@@ -104,7 +96,7 @@ export class PermissionsApi extends runtime.BaseAPI {
 
     /**
      * Create permissions in the Security Kernel for a user. Requester must be owner. Permissions are READ, MODIFY, EXECUTE.
-     * Create application user permissions
+     * Grant application user permissions
      */
     async grantUserPermsRaw(requestParameters: GrantUserPermsRequest): Promise<runtime.ApiResponse<RespBasic>> {
         if (requestParameters.appId === null || requestParameters.appId === undefined) {
@@ -120,10 +112,6 @@ export class PermissionsApi extends runtime.BaseAPI {
         }
 
         const queryParameters: any = {};
-
-        if (requestParameters.pretty !== undefined) {
-            queryParameters['pretty'] = requestParameters.pretty;
-        }
 
         const headerParameters: runtime.HTTPHeaders = {};
 
@@ -146,7 +134,7 @@ export class PermissionsApi extends runtime.BaseAPI {
 
     /**
      * Create permissions in the Security Kernel for a user. Requester must be owner. Permissions are READ, MODIFY, EXECUTE.
-     * Create application user permissions
+     * Grant application user permissions
      */
     async grantUserPerms(requestParameters: GrantUserPermsRequest): Promise<RespBasic> {
         const response = await this.grantUserPermsRaw(requestParameters);
@@ -154,8 +142,8 @@ export class PermissionsApi extends runtime.BaseAPI {
     }
 
     /**
-     * Revoke user permission in the Security Kernel. Requester must be owner. Permissions are READ, MODIFY, EXECUTE.
-     * Revoke app user permission
+     * Remove user permission from the Security Kernel. Requester must be owner. Permissions are READ, MODIFY, EXECUTE.
+     * Revoke application user permission
      */
     async revokeUserPermRaw(requestParameters: RevokeUserPermRequest): Promise<runtime.ApiResponse<RespBasic>> {
         if (requestParameters.appId === null || requestParameters.appId === undefined) {
@@ -171,10 +159,6 @@ export class PermissionsApi extends runtime.BaseAPI {
         }
 
         const queryParameters: any = {};
-
-        if (requestParameters.pretty !== undefined) {
-            queryParameters['pretty'] = requestParameters.pretty;
-        }
 
         const headerParameters: runtime.HTTPHeaders = {};
 
@@ -193,8 +177,8 @@ export class PermissionsApi extends runtime.BaseAPI {
     }
 
     /**
-     * Revoke user permission in the Security Kernel. Requester must be owner. Permissions are READ, MODIFY, EXECUTE.
-     * Revoke app user permission
+     * Remove user permission from the Security Kernel. Requester must be owner. Permissions are READ, MODIFY, EXECUTE.
+     * Revoke application user permission
      */
     async revokeUserPerm(requestParameters: RevokeUserPermRequest): Promise<RespBasic> {
         const response = await this.revokeUserPermRaw(requestParameters);
@@ -202,8 +186,8 @@ export class PermissionsApi extends runtime.BaseAPI {
     }
 
     /**
-     * Revoke permissions in the Security Kernel for a user. Requester must be owner. Permissions are READ, MODIFY, EXECUTE.
-     * Revoke app user permissions
+     * Remove permissions from the Security Kernel for a user. Requester must be owner. Permissions are READ, MODIFY, EXECUTE.
+     * Revoke application user permissions
      */
     async revokeUserPermsRaw(requestParameters: RevokeUserPermsRequest): Promise<runtime.ApiResponse<RespBasic>> {
         if (requestParameters.appId === null || requestParameters.appId === undefined) {
@@ -219,10 +203,6 @@ export class PermissionsApi extends runtime.BaseAPI {
         }
 
         const queryParameters: any = {};
-
-        if (requestParameters.pretty !== undefined) {
-            queryParameters['pretty'] = requestParameters.pretty;
-        }
 
         const headerParameters: runtime.HTTPHeaders = {};
 
@@ -244,8 +224,8 @@ export class PermissionsApi extends runtime.BaseAPI {
     }
 
     /**
-     * Revoke permissions in the Security Kernel for a user. Requester must be owner. Permissions are READ, MODIFY, EXECUTE.
-     * Revoke app user permissions
+     * Remove permissions from the Security Kernel for a user. Requester must be owner. Permissions are READ, MODIFY, EXECUTE.
+     * Revoke application user permissions
      */
     async revokeUserPerms(requestParameters: RevokeUserPermsRequest): Promise<RespBasic> {
         const response = await this.revokeUserPermsRaw(requestParameters);

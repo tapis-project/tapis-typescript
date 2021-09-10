@@ -24,6 +24,21 @@ import {
     RespGetJob,
     RespGetJobFromJSON,
     RespGetJobToJSON,
+    RespGetJobList,
+    RespGetJobListFromJSON,
+    RespGetJobListToJSON,
+    RespGetJobOutputList,
+    RespGetJobOutputListFromJSON,
+    RespGetJobOutputListToJSON,
+    RespGetJobStatus,
+    RespGetJobStatusFromJSON,
+    RespGetJobStatusToJSON,
+    RespJobHistory,
+    RespJobHistoryFromJSON,
+    RespJobHistoryToJSON,
+    RespJobSearchAllAttributes,
+    RespJobSearchAllAttributesFromJSON,
+    RespJobSearchAllAttributesToJSON,
     RespName,
     RespNameFromJSON,
     RespNameToJSON,
@@ -33,6 +48,53 @@ import {
 } from '../models';
 
 export interface GetJobRequest {
+    jobUuid: string;
+    pretty?: boolean;
+}
+
+export interface GetJobHistoryRequest {
+    jobUuid: string;
+    limit?: number;
+    skip?: number;
+    pretty?: boolean;
+}
+
+export interface GetJobListRequest {
+    limit?: number;
+    skip?: number;
+    startAfter?: number;
+    orderBy?: string;
+    computeTotal?: boolean;
+    pretty?: boolean;
+}
+
+export interface GetJobOutputDownloadRequest {
+    jobUuid: string;
+    outputPath: string;
+    compress?: boolean;
+    format?: string;
+    pretty?: boolean;
+}
+
+export interface GetJobOutputListRequest {
+    jobUuid: string;
+    outputPath: string;
+    limit?: number;
+    skip?: number;
+    pretty?: boolean;
+}
+
+export interface GetJobSearchListRequest {
+    limit?: number;
+    skip?: number;
+    startAfter?: number;
+    orderBy?: string;
+    computeTotal?: boolean;
+    select?: string;
+    pretty?: boolean;
+}
+
+export interface GetJobStatusRequest {
     jobUuid: string;
     pretty?: boolean;
 }
@@ -87,6 +149,302 @@ export class JobsApi extends runtime.BaseAPI {
      */
     async getJob(requestParameters: GetJobRequest): Promise<RespGetJob> {
         const response = await this.getJobRaw(requestParameters);
+        return await response.value();
+    }
+
+    /**
+     * Retrieve history of a previously submitted job by its UUID.  The caller must be the job owner, creator or a tenant administrator.
+     */
+    async getJobHistoryRaw(requestParameters: GetJobHistoryRequest): Promise<runtime.ApiResponse<RespJobHistory>> {
+        if (requestParameters.jobUuid === null || requestParameters.jobUuid === undefined) {
+            throw new runtime.RequiredError('jobUuid','Required parameter requestParameters.jobUuid was null or undefined when calling getJobHistory.');
+        }
+
+        const queryParameters: any = {};
+
+        if (requestParameters.limit !== undefined) {
+            queryParameters['limit'] = requestParameters.limit;
+        }
+
+        if (requestParameters.skip !== undefined) {
+            queryParameters['skip'] = requestParameters.skip;
+        }
+
+        if (requestParameters.pretty !== undefined) {
+            queryParameters['pretty'] = requestParameters.pretty;
+        }
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        if (this.configuration && this.configuration.apiKey) {
+            headerParameters["X-Tapis-Token"] = this.configuration.apiKey("X-Tapis-Token"); // TapisJWT authentication
+        }
+
+        const response = await this.request({
+            path: `/v3/jobs/{jobUuid}/history`.replace(`{${"jobUuid"}}`, encodeURIComponent(String(requestParameters.jobUuid))),
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        });
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => RespJobHistoryFromJSON(jsonValue));
+    }
+
+    /**
+     * Retrieve history of a previously submitted job by its UUID.  The caller must be the job owner, creator or a tenant administrator.
+     */
+    async getJobHistory(requestParameters: GetJobHistoryRequest): Promise<RespJobHistory> {
+        const response = await this.getJobHistoryRaw(requestParameters);
+        return await response.value();
+    }
+
+    /**
+     * Retrieve list of jobs for the user.  The caller must be the job owner, creator or a tenant administrator.
+     */
+    async getJobListRaw(requestParameters: GetJobListRequest): Promise<runtime.ApiResponse<RespGetJobList>> {
+        const queryParameters: any = {};
+
+        if (requestParameters.limit !== undefined) {
+            queryParameters['limit'] = requestParameters.limit;
+        }
+
+        if (requestParameters.skip !== undefined) {
+            queryParameters['skip'] = requestParameters.skip;
+        }
+
+        if (requestParameters.startAfter !== undefined) {
+            queryParameters['startAfter'] = requestParameters.startAfter;
+        }
+
+        if (requestParameters.orderBy !== undefined) {
+            queryParameters['orderBy'] = requestParameters.orderBy;
+        }
+
+        if (requestParameters.computeTotal !== undefined) {
+            queryParameters['computeTotal'] = requestParameters.computeTotal;
+        }
+
+        if (requestParameters.pretty !== undefined) {
+            queryParameters['pretty'] = requestParameters.pretty;
+        }
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        if (this.configuration && this.configuration.apiKey) {
+            headerParameters["X-Tapis-Token"] = this.configuration.apiKey("X-Tapis-Token"); // TapisJWT authentication
+        }
+
+        const response = await this.request({
+            path: `/v3/jobs/list`,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        });
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => RespGetJobListFromJSON(jsonValue));
+    }
+
+    /**
+     * Retrieve list of jobs for the user.  The caller must be the job owner, creator or a tenant administrator.
+     */
+    async getJobList(requestParameters: GetJobListRequest): Promise<RespGetJobList> {
+        const response = await this.getJobListRaw(requestParameters);
+        return await response.value();
+    }
+
+    /**
+     * Download job\'s output files for previously submitted job by its UUID. The job must be in a terminal state - FINISHED or FAILED.    The caller must be the job owner, creator or a tenant administrator. The URL must ends with \'/\' even if there is no outputPath is specified. 
+     */
+    async getJobOutputDownloadRaw(requestParameters: GetJobOutputDownloadRequest): Promise<runtime.ApiResponse<Blob>> {
+        if (requestParameters.jobUuid === null || requestParameters.jobUuid === undefined) {
+            throw new runtime.RequiredError('jobUuid','Required parameter requestParameters.jobUuid was null or undefined when calling getJobOutputDownload.');
+        }
+
+        if (requestParameters.outputPath === null || requestParameters.outputPath === undefined) {
+            throw new runtime.RequiredError('outputPath','Required parameter requestParameters.outputPath was null or undefined when calling getJobOutputDownload.');
+        }
+
+        const queryParameters: any = {};
+
+        if (requestParameters.compress !== undefined) {
+            queryParameters['compress'] = requestParameters.compress;
+        }
+
+        if (requestParameters.format !== undefined) {
+            queryParameters['format'] = requestParameters.format;
+        }
+
+        if (requestParameters.pretty !== undefined) {
+            queryParameters['pretty'] = requestParameters.pretty;
+        }
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        if (this.configuration && this.configuration.apiKey) {
+            headerParameters["X-Tapis-Token"] = this.configuration.apiKey("X-Tapis-Token"); // TapisJWT authentication
+        }
+
+        const response = await this.request({
+            path: `/v3/jobs/{jobUuid}/output/download/{outputPath}`.replace(`{${"jobUuid"}}`, encodeURIComponent(String(requestParameters.jobUuid))).replace(`{${"outputPath"}}`, encodeURIComponent(String(requestParameters.outputPath))),
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        });
+
+        return new runtime.BlobApiResponse(response);
+    }
+
+    /**
+     * Download job\'s output files for previously submitted job by its UUID. The job must be in a terminal state - FINISHED or FAILED.    The caller must be the job owner, creator or a tenant administrator. The URL must ends with \'/\' even if there is no outputPath is specified. 
+     */
+    async getJobOutputDownload(requestParameters: GetJobOutputDownloadRequest): Promise<Blob> {
+        const response = await this.getJobOutputDownloadRaw(requestParameters);
+        return await response.value();
+    }
+
+    /**
+     * Retrieve job\'s output files list for previously submitted job by its UUID. The job must be in a terminal state (FINISHED or FAILED or CANCELLED)    The caller must be the job owner, creator or a tenant administrator. The URL must ends with \'/\' even if there is no outputPath is specified. 
+     */
+    async getJobOutputListRaw(requestParameters: GetJobOutputListRequest): Promise<runtime.ApiResponse<RespGetJobOutputList>> {
+        if (requestParameters.jobUuid === null || requestParameters.jobUuid === undefined) {
+            throw new runtime.RequiredError('jobUuid','Required parameter requestParameters.jobUuid was null or undefined when calling getJobOutputList.');
+        }
+
+        if (requestParameters.outputPath === null || requestParameters.outputPath === undefined) {
+            throw new runtime.RequiredError('outputPath','Required parameter requestParameters.outputPath was null or undefined when calling getJobOutputList.');
+        }
+
+        const queryParameters: any = {};
+
+        if (requestParameters.limit !== undefined) {
+            queryParameters['limit'] = requestParameters.limit;
+        }
+
+        if (requestParameters.skip !== undefined) {
+            queryParameters['skip'] = requestParameters.skip;
+        }
+
+        if (requestParameters.pretty !== undefined) {
+            queryParameters['pretty'] = requestParameters.pretty;
+        }
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        if (this.configuration && this.configuration.apiKey) {
+            headerParameters["X-Tapis-Token"] = this.configuration.apiKey("X-Tapis-Token"); // TapisJWT authentication
+        }
+
+        const response = await this.request({
+            path: `/v3/jobs/{jobUuid}/output/list/{outputPath}`.replace(`{${"jobUuid"}}`, encodeURIComponent(String(requestParameters.jobUuid))).replace(`{${"outputPath"}}`, encodeURIComponent(String(requestParameters.outputPath))),
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        });
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => RespGetJobOutputListFromJSON(jsonValue));
+    }
+
+    /**
+     * Retrieve job\'s output files list for previously submitted job by its UUID. The job must be in a terminal state (FINISHED or FAILED or CANCELLED)    The caller must be the job owner, creator or a tenant administrator. The URL must ends with \'/\' even if there is no outputPath is specified. 
+     */
+    async getJobOutputList(requestParameters: GetJobOutputListRequest): Promise<RespGetJobOutputList> {
+        const response = await this.getJobOutputListRaw(requestParameters);
+        return await response.value();
+    }
+
+    /**
+     * Retrieve list of jobs for the user based on search conditions in the query paramter on the dedicated search end-point.  The caller must be the job owner, creator or a tenant administrator.
+     */
+    async getJobSearchListRaw(requestParameters: GetJobSearchListRequest): Promise<runtime.ApiResponse<RespJobSearchAllAttributes>> {
+        const queryParameters: any = {};
+
+        if (requestParameters.limit !== undefined) {
+            queryParameters['limit'] = requestParameters.limit;
+        }
+
+        if (requestParameters.skip !== undefined) {
+            queryParameters['skip'] = requestParameters.skip;
+        }
+
+        if (requestParameters.startAfter !== undefined) {
+            queryParameters['startAfter'] = requestParameters.startAfter;
+        }
+
+        if (requestParameters.orderBy !== undefined) {
+            queryParameters['orderBy'] = requestParameters.orderBy;
+        }
+
+        if (requestParameters.computeTotal !== undefined) {
+            queryParameters['computeTotal'] = requestParameters.computeTotal;
+        }
+
+        if (requestParameters.select !== undefined) {
+            queryParameters['select'] = requestParameters.select;
+        }
+
+        if (requestParameters.pretty !== undefined) {
+            queryParameters['pretty'] = requestParameters.pretty;
+        }
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        if (this.configuration && this.configuration.apiKey) {
+            headerParameters["X-Tapis-Token"] = this.configuration.apiKey("X-Tapis-Token"); // TapisJWT authentication
+        }
+
+        const response = await this.request({
+            path: `/v3/jobs/search`,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        });
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => RespJobSearchAllAttributesFromJSON(jsonValue));
+    }
+
+    /**
+     * Retrieve list of jobs for the user based on search conditions in the query paramter on the dedicated search end-point.  The caller must be the job owner, creator or a tenant administrator.
+     */
+    async getJobSearchList(requestParameters: GetJobSearchListRequest): Promise<RespJobSearchAllAttributes> {
+        const response = await this.getJobSearchListRaw(requestParameters);
+        return await response.value();
+    }
+
+    /**
+     * Retrieve status of a previously submitted job by its UUID.  The caller must be the job owner, creator or a tenant administrator.
+     */
+    async getJobStatusRaw(requestParameters: GetJobStatusRequest): Promise<runtime.ApiResponse<RespGetJobStatus>> {
+        if (requestParameters.jobUuid === null || requestParameters.jobUuid === undefined) {
+            throw new runtime.RequiredError('jobUuid','Required parameter requestParameters.jobUuid was null or undefined when calling getJobStatus.');
+        }
+
+        const queryParameters: any = {};
+
+        if (requestParameters.pretty !== undefined) {
+            queryParameters['pretty'] = requestParameters.pretty;
+        }
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        if (this.configuration && this.configuration.apiKey) {
+            headerParameters["X-Tapis-Token"] = this.configuration.apiKey("X-Tapis-Token"); // TapisJWT authentication
+        }
+
+        const response = await this.request({
+            path: `/v3/jobs/{jobUuid}/status`.replace(`{${"jobUuid"}}`, encodeURIComponent(String(requestParameters.jobUuid))),
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        });
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => RespGetJobStatusFromJSON(jsonValue));
+    }
+
+    /**
+     * Retrieve status of a previously submitted job by its UUID.  The caller must be the job owner, creator or a tenant administrator.
+     */
+    async getJobStatus(requestParameters: GetJobStatusRequest): Promise<RespGetJobStatus> {
+        const response = await this.getJobStatusRaw(requestParameters);
         return await response.value();
     }
 

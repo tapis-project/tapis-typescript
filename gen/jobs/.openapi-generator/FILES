@@ -9,10 +9,13 @@ src/apis/index.ts
 src/index.ts
 src/models/ArgMetaSpec.ts
 src/models/ArgSpec.ts
+src/models/FileInfo.ts
 src/models/IncludeExcludeFilter.ts
 src/models/InputSpec.ts
 src/models/Job.ts
+src/models/JobListDTO.ts
 src/models/JobParameterSet.ts
+src/models/JobStatusDisplay.ts
 src/models/JobsProbe.ts
 src/models/KeyValuePair.ts
 src/models/NotificationMechanism.ts
@@ -20,6 +23,11 @@ src/models/NotificationSubscription.ts
 src/models/ReqSubmitJob.ts
 src/models/RespBasic.ts
 src/models/RespGetJob.ts
+src/models/RespGetJobList.ts
+src/models/RespGetJobOutputList.ts
+src/models/RespGetJobStatus.ts
+src/models/RespJobHistory.ts
+src/models/RespJobSearchAllAttributes.ts
 src/models/RespName.ts
 src/models/RespProbe.ts
 src/models/RespSubmitJob.ts

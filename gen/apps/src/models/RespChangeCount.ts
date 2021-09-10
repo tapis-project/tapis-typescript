@@ -50,6 +50,12 @@ export interface RespChangeCount {
      * @memberof RespChangeCount
      */
     result?: ResultChangeCount;
+    /**
+     * 
+     * @type {object}
+     * @memberof RespChangeCount
+     */
+    metadata?: object;
 }
 
 export function RespChangeCountFromJSON(json: any): RespChangeCount {
@@ -66,6 +72,7 @@ export function RespChangeCountFromJSONTyped(json: any, ignoreDiscriminator: boo
         'message': !exists(json, 'message') ? undefined : json['message'],
         'version': !exists(json, 'version') ? undefined : json['version'],
         'result': !exists(json, 'result') ? undefined : ResultChangeCountFromJSON(json['result']),
+        'metadata': !exists(json, 'metadata') ? undefined : json['metadata'],
     };
 }
 
@@ -82,6 +89,7 @@ export function RespChangeCountToJSON(value?: RespChangeCount | null): any {
         'message': value.message,
         'version': value.version,
         'result': ResultChangeCountToJSON(value.result),
+        'metadata': value.metadata,
     };
 }
 
