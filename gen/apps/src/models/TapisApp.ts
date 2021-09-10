@@ -35,137 +35,172 @@ import {
 /**
  * 
  * @export
- * @interface ReqCreateApp
+ * @interface TapisApp
  */
-export interface ReqCreateApp {
+export interface TapisApp {
     /**
      * 
      * @type {string}
-     * @memberof ReqCreateApp
+     * @memberof TapisApp
      */
-    id: string;
+    tenant?: string;
     /**
      * 
      * @type {string}
-     * @memberof ReqCreateApp
+     * @memberof TapisApp
      */
-    version: string;
+    id?: string;
     /**
      * 
      * @type {string}
-     * @memberof ReqCreateApp
+     * @memberof TapisApp
+     */
+    version?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof TapisApp
      */
     description?: string;
     /**
      * 
      * @type {AppTypeEnum}
-     * @memberof ReqCreateApp
+     * @memberof TapisApp
      */
-    appType: AppTypeEnum;
+    appType?: AppTypeEnum;
     /**
      * 
      * @type {string}
-     * @memberof ReqCreateApp
+     * @memberof TapisApp
      */
     owner?: string;
     /**
      * 
      * @type {boolean}
-     * @memberof ReqCreateApp
+     * @memberof TapisApp
      */
     enabled?: boolean;
     /**
      * 
      * @type {RuntimeEnum}
-     * @memberof ReqCreateApp
+     * @memberof TapisApp
      */
     runtime?: RuntimeEnum;
     /**
      * 
      * @type {string}
-     * @memberof ReqCreateApp
+     * @memberof TapisApp
      */
     runtimeVersion?: string;
     /**
      * 
      * @type {Array<RuntimeOptionEnum>}
-     * @memberof ReqCreateApp
+     * @memberof TapisApp
      */
     runtimeOptions?: Array<RuntimeOptionEnum>;
     /**
      * 
      * @type {string}
-     * @memberof ReqCreateApp
+     * @memberof TapisApp
      */
-    containerImage: string;
+    containerImage?: string;
     /**
      * 
      * @type {number}
-     * @memberof ReqCreateApp
+     * @memberof TapisApp
      */
     maxJobs?: number;
     /**
      * 
      * @type {number}
-     * @memberof ReqCreateApp
+     * @memberof TapisApp
      */
     maxJobsPerUser?: number;
     /**
      * 
      * @type {boolean}
-     * @memberof ReqCreateApp
+     * @memberof TapisApp
      */
     strictFileInputs?: boolean;
     /**
      * 
      * @type {JobAttributes}
-     * @memberof ReqCreateApp
+     * @memberof TapisApp
      */
-    jobAttributes: JobAttributes;
+    jobAttributes?: JobAttributes;
     /**
      * 
      * @type {Array<string>}
-     * @memberof ReqCreateApp
+     * @memberof TapisApp
      */
     tags?: Array<string>;
     /**
      * 
      * @type {object}
-     * @memberof ReqCreateApp
+     * @memberof TapisApp
      */
     notes?: object;
+    /**
+     * 
+     * @type {string}
+     * @memberof TapisApp
+     */
+    uuid?: string;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof TapisApp
+     */
+    deleted?: boolean;
+    /**
+     * 
+     * @type {string}
+     * @memberof TapisApp
+     */
+    created?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof TapisApp
+     */
+    updated?: string;
 }
 
-export function ReqCreateAppFromJSON(json: any): ReqCreateApp {
-    return ReqCreateAppFromJSONTyped(json, false);
+export function TapisAppFromJSON(json: any): TapisApp {
+    return TapisAppFromJSONTyped(json, false);
 }
 
-export function ReqCreateAppFromJSONTyped(json: any, ignoreDiscriminator: boolean): ReqCreateApp {
+export function TapisAppFromJSONTyped(json: any, ignoreDiscriminator: boolean): TapisApp {
     if ((json === undefined) || (json === null)) {
         return json;
     }
     return {
         
-        'id': json['id'],
-        'version': json['version'],
+        'tenant': !exists(json, 'tenant') ? undefined : json['tenant'],
+        'id': !exists(json, 'id') ? undefined : json['id'],
+        'version': !exists(json, 'version') ? undefined : json['version'],
         'description': !exists(json, 'description') ? undefined : json['description'],
-        'appType': AppTypeEnumFromJSON(json['appType']),
+        'appType': !exists(json, 'appType') ? undefined : AppTypeEnumFromJSON(json['appType']),
         'owner': !exists(json, 'owner') ? undefined : json['owner'],
         'enabled': !exists(json, 'enabled') ? undefined : json['enabled'],
         'runtime': !exists(json, 'runtime') ? undefined : RuntimeEnumFromJSON(json['runtime']),
         'runtimeVersion': !exists(json, 'runtimeVersion') ? undefined : json['runtimeVersion'],
         'runtimeOptions': !exists(json, 'runtimeOptions') ? undefined : ((json['runtimeOptions'] as Array<any>).map(RuntimeOptionEnumFromJSON)),
-        'containerImage': json['containerImage'],
+        'containerImage': !exists(json, 'containerImage') ? undefined : json['containerImage'],
         'maxJobs': !exists(json, 'maxJobs') ? undefined : json['maxJobs'],
         'maxJobsPerUser': !exists(json, 'maxJobsPerUser') ? undefined : json['maxJobsPerUser'],
         'strictFileInputs': !exists(json, 'strictFileInputs') ? undefined : json['strictFileInputs'],
-        'jobAttributes': JobAttributesFromJSON(json['jobAttributes']),
+        'jobAttributes': !exists(json, 'jobAttributes') ? undefined : JobAttributesFromJSON(json['jobAttributes']),
         'tags': !exists(json, 'tags') ? undefined : json['tags'],
         'notes': !exists(json, 'notes') ? undefined : json['notes'],
+        'uuid': !exists(json, 'uuid') ? undefined : json['uuid'],
+        'deleted': !exists(json, 'deleted') ? undefined : json['deleted'],
+        'created': !exists(json, 'created') ? undefined : json['created'],
+        'updated': !exists(json, 'updated') ? undefined : json['updated'],
     };
 }
 
-export function ReqCreateAppToJSON(value?: ReqCreateApp | null): any {
+export function TapisAppToJSON(value?: TapisApp | null): any {
     if (value === undefined) {
         return undefined;
     }
@@ -174,6 +209,7 @@ export function ReqCreateAppToJSON(value?: ReqCreateApp | null): any {
     }
     return {
         
+        'tenant': value.tenant,
         'id': value.id,
         'version': value.version,
         'description': value.description,
@@ -190,6 +226,10 @@ export function ReqCreateAppToJSON(value?: ReqCreateApp | null): any {
         'jobAttributes': JobAttributesToJSON(value.jobAttributes),
         'tags': value.tags,
         'notes': value.notes,
+        'uuid': value.uuid,
+        'deleted': value.deleted,
+        'created': value.created,
+        'updated': value.updated,
     };
 }
 

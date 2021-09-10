@@ -17,20 +17,21 @@
  * @export
  * @enum {string}
  */
-export enum AppTypeEnum {
-    Batch = 'BATCH',
-    Fork = 'FORK'
+export enum RuntimeOptionEnum {
+    None = 'NONE',
+    SingularityStart = 'SINGULARITY_START',
+    SingularityRun = 'SINGULARITY_RUN'
 }
 
-export function AppTypeEnumFromJSON(json: any): AppTypeEnum {
-    return AppTypeEnumFromJSONTyped(json, false);
+export function RuntimeOptionEnumFromJSON(json: any): RuntimeOptionEnum {
+    return RuntimeOptionEnumFromJSONTyped(json, false);
 }
 
-export function AppTypeEnumFromJSONTyped(json: any, ignoreDiscriminator: boolean): AppTypeEnum {
-    return json as AppTypeEnum;
+export function RuntimeOptionEnumFromJSONTyped(json: any, ignoreDiscriminator: boolean): RuntimeOptionEnum {
+    return json as RuntimeOptionEnum;
 }
 
-export function AppTypeEnumToJSON(value?: AppTypeEnum | null): any {
+export function RuntimeOptionEnumToJSON(value?: RuntimeOptionEnum | null): any {
     return value as any;
 }
 

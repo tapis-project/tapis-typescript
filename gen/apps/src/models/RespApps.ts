@@ -14,55 +14,59 @@
 
 import { exists, mapValues } from '../runtime';
 import {
-    ResultNameArray,
-    ResultNameArrayFromJSON,
-    ResultNameArrayFromJSONTyped,
-    ResultNameArrayToJSON,
+    RespAppsMetadata,
+    RespAppsMetadataFromJSON,
+    RespAppsMetadataFromJSONTyped,
+    RespAppsMetadataToJSON,
+    TapisApp,
+    TapisAppFromJSON,
+    TapisAppFromJSONTyped,
+    TapisAppToJSON,
 } from './';
 
 /**
  * 
  * @export
- * @interface RespNameArray
+ * @interface RespApps
  */
-export interface RespNameArray {
+export interface RespApps {
     /**
      * 
      * @type {string}
-     * @memberof RespNameArray
+     * @memberof RespApps
      */
     status?: string;
     /**
      * 
      * @type {string}
-     * @memberof RespNameArray
+     * @memberof RespApps
      */
     message?: string;
     /**
      * 
      * @type {string}
-     * @memberof RespNameArray
+     * @memberof RespApps
      */
     version?: string;
     /**
      * 
-     * @type {ResultNameArray}
-     * @memberof RespNameArray
+     * @type {Array<TapisApp>}
+     * @memberof RespApps
      */
-    result?: ResultNameArray;
+    result?: Array<TapisApp>;
     /**
      * 
-     * @type {object}
-     * @memberof RespNameArray
+     * @type {RespAppsMetadata}
+     * @memberof RespApps
      */
-    metadata?: object;
+    metadata?: RespAppsMetadata;
 }
 
-export function RespNameArrayFromJSON(json: any): RespNameArray {
-    return RespNameArrayFromJSONTyped(json, false);
+export function RespAppsFromJSON(json: any): RespApps {
+    return RespAppsFromJSONTyped(json, false);
 }
 
-export function RespNameArrayFromJSONTyped(json: any, ignoreDiscriminator: boolean): RespNameArray {
+export function RespAppsFromJSONTyped(json: any, ignoreDiscriminator: boolean): RespApps {
     if ((json === undefined) || (json === null)) {
         return json;
     }
@@ -71,12 +75,12 @@ export function RespNameArrayFromJSONTyped(json: any, ignoreDiscriminator: boole
         'status': !exists(json, 'status') ? undefined : json['status'],
         'message': !exists(json, 'message') ? undefined : json['message'],
         'version': !exists(json, 'version') ? undefined : json['version'],
-        'result': !exists(json, 'result') ? undefined : ResultNameArrayFromJSON(json['result']),
-        'metadata': !exists(json, 'metadata') ? undefined : json['metadata'],
+        'result': !exists(json, 'result') ? undefined : ((json['result'] as Array<any>).map(TapisAppFromJSON)),
+        'metadata': !exists(json, 'metadata') ? undefined : RespAppsMetadataFromJSON(json['metadata']),
     };
 }
 
-export function RespNameArrayToJSON(value?: RespNameArray | null): any {
+export function RespAppsToJSON(value?: RespApps | null): any {
     if (value === undefined) {
         return undefined;
     }
@@ -88,8 +92,8 @@ export function RespNameArrayToJSON(value?: RespNameArray | null): any {
         'status': value.status,
         'message': value.message,
         'version': value.version,
-        'result': ResultNameArrayToJSON(value.result),
-        'metadata': value.metadata,
+        'result': value.result === undefined ? undefined : ((value.result as Array<any>).map(TapisAppToJSON)),
+        'metadata': RespAppsMetadataToJSON(value.metadata),
     };
 }
 

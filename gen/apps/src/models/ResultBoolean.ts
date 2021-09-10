@@ -16,32 +16,32 @@ import { exists, mapValues } from '../runtime';
 /**
  * 
  * @export
- * @interface ResultResourceUrl
+ * @interface ResultBoolean
  */
-export interface ResultResourceUrl {
+export interface ResultBoolean {
     /**
      * 
-     * @type {string}
-     * @memberof ResultResourceUrl
+     * @type {boolean}
+     * @memberof ResultBoolean
      */
-    url?: string;
+    aBool?: boolean;
 }
 
-export function ResultResourceUrlFromJSON(json: any): ResultResourceUrl {
-    return ResultResourceUrlFromJSONTyped(json, false);
+export function ResultBooleanFromJSON(json: any): ResultBoolean {
+    return ResultBooleanFromJSONTyped(json, false);
 }
 
-export function ResultResourceUrlFromJSONTyped(json: any, ignoreDiscriminator: boolean): ResultResourceUrl {
+export function ResultBooleanFromJSONTyped(json: any, ignoreDiscriminator: boolean): ResultBoolean {
     if ((json === undefined) || (json === null)) {
         return json;
     }
     return {
         
-        'url': !exists(json, 'url') ? undefined : json['url'],
+        'aBool': !exists(json, 'aBool') ? undefined : json['aBool'],
     };
 }
 
-export function ResultResourceUrlToJSON(value?: ResultResourceUrl | null): any {
+export function ResultBooleanToJSON(value?: ResultBoolean | null): any {
     if (value === undefined) {
         return undefined;
     }
@@ -50,7 +50,7 @@ export function ResultResourceUrlToJSON(value?: ResultResourceUrl | null): any {
     }
     return {
         
-        'url': value.url,
+        'aBool': value.aBool,
     };
 }
 
