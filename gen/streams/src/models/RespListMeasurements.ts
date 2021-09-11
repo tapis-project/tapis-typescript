@@ -14,10 +14,10 @@
 
 import { exists, mapValues } from '../runtime';
 import {
-    Measurement,
-    MeasurementFromJSON,
-    MeasurementFromJSONTyped,
-    MeasurementToJSON,
+    Measurements,
+    MeasurementsFromJSON,
+    MeasurementsFromJSONTyped,
+    MeasurementsToJSON,
 } from './';
 
 /**
@@ -46,10 +46,10 @@ export interface RespListMeasurements {
     status?: RespListMeasurementsStatusEnum;
     /**
      * 
-     * @type {Array<Measurement>}
+     * @type {Array<Measurements>}
      * @memberof RespListMeasurements
      */
-    result?: Array<Measurement>;
+    result?: Array<Measurements>;
 }
 
 /**
@@ -73,7 +73,7 @@ export function RespListMeasurementsFromJSONTyped(json: any, ignoreDiscriminator
         'version': !exists(json, 'version') ? undefined : json['version'],
         'message': !exists(json, 'message') ? undefined : json['message'],
         'status': !exists(json, 'status') ? undefined : json['status'],
-        'result': !exists(json, 'result') ? undefined : ((json['result'] as Array<any>).map(MeasurementFromJSON)),
+        'result': !exists(json, 'result') ? undefined : ((json['result'] as Array<any>).map(MeasurementsFromJSON)),
     };
 }
 
@@ -89,7 +89,7 @@ export function RespListMeasurementsToJSON(value?: RespListMeasurements | null):
         'version': value.version,
         'message': value.message,
         'status': value.status,
-        'result': value.result === undefined ? undefined : ((value.result as Array<any>).map(MeasurementToJSON)),
+        'result': value.result === undefined ? undefined : ((value.result as Array<any>).map(MeasurementsToJSON)),
     };
 }
 

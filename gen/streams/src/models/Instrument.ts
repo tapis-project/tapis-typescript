@@ -69,10 +69,10 @@ export interface Instrument {
     tags?: Array<string>;
     /**
      * User entered metadata for the instruments
-     * @type {string}
+     * @type {object}
      * @memberof Instrument
      */
-    metadata?: string;
+    metadata?: object;
 }
 
 export function InstrumentFromJSON(json: any): Instrument {

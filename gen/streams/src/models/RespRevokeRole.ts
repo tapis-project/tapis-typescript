@@ -14,57 +14,57 @@
 
 import { exists, mapValues } from '../runtime';
 import {
-    Project,
-    ProjectFromJSON,
-    ProjectFromJSONTyped,
-    ProjectToJSON,
+    Roles,
+    RolesFromJSON,
+    RolesFromJSONTyped,
+    RolesToJSON,
 } from './';
 
 /**
  * 
  * @export
- * @interface RespCreateProject
+ * @interface RespRevokeRole
  */
-export interface RespCreateProject {
+export interface RespRevokeRole {
     /**
      * Version of the API
      * @type {string}
-     * @memberof RespCreateProject
+     * @memberof RespRevokeRole
      */
     version?: string;
     /**
      * Brief description of the response
      * @type {string}
-     * @memberof RespCreateProject
+     * @memberof RespRevokeRole
      */
     message?: string;
     /**
      * Whether the request was a success or failure.
      * @type {string}
-     * @memberof RespCreateProject
+     * @memberof RespRevokeRole
      */
-    status?: RespCreateProjectStatusEnum;
+    status?: RespRevokeRoleStatusEnum;
     /**
      * 
-     * @type {Project}
-     * @memberof RespCreateProject
+     * @type {Array<Roles>}
+     * @memberof RespRevokeRole
      */
-    result?: Project;
+    result?: Array<Roles>;
 }
 
 /**
 * @export
 * @enum {string}
 */
-export enum RespCreateProjectStatusEnum {
+export enum RespRevokeRoleStatusEnum {
     Success = 'success'
 }
 
-export function RespCreateProjectFromJSON(json: any): RespCreateProject {
-    return RespCreateProjectFromJSONTyped(json, false);
+export function RespRevokeRoleFromJSON(json: any): RespRevokeRole {
+    return RespRevokeRoleFromJSONTyped(json, false);
 }
 
-export function RespCreateProjectFromJSONTyped(json: any, ignoreDiscriminator: boolean): RespCreateProject {
+export function RespRevokeRoleFromJSONTyped(json: any, ignoreDiscriminator: boolean): RespRevokeRole {
     if ((json === undefined) || (json === null)) {
         return json;
     }
@@ -73,11 +73,11 @@ export function RespCreateProjectFromJSONTyped(json: any, ignoreDiscriminator: b
         'version': !exists(json, 'version') ? undefined : json['version'],
         'message': !exists(json, 'message') ? undefined : json['message'],
         'status': !exists(json, 'status') ? undefined : json['status'],
-        'result': !exists(json, 'result') ? undefined : ProjectFromJSON(json['result']),
+        'result': !exists(json, 'result') ? undefined : ((json['result'] as Array<any>).map(RolesFromJSON)),
     };
 }
 
-export function RespCreateProjectToJSON(value?: RespCreateProject | null): any {
+export function RespRevokeRoleToJSON(value?: RespRevokeRole | null): any {
     if (value === undefined) {
         return undefined;
     }
@@ -89,7 +89,7 @@ export function RespCreateProjectToJSON(value?: RespCreateProject | null): any {
         'version': value.version,
         'message': value.message,
         'status': value.status,
-        'result': ProjectToJSON(value.result),
+        'result': value.result === undefined ? undefined : ((value.result as Array<any>).map(RolesToJSON)),
     };
 }
 

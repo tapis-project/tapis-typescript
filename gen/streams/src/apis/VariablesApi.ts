@@ -39,28 +39,28 @@ import {
 } from '../models';
 
 export interface CreateVariableRequest {
-    projectUuid: string;
+    projectId: string;
     siteId: string;
     instId: string;
-    reqCreateVariable: ReqCreateVariable;
+    reqCreateVariable: Array<ReqCreateVariable>;
 }
 
 export interface DeleteVariableRequest {
-    projectUuid: string;
+    projectId: string;
     siteId: string;
     instId: string;
     varId: string;
 }
 
 export interface GetVariableRequest {
-    projectUuid: string;
+    projectId: string;
     siteId: string;
     instId: string;
     varId: string;
 }
 
 export interface ListVariablesRequest {
-    projectUuid: string;
+    projectId: string;
     siteId: string;
     instId: string;
     query?: string;
@@ -69,7 +69,7 @@ export interface ListVariablesRequest {
 }
 
 export interface UpdateVariableRequest {
-    projectUuid: string;
+    projectId: string;
     siteId: string;
     instId: string;
     varId: string;
@@ -86,8 +86,8 @@ export class VariablesApi extends runtime.BaseAPI {
      * Create variable (single or bulk).
      */
     async createVariableRaw(requestParameters: CreateVariableRequest): Promise<runtime.ApiResponse<RespCreateVariable>> {
-        if (requestParameters.projectUuid === null || requestParameters.projectUuid === undefined) {
-            throw new runtime.RequiredError('projectUuid','Required parameter requestParameters.projectUuid was null or undefined when calling createVariable.');
+        if (requestParameters.projectId === null || requestParameters.projectId === undefined) {
+            throw new runtime.RequiredError('projectId','Required parameter requestParameters.projectId was null or undefined when calling createVariable.');
         }
 
         if (requestParameters.siteId === null || requestParameters.siteId === undefined) {
@@ -109,11 +109,11 @@ export class VariablesApi extends runtime.BaseAPI {
         headerParameters['Content-Type'] = 'application/json';
 
         const response = await this.request({
-            path: `/v3/streams/projects/{project_uuid}/sites/{site_id}/instruments/{inst_id}/variables`.replace(`{${"project_uuid"}}`, encodeURIComponent(String(requestParameters.projectUuid))).replace(`{${"site_id"}}`, encodeURIComponent(String(requestParameters.siteId))).replace(`{${"inst_id"}}`, encodeURIComponent(String(requestParameters.instId))),
+            path: `/v3/streams/projects/{project_id}/sites/{site_id}/instruments/{inst_id}/variables`.replace(`{${"project_id"}}`, encodeURIComponent(String(requestParameters.projectId))).replace(`{${"site_id"}}`, encodeURIComponent(String(requestParameters.siteId))).replace(`{${"inst_id"}}`, encodeURIComponent(String(requestParameters.instId))),
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
-            body: ReqCreateVariableToJSON(requestParameters.reqCreateVariable),
+            body: requestParameters.reqCreateVariable.map(ReqCreateVariableToJSON),
         });
 
         return new runtime.JSONApiResponse(response, (jsonValue) => RespCreateVariableFromJSON(jsonValue));
@@ -133,8 +133,8 @@ export class VariablesApi extends runtime.BaseAPI {
      * Delete a variable (single or bulk)
      */
     async deleteVariableRaw(requestParameters: DeleteVariableRequest): Promise<runtime.ApiResponse<RespDeleteVariable>> {
-        if (requestParameters.projectUuid === null || requestParameters.projectUuid === undefined) {
-            throw new runtime.RequiredError('projectUuid','Required parameter requestParameters.projectUuid was null or undefined when calling deleteVariable.');
+        if (requestParameters.projectId === null || requestParameters.projectId === undefined) {
+            throw new runtime.RequiredError('projectId','Required parameter requestParameters.projectId was null or undefined when calling deleteVariable.');
         }
 
         if (requestParameters.siteId === null || requestParameters.siteId === undefined) {
@@ -154,7 +154,7 @@ export class VariablesApi extends runtime.BaseAPI {
         const headerParameters: runtime.HTTPHeaders = {};
 
         const response = await this.request({
-            path: `/v3/streams/projects/{project_uuid}/sites/{site_id}/instruments/{inst_id}/variables/{var_id}`.replace(`{${"project_uuid"}}`, encodeURIComponent(String(requestParameters.projectUuid))).replace(`{${"site_id"}}`, encodeURIComponent(String(requestParameters.siteId))).replace(`{${"inst_id"}}`, encodeURIComponent(String(requestParameters.instId))).replace(`{${"var_id"}}`, encodeURIComponent(String(requestParameters.varId))),
+            path: `/v3/streams/projects/{project_id}/sites/{site_id}/instruments/{inst_id}/variables/{var_id}`.replace(`{${"project_id"}}`, encodeURIComponent(String(requestParameters.projectId))).replace(`{${"site_id"}}`, encodeURIComponent(String(requestParameters.siteId))).replace(`{${"inst_id"}}`, encodeURIComponent(String(requestParameters.instId))).replace(`{${"var_id"}}`, encodeURIComponent(String(requestParameters.varId))),
             method: 'DELETE',
             headers: headerParameters,
             query: queryParameters,
@@ -177,8 +177,8 @@ export class VariablesApi extends runtime.BaseAPI {
      * Get variable details
      */
     async getVariableRaw(requestParameters: GetVariableRequest): Promise<runtime.ApiResponse<RespGetVariable>> {
-        if (requestParameters.projectUuid === null || requestParameters.projectUuid === undefined) {
-            throw new runtime.RequiredError('projectUuid','Required parameter requestParameters.projectUuid was null or undefined when calling getVariable.');
+        if (requestParameters.projectId === null || requestParameters.projectId === undefined) {
+            throw new runtime.RequiredError('projectId','Required parameter requestParameters.projectId was null or undefined when calling getVariable.');
         }
 
         if (requestParameters.siteId === null || requestParameters.siteId === undefined) {
@@ -198,7 +198,7 @@ export class VariablesApi extends runtime.BaseAPI {
         const headerParameters: runtime.HTTPHeaders = {};
 
         const response = await this.request({
-            path: `/v3/streams/projects/{project_uuid}/sites/{site_id}/instruments/{inst_id}/variables/{var_id}`.replace(`{${"project_uuid"}}`, encodeURIComponent(String(requestParameters.projectUuid))).replace(`{${"site_id"}}`, encodeURIComponent(String(requestParameters.siteId))).replace(`{${"inst_id"}}`, encodeURIComponent(String(requestParameters.instId))).replace(`{${"var_id"}}`, encodeURIComponent(String(requestParameters.varId))),
+            path: `/v3/streams/projects/{project_id}/sites/{site_id}/instruments/{inst_id}/variables/{var_id}`.replace(`{${"project_id"}}`, encodeURIComponent(String(requestParameters.projectId))).replace(`{${"site_id"}}`, encodeURIComponent(String(requestParameters.siteId))).replace(`{${"inst_id"}}`, encodeURIComponent(String(requestParameters.instId))).replace(`{${"var_id"}}`, encodeURIComponent(String(requestParameters.varId))),
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
@@ -221,8 +221,8 @@ export class VariablesApi extends runtime.BaseAPI {
      * List variables.
      */
     async listVariablesRaw(requestParameters: ListVariablesRequest): Promise<runtime.ApiResponse<RespListVariables>> {
-        if (requestParameters.projectUuid === null || requestParameters.projectUuid === undefined) {
-            throw new runtime.RequiredError('projectUuid','Required parameter requestParameters.projectUuid was null or undefined when calling listVariables.');
+        if (requestParameters.projectId === null || requestParameters.projectId === undefined) {
+            throw new runtime.RequiredError('projectId','Required parameter requestParameters.projectId was null or undefined when calling listVariables.');
         }
 
         if (requestParameters.siteId === null || requestParameters.siteId === undefined) {
@@ -250,7 +250,7 @@ export class VariablesApi extends runtime.BaseAPI {
         const headerParameters: runtime.HTTPHeaders = {};
 
         const response = await this.request({
-            path: `/v3/streams/projects/{project_uuid}/sites/{site_id}/instruments/{inst_id}/variables`.replace(`{${"project_uuid"}}`, encodeURIComponent(String(requestParameters.projectUuid))).replace(`{${"site_id"}}`, encodeURIComponent(String(requestParameters.siteId))).replace(`{${"inst_id"}}`, encodeURIComponent(String(requestParameters.instId))),
+            path: `/v3/streams/projects/{project_id}/sites/{site_id}/instruments/{inst_id}/variables`.replace(`{${"project_id"}}`, encodeURIComponent(String(requestParameters.projectId))).replace(`{${"site_id"}}`, encodeURIComponent(String(requestParameters.siteId))).replace(`{${"inst_id"}}`, encodeURIComponent(String(requestParameters.instId))),
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
@@ -273,8 +273,8 @@ export class VariablesApi extends runtime.BaseAPI {
      * Update a variable
      */
     async updateVariableRaw(requestParameters: UpdateVariableRequest): Promise<runtime.ApiResponse<RespUpdateVariable>> {
-        if (requestParameters.projectUuid === null || requestParameters.projectUuid === undefined) {
-            throw new runtime.RequiredError('projectUuid','Required parameter requestParameters.projectUuid was null or undefined when calling updateVariable.');
+        if (requestParameters.projectId === null || requestParameters.projectId === undefined) {
+            throw new runtime.RequiredError('projectId','Required parameter requestParameters.projectId was null or undefined when calling updateVariable.');
         }
 
         if (requestParameters.siteId === null || requestParameters.siteId === undefined) {
@@ -300,7 +300,7 @@ export class VariablesApi extends runtime.BaseAPI {
         headerParameters['Content-Type'] = 'application/json';
 
         const response = await this.request({
-            path: `/v3/streams/projects/{project_uuid}/sites/{site_id}/instruments/{inst_id}/variables/{var_id}`.replace(`{${"project_uuid"}}`, encodeURIComponent(String(requestParameters.projectUuid))).replace(`{${"site_id"}}`, encodeURIComponent(String(requestParameters.siteId))).replace(`{${"inst_id"}}`, encodeURIComponent(String(requestParameters.instId))).replace(`{${"var_id"}}`, encodeURIComponent(String(requestParameters.varId))),
+            path: `/v3/streams/projects/{project_id}/sites/{site_id}/instruments/{inst_id}/variables/{var_id}`.replace(`{${"project_id"}}`, encodeURIComponent(String(requestParameters.projectId))).replace(`{${"site_id"}}`, encodeURIComponent(String(requestParameters.siteId))).replace(`{${"inst_id"}}`, encodeURIComponent(String(requestParameters.instId))).replace(`{${"var_id"}}`, encodeURIComponent(String(requestParameters.varId))),
             method: 'PUT',
             headers: headerParameters,
             query: queryParameters,

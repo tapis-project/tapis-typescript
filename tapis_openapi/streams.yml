@@ -231,8 +231,6 @@ paths:
                   - $ref: '#/components/schemas/BasicResponse'
                 properties:
                   result:
-                    type: object
-                    items:
                       $ref: '#/components/schemas/Project'
 
         '400':
@@ -3296,31 +3294,31 @@ components:
         measurements_in_file:
           type: integer
           description: The count of measurements records.
-        additionalProperties:
-          type: object
-          items:
-            type: object
-            description: example "ph":{"2021-05-15T15:23:00+05:00":7.2,"2021-05-15T25:23:00+05:00":7.3}
-          example: {"2021-05-15T15:23:00+05:00":7.2,"2021-05-15T25:23:00+05:00":7.3}
+      additionalProperties:
+        type: object
+        description: example "ph":{"2021-05-15T15:23:00+05:00":7.2,"2021-05-15T25:23:00+05:00":7.3}
 
     NewMeasurement:
       type: object
       properties:
         inst_id:
-          type: integer
-          description: Associate instrument id.
+          type: string
         vars:
           type: array
-          description: Array of measurement objects. Example [{"temp1":"75.0","pc_hmd":"34","datatime":"2021-05-15T15:23:00+05:00"},{"temp1":"77.0","pc_hmd":"36","datatime":"2021-05-15T15:54:00+05:00"}]
           items:
-            type: object
-            properties:
-              datetime:
-                type: string
-                description: Datetime ISO8601 formated string
-              additionalProperties:
-                type: number
-                description: this is a key:value pair of var_id:value
+            $ref: '#/components/schemas/MeasurementValues'
+      required: [inst_id, vars]
+
+    MeasurementValues:
+      type: object
+      description: Measurement objects. Example [{"temp1":"75.0","pc_hmd":"34","datetime":"2021-05-15T15:23:00+05:00"},{"temp1":"77.0","pc_hmd":"36","datetime":"2021-05-15T15:54:00+05:00"}]
+      properties:
+        datetime:
+          type: string
+          description: Datetime ISO8601 formated string
+      additionalProperties:
+        type: number
+      required: [datetime]
 
     NewOntology:
       type: object
@@ -3334,8 +3332,8 @@ components:
         url:
           type: string
           description: URL for the Ontology
-        additionalProperties:
-          type: string
+      additionalProperties:
+        type: string
 
 
     NewOntologyRequest:
@@ -3355,8 +3353,8 @@ components:
         url:
           type: string
           description: URL for the Ontology
-        additionalProperties:
-          type: string
+      additionalProperties:
+        type: string
 
 
     Channel:

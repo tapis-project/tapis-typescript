@@ -51,10 +51,10 @@ export interface UpdateInst {
     tags?: Array<string>;
     /**
      * user metadata on instruments
-     * @type {string}
+     * @type {object}
      * @memberof UpdateInst
      */
-    metadata?: string;
+    metadata?: object;
 }
 
 export function UpdateInstFromJSON(json: any): UpdateInst {

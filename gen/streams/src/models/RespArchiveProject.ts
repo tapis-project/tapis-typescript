@@ -14,57 +14,57 @@
 
 import { exists, mapValues } from '../runtime';
 import {
-    Project,
-    ProjectFromJSON,
-    ProjectFromJSONTyped,
-    ProjectToJSON,
+    Archive,
+    ArchiveFromJSON,
+    ArchiveFromJSONTyped,
+    ArchiveToJSON,
 } from './';
 
 /**
  * 
  * @export
- * @interface RespCreateProject
+ * @interface RespArchiveProject
  */
-export interface RespCreateProject {
+export interface RespArchiveProject {
     /**
      * Version of the API
      * @type {string}
-     * @memberof RespCreateProject
+     * @memberof RespArchiveProject
      */
     version?: string;
     /**
      * Brief description of the response
      * @type {string}
-     * @memberof RespCreateProject
+     * @memberof RespArchiveProject
      */
     message?: string;
     /**
      * Whether the request was a success or failure.
      * @type {string}
-     * @memberof RespCreateProject
+     * @memberof RespArchiveProject
      */
-    status?: RespCreateProjectStatusEnum;
+    status?: RespArchiveProjectStatusEnum;
     /**
      * 
-     * @type {Project}
-     * @memberof RespCreateProject
+     * @type {Array<Archive>}
+     * @memberof RespArchiveProject
      */
-    result?: Project;
+    result?: Array<Archive>;
 }
 
 /**
 * @export
 * @enum {string}
 */
-export enum RespCreateProjectStatusEnum {
+export enum RespArchiveProjectStatusEnum {
     Success = 'success'
 }
 
-export function RespCreateProjectFromJSON(json: any): RespCreateProject {
-    return RespCreateProjectFromJSONTyped(json, false);
+export function RespArchiveProjectFromJSON(json: any): RespArchiveProject {
+    return RespArchiveProjectFromJSONTyped(json, false);
 }
 
-export function RespCreateProjectFromJSONTyped(json: any, ignoreDiscriminator: boolean): RespCreateProject {
+export function RespArchiveProjectFromJSONTyped(json: any, ignoreDiscriminator: boolean): RespArchiveProject {
     if ((json === undefined) || (json === null)) {
         return json;
     }
@@ -73,11 +73,11 @@ export function RespCreateProjectFromJSONTyped(json: any, ignoreDiscriminator: b
         'version': !exists(json, 'version') ? undefined : json['version'],
         'message': !exists(json, 'message') ? undefined : json['message'],
         'status': !exists(json, 'status') ? undefined : json['status'],
-        'result': !exists(json, 'result') ? undefined : ProjectFromJSON(json['result']),
+        'result': !exists(json, 'result') ? undefined : ((json['result'] as Array<any>).map(ArchiveFromJSON)),
     };
 }
 
-export function RespCreateProjectToJSON(value?: RespCreateProject | null): any {
+export function RespArchiveProjectToJSON(value?: RespArchiveProject | null): any {
     if (value === undefined) {
         return undefined;
     }
@@ -89,7 +89,7 @@ export function RespCreateProjectToJSON(value?: RespCreateProject | null): any {
         'version': value.version,
         'message': value.message,
         'status': value.status,
-        'result': ProjectToJSON(value.result),
+        'result': value.result === undefined ? undefined : ((value.result as Array<any>).map(ArchiveToJSON)),
     };
 }
 

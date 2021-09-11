@@ -19,6 +19,7 @@ import { exists, mapValues } from '../runtime';
  * @interface ReqAddOntology
  */
 export interface ReqAddOntology {
+    [key: string]: string | any;
     /**
      * Standard set of concepts snd their relatiobship defined in a scientific domain
      * @type {string}
@@ -30,19 +31,13 @@ export interface ReqAddOntology {
      * @type {string}
      * @memberof ReqAddOntology
      */
-    onto_uuid?: string;
+    onto_id?: string;
     /**
      * URL for the Ontology
      * @type {string}
      * @memberof ReqAddOntology
      */
     url?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof ReqAddOntology
-     */
-    additionalProperties?: string;
 }
 
 export function ReqAddOntologyFromJSON(json: any): ReqAddOntology {
@@ -55,10 +50,10 @@ export function ReqAddOntologyFromJSONTyped(json: any, ignoreDiscriminator: bool
     }
     return {
         
+            ...json,
         'label': !exists(json, 'label') ? undefined : json['label'],
-        'onto_uuid': !exists(json, 'onto_uuid') ? undefined : json['onto_uuid'],
+        'onto_id': !exists(json, 'onto_id') ? undefined : json['onto_id'],
         'url': !exists(json, 'url') ? undefined : json['url'],
-        'additionalProperties': !exists(json, 'additionalProperties') ? undefined : json['additionalProperties'],
     };
 }
 
@@ -71,10 +66,10 @@ export function ReqAddOntologyToJSON(value?: ReqAddOntology | null): any {
     }
     return {
         
+            ...value,
         'label': value.label,
-        'onto_uuid': value.onto_uuid,
+        'onto_id': value.onto_id,
         'url': value.url,
-        'additionalProperties': value.additionalProperties,
     };
 }
 

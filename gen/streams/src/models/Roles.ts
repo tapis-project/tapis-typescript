@@ -16,32 +16,32 @@ import { exists, mapValues } from '../runtime';
 /**
  * 
  * @export
- * @interface MeasurementVars
+ * @interface Roles
  */
-export interface MeasurementVars {
+export interface Roles {
     /**
-     * Field Name needs to be the variable id and value is the observed measuremnet. Example {"temp1":75.0}
-     * @type {string}
-     * @memberof MeasurementVars
+     * User role
+     * @type {Array<string>}
+     * @memberof Roles
      */
-    var_id?: string;
+    roleNames?: Array<string>;
 }
 
-export function MeasurementVarsFromJSON(json: any): MeasurementVars {
-    return MeasurementVarsFromJSONTyped(json, false);
+export function RolesFromJSON(json: any): Roles {
+    return RolesFromJSONTyped(json, false);
 }
 
-export function MeasurementVarsFromJSONTyped(json: any, ignoreDiscriminator: boolean): MeasurementVars {
+export function RolesFromJSONTyped(json: any, ignoreDiscriminator: boolean): Roles {
     if ((json === undefined) || (json === null)) {
         return json;
     }
     return {
         
-        'var_id': !exists(json, 'var_id') ? undefined : json['var_id'],
+        'roleNames': !exists(json, 'roleNames') ? undefined : json['roleNames'],
     };
 }
 
-export function MeasurementVarsToJSON(value?: MeasurementVars | null): any {
+export function RolesToJSON(value?: Roles | null): any {
     if (value === undefined) {
         return undefined;
     }
@@ -50,7 +50,7 @@ export function MeasurementVarsToJSON(value?: MeasurementVars | null): any {
     }
     return {
         
-        'var_id': value.var_id,
+        'roleNames': value.roleNames,
     };
 }
 

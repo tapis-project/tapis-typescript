@@ -51,10 +51,10 @@ export interface ReqCreateInstrument {
     tags?: Array<string>;
     /**
      * User enetered metadata on instruments
-     * @type {string}
+     * @type {object}
      * @memberof ReqCreateInstrument
      */
-    metadata?: string;
+    metadata?: object;
 }
 
 export function ReqCreateInstrumentFromJSON(json: any): ReqCreateInstrument {

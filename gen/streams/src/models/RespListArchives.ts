@@ -14,57 +14,57 @@
 
 import { exists, mapValues } from '../runtime';
 import {
-    Project,
-    ProjectFromJSON,
-    ProjectFromJSONTyped,
-    ProjectToJSON,
+    Archive,
+    ArchiveFromJSON,
+    ArchiveFromJSONTyped,
+    ArchiveToJSON,
 } from './';
 
 /**
  * 
  * @export
- * @interface RespCreateProject
+ * @interface RespListArchives
  */
-export interface RespCreateProject {
+export interface RespListArchives {
     /**
      * Version of the API
      * @type {string}
-     * @memberof RespCreateProject
+     * @memberof RespListArchives
      */
     version?: string;
     /**
      * Brief description of the response
      * @type {string}
-     * @memberof RespCreateProject
+     * @memberof RespListArchives
      */
     message?: string;
     /**
      * Whether the request was a success or failure.
      * @type {string}
-     * @memberof RespCreateProject
+     * @memberof RespListArchives
      */
-    status?: RespCreateProjectStatusEnum;
+    status?: RespListArchivesStatusEnum;
     /**
      * 
-     * @type {Project}
-     * @memberof RespCreateProject
+     * @type {Array<Array<Archive>>}
+     * @memberof RespListArchives
      */
-    result?: Project;
+    result?: Array<Array<Archive>>;
 }
 
 /**
 * @export
 * @enum {string}
 */
-export enum RespCreateProjectStatusEnum {
+export enum RespListArchivesStatusEnum {
     Success = 'success'
 }
 
-export function RespCreateProjectFromJSON(json: any): RespCreateProject {
-    return RespCreateProjectFromJSONTyped(json, false);
+export function RespListArchivesFromJSON(json: any): RespListArchives {
+    return RespListArchivesFromJSONTyped(json, false);
 }
 
-export function RespCreateProjectFromJSONTyped(json: any, ignoreDiscriminator: boolean): RespCreateProject {
+export function RespListArchivesFromJSONTyped(json: any, ignoreDiscriminator: boolean): RespListArchives {
     if ((json === undefined) || (json === null)) {
         return json;
     }
@@ -73,11 +73,11 @@ export function RespCreateProjectFromJSONTyped(json: any, ignoreDiscriminator: b
         'version': !exists(json, 'version') ? undefined : json['version'],
         'message': !exists(json, 'message') ? undefined : json['message'],
         'status': !exists(json, 'status') ? undefined : json['status'],
-        'result': !exists(json, 'result') ? undefined : ProjectFromJSON(json['result']),
+        'result': !exists(json, 'result') ? undefined : json['result'],
     };
 }
 
-export function RespCreateProjectToJSON(value?: RespCreateProject | null): any {
+export function RespListArchivesToJSON(value?: RespListArchives | null): any {
     if (value === undefined) {
         return undefined;
     }
@@ -89,7 +89,7 @@ export function RespCreateProjectToJSON(value?: RespCreateProject | null): any {
         'version': value.version,
         'message': value.message,
         'status': value.status,
-        'result': ProjectToJSON(value.result),
+        'result': value.result,
     };
 }
 

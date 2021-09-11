@@ -44,38 +44,17 @@ export interface ReqCreateVariable {
      */
     measured_property_id?: number;
     /**
-     * text for single variable creation and file for bulk variable creation
-     * @type {string}
-     * @memberof ReqCreateVariable
-     */
-    format?: ReqCreateVariableFormatEnum;
-    /**
-     * Storage system name for file format
-     * @type {string}
-     * @memberof ReqCreateVariable
-     */
-    storage_system?: string;
-    /**
      * User entered metadata for the variable
-     * @type {string}
+     * @type {object}
      * @memberof ReqCreateVariable
      */
-    metadata?: string;
+    metadata?: object;
     /**
      * User entered short name
      * @type {string}
      * @memberof ReqCreateVariable
      */
     shortname?: string;
-}
-
-/**
-* @export
-* @enum {string}
-*/
-export enum ReqCreateVariableFormatEnum {
-    Text = 'text',
-    File = 'file'
 }
 
 export function ReqCreateVariableFromJSON(json: any): ReqCreateVariable {
@@ -92,8 +71,6 @@ export function ReqCreateVariableFromJSONTyped(json: any, ignoreDiscriminator: b
         'var_name': !exists(json, 'var_name') ? undefined : json['var_name'],
         'units': !exists(json, 'units') ? undefined : json['units'],
         'measured_property_id': !exists(json, 'measured_property_id') ? undefined : json['measured_property_id'],
-        'format': !exists(json, 'format') ? undefined : json['format'],
-        'storage_system': !exists(json, 'storage_system') ? undefined : json['storage_system'],
         'metadata': !exists(json, 'metadata') ? undefined : json['metadata'],
         'shortname': !exists(json, 'shortname') ? undefined : json['shortname'],
     };
@@ -112,8 +89,6 @@ export function ReqCreateVariableToJSON(value?: ReqCreateVariable | null): any {
         'var_name': value.var_name,
         'units': value.units,
         'measured_property_id': value.measured_property_id,
-        'format': value.format,
-        'storage_system': value.storage_system,
         'metadata': value.metadata,
         'shortname': value.shortname,
     };
