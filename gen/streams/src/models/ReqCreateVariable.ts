@@ -24,13 +24,13 @@ export interface ReqCreateVariable {
      * @type {string}
      * @memberof ReqCreateVariable
      */
-    var_id?: string;
+    var_id: string;
     /**
      * Variable name.
      * @type {string}
      * @memberof ReqCreateVariable
      */
-    var_name?: string;
+    var_name: string;
     /**
      * Unit name
      * @type {string}
@@ -67,8 +67,8 @@ export function ReqCreateVariableFromJSONTyped(json: any, ignoreDiscriminator: b
     }
     return {
         
-        'var_id': !exists(json, 'var_id') ? undefined : json['var_id'],
-        'var_name': !exists(json, 'var_name') ? undefined : json['var_name'],
+        'var_id': json['var_id'],
+        'var_name': json['var_name'],
         'units': !exists(json, 'units') ? undefined : json['units'],
         'measured_property_id': !exists(json, 'measured_property_id') ? undefined : json['measured_property_id'],
         'metadata': !exists(json, 'metadata') ? undefined : json['metadata'],

@@ -231,7 +231,7 @@ paths:
                   - $ref: '#/components/schemas/BasicResponse'
                 properties:
                   result:
-                      $ref: '#/components/schemas/Project'
+                    $ref: '#/components/schemas/Project'
 
         '400':
           description: Input error.
@@ -1441,9 +1441,7 @@ paths:
                   - $ref: '#/components/schemas/BasicResponse'
                 properties:
                  result:
-                    type: array
-                    items:
-                      $ref: '#/components/schemas/Measurements'
+                  $ref: '#/components/schemas/Measurements'
 
         '400':
           description: Input error.
@@ -1525,9 +1523,7 @@ paths:
                   - $ref: '#/components/schemas/BasicResponse'
                 properties:
                   result:
-                    type: array
-                    items:
-                      $ref: '#/components/schemas/Measurements'
+                    $ref: '#/components/schemas/Measurements'
 
         '400':
           description: Input error.
@@ -1554,7 +1550,7 @@ paths:
     get:
       tags:
         - Measurements
-      summary: List measurments.
+      summary: List measurements.
       description: List measurements.
       operationId: list_measurements
       parameters:
@@ -1603,7 +1599,7 @@ paths:
             type: string
         - name: geojson
           in: query
-          description: geojson polygon to spatiall search
+          description: geojson polygon to spatial search
           schema:
             type: object
         - name: format
@@ -1626,8 +1622,6 @@ paths:
                   - $ref: '#/components/schemas/BasicResponse'
                 properties:
                    result:
-                    type: array
-                    items:
                       $ref: '#/components/schemas/Measurements'
 
         '400':
@@ -3088,14 +3082,14 @@ components:
           type: object
           description: User defined metadata for the site
         longitude:
-              type: number
-              description: longitude
+          type: number
+          description: longitude
         latitude:
-              type: number
-              description: latitude
+          type: number
+          description: latitude
         elevation:
-              type: number
-              description: elevation
+          type: number
+          description: elevation
 
     NewSiteRequest:
       type: array
@@ -3125,7 +3119,7 @@ components:
         metadata:
           type: object
           description: User defined metadata for the site
-      required: [site_name, latitude, longitude, elevation, description]
+      required: [site_name, site_id, latitude, longitude, elevation, description]
 
     Instrument:
       type: object
@@ -3188,6 +3182,7 @@ components:
         metadata:
           type: object
           description: User enetered metadata on instruments
+      required: [inst_name, inst_id, inst_description]
 
     UpdateInstRequest:
       type: array
@@ -3245,6 +3240,7 @@ components:
         shortname:
           type: string
           description: User entered short name
+      required: [var_id, var_name]
 
     Variable:
       type: object
@@ -3294,9 +3290,17 @@ components:
         measurements_in_file:
           type: integer
           description: The count of measurements records.
+      #unexpected typing behavior, still works (assigns to type any rather than generating DatetimeValues type)
       additionalProperties:
-        type: object
-        description: example "ph":{"2021-05-15T15:23:00+05:00":7.2,"2021-05-15T25:23:00+05:00":7.3}
+        $ref: '#/components/schemas/DatetimeValues'
+      example: {"2021-05-15T15:23:00+05:00":7.2,"2021-05-15T25:23:00+05:00":7.3}
+
+    DatetimeValues:
+      type: object
+      additionalProperties:
+        type: number
+      description: example "ph":{"2021-05-15T15:23:00+05:00":7.2,"2021-05-15T25:23:00+05:00":7.3}
+      
 
     NewMeasurement:
       type: object
@@ -3332,8 +3336,8 @@ components:
         url:
           type: string
           description: URL for the Ontology
-      additionalProperties:
-        type: string
+        additionalProperties:
+          type: string
 
 
     NewOntologyRequest:
@@ -3353,8 +3357,8 @@ components:
         url:
           type: string
           description: URL for the Ontology
-      additionalProperties:
-        type: string
+        additionalProperties:
+          type: string
 
 
     Channel:

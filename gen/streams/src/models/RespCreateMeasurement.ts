@@ -46,10 +46,10 @@ export interface RespCreateMeasurement {
     status?: RespCreateMeasurementStatusEnum;
     /**
      * 
-     * @type {Array<Measurements>}
+     * @type {Measurements}
      * @memberof RespCreateMeasurement
      */
-    result?: Array<Measurements>;
+    result?: Measurements;
 }
 
 /**
@@ -73,7 +73,7 @@ export function RespCreateMeasurementFromJSONTyped(json: any, ignoreDiscriminato
         'version': !exists(json, 'version') ? undefined : json['version'],
         'message': !exists(json, 'message') ? undefined : json['message'],
         'status': !exists(json, 'status') ? undefined : json['status'],
-        'result': !exists(json, 'result') ? undefined : ((json['result'] as Array<any>).map(MeasurementsFromJSON)),
+        'result': !exists(json, 'result') ? undefined : MeasurementsFromJSON(json['result']),
     };
 }
 
@@ -89,7 +89,7 @@ export function RespCreateMeasurementToJSON(value?: RespCreateMeasurement | null
         'version': value.version,
         'message': value.message,
         'status': value.status,
-        'result': value.result === undefined ? undefined : ((value.result as Array<any>).map(MeasurementsToJSON)),
+        'result': MeasurementsToJSON(value.result),
     };
 }
 

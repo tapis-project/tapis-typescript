@@ -46,10 +46,10 @@ export interface RespListMeasurements {
     status?: RespListMeasurementsStatusEnum;
     /**
      * 
-     * @type {Array<Measurements>}
+     * @type {Measurements}
      * @memberof RespListMeasurements
      */
-    result?: Array<Measurements>;
+    result?: Measurements;
 }
 
 /**
@@ -73,7 +73,7 @@ export function RespListMeasurementsFromJSONTyped(json: any, ignoreDiscriminator
         'version': !exists(json, 'version') ? undefined : json['version'],
         'message': !exists(json, 'message') ? undefined : json['message'],
         'status': !exists(json, 'status') ? undefined : json['status'],
-        'result': !exists(json, 'result') ? undefined : ((json['result'] as Array<any>).map(MeasurementsFromJSON)),
+        'result': !exists(json, 'result') ? undefined : MeasurementsFromJSON(json['result']),
     };
 }
 
@@ -89,7 +89,7 @@ export function RespListMeasurementsToJSON(value?: RespListMeasurements | null):
         'version': value.version,
         'message': value.message,
         'status': value.status,
-        'result': value.result === undefined ? undefined : ((value.result as Array<any>).map(MeasurementsToJSON)),
+        'result': MeasurementsToJSON(value.result),
     };
 }
 

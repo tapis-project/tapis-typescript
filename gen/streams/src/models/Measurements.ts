@@ -30,7 +30,7 @@ import {
  * @interface Measurements
  */
 export interface Measurements {
-    [key: string]: object | any;
+    [key: string]: any | any;
     /**
      * 
      * @type {Instrument}

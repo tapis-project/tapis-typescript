@@ -5,11 +5,14 @@ const fetch = require('node-fetch');
 import { getToken, checkJsonError } from '../../tapis-typescript/e2e/utils';
 import { Authenticator, Streams } from '@tapis/tapis-typescript';
 
+const version = 5;
+const projectId = `E2E_TEST_PROJECT_${version}`;
+const siteId = `E2E_TEST_SITE_${version}`;
+const instId = `E2E_TEST_INSTRUMENT_${version}`;
 
 (async function() {
     try {
         const token: Authenticator.NewAccessTokenResponse = await getToken();
-        console.log(process.env.TEST_TENANT);
         // Configure the client to use the retrieved JWT as the "X-Tapis-Token" authentication header
         const configurationParameters: Streams.ConfigurationParameters = {
             basePath: process.env.TEST_TENANT,
@@ -26,7 +29,7 @@ import { Authenticator, Streams } from '@tapis/tapis-typescript';
         const siteApi: Streams.SitesApi = new Streams.SitesApi(configuration);
         const instrumentApi: Streams.InstrumentsApi = new Streams.InstrumentsApi(configuration);
         const variableApi: Streams.VariablesApi = new Streams.VariablesApi(configuration);
-        const measurmentApi: Streams.MeasurementsApi = new Streams.MeasurementsApi(configuration);
+        const measurementApi: Streams.MeasurementsApi = new Streams.MeasurementsApi(configuration);
         const ontologyApi: Streams.OntologiesApi = new Streams.OntologiesApi(configuration);
         const channelApi: Streams.ChannelsApi = new Streams.ChannelsApi(configuration);
         const templateApi: Streams.TemplatesApi = new Streams.TemplatesApi(configuration);
@@ -35,6 +38,8 @@ import { Authenticator, Streams } from '@tapis/tapis-typescript';
 
 
         //projects
+        console.log("List Projects\n");
+
         const listProjectParams: Streams.ListProjectsRequest = {};
 
         const projectResponse: Streams.RespListProjects = await projectApi.listProjects(listProjectParams);
@@ -42,9 +47,10 @@ import { Authenticator, Streams } from '@tapis/tapis-typescript';
         console.log(projects);
 
         //sites
-        const projectId: string = projects[0].project_name;
+        console.log("\n\nList Sites\n");
+
         const listSiteParams: Streams.ListSitesRequest = {
-            projectUuid: projectId,
+            projectId: projectId,
         };
 
         const siteResponse: Streams.RespListSites = await siteApi.listSites(listSiteParams);
@@ -52,9 +58,10 @@ import { Authenticator, Streams } from '@tapis/tapis-typescript';
         console.log(sites);
 
         //instruments
-        const siteId: string= sites[0].site_id;
+        console.log("\n\nList Instruments\n");
+
         const listInstrumentParams: Streams.ListInstrumentsRequest = {
-            projectUuid: projectId,
+            projectId: projectId,
             siteId: siteId,
         };
 
@@ -63,9 +70,10 @@ import { Authenticator, Streams } from '@tapis/tapis-typescript';
         console.log(instruments);
 
         //variables
-        const instId: string = instruments[0].inst_id;
+        console.log("\n\nList Variables\n");
+
         const listVariableParams: Streams.ListVariablesRequest = {
-            projectUuid: projectId,
+            projectId: projectId,
             siteId: siteId,
             instId: instId,
         };
@@ -76,23 +84,27 @@ import { Authenticator, Streams } from '@tapis/tapis-typescript';
 
         //measurements
         //list
+        console.log("\n\nList Measurements\n");
+
         let listMeasurementParams: Streams.ListMeasurementsRequest = {
-            projectUuid: projectId,
+            projectId: projectId,
             siteId: siteId,
             instId: instId,
         };
 
-        const measurementResponse: Streams.RespListMeasurements = await measurmentApi.listMeasurements(listMeasurementParams);
-        const measurements: Array<Streams.Measurement> = measurementResponse.result;
+        const measurementResponse: Streams.RespListMeasurements = await measurementApi.listMeasurements(listMeasurementParams);
+        const measurements: Streams.Measurements = measurementResponse.result;
         console.log(measurements);
 
         //download
+        console.log("\n\nDownload Measurements by Instrument Only\n");
+
         let downloadMeasurementParams: Streams.DownloadMeasurementsRequest = {
             instId: instId,
         };
 
-        const measurementDownloadResponse: Streams.RespDownloadMeasurements = await measurmentApi.downloadMeasurements(downloadMeasurementParams);
-        const measurementsDownload: Array<Streams.Measurement> = measurementDownloadResponse.result;
+        const measurementDownloadResponse: Streams.RespDownloadMeasurements = await measurementApi.downloadMeasurements(downloadMeasurementParams);
+        const measurementsDownload: Streams.Measurements = measurementDownloadResponse.result;
         console.log(measurementsDownload);
     }
     catch(error) {

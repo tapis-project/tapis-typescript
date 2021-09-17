@@ -1328,7 +1328,7 @@ paths:
     get:
       tags:
         - Measurements
-      summary: List measurments.
+      summary: List measurements.
       description: List measurements.
       operationId: list_measurements
       parameters:
@@ -1377,7 +1377,7 @@ paths:
             type: string
         - name: geojson
           in: query
-          description: geojson polygon to spatiall search
+          description: geojson polygon to spatial search
           schema:
             type: object
         - name: format
@@ -2724,10 +2724,17 @@ components:
           type: integer
           description: The count of measurements records.
       additionalProperties:
-        type: object
-        description: >-
-          example
-          "ph":{"2021-05-15T15:23:00+05:00":7.2,"2021-05-15T25:23:00+05:00":7.3}
+        $ref: '#/components/schemas/DatetimeValues'
+      example:
+        '2021-05-15T15:23:00+05:00': 7.2
+        '2021-05-15T25:23:00+05:00': 7.3
+    DatetimeValues:
+      type: object
+      additionalProperties:
+        type: number
+      description: >-
+        example
+        "ph":{"2021-05-15T15:23:00+05:00":7.2,"2021-05-15T25:23:00+05:00":7.3}
     MeasurementValues:
       type: object
       description: >-
@@ -2759,8 +2766,8 @@ components:
         url:
           type: string
           description: URL for the Ontology
-      additionalProperties:
-        type: string
+        additionalProperties:
+          type: string
     Channel:
       type: object
       properties:
@@ -3548,9 +3555,7 @@ components:
           enum:
             - success
         result:
-          type: array
-          items:
-            $ref: '#/components/schemas/Measurements'
+          $ref: '#/components/schemas/Measurements'
     RespDownloadMeasurements:
       type: object
       properties:
@@ -3566,9 +3571,7 @@ components:
           enum:
             - success
         result:
-          type: array
-          items:
-            $ref: '#/components/schemas/Measurements'
+          $ref: '#/components/schemas/Measurements'
     RespListMeasurements:
       type: object
       properties:
@@ -3584,9 +3587,7 @@ components:
           enum:
             - success
         result:
-          type: array
-          items:
-            $ref: '#/components/schemas/Measurements'
+          $ref: '#/components/schemas/Measurements'
     RespListOntologies:
       type: object
       properties:
@@ -4057,6 +4058,10 @@ components:
         metadata:
           type: object
           description: User enetered metadata on instruments
+      required:
+        - inst_name
+        - inst_id
+        - inst_description
     ReqCreateSite:
       type: object
       properties:
@@ -4082,6 +4087,7 @@ components:
           description: User defined metadata for the site
       required:
         - site_name
+        - site_id
         - latitude
         - longitude
         - elevation
@@ -4109,6 +4115,9 @@ components:
         shortname:
           type: string
           description: User entered short name
+      required:
+        - var_id
+        - var_name
     ReqCreateMeasurement:
       type: object
       properties:
@@ -4135,8 +4144,8 @@ components:
         url:
           type: string
           description: URL for the Ontology
-      additionalProperties:
-        type: string
+        additionalProperties:
+          type: string
     ReqCreateChannel:
       type: object
       properties:

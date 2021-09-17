@@ -18,6 +18,9 @@ import {
     ErrorResponse,
     ErrorResponseFromJSON,
     ErrorResponseToJSON,
+    ReqAddOntology,
+    ReqAddOntologyFromJSON,
+    ReqAddOntologyToJSON,
     RespAddOntology,
     RespAddOntologyFromJSON,
     RespAddOntologyToJSON,
@@ -36,7 +39,7 @@ import {
 } from '../models';
 
 export interface AddOntologyRequest {
-    requestBody: { [key: string]: string; };
+    reqAddOntology: ReqAddOntology;
 }
 
 export interface DeleteOntologyRequest {
@@ -55,7 +58,7 @@ export interface ListOntologiesRequest {
 
 export interface UpdateOntologyRequest {
     ontoId: string;
-    requestBody: { [key: string]: string; };
+    reqAddOntology: ReqAddOntology;
 }
 
 /**
@@ -68,8 +71,8 @@ export class OntologiesApi extends runtime.BaseAPI {
      * Add an ontology .
      */
     async addOntologyRaw(requestParameters: AddOntologyRequest): Promise<runtime.ApiResponse<RespAddOntology>> {
-        if (requestParameters.requestBody === null || requestParameters.requestBody === undefined) {
-            throw new runtime.RequiredError('requestBody','Required parameter requestParameters.requestBody was null or undefined when calling addOntology.');
+        if (requestParameters.reqAddOntology === null || requestParameters.reqAddOntology === undefined) {
+            throw new runtime.RequiredError('reqAddOntology','Required parameter requestParameters.reqAddOntology was null or undefined when calling addOntology.');
         }
 
         const queryParameters: any = {};
@@ -83,7 +86,7 @@ export class OntologiesApi extends runtime.BaseAPI {
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
-            body: requestParameters.requestBody,
+            body: ReqAddOntologyToJSON(requestParameters.reqAddOntology),
         });
 
         return new runtime.JSONApiResponse(response, (jsonValue) => RespAddOntologyFromJSON(jsonValue));
@@ -211,8 +214,8 @@ export class OntologiesApi extends runtime.BaseAPI {
             throw new runtime.RequiredError('ontoId','Required parameter requestParameters.ontoId was null or undefined when calling updateOntology.');
         }
 
-        if (requestParameters.requestBody === null || requestParameters.requestBody === undefined) {
-            throw new runtime.RequiredError('requestBody','Required parameter requestParameters.requestBody was null or undefined when calling updateOntology.');
+        if (requestParameters.reqAddOntology === null || requestParameters.reqAddOntology === undefined) {
+            throw new runtime.RequiredError('reqAddOntology','Required parameter requestParameters.reqAddOntology was null or undefined when calling updateOntology.');
         }
 
         const queryParameters: any = {};
@@ -226,7 +229,7 @@ export class OntologiesApi extends runtime.BaseAPI {
             method: 'PUT',
             headers: headerParameters,
             query: queryParameters,
-            body: requestParameters.requestBody,
+            body: ReqAddOntologyToJSON(requestParameters.reqAddOntology),
         });
 
         return new runtime.JSONApiResponse(response, (jsonValue) => RespUpdateOntologyFromJSON(jsonValue));

@@ -19,7 +19,6 @@ import { exists, mapValues } from '../runtime';
  * @interface Ontology
  */
 export interface Ontology {
-    [key: string]: string | any;
     /**
      * Standard set of concepts snd their relatiobship defined in a scientific domain
      * @type {string}
@@ -38,6 +37,12 @@ export interface Ontology {
      * @memberof Ontology
      */
     url?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof Ontology
+     */
+    additionalProperties?: string;
 }
 
 export function OntologyFromJSON(json: any): Ontology {
@@ -50,10 +55,10 @@ export function OntologyFromJSONTyped(json: any, ignoreDiscriminator: boolean): 
     }
     return {
         
-            ...json,
         'label': !exists(json, 'label') ? undefined : json['label'],
         'onto_id': !exists(json, 'onto_id') ? undefined : json['onto_id'],
         'url': !exists(json, 'url') ? undefined : json['url'],
+        'additionalProperties': !exists(json, 'additionalProperties') ? undefined : json['additionalProperties'],
     };
 }
 
@@ -66,10 +71,10 @@ export function OntologyToJSON(value?: Ontology | null): any {
     }
     return {
         
-            ...value,
         'label': value.label,
         'onto_id': value.onto_id,
         'url': value.url,
+        'additionalProperties': value.additionalProperties,
     };
 }
 

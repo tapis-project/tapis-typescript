@@ -163,7 +163,7 @@ export class MeasurementsApi extends runtime.BaseAPI {
 
     /**
      * List measurements.
-     * List measurments.
+     * List measurements.
      */
     async listMeasurementsRaw(requestParameters: ListMeasurementsRequest): Promise<runtime.ApiResponse<RespListMeasurements>> {
         if (requestParameters.projectId === null || requestParameters.projectId === undefined) {
@@ -226,7 +226,7 @@ export class MeasurementsApi extends runtime.BaseAPI {
 
     /**
      * List measurements.
-     * List measurments.
+     * List measurements.
      */
     async listMeasurements(requestParameters: ListMeasurementsRequest): Promise<RespListMeasurements> {
         const response = await this.listMeasurementsRaw(requestParameters);

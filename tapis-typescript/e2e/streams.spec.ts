@@ -50,7 +50,7 @@ describe('Streams e2e tests', async () => {
 
       const projectResponse: Streams.RespListProjects = await projectApi.listProjects(listProjectParams);
       const projects: Array<Streams.Project> = projectResponse.result;
-      expect(projects.length).to.be.greaterThanOrEqual(1)
+      expect(projects.length).to.be.greaterThanOrEqual(1);
     } catch (error) {
       checkJsonError(error);
     }
@@ -64,7 +64,7 @@ describe('Streams e2e tests', async () => {
 
       const siteResponse: Streams.RespListSites = await siteApi.listSites(listSiteParams);
       const sites: Array<Streams.Site> = siteResponse.result;
-      expect(sites.length).to.be.greaterThanOrEqual(1)
+      expect(sites.length).to.be.greaterThanOrEqual(1);
     } catch (error) {
       checkJsonError(error);
     }
@@ -79,7 +79,7 @@ describe('Streams e2e tests', async () => {
 
       const instrumentResponse: Streams.RespListInstruments = await instrumentApi.listInstruments(listInstrumentParams);
       const instruments: Array<Streams.Instrument> = instrumentResponse.result;
-      expect(instruments.length).to.be.greaterThanOrEqual(1)
+      expect(instruments.length).to.be.greaterThanOrEqual(1);
     } catch (error) {
       checkJsonError(error);
     }
@@ -95,7 +95,7 @@ describe('Streams e2e tests', async () => {
 
       const variableResponse: Streams.RespListVariables = await variableApi.listVariables(listVariableParams);
       const variables: Array<Streams.Variable> = variableResponse.result;
-      expect(variables.length).to.be.greaterThanOrEqual(1)
+      expect(variables.length).to.be.greaterThanOrEqual(1);
     } catch (error) {
       checkJsonError(error);
     }
@@ -110,8 +110,18 @@ describe('Streams e2e tests', async () => {
       };
 
       const measurementResponse: Streams.RespListMeasurements = await measurmentApi.listMeasurements(listMeasurementParams);
-      const measurements: Array<Streams.Measurements> = measurementResponse.result;
-      expect(measurements.length).to.be.greaterThanOrEqual(1)
+      const measurements: Streams.Measurements = measurementResponse.result;
+      let numberOfValues = 0;
+      //filter values to acc
+      const nonDataKeys = ["instrument", "site", "measurements_in_files"];
+      for(let key in measurements) {
+        //check if key is variable
+        if(!nonDataKeys.includes(key)) {
+          //count number of values in variable and accumulate to numberOfValues
+          numberOfValues += Object.keys(measurements[key]).length;
+        }
+      }
+      expect(numberOfValues).to.be.greaterThanOrEqual(1);
     } catch (error) {
       checkJsonError(error);
     }
@@ -124,8 +134,18 @@ describe('Streams e2e tests', async () => {
       };
 
       const measurementDownloadResponse: Streams.RespDownloadMeasurements = await measurmentApi.downloadMeasurements(downloadMeasurementParams);
-      const measurementsDownload: Array<Streams.Measurements> = measurementDownloadResponse.result;
-      expect(measurementsDownload.length).to.be.greaterThanOrEqual(1)
+      const measurementsDownload: Streams.Measurements = measurementDownloadResponse.result;
+      let numberOfValues = 0;
+      //filter values to acc
+      const nonDataKeys = ["instrument", "site", "measurements_in_files"];
+      for(let key in measurementsDownload) {
+        //check if key is variable
+        if(!nonDataKeys.includes(key)) {
+          //count number of values in variable and accumulate to numberOfValues
+          numberOfValues += Object.keys(measurementsDownload[key]).length;
+        }
+      }
+      expect(numberOfValues).to.be.greaterThanOrEqual(1);
     } catch (error) {
       checkJsonError(error);
     }
