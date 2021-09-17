@@ -10,11 +10,10 @@ import { getToken, checkJsonError } from './utils';
 import { expect } from 'chai';
 import fetch from 'cross-fetch';
 
-const version = 5;
 
-const projectId = `E2E_TEST_PROJECT_${version}`;
-const siteId = `E2E_TEST_SITE_${version}`;
-const instId = `E2E_TEST_INSTRUMENT_${version}`;
+const projectId = process.env.TEST_PROJECT_ID;
+const siteId = process.env.TEST_SITE_ID;
+const instId = process.env.TEST_INSTRUMENT_ID;
 
 let projectApi: Streams.ProjectsApi;
 let siteApi: Streams.SitesApi;

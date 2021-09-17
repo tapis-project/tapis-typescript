@@ -5,10 +5,9 @@ const fetch = require('node-fetch');
 import { getToken, checkJsonError } from '../../tapis-typescript/e2e/utils';
 import { Authenticator, Streams } from '@tapis/tapis-typescript';
 
-const version = 5;
-const projectId = `E2E_TEST_PROJECT_${version}`;
-const siteId = `E2E_TEST_SITE_${version}`;
-const instId = `E2E_TEST_INSTRUMENT_${version}`;
+const projectId = process.env.TEST_PROJECT_ID;
+const siteId = process.env.TEST_SITE_ID;
+const instId = process.env.TEST_INSTRUMENT_ID;
 
 (async function() {
     try {
@@ -44,7 +43,7 @@ const instId = `E2E_TEST_INSTRUMENT_${version}`;
 
         const projectResponse: Streams.RespListProjects = await projectApi.listProjects(listProjectParams);
         const projects: Array<Streams.Project> = projectResponse.result;
-        console.log(projects);
+        //console.log(projects);
 
         //sites
         console.log("\n\nList Sites\n");
