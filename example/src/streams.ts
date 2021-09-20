@@ -74,7 +74,7 @@ const instId = process.env.TEST_INSTRUMENT_ID;
         const listVariableParams: Streams.ListVariablesRequest = {
             projectId: projectId,
             siteId: siteId,
-            instId: instId,
+            instId: instId
         };
 
         const variableResponse: Streams.RespListVariables = await variableApi.listVariables(listVariableParams);
@@ -89,6 +89,9 @@ const instId = process.env.TEST_INSTRUMENT_ID;
             projectId: projectId,
             siteId: siteId,
             instId: instId,
+            startDate: "2021-01-01T00:00:00Z",
+            endDate: "2025-12-30T22:19:25Z",
+            format: "json"
         };
 
         const measurementResponse: Streams.RespListMeasurements = await measurementApi.listMeasurements(listMeasurementParams);
