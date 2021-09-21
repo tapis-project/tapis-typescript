@@ -5,7 +5,8 @@ import {
   Tenants,
   Files,
   Apps,
-  Jobs
+  Jobs,
+  Streams
 } from '../src';
 import { expect } from 'chai';
 
@@ -41,5 +42,18 @@ describe('tapis-typescript', () => {
   it('should have Jobs service', () => {
     expect(Jobs).to.have.property('JobsApi');
     expect(Jobs).to.have.property('HealthApi');
+  });
+  it('should have Streams service', () => {
+    expect(Streams).to.have.property('HealthApi');
+    expect(Streams).to.have.property('ProjectsApi');
+    expect(Streams).to.have.property('SitesApi');
+    expect(Streams).to.have.property('InstrumentsApi');
+    expect(Streams).to.have.property('VariablesApi');
+    expect(Streams).to.have.property('MeasurementsApi');
+    expect(Streams).to.have.property('OntologiesApi');
+    expect(Streams).to.have.property('ChannelsApi');
+    expect(Streams).to.have.property('TemplatesApi');
+    expect(Streams).to.have.property('UnitsApi');
+    expect(Streams).to.have.property('MeasuredPropertiesApi');
   });
 });

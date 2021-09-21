@@ -69,10 +69,10 @@ export interface Variable {
     measured_property?: string;
     /**
      * User entered metadata for the variable
-     * @type {string}
+     * @type {object}
      * @memberof Variable
      */
-    metadata?: string;
+    metadata?: object;
     /**
      * Variable ID in chords
      * @type {number}

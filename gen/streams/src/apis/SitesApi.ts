@@ -39,29 +39,29 @@ import {
 } from '../models';
 
 export interface CreateSiteRequest {
-    projectUuid: string;
-    reqCreateSite: ReqCreateSite;
+    projectId: string;
+    reqCreateSite: Array<ReqCreateSite>;
 }
 
 export interface DeleteSiteRequest {
-    projectUuid: string;
+    projectId: string;
     siteId: string;
 }
 
 export interface GetSiteRequest {
-    projectUuid: string;
+    projectId: string;
     siteId: string;
 }
 
 export interface ListSitesRequest {
-    projectUuid: string;
+    projectId: string;
     query?: string;
     limit?: number;
     offset?: number;
 }
 
 export interface UpdateSiteRequest {
-    projectUuid: string;
+    projectId: string;
     siteId: string;
     reqCreateSite: ReqCreateSite;
 }
@@ -76,8 +76,8 @@ export class SitesApi extends runtime.BaseAPI {
      * Create a site.
      */
     async createSiteRaw(requestParameters: CreateSiteRequest): Promise<runtime.ApiResponse<RespCreateSite>> {
-        if (requestParameters.projectUuid === null || requestParameters.projectUuid === undefined) {
-            throw new runtime.RequiredError('projectUuid','Required parameter requestParameters.projectUuid was null or undefined when calling createSite.');
+        if (requestParameters.projectId === null || requestParameters.projectId === undefined) {
+            throw new runtime.RequiredError('projectId','Required parameter requestParameters.projectId was null or undefined when calling createSite.');
         }
 
         if (requestParameters.reqCreateSite === null || requestParameters.reqCreateSite === undefined) {
@@ -91,11 +91,11 @@ export class SitesApi extends runtime.BaseAPI {
         headerParameters['Content-Type'] = 'application/json';
 
         const response = await this.request({
-            path: `/v3/streams/projects/{project_uuid}/sites`.replace(`{${"project_uuid"}}`, encodeURIComponent(String(requestParameters.projectUuid))),
+            path: `/v3/streams/projects/{project_id}/sites`.replace(`{${"project_id"}}`, encodeURIComponent(String(requestParameters.projectId))),
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
-            body: ReqCreateSiteToJSON(requestParameters.reqCreateSite),
+            body: requestParameters.reqCreateSite.map(ReqCreateSiteToJSON),
         });
 
         return new runtime.JSONApiResponse(response, (jsonValue) => RespCreateSiteFromJSON(jsonValue));
@@ -115,8 +115,8 @@ export class SitesApi extends runtime.BaseAPI {
      * Delete a site
      */
     async deleteSiteRaw(requestParameters: DeleteSiteRequest): Promise<runtime.ApiResponse<RespDeleteSite>> {
-        if (requestParameters.projectUuid === null || requestParameters.projectUuid === undefined) {
-            throw new runtime.RequiredError('projectUuid','Required parameter requestParameters.projectUuid was null or undefined when calling deleteSite.');
+        if (requestParameters.projectId === null || requestParameters.projectId === undefined) {
+            throw new runtime.RequiredError('projectId','Required parameter requestParameters.projectId was null or undefined when calling deleteSite.');
         }
 
         if (requestParameters.siteId === null || requestParameters.siteId === undefined) {
@@ -128,7 +128,7 @@ export class SitesApi extends runtime.BaseAPI {
         const headerParameters: runtime.HTTPHeaders = {};
 
         const response = await this.request({
-            path: `/v3/streams/projects/{project_uuid}/sites/{site_id}`.replace(`{${"project_uuid"}}`, encodeURIComponent(String(requestParameters.projectUuid))).replace(`{${"site_id"}}`, encodeURIComponent(String(requestParameters.siteId))),
+            path: `/v3/streams/projects/{project_id}/sites/{site_id}`.replace(`{${"project_id"}}`, encodeURIComponent(String(requestParameters.projectId))).replace(`{${"site_id"}}`, encodeURIComponent(String(requestParameters.siteId))),
             method: 'DELETE',
             headers: headerParameters,
             query: queryParameters,
@@ -151,8 +151,8 @@ export class SitesApi extends runtime.BaseAPI {
      * Get site details.
      */
     async getSiteRaw(requestParameters: GetSiteRequest): Promise<runtime.ApiResponse<RespGetSite>> {
-        if (requestParameters.projectUuid === null || requestParameters.projectUuid === undefined) {
-            throw new runtime.RequiredError('projectUuid','Required parameter requestParameters.projectUuid was null or undefined when calling getSite.');
+        if (requestParameters.projectId === null || requestParameters.projectId === undefined) {
+            throw new runtime.RequiredError('projectId','Required parameter requestParameters.projectId was null or undefined when calling getSite.');
         }
 
         if (requestParameters.siteId === null || requestParameters.siteId === undefined) {
@@ -164,7 +164,7 @@ export class SitesApi extends runtime.BaseAPI {
         const headerParameters: runtime.HTTPHeaders = {};
 
         const response = await this.request({
-            path: `/v3/streams/projects/{project_uuid}/sites/{site_id}`.replace(`{${"project_uuid"}}`, encodeURIComponent(String(requestParameters.projectUuid))).replace(`{${"site_id"}}`, encodeURIComponent(String(requestParameters.siteId))),
+            path: `/v3/streams/projects/{project_id}/sites/{site_id}`.replace(`{${"project_id"}}`, encodeURIComponent(String(requestParameters.projectId))).replace(`{${"site_id"}}`, encodeURIComponent(String(requestParameters.siteId))),
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
@@ -187,8 +187,8 @@ export class SitesApi extends runtime.BaseAPI {
      * List sites.
      */
     async listSitesRaw(requestParameters: ListSitesRequest): Promise<runtime.ApiResponse<RespListSites>> {
-        if (requestParameters.projectUuid === null || requestParameters.projectUuid === undefined) {
-            throw new runtime.RequiredError('projectUuid','Required parameter requestParameters.projectUuid was null or undefined when calling listSites.');
+        if (requestParameters.projectId === null || requestParameters.projectId === undefined) {
+            throw new runtime.RequiredError('projectId','Required parameter requestParameters.projectId was null or undefined when calling listSites.');
         }
 
         const queryParameters: any = {};
@@ -208,7 +208,7 @@ export class SitesApi extends runtime.BaseAPI {
         const headerParameters: runtime.HTTPHeaders = {};
 
         const response = await this.request({
-            path: `/v3/streams/projects/{project_uuid}/sites`.replace(`{${"project_uuid"}}`, encodeURIComponent(String(requestParameters.projectUuid))),
+            path: `/v3/streams/projects/{project_id}/sites`.replace(`{${"project_id"}}`, encodeURIComponent(String(requestParameters.projectId))),
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
@@ -231,8 +231,8 @@ export class SitesApi extends runtime.BaseAPI {
      * Update a site
      */
     async updateSiteRaw(requestParameters: UpdateSiteRequest): Promise<runtime.ApiResponse<RespUpdateSite>> {
-        if (requestParameters.projectUuid === null || requestParameters.projectUuid === undefined) {
-            throw new runtime.RequiredError('projectUuid','Required parameter requestParameters.projectUuid was null or undefined when calling updateSite.');
+        if (requestParameters.projectId === null || requestParameters.projectId === undefined) {
+            throw new runtime.RequiredError('projectId','Required parameter requestParameters.projectId was null or undefined when calling updateSite.');
         }
 
         if (requestParameters.siteId === null || requestParameters.siteId === undefined) {
@@ -250,7 +250,7 @@ export class SitesApi extends runtime.BaseAPI {
         headerParameters['Content-Type'] = 'application/json';
 
         const response = await this.request({
-            path: `/v3/streams/projects/{project_uuid}/sites/{site_id}`.replace(`{${"project_uuid"}}`, encodeURIComponent(String(requestParameters.projectUuid))).replace(`{${"site_id"}}`, encodeURIComponent(String(requestParameters.siteId))),
+            path: `/v3/streams/projects/{project_id}/sites/{site_id}`.replace(`{${"project_id"}}`, encodeURIComponent(String(requestParameters.projectId))).replace(`{${"site_id"}}`, encodeURIComponent(String(requestParameters.siteId))),
             method: 'PUT',
             headers: headerParameters,
             query: queryParameters,

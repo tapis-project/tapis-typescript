@@ -14,10 +14,10 @@
 
 import { exists, mapValues } from '../runtime';
 import {
-    Measurement,
-    MeasurementFromJSON,
-    MeasurementFromJSONTyped,
-    MeasurementToJSON,
+    Measurements,
+    MeasurementsFromJSON,
+    MeasurementsFromJSONTyped,
+    MeasurementsToJSON,
 } from './';
 
 /**
@@ -46,10 +46,10 @@ export interface RespDownloadMeasurements {
     status?: RespDownloadMeasurementsStatusEnum;
     /**
      * 
-     * @type {Array<Measurement>}
+     * @type {Measurements}
      * @memberof RespDownloadMeasurements
      */
-    result?: Array<Measurement>;
+    result?: Measurements;
 }
 
 /**
@@ -73,7 +73,7 @@ export function RespDownloadMeasurementsFromJSONTyped(json: any, ignoreDiscrimin
         'version': !exists(json, 'version') ? undefined : json['version'],
         'message': !exists(json, 'message') ? undefined : json['message'],
         'status': !exists(json, 'status') ? undefined : json['status'],
-        'result': !exists(json, 'result') ? undefined : ((json['result'] as Array<any>).map(MeasurementFromJSON)),
+        'result': !exists(json, 'result') ? undefined : MeasurementsFromJSON(json['result']),
     };
 }
 
@@ -89,7 +89,7 @@ export function RespDownloadMeasurementsToJSON(value?: RespDownloadMeasurements 
         'version': value.version,
         'message': value.message,
         'status': value.status,
-        'result': value.result === undefined ? undefined : ((value.result as Array<any>).map(MeasurementToJSON)),
+        'result': MeasurementsToJSON(value.result),
     };
 }
 

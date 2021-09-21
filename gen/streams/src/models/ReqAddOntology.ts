@@ -30,7 +30,7 @@ export interface ReqAddOntology {
      * @type {string}
      * @memberof ReqAddOntology
      */
-    onto_uuid?: string;
+    onto_id?: string;
     /**
      * URL for the Ontology
      * @type {string}
@@ -56,7 +56,7 @@ export function ReqAddOntologyFromJSONTyped(json: any, ignoreDiscriminator: bool
     return {
         
         'label': !exists(json, 'label') ? undefined : json['label'],
-        'onto_uuid': !exists(json, 'onto_uuid') ? undefined : json['onto_uuid'],
+        'onto_id': !exists(json, 'onto_id') ? undefined : json['onto_id'],
         'url': !exists(json, 'url') ? undefined : json['url'],
         'additionalProperties': !exists(json, 'additionalProperties') ? undefined : json['additionalProperties'],
     };
@@ -72,7 +72,7 @@ export function ReqAddOntologyToJSON(value?: ReqAddOntology | null): any {
     return {
         
         'label': value.label,
-        'onto_uuid': value.onto_uuid,
+        'onto_id': value.onto_id,
         'url': value.url,
         'additionalProperties': value.additionalProperties,
     };

@@ -14,10 +14,10 @@
 
 import { exists, mapValues } from '../runtime';
 import {
-    ReqCreateMeasurementVars,
-    ReqCreateMeasurementVarsFromJSON,
-    ReqCreateMeasurementVarsFromJSONTyped,
-    ReqCreateMeasurementVarsToJSON,
+    MeasurementValues,
+    MeasurementValuesFromJSON,
+    MeasurementValuesFromJSONTyped,
+    MeasurementValuesToJSON,
 } from './';
 
 /**
@@ -27,23 +27,17 @@ import {
  */
 export interface ReqCreateMeasurement {
     /**
-     * Associate instrument id.
-     * @type {number}
-     * @memberof ReqCreateMeasurement
-     */
-    inst_id?: number;
-    /**
-     * The Datatime of the measurement
+     * 
      * @type {string}
      * @memberof ReqCreateMeasurement
      */
-    datetime?: string;
+    inst_id: string;
     /**
-     * Array of measurement objects. Example [{"var_id":"temp1", "value":"75.0"},{"var_id":"pc_hmd","value":"34"}]
-     * @type {Array<ReqCreateMeasurementVars>}
+     * 
+     * @type {Array<MeasurementValues>}
      * @memberof ReqCreateMeasurement
      */
-    vars?: Array<ReqCreateMeasurementVars>;
+    vars: Array<MeasurementValues>;
 }
 
 export function ReqCreateMeasurementFromJSON(json: any): ReqCreateMeasurement {
@@ -56,9 +50,8 @@ export function ReqCreateMeasurementFromJSONTyped(json: any, ignoreDiscriminator
     }
     return {
         
-        'inst_id': !exists(json, 'inst_id') ? undefined : json['inst_id'],
-        'datetime': !exists(json, 'datetime') ? undefined : json['datetime'],
-        'vars': !exists(json, 'vars') ? undefined : ((json['vars'] as Array<any>).map(ReqCreateMeasurementVarsFromJSON)),
+        'inst_id': json['inst_id'],
+        'vars': ((json['vars'] as Array<any>).map(MeasurementValuesFromJSON)),
     };
 }
 
@@ -72,8 +65,7 @@ export function ReqCreateMeasurementToJSON(value?: ReqCreateMeasurement | null):
     return {
         
         'inst_id': value.inst_id,
-        'datetime': value.datetime,
-        'vars': value.vars === undefined ? undefined : ((value.vars as Array<any>).map(ReqCreateMeasurementVarsToJSON)),
+        'vars': ((value.vars as Array<any>).map(MeasurementValuesToJSON)),
     };
 }
 

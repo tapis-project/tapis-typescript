@@ -46,10 +46,10 @@ export interface RespCreateProject {
     status?: RespCreateProjectStatusEnum;
     /**
      * 
-     * @type {Array<Project>}
+     * @type {Project}
      * @memberof RespCreateProject
      */
-    result?: Array<Project>;
+    result?: Project;
 }
 
 /**
@@ -73,7 +73,7 @@ export function RespCreateProjectFromJSONTyped(json: any, ignoreDiscriminator: b
         'version': !exists(json, 'version') ? undefined : json['version'],
         'message': !exists(json, 'message') ? undefined : json['message'],
         'status': !exists(json, 'status') ? undefined : json['status'],
-        'result': !exists(json, 'result') ? undefined : ((json['result'] as Array<any>).map(ProjectFromJSON)),
+        'result': !exists(json, 'result') ? undefined : ProjectFromJSON(json['result']),
     };
 }
 
@@ -89,7 +89,7 @@ export function RespCreateProjectToJSON(value?: RespCreateProject | null): any {
         'version': value.version,
         'message': value.message,
         'status': value.status,
-        'result': value.result === undefined ? undefined : ((value.result as Array<any>).map(ProjectToJSON)),
+        'result': ProjectToJSON(value.result),
     };
 }
 

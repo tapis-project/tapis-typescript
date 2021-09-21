@@ -30,7 +30,7 @@ export interface Project {
      * @type {string}
      * @memberof Project
      */
-    project_uuid?: string;
+    project_id?: string;
     /**
      * The owner of project
      * @type {string}
@@ -80,7 +80,7 @@ export function ProjectFromJSONTyped(json: any, ignoreDiscriminator: boolean): P
     return {
         
         'project_name': !exists(json, 'project_name') ? undefined : json['project_name'],
-        'project_uuid': !exists(json, 'project_uuid') ? undefined : json['project_uuid'],
+        'project_id': !exists(json, 'project_id') ? undefined : json['project_id'],
         'owner': !exists(json, 'owner') ? undefined : json['owner'],
         'funding_resource': !exists(json, 'funding_resource') ? undefined : json['funding_resource'],
         'pi': !exists(json, 'pi') ? undefined : json['pi'],
@@ -100,7 +100,7 @@ export function ProjectToJSON(value?: Project | null): any {
     return {
         
         'project_name': value.project_name,
-        'project_uuid': value.project_uuid,
+        'project_id': value.project_id,
         'owner': value.owner,
         'funding_resource': value.funding_resource,
         'pi': value.pi,

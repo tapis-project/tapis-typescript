@@ -39,25 +39,25 @@ import {
 } from '../models';
 
 export interface CreateInstrumentRequest {
-    projectUuid: string;
+    projectId: string;
     siteId: string;
-    reqCreateInstrument: ReqCreateInstrument;
+    reqCreateInstrument: Array<ReqCreateInstrument>;
 }
 
 export interface DeleteInstrumentRequest {
-    projectUuid: string;
+    projectId: string;
     siteId: string;
     instId: string;
 }
 
 export interface GetInstrumentRequest {
-    projectUuid: string;
+    projectId: string;
     siteId: string;
     instId: string;
 }
 
 export interface ListInstrumentsRequest {
-    projectUuid: string;
+    projectId: string;
     siteId: string;
     query?: string;
     limit?: number;
@@ -65,7 +65,7 @@ export interface ListInstrumentsRequest {
 }
 
 export interface UpdateInstrumentRequest {
-    projectUuid: string;
+    projectId: string;
     siteId: string;
     instId: string;
     reqCreateInstrument: ReqCreateInstrument;
@@ -81,8 +81,8 @@ export class InstrumentsApi extends runtime.BaseAPI {
      * Create instruments (single or bulk)
      */
     async createInstrumentRaw(requestParameters: CreateInstrumentRequest): Promise<runtime.ApiResponse<RespCreateInstrument>> {
-        if (requestParameters.projectUuid === null || requestParameters.projectUuid === undefined) {
-            throw new runtime.RequiredError('projectUuid','Required parameter requestParameters.projectUuid was null or undefined when calling createInstrument.');
+        if (requestParameters.projectId === null || requestParameters.projectId === undefined) {
+            throw new runtime.RequiredError('projectId','Required parameter requestParameters.projectId was null or undefined when calling createInstrument.');
         }
 
         if (requestParameters.siteId === null || requestParameters.siteId === undefined) {
@@ -100,11 +100,11 @@ export class InstrumentsApi extends runtime.BaseAPI {
         headerParameters['Content-Type'] = 'application/json';
 
         const response = await this.request({
-            path: `/v3/streams/projects/{project_uuid}/sites/{site_id}/instruments`.replace(`{${"project_uuid"}}`, encodeURIComponent(String(requestParameters.projectUuid))).replace(`{${"site_id"}}`, encodeURIComponent(String(requestParameters.siteId))),
+            path: `/v3/streams/projects/{project_id}/sites/{site_id}/instruments`.replace(`{${"project_id"}}`, encodeURIComponent(String(requestParameters.projectId))).replace(`{${"site_id"}}`, encodeURIComponent(String(requestParameters.siteId))),
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
-            body: ReqCreateInstrumentToJSON(requestParameters.reqCreateInstrument),
+            body: requestParameters.reqCreateInstrument.map(ReqCreateInstrumentToJSON),
         });
 
         return new runtime.JSONApiResponse(response, (jsonValue) => RespCreateInstrumentFromJSON(jsonValue));
@@ -124,8 +124,8 @@ export class InstrumentsApi extends runtime.BaseAPI {
      * Delete an instrument
      */
     async deleteInstrumentRaw(requestParameters: DeleteInstrumentRequest): Promise<runtime.ApiResponse<RespDeleteInstrument>> {
-        if (requestParameters.projectUuid === null || requestParameters.projectUuid === undefined) {
-            throw new runtime.RequiredError('projectUuid','Required parameter requestParameters.projectUuid was null or undefined when calling deleteInstrument.');
+        if (requestParameters.projectId === null || requestParameters.projectId === undefined) {
+            throw new runtime.RequiredError('projectId','Required parameter requestParameters.projectId was null or undefined when calling deleteInstrument.');
         }
 
         if (requestParameters.siteId === null || requestParameters.siteId === undefined) {
@@ -141,7 +141,7 @@ export class InstrumentsApi extends runtime.BaseAPI {
         const headerParameters: runtime.HTTPHeaders = {};
 
         const response = await this.request({
-            path: `/v3/streams/projects/{project_uuid}/sites/{site_id}/instruments/{inst_id}`.replace(`{${"project_uuid"}}`, encodeURIComponent(String(requestParameters.projectUuid))).replace(`{${"site_id"}}`, encodeURIComponent(String(requestParameters.siteId))).replace(`{${"inst_id"}}`, encodeURIComponent(String(requestParameters.instId))),
+            path: `/v3/streams/projects/{project_id}/sites/{site_id}/instruments/{inst_id}`.replace(`{${"project_id"}}`, encodeURIComponent(String(requestParameters.projectId))).replace(`{${"site_id"}}`, encodeURIComponent(String(requestParameters.siteId))).replace(`{${"inst_id"}}`, encodeURIComponent(String(requestParameters.instId))),
             method: 'DELETE',
             headers: headerParameters,
             query: queryParameters,
@@ -164,8 +164,8 @@ export class InstrumentsApi extends runtime.BaseAPI {
      * Get instrument details
      */
     async getInstrumentRaw(requestParameters: GetInstrumentRequest): Promise<runtime.ApiResponse<RespGetInstrument>> {
-        if (requestParameters.projectUuid === null || requestParameters.projectUuid === undefined) {
-            throw new runtime.RequiredError('projectUuid','Required parameter requestParameters.projectUuid was null or undefined when calling getInstrument.');
+        if (requestParameters.projectId === null || requestParameters.projectId === undefined) {
+            throw new runtime.RequiredError('projectId','Required parameter requestParameters.projectId was null or undefined when calling getInstrument.');
         }
 
         if (requestParameters.siteId === null || requestParameters.siteId === undefined) {
@@ -181,7 +181,7 @@ export class InstrumentsApi extends runtime.BaseAPI {
         const headerParameters: runtime.HTTPHeaders = {};
 
         const response = await this.request({
-            path: `/v3/streams/projects/{project_uuid}/sites/{site_id}/instruments/{inst_id}`.replace(`{${"project_uuid"}}`, encodeURIComponent(String(requestParameters.projectUuid))).replace(`{${"site_id"}}`, encodeURIComponent(String(requestParameters.siteId))).replace(`{${"inst_id"}}`, encodeURIComponent(String(requestParameters.instId))),
+            path: `/v3/streams/projects/{project_id}/sites/{site_id}/instruments/{inst_id}`.replace(`{${"project_id"}}`, encodeURIComponent(String(requestParameters.projectId))).replace(`{${"site_id"}}`, encodeURIComponent(String(requestParameters.siteId))).replace(`{${"inst_id"}}`, encodeURIComponent(String(requestParameters.instId))),
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
@@ -204,8 +204,8 @@ export class InstrumentsApi extends runtime.BaseAPI {
      * List instruments
      */
     async listInstrumentsRaw(requestParameters: ListInstrumentsRequest): Promise<runtime.ApiResponse<RespListInstruments>> {
-        if (requestParameters.projectUuid === null || requestParameters.projectUuid === undefined) {
-            throw new runtime.RequiredError('projectUuid','Required parameter requestParameters.projectUuid was null or undefined when calling listInstruments.');
+        if (requestParameters.projectId === null || requestParameters.projectId === undefined) {
+            throw new runtime.RequiredError('projectId','Required parameter requestParameters.projectId was null or undefined when calling listInstruments.');
         }
 
         if (requestParameters.siteId === null || requestParameters.siteId === undefined) {
@@ -229,7 +229,7 @@ export class InstrumentsApi extends runtime.BaseAPI {
         const headerParameters: runtime.HTTPHeaders = {};
 
         const response = await this.request({
-            path: `/v3/streams/projects/{project_uuid}/sites/{site_id}/instruments`.replace(`{${"project_uuid"}}`, encodeURIComponent(String(requestParameters.projectUuid))).replace(`{${"site_id"}}`, encodeURIComponent(String(requestParameters.siteId))),
+            path: `/v3/streams/projects/{project_id}/sites/{site_id}/instruments`.replace(`{${"project_id"}}`, encodeURIComponent(String(requestParameters.projectId))).replace(`{${"site_id"}}`, encodeURIComponent(String(requestParameters.siteId))),
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
@@ -252,8 +252,8 @@ export class InstrumentsApi extends runtime.BaseAPI {
      * Update an instrument
      */
     async updateInstrumentRaw(requestParameters: UpdateInstrumentRequest): Promise<runtime.ApiResponse<RespUpdateInstrument>> {
-        if (requestParameters.projectUuid === null || requestParameters.projectUuid === undefined) {
-            throw new runtime.RequiredError('projectUuid','Required parameter requestParameters.projectUuid was null or undefined when calling updateInstrument.');
+        if (requestParameters.projectId === null || requestParameters.projectId === undefined) {
+            throw new runtime.RequiredError('projectId','Required parameter requestParameters.projectId was null or undefined when calling updateInstrument.');
         }
 
         if (requestParameters.siteId === null || requestParameters.siteId === undefined) {
@@ -275,7 +275,7 @@ export class InstrumentsApi extends runtime.BaseAPI {
         headerParameters['Content-Type'] = 'application/json';
 
         const response = await this.request({
-            path: `/v3/streams/projects/{project_uuid}/sites/{site_id}/instruments/{inst_id}`.replace(`{${"project_uuid"}}`, encodeURIComponent(String(requestParameters.projectUuid))).replace(`{${"site_id"}}`, encodeURIComponent(String(requestParameters.siteId))).replace(`{${"inst_id"}}`, encodeURIComponent(String(requestParameters.instId))),
+            path: `/v3/streams/projects/{project_id}/sites/{site_id}/instruments/{inst_id}`.replace(`{${"project_id"}}`, encodeURIComponent(String(requestParameters.projectId))).replace(`{${"site_id"}}`, encodeURIComponent(String(requestParameters.siteId))).replace(`{${"inst_id"}}`, encodeURIComponent(String(requestParameters.instId))),
             method: 'PUT',
             headers: headerParameters,
             query: queryParameters,

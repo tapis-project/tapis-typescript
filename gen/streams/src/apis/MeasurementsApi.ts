@@ -43,10 +43,12 @@ export interface DownloadMeasurementsRequest {
     offset?: number;
     startDate?: string;
     endDate?: string;
+    withMetadata?: boolean;
+    format?: string;
 }
 
 export interface ListMeasurementsRequest {
-    projectUuid: string;
+    projectId: string;
     siteId: string;
     instId: string;
     query?: string;
@@ -56,6 +58,7 @@ export interface ListMeasurementsRequest {
     endDate?: string;
     geojson?: object;
     format?: string;
+    withMetadata?: boolean;
 }
 
 /**
@@ -129,6 +132,14 @@ export class MeasurementsApi extends runtime.BaseAPI {
             queryParameters['end_date'] = requestParameters.endDate;
         }
 
+        if (requestParameters.withMetadata !== undefined) {
+            queryParameters['with_metadata'] = requestParameters.withMetadata;
+        }
+
+        if (requestParameters.format !== undefined) {
+            queryParameters['format'] = requestParameters.format;
+        }
+
         const headerParameters: runtime.HTTPHeaders = {};
 
         const response = await this.request({
@@ -152,11 +163,11 @@ export class MeasurementsApi extends runtime.BaseAPI {
 
     /**
      * List measurements.
-     * List measurments.
+     * List measurements.
      */
     async listMeasurementsRaw(requestParameters: ListMeasurementsRequest): Promise<runtime.ApiResponse<RespListMeasurements>> {
-        if (requestParameters.projectUuid === null || requestParameters.projectUuid === undefined) {
-            throw new runtime.RequiredError('projectUuid','Required parameter requestParameters.projectUuid was null or undefined when calling listMeasurements.');
+        if (requestParameters.projectId === null || requestParameters.projectId === undefined) {
+            throw new runtime.RequiredError('projectId','Required parameter requestParameters.projectId was null or undefined when calling listMeasurements.');
         }
 
         if (requestParameters.siteId === null || requestParameters.siteId === undefined) {
@@ -197,10 +208,14 @@ export class MeasurementsApi extends runtime.BaseAPI {
             queryParameters['format'] = requestParameters.format;
         }
 
+        if (requestParameters.withMetadata !== undefined) {
+            queryParameters['with_metadata'] = requestParameters.withMetadata;
+        }
+
         const headerParameters: runtime.HTTPHeaders = {};
 
         const response = await this.request({
-            path: `/v3/streams/projects/{project_uuid}/sites/{site_id}/instruments/{inst_id}/measurements`.replace(`{${"project_uuid"}}`, encodeURIComponent(String(requestParameters.projectUuid))).replace(`{${"site_id"}}`, encodeURIComponent(String(requestParameters.siteId))).replace(`{${"inst_id"}}`, encodeURIComponent(String(requestParameters.instId))),
+            path: `/v3/streams/projects/{project_id}/sites/{site_id}/instruments/{inst_id}/measurements`.replace(`{${"project_id"}}`, encodeURIComponent(String(requestParameters.projectId))).replace(`{${"site_id"}}`, encodeURIComponent(String(requestParameters.siteId))).replace(`{${"inst_id"}}`, encodeURIComponent(String(requestParameters.instId))),
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
@@ -211,7 +226,7 @@ export class MeasurementsApi extends runtime.BaseAPI {
 
     /**
      * List measurements.
-     * List measurments.
+     * List measurements.
      */
     async listMeasurements(requestParameters: ListMeasurementsRequest): Promise<RespListMeasurements> {
         const response = await this.listMeasurementsRaw(requestParameters);

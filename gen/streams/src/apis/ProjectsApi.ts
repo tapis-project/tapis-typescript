@@ -43,11 +43,11 @@ export interface CreateProjectRequest {
 }
 
 export interface DeleteProjectRequest {
-    projectUuid: string;
+    projectId: string;
 }
 
 export interface GetProjectRequest {
-    projectUuid: string;
+    projectId: string;
 }
 
 export interface ListProjectsRequest {
@@ -57,7 +57,7 @@ export interface ListProjectsRequest {
 }
 
 export interface UpdateProjectRequest {
-    projectUuid: string;
+    projectId: string;
     reqCreateProject: ReqCreateProject;
 }
 
@@ -106,8 +106,8 @@ export class ProjectsApi extends runtime.BaseAPI {
      * Delete a project
      */
     async deleteProjectRaw(requestParameters: DeleteProjectRequest): Promise<runtime.ApiResponse<RespDeleteProject>> {
-        if (requestParameters.projectUuid === null || requestParameters.projectUuid === undefined) {
-            throw new runtime.RequiredError('projectUuid','Required parameter requestParameters.projectUuid was null or undefined when calling deleteProject.');
+        if (requestParameters.projectId === null || requestParameters.projectId === undefined) {
+            throw new runtime.RequiredError('projectId','Required parameter requestParameters.projectId was null or undefined when calling deleteProject.');
         }
 
         const queryParameters: any = {};
@@ -115,7 +115,7 @@ export class ProjectsApi extends runtime.BaseAPI {
         const headerParameters: runtime.HTTPHeaders = {};
 
         const response = await this.request({
-            path: `/v3/streams/projects/{project_uuid}`.replace(`{${"project_uuid"}}`, encodeURIComponent(String(requestParameters.projectUuid))),
+            path: `/v3/streams/projects/{project_id}`.replace(`{${"project_id"}}`, encodeURIComponent(String(requestParameters.projectId))),
             method: 'DELETE',
             headers: headerParameters,
             query: queryParameters,
@@ -138,8 +138,8 @@ export class ProjectsApi extends runtime.BaseAPI {
      * Get project details.
      */
     async getProjectRaw(requestParameters: GetProjectRequest): Promise<runtime.ApiResponse<RespGetProject>> {
-        if (requestParameters.projectUuid === null || requestParameters.projectUuid === undefined) {
-            throw new runtime.RequiredError('projectUuid','Required parameter requestParameters.projectUuid was null or undefined when calling getProject.');
+        if (requestParameters.projectId === null || requestParameters.projectId === undefined) {
+            throw new runtime.RequiredError('projectId','Required parameter requestParameters.projectId was null or undefined when calling getProject.');
         }
 
         const queryParameters: any = {};
@@ -147,7 +147,7 @@ export class ProjectsApi extends runtime.BaseAPI {
         const headerParameters: runtime.HTTPHeaders = {};
 
         const response = await this.request({
-            path: `/v3/streams/projects/{project_uuid}`.replace(`{${"project_uuid"}}`, encodeURIComponent(String(requestParameters.projectUuid))),
+            path: `/v3/streams/projects/{project_id}`.replace(`{${"project_id"}}`, encodeURIComponent(String(requestParameters.projectId))),
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
@@ -210,8 +210,8 @@ export class ProjectsApi extends runtime.BaseAPI {
      * Update a project
      */
     async updateProjectRaw(requestParameters: UpdateProjectRequest): Promise<runtime.ApiResponse<RespUpdateProject>> {
-        if (requestParameters.projectUuid === null || requestParameters.projectUuid === undefined) {
-            throw new runtime.RequiredError('projectUuid','Required parameter requestParameters.projectUuid was null or undefined when calling updateProject.');
+        if (requestParameters.projectId === null || requestParameters.projectId === undefined) {
+            throw new runtime.RequiredError('projectId','Required parameter requestParameters.projectId was null or undefined when calling updateProject.');
         }
 
         if (requestParameters.reqCreateProject === null || requestParameters.reqCreateProject === undefined) {
@@ -225,7 +225,7 @@ export class ProjectsApi extends runtime.BaseAPI {
         headerParameters['Content-Type'] = 'application/json';
 
         const response = await this.request({
-            path: `/v3/streams/projects/{project_uuid}`.replace(`{${"project_uuid"}}`, encodeURIComponent(String(requestParameters.projectUuid))),
+            path: `/v3/streams/projects/{project_id}`.replace(`{${"project_id"}}`, encodeURIComponent(String(requestParameters.projectId))),
             method: 'PUT',
             headers: headerParameters,
             query: queryParameters,

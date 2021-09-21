@@ -30,7 +30,7 @@ export interface ReqCreateSite {
      * @type {string}
      * @memberof ReqCreateSite
      */
-    site_id?: string;
+    site_id: string;
     /**
      * 
      * @type {string}
@@ -74,7 +74,7 @@ export function ReqCreateSiteFromJSONTyped(json: any, ignoreDiscriminator: boole
     return {
         
         'site_name': json['site_name'],
-        'site_id': !exists(json, 'site_id') ? undefined : json['site_id'],
+        'site_id': json['site_id'],
         'description': json['description'],
         'latitude': json['latitude'],
         'longitude': json['longitude'],

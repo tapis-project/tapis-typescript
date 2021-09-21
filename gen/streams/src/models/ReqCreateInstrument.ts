@@ -24,19 +24,19 @@ export interface ReqCreateInstrument {
      * @type {string}
      * @memberof ReqCreateInstrument
      */
-    inst_name?: string;
+    inst_name: string;
     /**
      * User defined instrument id
      * @type {string}
      * @memberof ReqCreateInstrument
      */
-    inst_id?: string;
+    inst_id: string;
     /**
      * Instrument description
      * @type {string}
      * @memberof ReqCreateInstrument
      */
-    inst_description?: string;
+    inst_description: string;
     /**
      * Instrument category
      * @type {string}
@@ -51,10 +51,10 @@ export interface ReqCreateInstrument {
     tags?: Array<string>;
     /**
      * User enetered metadata on instruments
-     * @type {string}
+     * @type {object}
      * @memberof ReqCreateInstrument
      */
-    metadata?: string;
+    metadata?: object;
 }
 
 export function ReqCreateInstrumentFromJSON(json: any): ReqCreateInstrument {
@@ -67,9 +67,9 @@ export function ReqCreateInstrumentFromJSONTyped(json: any, ignoreDiscriminator:
     }
     return {
         
-        'inst_name': !exists(json, 'inst_name') ? undefined : json['inst_name'],
-        'inst_id': !exists(json, 'inst_id') ? undefined : json['inst_id'],
-        'inst_description': !exists(json, 'inst_description') ? undefined : json['inst_description'],
+        'inst_name': json['inst_name'],
+        'inst_id': json['inst_id'],
+        'inst_description': json['inst_description'],
         'topic_category_id': !exists(json, 'topic_category_id') ? undefined : json['topic_category_id'],
         'tags': !exists(json, 'tags') ? undefined : json['tags'],
         'metadata': !exists(json, 'metadata') ? undefined : json['metadata'],

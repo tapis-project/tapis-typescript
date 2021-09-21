@@ -43,11 +43,11 @@ export interface AddOntologyRequest {
 }
 
 export interface DeleteOntologyRequest {
-    ontoUuid: string;
+    ontoId: string;
 }
 
 export interface GetOntologyRequest {
-    ontoUuid: string;
+    ontoId: string;
 }
 
 export interface ListOntologiesRequest {
@@ -57,7 +57,7 @@ export interface ListOntologiesRequest {
 }
 
 export interface UpdateOntologyRequest {
-    ontoUuid: string;
+    ontoId: string;
     reqAddOntology: ReqAddOntology;
 }
 
@@ -106,8 +106,8 @@ export class OntologiesApi extends runtime.BaseAPI {
      * Delete an ontology
      */
     async deleteOntologyRaw(requestParameters: DeleteOntologyRequest): Promise<runtime.ApiResponse<RespDeleteOntology>> {
-        if (requestParameters.ontoUuid === null || requestParameters.ontoUuid === undefined) {
-            throw new runtime.RequiredError('ontoUuid','Required parameter requestParameters.ontoUuid was null or undefined when calling deleteOntology.');
+        if (requestParameters.ontoId === null || requestParameters.ontoId === undefined) {
+            throw new runtime.RequiredError('ontoId','Required parameter requestParameters.ontoId was null or undefined when calling deleteOntology.');
         }
 
         const queryParameters: any = {};
@@ -115,7 +115,7 @@ export class OntologiesApi extends runtime.BaseAPI {
         const headerParameters: runtime.HTTPHeaders = {};
 
         const response = await this.request({
-            path: `/v3/streams/ontologies/{onto_uuid}`.replace(`{${"onto_uuid"}}`, encodeURIComponent(String(requestParameters.ontoUuid))),
+            path: `/v3/streams/ontologies/{onto_id}`.replace(`{${"onto_id"}}`, encodeURIComponent(String(requestParameters.ontoId))),
             method: 'DELETE',
             headers: headerParameters,
             query: queryParameters,
@@ -138,8 +138,8 @@ export class OntologiesApi extends runtime.BaseAPI {
      * Get ontology details.
      */
     async getOntologyRaw(requestParameters: GetOntologyRequest): Promise<runtime.ApiResponse<RespGetOntology>> {
-        if (requestParameters.ontoUuid === null || requestParameters.ontoUuid === undefined) {
-            throw new runtime.RequiredError('ontoUuid','Required parameter requestParameters.ontoUuid was null or undefined when calling getOntology.');
+        if (requestParameters.ontoId === null || requestParameters.ontoId === undefined) {
+            throw new runtime.RequiredError('ontoId','Required parameter requestParameters.ontoId was null or undefined when calling getOntology.');
         }
 
         const queryParameters: any = {};
@@ -147,7 +147,7 @@ export class OntologiesApi extends runtime.BaseAPI {
         const headerParameters: runtime.HTTPHeaders = {};
 
         const response = await this.request({
-            path: `/v3/streams/ontologies/{onto_uuid}`.replace(`{${"onto_uuid"}}`, encodeURIComponent(String(requestParameters.ontoUuid))),
+            path: `/v3/streams/ontologies/{onto_id}`.replace(`{${"onto_id"}}`, encodeURIComponent(String(requestParameters.ontoId))),
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
@@ -210,8 +210,8 @@ export class OntologiesApi extends runtime.BaseAPI {
      * Update an ontology
      */
     async updateOntologyRaw(requestParameters: UpdateOntologyRequest): Promise<runtime.ApiResponse<RespUpdateOntology>> {
-        if (requestParameters.ontoUuid === null || requestParameters.ontoUuid === undefined) {
-            throw new runtime.RequiredError('ontoUuid','Required parameter requestParameters.ontoUuid was null or undefined when calling updateOntology.');
+        if (requestParameters.ontoId === null || requestParameters.ontoId === undefined) {
+            throw new runtime.RequiredError('ontoId','Required parameter requestParameters.ontoId was null or undefined when calling updateOntology.');
         }
 
         if (requestParameters.reqAddOntology === null || requestParameters.reqAddOntology === undefined) {
@@ -225,7 +225,7 @@ export class OntologiesApi extends runtime.BaseAPI {
         headerParameters['Content-Type'] = 'application/json';
 
         const response = await this.request({
-            path: `/v3/streams/ontologies/{onto_uuid}`.replace(`{${"onto_uuid"}}`, encodeURIComponent(String(requestParameters.ontoUuid))),
+            path: `/v3/streams/ontologies/{onto_id}`.replace(`{${"onto_id"}}`, encodeURIComponent(String(requestParameters.ontoId))),
             method: 'PUT',
             headers: headerParameters,
             query: queryParameters,
