@@ -20,10 +20,11 @@ import {
     HeaderByteRangeToJSON,
 } from '../models';
 
-export interface FilesGetContentsRequest {
+export interface GetContentsRequest {
     systemId: string;
     path: string;
     range?: HeaderByteRange;
+    zip?: boolean;
     more?: number;
 }
 
@@ -36,16 +37,20 @@ export class ContentApi extends runtime.BaseAPI {
      * Get file contents/serve file
      * Retrieve a file from the files service
      */
-    async filesGetContentsRaw(requestParameters: FilesGetContentsRequest): Promise<runtime.ApiResponse<void>> {
+    async getContentsRaw(requestParameters: GetContentsRequest): Promise<runtime.ApiResponse<void>> {
         if (requestParameters.systemId === null || requestParameters.systemId === undefined) {
-            throw new runtime.RequiredError('systemId','Required parameter requestParameters.systemId was null or undefined when calling filesGetContents.');
+            throw new runtime.RequiredError('systemId','Required parameter requestParameters.systemId was null or undefined when calling getContents.');
         }
 
         if (requestParameters.path === null || requestParameters.path === undefined) {
-            throw new runtime.RequiredError('path','Required parameter requestParameters.path was null or undefined when calling filesGetContents.');
+            throw new runtime.RequiredError('path','Required parameter requestParameters.path was null or undefined when calling getContents.');
         }
 
         const queryParameters: any = {};
+
+        if (requestParameters.zip !== undefined) {
+            queryParameters['zip'] = requestParameters.zip;
+        }
 
         const headerParameters: runtime.HTTPHeaders = {};
 
@@ -71,8 +76,8 @@ export class ContentApi extends runtime.BaseAPI {
      * Get file contents/serve file
      * Retrieve a file from the files service
      */
-    async filesGetContents(requestParameters: FilesGetContentsRequest): Promise<void> {
-        await this.filesGetContentsRaw(requestParameters);
+    async getContents(requestParameters: GetContentsRequest): Promise<void> {
+        await this.getContentsRaw(requestParameters);
     }
 
 }

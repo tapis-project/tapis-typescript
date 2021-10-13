@@ -15,25 +15,33 @@
 
 import * as runtime from '../runtime';
 import {
+    CreatePermissionRequest,
+    CreatePermissionRequestFromJSON,
+    CreatePermissionRequestToJSON,
     FilePermissionResponse,
     FilePermissionResponseFromJSON,
     FilePermissionResponseToJSON,
+    StringResponse,
+    StringResponseFromJSON,
+    StringResponseToJSON,
 } from '../models';
 
-export interface PermissionsSystemIdPathDeleteRequest {
+export interface DeletePermissionsRequest {
     systemId: string;
     path: string;
     username: string;
 }
 
-export interface PermissionsSystemIdPathGetRequest {
+export interface GetPermissionsRequest {
     systemId: string;
     path: string;
+    username?: string;
 }
 
-export interface PermissionsSystemIdPathPostRequest {
+export interface GrantPermissionsRequest {
     systemId: string;
     path: string;
+    createPermissionRequest: CreatePermissionRequest;
 }
 
 /**
@@ -42,20 +50,20 @@ export interface PermissionsSystemIdPathPostRequest {
 export class PermissionsApi extends runtime.BaseAPI {
 
     /**
-     * Remove user permissions to a file/folder. QUESTION - who should be able to delete permissions? Only the owner? 
-     * Remove permissions on an object for a user. 
+     * Revoke access to a file or folder for a user.
+     * Revoke user permission on a file or folder. 
      */
-    async permissionsSystemIdPathDeleteRaw(requestParameters: PermissionsSystemIdPathDeleteRequest): Promise<runtime.ApiResponse<FilePermissionResponse>> {
+    async deletePermissionsRaw(requestParameters: DeletePermissionsRequest): Promise<runtime.ApiResponse<StringResponse>> {
         if (requestParameters.systemId === null || requestParameters.systemId === undefined) {
-            throw new runtime.RequiredError('systemId','Required parameter requestParameters.systemId was null or undefined when calling permissionsSystemIdPathDelete.');
+            throw new runtime.RequiredError('systemId','Required parameter requestParameters.systemId was null or undefined when calling deletePermissions.');
         }
 
         if (requestParameters.path === null || requestParameters.path === undefined) {
-            throw new runtime.RequiredError('path','Required parameter requestParameters.path was null or undefined when calling permissionsSystemIdPathDelete.');
+            throw new runtime.RequiredError('path','Required parameter requestParameters.path was null or undefined when calling deletePermissions.');
         }
 
         if (requestParameters.username === null || requestParameters.username === undefined) {
-            throw new runtime.RequiredError('username','Required parameter requestParameters.username was null or undefined when calling permissionsSystemIdPathDelete.');
+            throw new runtime.RequiredError('username','Required parameter requestParameters.username was null or undefined when calling deletePermissions.');
         }
 
         const queryParameters: any = {};
@@ -73,32 +81,36 @@ export class PermissionsApi extends runtime.BaseAPI {
             query: queryParameters,
         });
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => FilePermissionResponseFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => StringResponseFromJSON(jsonValue));
     }
 
     /**
-     * Remove user permissions to a file/folder. QUESTION - who should be able to delete permissions? Only the owner? 
-     * Remove permissions on an object for a user. 
+     * Revoke access to a file or folder for a user.
+     * Revoke user permission on a file or folder. 
      */
-    async permissionsSystemIdPathDelete(requestParameters: PermissionsSystemIdPathDeleteRequest): Promise<FilePermissionResponse> {
-        const response = await this.permissionsSystemIdPathDeleteRaw(requestParameters);
+    async deletePermissions(requestParameters: DeletePermissionsRequest): Promise<StringResponse> {
+        const response = await this.deletePermissionsRaw(requestParameters);
         return await response.value();
     }
 
     /**
-     * Returns a list of roles/users that can access the file QUESTION: Who should be able to see access this? Only the owner of the system? 
-     * List permissions on an file/folder
+     * Get the permission for the API user for the system and path.
+     * Get the API user\'s permission on a file or folder.
      */
-    async permissionsSystemIdPathGetRaw(requestParameters: PermissionsSystemIdPathGetRequest): Promise<runtime.ApiResponse<Array<FilePermissionResponse>>> {
+    async getPermissionsRaw(requestParameters: GetPermissionsRequest): Promise<runtime.ApiResponse<FilePermissionResponse>> {
         if (requestParameters.systemId === null || requestParameters.systemId === undefined) {
-            throw new runtime.RequiredError('systemId','Required parameter requestParameters.systemId was null or undefined when calling permissionsSystemIdPathGet.');
+            throw new runtime.RequiredError('systemId','Required parameter requestParameters.systemId was null or undefined when calling getPermissions.');
         }
 
         if (requestParameters.path === null || requestParameters.path === undefined) {
-            throw new runtime.RequiredError('path','Required parameter requestParameters.path was null or undefined when calling permissionsSystemIdPathGet.');
+            throw new runtime.RequiredError('path','Required parameter requestParameters.path was null or undefined when calling getPermissions.');
         }
 
         const queryParameters: any = {};
+
+        if (requestParameters.username !== undefined) {
+            queryParameters['username'] = requestParameters.username;
+        }
 
         const headerParameters: runtime.HTTPHeaders = {};
 
@@ -109,51 +121,58 @@ export class PermissionsApi extends runtime.BaseAPI {
             query: queryParameters,
         });
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(FilePermissionResponseFromJSON));
+        return new runtime.JSONApiResponse(response, (jsonValue) => FilePermissionResponseFromJSON(jsonValue));
     }
 
     /**
-     * Returns a list of roles/users that can access the file QUESTION: Who should be able to see access this? Only the owner of the system? 
-     * List permissions on an file/folder
+     * Get the permission for the API user for the system and path.
+     * Get the API user\'s permission on a file or folder.
      */
-    async permissionsSystemIdPathGet(requestParameters: PermissionsSystemIdPathGetRequest): Promise<Array<FilePermissionResponse>> {
-        const response = await this.permissionsSystemIdPathGetRaw(requestParameters);
+    async getPermissions(requestParameters: GetPermissionsRequest): Promise<FilePermissionResponse> {
+        const response = await this.getPermissionsRaw(requestParameters);
         return await response.value();
     }
 
     /**
-     * Add a user to a file/folder. QUESTION - who should be able to add permissions? Only the owner? 
-     * Add permissions on an object. 
+     * Grant access to a file or folder for a user. Access may be READ or MODIFY. MODIFY implies READ.
+     * Grant user permission on a file or folder. 
      */
-    async permissionsSystemIdPathPostRaw(requestParameters: PermissionsSystemIdPathPostRequest): Promise<runtime.ApiResponse<FilePermissionResponse>> {
+    async grantPermissionsRaw(requestParameters: GrantPermissionsRequest): Promise<runtime.ApiResponse<FilePermissionResponse>> {
         if (requestParameters.systemId === null || requestParameters.systemId === undefined) {
-            throw new runtime.RequiredError('systemId','Required parameter requestParameters.systemId was null or undefined when calling permissionsSystemIdPathPost.');
+            throw new runtime.RequiredError('systemId','Required parameter requestParameters.systemId was null or undefined when calling grantPermissions.');
         }
 
         if (requestParameters.path === null || requestParameters.path === undefined) {
-            throw new runtime.RequiredError('path','Required parameter requestParameters.path was null or undefined when calling permissionsSystemIdPathPost.');
+            throw new runtime.RequiredError('path','Required parameter requestParameters.path was null or undefined when calling grantPermissions.');
+        }
+
+        if (requestParameters.createPermissionRequest === null || requestParameters.createPermissionRequest === undefined) {
+            throw new runtime.RequiredError('createPermissionRequest','Required parameter requestParameters.createPermissionRequest was null or undefined when calling grantPermissions.');
         }
 
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
 
+        headerParameters['Content-Type'] = 'application/json';
+
         const response = await this.request({
             path: `/v3/files/permissions/{systemId}/{path}`.replace(`{${"systemId"}}`, encodeURIComponent(String(requestParameters.systemId))).replace(`{${"path"}}`, encodeURIComponent(String(requestParameters.path))),
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
+            body: CreatePermissionRequestToJSON(requestParameters.createPermissionRequest),
         });
 
         return new runtime.JSONApiResponse(response, (jsonValue) => FilePermissionResponseFromJSON(jsonValue));
     }
 
     /**
-     * Add a user to a file/folder. QUESTION - who should be able to add permissions? Only the owner? 
-     * Add permissions on an object. 
+     * Grant access to a file or folder for a user. Access may be READ or MODIFY. MODIFY implies READ.
+     * Grant user permission on a file or folder. 
      */
-    async permissionsSystemIdPathPost(requestParameters: PermissionsSystemIdPathPostRequest): Promise<FilePermissionResponse> {
-        const response = await this.permissionsSystemIdPathPostRaw(requestParameters);
+    async grantPermissions(requestParameters: GrantPermissionsRequest): Promise<FilePermissionResponse> {
+        const response = await this.grantPermissionsRaw(requestParameters);
         return await response.value();
     }
 

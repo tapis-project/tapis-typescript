@@ -13,43 +13,56 @@
  */
 
 import { exists, mapValues } from '../runtime';
+import {
+    FileStatInfo,
+    FileStatInfoFromJSON,
+    FileStatInfoFromJSONTyped,
+    FileStatInfoToJSON,
+} from './';
+
 /**
  * 
  * @export
- * @interface TapisResponse
+ * @interface FileStatInfoResponse
  */
-export interface TapisResponse {
+export interface FileStatInfoResponse {
     /**
      * 
      * @type {string}
-     * @memberof TapisResponse
+     * @memberof FileStatInfoResponse
      */
     status?: string;
     /**
      * 
      * @type {string}
-     * @memberof TapisResponse
+     * @memberof FileStatInfoResponse
      */
     message?: string;
     /**
      * 
-     * @type {object}
-     * @memberof TapisResponse
+     * @type {FileStatInfo}
+     * @memberof FileStatInfoResponse
      */
-    result?: object;
+    result?: FileStatInfo;
     /**
      * 
      * @type {string}
-     * @memberof TapisResponse
+     * @memberof FileStatInfoResponse
      */
     version?: string;
+    /**
+     * 
+     * @type {object}
+     * @memberof FileStatInfoResponse
+     */
+    metadata?: object;
 }
 
-export function TapisResponseFromJSON(json: any): TapisResponse {
-    return TapisResponseFromJSONTyped(json, false);
+export function FileStatInfoResponseFromJSON(json: any): FileStatInfoResponse {
+    return FileStatInfoResponseFromJSONTyped(json, false);
 }
 
-export function TapisResponseFromJSONTyped(json: any, ignoreDiscriminator: boolean): TapisResponse {
+export function FileStatInfoResponseFromJSONTyped(json: any, ignoreDiscriminator: boolean): FileStatInfoResponse {
     if ((json === undefined) || (json === null)) {
         return json;
     }
@@ -57,12 +70,13 @@ export function TapisResponseFromJSONTyped(json: any, ignoreDiscriminator: boole
         
         'status': !exists(json, 'status') ? undefined : json['status'],
         'message': !exists(json, 'message') ? undefined : json['message'],
-        'result': !exists(json, 'result') ? undefined : json['result'],
+        'result': !exists(json, 'result') ? undefined : FileStatInfoFromJSON(json['result']),
         'version': !exists(json, 'version') ? undefined : json['version'],
+        'metadata': !exists(json, 'metadata') ? undefined : json['metadata'],
     };
 }
 
-export function TapisResponseToJSON(value?: TapisResponse | null): any {
+export function FileStatInfoResponseToJSON(value?: FileStatInfoResponse | null): any {
     if (value === undefined) {
         return undefined;
     }
@@ -73,8 +87,9 @@ export function TapisResponseToJSON(value?: TapisResponse | null): any {
         
         'status': value.status,
         'message': value.message,
-        'result': value.result,
+        'result': FileStatInfoToJSON(value.result),
         'version': value.version,
+        'metadata': value.metadata,
     };
 }
 

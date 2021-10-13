@@ -21,6 +21,42 @@ import { exists, mapValues } from '../runtime';
 export interface FileInfo {
     /**
      * 
+     * @type {string}
+     * @memberof FileInfo
+     */
+    mimeType?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof FileInfo
+     */
+    type?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof FileInfo
+     */
+    owner?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof FileInfo
+     */
+    group?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof FileInfo
+     */
+    nativePermissions?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof FileInfo
+     */
+    uri?: string;
+    /**
+     * 
      * @type {Date}
      * @memberof FileInfo
      */
@@ -55,6 +91,12 @@ export function FileInfoFromJSONTyped(json: any, ignoreDiscriminator: boolean): 
     }
     return {
         
+        'mimeType': !exists(json, 'mimeType') ? undefined : json['mimeType'],
+        'type': !exists(json, 'type') ? undefined : json['type'],
+        'owner': !exists(json, 'owner') ? undefined : json['owner'],
+        'group': !exists(json, 'group') ? undefined : json['group'],
+        'nativePermissions': !exists(json, 'nativePermissions') ? undefined : json['nativePermissions'],
+        'uri': !exists(json, 'uri') ? undefined : json['uri'],
         'lastModified': !exists(json, 'lastModified') ? undefined : (new Date(json['lastModified'])),
         'name': !exists(json, 'name') ? undefined : json['name'],
         'path': !exists(json, 'path') ? undefined : json['path'],
@@ -71,6 +113,12 @@ export function FileInfoToJSON(value?: FileInfo | null): any {
     }
     return {
         
+        'mimeType': value.mimeType,
+        'type': value.type,
+        'owner': value.owner,
+        'group': value.group,
+        'nativePermissions': value.nativePermissions,
+        'uri': value.uri,
         'lastModified': value.lastModified === undefined ? undefined : (value.lastModified.toISOString()),
         'name': value.name,
         'path': value.path,

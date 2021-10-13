@@ -13,49 +13,56 @@
  */
 
 import { exists, mapValues } from '../runtime';
+import {
+    NativeLinuxOpResult,
+    NativeLinuxOpResultFromJSON,
+    NativeLinuxOpResultFromJSONTyped,
+    NativeLinuxOpResultToJSON,
+} from './';
+
 /**
  * 
  * @export
- * @interface FileStringResponse
+ * @interface NativeLinuxOpResultResponse
  */
-export interface FileStringResponse {
+export interface NativeLinuxOpResultResponse {
     /**
      * 
      * @type {string}
-     * @memberof FileStringResponse
+     * @memberof NativeLinuxOpResultResponse
      */
     status?: string;
     /**
      * 
      * @type {string}
-     * @memberof FileStringResponse
+     * @memberof NativeLinuxOpResultResponse
      */
     message?: string;
     /**
      * 
-     * @type {string}
-     * @memberof FileStringResponse
+     * @type {NativeLinuxOpResult}
+     * @memberof NativeLinuxOpResultResponse
      */
-    result?: string;
+    result?: NativeLinuxOpResult;
     /**
      * 
      * @type {string}
-     * @memberof FileStringResponse
+     * @memberof NativeLinuxOpResultResponse
      */
     version?: string;
     /**
      * 
      * @type {object}
-     * @memberof FileStringResponse
+     * @memberof NativeLinuxOpResultResponse
      */
     metadata?: object;
 }
 
-export function FileStringResponseFromJSON(json: any): FileStringResponse {
-    return FileStringResponseFromJSONTyped(json, false);
+export function NativeLinuxOpResultResponseFromJSON(json: any): NativeLinuxOpResultResponse {
+    return NativeLinuxOpResultResponseFromJSONTyped(json, false);
 }
 
-export function FileStringResponseFromJSONTyped(json: any, ignoreDiscriminator: boolean): FileStringResponse {
+export function NativeLinuxOpResultResponseFromJSONTyped(json: any, ignoreDiscriminator: boolean): NativeLinuxOpResultResponse {
     if ((json === undefined) || (json === null)) {
         return json;
     }
@@ -63,13 +70,13 @@ export function FileStringResponseFromJSONTyped(json: any, ignoreDiscriminator: 
         
         'status': !exists(json, 'status') ? undefined : json['status'],
         'message': !exists(json, 'message') ? undefined : json['message'],
-        'result': !exists(json, 'result') ? undefined : json['result'],
+        'result': !exists(json, 'result') ? undefined : NativeLinuxOpResultFromJSON(json['result']),
         'version': !exists(json, 'version') ? undefined : json['version'],
         'metadata': !exists(json, 'metadata') ? undefined : json['metadata'],
     };
 }
 
-export function FileStringResponseToJSON(value?: FileStringResponse | null): any {
+export function NativeLinuxOpResultResponseToJSON(value?: NativeLinuxOpResultResponse | null): any {
     if (value === undefined) {
         return undefined;
     }
@@ -80,7 +87,7 @@ export function FileStringResponseToJSON(value?: FileStringResponse | null): any
         
         'status': value.status,
         'message': value.message,
-        'result': value.result,
+        'result': NativeLinuxOpResultToJSON(value.result),
         'version': value.version,
         'metadata': value.metadata,
     };

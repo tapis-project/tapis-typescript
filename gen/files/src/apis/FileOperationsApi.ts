@@ -18,9 +18,24 @@ import {
     FileListingResponse,
     FileListingResponseFromJSON,
     FileListingResponseToJSON,
+    FileStatInfoResponse,
+    FileStatInfoResponseFromJSON,
+    FileStatInfoResponseToJSON,
     FileStringResponse,
     FileStringResponseFromJSON,
     FileStringResponseToJSON,
+    MkdirRequest,
+    MkdirRequestFromJSON,
+    MkdirRequestToJSON,
+    MoveCopyRequest,
+    MoveCopyRequestFromJSON,
+    MoveCopyRequestToJSON,
+    NativeLinuxOpRequest,
+    NativeLinuxOpRequestFromJSON,
+    NativeLinuxOpRequestToJSON,
+    NativeLinuxOpResultResponse,
+    NativeLinuxOpResultResponseFromJSON,
+    NativeLinuxOpResultResponseToJSON,
 } from '../models';
 
 export interface DeleteRequest {
@@ -28,23 +43,42 @@ export interface DeleteRequest {
     path: string;
 }
 
+export interface GetStatInfoRequest {
+    systemId: string;
+    path: string;
+    followLinks?: boolean;
+}
+
+export interface InsertRequest {
+    systemId: string;
+    path: string;
+    file: Blob;
+}
+
 export interface ListFilesRequest {
     systemId: string;
     path: string;
     limit?: number;
     offset?: number;
-    meta?: boolean;
+    recurse?: boolean;
 }
 
-export interface MkdirRequest {
+export interface MkdirOperationRequest {
     systemId: string;
-    path: string;
+    mkdirRequest?: MkdirRequest;
 }
 
-export interface RenameRequest {
+export interface MoveCopyOperationRequest {
     systemId: string;
     path: string;
-    newName: string;
+    moveCopyRequest?: MoveCopyRequest;
+}
+
+export interface RunLinuxNativeOpRequest {
+    systemId: string;
+    path: string;
+    recursive?: boolean;
+    nativeLinuxOpRequest?: NativeLinuxOpRequest;
 }
 
 /**
@@ -89,7 +123,108 @@ export class FileOperationsApi extends runtime.BaseAPI {
     }
 
     /**
-     * List files in a bucket
+     * Get stat information for a file or directory.
+     * Get stat information for a file or directory.
+     */
+    async getStatInfoRaw(requestParameters: GetStatInfoRequest): Promise<runtime.ApiResponse<FileStatInfoResponse>> {
+        if (requestParameters.systemId === null || requestParameters.systemId === undefined) {
+            throw new runtime.RequiredError('systemId','Required parameter requestParameters.systemId was null or undefined when calling getStatInfo.');
+        }
+
+        if (requestParameters.path === null || requestParameters.path === undefined) {
+            throw new runtime.RequiredError('path','Required parameter requestParameters.path was null or undefined when calling getStatInfo.');
+        }
+
+        const queryParameters: any = {};
+
+        if (requestParameters.followLinks !== undefined) {
+            queryParameters['followLinks'] = requestParameters.followLinks;
+        }
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        const response = await this.request({
+            path: `/v3/files/utils/linux/{systemId}/{path}`.replace(`{${"systemId"}}`, encodeURIComponent(String(requestParameters.systemId))).replace(`{${"path"}}`, encodeURIComponent(String(requestParameters.path))),
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        });
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => FileStatInfoResponseFromJSON(jsonValue));
+    }
+
+    /**
+     * Get stat information for a file or directory.
+     * Get stat information for a file or directory.
+     */
+    async getStatInfo(requestParameters: GetStatInfoRequest): Promise<FileStatInfoResponse> {
+        const response = await this.getStatInfoRaw(requestParameters);
+        return await response.value();
+    }
+
+    /**
+     * The file will be added at the {path} independent of the original file name
+     * Upload a file
+     */
+    async insertRaw(requestParameters: InsertRequest): Promise<runtime.ApiResponse<FileStringResponse>> {
+        if (requestParameters.systemId === null || requestParameters.systemId === undefined) {
+            throw new runtime.RequiredError('systemId','Required parameter requestParameters.systemId was null or undefined when calling insert.');
+        }
+
+        if (requestParameters.path === null || requestParameters.path === undefined) {
+            throw new runtime.RequiredError('path','Required parameter requestParameters.path was null or undefined when calling insert.');
+        }
+
+        if (requestParameters.file === null || requestParameters.file === undefined) {
+            throw new runtime.RequiredError('file','Required parameter requestParameters.file was null or undefined when calling insert.');
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        const consumes: runtime.Consume[] = [
+            { contentType: 'multipart/form-data' },
+        ];
+        // @ts-ignore: canConsumeForm may be unused
+        const canConsumeForm = runtime.canConsumeForm(consumes);
+
+        let formParams: { append(param: string, value: any): any };
+        let useForm = false;
+        // use FormData to transmit files using content-type "multipart/form-data"
+        useForm = canConsumeForm;
+        if (useForm) {
+            formParams = new FormData();
+        } else {
+            formParams = new URLSearchParams();
+        }
+
+        if (requestParameters.file !== undefined) {
+            formParams.append('file', requestParameters.file as any);
+        }
+
+        const response = await this.request({
+            path: `/v3/files/ops/{systemId}/{path}`.replace(`{${"systemId"}}`, encodeURIComponent(String(requestParameters.systemId))).replace(`{${"path"}}`, encodeURIComponent(String(requestParameters.path))),
+            method: 'POST',
+            headers: headerParameters,
+            query: queryParameters,
+            body: formParams,
+        });
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => FileStringResponseFromJSON(jsonValue));
+    }
+
+    /**
+     * The file will be added at the {path} independent of the original file name
+     * Upload a file
+     */
+    async insert(requestParameters: InsertRequest): Promise<FileStringResponse> {
+        const response = await this.insertRaw(requestParameters);
+        return await response.value();
+    }
+
+    /**
+     * List files in a storage system
      * List files/objects in a storage system.
      */
     async listFilesRaw(requestParameters: ListFilesRequest): Promise<runtime.ApiResponse<FileListingResponse>> {
@@ -111,8 +246,8 @@ export class FileOperationsApi extends runtime.BaseAPI {
             queryParameters['offset'] = requestParameters.offset;
         }
 
-        if (requestParameters.meta !== undefined) {
-            queryParameters['meta'] = requestParameters.meta;
+        if (requestParameters.recurse !== undefined) {
+            queryParameters['recurse'] = requestParameters.recurse;
         }
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -128,7 +263,7 @@ export class FileOperationsApi extends runtime.BaseAPI {
     }
 
     /**
-     * List files in a bucket
+     * List files in a storage system
      * List files/objects in a storage system.
      */
     async listFiles(requestParameters: ListFilesRequest): Promise<FileListingResponse> {
@@ -140,24 +275,23 @@ export class FileOperationsApi extends runtime.BaseAPI {
      * Create a directory in the system at path the given path
      * Create a directory
      */
-    async mkdirRaw(requestParameters: MkdirRequest): Promise<runtime.ApiResponse<FileStringResponse>> {
+    async mkdirRaw(requestParameters: MkdirOperationRequest): Promise<runtime.ApiResponse<FileStringResponse>> {
         if (requestParameters.systemId === null || requestParameters.systemId === undefined) {
             throw new runtime.RequiredError('systemId','Required parameter requestParameters.systemId was null or undefined when calling mkdir.');
-        }
-
-        if (requestParameters.path === null || requestParameters.path === undefined) {
-            throw new runtime.RequiredError('path','Required parameter requestParameters.path was null or undefined when calling mkdir.');
         }
 
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
 
+        headerParameters['Content-Type'] = 'application/json';
+
         const response = await this.request({
-            path: `/v3/files/ops/{systemId}/{path}`.replace(`{${"systemId"}}`, encodeURIComponent(String(requestParameters.systemId))).replace(`{${"path"}}`, encodeURIComponent(String(requestParameters.path))),
+            path: `/v3/files/ops/{systemId}`.replace(`{${"systemId"}}`, encodeURIComponent(String(requestParameters.systemId))),
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
+            body: MkdirRequestToJSON(requestParameters.mkdirRequest),
         });
 
         return new runtime.JSONApiResponse(response, (jsonValue) => FileStringResponseFromJSON(jsonValue));
@@ -167,52 +301,90 @@ export class FileOperationsApi extends runtime.BaseAPI {
      * Create a directory in the system at path the given path
      * Create a directory
      */
-    async mkdir(requestParameters: MkdirRequest): Promise<FileStringResponse> {
+    async mkdir(requestParameters: MkdirOperationRequest): Promise<FileStringResponse> {
         const response = await this.mkdirRaw(requestParameters);
         return await response.value();
     }
 
     /**
-     * Move/Rename a file in {systemID} at path {path}.
-     * Rename a file or folder
+     * Move/copy a file in {systemID} at path {path}.
+     * Move/copy a file or folder
      */
-    async renameRaw(requestParameters: RenameRequest): Promise<runtime.ApiResponse<FileStringResponse>> {
+    async moveCopyRaw(requestParameters: MoveCopyOperationRequest): Promise<runtime.ApiResponse<FileStringResponse>> {
         if (requestParameters.systemId === null || requestParameters.systemId === undefined) {
-            throw new runtime.RequiredError('systemId','Required parameter requestParameters.systemId was null or undefined when calling rename.');
+            throw new runtime.RequiredError('systemId','Required parameter requestParameters.systemId was null or undefined when calling moveCopy.');
         }
 
         if (requestParameters.path === null || requestParameters.path === undefined) {
-            throw new runtime.RequiredError('path','Required parameter requestParameters.path was null or undefined when calling rename.');
-        }
-
-        if (requestParameters.newName === null || requestParameters.newName === undefined) {
-            throw new runtime.RequiredError('newName','Required parameter requestParameters.newName was null or undefined when calling rename.');
+            throw new runtime.RequiredError('path','Required parameter requestParameters.path was null or undefined when calling moveCopy.');
         }
 
         const queryParameters: any = {};
 
-        if (requestParameters.newName !== undefined) {
-            queryParameters['newName'] = requestParameters.newName;
-        }
-
         const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'application/json';
 
         const response = await this.request({
             path: `/v3/files/ops/{systemId}/{path}`.replace(`{${"systemId"}}`, encodeURIComponent(String(requestParameters.systemId))).replace(`{${"path"}}`, encodeURIComponent(String(requestParameters.path))),
             method: 'PUT',
             headers: headerParameters,
             query: queryParameters,
+            body: MoveCopyRequestToJSON(requestParameters.moveCopyRequest),
         });
 
         return new runtime.JSONApiResponse(response, (jsonValue) => FileStringResponseFromJSON(jsonValue));
     }
 
     /**
-     * Move/Rename a file in {systemID} at path {path}.
-     * Rename a file or folder
+     * Move/copy a file in {systemID} at path {path}.
+     * Move/copy a file or folder
      */
-    async rename(requestParameters: RenameRequest): Promise<FileStringResponse> {
-        const response = await this.renameRaw(requestParameters);
+    async moveCopy(requestParameters: MoveCopyOperationRequest): Promise<FileStringResponse> {
+        const response = await this.moveCopyRaw(requestParameters);
+        return await response.value();
+    }
+
+    /**
+     * Run a native operation: chmod, chown or chgrp.
+     * Run a native operation
+     */
+    async runLinuxNativeOpRaw(requestParameters: RunLinuxNativeOpRequest): Promise<runtime.ApiResponse<NativeLinuxOpResultResponse>> {
+        if (requestParameters.systemId === null || requestParameters.systemId === undefined) {
+            throw new runtime.RequiredError('systemId','Required parameter requestParameters.systemId was null or undefined when calling runLinuxNativeOp.');
+        }
+
+        if (requestParameters.path === null || requestParameters.path === undefined) {
+            throw new runtime.RequiredError('path','Required parameter requestParameters.path was null or undefined when calling runLinuxNativeOp.');
+        }
+
+        const queryParameters: any = {};
+
+        if (requestParameters.recursive !== undefined) {
+            queryParameters['recursive'] = requestParameters.recursive;
+        }
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'application/json';
+
+        const response = await this.request({
+            path: `/v3/files/utils/linux/{systemId}/{path}`.replace(`{${"systemId"}}`, encodeURIComponent(String(requestParameters.systemId))).replace(`{${"path"}}`, encodeURIComponent(String(requestParameters.path))),
+            method: 'POST',
+            headers: headerParameters,
+            query: queryParameters,
+            body: NativeLinuxOpRequestToJSON(requestParameters.nativeLinuxOpRequest),
+        });
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => NativeLinuxOpResultResponseFromJSON(jsonValue));
+    }
+
+    /**
+     * Run a native operation: chmod, chown or chgrp.
+     * Run a native operation
+     */
+    async runLinuxNativeOp(requestParameters: RunLinuxNativeOpRequest): Promise<NativeLinuxOpResultResponse> {
+        const response = await this.runLinuxNativeOpRaw(requestParameters);
         return await response.value();
     }
 

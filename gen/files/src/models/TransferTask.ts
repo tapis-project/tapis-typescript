@@ -13,6 +13,13 @@
  */
 
 import { exists, mapValues } from '../runtime';
+import {
+    TransferTaskParent,
+    TransferTaskParentFromJSON,
+    TransferTaskParentFromJSONTyped,
+    TransferTaskParentToJSON,
+} from './';
+
 /**
  * 
  * @export
@@ -30,79 +37,100 @@ export interface TransferTask {
      * @type {string}
      * @memberof TransferTask
      */
-    tenantId?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof TransferTask
-     */
     username?: string;
     /**
      * 
      * @type {string}
      * @memberof TransferTask
      */
-    sourceSystemId?: string;
+    tenantId?: string;
     /**
      * 
      * @type {string}
      * @memberof TransferTask
      */
-    sourcePath?: string;
+    tag?: string;
     /**
      * 
-     * @type {string}
-     * @memberof TransferTask
-     */
-    destinationSystemId?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof TransferTask
-     */
-    destinationPath?: string;
-    /**
-     * 
-     * @type {number}
-     * @memberof TransferTask
-     */
-    totalBytes?: number;
-    /**
-     * 
-     * @type {number}
-     * @memberof TransferTask
-     */
-    bytesTransferred?: number;
-    /**
-     * 
-     * @type {number}
-     * @memberof TransferTask
-     */
-    retries?: number;
-    /**
-     * 
-     * @type {string}
-     * @memberof TransferTask
-     */
-    finalMessage?: string;
-    /**
-     * Unique ID of the task.
      * @type {string}
      * @memberof TransferTask
      */
     uuid?: string;
     /**
-     * The status of the task, such as ACCEPTED, IN_PROGRESS, COMPLETED, CANCELLED
+     * 
      * @type {string}
      * @memberof TransferTask
      */
-    status?: string;
+    status?: TransferTaskStatusEnum;
     /**
-     * Timestamp in UTC of task creation.
+     * 
+     * @type {Array<TransferTaskParent>}
+     * @memberof TransferTask
+     */
+    parentTasks?: Array<TransferTaskParent>;
+    /**
+     * 
      * @type {number}
      * @memberof TransferTask
      */
-    created?: number;
+    estimatedTotalBytes?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof TransferTask
+     */
+    totalBytesTransferred?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof TransferTask
+     */
+    totalTransfers?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof TransferTask
+     */
+    completeTransfers?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof TransferTask
+     */
+    errorMessage?: string;
+    /**
+     * 
+     * @type {Date}
+     * @memberof TransferTask
+     */
+    created?: Date;
+    /**
+     * 
+     * @type {Date}
+     * @memberof TransferTask
+     */
+    startTime?: Date;
+    /**
+     * 
+     * @type {Date}
+     * @memberof TransferTask
+     */
+    endTime?: Date;
+}
+
+/**
+* @export
+* @enum {string}
+*/
+export enum TransferTaskStatusEnum {
+    Accepted = 'ACCEPTED',
+    Staging = 'STAGING',
+    Staged = 'STAGED',
+    InProgress = 'IN_PROGRESS',
+    Completed = 'COMPLETED',
+    Cancelled = 'CANCELLED',
+    Failed = 'FAILED',
+    Paused = 'PAUSED'
 }
 
 export function TransferTaskFromJSON(json: any): TransferTask {
@@ -116,19 +144,20 @@ export function TransferTaskFromJSONTyped(json: any, ignoreDiscriminator: boolea
     return {
         
         'id': !exists(json, 'id') ? undefined : json['id'],
-        'tenantId': !exists(json, 'tenantId') ? undefined : json['tenantId'],
         'username': !exists(json, 'username') ? undefined : json['username'],
-        'sourceSystemId': !exists(json, 'sourceSystemId') ? undefined : json['sourceSystemId'],
-        'sourcePath': !exists(json, 'sourcePath') ? undefined : json['sourcePath'],
-        'destinationSystemId': !exists(json, 'destinationSystemId') ? undefined : json['destinationSystemId'],
-        'destinationPath': !exists(json, 'destinationPath') ? undefined : json['destinationPath'],
-        'totalBytes': !exists(json, 'totalBytes') ? undefined : json['totalBytes'],
-        'bytesTransferred': !exists(json, 'bytesTransferred') ? undefined : json['bytesTransferred'],
-        'retries': !exists(json, 'retries') ? undefined : json['retries'],
-        'finalMessage': !exists(json, 'finalMessage') ? undefined : json['finalMessage'],
+        'tenantId': !exists(json, 'tenantId') ? undefined : json['tenantId'],
+        'tag': !exists(json, 'tag') ? undefined : json['tag'],
         'uuid': !exists(json, 'uuid') ? undefined : json['uuid'],
         'status': !exists(json, 'status') ? undefined : json['status'],
-        'created': !exists(json, 'created') ? undefined : json['created'],
+        'parentTasks': !exists(json, 'parentTasks') ? undefined : ((json['parentTasks'] as Array<any>).map(TransferTaskParentFromJSON)),
+        'estimatedTotalBytes': !exists(json, 'estimatedTotalBytes') ? undefined : json['estimatedTotalBytes'],
+        'totalBytesTransferred': !exists(json, 'totalBytesTransferred') ? undefined : json['totalBytesTransferred'],
+        'totalTransfers': !exists(json, 'totalTransfers') ? undefined : json['totalTransfers'],
+        'completeTransfers': !exists(json, 'completeTransfers') ? undefined : json['completeTransfers'],
+        'errorMessage': !exists(json, 'errorMessage') ? undefined : json['errorMessage'],
+        'created': !exists(json, 'created') ? undefined : (new Date(json['created'])),
+        'startTime': !exists(json, 'startTime') ? undefined : (new Date(json['startTime'])),
+        'endTime': !exists(json, 'endTime') ? undefined : (new Date(json['endTime'])),
     };
 }
 
@@ -142,19 +171,20 @@ export function TransferTaskToJSON(value?: TransferTask | null): any {
     return {
         
         'id': value.id,
-        'tenantId': value.tenantId,
         'username': value.username,
-        'sourceSystemId': value.sourceSystemId,
-        'sourcePath': value.sourcePath,
-        'destinationSystemId': value.destinationSystemId,
-        'destinationPath': value.destinationPath,
-        'totalBytes': value.totalBytes,
-        'bytesTransferred': value.bytesTransferred,
-        'retries': value.retries,
-        'finalMessage': value.finalMessage,
+        'tenantId': value.tenantId,
+        'tag': value.tag,
         'uuid': value.uuid,
         'status': value.status,
-        'created': value.created,
+        'parentTasks': value.parentTasks === undefined ? undefined : ((value.parentTasks as Array<any>).map(TransferTaskParentToJSON)),
+        'estimatedTotalBytes': value.estimatedTotalBytes,
+        'totalBytesTransferred': value.totalBytesTransferred,
+        'totalTransfers': value.totalTransfers,
+        'completeTransfers': value.completeTransfers,
+        'errorMessage': value.errorMessage,
+        'created': value.created === undefined ? undefined : (value.created.toISOString()),
+        'startTime': value.startTime === undefined ? undefined : (value.startTime.toISOString()),
+        'endTime': value.endTime === undefined ? undefined : (value.endTime.toISOString()),
     };
 }
 

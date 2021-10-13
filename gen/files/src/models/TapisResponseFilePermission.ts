@@ -13,49 +13,56 @@
  */
 
 import { exists, mapValues } from '../runtime';
+import {
+    FilePermission,
+    FilePermissionFromJSON,
+    FilePermissionFromJSONTyped,
+    FilePermissionToJSON,
+} from './';
+
 /**
  * 
  * @export
- * @interface FileStringResponse
+ * @interface TapisResponseFilePermission
  */
-export interface FileStringResponse {
+export interface TapisResponseFilePermission {
     /**
      * 
      * @type {string}
-     * @memberof FileStringResponse
+     * @memberof TapisResponseFilePermission
      */
     status?: string;
     /**
      * 
      * @type {string}
-     * @memberof FileStringResponse
+     * @memberof TapisResponseFilePermission
      */
     message?: string;
     /**
      * 
-     * @type {string}
-     * @memberof FileStringResponse
+     * @type {FilePermission}
+     * @memberof TapisResponseFilePermission
      */
-    result?: string;
+    result?: FilePermission;
     /**
      * 
      * @type {string}
-     * @memberof FileStringResponse
+     * @memberof TapisResponseFilePermission
      */
     version?: string;
     /**
      * 
      * @type {object}
-     * @memberof FileStringResponse
+     * @memberof TapisResponseFilePermission
      */
     metadata?: object;
 }
 
-export function FileStringResponseFromJSON(json: any): FileStringResponse {
-    return FileStringResponseFromJSONTyped(json, false);
+export function TapisResponseFilePermissionFromJSON(json: any): TapisResponseFilePermission {
+    return TapisResponseFilePermissionFromJSONTyped(json, false);
 }
 
-export function FileStringResponseFromJSONTyped(json: any, ignoreDiscriminator: boolean): FileStringResponse {
+export function TapisResponseFilePermissionFromJSONTyped(json: any, ignoreDiscriminator: boolean): TapisResponseFilePermission {
     if ((json === undefined) || (json === null)) {
         return json;
     }
@@ -63,13 +70,13 @@ export function FileStringResponseFromJSONTyped(json: any, ignoreDiscriminator: 
         
         'status': !exists(json, 'status') ? undefined : json['status'],
         'message': !exists(json, 'message') ? undefined : json['message'],
-        'result': !exists(json, 'result') ? undefined : json['result'],
+        'result': !exists(json, 'result') ? undefined : FilePermissionFromJSON(json['result']),
         'version': !exists(json, 'version') ? undefined : json['version'],
         'metadata': !exists(json, 'metadata') ? undefined : json['metadata'],
     };
 }
 
-export function FileStringResponseToJSON(value?: FileStringResponse | null): any {
+export function TapisResponseFilePermissionToJSON(value?: TapisResponseFilePermission | null): any {
     if (value === undefined) {
         return undefined;
     }
@@ -80,7 +87,7 @@ export function FileStringResponseToJSON(value?: FileStringResponse | null): any
         
         'status': value.status,
         'message': value.message,
-        'result': value.result,
+        'result': FilePermissionToJSON(value.result),
         'version': value.version,
         'metadata': value.metadata,
     };

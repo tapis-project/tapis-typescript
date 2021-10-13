@@ -50,6 +50,12 @@ export interface FileListingResponse {
      * @memberof FileListingResponse
      */
     version?: string;
+    /**
+     * 
+     * @type {object}
+     * @memberof FileListingResponse
+     */
+    metadata?: object;
 }
 
 export function FileListingResponseFromJSON(json: any): FileListingResponse {
@@ -66,6 +72,7 @@ export function FileListingResponseFromJSONTyped(json: any, ignoreDiscriminator:
         'message': !exists(json, 'message') ? undefined : json['message'],
         'result': !exists(json, 'result') ? undefined : ((json['result'] as Array<any>).map(FileInfoFromJSON)),
         'version': !exists(json, 'version') ? undefined : json['version'],
+        'metadata': !exists(json, 'metadata') ? undefined : json['metadata'],
     };
 }
 
@@ -82,6 +89,7 @@ export function FileListingResponseToJSON(value?: FileListingResponse | null): a
         'message': value.message,
         'result': value.result === undefined ? undefined : ((value.result as Array<any>).map(FileInfoToJSON)),
         'version': value.version,
+        'metadata': value.metadata,
     };
 }
 

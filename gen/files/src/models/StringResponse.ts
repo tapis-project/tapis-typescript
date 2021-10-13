@@ -16,46 +16,46 @@ import { exists, mapValues } from '../runtime';
 /**
  * 
  * @export
- * @interface FileStringResponse
+ * @interface StringResponse
  */
-export interface FileStringResponse {
+export interface StringResponse {
     /**
      * 
      * @type {string}
-     * @memberof FileStringResponse
+     * @memberof StringResponse
      */
     status?: string;
     /**
      * 
      * @type {string}
-     * @memberof FileStringResponse
+     * @memberof StringResponse
      */
     message?: string;
     /**
      * 
      * @type {string}
-     * @memberof FileStringResponse
+     * @memberof StringResponse
      */
     result?: string;
     /**
      * 
      * @type {string}
-     * @memberof FileStringResponse
+     * @memberof StringResponse
      */
     version?: string;
     /**
      * 
      * @type {object}
-     * @memberof FileStringResponse
+     * @memberof StringResponse
      */
     metadata?: object;
 }
 
-export function FileStringResponseFromJSON(json: any): FileStringResponse {
-    return FileStringResponseFromJSONTyped(json, false);
+export function StringResponseFromJSON(json: any): StringResponse {
+    return StringResponseFromJSONTyped(json, false);
 }
 
-export function FileStringResponseFromJSONTyped(json: any, ignoreDiscriminator: boolean): FileStringResponse {
+export function StringResponseFromJSONTyped(json: any, ignoreDiscriminator: boolean): StringResponse {
     if ((json === undefined) || (json === null)) {
         return json;
     }
@@ -69,7 +69,7 @@ export function FileStringResponseFromJSONTyped(json: any, ignoreDiscriminator: 
     };
 }
 
-export function FileStringResponseToJSON(value?: FileStringResponse | null): any {
+export function StringResponseToJSON(value?: StringResponse | null): any {
     if (value === undefined) {
         return undefined;
     }
