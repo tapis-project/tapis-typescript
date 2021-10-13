@@ -24,13 +24,40 @@ export interface FilePermission {
      * @type {string}
      * @memberof FilePermission
      */
+    tenantId?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof FilePermission
+     */
     username?: string;
     /**
      * 
      * @type {string}
      * @memberof FilePermission
      */
-    created?: string;
+    systemId?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof FilePermission
+     */
+    path?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof FilePermission
+     */
+    permission?: FilePermissionPermissionEnum;
+}
+
+/**
+* @export
+* @enum {string}
+*/
+export enum FilePermissionPermissionEnum {
+    Read = 'READ',
+    Modify = 'MODIFY'
 }
 
 export function FilePermissionFromJSON(json: any): FilePermission {
@@ -43,8 +70,11 @@ export function FilePermissionFromJSONTyped(json: any, ignoreDiscriminator: bool
     }
     return {
         
+        'tenantId': !exists(json, 'tenantId') ? undefined : json['tenantId'],
         'username': !exists(json, 'username') ? undefined : json['username'],
-        'created': !exists(json, 'created') ? undefined : json['created'],
+        'systemId': !exists(json, 'systemId') ? undefined : json['systemId'],
+        'path': !exists(json, 'path') ? undefined : json['path'],
+        'permission': !exists(json, 'permission') ? undefined : json['permission'],
     };
 }
 
@@ -57,8 +87,11 @@ export function FilePermissionToJSON(value?: FilePermission | null): any {
     }
     return {
         
+        'tenantId': value.tenantId,
         'username': value.username,
-        'created': value.created,
+        'systemId': value.systemId,
+        'path': value.path,
+        'permission': value.permission,
     };
 }
 

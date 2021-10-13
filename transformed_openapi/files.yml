@@ -31,7 +31,7 @@ paths:
       - content
       summary: Retrieve a file from the files service
       description: Get file contents/serve file
-      operationId: filesGetContents
+      operationId: getContents
       parameters:
       - name: systemId
         in: path
@@ -53,6 +53,12 @@ paths:
         schema:
           $ref: '#/components/schemas/HeaderByteRange'
         example: range=0,999
+      - name: zip
+        in: query
+        description: Zip the contents of folder?
+        schema:
+          type: boolean
+        example: false
       - name: more
         in: header
         description: Send 1k of UTF-8 encoded string back starting at 'page' 1, ex
@@ -61,8 +67,16 @@ paths:
           type: integer
           format: int64
       responses:
-        200:
+        "200":
           description: OK
+        "400":
+          description: Bad Request
+        "401":
+          description: Not Authenticated
+        "404":
+          description: Not Found
+        "403":
+          description: Not Authorized
   /v3/files/healthcheck:
     get:
       tags:
@@ -71,7 +85,7 @@ paths:
       description: Health check
       operationId: healthCheck
       responses:
-        200:
+        "200":
           description: OK
           content:
             application/json:
@@ -82,7 +96,7 @@ paths:
       tags:
       - file operations
       summary: List files/objects in a storage system.
-      description: List files in a bucket
+      description: List files in a storage system
       operationId: listFiles
       parameters:
       - name: systemId
@@ -115,37 +129,45 @@ paths:
           format: int64
           default: 0
         example: 1000
-      - name: meta
+      - name: recurse
         in: query
-        description: Return metadata also? This will slow down the request.
+        description: recursive listing
         schema:
           type: boolean
+          default: false
+        example: false
       responses:
-        200:
+        "200":
           description: A list of files
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/FileListingResponse'
-        401:
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FileStringResponse'
+        "401":
           description: Not Authenticated
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/FileStringResponse'
-        403:
+        "403":
           description: Not Authorized
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/FileStringResponse'
-        404:
+        "404":
           description: Not Found
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/FileStringResponse'
-        500:
+        "500":
           description: Internal Error
           content:
             application/json:
@@ -154,9 +176,9 @@ paths:
     put:
       tags:
       - file operations
-      summary: Rename a file or folder
-      description: Move/Rename a file in {systemID} at path {path}.
-      operationId: rename
+      summary: Move/copy a file or folder
+      description: Move/copy a file in {systemID} at path {path}.
+      operationId: moveCopy
       parameters:
       - name: systemId
         in: path
@@ -170,38 +192,43 @@ paths:
         required: true
         schema:
           type: string
-      - name: newName
-        in: query
-        description: The new name of the file/folder
-        required: true
-        schema:
-          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MoveCopyRequest'
       responses:
-        200:
+        "200":
           description: OK
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/FileStringResponse'
-        401:
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FileStringResponse'
+        "401":
           description: Not Authenticated
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/FileStringResponse'
-        403:
+        "403":
           description: Not Authorized
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/FileStringResponse'
-        404:
+        "404":
           description: Not Found
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/FileStringResponse'
-        500:
+        "500":
           description: Internal Error
           content:
             application/json:
@@ -210,9 +237,10 @@ paths:
     post:
       tags:
       - file operations
-      summary: Create a directory
-      description: Create a directory in the system at path the given path
-      operationId: mkdir
+      summary: Upload a file
+      description: The file will be added at the {path} independent of the original
+        file name
+      operationId: insert
       parameters:
       - name: systemId
         in: path
@@ -226,29 +254,46 @@ paths:
         required: true
         schema:
           type: string
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              required:
+              - file
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
       responses:
-        200:
+        "200":
           description: OK
           content:
-            '*/*':
+            application/json:
               schema:
                 $ref: '#/components/schemas/FileStringResponse'
-        401:
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FileStringResponse'
+        "401":
           description: Not Authenticated
           content:
-            '*/*':
+            application/json:
               schema:
                 $ref: '#/components/schemas/FileStringResponse'
-        403:
+        "403":
           description: Not Authorized
           content:
-            '*/*':
+            application/json:
               schema:
                 $ref: '#/components/schemas/FileStringResponse'
-        500:
+        "500":
           description: Internal Error
           content:
-            '*/*':
+            application/json:
               schema:
                 $ref: '#/components/schemas/FileStringResponse'
     delete:
@@ -271,31 +316,87 @@ paths:
         schema:
           type: string
       responses:
-        200:
+        "200":
           description: OK
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/FileStringResponse'
-        401:
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FileStringResponse'
+        "401":
           description: Not Authenticated
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/FileStringResponse'
-        403:
+        "403":
           description: Not Authorized
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/FileStringResponse'
-        404:
+        "404":
           description: Not Found
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/FileStringResponse'
-        500:
+        "500":
+          description: Internal Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FileStringResponse'
+  /v3/files/ops/{systemId}:
+    post:
+      tags:
+      - file operations
+      summary: Create a directory
+      description: Create a directory in the system at path the given path
+      operationId: mkdir
+      parameters:
+      - name: systemId
+        in: path
+        description: System ID
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MkdirRequest'
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FileStringResponse'
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FileStringResponse'
+        "401":
+          description: Not Authenticated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FileStringResponse'
+        "403":
+          description: Not Authorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FileStringResponse'
+        "500":
           description: Internal Error
           content:
             application/json:
@@ -305,10 +406,9 @@ paths:
     get:
       tags:
       - permissions
-      summary: List permissions on an file/folder
-      description: 'Returns a list of roles/users that can access the file QUESTION:
-        Who should be able to see access this? Only the owner of the system? '
-      operationId: permissionsSystemIdPathGet
+      summary: Get the API user's permission on a file or folder.
+      description: Get the permission for the API user for the system and path.
+      operationId: getPermissions
       parameters:
       - name: systemId
         in: path
@@ -322,22 +422,25 @@ paths:
         required: true
         schema:
           type: string
+      - name: username
+        in: query
+        description: Username to list
+        schema:
+          type: string
       responses:
-        200:
+        "200":
           description: FilePermission
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/FilePermissionResponse'
+                $ref: '#/components/schemas/FilePermissionResponse'
     post:
       tags:
       - permissions
-      summary: 'Add permissions on an object. '
-      description: 'Add a user to a file/folder. QUESTION - who should be able to
-        add permissions? Only the owner? '
-      operationId: permissionsSystemIdPathPost
+      summary: 'Grant user permission on a file or folder. '
+      description: Grant access to a file or folder for a user. Access may be READ
+        or MODIFY. MODIFY implies READ.
+      operationId: grantPermissions
       parameters:
       - name: systemId
         in: path
@@ -351,8 +454,14 @@ paths:
         required: true
         schema:
           type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreatePermissionRequest'
+        required: true
       responses:
-        200:
+        "200":
           description: FilePermission
           content:
             application/json:
@@ -361,10 +470,9 @@ paths:
     delete:
       tags:
       - permissions
-      summary: 'Remove permissions on an object for a user. '
-      description: 'Remove user permissions to a file/folder. QUESTION - who should
-        be able to delete permissions? Only the owner? '
-      operationId: permissionsSystemIdPathDelete
+      summary: 'Revoke user permission on a file or folder. '
+      description: Revoke access to a file or folder for a user.
+      operationId: deletePermissions
       parameters:
       - name: systemId
         in: path
@@ -385,12 +493,12 @@ paths:
         schema:
           type: string
       responses:
-        200:
+        "200":
           description: FilePermission
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/FilePermissionResponse'
+                $ref: '#/components/schemas/StringResponse'
   /v3/files/share/{systemId}/{path}:
     get:
       tags:
@@ -407,12 +515,12 @@ paths:
           type: string
       - name: path
         in: path
-        description: System ID
+        description: path
         required: true
         schema:
           type: string
       responses:
-        200:
+        "200":
           description: List of shares
           content:
             application/json:
@@ -446,7 +554,7 @@ paths:
             schema:
               $ref: '#/components/schemas/ShareFileRequest'
       responses:
-        200:
+        "200":
           description: Shared file object
           content:
             application/json:
@@ -467,17 +575,68 @@ paths:
           type: string
       - name: path
         in: path
-        description: System ID
+        description: path
         required: true
         schema:
           type: string
       responses:
-        200:
+        "200":
           description: Shared file object
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/SharedFileObject'
+  /v3/files/transfers:
+    get:
+      tags:
+      - transfers
+      summary: Get a list of recent transfer tasks starting with the most recent
+      description: Get a list of recent transfer tasks starting with the most recent
+      operationId: getRecentTransferTasks
+      parameters:
+      - name: limit
+        in: query
+        description: pagination limit
+        schema:
+          type: integer
+          format: int32
+          default: 1000
+        example: 100
+      - name: offset
+        in: query
+        description: pagination offset
+        schema:
+          type: integer
+          format: int32
+          default: 0
+        example: 1000
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TransferTaskListResponse'
+    post:
+      tags:
+      - transfers
+      summary: Transfer data
+      description: This creates a background task which will transfer files into the
+        storage system
+      operationId: createTransferTask
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TransferTaskRequest'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TransferTaskResponse'
   /v3/files/transfers/{transferTaskId}:
     get:
       tags:
@@ -493,7 +652,7 @@ paths:
           type: string
         example: 6491c2a5-acb2-40ef-b2c0-bc1fc4cd7e6c
       responses:
-        200:
+        "200":
           description: OK
           content:
             application/json:
@@ -513,18 +672,18 @@ paths:
           type: string
         example: 6491c2a5-acb2-40ef-b2c0-bc1fc4cd7e6c
       responses:
-        200:
+        "200":
           description: OK
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/TapisResponse'
-  /v3/files/transfers/{transferTaskId}/history:
+                $ref: '#/components/schemas/StringResponse'
+  /v3/files/transfers/{transferTaskId}/details:
     get:
       tags:
       - transfers
-      summary: Get history of a transfer task
-      operationId: getTransferTaskHistory
+      summary: Get details of a transfer task
+      operationId: getTransferTaskDetails
       parameters:
       - name: transferTaskId
         in: path
@@ -532,36 +691,150 @@ paths:
         required: true
         schema:
           type: string
-          format: uuid
         example: 6491c2a5-acb2-40ef-b2c0-bc1fc4cd7e6c
       responses:
-        200:
+        "200":
           description: OK
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/TransferTaskResponse'
-  /v3/files/transfers:
+  /v3/files/utils/linux/{systemId}/{path}:
+    get:
+      tags:
+      - file operations
+      summary: Get stat information for a file or directory.
+      description: Get stat information for a file or directory.
+      operationId: getStatInfo
+      parameters:
+      - name: systemId
+        in: path
+        description: System ID
+        required: true
+        schema:
+          type: string
+        example: system123
+      - name: path
+        in: path
+        description: Path to a file or directory
+        required: true
+        schema:
+          type: string
+        example: /folderA/file1
+      - name: followLinks
+        in: query
+        description: When path is a symbolic link whether to get information about
+          the link (false) or the link target (true)
+        schema:
+          type: boolean
+          default: false
+        example: true
+      responses:
+        "200":
+          description: Linux stat information for the file or directory.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FileStatInfoResponse'
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FileStringResponse'
+        "401":
+          description: Not Authenticated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FileStringResponse'
+        "403":
+          description: Not Authorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FileStringResponse'
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FileStringResponse'
+        "500":
+          description: Internal Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FileStringResponse'
     post:
       tags:
-      - transfers
-      summary: Transfer data
-      description: This creates a background task which will transfer files into the
-        storage system
-      operationId: createTransferTask
+      - file operations
+      summary: Run a native operation
+      description: 'Run a native operation: chmod, chown or chgrp.'
+      operationId: runLinuxNativeOp
+      parameters:
+      - name: systemId
+        in: path
+        description: System ID
+        required: true
+        schema:
+          type: string
+      - name: path
+        in: path
+        description: Path to a file or directory
+        required: true
+        schema:
+          type: string
+      - name: recursive
+        in: query
+        description: If path is a directory this indicates whether or not to apply
+          the changes recursively
+        schema:
+          type: boolean
+          default: false
+        example: true
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/TransferTaskRequest'
-        required: true
+              $ref: '#/components/schemas/NativeLinuxOpRequest'
       responses:
-        200:
+        "200":
           description: OK
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/TransferTaskResponse'
+                $ref: '#/components/schemas/NativeLinuxOpResultResponse'
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FileStringResponse'
+        "401":
+          description: Not Authenticated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FileStringResponse'
+        "403":
+          description: Not Authorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FileStringResponse'
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FileStringResponse'
+        "500":
+          description: Internal Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FileStringResponse'
 components:
   schemas:
     HeaderByteRange:
@@ -584,6 +857,8 @@ components:
           type: string
         version:
           type: string
+        metadata:
+          type: object
     FileStringResponse:
       type: object
       properties:
@@ -595,9 +870,31 @@ components:
           type: string
         version:
           type: string
+        metadata:
+          type: object
+    MkdirRequest:
+      required:
+      - path
+      type: object
+      properties:
+        path:
+          pattern: ^(?!.*\.\.).*
+          type: string
     FileInfo:
       type: object
       properties:
+        mimeType:
+          type: string
+        type:
+          type: string
+        owner:
+          type: string
+        group:
+          type: string
+        nativePermissions:
+          type: string
+        uri:
+          type: string
         lastModified:
           type: string
           format: date-time
@@ -622,13 +919,38 @@ components:
             $ref: '#/components/schemas/FileInfo'
         version:
           type: string
+        metadata:
+          type: object
+    MoveCopyRequest:
+      required:
+      - newPath
+      - operation
+      type: object
+      properties:
+        operation:
+          type: string
+          enum:
+          - MOVE
+          - COPY
+        newPath:
+          type: string
+          description: Paths must be absolute, ../.. is not allowed
     FilePermission:
       type: object
       properties:
+        tenantId:
+          type: string
         username:
           type: string
-        created:
+        systemId:
           type: string
+        path:
+          type: string
+        permission:
+          type: string
+          enum:
+          - READ
+          - MODIFY
     FilePermissionResponse:
       type: object
       properties:
@@ -640,6 +962,47 @@ components:
           $ref: '#/components/schemas/FilePermission'
         version:
           type: string
+        metadata:
+          type: object
+    TapisResponseFilePermission:
+      type: object
+      properties:
+        status:
+          type: string
+        message:
+          type: string
+        result:
+          $ref: '#/components/schemas/FilePermission'
+        version:
+          type: string
+        metadata:
+          type: object
+    CreatePermissionRequest:
+      required:
+      - permission
+      - username
+      type: object
+      properties:
+        username:
+          type: string
+        permission:
+          type: string
+          enum:
+          - READ
+          - MODIFY
+    StringResponse:
+      type: object
+      properties:
+        status:
+          type: string
+        message:
+          type: string
+        result:
+          type: string
+        version:
+          type: string
+        metadata:
+          type: object
     SharedFileObject:
       type: object
       properties:
@@ -680,18 +1043,67 @@ components:
       properties:
         id:
           type: integer
+          format: int32
+        username:
+          type: string
+        tenantId:
+          type: string
+        tag:
+          type: string
+        uuid:
+          type: string
+          format: uuid
+        status:
+          type: string
+          enum:
+          - ACCEPTED
+          - STAGING
+          - STAGED
+          - IN_PROGRESS
+          - COMPLETED
+          - CANCELLED
+          - FAILED
+          - PAUSED
+        parentTasks:
+          type: array
+          items:
+            $ref: '#/components/schemas/TransferTaskParent'
+        estimatedTotalBytes:
+          type: integer
           format: int64
+        totalBytesTransferred:
+          type: integer
+          format: int64
+        totalTransfers:
+          type: integer
+          format: int32
+        completeTransfers:
+          type: integer
+          format: int32
+        errorMessage:
+          type: string
+        created:
+          type: string
+          format: date-time
+        startTime:
+          type: string
+          format: date-time
+        endTime:
+          type: string
+          format: date-time
+    TransferTaskChild:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
         tenantId:
           type: string
         username:
           type: string
-        sourceSystemId:
+        sourceURI:
           type: string
-        sourcePath:
-          type: string
-        destinationSystemId:
-          type: string
-        destinationPath:
+        destinationURI:
           type: string
         totalBytes:
           type: integer
@@ -699,10 +1111,74 @@ components:
         bytesTransferred:
           type: integer
           format: int64
+        taskId:
+          type: integer
+          format: int32
+        errorMessage:
+          type: string
+        parentTaskId:
+          type: integer
+          format: int32
         retries:
           type: integer
           format: int32
-        finalMessage:
+        dir:
+          type: boolean
+        uuid:
+          type: string
+          description: Unique ID of the task.
+          format: uuid
+        status:
+          type: string
+          description: The status of the task, such as ACCEPTED, IN_PROGRESS, COMPLETED,
+            CANCELLED
+          example: PENDING
+          enum:
+          - ACCEPTED
+          - STAGING
+          - STAGED
+          - IN_PROGRESS
+          - COMPLETED
+          - CANCELLED
+          - FAILED
+          - PAUSED
+        created:
+          type: string
+          format: date-time
+        startTime:
+          type: string
+          format: date-time
+        endTime:
+          type: string
+          format: date-time
+    TransferTaskParent:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+        tenantId:
+          type: string
+        username:
+          type: string
+        sourceURI:
+          type: string
+        destinationURI:
+          type: string
+        totalBytes:
+          type: integer
+          format: int64
+        bytesTransferred:
+          type: integer
+          format: int64
+        taskId:
+          type: integer
+          format: int32
+        children:
+          type: array
+          items:
+            $ref: '#/components/schemas/TransferTaskChild'
+        errorMessage:
           type: string
         uuid:
           type: string
@@ -713,10 +1189,24 @@ components:
           description: The status of the task, such as ACCEPTED, IN_PROGRESS, COMPLETED,
             CANCELLED
           example: PENDING
+          enum:
+          - ACCEPTED
+          - STAGING
+          - STAGED
+          - IN_PROGRESS
+          - COMPLETED
+          - CANCELLED
+          - FAILED
+          - PAUSED
         created:
-          type: integer
-          description: Timestamp in UTC of task creation.
-          format: int64
+          type: string
+          format: date-time
+        startTime:
+          type: string
+          format: date-time
+        endTime:
+          type: string
+          format: date-time
     TransferTaskResponse:
       type: object
       properties:
@@ -728,7 +1218,34 @@ components:
           $ref: '#/components/schemas/TransferTask'
         version:
           type: string
-    TapisResponse:
+        metadata:
+          type: object
+    TransferTaskRequest:
+      required:
+      - elements
+      type: object
+      properties:
+        tag:
+          type: string
+        elements:
+          type: array
+          items:
+            $ref: '#/components/schemas/TransferTaskRequestElement'
+    TransferTaskRequestElement:
+      required:
+      - destinationURI
+      - sourceURI
+      type: object
+      properties:
+        sourceURI:
+          type: string
+        destinationURI:
+          type: string
+        optional:
+          type: boolean
+          description: Allow the full transfer to succeed even if this portion fails?
+            Default is false
+    TransferTaskListResponse:
       type: object
       properties:
         status:
@@ -736,26 +1253,89 @@ components:
         message:
           type: string
         result:
-          type: object
+          type: array
+          items:
+            $ref: '#/components/schemas/TransferTask'
         version:
           type: string
-    TransferTaskRequest:
-      required:
-      - destinationPath
-      - destinationSystemId
-      - sourcePath
-      - sourceSystemId
+        metadata:
+          type: object
+    FileStatInfo:
       type: object
       properties:
-        sourceSystemId:
+        absolutePath:
           type: string
-          description: ID of source system
-        sourcePath:
+        uid:
+          type: integer
+          format: int32
+        gid:
+          type: integer
+          format: int32
+        size:
+          type: integer
+          format: int64
+        perms:
           type: string
-          description: Path to file/folder in source system
-        destinationSystemId:
+        accessTime:
+          type: integer
+          format: int64
+        modifyTime:
+          type: integer
+          format: int64
+        dir:
+          type: boolean
+        link:
+          type: boolean
+    FileStatInfoResponse:
+      type: object
+      properties:
+        status:
           type: string
-          description: ID of destination system
-        destinationPath:
+        message:
           type: string
-          description: Path to file/folder in destination system
+        result:
+          $ref: '#/components/schemas/FileStatInfo'
+        version:
+          type: string
+        metadata:
+          type: object
+    NativeLinuxOpResult:
+      type: object
+      properties:
+        command:
+          type: string
+        exitCode:
+          type: integer
+          format: int32
+        stdOut:
+          type: string
+        stdErr:
+          type: string
+    NativeLinuxOpResultResponse:
+      type: object
+      properties:
+        status:
+          type: string
+        message:
+          type: string
+        result:
+          $ref: '#/components/schemas/NativeLinuxOpResult'
+        version:
+          type: string
+        metadata:
+          type: object
+    NativeLinuxOpRequest:
+      required:
+      - argument
+      - operation
+      type: object
+      properties:
+        operation:
+          type: string
+          enum:
+          - CHMOD
+          - CHOWN
+          - CHGRP
+        argument:
+          type: string
+          description: Argument for native linux operation

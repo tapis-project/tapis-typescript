@@ -50,6 +50,12 @@ export interface FilePermissionResponse {
      * @memberof FilePermissionResponse
      */
     version?: string;
+    /**
+     * 
+     * @type {object}
+     * @memberof FilePermissionResponse
+     */
+    metadata?: object;
 }
 
 export function FilePermissionResponseFromJSON(json: any): FilePermissionResponse {
@@ -66,6 +72,7 @@ export function FilePermissionResponseFromJSONTyped(json: any, ignoreDiscriminat
         'message': !exists(json, 'message') ? undefined : json['message'],
         'result': !exists(json, 'result') ? undefined : FilePermissionFromJSON(json['result']),
         'version': !exists(json, 'version') ? undefined : json['version'],
+        'metadata': !exists(json, 'metadata') ? undefined : json['metadata'],
     };
 }
 
@@ -82,6 +89,7 @@ export function FilePermissionResponseToJSON(value?: FilePermissionResponse | nu
         'message': value.message,
         'result': FilePermissionToJSON(value.result),
         'version': value.version,
+        'metadata': value.metadata,
     };
 }
 

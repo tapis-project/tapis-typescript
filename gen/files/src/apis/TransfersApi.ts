@@ -15,9 +15,12 @@
 
 import * as runtime from '../runtime';
 import {
-    TapisResponse,
-    TapisResponseFromJSON,
-    TapisResponseToJSON,
+    StringResponse,
+    StringResponseFromJSON,
+    StringResponseToJSON,
+    TransferTaskListResponse,
+    TransferTaskListResponseFromJSON,
+    TransferTaskListResponseToJSON,
     TransferTaskRequest,
     TransferTaskRequestFromJSON,
     TransferTaskRequestToJSON,
@@ -34,11 +37,16 @@ export interface CreateTransferTaskRequest {
     transferTaskRequest: TransferTaskRequest;
 }
 
+export interface GetRecentTransferTasksRequest {
+    limit?: number;
+    offset?: number;
+}
+
 export interface GetTransferTaskRequest {
     transferTaskId: string;
 }
 
-export interface GetTransferTaskHistoryRequest {
+export interface GetTransferTaskDetailsRequest {
     transferTaskId: string;
 }
 
@@ -50,7 +58,7 @@ export class TransfersApi extends runtime.BaseAPI {
     /**
      * Stop/Cancel a transfer task
      */
-    async cancelTransferTaskRaw(requestParameters: CancelTransferTaskRequest): Promise<runtime.ApiResponse<TapisResponse>> {
+    async cancelTransferTaskRaw(requestParameters: CancelTransferTaskRequest): Promise<runtime.ApiResponse<StringResponse>> {
         if (requestParameters.transferTaskId === null || requestParameters.transferTaskId === undefined) {
             throw new runtime.RequiredError('transferTaskId','Required parameter requestParameters.transferTaskId was null or undefined when calling cancelTransferTask.');
         }
@@ -66,13 +74,13 @@ export class TransfersApi extends runtime.BaseAPI {
             query: queryParameters,
         });
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => TapisResponseFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => StringResponseFromJSON(jsonValue));
     }
 
     /**
      * Stop/Cancel a transfer task
      */
-    async cancelTransferTask(requestParameters: CancelTransferTaskRequest): Promise<TapisResponse> {
+    async cancelTransferTask(requestParameters: CancelTransferTaskRequest): Promise<StringResponse> {
         const response = await this.cancelTransferTaskRaw(requestParameters);
         return await response.value();
     }
@@ -113,6 +121,42 @@ export class TransfersApi extends runtime.BaseAPI {
     }
 
     /**
+     * Get a list of recent transfer tasks starting with the most recent
+     * Get a list of recent transfer tasks starting with the most recent
+     */
+    async getRecentTransferTasksRaw(requestParameters: GetRecentTransferTasksRequest): Promise<runtime.ApiResponse<TransferTaskListResponse>> {
+        const queryParameters: any = {};
+
+        if (requestParameters.limit !== undefined) {
+            queryParameters['limit'] = requestParameters.limit;
+        }
+
+        if (requestParameters.offset !== undefined) {
+            queryParameters['offset'] = requestParameters.offset;
+        }
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        const response = await this.request({
+            path: `/v3/files/transfers`,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        });
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => TransferTaskListResponseFromJSON(jsonValue));
+    }
+
+    /**
+     * Get a list of recent transfer tasks starting with the most recent
+     * Get a list of recent transfer tasks starting with the most recent
+     */
+    async getRecentTransferTasks(requestParameters: GetRecentTransferTasksRequest): Promise<TransferTaskListResponse> {
+        const response = await this.getRecentTransferTasksRaw(requestParameters);
+        return await response.value();
+    }
+
+    /**
      * Get a transfer task
      */
     async getTransferTaskRaw(requestParameters: GetTransferTaskRequest): Promise<runtime.ApiResponse<TransferTaskResponse>> {
@@ -143,11 +187,11 @@ export class TransfersApi extends runtime.BaseAPI {
     }
 
     /**
-     * Get history of a transfer task
+     * Get details of a transfer task
      */
-    async getTransferTaskHistoryRaw(requestParameters: GetTransferTaskHistoryRequest): Promise<runtime.ApiResponse<TransferTaskResponse>> {
+    async getTransferTaskDetailsRaw(requestParameters: GetTransferTaskDetailsRequest): Promise<runtime.ApiResponse<TransferTaskResponse>> {
         if (requestParameters.transferTaskId === null || requestParameters.transferTaskId === undefined) {
-            throw new runtime.RequiredError('transferTaskId','Required parameter requestParameters.transferTaskId was null or undefined when calling getTransferTaskHistory.');
+            throw new runtime.RequiredError('transferTaskId','Required parameter requestParameters.transferTaskId was null or undefined when calling getTransferTaskDetails.');
         }
 
         const queryParameters: any = {};
@@ -155,7 +199,7 @@ export class TransfersApi extends runtime.BaseAPI {
         const headerParameters: runtime.HTTPHeaders = {};
 
         const response = await this.request({
-            path: `/v3/files/transfers/{transferTaskId}/history`.replace(`{${"transferTaskId"}}`, encodeURIComponent(String(requestParameters.transferTaskId))),
+            path: `/v3/files/transfers/{transferTaskId}/details`.replace(`{${"transferTaskId"}}`, encodeURIComponent(String(requestParameters.transferTaskId))),
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
@@ -165,10 +209,10 @@ export class TransfersApi extends runtime.BaseAPI {
     }
 
     /**
-     * Get history of a transfer task
+     * Get details of a transfer task
      */
-    async getTransferTaskHistory(requestParameters: GetTransferTaskHistoryRequest): Promise<TransferTaskResponse> {
-        const response = await this.getTransferTaskHistoryRaw(requestParameters);
+    async getTransferTaskDetails(requestParameters: GetTransferTaskDetailsRequest): Promise<TransferTaskResponse> {
+        const response = await this.getTransferTaskDetailsRaw(requestParameters);
         return await response.value();
     }
 

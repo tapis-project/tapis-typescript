@@ -13,6 +13,13 @@
  */
 
 import { exists, mapValues } from '../runtime';
+import {
+    TransferTaskRequestElement,
+    TransferTaskRequestElementFromJSON,
+    TransferTaskRequestElementFromJSONTyped,
+    TransferTaskRequestElementToJSON,
+} from './';
+
 /**
  * 
  * @export
@@ -20,29 +27,17 @@ import { exists, mapValues } from '../runtime';
  */
 export interface TransferTaskRequest {
     /**
-     * ID of source system
+     * 
      * @type {string}
      * @memberof TransferTaskRequest
      */
-    sourceSystemId: string;
+    tag?: string;
     /**
-     * Path to file/folder in source system
-     * @type {string}
+     * 
+     * @type {Array<TransferTaskRequestElement>}
      * @memberof TransferTaskRequest
      */
-    sourcePath: string;
-    /**
-     * ID of destination system
-     * @type {string}
-     * @memberof TransferTaskRequest
-     */
-    destinationSystemId: string;
-    /**
-     * Path to file/folder in destination system
-     * @type {string}
-     * @memberof TransferTaskRequest
-     */
-    destinationPath: string;
+    elements: Array<TransferTaskRequestElement>;
 }
 
 export function TransferTaskRequestFromJSON(json: any): TransferTaskRequest {
@@ -55,10 +50,8 @@ export function TransferTaskRequestFromJSONTyped(json: any, ignoreDiscriminator:
     }
     return {
         
-        'sourceSystemId': json['sourceSystemId'],
-        'sourcePath': json['sourcePath'],
-        'destinationSystemId': json['destinationSystemId'],
-        'destinationPath': json['destinationPath'],
+        'tag': !exists(json, 'tag') ? undefined : json['tag'],
+        'elements': ((json['elements'] as Array<any>).map(TransferTaskRequestElementFromJSON)),
     };
 }
 
@@ -71,10 +64,8 @@ export function TransferTaskRequestToJSON(value?: TransferTaskRequest | null): a
     }
     return {
         
-        'sourceSystemId': value.sourceSystemId,
-        'sourcePath': value.sourcePath,
-        'destinationSystemId': value.destinationSystemId,
-        'destinationPath': value.destinationPath,
+        'tag': value.tag,
+        'elements': ((value.elements as Array<any>).map(TransferTaskRequestElementToJSON)),
     };
 }
 

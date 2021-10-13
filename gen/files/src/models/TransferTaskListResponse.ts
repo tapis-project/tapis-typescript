@@ -13,49 +13,56 @@
  */
 
 import { exists, mapValues } from '../runtime';
+import {
+    TransferTask,
+    TransferTaskFromJSON,
+    TransferTaskFromJSONTyped,
+    TransferTaskToJSON,
+} from './';
+
 /**
  * 
  * @export
- * @interface FileStringResponse
+ * @interface TransferTaskListResponse
  */
-export interface FileStringResponse {
+export interface TransferTaskListResponse {
     /**
      * 
      * @type {string}
-     * @memberof FileStringResponse
+     * @memberof TransferTaskListResponse
      */
     status?: string;
     /**
      * 
      * @type {string}
-     * @memberof FileStringResponse
+     * @memberof TransferTaskListResponse
      */
     message?: string;
     /**
      * 
-     * @type {string}
-     * @memberof FileStringResponse
+     * @type {Array<TransferTask>}
+     * @memberof TransferTaskListResponse
      */
-    result?: string;
+    result?: Array<TransferTask>;
     /**
      * 
      * @type {string}
-     * @memberof FileStringResponse
+     * @memberof TransferTaskListResponse
      */
     version?: string;
     /**
      * 
      * @type {object}
-     * @memberof FileStringResponse
+     * @memberof TransferTaskListResponse
      */
     metadata?: object;
 }
 
-export function FileStringResponseFromJSON(json: any): FileStringResponse {
-    return FileStringResponseFromJSONTyped(json, false);
+export function TransferTaskListResponseFromJSON(json: any): TransferTaskListResponse {
+    return TransferTaskListResponseFromJSONTyped(json, false);
 }
 
-export function FileStringResponseFromJSONTyped(json: any, ignoreDiscriminator: boolean): FileStringResponse {
+export function TransferTaskListResponseFromJSONTyped(json: any, ignoreDiscriminator: boolean): TransferTaskListResponse {
     if ((json === undefined) || (json === null)) {
         return json;
     }
@@ -63,13 +70,13 @@ export function FileStringResponseFromJSONTyped(json: any, ignoreDiscriminator: 
         
         'status': !exists(json, 'status') ? undefined : json['status'],
         'message': !exists(json, 'message') ? undefined : json['message'],
-        'result': !exists(json, 'result') ? undefined : json['result'],
+        'result': !exists(json, 'result') ? undefined : ((json['result'] as Array<any>).map(TransferTaskFromJSON)),
         'version': !exists(json, 'version') ? undefined : json['version'],
         'metadata': !exists(json, 'metadata') ? undefined : json['metadata'],
     };
 }
 
-export function FileStringResponseToJSON(value?: FileStringResponse | null): any {
+export function TransferTaskListResponseToJSON(value?: TransferTaskListResponse | null): any {
     if (value === undefined) {
         return undefined;
     }
@@ -80,7 +87,7 @@ export function FileStringResponseToJSON(value?: FileStringResponse | null): any
         
         'status': value.status,
         'message': value.message,
-        'result': value.result,
+        'result': value.result === undefined ? undefined : ((value.result as Array<any>).map(TransferTaskToJSON)),
         'version': value.version,
         'metadata': value.metadata,
     };

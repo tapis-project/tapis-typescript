@@ -50,6 +50,12 @@ export interface TransferTaskResponse {
      * @memberof TransferTaskResponse
      */
     version?: string;
+    /**
+     * 
+     * @type {object}
+     * @memberof TransferTaskResponse
+     */
+    metadata?: object;
 }
 
 export function TransferTaskResponseFromJSON(json: any): TransferTaskResponse {
@@ -66,6 +72,7 @@ export function TransferTaskResponseFromJSONTyped(json: any, ignoreDiscriminator
         'message': !exists(json, 'message') ? undefined : json['message'],
         'result': !exists(json, 'result') ? undefined : TransferTaskFromJSON(json['result']),
         'version': !exists(json, 'version') ? undefined : json['version'],
+        'metadata': !exists(json, 'metadata') ? undefined : json['metadata'],
     };
 }
 
@@ -82,6 +89,7 @@ export function TransferTaskResponseToJSON(value?: TransferTaskResponse | null):
         'message': value.message,
         'result': TransferTaskToJSON(value.result),
         'version': value.version,
+        'metadata': value.metadata,
     };
 }
 

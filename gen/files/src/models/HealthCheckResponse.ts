@@ -43,6 +43,12 @@ export interface HealthCheckResponse {
      * @memberof HealthCheckResponse
      */
     version?: string;
+    /**
+     * 
+     * @type {object}
+     * @memberof HealthCheckResponse
+     */
+    metadata?: object;
 }
 
 export function HealthCheckResponseFromJSON(json: any): HealthCheckResponse {
@@ -59,6 +65,7 @@ export function HealthCheckResponseFromJSONTyped(json: any, ignoreDiscriminator:
         'message': !exists(json, 'message') ? undefined : json['message'],
         'result': !exists(json, 'result') ? undefined : json['result'],
         'version': !exists(json, 'version') ? undefined : json['version'],
+        'metadata': !exists(json, 'metadata') ? undefined : json['metadata'],
     };
 }
 
@@ -75,6 +82,7 @@ export function HealthCheckResponseToJSON(value?: HealthCheckResponse | null): a
         'message': value.message,
         'result': value.result,
         'version': value.version,
+        'metadata': value.metadata,
     };
 }
 
