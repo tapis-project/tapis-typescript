@@ -14,10 +14,14 @@
 
 import { exists, mapValues } from '../runtime';
 import {
-    InputSpec,
-    InputSpecFromJSON,
-    InputSpecFromJSONTyped,
-    InputSpecToJSON,
+    JobFileInput,
+    JobFileInputFromJSON,
+    JobFileInputFromJSONTyped,
+    JobFileInputToJSON,
+    JobFileInputArray,
+    JobFileInputArrayFromJSON,
+    JobFileInputArrayFromJSONTyped,
+    JobFileInputArrayToJSON,
     JobParameterSet,
     JobParameterSetFromJSON,
     JobParameterSetFromJSONTyped,
@@ -39,7 +43,7 @@ export interface ReqSubmitJob {
      * @type {string}
      * @memberof ReqSubmitJob
      */
-    name?: string;
+    name: string;
     /**
      * 
      * @type {string}
@@ -63,13 +67,13 @@ export interface ReqSubmitJob {
      * @type {string}
      * @memberof ReqSubmitJob
      */
-    appId?: string;
+    appId: string;
     /**
      * 
      * @type {string}
      * @memberof ReqSubmitJob
      */
-    appVersion?: string;
+    appVersion: string;
     /**
      * 
      * @type {boolean}
@@ -150,10 +154,16 @@ export interface ReqSubmitJob {
     maxMinutes?: number;
     /**
      * 
-     * @type {Array<InputSpec>}
+     * @type {Array<JobFileInput>}
      * @memberof ReqSubmitJob
      */
-    fileInputs?: Array<InputSpec>;
+    fileInputs?: Array<JobFileInput>;
+    /**
+     * 
+     * @type {Array<JobFileInputArray>}
+     * @memberof ReqSubmitJob
+     */
+    fileInputArrays?: Array<JobFileInputArray>;
     /**
      * 
      * @type {JobParameterSet}
@@ -190,12 +200,12 @@ export function ReqSubmitJobFromJSONTyped(json: any, ignoreDiscriminator: boolea
     }
     return {
         
-        'name': !exists(json, 'name') ? undefined : json['name'],
+        'name': json['name'],
         'owner': !exists(json, 'owner') ? undefined : json['owner'],
         'tenant': !exists(json, 'tenant') ? undefined : json['tenant'],
         'description': !exists(json, 'description') ? undefined : json['description'],
-        'appId': !exists(json, 'appId') ? undefined : json['appId'],
-        'appVersion': !exists(json, 'appVersion') ? undefined : json['appVersion'],
+        'appId': json['appId'],
+        'appVersion': json['appVersion'],
         'archiveOnAppError': !exists(json, 'archiveOnAppError') ? undefined : json['archiveOnAppError'],
         'dynamicExecSystem': !exists(json, 'dynamicExecSystem') ? undefined : json['dynamicExecSystem'],
         'execSystemId': !exists(json, 'execSystemId') ? undefined : json['execSystemId'],
@@ -209,7 +219,8 @@ export function ReqSubmitJobFromJSONTyped(json: any, ignoreDiscriminator: boolea
         'coresPerNode': !exists(json, 'coresPerNode') ? undefined : json['coresPerNode'],
         'memoryMB': !exists(json, 'memoryMB') ? undefined : json['memoryMB'],
         'maxMinutes': !exists(json, 'maxMinutes') ? undefined : json['maxMinutes'],
-        'fileInputs': !exists(json, 'fileInputs') ? undefined : ((json['fileInputs'] as Array<any>).map(InputSpecFromJSON)),
+        'fileInputs': !exists(json, 'fileInputs') ? undefined : ((json['fileInputs'] as Array<any>).map(JobFileInputFromJSON)),
+        'fileInputArrays': !exists(json, 'fileInputArrays') ? undefined : ((json['fileInputArrays'] as Array<any>).map(JobFileInputArrayFromJSON)),
         'parameterSet': !exists(json, 'parameterSet') ? undefined : JobParameterSetFromJSON(json['parameterSet']),
         'execSystemConstraints': !exists(json, 'execSystemConstraints') ? undefined : json['execSystemConstraints'],
         'tags': !exists(json, 'tags') ? undefined : json['tags'],
@@ -245,7 +256,8 @@ export function ReqSubmitJobToJSON(value?: ReqSubmitJob | null): any {
         'coresPerNode': value.coresPerNode,
         'memoryMB': value.memoryMB,
         'maxMinutes': value.maxMinutes,
-        'fileInputs': value.fileInputs === undefined ? undefined : ((value.fileInputs as Array<any>).map(InputSpecToJSON)),
+        'fileInputs': value.fileInputs === undefined ? undefined : ((value.fileInputs as Array<any>).map(JobFileInputToJSON)),
+        'fileInputArrays': value.fileInputArrays === undefined ? undefined : ((value.fileInputArrays as Array<any>).map(JobFileInputArrayToJSON)),
         'parameterSet': JobParameterSetToJSON(value.parameterSet),
         'execSystemConstraints': value.execSystemConstraints,
         'tags': value.tags,

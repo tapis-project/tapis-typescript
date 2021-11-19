@@ -14,14 +14,14 @@
 
 import { exists, mapValues } from '../runtime';
 import {
-    ArgSpec,
-    ArgSpecFromJSON,
-    ArgSpecFromJSONTyped,
-    ArgSpecToJSON,
     IncludeExcludeFilter,
     IncludeExcludeFilterFromJSON,
     IncludeExcludeFilterFromJSONTyped,
     IncludeExcludeFilterToJSON,
+    JobArgSpec,
+    JobArgSpecFromJSON,
+    JobArgSpecFromJSONTyped,
+    JobArgSpecToJSON,
     KeyValuePair,
     KeyValuePairFromJSON,
     KeyValuePairFromJSONTyped,
@@ -36,22 +36,22 @@ import {
 export interface JobParameterSet {
     /**
      * 
-     * @type {Array<ArgSpec>}
+     * @type {Array<JobArgSpec>}
      * @memberof JobParameterSet
      */
-    appArgs?: Array<ArgSpec>;
+    appArgs?: Array<JobArgSpec>;
     /**
      * 
-     * @type {Array<ArgSpec>}
+     * @type {Array<JobArgSpec>}
      * @memberof JobParameterSet
      */
-    containerArgs?: Array<ArgSpec>;
+    containerArgs?: Array<JobArgSpec>;
     /**
      * 
-     * @type {Array<ArgSpec>}
+     * @type {Array<JobArgSpec>}
      * @memberof JobParameterSet
      */
-    schedulerOptions?: Array<ArgSpec>;
+    schedulerOptions?: Array<JobArgSpec>;
     /**
      * 
      * @type {Array<KeyValuePair>}
@@ -76,9 +76,9 @@ export function JobParameterSetFromJSONTyped(json: any, ignoreDiscriminator: boo
     }
     return {
         
-        'appArgs': !exists(json, 'appArgs') ? undefined : ((json['appArgs'] as Array<any>).map(ArgSpecFromJSON)),
-        'containerArgs': !exists(json, 'containerArgs') ? undefined : ((json['containerArgs'] as Array<any>).map(ArgSpecFromJSON)),
-        'schedulerOptions': !exists(json, 'schedulerOptions') ? undefined : ((json['schedulerOptions'] as Array<any>).map(ArgSpecFromJSON)),
+        'appArgs': !exists(json, 'appArgs') ? undefined : ((json['appArgs'] as Array<any>).map(JobArgSpecFromJSON)),
+        'containerArgs': !exists(json, 'containerArgs') ? undefined : ((json['containerArgs'] as Array<any>).map(JobArgSpecFromJSON)),
+        'schedulerOptions': !exists(json, 'schedulerOptions') ? undefined : ((json['schedulerOptions'] as Array<any>).map(JobArgSpecFromJSON)),
         'envVariables': !exists(json, 'envVariables') ? undefined : ((json['envVariables'] as Array<any>).map(KeyValuePairFromJSON)),
         'archiveFilter': !exists(json, 'archiveFilter') ? undefined : IncludeExcludeFilterFromJSON(json['archiveFilter']),
     };
@@ -93,9 +93,9 @@ export function JobParameterSetToJSON(value?: JobParameterSet | null): any {
     }
     return {
         
-        'appArgs': value.appArgs === undefined ? undefined : ((value.appArgs as Array<any>).map(ArgSpecToJSON)),
-        'containerArgs': value.containerArgs === undefined ? undefined : ((value.containerArgs as Array<any>).map(ArgSpecToJSON)),
-        'schedulerOptions': value.schedulerOptions === undefined ? undefined : ((value.schedulerOptions as Array<any>).map(ArgSpecToJSON)),
+        'appArgs': value.appArgs === undefined ? undefined : ((value.appArgs as Array<any>).map(JobArgSpecToJSON)),
+        'containerArgs': value.containerArgs === undefined ? undefined : ((value.containerArgs as Array<any>).map(JobArgSpecToJSON)),
+        'schedulerOptions': value.schedulerOptions === undefined ? undefined : ((value.schedulerOptions as Array<any>).map(JobArgSpecToJSON)),
         'envVariables': value.envVariables === undefined ? undefined : ((value.envVariables as Array<any>).map(KeyValuePairToJSON)),
         'archiveFilter': IncludeExcludeFilterToJSON(value.archiveFilter),
     };

@@ -24,8 +24,12 @@ servers:
 security:
   - TapisJWT: []
 tags:
+  - name: General
+    description: General service health and readiness
   - name: Applications
-    description: manage applications
+    description: Manage Tapis application resources. Create, retrieve, update, etc.
+  - name: Permissions
+    description: Manage Tapis permissions for application resources. Grant, revoke and retrieve.
 
 # ------------------------------------------------------------------------------
 # --- Paths -------------------------------------------------------------------
@@ -1050,7 +1054,7 @@ components:
         version:
           $ref: '#/components/schemas/AppVersionString'
         description:
-          $ref: '#/components/schemas/DescriptionString'
+          $ref: '#/components/schemas/AppJobDescriptionString'
         appType:
           $ref: '#/components/schemas/AppTypeEnum'
         owner:
@@ -1102,7 +1106,7 @@ components:
       type: object
       properties:
         description:
-          $ref: '#/components/schemas/DescriptionString'
+          $ref: '#/components/schemas/AppJobDescriptionString'
         dynamicExecSystem:
           type: boolean
           default: false
@@ -1134,7 +1138,11 @@ components:
         fileInputs:
           type: array
           items:
-            $ref: '#/components/schemas/FileInput'
+            $ref: '#/components/schemas/AppFileInput'
+        fileInputArrays:
+          type: array
+          items:
+            $ref: '#/components/schemas/AppFileInputArray'
         nodeCount:
           type: integer
         coresPerNode:
@@ -1158,15 +1166,15 @@ components:
         appArgs:
           type: array
           items:
-            $ref: '#/components/schemas/ArgSpec'
+            $ref: '#/components/schemas/AppArgSpec'
         containerArgs:
           type: array
           items:
-            $ref: '#/components/schemas/ArgSpec'
+            $ref: '#/components/schemas/AppArgSpec'
         schedulerOptions:
           type: array
           items:
-            $ref: '#/components/schemas/ArgSpec'
+            $ref: '#/components/schemas/AppArgSpec'
         envVariables:
           type: array
           items:
@@ -1187,49 +1195,64 @@ components:
             includeLaunchFiles:
                 type: boolean
                 default: true
-    # --- FileInput --------------------------------------------------------
-    FileInput:
+    # --- AppFileInput --------------------------------------------------------
+    AppFileInput:
       type: object
       required:
-        - meta
+        - name
+        - targetPath
       properties:
+        name:
+          $ref: '#/components/schemas/InputNameString'
+        description:
+          $ref: '#/components/schemas/ArgDescriptionString'
+        inputMode:
+          $ref: '#/components/schemas/FileInputModeEnum'
+        autoMountLocal:
+          type: boolean
+          default: true
         sourceUrl:
           type: string
+          minLength: 1
         targetPath:
           type: string
-        inPlace:
-          type: boolean
-          default: false
-        meta:
-          $ref: '#/components/schemas/ArgMetaSpec'
-    # --- ArgSpec --------------------------------------------------------------
-    ArgSpec:
+          minLength: 1
+    # --- AppFileInputArray --------------------------------------------------------
+    AppFileInputArray:
       type: object
       required:
-        - arg
+        - name
+        - targetDir
       properties:
-        arg:
+        name:
+          $ref: '#/components/schemas/InputNameString'
+        description:
+          $ref: '#/components/schemas/ArgDescriptionString'
+        inputMode:
+          $ref: '#/components/schemas/FileInputModeEnum'
+        sourceUrls:
+          type: array
+          items:
+            type: string
+            minLength: 1
+        targetDir:
           type: string
-        meta:
-          $ref: '#/components/schemas/ArgMetaSpec'
-    # --- ArgMetaSpec ----------------------------------------------------------
-    ArgMetaSpec:
+          minLength: 1
+    # --- AppArgSpec --------------------------------------------------------------
+    AppArgSpec:
       type: object
       required:
         - name
       properties:
         name:
+          $ref: '#/components/schemas/InputNameString'
+        description:
+          $ref: '#/components/schemas/ArgDescriptionString'
+        inputMode:
+          $ref: '#/components/schemas/ArgInputModeEnum'
+        arg:
           type: string
           minLength: 1
-        description:
-          type: string
-        required:
-          type: boolean
-          default: false
-        keyValuePairs:
-          type: array
-          items:
-            $ref: '#/components/schemas/KeyValuePair'
     # --- KeyValuePair -------------------------------------------------------
     KeyValuePair:
       type: object
@@ -1241,6 +1264,7 @@ components:
           minLength: 1
         value:
           type: string
+          default: ""
     # --- NotificationSubscription -------------------------------------------
     NotificationSubscription:
       type: object
@@ -1276,9 +1300,16 @@ components:
       type: string
       minLength: 1
       maxLength: 64
-    DescriptionString:
+    AppJobDescriptionString:
       type: string
       maxLength: 2048
+    ArgDescriptionString:
+      type: string
+      maxLength: 8096
+    InputNameString:
+      type: string
+      minLength: 1
+      maxLength: 80
     UserNameString:
       type: string
       minLength: 1
@@ -1317,7 +1348,7 @@ components:
         version:
           $ref: '#/components/schemas/AppVersionString'
         description:
-          $ref: '#/components/schemas/DescriptionString'
+          $ref: '#/components/schemas/AppJobDescriptionString'
         appType:
           $ref: '#/components/schemas/AppTypeEnum'
         owner:
@@ -1354,7 +1385,7 @@ components:
       type: object
       properties:
         description:
-          $ref: '#/components/schemas/DescriptionString'
+          $ref: '#/components/schemas/AppJobDescriptionString'
         runtime:
           $ref: '#/components/schemas/RuntimeEnum'
         runtimeVersion:
@@ -1384,7 +1415,7 @@ components:
       type: object
       properties:
         description:
-          $ref: '#/components/schemas/DescriptionString'
+          $ref: '#/components/schemas/AppJobDescriptionString'
         runtime:
           $ref: '#/components/schemas/RuntimeEnum'
         runtimeVersion:
@@ -1590,3 +1621,18 @@ components:
         - EMAIL
         - QUEUE
         - ACTOR
+    FileInputModeEnum:
+      type: string
+      enum:
+        - REQUIRED
+        - OPTIONAL
+        - FIXED
+      default: OPTIONAL
+    ArgInputModeEnum:
+      type: string
+      enum:
+        - REQUIRED
+        - FIXED
+        - INCLUDE_ON_DEMAND
+        - INCLUDE_BY_DEFAULT
+      default: INCLUDE_ON_DEMAND

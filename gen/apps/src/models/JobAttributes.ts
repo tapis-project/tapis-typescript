@@ -14,10 +14,14 @@
 
 import { exists, mapValues } from '../runtime';
 import {
-    FileInput,
-    FileInputFromJSON,
-    FileInputFromJSONTyped,
-    FileInputToJSON,
+    AppFileInput,
+    AppFileInputFromJSON,
+    AppFileInputFromJSONTyped,
+    AppFileInputToJSON,
+    AppFileInputArray,
+    AppFileInputArrayFromJSON,
+    AppFileInputArrayFromJSONTyped,
+    AppFileInputArrayToJSON,
     NotificationSubscription,
     NotificationSubscriptionFromJSON,
     NotificationSubscriptionFromJSONTyped,
@@ -108,10 +112,16 @@ export interface JobAttributes {
     parameterSet?: ParameterSet;
     /**
      * 
-     * @type {Array<FileInput>}
+     * @type {Array<AppFileInput>}
      * @memberof JobAttributes
      */
-    fileInputs?: Array<FileInput>;
+    fileInputs?: Array<AppFileInput>;
+    /**
+     * 
+     * @type {Array<AppFileInputArray>}
+     * @memberof JobAttributes
+     */
+    fileInputArrays?: Array<AppFileInputArray>;
     /**
      * 
      * @type {number}
@@ -172,7 +182,8 @@ export function JobAttributesFromJSONTyped(json: any, ignoreDiscriminator: boole
         'archiveSystemDir': !exists(json, 'archiveSystemDir') ? undefined : json['archiveSystemDir'],
         'archiveOnAppError': !exists(json, 'archiveOnAppError') ? undefined : json['archiveOnAppError'],
         'parameterSet': !exists(json, 'parameterSet') ? undefined : ParameterSetFromJSON(json['parameterSet']),
-        'fileInputs': !exists(json, 'fileInputs') ? undefined : ((json['fileInputs'] as Array<any>).map(FileInputFromJSON)),
+        'fileInputs': !exists(json, 'fileInputs') ? undefined : ((json['fileInputs'] as Array<any>).map(AppFileInputFromJSON)),
+        'fileInputArrays': !exists(json, 'fileInputArrays') ? undefined : ((json['fileInputArrays'] as Array<any>).map(AppFileInputArrayFromJSON)),
         'nodeCount': !exists(json, 'nodeCount') ? undefined : json['nodeCount'],
         'coresPerNode': !exists(json, 'coresPerNode') ? undefined : json['coresPerNode'],
         'memoryMB': !exists(json, 'memoryMB') ? undefined : json['memoryMB'],
@@ -203,7 +214,8 @@ export function JobAttributesToJSON(value?: JobAttributes | null): any {
         'archiveSystemDir': value.archiveSystemDir,
         'archiveOnAppError': value.archiveOnAppError,
         'parameterSet': ParameterSetToJSON(value.parameterSet),
-        'fileInputs': value.fileInputs === undefined ? undefined : ((value.fileInputs as Array<any>).map(FileInputToJSON)),
+        'fileInputs': value.fileInputs === undefined ? undefined : ((value.fileInputs as Array<any>).map(AppFileInputToJSON)),
+        'fileInputArrays': value.fileInputArrays === undefined ? undefined : ((value.fileInputArrays as Array<any>).map(AppFileInputArrayToJSON)),
         'nodeCount': value.nodeCount,
         'coresPerNode': value.coresPerNode,
         'memoryMB': value.memoryMB,

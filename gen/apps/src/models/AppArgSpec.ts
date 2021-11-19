@@ -14,49 +14,49 @@
 
 import { exists, mapValues } from '../runtime';
 import {
-    KeyValuePair,
-    KeyValuePairFromJSON,
-    KeyValuePairFromJSONTyped,
-    KeyValuePairToJSON,
+    ArgInputModeEnum,
+    ArgInputModeEnumFromJSON,
+    ArgInputModeEnumFromJSONTyped,
+    ArgInputModeEnumToJSON,
 } from './';
 
 /**
  * 
  * @export
- * @interface ArgMetaSpec
+ * @interface AppArgSpec
  */
-export interface ArgMetaSpec {
+export interface AppArgSpec {
     /**
      * 
      * @type {string}
-     * @memberof ArgMetaSpec
+     * @memberof AppArgSpec
      */
     name: string;
     /**
      * 
      * @type {string}
-     * @memberof ArgMetaSpec
+     * @memberof AppArgSpec
      */
     description?: string;
     /**
      * 
-     * @type {boolean}
-     * @memberof ArgMetaSpec
+     * @type {ArgInputModeEnum}
+     * @memberof AppArgSpec
      */
-    required?: boolean;
+    inputMode?: ArgInputModeEnum;
     /**
      * 
-     * @type {Array<KeyValuePair>}
-     * @memberof ArgMetaSpec
+     * @type {string}
+     * @memberof AppArgSpec
      */
-    keyValuePairs?: Array<KeyValuePair>;
+    arg?: string;
 }
 
-export function ArgMetaSpecFromJSON(json: any): ArgMetaSpec {
-    return ArgMetaSpecFromJSONTyped(json, false);
+export function AppArgSpecFromJSON(json: any): AppArgSpec {
+    return AppArgSpecFromJSONTyped(json, false);
 }
 
-export function ArgMetaSpecFromJSONTyped(json: any, ignoreDiscriminator: boolean): ArgMetaSpec {
+export function AppArgSpecFromJSONTyped(json: any, ignoreDiscriminator: boolean): AppArgSpec {
     if ((json === undefined) || (json === null)) {
         return json;
     }
@@ -64,12 +64,12 @@ export function ArgMetaSpecFromJSONTyped(json: any, ignoreDiscriminator: boolean
         
         'name': json['name'],
         'description': !exists(json, 'description') ? undefined : json['description'],
-        'required': !exists(json, 'required') ? undefined : json['required'],
-        'keyValuePairs': !exists(json, 'keyValuePairs') ? undefined : ((json['keyValuePairs'] as Array<any>).map(KeyValuePairFromJSON)),
+        'inputMode': !exists(json, 'inputMode') ? undefined : ArgInputModeEnumFromJSON(json['inputMode']),
+        'arg': !exists(json, 'arg') ? undefined : json['arg'],
     };
 }
 
-export function ArgMetaSpecToJSON(value?: ArgMetaSpec | null): any {
+export function AppArgSpecToJSON(value?: AppArgSpec | null): any {
     if (value === undefined) {
         return undefined;
     }
@@ -80,8 +80,8 @@ export function ArgMetaSpecToJSON(value?: ArgMetaSpec | null): any {
         
         'name': value.name,
         'description': value.description,
-        'required': value.required,
-        'keyValuePairs': value.keyValuePairs === undefined ? undefined : ((value.keyValuePairs as Array<any>).map(KeyValuePairToJSON)),
+        'inputMode': ArgInputModeEnumToJSON(value.inputMode),
+        'arg': value.arg,
     };
 }
 

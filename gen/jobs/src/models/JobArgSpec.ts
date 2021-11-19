@@ -13,50 +13,43 @@
  */
 
 import { exists, mapValues } from '../runtime';
-import {
-    KeyValuePair,
-    KeyValuePairFromJSON,
-    KeyValuePairFromJSONTyped,
-    KeyValuePairToJSON,
-} from './';
-
 /**
  * 
  * @export
- * @interface ArgMetaSpec
+ * @interface JobArgSpec
  */
-export interface ArgMetaSpec {
+export interface JobArgSpec {
     /**
      * 
      * @type {string}
-     * @memberof ArgMetaSpec
+     * @memberof JobArgSpec
      */
     name?: string;
     /**
      * 
      * @type {string}
-     * @memberof ArgMetaSpec
+     * @memberof JobArgSpec
      */
     description?: string;
     /**
      * 
      * @type {boolean}
-     * @memberof ArgMetaSpec
+     * @memberof JobArgSpec
      */
-    required?: boolean;
+    include?: boolean;
     /**
      * 
-     * @type {Array<KeyValuePair>}
-     * @memberof ArgMetaSpec
+     * @type {string}
+     * @memberof JobArgSpec
      */
-    kv?: Array<KeyValuePair>;
+    arg?: string;
 }
 
-export function ArgMetaSpecFromJSON(json: any): ArgMetaSpec {
-    return ArgMetaSpecFromJSONTyped(json, false);
+export function JobArgSpecFromJSON(json: any): JobArgSpec {
+    return JobArgSpecFromJSONTyped(json, false);
 }
 
-export function ArgMetaSpecFromJSONTyped(json: any, ignoreDiscriminator: boolean): ArgMetaSpec {
+export function JobArgSpecFromJSONTyped(json: any, ignoreDiscriminator: boolean): JobArgSpec {
     if ((json === undefined) || (json === null)) {
         return json;
     }
@@ -64,12 +57,12 @@ export function ArgMetaSpecFromJSONTyped(json: any, ignoreDiscriminator: boolean
         
         'name': !exists(json, 'name') ? undefined : json['name'],
         'description': !exists(json, 'description') ? undefined : json['description'],
-        'required': !exists(json, 'required') ? undefined : json['required'],
-        'kv': !exists(json, 'kv') ? undefined : ((json['kv'] as Array<any>).map(KeyValuePairFromJSON)),
+        'include': !exists(json, 'include') ? undefined : json['include'],
+        'arg': !exists(json, 'arg') ? undefined : json['arg'],
     };
 }
 
-export function ArgMetaSpecToJSON(value?: ArgMetaSpec | null): any {
+export function JobArgSpecToJSON(value?: JobArgSpec | null): any {
     if (value === undefined) {
         return undefined;
     }
@@ -80,8 +73,8 @@ export function ArgMetaSpecToJSON(value?: ArgMetaSpec | null): any {
         
         'name': value.name,
         'description': value.description,
-        'required': value.required,
-        'kv': value.kv === undefined ? undefined : ((value.kv as Array<any>).map(KeyValuePairToJSON)),
+        'include': value.include,
+        'arg': value.arg,
     };
 }
 

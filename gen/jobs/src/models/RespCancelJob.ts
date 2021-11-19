@@ -14,55 +14,55 @@
 
 import { exists, mapValues } from '../runtime';
 import {
-    JobHistoryDisplayDTO,
-    JobHistoryDisplayDTOFromJSON,
-    JobHistoryDisplayDTOFromJSONTyped,
-    JobHistoryDisplayDTOToJSON,
+    JobCancelDisplay,
+    JobCancelDisplayFromJSON,
+    JobCancelDisplayFromJSONTyped,
+    JobCancelDisplayToJSON,
 } from './';
 
 /**
  * 
  * @export
- * @interface RespJobHistory
+ * @interface RespCancelJob
  */
-export interface RespJobHistory {
+export interface RespCancelJob {
     /**
      * 
      * @type {string}
-     * @memberof RespJobHistory
+     * @memberof RespCancelJob
      */
     status?: string;
     /**
      * 
      * @type {string}
-     * @memberof RespJobHistory
+     * @memberof RespCancelJob
      */
     message?: string;
     /**
      * 
      * @type {string}
-     * @memberof RespJobHistory
+     * @memberof RespCancelJob
      */
     version?: string;
     /**
      * 
      * @type {object}
-     * @memberof RespJobHistory
+     * @memberof RespCancelJob
      */
     metadata?: object;
     /**
      * 
-     * @type {Array<JobHistoryDisplayDTO>}
-     * @memberof RespJobHistory
+     * @type {JobCancelDisplay}
+     * @memberof RespCancelJob
      */
-    result?: Array<JobHistoryDisplayDTO>;
+    result?: JobCancelDisplay;
 }
 
-export function RespJobHistoryFromJSON(json: any): RespJobHistory {
-    return RespJobHistoryFromJSONTyped(json, false);
+export function RespCancelJobFromJSON(json: any): RespCancelJob {
+    return RespCancelJobFromJSONTyped(json, false);
 }
 
-export function RespJobHistoryFromJSONTyped(json: any, ignoreDiscriminator: boolean): RespJobHistory {
+export function RespCancelJobFromJSONTyped(json: any, ignoreDiscriminator: boolean): RespCancelJob {
     if ((json === undefined) || (json === null)) {
         return json;
     }
@@ -72,11 +72,11 @@ export function RespJobHistoryFromJSONTyped(json: any, ignoreDiscriminator: bool
         'message': !exists(json, 'message') ? undefined : json['message'],
         'version': !exists(json, 'version') ? undefined : json['version'],
         'metadata': !exists(json, 'metadata') ? undefined : json['metadata'],
-        'result': !exists(json, 'result') ? undefined : ((json['result'] as Array<any>).map(JobHistoryDisplayDTOFromJSON)),
+        'result': !exists(json, 'result') ? undefined : JobCancelDisplayFromJSON(json['result']),
     };
 }
 
-export function RespJobHistoryToJSON(value?: RespJobHistory | null): any {
+export function RespCancelJobToJSON(value?: RespCancelJob | null): any {
     if (value === undefined) {
         return undefined;
     }
@@ -89,7 +89,7 @@ export function RespJobHistoryToJSON(value?: RespJobHistory | null): any {
         'message': value.message,
         'version': value.version,
         'metadata': value.metadata,
-        'result': value.result === undefined ? undefined : ((value.result as Array<any>).map(JobHistoryDisplayDTOToJSON)),
+        'result': JobCancelDisplayToJSON(value.result),
     };
 }
 

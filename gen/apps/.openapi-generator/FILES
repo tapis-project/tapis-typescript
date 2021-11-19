@@ -8,10 +8,12 @@ src/apis/HealthApi.ts
 src/apis/PermissionsApi.ts
 src/apis/index.ts
 src/index.ts
+src/models/AppArgSpec.ts
+src/models/AppFileInput.ts
+src/models/AppFileInputArray.ts
 src/models/AppTypeEnum.ts
-src/models/ArgMetaSpec.ts
-src/models/ArgSpec.ts
-src/models/FileInput.ts
+src/models/ArgInputModeEnum.ts
+src/models/FileInputModeEnum.ts
 src/models/JobAttributes.ts
 src/models/KeyValuePair.ts
 src/models/NotificationMechanism.ts

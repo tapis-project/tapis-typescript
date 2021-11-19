@@ -14,10 +14,10 @@
 
 import { exists, mapValues } from '../runtime';
 import {
-    ArgSpec,
-    ArgSpecFromJSON,
-    ArgSpecFromJSONTyped,
-    ArgSpecToJSON,
+    AppArgSpec,
+    AppArgSpecFromJSON,
+    AppArgSpecFromJSONTyped,
+    AppArgSpecToJSON,
     KeyValuePair,
     KeyValuePairFromJSON,
     KeyValuePairFromJSONTyped,
@@ -36,22 +36,22 @@ import {
 export interface ParameterSet {
     /**
      * 
-     * @type {Array<ArgSpec>}
+     * @type {Array<AppArgSpec>}
      * @memberof ParameterSet
      */
-    appArgs?: Array<ArgSpec>;
+    appArgs?: Array<AppArgSpec>;
     /**
      * 
-     * @type {Array<ArgSpec>}
+     * @type {Array<AppArgSpec>}
      * @memberof ParameterSet
      */
-    containerArgs?: Array<ArgSpec>;
+    containerArgs?: Array<AppArgSpec>;
     /**
      * 
-     * @type {Array<ArgSpec>}
+     * @type {Array<AppArgSpec>}
      * @memberof ParameterSet
      */
-    schedulerOptions?: Array<ArgSpec>;
+    schedulerOptions?: Array<AppArgSpec>;
     /**
      * 
      * @type {Array<KeyValuePair>}
@@ -76,9 +76,9 @@ export function ParameterSetFromJSONTyped(json: any, ignoreDiscriminator: boolea
     }
     return {
         
-        'appArgs': !exists(json, 'appArgs') ? undefined : ((json['appArgs'] as Array<any>).map(ArgSpecFromJSON)),
-        'containerArgs': !exists(json, 'containerArgs') ? undefined : ((json['containerArgs'] as Array<any>).map(ArgSpecFromJSON)),
-        'schedulerOptions': !exists(json, 'schedulerOptions') ? undefined : ((json['schedulerOptions'] as Array<any>).map(ArgSpecFromJSON)),
+        'appArgs': !exists(json, 'appArgs') ? undefined : ((json['appArgs'] as Array<any>).map(AppArgSpecFromJSON)),
+        'containerArgs': !exists(json, 'containerArgs') ? undefined : ((json['containerArgs'] as Array<any>).map(AppArgSpecFromJSON)),
+        'schedulerOptions': !exists(json, 'schedulerOptions') ? undefined : ((json['schedulerOptions'] as Array<any>).map(AppArgSpecFromJSON)),
         'envVariables': !exists(json, 'envVariables') ? undefined : ((json['envVariables'] as Array<any>).map(KeyValuePairFromJSON)),
         'archiveFilter': !exists(json, 'archiveFilter') ? undefined : ParameterSetArchiveFilterFromJSON(json['archiveFilter']),
     };
@@ -93,9 +93,9 @@ export function ParameterSetToJSON(value?: ParameterSet | null): any {
     }
     return {
         
-        'appArgs': value.appArgs === undefined ? undefined : ((value.appArgs as Array<any>).map(ArgSpecToJSON)),
-        'containerArgs': value.containerArgs === undefined ? undefined : ((value.containerArgs as Array<any>).map(ArgSpecToJSON)),
-        'schedulerOptions': value.schedulerOptions === undefined ? undefined : ((value.schedulerOptions as Array<any>).map(ArgSpecToJSON)),
+        'appArgs': value.appArgs === undefined ? undefined : ((value.appArgs as Array<any>).map(AppArgSpecToJSON)),
+        'containerArgs': value.containerArgs === undefined ? undefined : ((value.containerArgs as Array<any>).map(AppArgSpecToJSON)),
+        'schedulerOptions': value.schedulerOptions === undefined ? undefined : ((value.schedulerOptions as Array<any>).map(AppArgSpecToJSON)),
         'envVariables': value.envVariables === undefined ? undefined : ((value.envVariables as Array<any>).map(KeyValuePairToJSON)),
         'archiveFilter': ParameterSetArchiveFilterToJSON(value.archiveFilter),
     };

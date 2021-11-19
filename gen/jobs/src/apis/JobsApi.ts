@@ -21,6 +21,9 @@ import {
     RespBasic,
     RespBasicFromJSON,
     RespBasicToJSON,
+    RespCancelJob,
+    RespCancelJobFromJSON,
+    RespCancelJobToJSON,
     RespGetJob,
     RespGetJobFromJSON,
     RespGetJobToJSON,
@@ -46,6 +49,11 @@ import {
     RespSubmitJobFromJSON,
     RespSubmitJobToJSON,
 } from '../models';
+
+export interface CancelJobRequest {
+    jobUuid: string;
+    pretty?: boolean;
+}
 
 export interface GetJobRequest {
     jobUuid: string;
@@ -94,6 +102,17 @@ export interface GetJobSearchListRequest {
     pretty?: boolean;
 }
 
+export interface GetJobSearchListByPostSqlStrRequest {
+    limit?: number;
+    skip?: number;
+    startAfter?: number;
+    orderBy?: string;
+    computeTotal?: boolean;
+    select?: string;
+    pretty?: boolean;
+    body?: object;
+}
+
 export interface GetJobStatusRequest {
     jobUuid: string;
     pretty?: boolean;
@@ -113,6 +132,44 @@ export interface SubmitJobRequest {
  * 
  */
 export class JobsApi extends runtime.BaseAPI {
+
+    /**
+     * Cancel a previously submitted job by its UUID.  The caller must be the job owner, creator or a tenant administrator.
+     */
+    async cancelJobRaw(requestParameters: CancelJobRequest): Promise<runtime.ApiResponse<RespCancelJob>> {
+        if (requestParameters.jobUuid === null || requestParameters.jobUuid === undefined) {
+            throw new runtime.RequiredError('jobUuid','Required parameter requestParameters.jobUuid was null or undefined when calling cancelJob.');
+        }
+
+        const queryParameters: any = {};
+
+        if (requestParameters.pretty !== undefined) {
+            queryParameters['pretty'] = requestParameters.pretty;
+        }
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        if (this.configuration && this.configuration.apiKey) {
+            headerParameters["X-Tapis-Token"] = this.configuration.apiKey("X-Tapis-Token"); // TapisJWT authentication
+        }
+
+        const response = await this.request({
+            path: `/v3/jobs/{jobUuid}/cancel`.replace(`{${"jobUuid"}}`, encodeURIComponent(String(requestParameters.jobUuid))),
+            method: 'POST',
+            headers: headerParameters,
+            query: queryParameters,
+        });
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => RespCancelJobFromJSON(jsonValue));
+    }
+
+    /**
+     * Cancel a previously submitted job by its UUID.  The caller must be the job owner, creator or a tenant administrator.
+     */
+    async cancelJob(requestParameters: CancelJobRequest): Promise<RespCancelJob> {
+        const response = await this.cancelJobRaw(requestParameters);
+        return await response.value();
+    }
 
     /**
      * Retrieve a previously submitted job by its UUID.  The caller must be the job owner, creator or a tenant administrator.
@@ -407,6 +464,67 @@ export class JobsApi extends runtime.BaseAPI {
      */
     async getJobSearchList(requestParameters: GetJobSearchListRequest): Promise<RespJobSearchAllAttributes> {
         const response = await this.getJobSearchListRaw(requestParameters);
+        return await response.value();
+    }
+
+    /**
+     * Retrieve list of jobs for the user based on search conditions in the request body and pagination information from the query paramter on the dedicated search end-point.  The caller must be the job owner, creator or a tenant administrator.
+     */
+    async getJobSearchListByPostSqlStrRaw(requestParameters: GetJobSearchListByPostSqlStrRequest): Promise<runtime.ApiResponse<RespJobSearchAllAttributes>> {
+        const queryParameters: any = {};
+
+        if (requestParameters.limit !== undefined) {
+            queryParameters['limit'] = requestParameters.limit;
+        }
+
+        if (requestParameters.skip !== undefined) {
+            queryParameters['skip'] = requestParameters.skip;
+        }
+
+        if (requestParameters.startAfter !== undefined) {
+            queryParameters['startAfter'] = requestParameters.startAfter;
+        }
+
+        if (requestParameters.orderBy !== undefined) {
+            queryParameters['orderBy'] = requestParameters.orderBy;
+        }
+
+        if (requestParameters.computeTotal !== undefined) {
+            queryParameters['computeTotal'] = requestParameters.computeTotal;
+        }
+
+        if (requestParameters.select !== undefined) {
+            queryParameters['select'] = requestParameters.select;
+        }
+
+        if (requestParameters.pretty !== undefined) {
+            queryParameters['pretty'] = requestParameters.pretty;
+        }
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'application/json';
+
+        if (this.configuration && this.configuration.apiKey) {
+            headerParameters["X-Tapis-Token"] = this.configuration.apiKey("X-Tapis-Token"); // TapisJWT authentication
+        }
+
+        const response = await this.request({
+            path: `/v3/jobs/search`,
+            method: 'POST',
+            headers: headerParameters,
+            query: queryParameters,
+            body: requestParameters.body as any,
+        });
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => RespJobSearchAllAttributesFromJSON(jsonValue));
+    }
+
+    /**
+     * Retrieve list of jobs for the user based on search conditions in the request body and pagination information from the query paramter on the dedicated search end-point.  The caller must be the job owner, creator or a tenant administrator.
+     */
+    async getJobSearchListByPostSqlStr(requestParameters: GetJobSearchListByPostSqlStrRequest): Promise<RespJobSearchAllAttributes> {
+        const response = await this.getJobSearchListByPostSqlStrRaw(requestParameters);
         return await response.value();
     }
 

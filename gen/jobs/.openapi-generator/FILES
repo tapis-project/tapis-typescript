@@ -7,12 +7,14 @@ src/apis/HealthApi.ts
 src/apis/JobsApi.ts
 src/apis/index.ts
 src/index.ts
-src/models/ArgMetaSpec.ts
-src/models/ArgSpec.ts
 src/models/FileInfo.ts
 src/models/IncludeExcludeFilter.ts
-src/models/InputSpec.ts
 src/models/Job.ts
+src/models/JobArgSpec.ts
+src/models/JobCancelDisplay.ts
+src/models/JobFileInput.ts
+src/models/JobFileInputArray.ts
+src/models/JobHistoryDisplayDTO.ts
 src/models/JobListDTO.ts
 src/models/JobParameterSet.ts
 src/models/JobStatusDisplay.ts
@@ -22,6 +24,7 @@ src/models/NotificationMechanism.ts
 src/models/NotificationSubscription.ts
 src/models/ReqSubmitJob.ts
 src/models/RespBasic.ts
+src/models/RespCancelJob.ts
 src/models/RespGetJob.ts
 src/models/RespGetJobList.ts
 src/models/RespGetJobOutputList.ts

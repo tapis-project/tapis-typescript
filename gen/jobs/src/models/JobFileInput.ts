@@ -13,63 +13,63 @@
  */
 
 import { exists, mapValues } from '../runtime';
-import {
-    ArgMetaSpec,
-    ArgMetaSpecFromJSON,
-    ArgMetaSpecFromJSONTyped,
-    ArgMetaSpecToJSON,
-} from './';
-
 /**
  * 
  * @export
- * @interface InputSpec
+ * @interface JobFileInput
  */
-export interface InputSpec {
+export interface JobFileInput {
     /**
      * 
      * @type {string}
-     * @memberof InputSpec
+     * @memberof JobFileInput
+     */
+    name?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof JobFileInput
+     */
+    description?: string;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof JobFileInput
+     */
+    autoMountLocal?: boolean;
+    /**
+     * 
+     * @type {string}
+     * @memberof JobFileInput
      */
     sourceUrl?: string;
     /**
      * 
      * @type {string}
-     * @memberof InputSpec
+     * @memberof JobFileInput
      */
     targetPath?: string;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof InputSpec
-     */
-    inPlace?: boolean;
-    /**
-     * 
-     * @type {ArgMetaSpec}
-     * @memberof InputSpec
-     */
-    meta?: ArgMetaSpec;
 }
 
-export function InputSpecFromJSON(json: any): InputSpec {
-    return InputSpecFromJSONTyped(json, false);
+export function JobFileInputFromJSON(json: any): JobFileInput {
+    return JobFileInputFromJSONTyped(json, false);
 }
 
-export function InputSpecFromJSONTyped(json: any, ignoreDiscriminator: boolean): InputSpec {
+export function JobFileInputFromJSONTyped(json: any, ignoreDiscriminator: boolean): JobFileInput {
     if ((json === undefined) || (json === null)) {
         return json;
     }
     return {
         
+        'name': !exists(json, 'name') ? undefined : json['name'],
+        'description': !exists(json, 'description') ? undefined : json['description'],
+        'autoMountLocal': !exists(json, 'autoMountLocal') ? undefined : json['autoMountLocal'],
         'sourceUrl': !exists(json, 'sourceUrl') ? undefined : json['sourceUrl'],
         'targetPath': !exists(json, 'targetPath') ? undefined : json['targetPath'],
-        'inPlace': !exists(json, 'inPlace') ? undefined : json['inPlace'],
-        'meta': !exists(json, 'meta') ? undefined : ArgMetaSpecFromJSON(json['meta']),
     };
 }
 
-export function InputSpecToJSON(value?: InputSpec | null): any {
+export function JobFileInputToJSON(value?: JobFileInput | null): any {
     if (value === undefined) {
         return undefined;
     }
@@ -78,10 +78,11 @@ export function InputSpecToJSON(value?: InputSpec | null): any {
     }
     return {
         
+        'name': value.name,
+        'description': value.description,
+        'autoMountLocal': value.autoMountLocal,
         'sourceUrl': value.sourceUrl,
         'targetPath': value.targetPath,
-        'inPlace': value.inPlace,
-        'meta': ArgMetaSpecToJSON(value.meta),
     };
 }
 
