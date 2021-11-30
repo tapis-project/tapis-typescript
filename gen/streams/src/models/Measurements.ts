@@ -84,4 +84,3 @@ export function MeasurementsToJSON(value?: Measurements | null): any {
     };
 }
 
-

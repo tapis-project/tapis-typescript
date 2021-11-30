@@ -469,7 +469,6 @@ paths:
         Attributes that may not be updated via PATCH are
 
           - id
-          - appType
           - owner
           - enabled
 
@@ -546,7 +545,6 @@ paths:
 
           - id
           - version
-          - appType
           - owner
           - enabled
 
@@ -1055,8 +1053,6 @@ components:
           $ref: '#/components/schemas/AppVersionString'
         description:
           $ref: '#/components/schemas/AppJobDescriptionString'
-        appType:
-          $ref: '#/components/schemas/AppTypeEnum'
         owner:
           $ref: '#/components/schemas/UserNameApiDefaultString'
         enabled:
@@ -1070,6 +1066,8 @@ components:
           $ref: '#/components/schemas/RuntimeOptions'
         containerImage:
           type: string
+        jobType:
+          $ref: '#/components/schemas/JobTypeEnum'
         maxJobs:
           type: integer
           default: -1
@@ -1339,9 +1337,7 @@ components:
       required:
         - id
         - version
-        - appType
         - containerImage
-        - jobAttributes
       properties:
         id:
           $ref: '#/components/schemas/IdString'
@@ -1349,8 +1345,6 @@ components:
           $ref: '#/components/schemas/AppVersionString'
         description:
           $ref: '#/components/schemas/AppJobDescriptionString'
-        appType:
-          $ref: '#/components/schemas/AppTypeEnum'
         owner:
           $ref: '#/components/schemas/UserNameApiDefaultString'
         enabled:
@@ -1364,6 +1358,8 @@ components:
           $ref: '#/components/schemas/RuntimeOptions'
         containerImage:
           type: string
+        jobType:
+          $ref: '#/components/schemas/JobTypeEnum'
         maxJobs:
           type: integer
           default: -1
@@ -1394,6 +1390,8 @@ components:
           $ref: '#/components/schemas/RuntimeOptions'
         containerImage:
           type: string
+        jobType:
+          $ref: '#/components/schemas/JobTypeEnum'
         maxJobs:
           type: integer
           default: -1
@@ -1424,6 +1422,8 @@ components:
           $ref: '#/components/schemas/RuntimeOptions'
         containerImage:
           type: string
+        jobType:
+          $ref: '#/components/schemas/JobTypeEnum'
         maxJobs:
           type: integer
           default: -1
@@ -1596,7 +1596,7 @@ components:
     # -------------------------------------------------------------------------
     # --- Enums ---------------------------------------------------------------
     # -------------------------------------------------------------------------
-    AppTypeEnum:
+    JobTypeEnum:
       type: string
       enum:
         - BATCH

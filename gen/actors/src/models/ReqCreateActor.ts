@@ -110,4 +110,3 @@ export function ReqCreateActorToJSON(value?: ReqCreateActor | null): any {
     };
 }
 
-

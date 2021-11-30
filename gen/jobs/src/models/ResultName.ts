@@ -54,4 +54,3 @@ export function ResultNameToJSON(value?: ResultName | null): any {
     };
 }
 
-

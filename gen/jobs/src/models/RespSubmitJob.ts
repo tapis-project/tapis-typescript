@@ -93,4 +93,3 @@ export function RespSubmitJobToJSON(value?: RespSubmitJob | null): any {
     };
 }
 
-

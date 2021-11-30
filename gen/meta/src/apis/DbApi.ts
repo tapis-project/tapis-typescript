@@ -41,7 +41,7 @@ export class DbApi extends runtime.BaseAPI {
      * Create the database named in the path. This operation is limited to Service admins.
      * createDB
      */
-    async createDBRaw(requestParameters: CreateDBRequest): Promise<runtime.ApiResponse<void>> {
+    async createDBRaw(requestParameters: CreateDBRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<void>> {
         if (requestParameters.db === null || requestParameters.db === undefined) {
             throw new runtime.RequiredError('db','Required parameter requestParameters.db was null or undefined when calling createDB.');
         }
@@ -59,7 +59,7 @@ export class DbApi extends runtime.BaseAPI {
             method: 'PUT',
             headers: headerParameters,
             query: queryParameters,
-        });
+        }, initOverrides);
 
         return new runtime.VoidApiResponse(response);
     }
@@ -68,15 +68,15 @@ export class DbApi extends runtime.BaseAPI {
      * Create the database named in the path. This operation is limited to Service admins.
      * createDB
      */
-    async createDB(requestParameters: CreateDBRequest): Promise<void> {
-        await this.createDBRaw(requestParameters);
+    async createDB(requestParameters: CreateDBRequest, initOverrides?: RequestInit): Promise<void> {
+        await this.createDBRaw(requestParameters, initOverrides);
     }
 
     /**
      * Delete a database. This operation is limited to Service admins.
      * deleteDB
      */
-    async deleteDBRaw(requestParameters: DeleteDBRequest): Promise<runtime.ApiResponse<void>> {
+    async deleteDBRaw(requestParameters: DeleteDBRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<void>> {
         if (requestParameters.ifMatch === null || requestParameters.ifMatch === undefined) {
             throw new runtime.RequiredError('ifMatch','Required parameter requestParameters.ifMatch was null or undefined when calling deleteDB.');
         }
@@ -102,7 +102,7 @@ export class DbApi extends runtime.BaseAPI {
             method: 'DELETE',
             headers: headerParameters,
             query: queryParameters,
-        });
+        }, initOverrides);
 
         return new runtime.VoidApiResponse(response);
     }
@@ -111,15 +111,15 @@ export class DbApi extends runtime.BaseAPI {
      * Delete a database. This operation is limited to Service admins.
      * deleteDB
      */
-    async deleteDB(requestParameters: DeleteDBRequest): Promise<void> {
-        await this.deleteDBRaw(requestParameters);
+    async deleteDB(requestParameters: DeleteDBRequest, initOverrides?: RequestInit): Promise<void> {
+        await this.deleteDBRaw(requestParameters, initOverrides);
     }
 
     /**
      * Get the Metadata for the database.
      * getDBMetadata
      */
-    async getDBMetadataRaw(requestParameters: GetDBMetadataRequest): Promise<runtime.ApiResponse<object>> {
+    async getDBMetadataRaw(requestParameters: GetDBMetadataRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<object>> {
         if (requestParameters.db === null || requestParameters.db === undefined) {
             throw new runtime.RequiredError('db','Required parameter requestParameters.db was null or undefined when calling getDBMetadata.');
         }
@@ -137,7 +137,7 @@ export class DbApi extends runtime.BaseAPI {
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        });
+        }, initOverrides);
 
         return new runtime.JSONApiResponse<any>(response);
     }
@@ -146,8 +146,8 @@ export class DbApi extends runtime.BaseAPI {
      * Get the Metadata for the database.
      * getDBMetadata
      */
-    async getDBMetadata(requestParameters: GetDBMetadataRequest): Promise<object> {
-        const response = await this.getDBMetadataRaw(requestParameters);
+    async getDBMetadata(requestParameters: GetDBMetadataRequest, initOverrides?: RequestInit): Promise<object> {
+        const response = await this.getDBMetadataRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
@@ -155,7 +155,7 @@ export class DbApi extends runtime.BaseAPI {
      * List the names of all collections in the database.
      * listCollectionNames
      */
-    async listCollectionNamesRaw(requestParameters: ListCollectionNamesRequest): Promise<runtime.ApiResponse<Array<string>>> {
+    async listCollectionNamesRaw(requestParameters: ListCollectionNamesRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<Array<string>>> {
         if (requestParameters.db === null || requestParameters.db === undefined) {
             throw new runtime.RequiredError('db','Required parameter requestParameters.db was null or undefined when calling listCollectionNames.');
         }
@@ -173,7 +173,7 @@ export class DbApi extends runtime.BaseAPI {
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        });
+        }, initOverrides);
 
         return new runtime.JSONApiResponse<any>(response);
     }
@@ -182,8 +182,8 @@ export class DbApi extends runtime.BaseAPI {
      * List the names of all collections in the database.
      * listCollectionNames
      */
-    async listCollectionNames(requestParameters: ListCollectionNamesRequest): Promise<Array<string>> {
-        const response = await this.listCollectionNamesRaw(requestParameters);
+    async listCollectionNames(requestParameters: ListCollectionNamesRequest, initOverrides?: RequestInit): Promise<Array<string>> {
+        const response = await this.listCollectionNamesRaw(requestParameters, initOverrides);
         return await response.value();
     }
 

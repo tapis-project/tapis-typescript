@@ -85,4 +85,3 @@ export function AppArgSpecToJSON(value?: AppArgSpec | null): any {
     };
 }
 
-

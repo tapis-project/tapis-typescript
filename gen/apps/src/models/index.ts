@@ -1,10 +1,12 @@
+/* tslint:disable */
+/* eslint-disable */
 export * from './AppArgSpec';
 export * from './AppFileInput';
 export * from './AppFileInputArray';
-export * from './AppTypeEnum';
 export * from './ArgInputModeEnum';
 export * from './FileInputModeEnum';
 export * from './JobAttributes';
+export * from './JobTypeEnum';
 export * from './KeyValuePair';
 export * from './NotificationMechanism';
 export * from './NotificationMechanismEnum';

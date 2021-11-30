@@ -1,6 +1,6 @@
 {
   "name": "@tapis/tapis-typescript-pgrest",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "OpenAPI client for @tapis/tapis-typescript-pgrest",
   "author": "OpenAPI-Generator",
   "main": "./dist/index.js",

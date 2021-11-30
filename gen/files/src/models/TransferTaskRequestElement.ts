@@ -70,4 +70,3 @@ export function TransferTaskRequestElementToJSON(value?: TransferTaskRequestElem
     };
 }
 
-

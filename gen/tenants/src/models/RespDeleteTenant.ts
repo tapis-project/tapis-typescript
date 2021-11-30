@@ -93,4 +93,3 @@ export function RespDeleteTenantToJSON(value?: RespDeleteTenant | null): any {
     };
 }
 
-

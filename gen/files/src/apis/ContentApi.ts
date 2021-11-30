@@ -37,7 +37,7 @@ export class ContentApi extends runtime.BaseAPI {
      * Get file contents/serve file
      * Retrieve a file from the files service
      */
-    async getContentsRaw(requestParameters: GetContentsRequest): Promise<runtime.ApiResponse<void>> {
+    async getContentsRaw(requestParameters: GetContentsRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<void>> {
         if (requestParameters.systemId === null || requestParameters.systemId === undefined) {
             throw new runtime.RequiredError('systemId','Required parameter requestParameters.systemId was null or undefined when calling getContents.');
         }
@@ -67,7 +67,7 @@ export class ContentApi extends runtime.BaseAPI {
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        });
+        }, initOverrides);
 
         return new runtime.VoidApiResponse(response);
     }
@@ -76,8 +76,8 @@ export class ContentApi extends runtime.BaseAPI {
      * Get file contents/serve file
      * Retrieve a file from the files service
      */
-    async getContents(requestParameters: GetContentsRequest): Promise<void> {
-        await this.getContentsRaw(requestParameters);
+    async getContents(requestParameters: GetContentsRequest, initOverrides?: RequestInit): Promise<void> {
+        await this.getContentsRaw(requestParameters, initOverrides);
     }
 
 }

@@ -73,4 +73,3 @@ export function ColumnsToJSON(value?: Columns | null): any {
     };
 }
 
-

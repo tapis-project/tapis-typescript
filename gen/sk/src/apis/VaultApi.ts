@@ -169,7 +169,7 @@ export class VaultApi extends runtime.BaseAPI {
     /**
      * Soft delete one or more versions of a secret. Each version can be deleted individually or as part of a group specified in the input array. Deletion can be reversed using the *secret/undelete/{secretName}* endpoint, which make this a _soft_ deletion operation.  The input versions array is interpreted as follows:     * [-] - empty = delete all versions    * [0] - zero = delete only the latest version    * [1, 3, ...] - list = delete the specified versions  A valid tenant and user must also be specified in the body.  ### Naming Secrets Secrets can be arranged hierarchically by using the \"+\" characters in the *secretName*.  These characters will be converted to slashes upon receipt, allowing secrets to be arranged in folders.  A secret is assigned a path name constructed from the *secretType* and *secretName* path parameters and, optionally, from query parameters determined by the *secretType*. Each *secretType* determines a specific transformation from the url path to a path in the vault.  The *secretType* may require certain query parameters to be present on the request in order to construct the vault path.  See the next section for details.  ### Secret Types The list below documents each *secretType* and their applicable query parameters. Highlighted parameter names indicate required parameters. When present, default values are listed first and also highlighted.    - **system**     - *sysid*: the unique system id     - *sysuser*: the accessing user (except when keytype=cert)     - keytype: *sshkey* | password | accesskey | cert   - **dbcred**     - *dbhost*:  the DBMS hostname, IP address or alias     - *dbname*:  the database name or alias     - *dbservice*: service name   - **jwtsigning** - *no query parameters*   - **user** - *no query parameters*   - **service** - *no query parameters* ### Authorization Requestors are authorized based on the secret type specified in the URL path.  The following authorizations are enforced:  - system: limited to the systems service - dbcred: any service - jwtsigning: limited to the tokens service - user: any user - service: any service
      */
-    async deleteSecretRaw(requestParameters: DeleteSecretRequest): Promise<runtime.ApiResponse<RespVersions>> {
+    async deleteSecretRaw(requestParameters: DeleteSecretRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespVersions>> {
         if (requestParameters.secretType === null || requestParameters.secretType === undefined) {
             throw new runtime.RequiredError('secretType','Required parameter requestParameters.secretType was null or undefined when calling deleteSecret.');
         }
@@ -226,7 +226,7 @@ export class VaultApi extends runtime.BaseAPI {
             headers: headerParameters,
             query: queryParameters,
             body: ReqVersionsToJSON(requestParameters.reqVersions),
-        });
+        }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => RespVersionsFromJSON(jsonValue));
     }
@@ -234,15 +234,15 @@ export class VaultApi extends runtime.BaseAPI {
     /**
      * Soft delete one or more versions of a secret. Each version can be deleted individually or as part of a group specified in the input array. Deletion can be reversed using the *secret/undelete/{secretName}* endpoint, which make this a _soft_ deletion operation.  The input versions array is interpreted as follows:     * [-] - empty = delete all versions    * [0] - zero = delete only the latest version    * [1, 3, ...] - list = delete the specified versions  A valid tenant and user must also be specified in the body.  ### Naming Secrets Secrets can be arranged hierarchically by using the \"+\" characters in the *secretName*.  These characters will be converted to slashes upon receipt, allowing secrets to be arranged in folders.  A secret is assigned a path name constructed from the *secretType* and *secretName* path parameters and, optionally, from query parameters determined by the *secretType*. Each *secretType* determines a specific transformation from the url path to a path in the vault.  The *secretType* may require certain query parameters to be present on the request in order to construct the vault path.  See the next section for details.  ### Secret Types The list below documents each *secretType* and their applicable query parameters. Highlighted parameter names indicate required parameters. When present, default values are listed first and also highlighted.    - **system**     - *sysid*: the unique system id     - *sysuser*: the accessing user (except when keytype=cert)     - keytype: *sshkey* | password | accesskey | cert   - **dbcred**     - *dbhost*:  the DBMS hostname, IP address or alias     - *dbname*:  the database name or alias     - *dbservice*: service name   - **jwtsigning** - *no query parameters*   - **user** - *no query parameters*   - **service** - *no query parameters* ### Authorization Requestors are authorized based on the secret type specified in the URL path.  The following authorizations are enforced:  - system: limited to the systems service - dbcred: any service - jwtsigning: limited to the tokens service - user: any user - service: any service
      */
-    async deleteSecret(requestParameters: DeleteSecretRequest): Promise<RespVersions> {
-        const response = await this.deleteSecretRaw(requestParameters);
+    async deleteSecret(requestParameters: DeleteSecretRequest, initOverrides?: RequestInit): Promise<RespVersions> {
+        const response = await this.deleteSecretRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
     /**
      * Destroy one or more versions of a secret. Destroy implements a hard delete which delete that cannot be undone. It does not, however, remove any metadata associated with the secret.  The input versions array is interpreted as follows:     * [-] - empty = destroy all versions    * [0] - zero = destroy only the latest version    * [1, 3, ...] - list = destroy the specified versions  A valid tenant and user must be specified in the body.  ### Naming Secrets Secrets can be arranged hierarchically by using the \"+\" characters in the *secretName*.  These characters will be converted to slashes upon receipt, allowing secrets to be arranged in folders.  A secret is assigned a path name constructed from the *secretType* and *secretName* path parameters and, optionally, from query parameters determined by the *secretType*. Each *secretType* determines a specific transformation from the url path to a path in the vault.  The *secretType* may require certain query parameters to be present on the request in order to construct the vault path.  See the next section for details.  ### Secret Types The list below documents each *secretType* and their applicable query parameters. Highlighted parameter names indicate required parameters. When present, default values are listed first and also highlighted.    - **system**     - *sysid*: the unique system id     - *sysuser*: the accessing user (except when keytype=cert)     - keytype: *sshkey* | password | accesskey | cert   - **dbcred**     - *dbhost*:  the DBMS hostname, IP address or alias     - *dbname*:  the database name or alias     - *dbservice*: service name   - **jwtsigning** - *no query parameters*   - **user** - *no query parameters*   - **service** - *no query parameters* ### Authorization Requestors are authorized based on the secret type specified in the URL path.  The following authorizations are enforced:  - system: limited to the systems service - dbcred: any service - jwtsigning: limited to the tokens service - user: any user - service: any service
      */
-    async destroySecretRaw(requestParameters: DestroySecretRequest): Promise<runtime.ApiResponse<RespVersions>> {
+    async destroySecretRaw(requestParameters: DestroySecretRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespVersions>> {
         if (requestParameters.secretType === null || requestParameters.secretType === undefined) {
             throw new runtime.RequiredError('secretType','Required parameter requestParameters.secretType was null or undefined when calling destroySecret.');
         }
@@ -299,7 +299,7 @@ export class VaultApi extends runtime.BaseAPI {
             headers: headerParameters,
             query: queryParameters,
             body: ReqVersionsToJSON(requestParameters.reqVersions),
-        });
+        }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => RespVersionsFromJSON(jsonValue));
     }
@@ -307,15 +307,15 @@ export class VaultApi extends runtime.BaseAPI {
     /**
      * Destroy one or more versions of a secret. Destroy implements a hard delete which delete that cannot be undone. It does not, however, remove any metadata associated with the secret.  The input versions array is interpreted as follows:     * [-] - empty = destroy all versions    * [0] - zero = destroy only the latest version    * [1, 3, ...] - list = destroy the specified versions  A valid tenant and user must be specified in the body.  ### Naming Secrets Secrets can be arranged hierarchically by using the \"+\" characters in the *secretName*.  These characters will be converted to slashes upon receipt, allowing secrets to be arranged in folders.  A secret is assigned a path name constructed from the *secretType* and *secretName* path parameters and, optionally, from query parameters determined by the *secretType*. Each *secretType* determines a specific transformation from the url path to a path in the vault.  The *secretType* may require certain query parameters to be present on the request in order to construct the vault path.  See the next section for details.  ### Secret Types The list below documents each *secretType* and their applicable query parameters. Highlighted parameter names indicate required parameters. When present, default values are listed first and also highlighted.    - **system**     - *sysid*: the unique system id     - *sysuser*: the accessing user (except when keytype=cert)     - keytype: *sshkey* | password | accesskey | cert   - **dbcred**     - *dbhost*:  the DBMS hostname, IP address or alias     - *dbname*:  the database name or alias     - *dbservice*: service name   - **jwtsigning** - *no query parameters*   - **user** - *no query parameters*   - **service** - *no query parameters* ### Authorization Requestors are authorized based on the secret type specified in the URL path.  The following authorizations are enforced:  - system: limited to the systems service - dbcred: any service - jwtsigning: limited to the tokens service - user: any user - service: any service
      */
-    async destroySecret(requestParameters: DestroySecretRequest): Promise<RespVersions> {
-        const response = await this.destroySecretRaw(requestParameters);
+    async destroySecret(requestParameters: DestroySecretRequest, initOverrides?: RequestInit): Promise<RespVersions> {
+        const response = await this.destroySecretRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
     /**
      * Erase all traces of a secret: its key, all versions of its value and all its metadata. Specifying a folder erases all secrets in that folder.  A valid tenant and user must be specified as query parameters.  ### Naming Secrets Secrets can be arranged hierarchically by using the \"+\" characters in the *secretName*.  These characters will be converted to slashes upon receipt, allowing secrets to be arranged in folders.  A secret is assigned a path name constructed from the *secretType* and *secretName* path parameters and, optionally, from query parameters determined by the *secretType*. Each *secretType* determines a specific transformation from the url path to a path in the vault.  The *secretType* may require certain query parameters to be present on the request in order to construct the vault path.  See the next section for details.  ### Secret Types The list below documents each *secretType* and their applicable query parameters. Highlighted parameter names indicate required parameters. When present, default values are listed first and also highlighted.    - **system**     - *sysid*: the unique system id     - *sysuser*: the accessing user (except when keytype=cert)     - keytype: *sshkey* | password | accesskey | cert   - **dbcred**     - *dbhost*:  the DBMS hostname, IP address or alias     - *dbname*:  the database name or alias     - *dbservice*: service name   - **jwtsigning** - *no query parameters*   - **user** - *no query parameters*   - **service** - *no query parameters* ### Authorization Requestors are authorized based on the secret type specified in the URL path.  The following authorizations are enforced:  - system: limited to the systems service - dbcred: any service - jwtsigning: limited to the tokens service - user: any user - service: any service
      */
-    async destroySecretMetaRaw(requestParameters: DestroySecretMetaRequest): Promise<runtime.ApiResponse<RespBasic>> {
+    async destroySecretMetaRaw(requestParameters: DestroySecretMetaRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespBasic>> {
         if (requestParameters.secretType === null || requestParameters.secretType === undefined) {
             throw new runtime.RequiredError('secretType','Required parameter requestParameters.secretType was null or undefined when calling destroySecretMeta.');
         }
@@ -373,7 +373,7 @@ export class VaultApi extends runtime.BaseAPI {
             method: 'DELETE',
             headers: headerParameters,
             query: queryParameters,
-        });
+        }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => RespBasicFromJSON(jsonValue));
     }
@@ -381,15 +381,15 @@ export class VaultApi extends runtime.BaseAPI {
     /**
      * Erase all traces of a secret: its key, all versions of its value and all its metadata. Specifying a folder erases all secrets in that folder.  A valid tenant and user must be specified as query parameters.  ### Naming Secrets Secrets can be arranged hierarchically by using the \"+\" characters in the *secretName*.  These characters will be converted to slashes upon receipt, allowing secrets to be arranged in folders.  A secret is assigned a path name constructed from the *secretType* and *secretName* path parameters and, optionally, from query parameters determined by the *secretType*. Each *secretType* determines a specific transformation from the url path to a path in the vault.  The *secretType* may require certain query parameters to be present on the request in order to construct the vault path.  See the next section for details.  ### Secret Types The list below documents each *secretType* and their applicable query parameters. Highlighted parameter names indicate required parameters. When present, default values are listed first and also highlighted.    - **system**     - *sysid*: the unique system id     - *sysuser*: the accessing user (except when keytype=cert)     - keytype: *sshkey* | password | accesskey | cert   - **dbcred**     - *dbhost*:  the DBMS hostname, IP address or alias     - *dbname*:  the database name or alias     - *dbservice*: service name   - **jwtsigning** - *no query parameters*   - **user** - *no query parameters*   - **service** - *no query parameters* ### Authorization Requestors are authorized based on the secret type specified in the URL path.  The following authorizations are enforced:  - system: limited to the systems service - dbcred: any service - jwtsigning: limited to the tokens service - user: any user - service: any service
      */
-    async destroySecretMeta(requestParameters: DestroySecretMetaRequest): Promise<RespBasic> {
-        const response = await this.destroySecretMetaRaw(requestParameters);
+    async destroySecretMeta(requestParameters: DestroySecretMetaRequest, initOverrides?: RequestInit): Promise<RespBasic> {
+        const response = await this.destroySecretMetaRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
     /**
      * List the secret names at the specified path. The path must represent a folder, not an actual secret name. If the path does not have a trailing slash one will be inserted. Secret names should not encode private information.  A valid tenant and user must be specified as query parameters.  ### Naming Secrets Secrets can be arranged hierarchically by using the \"+\" characters in the secret name.  These characters will be converted to slashes upon receipt, allowing secrets to be arranged in folders.  A secret is assigned a path name constructed from the *secretType* path parameter and, optionally, from query parameters determined by the *secretType*. Each *secretType* determines a specific transformation from the url path to a path in the vault.  The *secretType* may require certain query parameters to be present on the request in order to construct the vault path.  See the next section for details.  ### Secret Types The list below documents each *secretType* and their applicable query parameters. Highlighted parameter names indicate required parameters. When present, default values are listed first and also highlighted.    - **system**     - *sysid*: the unique system id     - *sysuser*: the accessing user (except when keytype=cert)     - keytype: *sshkey* | password | accesskey | cert   - **dbcred**     - *dbhost*:  the DBMS hostname, IP address or alias     - *dbname*:  the database name or alias     - *dbservice*: service name   - **jwtsigning** - *no query parameters*   - **user** - *no query parameters*   - **service** - *no query parameters* ### Authorization Requestors are authorized based on the secret type specified in the URL path.  The following authorizations are enforced:  - system: limited to the systems service - dbcred: any service - jwtsigning: limited to the tokens service - user: any user - service: any service
      */
-    async listSecretMetaRaw(requestParameters: ListSecretMetaRequest): Promise<runtime.ApiResponse<RespSecretList>> {
+    async listSecretMetaRaw(requestParameters: ListSecretMetaRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespSecretList>> {
         if (requestParameters.secretType === null || requestParameters.secretType === undefined) {
             throw new runtime.RequiredError('secretType','Required parameter requestParameters.secretType was null or undefined when calling listSecretMeta.');
         }
@@ -443,7 +443,7 @@ export class VaultApi extends runtime.BaseAPI {
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        });
+        }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => RespSecretListFromJSON(jsonValue));
     }
@@ -451,15 +451,15 @@ export class VaultApi extends runtime.BaseAPI {
     /**
      * List the secret names at the specified path. The path must represent a folder, not an actual secret name. If the path does not have a trailing slash one will be inserted. Secret names should not encode private information.  A valid tenant and user must be specified as query parameters.  ### Naming Secrets Secrets can be arranged hierarchically by using the \"+\" characters in the secret name.  These characters will be converted to slashes upon receipt, allowing secrets to be arranged in folders.  A secret is assigned a path name constructed from the *secretType* path parameter and, optionally, from query parameters determined by the *secretType*. Each *secretType* determines a specific transformation from the url path to a path in the vault.  The *secretType* may require certain query parameters to be present on the request in order to construct the vault path.  See the next section for details.  ### Secret Types The list below documents each *secretType* and their applicable query parameters. Highlighted parameter names indicate required parameters. When present, default values are listed first and also highlighted.    - **system**     - *sysid*: the unique system id     - *sysuser*: the accessing user (except when keytype=cert)     - keytype: *sshkey* | password | accesskey | cert   - **dbcred**     - *dbhost*:  the DBMS hostname, IP address or alias     - *dbname*:  the database name or alias     - *dbservice*: service name   - **jwtsigning** - *no query parameters*   - **user** - *no query parameters*   - **service** - *no query parameters* ### Authorization Requestors are authorized based on the secret type specified in the URL path.  The following authorizations are enforced:  - system: limited to the systems service - dbcred: any service - jwtsigning: limited to the tokens service - user: any user - service: any service
      */
-    async listSecretMeta(requestParameters: ListSecretMetaRequest): Promise<RespSecretList> {
-        const response = await this.listSecretMetaRaw(requestParameters);
+    async listSecretMeta(requestParameters: ListSecretMetaRequest, initOverrides?: RequestInit): Promise<RespSecretList> {
+        const response = await this.listSecretMetaRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
     /**
      * Read a versioned secret. By default, the latest version of the secret is read. If the *version* query parameter is specified then that version of the secret is read.  The *version* parameter should be passed as an integer with zero indicating the latest version of the secret. A NOT FOUND status code is returned if the secret version does not exist or if it\'s deleted or destroyed.  The response object includes the map of zero or more key/value pairs and metadata that describes the secret. The metadata includes which version of the secret was returned.  A valid tenant and user must be specified as query parameters.  ### Naming Secrets Secrets can be arranged hierarchically by using the \"+\" characters in the *secretName*.  These characters will be converted to slashes upon receipt, allowing secrets to be arranged in folders.  A secret is assigned a path name constructed from the *secretType* and *secretName* path parameters and, optionally, from query parameters determined by the *secretType*. Each *secretType* determines a specific transformation from the url path to a path in the vault.  The *secretType* may require certain query parameters to be present on the request in order to construct the vault path.  See the next section for details.  ### Secret Types The list below documents each *secretType* and their applicable query parameters. Highlighted parameter names indicate required parameters. When present, default values are listed first and also highlighted.    - **system**     - *sysid*: the unique system id     - *sysuser*: the accessing user (except when keytype=cert)     - keytype: *sshkey* | password | accesskey | cert   - **dbcred**     - *dbhost*:  the DBMS hostname, IP address or alias     - *dbname*:  the database name or alias     - *dbservice*: service name   - **jwtsigning** - *no query parameters*   - **user** - *no query parameters*   - **service** - *no query parameters* ### Authorization Requestors are authorized based on the secret type specified in the URL path.  The following authorizations are enforced:  - system: limited to the systems service - dbcred: any service - jwtsigning: limited to the tokens service - user: any user - service: any service
      */
-    async readSecretRaw(requestParameters: ReadSecretRequest): Promise<runtime.ApiResponse<RespSecret>> {
+    async readSecretRaw(requestParameters: ReadSecretRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespSecret>> {
         if (requestParameters.secretType === null || requestParameters.secretType === undefined) {
             throw new runtime.RequiredError('secretType','Required parameter requestParameters.secretType was null or undefined when calling readSecret.');
         }
@@ -521,7 +521,7 @@ export class VaultApi extends runtime.BaseAPI {
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        });
+        }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => RespSecretFromJSON(jsonValue));
     }
@@ -529,15 +529,15 @@ export class VaultApi extends runtime.BaseAPI {
     /**
      * Read a versioned secret. By default, the latest version of the secret is read. If the *version* query parameter is specified then that version of the secret is read.  The *version* parameter should be passed as an integer with zero indicating the latest version of the secret. A NOT FOUND status code is returned if the secret version does not exist or if it\'s deleted or destroyed.  The response object includes the map of zero or more key/value pairs and metadata that describes the secret. The metadata includes which version of the secret was returned.  A valid tenant and user must be specified as query parameters.  ### Naming Secrets Secrets can be arranged hierarchically by using the \"+\" characters in the *secretName*.  These characters will be converted to slashes upon receipt, allowing secrets to be arranged in folders.  A secret is assigned a path name constructed from the *secretType* and *secretName* path parameters and, optionally, from query parameters determined by the *secretType*. Each *secretType* determines a specific transformation from the url path to a path in the vault.  The *secretType* may require certain query parameters to be present on the request in order to construct the vault path.  See the next section for details.  ### Secret Types The list below documents each *secretType* and their applicable query parameters. Highlighted parameter names indicate required parameters. When present, default values are listed first and also highlighted.    - **system**     - *sysid*: the unique system id     - *sysuser*: the accessing user (except when keytype=cert)     - keytype: *sshkey* | password | accesskey | cert   - **dbcred**     - *dbhost*:  the DBMS hostname, IP address or alias     - *dbname*:  the database name or alias     - *dbservice*: service name   - **jwtsigning** - *no query parameters*   - **user** - *no query parameters*   - **service** - *no query parameters* ### Authorization Requestors are authorized based on the secret type specified in the URL path.  The following authorizations are enforced:  - system: limited to the systems service - dbcred: any service - jwtsigning: limited to the tokens service - user: any user - service: any service
      */
-    async readSecret(requestParameters: ReadSecretRequest): Promise<RespSecret> {
-        const response = await this.readSecretRaw(requestParameters);
+    async readSecret(requestParameters: ReadSecretRequest, initOverrides?: RequestInit): Promise<RespSecret> {
+        const response = await this.readSecretRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
     /**
      * List a secret\'s metadata including its version information. The input parameter must be a secret name, not a folder. The result includes which version of the secret is the latest.  A valid tenant and user must be specified as query parameters.  ### Naming Secrets Secrets can be arranged hierarchically by using the \"+\" characters in the *secretName*.  These characters will be converted to slashes upon receipt, allowing secrets to be arranged in folders.  A secret is assigned a path name constructed from the *secretType* and *secretName* path parameters and, optionally, from query parameters determined by the *secretType*. Each *secretType* determines a specific transformation from the url path to a path in the vault.  The *secretType* may require certain query parameters to be present on the request in order to construct the vault path.  See the next section for details.  ### Secret Types The list below documents each *secretType* and their applicable query parameters. Highlighted parameter names indicate required parameters. When present, default values are listed first and also highlighted.    - **system**     - *sysid*: the unique system id     - *sysuser*: the accessing user (except when keytype=cert)     - keytype: *sshkey* | password | accesskey | cert   - **dbcred**     - *dbhost*:  the DBMS hostname, IP address or alias     - *dbname*:  the database name or alias     - *dbservice*: service name   - **jwtsigning** - *no query parameters*   - **user** - *no query parameters*   - **service** - *no query parameters* ### Authorization Requestors are authorized based on the secret type specified in the URL path.  The following authorizations are enforced:  - system: limited to the systems service - dbcred: any service - jwtsigning: limited to the tokens service - user: any user - service: any service
      */
-    async readSecretMetaRaw(requestParameters: ReadSecretMetaRequest): Promise<runtime.ApiResponse<RespSecretVersionMetadata>> {
+    async readSecretMetaRaw(requestParameters: ReadSecretMetaRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespSecretVersionMetadata>> {
         if (requestParameters.secretType === null || requestParameters.secretType === undefined) {
             throw new runtime.RequiredError('secretType','Required parameter requestParameters.secretType was null or undefined when calling readSecretMeta.');
         }
@@ -595,7 +595,7 @@ export class VaultApi extends runtime.BaseAPI {
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        });
+        }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => RespSecretVersionMetadataFromJSON(jsonValue));
     }
@@ -603,15 +603,15 @@ export class VaultApi extends runtime.BaseAPI {
     /**
      * List a secret\'s metadata including its version information. The input parameter must be a secret name, not a folder. The result includes which version of the secret is the latest.  A valid tenant and user must be specified as query parameters.  ### Naming Secrets Secrets can be arranged hierarchically by using the \"+\" characters in the *secretName*.  These characters will be converted to slashes upon receipt, allowing secrets to be arranged in folders.  A secret is assigned a path name constructed from the *secretType* and *secretName* path parameters and, optionally, from query parameters determined by the *secretType*. Each *secretType* determines a specific transformation from the url path to a path in the vault.  The *secretType* may require certain query parameters to be present on the request in order to construct the vault path.  See the next section for details.  ### Secret Types The list below documents each *secretType* and their applicable query parameters. Highlighted parameter names indicate required parameters. When present, default values are listed first and also highlighted.    - **system**     - *sysid*: the unique system id     - *sysuser*: the accessing user (except when keytype=cert)     - keytype: *sshkey* | password | accesskey | cert   - **dbcred**     - *dbhost*:  the DBMS hostname, IP address or alias     - *dbname*:  the database name or alias     - *dbservice*: service name   - **jwtsigning** - *no query parameters*   - **user** - *no query parameters*   - **service** - *no query parameters* ### Authorization Requestors are authorized based on the secret type specified in the URL path.  The following authorizations are enforced:  - system: limited to the systems service - dbcred: any service - jwtsigning: limited to the tokens service - user: any user - service: any service
      */
-    async readSecretMeta(requestParameters: ReadSecretMetaRequest): Promise<RespSecretVersionMetadata> {
-        const response = await this.readSecretMetaRaw(requestParameters);
+    async readSecretMeta(requestParameters: ReadSecretMetaRequest, initOverrides?: RequestInit): Promise<RespSecretVersionMetadata> {
+        const response = await this.readSecretMetaRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
     /**
      * Restore one or more versions of a secret that have previously been deleted. This endpoint undoes soft deletions performed using the *secret/delete/{secretType}/{secretName}* endpoint.  The input versions array is interpreted as follows:     * [-] - empty = undelete all versions    * [0] - zero = undelete only the latest version    * [1, 3, ...] - list = undelete the specified versions  A valid tenant and user must be specified in the body.  ### Naming Secrets Secrets can be arranged hierarchically by using the \"+\" characters in the *secretName*.  These characters will be converted to slashes upon receipt, allowing secrets to be arranged in folders.  A secret is assigned a path name constructed from the *secretType* and *secretName* path parameters and, optionally, from query parameters determined by the *secretType*. Each *secretType* determines a specific transformation from the url path to a path in the vault.  The *secretType* may require certain query parameters to be present on the request in order to construct the vault path.  See the next section for details.  ### Secret Types The list below documents each *secretType* and their applicable query parameters. Highlighted parameter names indicate required parameters. When present, default values are listed first and also highlighted.    - **system**     - *sysid*: the unique system id     - *sysuser*: the accessing user (except when keytype=cert)     - keytype: *sshkey* | password | accesskey | cert   - **dbcred**     - *dbhost*:  the DBMS hostname, IP address or alias     - *dbname*:  the database name or alias     - *dbservice*: service name   - **jwtsigning** - *no query parameters*   - **user** - *no query parameters*   - **service** - *no query parameters* ### Authorization Requestors are authorized based on the secret type specified in the URL path.  The following authorizations are enforced:  - system: limited to the systems service - dbcred: any service - jwtsigning: limited to the tokens service - user: any user - service: any service
      */
-    async undeleteSecretRaw(requestParameters: UndeleteSecretRequest): Promise<runtime.ApiResponse<RespVersions>> {
+    async undeleteSecretRaw(requestParameters: UndeleteSecretRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespVersions>> {
         if (requestParameters.secretType === null || requestParameters.secretType === undefined) {
             throw new runtime.RequiredError('secretType','Required parameter requestParameters.secretType was null or undefined when calling undeleteSecret.');
         }
@@ -668,7 +668,7 @@ export class VaultApi extends runtime.BaseAPI {
             headers: headerParameters,
             query: queryParameters,
             body: ReqVersionsToJSON(requestParameters.reqVersions),
-        });
+        }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => RespVersionsFromJSON(jsonValue));
     }
@@ -676,15 +676,15 @@ export class VaultApi extends runtime.BaseAPI {
     /**
      * Restore one or more versions of a secret that have previously been deleted. This endpoint undoes soft deletions performed using the *secret/delete/{secretType}/{secretName}* endpoint.  The input versions array is interpreted as follows:     * [-] - empty = undelete all versions    * [0] - zero = undelete only the latest version    * [1, 3, ...] - list = undelete the specified versions  A valid tenant and user must be specified in the body.  ### Naming Secrets Secrets can be arranged hierarchically by using the \"+\" characters in the *secretName*.  These characters will be converted to slashes upon receipt, allowing secrets to be arranged in folders.  A secret is assigned a path name constructed from the *secretType* and *secretName* path parameters and, optionally, from query parameters determined by the *secretType*. Each *secretType* determines a specific transformation from the url path to a path in the vault.  The *secretType* may require certain query parameters to be present on the request in order to construct the vault path.  See the next section for details.  ### Secret Types The list below documents each *secretType* and their applicable query parameters. Highlighted parameter names indicate required parameters. When present, default values are listed first and also highlighted.    - **system**     - *sysid*: the unique system id     - *sysuser*: the accessing user (except when keytype=cert)     - keytype: *sshkey* | password | accesskey | cert   - **dbcred**     - *dbhost*:  the DBMS hostname, IP address or alias     - *dbname*:  the database name or alias     - *dbservice*: service name   - **jwtsigning** - *no query parameters*   - **user** - *no query parameters*   - **service** - *no query parameters* ### Authorization Requestors are authorized based on the secret type specified in the URL path.  The following authorizations are enforced:  - system: limited to the systems service - dbcred: any service - jwtsigning: limited to the tokens service - user: any user - service: any service
      */
-    async undeleteSecret(requestParameters: UndeleteSecretRequest): Promise<RespVersions> {
-        const response = await this.undeleteSecretRaw(requestParameters);
+    async undeleteSecret(requestParameters: UndeleteSecretRequest, initOverrides?: RequestInit): Promise<RespVersions> {
+        const response = await this.undeleteSecretRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
     /**
      * Validate a service\'s password. The JSON payload contains the password that needs to be validated against the password stored in the vault for the service specifiedin the X-Tapis-User header. The secret name is the path under whichthe password was stored.  A valid tenant and user must also be specified in the payload.  ### Naming Secrets Secrets can be arranged hierarchically by using the \"+\" characters in the *secretName*.  These characters will be converted to slashes upon receipt, allowing secrets to be arranged in folders.  Only services can make this request.
      */
-    async validateServicePasswordRaw(requestParameters: ValidateServicePasswordRequest): Promise<runtime.ApiResponse<RespAuthorized>> {
+    async validateServicePasswordRaw(requestParameters: ValidateServicePasswordRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespAuthorized>> {
         if (requestParameters.secretName === null || requestParameters.secretName === undefined) {
             throw new runtime.RequiredError('secretName','Required parameter requestParameters.secretName was null or undefined when calling validateServicePassword.');
         }
@@ -713,7 +713,7 @@ export class VaultApi extends runtime.BaseAPI {
             headers: headerParameters,
             query: queryParameters,
             body: ReqValidateServicePwdToJSON(requestParameters.reqValidateServicePwd),
-        });
+        }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => RespAuthorizedFromJSON(jsonValue));
     }
@@ -721,15 +721,15 @@ export class VaultApi extends runtime.BaseAPI {
     /**
      * Validate a service\'s password. The JSON payload contains the password that needs to be validated against the password stored in the vault for the service specifiedin the X-Tapis-User header. The secret name is the path under whichthe password was stored.  A valid tenant and user must also be specified in the payload.  ### Naming Secrets Secrets can be arranged hierarchically by using the \"+\" characters in the *secretName*.  These characters will be converted to slashes upon receipt, allowing secrets to be arranged in folders.  Only services can make this request.
      */
-    async validateServicePassword(requestParameters: ValidateServicePasswordRequest): Promise<RespAuthorized> {
-        const response = await this.validateServicePasswordRaw(requestParameters);
+    async validateServicePassword(requestParameters: ValidateServicePasswordRequest, initOverrides?: RequestInit): Promise<RespAuthorized> {
+        const response = await this.validateServicePasswordRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
     /**
      * Create or update a secret. The JSON payload contains a required *data* object and an optional *options* object.  It also contains the required tenant and user fields.  The *data* object is a JSON object that contains one or more key/value pairs in which both the key and value are strings. These are the individual secrets that are saved under the path name. The secrets are automatically versioned, which allows a pre-configured number of past secret values to be accessible even after new values are assigned. See the various GET operations for details on how to access different aspects of secrets.  NOTE: The *cas* option is currently ignored but documented here for future reference.  The *options* object can contain a *cas* key and with an integer value that represents a secret version.  CAS stands for check-and-set and will check an existing secret\'s version before updating.  If cas is not set the write will be always be allowed. If set to 0, a write will only be allowed if the key doesn’t exist. If the index is greater than zero, then the write will only be allowed if the key’s current version matches the version specified in the cas parameter.  ### Naming Secrets Secrets can be arranged hierarchically by using the \"+\" characters in the *secretName*.  These characters will be converted to slashes upon receipt, allowing secrets to be arranged in folders.  A secret is assigned a path name constructed from the *secretType* and *secretName* path parameters and, optionally, from query parameters determined by the *secretType*. Each *secretType* determines a specific transformation from the url path to a path in the vault.  The *secretType* may require certain query parameters to be present on the request in order to construct the vault path.  See the next section for details.  ### Secret Types The list below documents each *secretType* and their applicable query parameters. Highlighted parameter names indicate required parameters. When present, default values are listed first and also highlighted.    - **system**     - *sysid*: the unique system id     - *sysuser*: the accessing user (except when keytype=cert)     - keytype: *sshkey* | password | accesskey | cert   - **dbcred**     - *dbhost*:  the DBMS hostname, IP address or alias     - *dbname*:  the database name or alias     - *dbservice*: service name   - **jwtsigning** - *no query parameters*   - **user** - *no query parameters*   - **service** - *no query parameters* ### Authorization Requestors are authorized based on the secret type specified in the URL path.  The following authorizations are enforced:  - system: limited to the systems service - dbcred: any service - jwtsigning: limited to the tokens service - user: any user - service: any service
      */
-    async writeSecretRaw(requestParameters: WriteSecretRequest): Promise<runtime.ApiResponse<RespSecretMeta>> {
+    async writeSecretRaw(requestParameters: WriteSecretRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespSecretMeta>> {
         if (requestParameters.secretType === null || requestParameters.secretType === undefined) {
             throw new runtime.RequiredError('secretType','Required parameter requestParameters.secretType was null or undefined when calling writeSecret.');
         }
@@ -786,7 +786,7 @@ export class VaultApi extends runtime.BaseAPI {
             headers: headerParameters,
             query: queryParameters,
             body: ReqWriteSecretToJSON(requestParameters.reqWriteSecret),
-        });
+        }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => RespSecretMetaFromJSON(jsonValue));
     }
@@ -794,8 +794,8 @@ export class VaultApi extends runtime.BaseAPI {
     /**
      * Create or update a secret. The JSON payload contains a required *data* object and an optional *options* object.  It also contains the required tenant and user fields.  The *data* object is a JSON object that contains one or more key/value pairs in which both the key and value are strings. These are the individual secrets that are saved under the path name. The secrets are automatically versioned, which allows a pre-configured number of past secret values to be accessible even after new values are assigned. See the various GET operations for details on how to access different aspects of secrets.  NOTE: The *cas* option is currently ignored but documented here for future reference.  The *options* object can contain a *cas* key and with an integer value that represents a secret version.  CAS stands for check-and-set and will check an existing secret\'s version before updating.  If cas is not set the write will be always be allowed. If set to 0, a write will only be allowed if the key doesn’t exist. If the index is greater than zero, then the write will only be allowed if the key’s current version matches the version specified in the cas parameter.  ### Naming Secrets Secrets can be arranged hierarchically by using the \"+\" characters in the *secretName*.  These characters will be converted to slashes upon receipt, allowing secrets to be arranged in folders.  A secret is assigned a path name constructed from the *secretType* and *secretName* path parameters and, optionally, from query parameters determined by the *secretType*. Each *secretType* determines a specific transformation from the url path to a path in the vault.  The *secretType* may require certain query parameters to be present on the request in order to construct the vault path.  See the next section for details.  ### Secret Types The list below documents each *secretType* and their applicable query parameters. Highlighted parameter names indicate required parameters. When present, default values are listed first and also highlighted.    - **system**     - *sysid*: the unique system id     - *sysuser*: the accessing user (except when keytype=cert)     - keytype: *sshkey* | password | accesskey | cert   - **dbcred**     - *dbhost*:  the DBMS hostname, IP address or alias     - *dbname*:  the database name or alias     - *dbservice*: service name   - **jwtsigning** - *no query parameters*   - **user** - *no query parameters*   - **service** - *no query parameters* ### Authorization Requestors are authorized based on the secret type specified in the URL path.  The following authorizations are enforced:  - system: limited to the systems service - dbcred: any service - jwtsigning: limited to the tokens service - user: any user - service: any service
      */
-    async writeSecret(requestParameters: WriteSecretRequest): Promise<RespSecretMeta> {
-        const response = await this.writeSecretRaw(requestParameters);
+    async writeSecret(requestParameters: WriteSecretRequest, initOverrides?: RequestInit): Promise<RespSecretMeta> {
+        const response = await this.writeSecretRaw(requestParameters, initOverrides);
         return await response.value();
     }
 

@@ -62,4 +62,3 @@ export function ReqUpdateRoleNameToJSON(value?: ReqUpdateRoleName | null): any {
     };
 }
 
-

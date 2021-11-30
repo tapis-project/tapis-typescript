@@ -94,4 +94,3 @@ export function ReqCreateVariableToJSON(value?: ReqCreateVariable | null): any {
     };
 }
 
-

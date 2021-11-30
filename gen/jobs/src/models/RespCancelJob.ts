@@ -93,4 +93,3 @@ export function RespCancelJobToJSON(value?: RespCancelJob | null): any {
     };
 }
 
-

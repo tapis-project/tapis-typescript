@@ -142,4 +142,3 @@ export function SkRoleToJSON(value?: SkRole | null): any {
     };
 }
 
-

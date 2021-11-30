@@ -93,4 +93,3 @@ export function RespGetJobListToJSON(value?: RespGetJobList | null): any {
     };
 }
 
-

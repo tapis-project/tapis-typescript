@@ -69,4 +69,3 @@ export function SkSecretToJSON(value?: SkSecret | null): any {
     };
 }
 
-

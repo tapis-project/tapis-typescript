@@ -62,4 +62,3 @@ export function ReqRevokeAdminRoleToJSON(value?: ReqRevokeAdminRole | null): any
     };
 }
 
-

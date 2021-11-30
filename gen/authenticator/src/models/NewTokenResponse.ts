@@ -61,4 +61,3 @@ export function NewTokenResponseToJSON(value?: NewTokenResponse | null): any {
     };
 }
 
-

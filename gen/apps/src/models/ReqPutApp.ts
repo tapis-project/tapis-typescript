@@ -18,6 +18,10 @@ import {
     JobAttributesFromJSON,
     JobAttributesFromJSONTyped,
     JobAttributesToJSON,
+    JobTypeEnum,
+    JobTypeEnumFromJSON,
+    JobTypeEnumFromJSONTyped,
+    JobTypeEnumToJSON,
     RuntimeEnum,
     RuntimeEnumFromJSON,
     RuntimeEnumFromJSONTyped,
@@ -64,6 +68,12 @@ export interface ReqPutApp {
      * @memberof ReqPutApp
      */
     containerImage?: string;
+    /**
+     * 
+     * @type {JobTypeEnum}
+     * @memberof ReqPutApp
+     */
+    jobType?: JobTypeEnum;
     /**
      * 
      * @type {number}
@@ -117,6 +127,7 @@ export function ReqPutAppFromJSONTyped(json: any, ignoreDiscriminator: boolean):
         'runtimeVersion': !exists(json, 'runtimeVersion') ? undefined : json['runtimeVersion'],
         'runtimeOptions': !exists(json, 'runtimeOptions') ? undefined : ((json['runtimeOptions'] as Array<any>).map(RuntimeOptionEnumFromJSON)),
         'containerImage': !exists(json, 'containerImage') ? undefined : json['containerImage'],
+        'jobType': !exists(json, 'jobType') ? undefined : JobTypeEnumFromJSON(json['jobType']),
         'maxJobs': !exists(json, 'maxJobs') ? undefined : json['maxJobs'],
         'maxJobsPerUser': !exists(json, 'maxJobsPerUser') ? undefined : json['maxJobsPerUser'],
         'strictFileInputs': !exists(json, 'strictFileInputs') ? undefined : json['strictFileInputs'],
@@ -140,6 +151,7 @@ export function ReqPutAppToJSON(value?: ReqPutApp | null): any {
         'runtimeVersion': value.runtimeVersion,
         'runtimeOptions': value.runtimeOptions === undefined ? undefined : ((value.runtimeOptions as Array<any>).map(RuntimeOptionEnumToJSON)),
         'containerImage': value.containerImage,
+        'jobType': JobTypeEnumToJSON(value.jobType),
         'maxJobs': value.maxJobs,
         'maxJobsPerUser': value.maxJobsPerUser,
         'strictFileInputs': value.strictFileInputs,
@@ -148,5 +160,4 @@ export function ReqPutAppToJSON(value?: ReqPutApp | null): any {
         'notes': value.notes,
     };
 }
-
 

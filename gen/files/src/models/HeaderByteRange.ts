@@ -62,4 +62,3 @@ export function HeaderByteRangeToJSON(value?: HeaderByteRange | null): any {
     };
 }
 
-

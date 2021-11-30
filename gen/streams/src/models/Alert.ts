@@ -102,4 +102,3 @@ export function AlertToJSON(value?: Alert | null): any {
     };
 }
 
-

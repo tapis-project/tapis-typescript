@@ -70,4 +70,3 @@ export function ReqValidateServicePwdToJSON(value?: ReqValidateServicePwd | null
     };
 }
 
-

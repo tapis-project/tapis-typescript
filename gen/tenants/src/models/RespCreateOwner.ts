@@ -94,4 +94,3 @@ export function RespCreateOwnerToJSON(value?: RespCreateOwner | null): any {
     };
 }
 
-

@@ -188,4 +188,3 @@ export function TransferTaskParentToJSON(value?: TransferTaskParent | null): any
     };
 }
 
-

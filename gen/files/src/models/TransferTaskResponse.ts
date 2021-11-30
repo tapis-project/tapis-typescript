@@ -93,4 +93,3 @@ export function TransferTaskResponseToJSON(value?: TransferTaskResponse | null):
     };
 }
 
-

@@ -62,4 +62,3 @@ export function ReqUserIsAdminToJSON(value?: ReqUserIsAdmin | null): any {
     };
 }
 
-

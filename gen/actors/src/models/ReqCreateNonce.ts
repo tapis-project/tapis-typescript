@@ -72,4 +72,3 @@ export function ReqCreateNonceToJSON(value?: ReqCreateNonce | null): any {
     };
 }
 
-

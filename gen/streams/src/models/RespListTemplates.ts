@@ -93,4 +93,3 @@ export function RespListTemplatesToJSON(value?: RespListTemplates | null): any {
     };
 }
 
-

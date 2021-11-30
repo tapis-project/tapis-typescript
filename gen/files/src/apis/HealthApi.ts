@@ -29,7 +29,7 @@ export class HealthApi extends runtime.BaseAPI {
      * Health check
      * Health check
      */
-    async healthCheckRaw(): Promise<runtime.ApiResponse<HealthCheckResponse>> {
+    async healthCheckRaw(initOverrides?: RequestInit): Promise<runtime.ApiResponse<HealthCheckResponse>> {
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -39,7 +39,7 @@ export class HealthApi extends runtime.BaseAPI {
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        });
+        }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => HealthCheckResponseFromJSON(jsonValue));
     }
@@ -48,8 +48,8 @@ export class HealthApi extends runtime.BaseAPI {
      * Health check
      * Health check
      */
-    async healthCheck(): Promise<HealthCheckResponse> {
-        const response = await this.healthCheckRaw();
+    async healthCheck(initOverrides?: RequestInit): Promise<HealthCheckResponse> {
+        const response = await this.healthCheckRaw(initOverrides);
         return await response.value();
     }
 

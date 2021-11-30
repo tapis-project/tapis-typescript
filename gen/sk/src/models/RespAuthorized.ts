@@ -85,4 +85,3 @@ export function RespAuthorizedToJSON(value?: RespAuthorized | null): any {
     };
 }
 
-

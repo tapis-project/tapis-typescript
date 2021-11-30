@@ -54,4 +54,3 @@ export function RolesToJSON(value?: Roles | null): any {
     };
 }
 
-

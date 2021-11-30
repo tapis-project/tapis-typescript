@@ -70,4 +70,3 @@ export function ReqAddRolePermissionToJSON(value?: ReqAddRolePermission | null):
     };
 }
 
-

@@ -170,4 +170,3 @@ export function JobListDTOToJSON(value?: JobListDTO | null): any {
     };
 }
 
-

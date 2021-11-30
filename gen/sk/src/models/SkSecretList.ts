@@ -62,4 +62,3 @@ export function SkSecretListToJSON(value?: SkSecretList | null): any {
     };
 }
 
-

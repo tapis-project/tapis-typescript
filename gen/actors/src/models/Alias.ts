@@ -70,4 +70,3 @@ export function AliasToJSON(value?: Alias | null): any {
     };
 }
 
-

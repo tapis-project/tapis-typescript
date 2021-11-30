@@ -86,4 +86,3 @@ export function HealthCheckResponseToJSON(value?: HealthCheckResponse | null): a
     };
 }
 
-

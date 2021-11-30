@@ -166,4 +166,3 @@ export function TenantToJSON(value?: Tenant | null): any {
     };
 }
 
-

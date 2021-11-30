@@ -78,4 +78,3 @@ export function OntologyToJSON(value?: Ontology | null): any {
     };
 }
 
-

@@ -93,4 +93,3 @@ export function FilePermissionResponseToJSON(value?: FilePermissionResponse | nu
     };
 }
 
-

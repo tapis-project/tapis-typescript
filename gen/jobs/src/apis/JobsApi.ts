@@ -136,7 +136,7 @@ export class JobsApi extends runtime.BaseAPI {
     /**
      * Cancel a previously submitted job by its UUID.  The caller must be the job owner, creator or a tenant administrator.
      */
-    async cancelJobRaw(requestParameters: CancelJobRequest): Promise<runtime.ApiResponse<RespCancelJob>> {
+    async cancelJobRaw(requestParameters: CancelJobRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespCancelJob>> {
         if (requestParameters.jobUuid === null || requestParameters.jobUuid === undefined) {
             throw new runtime.RequiredError('jobUuid','Required parameter requestParameters.jobUuid was null or undefined when calling cancelJob.');
         }
@@ -158,7 +158,7 @@ export class JobsApi extends runtime.BaseAPI {
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
-        });
+        }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => RespCancelJobFromJSON(jsonValue));
     }
@@ -166,15 +166,15 @@ export class JobsApi extends runtime.BaseAPI {
     /**
      * Cancel a previously submitted job by its UUID.  The caller must be the job owner, creator or a tenant administrator.
      */
-    async cancelJob(requestParameters: CancelJobRequest): Promise<RespCancelJob> {
-        const response = await this.cancelJobRaw(requestParameters);
+    async cancelJob(requestParameters: CancelJobRequest, initOverrides?: RequestInit): Promise<RespCancelJob> {
+        const response = await this.cancelJobRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
     /**
      * Retrieve a previously submitted job by its UUID.  The caller must be the job owner, creator or a tenant administrator.
      */
-    async getJobRaw(requestParameters: GetJobRequest): Promise<runtime.ApiResponse<RespGetJob>> {
+    async getJobRaw(requestParameters: GetJobRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespGetJob>> {
         if (requestParameters.jobUuid === null || requestParameters.jobUuid === undefined) {
             throw new runtime.RequiredError('jobUuid','Required parameter requestParameters.jobUuid was null or undefined when calling getJob.');
         }
@@ -196,7 +196,7 @@ export class JobsApi extends runtime.BaseAPI {
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        });
+        }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => RespGetJobFromJSON(jsonValue));
     }
@@ -204,15 +204,15 @@ export class JobsApi extends runtime.BaseAPI {
     /**
      * Retrieve a previously submitted job by its UUID.  The caller must be the job owner, creator or a tenant administrator.
      */
-    async getJob(requestParameters: GetJobRequest): Promise<RespGetJob> {
-        const response = await this.getJobRaw(requestParameters);
+    async getJob(requestParameters: GetJobRequest, initOverrides?: RequestInit): Promise<RespGetJob> {
+        const response = await this.getJobRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
     /**
      * Retrieve history of a previously submitted job by its UUID.  The caller must be the job owner, creator or a tenant administrator.
      */
-    async getJobHistoryRaw(requestParameters: GetJobHistoryRequest): Promise<runtime.ApiResponse<RespJobHistory>> {
+    async getJobHistoryRaw(requestParameters: GetJobHistoryRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespJobHistory>> {
         if (requestParameters.jobUuid === null || requestParameters.jobUuid === undefined) {
             throw new runtime.RequiredError('jobUuid','Required parameter requestParameters.jobUuid was null or undefined when calling getJobHistory.');
         }
@@ -242,7 +242,7 @@ export class JobsApi extends runtime.BaseAPI {
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        });
+        }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => RespJobHistoryFromJSON(jsonValue));
     }
@@ -250,15 +250,15 @@ export class JobsApi extends runtime.BaseAPI {
     /**
      * Retrieve history of a previously submitted job by its UUID.  The caller must be the job owner, creator or a tenant administrator.
      */
-    async getJobHistory(requestParameters: GetJobHistoryRequest): Promise<RespJobHistory> {
-        const response = await this.getJobHistoryRaw(requestParameters);
+    async getJobHistory(requestParameters: GetJobHistoryRequest, initOverrides?: RequestInit): Promise<RespJobHistory> {
+        const response = await this.getJobHistoryRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
     /**
      * Retrieve list of jobs for the user.  The caller must be the job owner, creator or a tenant administrator.
      */
-    async getJobListRaw(requestParameters: GetJobListRequest): Promise<runtime.ApiResponse<RespGetJobList>> {
+    async getJobListRaw(requestParameters: GetJobListRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespGetJobList>> {
         const queryParameters: any = {};
 
         if (requestParameters.limit !== undefined) {
@@ -296,7 +296,7 @@ export class JobsApi extends runtime.BaseAPI {
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        });
+        }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => RespGetJobListFromJSON(jsonValue));
     }
@@ -304,15 +304,15 @@ export class JobsApi extends runtime.BaseAPI {
     /**
      * Retrieve list of jobs for the user.  The caller must be the job owner, creator or a tenant administrator.
      */
-    async getJobList(requestParameters: GetJobListRequest): Promise<RespGetJobList> {
-        const response = await this.getJobListRaw(requestParameters);
+    async getJobList(requestParameters: GetJobListRequest, initOverrides?: RequestInit): Promise<RespGetJobList> {
+        const response = await this.getJobListRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
     /**
      * Download job\'s output files for previously submitted job by its UUID. The job must be in a terminal state - FINISHED or FAILED.    The caller must be the job owner, creator or a tenant administrator. The URL must ends with \'/\' even if there is no outputPath is specified. 
      */
-    async getJobOutputDownloadRaw(requestParameters: GetJobOutputDownloadRequest): Promise<runtime.ApiResponse<Blob>> {
+    async getJobOutputDownloadRaw(requestParameters: GetJobOutputDownloadRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<Blob>> {
         if (requestParameters.jobUuid === null || requestParameters.jobUuid === undefined) {
             throw new runtime.RequiredError('jobUuid','Required parameter requestParameters.jobUuid was null or undefined when calling getJobOutputDownload.');
         }
@@ -346,7 +346,7 @@ export class JobsApi extends runtime.BaseAPI {
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        });
+        }, initOverrides);
 
         return new runtime.BlobApiResponse(response);
     }
@@ -354,15 +354,15 @@ export class JobsApi extends runtime.BaseAPI {
     /**
      * Download job\'s output files for previously submitted job by its UUID. The job must be in a terminal state - FINISHED or FAILED.    The caller must be the job owner, creator or a tenant administrator. The URL must ends with \'/\' even if there is no outputPath is specified. 
      */
-    async getJobOutputDownload(requestParameters: GetJobOutputDownloadRequest): Promise<Blob> {
-        const response = await this.getJobOutputDownloadRaw(requestParameters);
+    async getJobOutputDownload(requestParameters: GetJobOutputDownloadRequest, initOverrides?: RequestInit): Promise<Blob> {
+        const response = await this.getJobOutputDownloadRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
     /**
      * Retrieve job\'s output files list for previously submitted job by its UUID. The job must be in a terminal state (FINISHED or FAILED or CANCELLED)    The caller must be the job owner, creator or a tenant administrator. The URL must ends with \'/\' even if there is no outputPath is specified. 
      */
-    async getJobOutputListRaw(requestParameters: GetJobOutputListRequest): Promise<runtime.ApiResponse<RespGetJobOutputList>> {
+    async getJobOutputListRaw(requestParameters: GetJobOutputListRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespGetJobOutputList>> {
         if (requestParameters.jobUuid === null || requestParameters.jobUuid === undefined) {
             throw new runtime.RequiredError('jobUuid','Required parameter requestParameters.jobUuid was null or undefined when calling getJobOutputList.');
         }
@@ -396,7 +396,7 @@ export class JobsApi extends runtime.BaseAPI {
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        });
+        }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => RespGetJobOutputListFromJSON(jsonValue));
     }
@@ -404,15 +404,15 @@ export class JobsApi extends runtime.BaseAPI {
     /**
      * Retrieve job\'s output files list for previously submitted job by its UUID. The job must be in a terminal state (FINISHED or FAILED or CANCELLED)    The caller must be the job owner, creator or a tenant administrator. The URL must ends with \'/\' even if there is no outputPath is specified. 
      */
-    async getJobOutputList(requestParameters: GetJobOutputListRequest): Promise<RespGetJobOutputList> {
-        const response = await this.getJobOutputListRaw(requestParameters);
+    async getJobOutputList(requestParameters: GetJobOutputListRequest, initOverrides?: RequestInit): Promise<RespGetJobOutputList> {
+        const response = await this.getJobOutputListRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
     /**
      * Retrieve list of jobs for the user based on search conditions in the query paramter on the dedicated search end-point.  The caller must be the job owner, creator or a tenant administrator.
      */
-    async getJobSearchListRaw(requestParameters: GetJobSearchListRequest): Promise<runtime.ApiResponse<RespJobSearchAllAttributes>> {
+    async getJobSearchListRaw(requestParameters: GetJobSearchListRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespJobSearchAllAttributes>> {
         const queryParameters: any = {};
 
         if (requestParameters.limit !== undefined) {
@@ -454,7 +454,7 @@ export class JobsApi extends runtime.BaseAPI {
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        });
+        }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => RespJobSearchAllAttributesFromJSON(jsonValue));
     }
@@ -462,15 +462,15 @@ export class JobsApi extends runtime.BaseAPI {
     /**
      * Retrieve list of jobs for the user based on search conditions in the query paramter on the dedicated search end-point.  The caller must be the job owner, creator or a tenant administrator.
      */
-    async getJobSearchList(requestParameters: GetJobSearchListRequest): Promise<RespJobSearchAllAttributes> {
-        const response = await this.getJobSearchListRaw(requestParameters);
+    async getJobSearchList(requestParameters: GetJobSearchListRequest, initOverrides?: RequestInit): Promise<RespJobSearchAllAttributes> {
+        const response = await this.getJobSearchListRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
     /**
      * Retrieve list of jobs for the user based on search conditions in the request body and pagination information from the query paramter on the dedicated search end-point.  The caller must be the job owner, creator or a tenant administrator.
      */
-    async getJobSearchListByPostSqlStrRaw(requestParameters: GetJobSearchListByPostSqlStrRequest): Promise<runtime.ApiResponse<RespJobSearchAllAttributes>> {
+    async getJobSearchListByPostSqlStrRaw(requestParameters: GetJobSearchListByPostSqlStrRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespJobSearchAllAttributes>> {
         const queryParameters: any = {};
 
         if (requestParameters.limit !== undefined) {
@@ -515,7 +515,7 @@ export class JobsApi extends runtime.BaseAPI {
             headers: headerParameters,
             query: queryParameters,
             body: requestParameters.body as any,
-        });
+        }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => RespJobSearchAllAttributesFromJSON(jsonValue));
     }
@@ -523,15 +523,15 @@ export class JobsApi extends runtime.BaseAPI {
     /**
      * Retrieve list of jobs for the user based on search conditions in the request body and pagination information from the query paramter on the dedicated search end-point.  The caller must be the job owner, creator or a tenant administrator.
      */
-    async getJobSearchListByPostSqlStr(requestParameters: GetJobSearchListByPostSqlStrRequest): Promise<RespJobSearchAllAttributes> {
-        const response = await this.getJobSearchListByPostSqlStrRaw(requestParameters);
+    async getJobSearchListByPostSqlStr(requestParameters: GetJobSearchListByPostSqlStrRequest, initOverrides?: RequestInit): Promise<RespJobSearchAllAttributes> {
+        const response = await this.getJobSearchListByPostSqlStrRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
     /**
      * Retrieve status of a previously submitted job by its UUID.  The caller must be the job owner, creator or a tenant administrator.
      */
-    async getJobStatusRaw(requestParameters: GetJobStatusRequest): Promise<runtime.ApiResponse<RespGetJobStatus>> {
+    async getJobStatusRaw(requestParameters: GetJobStatusRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespGetJobStatus>> {
         if (requestParameters.jobUuid === null || requestParameters.jobUuid === undefined) {
             throw new runtime.RequiredError('jobUuid','Required parameter requestParameters.jobUuid was null or undefined when calling getJobStatus.');
         }
@@ -553,7 +553,7 @@ export class JobsApi extends runtime.BaseAPI {
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        });
+        }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => RespGetJobStatusFromJSON(jsonValue));
     }
@@ -561,15 +561,15 @@ export class JobsApi extends runtime.BaseAPI {
     /**
      * Retrieve status of a previously submitted job by its UUID.  The caller must be the job owner, creator or a tenant administrator.
      */
-    async getJobStatus(requestParameters: GetJobStatusRequest): Promise<RespGetJobStatus> {
-        const response = await this.getJobStatusRaw(requestParameters);
+    async getJobStatus(requestParameters: GetJobStatusRequest, initOverrides?: RequestInit): Promise<RespGetJobStatus> {
+        const response = await this.getJobStatusRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
     /**
      * Resubmit a job for execution using the original parameters.  The main phases of job execution are:    - validate input   - check resource availability   - stage input files   - stage application code   - launch application   - monitor application   - archive application output 
      */
-    async resubmitJobRaw(requestParameters: ResubmitJobRequest): Promise<runtime.ApiResponse<RespSubmitJob>> {
+    async resubmitJobRaw(requestParameters: ResubmitJobRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespSubmitJob>> {
         if (requestParameters.jobuuid === null || requestParameters.jobuuid === undefined) {
             throw new runtime.RequiredError('jobuuid','Required parameter requestParameters.jobuuid was null or undefined when calling resubmitJob.');
         }
@@ -591,7 +591,7 @@ export class JobsApi extends runtime.BaseAPI {
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
-        });
+        }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => RespSubmitJobFromJSON(jsonValue));
     }
@@ -599,15 +599,15 @@ export class JobsApi extends runtime.BaseAPI {
     /**
      * Resubmit a job for execution using the original parameters.  The main phases of job execution are:    - validate input   - check resource availability   - stage input files   - stage application code   - launch application   - monitor application   - archive application output 
      */
-    async resubmitJob(requestParameters: ResubmitJobRequest): Promise<RespSubmitJob> {
-        const response = await this.resubmitJobRaw(requestParameters);
+    async resubmitJob(requestParameters: ResubmitJobRequest, initOverrides?: RequestInit): Promise<RespSubmitJob> {
+        const response = await this.resubmitJobRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
     /**
      * Submit a job for execution.  The main phases of job execution are:    - validate input   - check resource availability   - stage input files   - stage application code   - launch application   - monitor application   - archive application output 
      */
-    async submitJobRaw(requestParameters: SubmitJobRequest): Promise<runtime.ApiResponse<RespSubmitJob>> {
+    async submitJobRaw(requestParameters: SubmitJobRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespSubmitJob>> {
         if (requestParameters.reqSubmitJob === null || requestParameters.reqSubmitJob === undefined) {
             throw new runtime.RequiredError('reqSubmitJob','Required parameter requestParameters.reqSubmitJob was null or undefined when calling submitJob.');
         }
@@ -632,7 +632,7 @@ export class JobsApi extends runtime.BaseAPI {
             headers: headerParameters,
             query: queryParameters,
             body: ReqSubmitJobToJSON(requestParameters.reqSubmitJob),
-        });
+        }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => RespSubmitJobFromJSON(jsonValue));
     }
@@ -640,8 +640,8 @@ export class JobsApi extends runtime.BaseAPI {
     /**
      * Submit a job for execution.  The main phases of job execution are:    - validate input   - check resource availability   - stage input files   - stage application code   - launch application   - monitor application   - archive application output 
      */
-    async submitJob(requestParameters: SubmitJobRequest): Promise<RespSubmitJob> {
-        const response = await this.submitJobRaw(requestParameters);
+    async submitJob(requestParameters: SubmitJobRequest, initOverrides?: RequestInit): Promise<RespSubmitJob> {
+        const response = await this.submitJobRaw(requestParameters, initOverrides);
         return await response.value();
     }
 

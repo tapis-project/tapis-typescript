@@ -14,14 +14,14 @@
 
 import { exists, mapValues } from '../runtime';
 import {
-    AppTypeEnum,
-    AppTypeEnumFromJSON,
-    AppTypeEnumFromJSONTyped,
-    AppTypeEnumToJSON,
     JobAttributes,
     JobAttributesFromJSON,
     JobAttributesFromJSONTyped,
     JobAttributesToJSON,
+    JobTypeEnum,
+    JobTypeEnumFromJSON,
+    JobTypeEnumFromJSONTyped,
+    JobTypeEnumToJSON,
     RuntimeEnum,
     RuntimeEnumFromJSON,
     RuntimeEnumFromJSONTyped,
@@ -64,12 +64,6 @@ export interface TapisApp {
     description?: string;
     /**
      * 
-     * @type {AppTypeEnum}
-     * @memberof TapisApp
-     */
-    appType?: AppTypeEnum;
-    /**
-     * 
      * @type {string}
      * @memberof TapisApp
      */
@@ -104,6 +98,12 @@ export interface TapisApp {
      * @memberof TapisApp
      */
     containerImage?: string;
+    /**
+     * 
+     * @type {JobTypeEnum}
+     * @memberof TapisApp
+     */
+    jobType?: JobTypeEnum;
     /**
      * 
      * @type {number}
@@ -180,13 +180,13 @@ export function TapisAppFromJSONTyped(json: any, ignoreDiscriminator: boolean): 
         'id': !exists(json, 'id') ? undefined : json['id'],
         'version': !exists(json, 'version') ? undefined : json['version'],
         'description': !exists(json, 'description') ? undefined : json['description'],
-        'appType': !exists(json, 'appType') ? undefined : AppTypeEnumFromJSON(json['appType']),
         'owner': !exists(json, 'owner') ? undefined : json['owner'],
         'enabled': !exists(json, 'enabled') ? undefined : json['enabled'],
         'runtime': !exists(json, 'runtime') ? undefined : RuntimeEnumFromJSON(json['runtime']),
         'runtimeVersion': !exists(json, 'runtimeVersion') ? undefined : json['runtimeVersion'],
         'runtimeOptions': !exists(json, 'runtimeOptions') ? undefined : ((json['runtimeOptions'] as Array<any>).map(RuntimeOptionEnumFromJSON)),
         'containerImage': !exists(json, 'containerImage') ? undefined : json['containerImage'],
+        'jobType': !exists(json, 'jobType') ? undefined : JobTypeEnumFromJSON(json['jobType']),
         'maxJobs': !exists(json, 'maxJobs') ? undefined : json['maxJobs'],
         'maxJobsPerUser': !exists(json, 'maxJobsPerUser') ? undefined : json['maxJobsPerUser'],
         'strictFileInputs': !exists(json, 'strictFileInputs') ? undefined : json['strictFileInputs'],
@@ -213,13 +213,13 @@ export function TapisAppToJSON(value?: TapisApp | null): any {
         'id': value.id,
         'version': value.version,
         'description': value.description,
-        'appType': AppTypeEnumToJSON(value.appType),
         'owner': value.owner,
         'enabled': value.enabled,
         'runtime': RuntimeEnumToJSON(value.runtime),
         'runtimeVersion': value.runtimeVersion,
         'runtimeOptions': value.runtimeOptions === undefined ? undefined : ((value.runtimeOptions as Array<any>).map(RuntimeOptionEnumToJSON)),
         'containerImage': value.containerImage,
+        'jobType': JobTypeEnumToJSON(value.jobType),
         'maxJobs': value.maxJobs,
         'maxJobsPerUser': value.maxJobsPerUser,
         'strictFileInputs': value.strictFileInputs,
@@ -232,5 +232,4 @@ export function TapisAppToJSON(value?: TapisApp | null): any {
         'updated': value.updated,
     };
 }
-
 

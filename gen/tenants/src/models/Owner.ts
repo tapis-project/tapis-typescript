@@ -86,4 +86,3 @@ export function OwnerToJSON(value?: Owner | null): any {
     };
 }
 
-

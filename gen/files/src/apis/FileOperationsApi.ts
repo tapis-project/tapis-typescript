@@ -90,7 +90,7 @@ export class FileOperationsApi extends runtime.BaseAPI {
      * Delete a file in {systemID} at path {path}.
      * Delete a file or folder
      */
-    async _deleteRaw(requestParameters: DeleteRequest): Promise<runtime.ApiResponse<FileStringResponse>> {
+    async _deleteRaw(requestParameters: DeleteRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<FileStringResponse>> {
         if (requestParameters.systemId === null || requestParameters.systemId === undefined) {
             throw new runtime.RequiredError('systemId','Required parameter requestParameters.systemId was null or undefined when calling _delete.');
         }
@@ -108,7 +108,7 @@ export class FileOperationsApi extends runtime.BaseAPI {
             method: 'DELETE',
             headers: headerParameters,
             query: queryParameters,
-        });
+        }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => FileStringResponseFromJSON(jsonValue));
     }
@@ -117,8 +117,8 @@ export class FileOperationsApi extends runtime.BaseAPI {
      * Delete a file in {systemID} at path {path}.
      * Delete a file or folder
      */
-    async _delete(requestParameters: DeleteRequest): Promise<FileStringResponse> {
-        const response = await this._deleteRaw(requestParameters);
+    async _delete(requestParameters: DeleteRequest, initOverrides?: RequestInit): Promise<FileStringResponse> {
+        const response = await this._deleteRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
@@ -126,7 +126,7 @@ export class FileOperationsApi extends runtime.BaseAPI {
      * Get stat information for a file or directory.
      * Get stat information for a file or directory.
      */
-    async getStatInfoRaw(requestParameters: GetStatInfoRequest): Promise<runtime.ApiResponse<FileStatInfoResponse>> {
+    async getStatInfoRaw(requestParameters: GetStatInfoRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<FileStatInfoResponse>> {
         if (requestParameters.systemId === null || requestParameters.systemId === undefined) {
             throw new runtime.RequiredError('systemId','Required parameter requestParameters.systemId was null or undefined when calling getStatInfo.');
         }
@@ -148,7 +148,7 @@ export class FileOperationsApi extends runtime.BaseAPI {
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        });
+        }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => FileStatInfoResponseFromJSON(jsonValue));
     }
@@ -157,8 +157,8 @@ export class FileOperationsApi extends runtime.BaseAPI {
      * Get stat information for a file or directory.
      * Get stat information for a file or directory.
      */
-    async getStatInfo(requestParameters: GetStatInfoRequest): Promise<FileStatInfoResponse> {
-        const response = await this.getStatInfoRaw(requestParameters);
+    async getStatInfo(requestParameters: GetStatInfoRequest, initOverrides?: RequestInit): Promise<FileStatInfoResponse> {
+        const response = await this.getStatInfoRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
@@ -166,7 +166,7 @@ export class FileOperationsApi extends runtime.BaseAPI {
      * The file will be added at the {path} independent of the original file name
      * Upload a file
      */
-    async insertRaw(requestParameters: InsertRequest): Promise<runtime.ApiResponse<FileStringResponse>> {
+    async insertRaw(requestParameters: InsertRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<FileStringResponse>> {
         if (requestParameters.systemId === null || requestParameters.systemId === undefined) {
             throw new runtime.RequiredError('systemId','Required parameter requestParameters.systemId was null or undefined when calling insert.');
         }
@@ -209,7 +209,7 @@ export class FileOperationsApi extends runtime.BaseAPI {
             headers: headerParameters,
             query: queryParameters,
             body: formParams,
-        });
+        }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => FileStringResponseFromJSON(jsonValue));
     }
@@ -218,8 +218,8 @@ export class FileOperationsApi extends runtime.BaseAPI {
      * The file will be added at the {path} independent of the original file name
      * Upload a file
      */
-    async insert(requestParameters: InsertRequest): Promise<FileStringResponse> {
-        const response = await this.insertRaw(requestParameters);
+    async insert(requestParameters: InsertRequest, initOverrides?: RequestInit): Promise<FileStringResponse> {
+        const response = await this.insertRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
@@ -227,7 +227,7 @@ export class FileOperationsApi extends runtime.BaseAPI {
      * List files in a storage system
      * List files/objects in a storage system.
      */
-    async listFilesRaw(requestParameters: ListFilesRequest): Promise<runtime.ApiResponse<FileListingResponse>> {
+    async listFilesRaw(requestParameters: ListFilesRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<FileListingResponse>> {
         if (requestParameters.systemId === null || requestParameters.systemId === undefined) {
             throw new runtime.RequiredError('systemId','Required parameter requestParameters.systemId was null or undefined when calling listFiles.');
         }
@@ -257,7 +257,7 @@ export class FileOperationsApi extends runtime.BaseAPI {
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        });
+        }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => FileListingResponseFromJSON(jsonValue));
     }
@@ -266,8 +266,8 @@ export class FileOperationsApi extends runtime.BaseAPI {
      * List files in a storage system
      * List files/objects in a storage system.
      */
-    async listFiles(requestParameters: ListFilesRequest): Promise<FileListingResponse> {
-        const response = await this.listFilesRaw(requestParameters);
+    async listFiles(requestParameters: ListFilesRequest, initOverrides?: RequestInit): Promise<FileListingResponse> {
+        const response = await this.listFilesRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
@@ -275,7 +275,7 @@ export class FileOperationsApi extends runtime.BaseAPI {
      * Create a directory in the system at path the given path
      * Create a directory
      */
-    async mkdirRaw(requestParameters: MkdirOperationRequest): Promise<runtime.ApiResponse<FileStringResponse>> {
+    async mkdirRaw(requestParameters: MkdirOperationRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<FileStringResponse>> {
         if (requestParameters.systemId === null || requestParameters.systemId === undefined) {
             throw new runtime.RequiredError('systemId','Required parameter requestParameters.systemId was null or undefined when calling mkdir.');
         }
@@ -292,7 +292,7 @@ export class FileOperationsApi extends runtime.BaseAPI {
             headers: headerParameters,
             query: queryParameters,
             body: MkdirRequestToJSON(requestParameters.mkdirRequest),
-        });
+        }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => FileStringResponseFromJSON(jsonValue));
     }
@@ -301,8 +301,8 @@ export class FileOperationsApi extends runtime.BaseAPI {
      * Create a directory in the system at path the given path
      * Create a directory
      */
-    async mkdir(requestParameters: MkdirOperationRequest): Promise<FileStringResponse> {
-        const response = await this.mkdirRaw(requestParameters);
+    async mkdir(requestParameters: MkdirOperationRequest, initOverrides?: RequestInit): Promise<FileStringResponse> {
+        const response = await this.mkdirRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
@@ -310,7 +310,7 @@ export class FileOperationsApi extends runtime.BaseAPI {
      * Move/copy a file in {systemID} at path {path}.
      * Move/copy a file or folder
      */
-    async moveCopyRaw(requestParameters: MoveCopyOperationRequest): Promise<runtime.ApiResponse<FileStringResponse>> {
+    async moveCopyRaw(requestParameters: MoveCopyOperationRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<FileStringResponse>> {
         if (requestParameters.systemId === null || requestParameters.systemId === undefined) {
             throw new runtime.RequiredError('systemId','Required parameter requestParameters.systemId was null or undefined when calling moveCopy.');
         }
@@ -331,7 +331,7 @@ export class FileOperationsApi extends runtime.BaseAPI {
             headers: headerParameters,
             query: queryParameters,
             body: MoveCopyRequestToJSON(requestParameters.moveCopyRequest),
-        });
+        }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => FileStringResponseFromJSON(jsonValue));
     }
@@ -340,8 +340,8 @@ export class FileOperationsApi extends runtime.BaseAPI {
      * Move/copy a file in {systemID} at path {path}.
      * Move/copy a file or folder
      */
-    async moveCopy(requestParameters: MoveCopyOperationRequest): Promise<FileStringResponse> {
-        const response = await this.moveCopyRaw(requestParameters);
+    async moveCopy(requestParameters: MoveCopyOperationRequest, initOverrides?: RequestInit): Promise<FileStringResponse> {
+        const response = await this.moveCopyRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
@@ -349,7 +349,7 @@ export class FileOperationsApi extends runtime.BaseAPI {
      * Run a native operation: chmod, chown or chgrp.
      * Run a native operation
      */
-    async runLinuxNativeOpRaw(requestParameters: RunLinuxNativeOpRequest): Promise<runtime.ApiResponse<NativeLinuxOpResultResponse>> {
+    async runLinuxNativeOpRaw(requestParameters: RunLinuxNativeOpRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<NativeLinuxOpResultResponse>> {
         if (requestParameters.systemId === null || requestParameters.systemId === undefined) {
             throw new runtime.RequiredError('systemId','Required parameter requestParameters.systemId was null or undefined when calling runLinuxNativeOp.');
         }
@@ -374,7 +374,7 @@ export class FileOperationsApi extends runtime.BaseAPI {
             headers: headerParameters,
             query: queryParameters,
             body: NativeLinuxOpRequestToJSON(requestParameters.nativeLinuxOpRequest),
-        });
+        }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => NativeLinuxOpResultResponseFromJSON(jsonValue));
     }
@@ -383,8 +383,8 @@ export class FileOperationsApi extends runtime.BaseAPI {
      * Run a native operation: chmod, chown or chgrp.
      * Run a native operation
      */
-    async runLinuxNativeOp(requestParameters: RunLinuxNativeOpRequest): Promise<NativeLinuxOpResultResponse> {
-        const response = await this.runLinuxNativeOpRaw(requestParameters);
+    async runLinuxNativeOp(requestParameters: RunLinuxNativeOpRequest, initOverrides?: RequestInit): Promise<NativeLinuxOpResultResponse> {
+        const response = await this.runLinuxNativeOpRaw(requestParameters, initOverrides);
         return await response.value();
     }
 

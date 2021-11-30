@@ -42,7 +42,7 @@ export class HealthApi extends runtime.BaseAPI {
      * Checks health of meta, kapacitor, influx and chords
      * Healthcheck
      */
-    async healthcheckRaw(requestParameters: HealthcheckRequest): Promise<runtime.ApiResponse<RespHealthcheck>> {
+    async healthcheckRaw(requestParameters: HealthcheckRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespHealthcheck>> {
         if (requestParameters.tenant === null || requestParameters.tenant === undefined) {
             throw new runtime.RequiredError('tenant','Required parameter requestParameters.tenant was null or undefined when calling healthcheck.');
         }
@@ -60,7 +60,7 @@ export class HealthApi extends runtime.BaseAPI {
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        });
+        }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => RespHealthcheckFromJSON(jsonValue));
     }
@@ -69,8 +69,8 @@ export class HealthApi extends runtime.BaseAPI {
      * Checks health of meta, kapacitor, influx and chords
      * Healthcheck
      */
-    async healthcheck(requestParameters: HealthcheckRequest): Promise<RespHealthcheck> {
-        const response = await this.healthcheckRaw(requestParameters);
+    async healthcheck(requestParameters: HealthcheckRequest, initOverrides?: RequestInit): Promise<RespHealthcheck> {
+        const response = await this.healthcheckRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
@@ -78,7 +78,7 @@ export class HealthApi extends runtime.BaseAPI {
      * Say Hello
      * Say Hello
      */
-    async helloRaw(): Promise<runtime.ApiResponse<RespHello>> {
+    async helloRaw(initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespHello>> {
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -88,7 +88,7 @@ export class HealthApi extends runtime.BaseAPI {
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        });
+        }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => RespHelloFromJSON(jsonValue));
     }
@@ -97,8 +97,8 @@ export class HealthApi extends runtime.BaseAPI {
      * Say Hello
      * Say Hello
      */
-    async hello(): Promise<RespHello> {
-        const response = await this.helloRaw();
+    async hello(initOverrides?: RequestInit): Promise<RespHello> {
+        const response = await this.helloRaw(initOverrides);
         return await response.value();
     }
 
@@ -106,7 +106,7 @@ export class HealthApi extends runtime.BaseAPI {
      * Readiness check
      * Check readiness of InfluxDB, Chords and Kapacitor
      */
-    async readyRaw(): Promise<runtime.ApiResponse<RespReady>> {
+    async readyRaw(initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespReady>> {
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -116,7 +116,7 @@ export class HealthApi extends runtime.BaseAPI {
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        });
+        }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => RespReadyFromJSON(jsonValue));
     }
@@ -125,8 +125,8 @@ export class HealthApi extends runtime.BaseAPI {
      * Readiness check
      * Check readiness of InfluxDB, Chords and Kapacitor
      */
-    async ready(): Promise<RespReady> {
-        const response = await this.readyRaw();
+    async ready(initOverrides?: RequestInit): Promise<RespReady> {
+        const response = await this.readyRaw(initOverrides);
         return await response.value();
     }
 

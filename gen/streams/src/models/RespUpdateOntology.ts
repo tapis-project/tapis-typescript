@@ -93,4 +93,3 @@ export function RespUpdateOntologyToJSON(value?: RespUpdateOntology | null): any
     };
 }
 
-

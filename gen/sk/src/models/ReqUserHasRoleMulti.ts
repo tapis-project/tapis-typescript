@@ -78,4 +78,3 @@ export function ReqUserHasRoleMultiToJSON(value?: ReqUserHasRoleMulti | null): a
     };
 }
 
-

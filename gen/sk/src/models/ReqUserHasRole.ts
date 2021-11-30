@@ -78,4 +78,3 @@ export function ReqUserHasRoleToJSON(value?: ReqUserHasRole | null): any {
     };
 }
 
-

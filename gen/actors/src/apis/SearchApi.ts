@@ -36,7 +36,7 @@ export class SearchApi extends runtime.BaseAPI {
      * Return db records that match query
      * searchDatabase
      */
-    async searchDatabaseRaw(requestParameters: SearchDatabaseRequest): Promise<runtime.ApiResponse<RespSearchDatabase>> {
+    async searchDatabaseRaw(requestParameters: SearchDatabaseRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespSearchDatabase>> {
         if (requestParameters.searchType === null || requestParameters.searchType === undefined) {
             throw new runtime.RequiredError('searchType','Required parameter requestParameters.searchType was null or undefined when calling searchDatabase.');
         }
@@ -70,7 +70,7 @@ export class SearchApi extends runtime.BaseAPI {
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        });
+        }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => RespSearchDatabaseFromJSON(jsonValue));
     }
@@ -79,8 +79,8 @@ export class SearchApi extends runtime.BaseAPI {
      * Return db records that match query
      * searchDatabase
      */
-    async searchDatabase(requestParameters: SearchDatabaseRequest): Promise<RespSearchDatabase> {
-        const response = await this.searchDatabaseRaw(requestParameters);
+    async searchDatabase(requestParameters: SearchDatabaseRequest, initOverrides?: RequestInit): Promise<RespSearchDatabase> {
+        const response = await this.searchDatabaseRaw(requestParameters, initOverrides);
         return await response.value();
     }
 

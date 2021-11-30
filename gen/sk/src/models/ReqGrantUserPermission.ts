@@ -70,4 +70,3 @@ export function ReqGrantUserPermissionToJSON(value?: ReqGrantUserPermission | nu
     };
 }
 
-

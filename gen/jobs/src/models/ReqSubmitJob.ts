@@ -76,6 +76,12 @@ export interface ReqSubmitJob {
     appVersion: string;
     /**
      * 
+     * @type {string}
+     * @memberof ReqSubmitJob
+     */
+    jobType?: string;
+    /**
+     * 
      * @type {boolean}
      * @memberof ReqSubmitJob
      */
@@ -206,6 +212,7 @@ export function ReqSubmitJobFromJSONTyped(json: any, ignoreDiscriminator: boolea
         'description': !exists(json, 'description') ? undefined : json['description'],
         'appId': json['appId'],
         'appVersion': json['appVersion'],
+        'jobType': !exists(json, 'jobType') ? undefined : json['jobType'],
         'archiveOnAppError': !exists(json, 'archiveOnAppError') ? undefined : json['archiveOnAppError'],
         'dynamicExecSystem': !exists(json, 'dynamicExecSystem') ? undefined : json['dynamicExecSystem'],
         'execSystemId': !exists(json, 'execSystemId') ? undefined : json['execSystemId'],
@@ -243,6 +250,7 @@ export function ReqSubmitJobToJSON(value?: ReqSubmitJob | null): any {
         'description': value.description,
         'appId': value.appId,
         'appVersion': value.appVersion,
+        'jobType': value.jobType,
         'archiveOnAppError': value.archiveOnAppError,
         'dynamicExecSystem': value.dynamicExecSystem,
         'execSystemId': value.execSystemId,
@@ -264,5 +272,4 @@ export function ReqSubmitJobToJSON(value?: ReqSubmitJob | null): any {
         'subscriptions': value.subscriptions === undefined ? undefined : ((value.subscriptions as Array<any>).map(NotificationSubscriptionToJSON)),
     };
 }
-
 

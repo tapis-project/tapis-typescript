@@ -1083,6 +1083,11 @@ components:
           type: array
           items:
             type: string
+        jobType:
+          type: string
+          enum:
+            - FORK
+            - BATCH
     RespGetJob:
       type: object
       properties:
@@ -1392,6 +1397,8 @@ components:
         appId:
           type: string
         appVersion:
+          type: string
+        jobType:
           type: string
         archiveOnAppError:
           type: boolean

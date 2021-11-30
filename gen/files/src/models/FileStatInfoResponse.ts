@@ -93,4 +93,3 @@ export function FileStatInfoResponseToJSON(value?: FileStatInfoResponse | null):
     };
 }
 
-

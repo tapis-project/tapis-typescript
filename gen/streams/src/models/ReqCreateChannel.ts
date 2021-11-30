@@ -85,4 +85,3 @@ export function ReqCreateChannelToJSON(value?: ReqCreateChannel | null): any {
     };
 }
 
-

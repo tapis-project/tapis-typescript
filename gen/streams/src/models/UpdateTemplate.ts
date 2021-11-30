@@ -63,4 +63,3 @@ export function UpdateTemplateToJSON(value?: UpdateTemplate | null): any {
     };
 }
 
-

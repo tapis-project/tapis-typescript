@@ -58,7 +58,7 @@ export class TransfersApi extends runtime.BaseAPI {
     /**
      * Stop/Cancel a transfer task
      */
-    async cancelTransferTaskRaw(requestParameters: CancelTransferTaskRequest): Promise<runtime.ApiResponse<StringResponse>> {
+    async cancelTransferTaskRaw(requestParameters: CancelTransferTaskRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<StringResponse>> {
         if (requestParameters.transferTaskId === null || requestParameters.transferTaskId === undefined) {
             throw new runtime.RequiredError('transferTaskId','Required parameter requestParameters.transferTaskId was null or undefined when calling cancelTransferTask.');
         }
@@ -72,7 +72,7 @@ export class TransfersApi extends runtime.BaseAPI {
             method: 'DELETE',
             headers: headerParameters,
             query: queryParameters,
-        });
+        }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => StringResponseFromJSON(jsonValue));
     }
@@ -80,8 +80,8 @@ export class TransfersApi extends runtime.BaseAPI {
     /**
      * Stop/Cancel a transfer task
      */
-    async cancelTransferTask(requestParameters: CancelTransferTaskRequest): Promise<StringResponse> {
-        const response = await this.cancelTransferTaskRaw(requestParameters);
+    async cancelTransferTask(requestParameters: CancelTransferTaskRequest, initOverrides?: RequestInit): Promise<StringResponse> {
+        const response = await this.cancelTransferTaskRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
@@ -89,7 +89,7 @@ export class TransfersApi extends runtime.BaseAPI {
      * This creates a background task which will transfer files into the storage system
      * Transfer data
      */
-    async createTransferTaskRaw(requestParameters: CreateTransferTaskRequest): Promise<runtime.ApiResponse<TransferTaskResponse>> {
+    async createTransferTaskRaw(requestParameters: CreateTransferTaskRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<TransferTaskResponse>> {
         if (requestParameters.transferTaskRequest === null || requestParameters.transferTaskRequest === undefined) {
             throw new runtime.RequiredError('transferTaskRequest','Required parameter requestParameters.transferTaskRequest was null or undefined when calling createTransferTask.');
         }
@@ -106,7 +106,7 @@ export class TransfersApi extends runtime.BaseAPI {
             headers: headerParameters,
             query: queryParameters,
             body: TransferTaskRequestToJSON(requestParameters.transferTaskRequest),
-        });
+        }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => TransferTaskResponseFromJSON(jsonValue));
     }
@@ -115,8 +115,8 @@ export class TransfersApi extends runtime.BaseAPI {
      * This creates a background task which will transfer files into the storage system
      * Transfer data
      */
-    async createTransferTask(requestParameters: CreateTransferTaskRequest): Promise<TransferTaskResponse> {
-        const response = await this.createTransferTaskRaw(requestParameters);
+    async createTransferTask(requestParameters: CreateTransferTaskRequest, initOverrides?: RequestInit): Promise<TransferTaskResponse> {
+        const response = await this.createTransferTaskRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
@@ -124,7 +124,7 @@ export class TransfersApi extends runtime.BaseAPI {
      * Get a list of recent transfer tasks starting with the most recent
      * Get a list of recent transfer tasks starting with the most recent
      */
-    async getRecentTransferTasksRaw(requestParameters: GetRecentTransferTasksRequest): Promise<runtime.ApiResponse<TransferTaskListResponse>> {
+    async getRecentTransferTasksRaw(requestParameters: GetRecentTransferTasksRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<TransferTaskListResponse>> {
         const queryParameters: any = {};
 
         if (requestParameters.limit !== undefined) {
@@ -142,7 +142,7 @@ export class TransfersApi extends runtime.BaseAPI {
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        });
+        }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => TransferTaskListResponseFromJSON(jsonValue));
     }
@@ -151,15 +151,15 @@ export class TransfersApi extends runtime.BaseAPI {
      * Get a list of recent transfer tasks starting with the most recent
      * Get a list of recent transfer tasks starting with the most recent
      */
-    async getRecentTransferTasks(requestParameters: GetRecentTransferTasksRequest): Promise<TransferTaskListResponse> {
-        const response = await this.getRecentTransferTasksRaw(requestParameters);
+    async getRecentTransferTasks(requestParameters: GetRecentTransferTasksRequest, initOverrides?: RequestInit): Promise<TransferTaskListResponse> {
+        const response = await this.getRecentTransferTasksRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
     /**
      * Get a transfer task
      */
-    async getTransferTaskRaw(requestParameters: GetTransferTaskRequest): Promise<runtime.ApiResponse<TransferTaskResponse>> {
+    async getTransferTaskRaw(requestParameters: GetTransferTaskRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<TransferTaskResponse>> {
         if (requestParameters.transferTaskId === null || requestParameters.transferTaskId === undefined) {
             throw new runtime.RequiredError('transferTaskId','Required parameter requestParameters.transferTaskId was null or undefined when calling getTransferTask.');
         }
@@ -173,7 +173,7 @@ export class TransfersApi extends runtime.BaseAPI {
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        });
+        }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => TransferTaskResponseFromJSON(jsonValue));
     }
@@ -181,15 +181,15 @@ export class TransfersApi extends runtime.BaseAPI {
     /**
      * Get a transfer task
      */
-    async getTransferTask(requestParameters: GetTransferTaskRequest): Promise<TransferTaskResponse> {
-        const response = await this.getTransferTaskRaw(requestParameters);
+    async getTransferTask(requestParameters: GetTransferTaskRequest, initOverrides?: RequestInit): Promise<TransferTaskResponse> {
+        const response = await this.getTransferTaskRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
     /**
      * Get details of a transfer task
      */
-    async getTransferTaskDetailsRaw(requestParameters: GetTransferTaskDetailsRequest): Promise<runtime.ApiResponse<TransferTaskResponse>> {
+    async getTransferTaskDetailsRaw(requestParameters: GetTransferTaskDetailsRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<TransferTaskResponse>> {
         if (requestParameters.transferTaskId === null || requestParameters.transferTaskId === undefined) {
             throw new runtime.RequiredError('transferTaskId','Required parameter requestParameters.transferTaskId was null or undefined when calling getTransferTaskDetails.');
         }
@@ -203,7 +203,7 @@ export class TransfersApi extends runtime.BaseAPI {
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        });
+        }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => TransferTaskResponseFromJSON(jsonValue));
     }
@@ -211,8 +211,8 @@ export class TransfersApi extends runtime.BaseAPI {
     /**
      * Get details of a transfer task
      */
-    async getTransferTaskDetails(requestParameters: GetTransferTaskDetailsRequest): Promise<TransferTaskResponse> {
-        const response = await this.getTransferTaskDetailsRaw(requestParameters);
+    async getTransferTaskDetails(requestParameters: GetTransferTaskDetailsRequest, initOverrides?: RequestInit): Promise<TransferTaskResponse> {
+        const response = await this.getTransferTaskDetailsRaw(requestParameters, initOverrides);
         return await response.value();
     }
 

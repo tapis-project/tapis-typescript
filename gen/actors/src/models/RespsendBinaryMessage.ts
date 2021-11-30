@@ -94,4 +94,3 @@ export function RespSendBinaryMessageToJSON(value?: RespSendBinaryMessage | null
     };
 }
 
-

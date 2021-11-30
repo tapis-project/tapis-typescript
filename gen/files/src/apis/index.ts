@@ -1,3 +1,5 @@
+/* tslint:disable */
+/* eslint-disable */
 export * from './ContentApi';
 export * from './FileOperationsApi';
 export * from './HealthApi';

@@ -81,4 +81,3 @@ export function NotificationMechanismToJSON(value?: NotificationMechanism | null
     };
 }
 
-

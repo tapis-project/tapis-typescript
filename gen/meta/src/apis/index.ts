@@ -1,3 +1,5 @@
+/* tslint:disable */
+/* eslint-disable */
 export * from './AggregationApi';
 export * from './CollectionApi';
 export * from './DbApi';

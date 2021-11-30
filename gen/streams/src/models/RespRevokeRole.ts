@@ -93,4 +93,3 @@ export function RespRevokeRoleToJSON(value?: RespRevokeRole | null): any {
     };
 }
 
-

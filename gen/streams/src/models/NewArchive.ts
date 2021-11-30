@@ -86,4 +86,3 @@ export function NewArchiveToJSON(value?: NewArchive | null): any {
     };
 }
 
-

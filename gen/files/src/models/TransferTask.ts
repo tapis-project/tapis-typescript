@@ -188,4 +188,3 @@ export function TransferTaskToJSON(value?: TransferTask | null): any {
     };
 }
 
-

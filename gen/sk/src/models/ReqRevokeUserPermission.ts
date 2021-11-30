@@ -70,4 +70,3 @@ export function ReqRevokeUserPermissionToJSON(value?: ReqRevokeUserPermission | 
     };
 }
 
-

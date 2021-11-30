@@ -93,4 +93,3 @@ export function RespGetChannelToJSON(value?: RespGetChannel | null): any {
     };
 }
 
-

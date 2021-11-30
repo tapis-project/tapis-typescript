@@ -38,7 +38,7 @@ export class MeasuredPropertiesApi extends runtime.BaseAPI {
      * List measured_properties.
      * List measured_properties.
      */
-    async listMeasuredPropertiesRaw(requestParameters: ListMeasuredPropertiesRequest): Promise<runtime.ApiResponse<RespListMeasuredProperties>> {
+    async listMeasuredPropertiesRaw(requestParameters: ListMeasuredPropertiesRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespListMeasuredProperties>> {
         const queryParameters: any = {};
 
         if (requestParameters.query !== undefined) {
@@ -60,7 +60,7 @@ export class MeasuredPropertiesApi extends runtime.BaseAPI {
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        });
+        }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => RespListMeasuredPropertiesFromJSON(jsonValue));
     }
@@ -69,8 +69,8 @@ export class MeasuredPropertiesApi extends runtime.BaseAPI {
      * List measured_properties.
      * List measured_properties.
      */
-    async listMeasuredProperties(requestParameters: ListMeasuredPropertiesRequest): Promise<RespListMeasuredProperties> {
-        const response = await this.listMeasuredPropertiesRaw(requestParameters);
+    async listMeasuredProperties(requestParameters: ListMeasuredPropertiesRequest, initOverrides?: RequestInit): Promise<RespListMeasuredProperties> {
+        const response = await this.listMeasuredPropertiesRaw(requestParameters, initOverrides);
         return await response.value();
     }
 

@@ -54,4 +54,3 @@ export function JobCancelDisplayToJSON(value?: JobCancelDisplay | null): any {
     };
 }
 
-

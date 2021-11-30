@@ -146,4 +146,3 @@ export function NewArchiveSettingsToJSON(value?: NewArchiveSettings | null): any
     };
 }
 
-

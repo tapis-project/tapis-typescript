@@ -62,4 +62,3 @@ export function TableToJSON(value?: Table | null): any {
     };
 }
 
-

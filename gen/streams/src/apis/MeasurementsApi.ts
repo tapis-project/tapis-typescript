@@ -70,7 +70,7 @@ export class MeasurementsApi extends runtime.BaseAPI {
      * Create a measurement.
      * Create a measurement.
      */
-    async createMeasurementRaw(requestParameters: CreateMeasurementRequest): Promise<runtime.ApiResponse<RespCreateMeasurement>> {
+    async createMeasurementRaw(requestParameters: CreateMeasurementRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespCreateMeasurement>> {
         if (requestParameters.reqCreateMeasurement === null || requestParameters.reqCreateMeasurement === undefined) {
             throw new runtime.RequiredError('reqCreateMeasurement','Required parameter requestParameters.reqCreateMeasurement was null or undefined when calling createMeasurement.');
         }
@@ -87,7 +87,7 @@ export class MeasurementsApi extends runtime.BaseAPI {
             headers: headerParameters,
             query: queryParameters,
             body: ReqCreateMeasurementToJSON(requestParameters.reqCreateMeasurement),
-        });
+        }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => RespCreateMeasurementFromJSON(jsonValue));
     }
@@ -96,8 +96,8 @@ export class MeasurementsApi extends runtime.BaseAPI {
      * Create a measurement.
      * Create a measurement.
      */
-    async createMeasurement(requestParameters: CreateMeasurementRequest): Promise<RespCreateMeasurement> {
-        const response = await this.createMeasurementRaw(requestParameters);
+    async createMeasurement(requestParameters: CreateMeasurementRequest, initOverrides?: RequestInit): Promise<RespCreateMeasurement> {
+        const response = await this.createMeasurementRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
@@ -105,7 +105,7 @@ export class MeasurementsApi extends runtime.BaseAPI {
      * Download measurements
      * List measurements when only inst_id is provided
      */
-    async downloadMeasurementsRaw(requestParameters: DownloadMeasurementsRequest): Promise<runtime.ApiResponse<RespDownloadMeasurements>> {
+    async downloadMeasurementsRaw(requestParameters: DownloadMeasurementsRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespDownloadMeasurements>> {
         if (requestParameters.instId === null || requestParameters.instId === undefined) {
             throw new runtime.RequiredError('instId','Required parameter requestParameters.instId was null or undefined when calling downloadMeasurements.');
         }
@@ -147,7 +147,7 @@ export class MeasurementsApi extends runtime.BaseAPI {
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        });
+        }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => RespDownloadMeasurementsFromJSON(jsonValue));
     }
@@ -156,8 +156,8 @@ export class MeasurementsApi extends runtime.BaseAPI {
      * Download measurements
      * List measurements when only inst_id is provided
      */
-    async downloadMeasurements(requestParameters: DownloadMeasurementsRequest): Promise<RespDownloadMeasurements> {
-        const response = await this.downloadMeasurementsRaw(requestParameters);
+    async downloadMeasurements(requestParameters: DownloadMeasurementsRequest, initOverrides?: RequestInit): Promise<RespDownloadMeasurements> {
+        const response = await this.downloadMeasurementsRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
@@ -165,7 +165,7 @@ export class MeasurementsApi extends runtime.BaseAPI {
      * List measurements.
      * List measurements.
      */
-    async listMeasurementsRaw(requestParameters: ListMeasurementsRequest): Promise<runtime.ApiResponse<RespListMeasurements>> {
+    async listMeasurementsRaw(requestParameters: ListMeasurementsRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespListMeasurements>> {
         if (requestParameters.projectId === null || requestParameters.projectId === undefined) {
             throw new runtime.RequiredError('projectId','Required parameter requestParameters.projectId was null or undefined when calling listMeasurements.');
         }
@@ -219,7 +219,7 @@ export class MeasurementsApi extends runtime.BaseAPI {
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        });
+        }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => RespListMeasurementsFromJSON(jsonValue));
     }
@@ -228,8 +228,8 @@ export class MeasurementsApi extends runtime.BaseAPI {
      * List measurements.
      * List measurements.
      */
-    async listMeasurements(requestParameters: ListMeasurementsRequest): Promise<RespListMeasurements> {
-        const response = await this.listMeasurementsRaw(requestParameters);
+    async listMeasurements(requestParameters: ListMeasurementsRequest, initOverrides?: RequestInit): Promise<RespListMeasurements> {
+        const response = await this.listMeasurementsRaw(requestParameters, initOverrides);
         return await response.value();
     }
 

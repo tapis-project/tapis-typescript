@@ -58,7 +58,7 @@ export class DocumentApi extends runtime.BaseAPI {
      *  Create a new document in collection.  A document request body with out the field <_id> gets an auto generated id  A document request body with out the field <_id> writes a document with that id unless a duplicate is encountered.  A batch of document creations is possible by submitting an array of documents in the request body. All those documents  will be added to to the collection in bulk.  The addition of the (basic) query parameter set to true will return a response for a single document creation as a   Tapis basic response with the newly created <_id> for later reference.
      * createDocument
      */
-    async createDocumentRaw(requestParameters: CreateDocumentRequest): Promise<runtime.ApiResponse<object>> {
+    async createDocumentRaw(requestParameters: CreateDocumentRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<object>> {
         if (requestParameters.db === null || requestParameters.db === undefined) {
             throw new runtime.RequiredError('db','Required parameter requestParameters.db was null or undefined when calling createDocument.');
         }
@@ -87,7 +87,7 @@ export class DocumentApi extends runtime.BaseAPI {
             headers: headerParameters,
             query: queryParameters,
             body: requestParameters.body as any,
-        });
+        }, initOverrides);
 
         return new runtime.JSONApiResponse<any>(response);
     }
@@ -96,8 +96,8 @@ export class DocumentApi extends runtime.BaseAPI {
      *  Create a new document in collection.  A document request body with out the field <_id> gets an auto generated id  A document request body with out the field <_id> writes a document with that id unless a duplicate is encountered.  A batch of document creations is possible by submitting an array of documents in the request body. All those documents  will be added to to the collection in bulk.  The addition of the (basic) query parameter set to true will return a response for a single document creation as a   Tapis basic response with the newly created <_id> for later reference.
      * createDocument
      */
-    async createDocument(requestParameters: CreateDocumentRequest): Promise<object> {
-        const response = await this.createDocumentRaw(requestParameters);
+    async createDocument(requestParameters: CreateDocumentRequest, initOverrides?: RequestInit): Promise<object> {
+        const response = await this.createDocumentRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
@@ -105,7 +105,7 @@ export class DocumentApi extends runtime.BaseAPI {
      * Delete a document in the collection by id.
      * deleteDocument
      */
-    async deleteDocumentRaw(requestParameters: DeleteDocumentRequest): Promise<runtime.ApiResponse<void>> {
+    async deleteDocumentRaw(requestParameters: DeleteDocumentRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<void>> {
         if (requestParameters.db === null || requestParameters.db === undefined) {
             throw new runtime.RequiredError('db','Required parameter requestParameters.db was null or undefined when calling deleteDocument.');
         }
@@ -131,7 +131,7 @@ export class DocumentApi extends runtime.BaseAPI {
             method: 'DELETE',
             headers: headerParameters,
             query: queryParameters,
-        });
+        }, initOverrides);
 
         return new runtime.VoidApiResponse(response);
     }
@@ -140,15 +140,15 @@ export class DocumentApi extends runtime.BaseAPI {
      * Delete a document in the collection by id.
      * deleteDocument
      */
-    async deleteDocument(requestParameters: DeleteDocumentRequest): Promise<void> {
-        await this.deleteDocumentRaw(requestParameters);
+    async deleteDocument(requestParameters: DeleteDocumentRequest, initOverrides?: RequestInit): Promise<void> {
+        await this.deleteDocumentRaw(requestParameters, initOverrides);
     }
 
     /**
      * Get a document form the collection by its _id.
      * getDocument
      */
-    async getDocumentRaw(requestParameters: GetDocumentRequest): Promise<runtime.ApiResponse<object>> {
+    async getDocumentRaw(requestParameters: GetDocumentRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<object>> {
         if (requestParameters.db === null || requestParameters.db === undefined) {
             throw new runtime.RequiredError('db','Required parameter requestParameters.db was null or undefined when calling getDocument.');
         }
@@ -174,7 +174,7 @@ export class DocumentApi extends runtime.BaseAPI {
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        });
+        }, initOverrides);
 
         return new runtime.JSONApiResponse<any>(response);
     }
@@ -183,8 +183,8 @@ export class DocumentApi extends runtime.BaseAPI {
      * Get a document form the collection by its _id.
      * getDocument
      */
-    async getDocument(requestParameters: GetDocumentRequest): Promise<object> {
-        const response = await this.getDocumentRaw(requestParameters);
+    async getDocument(requestParameters: GetDocumentRequest, initOverrides?: RequestInit): Promise<object> {
+        const response = await this.getDocumentRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
@@ -192,7 +192,7 @@ export class DocumentApi extends runtime.BaseAPI {
      * Modify a document in the collection with _id. The fields submitted in the json of the request body will replace the same named fields in the current document.
      * modifyDocument
      */
-    async modifyDocumentRaw(requestParameters: ModifyDocumentRequest): Promise<runtime.ApiResponse<void>> {
+    async modifyDocumentRaw(requestParameters: ModifyDocumentRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<void>> {
         if (requestParameters.db === null || requestParameters.db === undefined) {
             throw new runtime.RequiredError('db','Required parameter requestParameters.db was null or undefined when calling modifyDocument.');
         }
@@ -225,7 +225,7 @@ export class DocumentApi extends runtime.BaseAPI {
             headers: headerParameters,
             query: queryParameters,
             body: requestParameters.body as any,
-        });
+        }, initOverrides);
 
         return new runtime.VoidApiResponse(response);
     }
@@ -234,15 +234,15 @@ export class DocumentApi extends runtime.BaseAPI {
      * Modify a document in the collection with _id. The fields submitted in the json of the request body will replace the same named fields in the current document.
      * modifyDocument
      */
-    async modifyDocument(requestParameters: ModifyDocumentRequest): Promise<void> {
-        await this.modifyDocumentRaw(requestParameters);
+    async modifyDocument(requestParameters: ModifyDocumentRequest, initOverrides?: RequestInit): Promise<void> {
+        await this.modifyDocumentRaw(requestParameters, initOverrides);
     }
 
     /**
      * Replace a document in the collection with the _id.  Replaces the document with the json document submitted in the request body.
      * replaceDocument
      */
-    async replaceDocumentRaw(requestParameters: ReplaceDocumentRequest): Promise<runtime.ApiResponse<void>> {
+    async replaceDocumentRaw(requestParameters: ReplaceDocumentRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<void>> {
         if (requestParameters.db === null || requestParameters.db === undefined) {
             throw new runtime.RequiredError('db','Required parameter requestParameters.db was null or undefined when calling replaceDocument.');
         }
@@ -271,7 +271,7 @@ export class DocumentApi extends runtime.BaseAPI {
             headers: headerParameters,
             query: queryParameters,
             body: requestParameters.body as any,
-        });
+        }, initOverrides);
 
         return new runtime.VoidApiResponse(response);
     }
@@ -280,8 +280,8 @@ export class DocumentApi extends runtime.BaseAPI {
      * Replace a document in the collection with the _id.  Replaces the document with the json document submitted in the request body.
      * replaceDocument
      */
-    async replaceDocument(requestParameters: ReplaceDocumentRequest): Promise<void> {
-        await this.replaceDocumentRaw(requestParameters);
+    async replaceDocument(requestParameters: ReplaceDocumentRequest, initOverrides?: RequestInit): Promise<void> {
+        await this.replaceDocumentRaw(requestParameters, initOverrides);
     }
 
 }

@@ -38,7 +38,7 @@ export class UnitsApi extends runtime.BaseAPI {
      * List units.
      * List units.
      */
-    async listUnitsRaw(requestParameters: ListUnitsRequest): Promise<runtime.ApiResponse<RespListUnits>> {
+    async listUnitsRaw(requestParameters: ListUnitsRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespListUnits>> {
         const queryParameters: any = {};
 
         if (requestParameters.query !== undefined) {
@@ -60,7 +60,7 @@ export class UnitsApi extends runtime.BaseAPI {
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        });
+        }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => RespListUnitsFromJSON(jsonValue));
     }
@@ -69,8 +69,8 @@ export class UnitsApi extends runtime.BaseAPI {
      * List units.
      * List units.
      */
-    async listUnits(requestParameters: ListUnitsRequest): Promise<RespListUnits> {
-        const response = await this.listUnitsRaw(requestParameters);
+    async listUnits(requestParameters: ListUnitsRequest, initOverrides?: RequestInit): Promise<RespListUnits> {
+        const response = await this.listUnitsRaw(requestParameters, initOverrides);
         return await response.value();
     }
 

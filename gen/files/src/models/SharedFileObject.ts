@@ -86,4 +86,3 @@ export function SharedFileObjectToJSON(value?: SharedFileObject | null): any {
     };
 }
 
-

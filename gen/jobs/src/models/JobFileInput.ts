@@ -86,4 +86,3 @@ export function JobFileInputToJSON(value?: JobFileInput | null): any {
     };
 }
 
-

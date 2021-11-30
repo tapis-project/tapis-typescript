@@ -63,7 +63,7 @@ export class TemplatesApi extends runtime.BaseAPI {
      * Create template.
      * Create template.
      */
-    async createTemplateRaw(requestParameters: CreateTemplateRequest): Promise<runtime.ApiResponse<RespCreateTemplate>> {
+    async createTemplateRaw(requestParameters: CreateTemplateRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespCreateTemplate>> {
         if (requestParameters.reqCreateTemplate === null || requestParameters.reqCreateTemplate === undefined) {
             throw new runtime.RequiredError('reqCreateTemplate','Required parameter requestParameters.reqCreateTemplate was null or undefined when calling createTemplate.');
         }
@@ -80,7 +80,7 @@ export class TemplatesApi extends runtime.BaseAPI {
             headers: headerParameters,
             query: queryParameters,
             body: ReqCreateTemplateToJSON(requestParameters.reqCreateTemplate),
-        });
+        }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => RespCreateTemplateFromJSON(jsonValue));
     }
@@ -89,8 +89,8 @@ export class TemplatesApi extends runtime.BaseAPI {
      * Create template.
      * Create template.
      */
-    async createTemplate(requestParameters: CreateTemplateRequest): Promise<RespCreateTemplate> {
-        const response = await this.createTemplateRaw(requestParameters);
+    async createTemplate(requestParameters: CreateTemplateRequest, initOverrides?: RequestInit): Promise<RespCreateTemplate> {
+        const response = await this.createTemplateRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
@@ -98,7 +98,7 @@ export class TemplatesApi extends runtime.BaseAPI {
      * Get template.
      * Get templates.
      */
-    async getTemplateRaw(requestParameters: GetTemplateRequest): Promise<runtime.ApiResponse<RespGetTemplate>> {
+    async getTemplateRaw(requestParameters: GetTemplateRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespGetTemplate>> {
         if (requestParameters.templateId === null || requestParameters.templateId === undefined) {
             throw new runtime.RequiredError('templateId','Required parameter requestParameters.templateId was null or undefined when calling getTemplate.');
         }
@@ -112,7 +112,7 @@ export class TemplatesApi extends runtime.BaseAPI {
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        });
+        }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => RespGetTemplateFromJSON(jsonValue));
     }
@@ -121,8 +121,8 @@ export class TemplatesApi extends runtime.BaseAPI {
      * Get template.
      * Get templates.
      */
-    async getTemplate(requestParameters: GetTemplateRequest): Promise<RespGetTemplate> {
-        const response = await this.getTemplateRaw(requestParameters);
+    async getTemplate(requestParameters: GetTemplateRequest, initOverrides?: RequestInit): Promise<RespGetTemplate> {
+        const response = await this.getTemplateRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
@@ -130,7 +130,7 @@ export class TemplatesApi extends runtime.BaseAPI {
      * List templates.
      * List templates.
      */
-    async listTemplatesRaw(requestParameters: ListTemplatesRequest): Promise<runtime.ApiResponse<RespListTemplates>> {
+    async listTemplatesRaw(requestParameters: ListTemplatesRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespListTemplates>> {
         const queryParameters: any = {};
 
         if (requestParameters.query !== undefined) {
@@ -152,7 +152,7 @@ export class TemplatesApi extends runtime.BaseAPI {
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        });
+        }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => RespListTemplatesFromJSON(jsonValue));
     }
@@ -161,8 +161,8 @@ export class TemplatesApi extends runtime.BaseAPI {
      * List templates.
      * List templates.
      */
-    async listTemplates(requestParameters: ListTemplatesRequest): Promise<RespListTemplates> {
-        const response = await this.listTemplatesRaw(requestParameters);
+    async listTemplates(requestParameters: ListTemplatesRequest, initOverrides?: RequestInit): Promise<RespListTemplates> {
+        const response = await this.listTemplatesRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
@@ -170,7 +170,7 @@ export class TemplatesApi extends runtime.BaseAPI {
      * Update template.
      * Update template.
      */
-    async updateTemplateRaw(requestParameters: UpdateTemplateRequest): Promise<runtime.ApiResponse<RespUpdateTemplate>> {
+    async updateTemplateRaw(requestParameters: UpdateTemplateRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespUpdateTemplate>> {
         if (requestParameters.templateId === null || requestParameters.templateId === undefined) {
             throw new runtime.RequiredError('templateId','Required parameter requestParameters.templateId was null or undefined when calling updateTemplate.');
         }
@@ -191,7 +191,7 @@ export class TemplatesApi extends runtime.BaseAPI {
             headers: headerParameters,
             query: queryParameters,
             body: ReqCreateTemplateToJSON(requestParameters.reqCreateTemplate),
-        });
+        }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => RespUpdateTemplateFromJSON(jsonValue));
     }
@@ -200,8 +200,8 @@ export class TemplatesApi extends runtime.BaseAPI {
      * Update template.
      * Update template.
      */
-    async updateTemplate(requestParameters: UpdateTemplateRequest): Promise<RespUpdateTemplate> {
-        const response = await this.updateTemplateRaw(requestParameters);
+    async updateTemplate(requestParameters: UpdateTemplateRequest, initOverrides?: RequestInit): Promise<RespUpdateTemplate> {
+        const response = await this.updateTemplateRaw(requestParameters, initOverrides);
         return await response.value();
     }
 

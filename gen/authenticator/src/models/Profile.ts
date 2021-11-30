@@ -70,4 +70,3 @@ export function ProfileToJSON(value?: Profile | null): any {
     };
 }
 
-

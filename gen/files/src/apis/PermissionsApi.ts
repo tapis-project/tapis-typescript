@@ -53,7 +53,7 @@ export class PermissionsApi extends runtime.BaseAPI {
      * Revoke access to a file or folder for a user.
      * Revoke user permission on a file or folder. 
      */
-    async deletePermissionsRaw(requestParameters: DeletePermissionsRequest): Promise<runtime.ApiResponse<StringResponse>> {
+    async deletePermissionsRaw(requestParameters: DeletePermissionsRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<StringResponse>> {
         if (requestParameters.systemId === null || requestParameters.systemId === undefined) {
             throw new runtime.RequiredError('systemId','Required parameter requestParameters.systemId was null or undefined when calling deletePermissions.');
         }
@@ -79,7 +79,7 @@ export class PermissionsApi extends runtime.BaseAPI {
             method: 'DELETE',
             headers: headerParameters,
             query: queryParameters,
-        });
+        }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => StringResponseFromJSON(jsonValue));
     }
@@ -88,8 +88,8 @@ export class PermissionsApi extends runtime.BaseAPI {
      * Revoke access to a file or folder for a user.
      * Revoke user permission on a file or folder. 
      */
-    async deletePermissions(requestParameters: DeletePermissionsRequest): Promise<StringResponse> {
-        const response = await this.deletePermissionsRaw(requestParameters);
+    async deletePermissions(requestParameters: DeletePermissionsRequest, initOverrides?: RequestInit): Promise<StringResponse> {
+        const response = await this.deletePermissionsRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
@@ -97,7 +97,7 @@ export class PermissionsApi extends runtime.BaseAPI {
      * Get the permission for the API user for the system and path.
      * Get the API user\'s permission on a file or folder.
      */
-    async getPermissionsRaw(requestParameters: GetPermissionsRequest): Promise<runtime.ApiResponse<FilePermissionResponse>> {
+    async getPermissionsRaw(requestParameters: GetPermissionsRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<FilePermissionResponse>> {
         if (requestParameters.systemId === null || requestParameters.systemId === undefined) {
             throw new runtime.RequiredError('systemId','Required parameter requestParameters.systemId was null or undefined when calling getPermissions.');
         }
@@ -119,7 +119,7 @@ export class PermissionsApi extends runtime.BaseAPI {
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        });
+        }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => FilePermissionResponseFromJSON(jsonValue));
     }
@@ -128,8 +128,8 @@ export class PermissionsApi extends runtime.BaseAPI {
      * Get the permission for the API user for the system and path.
      * Get the API user\'s permission on a file or folder.
      */
-    async getPermissions(requestParameters: GetPermissionsRequest): Promise<FilePermissionResponse> {
-        const response = await this.getPermissionsRaw(requestParameters);
+    async getPermissions(requestParameters: GetPermissionsRequest, initOverrides?: RequestInit): Promise<FilePermissionResponse> {
+        const response = await this.getPermissionsRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
@@ -137,7 +137,7 @@ export class PermissionsApi extends runtime.BaseAPI {
      * Grant access to a file or folder for a user. Access may be READ or MODIFY. MODIFY implies READ.
      * Grant user permission on a file or folder. 
      */
-    async grantPermissionsRaw(requestParameters: GrantPermissionsRequest): Promise<runtime.ApiResponse<FilePermissionResponse>> {
+    async grantPermissionsRaw(requestParameters: GrantPermissionsRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<FilePermissionResponse>> {
         if (requestParameters.systemId === null || requestParameters.systemId === undefined) {
             throw new runtime.RequiredError('systemId','Required parameter requestParameters.systemId was null or undefined when calling grantPermissions.');
         }
@@ -162,7 +162,7 @@ export class PermissionsApi extends runtime.BaseAPI {
             headers: headerParameters,
             query: queryParameters,
             body: CreatePermissionRequestToJSON(requestParameters.createPermissionRequest),
-        });
+        }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => FilePermissionResponseFromJSON(jsonValue));
     }
@@ -171,8 +171,8 @@ export class PermissionsApi extends runtime.BaseAPI {
      * Grant access to a file or folder for a user. Access may be READ or MODIFY. MODIFY implies READ.
      * Grant user permission on a file or folder. 
      */
-    async grantPermissions(requestParameters: GrantPermissionsRequest): Promise<FilePermissionResponse> {
-        const response = await this.grantPermissionsRaw(requestParameters);
+    async grantPermissions(requestParameters: GrantPermissionsRequest, initOverrides?: RequestInit): Promise<FilePermissionResponse> {
+        const response = await this.grantPermissionsRaw(requestParameters, initOverrides);
         return await response.value();
     }
 

@@ -101,4 +101,3 @@ export function JobParameterSetToJSON(value?: JobParameterSet | null): any {
     };
 }
 
-

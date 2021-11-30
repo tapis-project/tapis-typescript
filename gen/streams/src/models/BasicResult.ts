@@ -78,4 +78,3 @@ export function BasicResultToJSON(value?: BasicResult | null): any {
     };
 }
 
-

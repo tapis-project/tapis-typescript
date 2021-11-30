@@ -59,7 +59,7 @@ export class ManageApi extends runtime.BaseAPI {
      * Create a table.
      * Create a tale.
      */
-    async createTableRaw(requestParameters: CreateTableRequest): Promise<runtime.ApiResponse<RespCreateTable>> {
+    async createTableRaw(requestParameters: CreateTableRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespCreateTable>> {
         if (requestParameters.reqCreateTable === null || requestParameters.reqCreateTable === undefined) {
             throw new runtime.RequiredError('reqCreateTable','Required parameter requestParameters.reqCreateTable was null or undefined when calling createTable.');
         }
@@ -76,7 +76,7 @@ export class ManageApi extends runtime.BaseAPI {
             headers: headerParameters,
             query: queryParameters,
             body: ReqCreateTableToJSON(requestParameters.reqCreateTable),
-        });
+        }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => RespCreateTableFromJSON(jsonValue));
     }
@@ -85,8 +85,8 @@ export class ManageApi extends runtime.BaseAPI {
      * Create a table.
      * Create a tale.
      */
-    async createTable(requestParameters: CreateTableRequest): Promise<RespCreateTable> {
-        const response = await this.createTableRaw(requestParameters);
+    async createTable(requestParameters: CreateTableRequest, initOverrides?: RequestInit): Promise<RespCreateTable> {
+        const response = await this.createTableRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
@@ -94,7 +94,7 @@ export class ManageApi extends runtime.BaseAPI {
      * Delete a specific table and all associted data. WARNING -- this action cannot be undone.
      * Delete a specific table and all associted data.
      */
-    async deleteTableRaw(requestParameters: DeleteTableRequest): Promise<runtime.ApiResponse<RespDeleteTable>> {
+    async deleteTableRaw(requestParameters: DeleteTableRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespDeleteTable>> {
         if (requestParameters.tableId === null || requestParameters.tableId === undefined) {
             throw new runtime.RequiredError('tableId','Required parameter requestParameters.tableId was null or undefined when calling deleteTable.');
         }
@@ -108,7 +108,7 @@ export class ManageApi extends runtime.BaseAPI {
             method: 'DELETE',
             headers: headerParameters,
             query: queryParameters,
-        });
+        }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => RespDeleteTableFromJSON(jsonValue));
     }
@@ -117,8 +117,8 @@ export class ManageApi extends runtime.BaseAPI {
      * Delete a specific table and all associted data. WARNING -- this action cannot be undone.
      * Delete a specific table and all associted data.
      */
-    async deleteTable(requestParameters: DeleteTableRequest): Promise<RespDeleteTable> {
-        const response = await this.deleteTableRaw(requestParameters);
+    async deleteTable(requestParameters: DeleteTableRequest, initOverrides?: RequestInit): Promise<RespDeleteTable> {
+        const response = await this.deleteTableRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
@@ -126,7 +126,7 @@ export class ManageApi extends runtime.BaseAPI {
      * Get details of a specific table.
      * Get details of a specific table.
      */
-    async getTableRaw(requestParameters: GetTableRequest): Promise<runtime.ApiResponse<RespGetTable>> {
+    async getTableRaw(requestParameters: GetTableRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespGetTable>> {
         if (requestParameters.tableId === null || requestParameters.tableId === undefined) {
             throw new runtime.RequiredError('tableId','Required parameter requestParameters.tableId was null or undefined when calling getTable.');
         }
@@ -144,7 +144,7 @@ export class ManageApi extends runtime.BaseAPI {
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        });
+        }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => RespGetTableFromJSON(jsonValue));
     }
@@ -153,8 +153,8 @@ export class ManageApi extends runtime.BaseAPI {
      * Get details of a specific table.
      * Get details of a specific table.
      */
-    async getTable(requestParameters: GetTableRequest): Promise<RespGetTable> {
-        const response = await this.getTableRaw(requestParameters);
+    async getTable(requestParameters: GetTableRequest, initOverrides?: RequestInit): Promise<RespGetTable> {
+        const response = await this.getTableRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
@@ -162,7 +162,7 @@ export class ManageApi extends runtime.BaseAPI {
      * List tables in the tenant\'s schema.
      * List tables.
      */
-    async listTablesRaw(requestParameters: ListTablesRequest): Promise<runtime.ApiResponse<RespListTables>> {
+    async listTablesRaw(requestParameters: ListTablesRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespListTables>> {
         const queryParameters: any = {};
 
         if (requestParameters.limit !== undefined) {
@@ -180,7 +180,7 @@ export class ManageApi extends runtime.BaseAPI {
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        });
+        }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => RespListTablesFromJSON(jsonValue));
     }
@@ -189,8 +189,8 @@ export class ManageApi extends runtime.BaseAPI {
      * List tables in the tenant\'s schema.
      * List tables.
      */
-    async listTables(requestParameters: ListTablesRequest): Promise<RespListTables> {
-        const response = await this.listTablesRaw(requestParameters);
+    async listTables(requestParameters: ListTablesRequest, initOverrides?: RequestInit): Promise<RespListTables> {
+        const response = await this.listTablesRaw(requestParameters, initOverrides);
         return await response.value();
     }
 

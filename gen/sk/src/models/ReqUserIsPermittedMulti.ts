@@ -78,4 +78,3 @@ export function ReqUserIsPermittedMultiToJSON(value?: ReqUserIsPermittedMulti | 
     };
 }
 
-

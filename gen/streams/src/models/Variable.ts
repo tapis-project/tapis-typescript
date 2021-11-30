@@ -126,4 +126,3 @@ export function VariableToJSON(value?: Variable | null): any {
     };
 }
 
-

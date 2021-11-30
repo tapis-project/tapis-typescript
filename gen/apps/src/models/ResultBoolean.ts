@@ -54,4 +54,3 @@ export function ResultBooleanToJSON(value?: ResultBoolean | null): any {
     };
 }
 
-

@@ -62,4 +62,3 @@ export function UpdateMultipleCollectionItemWhereSubValueToJSON(value?: UpdateMu
     };
 }
 
-

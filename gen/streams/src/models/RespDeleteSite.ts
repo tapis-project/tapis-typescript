@@ -93,4 +93,3 @@ export function RespDeleteSiteToJSON(value?: RespDeleteSite | null): any {
     };
 }
 
-

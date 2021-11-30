@@ -87,4 +87,3 @@ export function RespGetStateToJSON(value?: RespGetState | null): any {
     };
 }
 
-

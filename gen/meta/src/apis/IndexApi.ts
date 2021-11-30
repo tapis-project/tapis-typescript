@@ -42,7 +42,7 @@ export class IndexApi extends runtime.BaseAPI {
      * Create an index on collection in the database.  The request body should hold a json document that defines the index      { \"keys\":  <keys>, \"ops\": <options> }    Example - create an unique, sparse index on property ‘q      {\"keys\": {\"qty\": 1},\"ops\": {\"unique\": true, \"sparse\": true }}
      * createIndex
      */
-    async createIndexRaw(requestParameters: CreateIndexRequest): Promise<runtime.ApiResponse<void>> {
+    async createIndexRaw(requestParameters: CreateIndexRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<void>> {
         if (requestParameters.db === null || requestParameters.db === undefined) {
             throw new runtime.RequiredError('db','Required parameter requestParameters.db was null or undefined when calling createIndex.');
         }
@@ -71,7 +71,7 @@ export class IndexApi extends runtime.BaseAPI {
             headers: headerParameters,
             query: queryParameters,
             body: requestParameters.body as any,
-        });
+        }, initOverrides);
 
         return new runtime.VoidApiResponse(response);
     }
@@ -80,15 +80,15 @@ export class IndexApi extends runtime.BaseAPI {
      * Create an index on collection in the database.  The request body should hold a json document that defines the index      { \"keys\":  <keys>, \"ops\": <options> }    Example - create an unique, sparse index on property ‘q      {\"keys\": {\"qty\": 1},\"ops\": {\"unique\": true, \"sparse\": true }}
      * createIndex
      */
-    async createIndex(requestParameters: CreateIndexRequest): Promise<void> {
-        await this.createIndexRaw(requestParameters);
+    async createIndex(requestParameters: CreateIndexRequest, initOverrides?: RequestInit): Promise<void> {
+        await this.createIndexRaw(requestParameters, initOverrides);
     }
 
     /**
      * Delete an index on the collection.
      * deleteIndex
      */
-    async deleteIndexRaw(requestParameters: DeleteIndexRequest): Promise<runtime.ApiResponse<void>> {
+    async deleteIndexRaw(requestParameters: DeleteIndexRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<void>> {
         if (requestParameters.db === null || requestParameters.db === undefined) {
             throw new runtime.RequiredError('db','Required parameter requestParameters.db was null or undefined when calling deleteIndex.');
         }
@@ -114,7 +114,7 @@ export class IndexApi extends runtime.BaseAPI {
             method: 'DELETE',
             headers: headerParameters,
             query: queryParameters,
-        });
+        }, initOverrides);
 
         return new runtime.VoidApiResponse(response);
     }
@@ -123,15 +123,15 @@ export class IndexApi extends runtime.BaseAPI {
      * Delete an index on the collection.
      * deleteIndex
      */
-    async deleteIndex(requestParameters: DeleteIndexRequest): Promise<void> {
-        await this.deleteIndexRaw(requestParameters);
+    async deleteIndex(requestParameters: DeleteIndexRequest, initOverrides?: RequestInit): Promise<void> {
+        await this.deleteIndexRaw(requestParameters, initOverrides);
     }
 
     /**
      * List all indexes in the collection.
      * listIndexes
      */
-    async listIndexesRaw(requestParameters: ListIndexesRequest): Promise<runtime.ApiResponse<Array<object>>> {
+    async listIndexesRaw(requestParameters: ListIndexesRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<Array<object>>> {
         if (requestParameters.db === null || requestParameters.db === undefined) {
             throw new runtime.RequiredError('db','Required parameter requestParameters.db was null or undefined when calling listIndexes.');
         }
@@ -153,7 +153,7 @@ export class IndexApi extends runtime.BaseAPI {
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        });
+        }, initOverrides);
 
         return new runtime.JSONApiResponse<any>(response);
     }
@@ -162,8 +162,8 @@ export class IndexApi extends runtime.BaseAPI {
      * List all indexes in the collection.
      * listIndexes
      */
-    async listIndexes(requestParameters: ListIndexesRequest): Promise<Array<object>> {
-        const response = await this.listIndexesRaw(requestParameters);
+    async listIndexes(requestParameters: ListIndexesRequest, initOverrides?: RequestInit): Promise<Array<object>> {
+        const response = await this.listIndexesRaw(requestParameters, initOverrides);
         return await response.value();
     }
 

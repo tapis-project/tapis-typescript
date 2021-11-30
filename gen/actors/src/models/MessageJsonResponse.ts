@@ -54,4 +54,3 @@ export function MessageJsonResponseToJSON(value?: MessageJsonResponse | null): a
     };
 }
 
-

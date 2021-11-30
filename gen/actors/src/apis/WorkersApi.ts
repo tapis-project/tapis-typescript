@@ -44,7 +44,7 @@ export class WorkersApi extends runtime.BaseAPI {
      * List workers for an actor.
      * listWorkers
      */
-    async listWorkersRaw(requestParameters: ListWorkersRequest): Promise<runtime.ApiResponse<ActorWorkerResponse>> {
+    async listWorkersRaw(requestParameters: ListWorkersRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<ActorWorkerResponse>> {
         if (requestParameters.actorId === null || requestParameters.actorId === undefined) {
             throw new runtime.RequiredError('actorId','Required parameter requestParameters.actorId was null or undefined when calling listWorkers.');
         }
@@ -66,7 +66,7 @@ export class WorkersApi extends runtime.BaseAPI {
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        });
+        }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => ActorWorkerResponseFromJSON(jsonValue));
     }
@@ -75,8 +75,8 @@ export class WorkersApi extends runtime.BaseAPI {
      * List workers for an actor.
      * listWorkers
      */
-    async listWorkers(requestParameters: ListWorkersRequest): Promise<ActorWorkerResponse> {
-        const response = await this.listWorkersRaw(requestParameters);
+    async listWorkers(requestParameters: ListWorkersRequest, initOverrides?: RequestInit): Promise<ActorWorkerResponse> {
+        const response = await this.listWorkersRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
@@ -84,7 +84,7 @@ export class WorkersApi extends runtime.BaseAPI {
      * Manage number of workers in actor\'s worker pool. Pool size will not decrease as a result of this action.
      * manageWorkerPoolSize
      */
-    async manageWorkerPoolSizeRaw(requestParameters: ManageWorkerPoolSizeRequest): Promise<runtime.ApiResponse<RespManageWorkerPoolSize>> {
+    async manageWorkerPoolSizeRaw(requestParameters: ManageWorkerPoolSizeRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespManageWorkerPoolSize>> {
         if (requestParameters.actorId === null || requestParameters.actorId === undefined) {
             throw new runtime.RequiredError('actorId','Required parameter requestParameters.actorId was null or undefined when calling manageWorkerPoolSize.');
         }
@@ -113,7 +113,7 @@ export class WorkersApi extends runtime.BaseAPI {
             headers: headerParameters,
             query: queryParameters,
             body: InlineObjectToJSON(requestParameters.inlineObject),
-        });
+        }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => RespManageWorkerPoolSizeFromJSON(jsonValue));
     }
@@ -122,8 +122,8 @@ export class WorkersApi extends runtime.BaseAPI {
      * Manage number of workers in actor\'s worker pool. Pool size will not decrease as a result of this action.
      * manageWorkerPoolSize
      */
-    async manageWorkerPoolSize(requestParameters: ManageWorkerPoolSizeRequest): Promise<RespManageWorkerPoolSize> {
-        const response = await this.manageWorkerPoolSizeRaw(requestParameters);
+    async manageWorkerPoolSize(requestParameters: ManageWorkerPoolSizeRequest, initOverrides?: RequestInit): Promise<RespManageWorkerPoolSize> {
+        const response = await this.manageWorkerPoolSizeRaw(requestParameters, initOverrides);
         return await response.value();
     }
 

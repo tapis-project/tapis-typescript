@@ -78,4 +78,3 @@ export function ErrorResponseToJSON(value?: ErrorResponse | null): any {
     };
 }
 
-

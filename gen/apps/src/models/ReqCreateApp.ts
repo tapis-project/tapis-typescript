@@ -14,14 +14,14 @@
 
 import { exists, mapValues } from '../runtime';
 import {
-    AppTypeEnum,
-    AppTypeEnumFromJSON,
-    AppTypeEnumFromJSONTyped,
-    AppTypeEnumToJSON,
     JobAttributes,
     JobAttributesFromJSON,
     JobAttributesFromJSONTyped,
     JobAttributesToJSON,
+    JobTypeEnum,
+    JobTypeEnumFromJSON,
+    JobTypeEnumFromJSONTyped,
+    JobTypeEnumToJSON,
     RuntimeEnum,
     RuntimeEnumFromJSON,
     RuntimeEnumFromJSONTyped,
@@ -56,12 +56,6 @@ export interface ReqCreateApp {
      * @memberof ReqCreateApp
      */
     description?: string;
-    /**
-     * 
-     * @type {AppTypeEnum}
-     * @memberof ReqCreateApp
-     */
-    appType: AppTypeEnum;
     /**
      * 
      * @type {string}
@@ -100,6 +94,12 @@ export interface ReqCreateApp {
     containerImage: string;
     /**
      * 
+     * @type {JobTypeEnum}
+     * @memberof ReqCreateApp
+     */
+    jobType?: JobTypeEnum;
+    /**
+     * 
      * @type {number}
      * @memberof ReqCreateApp
      */
@@ -121,7 +121,7 @@ export interface ReqCreateApp {
      * @type {JobAttributes}
      * @memberof ReqCreateApp
      */
-    jobAttributes: JobAttributes;
+    jobAttributes?: JobAttributes;
     /**
      * 
      * @type {Array<string>}
@@ -149,17 +149,17 @@ export function ReqCreateAppFromJSONTyped(json: any, ignoreDiscriminator: boolea
         'id': json['id'],
         'version': json['version'],
         'description': !exists(json, 'description') ? undefined : json['description'],
-        'appType': AppTypeEnumFromJSON(json['appType']),
         'owner': !exists(json, 'owner') ? undefined : json['owner'],
         'enabled': !exists(json, 'enabled') ? undefined : json['enabled'],
         'runtime': !exists(json, 'runtime') ? undefined : RuntimeEnumFromJSON(json['runtime']),
         'runtimeVersion': !exists(json, 'runtimeVersion') ? undefined : json['runtimeVersion'],
         'runtimeOptions': !exists(json, 'runtimeOptions') ? undefined : ((json['runtimeOptions'] as Array<any>).map(RuntimeOptionEnumFromJSON)),
         'containerImage': json['containerImage'],
+        'jobType': !exists(json, 'jobType') ? undefined : JobTypeEnumFromJSON(json['jobType']),
         'maxJobs': !exists(json, 'maxJobs') ? undefined : json['maxJobs'],
         'maxJobsPerUser': !exists(json, 'maxJobsPerUser') ? undefined : json['maxJobsPerUser'],
         'strictFileInputs': !exists(json, 'strictFileInputs') ? undefined : json['strictFileInputs'],
-        'jobAttributes': JobAttributesFromJSON(json['jobAttributes']),
+        'jobAttributes': !exists(json, 'jobAttributes') ? undefined : JobAttributesFromJSON(json['jobAttributes']),
         'tags': !exists(json, 'tags') ? undefined : json['tags'],
         'notes': !exists(json, 'notes') ? undefined : json['notes'],
     };
@@ -177,13 +177,13 @@ export function ReqCreateAppToJSON(value?: ReqCreateApp | null): any {
         'id': value.id,
         'version': value.version,
         'description': value.description,
-        'appType': AppTypeEnumToJSON(value.appType),
         'owner': value.owner,
         'enabled': value.enabled,
         'runtime': RuntimeEnumToJSON(value.runtime),
         'runtimeVersion': value.runtimeVersion,
         'runtimeOptions': value.runtimeOptions === undefined ? undefined : ((value.runtimeOptions as Array<any>).map(RuntimeOptionEnumToJSON)),
         'containerImage': value.containerImage,
+        'jobType': JobTypeEnumToJSON(value.jobType),
         'maxJobs': value.maxJobs,
         'maxJobsPerUser': value.maxJobsPerUser,
         'strictFileInputs': value.strictFileInputs,
@@ -192,5 +192,4 @@ export function ReqCreateAppToJSON(value?: ReqCreateApp | null): any {
         'notes': value.notes,
     };
 }
-
 

@@ -86,4 +86,3 @@ export function RespReadyToJSON(value?: RespReady | null): any {
     };
 }
 
-

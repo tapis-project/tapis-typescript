@@ -70,4 +70,3 @@ export function ChannelConditionToJSON(value?: ChannelCondition | null): any {
     };
 }
 
-

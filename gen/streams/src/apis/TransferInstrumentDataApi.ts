@@ -39,7 +39,7 @@ export class TransferInstrumentDataApi extends runtime.BaseAPI {
      * Transfer an instruments data to a system
      * Transfer an instruments data to a system
      */
-    async transferDataRaw(requestParameters: TransferDataRequest): Promise<runtime.ApiResponse<RespTransferData>> {
+    async transferDataRaw(requestParameters: TransferDataRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespTransferData>> {
         if (requestParameters.transfer === null || requestParameters.transfer === undefined) {
             throw new runtime.RequiredError('transfer','Required parameter requestParameters.transfer was null or undefined when calling transferData.');
         }
@@ -56,7 +56,7 @@ export class TransferInstrumentDataApi extends runtime.BaseAPI {
             headers: headerParameters,
             query: queryParameters,
             body: TransferToJSON(requestParameters.transfer),
-        });
+        }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => RespTransferDataFromJSON(jsonValue));
     }
@@ -65,8 +65,8 @@ export class TransferInstrumentDataApi extends runtime.BaseAPI {
      * Transfer an instruments data to a system
      * Transfer an instruments data to a system
      */
-    async transferData(requestParameters: TransferDataRequest): Promise<RespTransferData> {
-        const response = await this.transferDataRaw(requestParameters);
+    async transferData(requestParameters: TransferDataRequest, initOverrides?: RequestInit): Promise<RespTransferData> {
+        const response = await this.transferDataRaw(requestParameters, initOverrides);
         return await response.value();
     }
 

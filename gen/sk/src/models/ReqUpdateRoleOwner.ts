@@ -70,4 +70,3 @@ export function ReqUpdateRoleOwnerToJSON(value?: ReqUpdateRoleOwner | null): any
     };
 }
 
-

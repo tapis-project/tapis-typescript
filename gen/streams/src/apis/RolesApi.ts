@@ -48,7 +48,7 @@ export class RolesApi extends runtime.BaseAPI {
      * Grant user role.
      * Grant user role.
      */
-    async grantRoleRaw(requestParameters: GrantRoleRequest): Promise<runtime.ApiResponse<RespGrantRole>> {
+    async grantRoleRaw(requestParameters: GrantRoleRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespGrantRole>> {
         if (requestParameters.newRole === null || requestParameters.newRole === undefined) {
             throw new runtime.RequiredError('newRole','Required parameter requestParameters.newRole was null or undefined when calling grantRole.');
         }
@@ -65,7 +65,7 @@ export class RolesApi extends runtime.BaseAPI {
             headers: headerParameters,
             query: queryParameters,
             body: NewRoleToJSON(requestParameters.newRole),
-        });
+        }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => RespGrantRoleFromJSON(jsonValue));
     }
@@ -74,8 +74,8 @@ export class RolesApi extends runtime.BaseAPI {
      * Grant user role.
      * Grant user role.
      */
-    async grantRole(requestParameters: GrantRoleRequest): Promise<RespGrantRole> {
-        const response = await this.grantRoleRaw(requestParameters);
+    async grantRole(requestParameters: GrantRoleRequest, initOverrides?: RequestInit): Promise<RespGrantRole> {
+        const response = await this.grantRoleRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
@@ -83,7 +83,7 @@ export class RolesApi extends runtime.BaseAPI {
      * Get roles for a given user
      * List roles for a given user
      */
-    async listRolesRaw(requestParameters: ListRolesRequest): Promise<runtime.ApiResponse<RespListRoles>> {
+    async listRolesRaw(requestParameters: ListRolesRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespListRoles>> {
         if (requestParameters.user === null || requestParameters.user === undefined) {
             throw new runtime.RequiredError('user','Required parameter requestParameters.user was null or undefined when calling listRoles.');
         }
@@ -117,7 +117,7 @@ export class RolesApi extends runtime.BaseAPI {
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        });
+        }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => RespListRolesFromJSON(jsonValue));
     }
@@ -126,8 +126,8 @@ export class RolesApi extends runtime.BaseAPI {
      * Get roles for a given user
      * List roles for a given user
      */
-    async listRoles(requestParameters: ListRolesRequest): Promise<RespListRoles> {
-        const response = await this.listRolesRaw(requestParameters);
+    async listRoles(requestParameters: ListRolesRequest, initOverrides?: RequestInit): Promise<RespListRoles> {
+        const response = await this.listRolesRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
