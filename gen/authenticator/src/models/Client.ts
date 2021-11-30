@@ -102,4 +102,3 @@ export function ClientToJSON(value?: Client | null): any {
     };
 }
 
-

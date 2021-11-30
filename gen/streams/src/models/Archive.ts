@@ -110,4 +110,3 @@ export function ArchiveToJSON(value?: Archive | null): any {
     };
 }
 
-

@@ -54,4 +54,3 @@ export function ChannelPermissionsToJSON(value?: ChannelPermissions | null): any
     };
 }
 
-

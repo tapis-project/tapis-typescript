@@ -70,4 +70,3 @@ export function MeasuredPropertyToJSON(value?: MeasuredProperty | null): any {
     };
 }
 
-

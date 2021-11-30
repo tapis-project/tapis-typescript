@@ -70,4 +70,3 @@ export function ReqCreateRoleToJSON(value?: ReqCreateRole | null): any {
     };
 }
 
-

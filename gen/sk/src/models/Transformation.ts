@@ -70,4 +70,3 @@ export function TransformationToJSON(value?: Transformation | null): any {
     };
 }
 
-

@@ -93,4 +93,3 @@ export function RespDeleteOwnerToJSON(value?: RespDeleteOwner | null): any {
     };
 }
 
-

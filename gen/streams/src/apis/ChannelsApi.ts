@@ -88,7 +88,7 @@ export class ChannelsApi extends runtime.BaseAPI {
      * Create channels.
      * Create channels.
      */
-    async createChannelsRaw(requestParameters: CreateChannelsRequest): Promise<runtime.ApiResponse<RespCreateChannels>> {
+    async createChannelsRaw(requestParameters: CreateChannelsRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespCreateChannels>> {
         if (requestParameters.reqCreateChannel === null || requestParameters.reqCreateChannel === undefined) {
             throw new runtime.RequiredError('reqCreateChannel','Required parameter requestParameters.reqCreateChannel was null or undefined when calling createChannels.');
         }
@@ -105,7 +105,7 @@ export class ChannelsApi extends runtime.BaseAPI {
             headers: headerParameters,
             query: queryParameters,
             body: ReqCreateChannelToJSON(requestParameters.reqCreateChannel),
-        });
+        }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => RespCreateChannelsFromJSON(jsonValue));
     }
@@ -114,8 +114,8 @@ export class ChannelsApi extends runtime.BaseAPI {
      * Create channels.
      * Create channels.
      */
-    async createChannels(requestParameters: CreateChannelsRequest): Promise<RespCreateChannels> {
-        const response = await this.createChannelsRaw(requestParameters);
+    async createChannels(requestParameters: CreateChannelsRequest, initOverrides?: RequestInit): Promise<RespCreateChannels> {
+        const response = await this.createChannelsRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
@@ -123,7 +123,7 @@ export class ChannelsApi extends runtime.BaseAPI {
      * Delete a channel
      * Delete a channel
      */
-    async deleteChannelRaw(requestParameters: DeleteChannelRequest): Promise<runtime.ApiResponse<RespDeleteChannel>> {
+    async deleteChannelRaw(requestParameters: DeleteChannelRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespDeleteChannel>> {
         if (requestParameters.channelId === null || requestParameters.channelId === undefined) {
             throw new runtime.RequiredError('channelId','Required parameter requestParameters.channelId was null or undefined when calling deleteChannel.');
         }
@@ -137,7 +137,7 @@ export class ChannelsApi extends runtime.BaseAPI {
             method: 'DELETE',
             headers: headerParameters,
             query: queryParameters,
-        });
+        }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => RespDeleteChannelFromJSON(jsonValue));
     }
@@ -146,8 +146,8 @@ export class ChannelsApi extends runtime.BaseAPI {
      * Delete a channel
      * Delete a channel
      */
-    async deleteChannel(requestParameters: DeleteChannelRequest): Promise<RespDeleteChannel> {
-        const response = await this.deleteChannelRaw(requestParameters);
+    async deleteChannel(requestParameters: DeleteChannelRequest, initOverrides?: RequestInit): Promise<RespDeleteChannel> {
+        const response = await this.deleteChannelRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
@@ -155,7 +155,7 @@ export class ChannelsApi extends runtime.BaseAPI {
      * Get details of a specific channel by its id
      * Get channels details
      */
-    async getChannelRaw(requestParameters: GetChannelRequest): Promise<runtime.ApiResponse<RespGetChannel>> {
+    async getChannelRaw(requestParameters: GetChannelRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespGetChannel>> {
         if (requestParameters.channelId === null || requestParameters.channelId === undefined) {
             throw new runtime.RequiredError('channelId','Required parameter requestParameters.channelId was null or undefined when calling getChannel.');
         }
@@ -169,7 +169,7 @@ export class ChannelsApi extends runtime.BaseAPI {
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        });
+        }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => RespGetChannelFromJSON(jsonValue));
     }
@@ -178,8 +178,8 @@ export class ChannelsApi extends runtime.BaseAPI {
      * Get details of a specific channel by its id
      * Get channels details
      */
-    async getChannel(requestParameters: GetChannelRequest): Promise<RespGetChannel> {
-        const response = await this.getChannelRaw(requestParameters);
+    async getChannel(requestParameters: GetChannelRequest, initOverrides?: RequestInit): Promise<RespGetChannel> {
+        const response = await this.getChannelRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
@@ -187,7 +187,7 @@ export class ChannelsApi extends runtime.BaseAPI {
      * Get details of a specific channel by its id
      * List alerts for given channel id
      */
-    async listAlertsRaw(requestParameters: ListAlertsRequest): Promise<runtime.ApiResponse<RespListAlerts>> {
+    async listAlertsRaw(requestParameters: ListAlertsRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespListAlerts>> {
         if (requestParameters.channelId === null || requestParameters.channelId === undefined) {
             throw new runtime.RequiredError('channelId','Required parameter requestParameters.channelId was null or undefined when calling listAlerts.');
         }
@@ -201,7 +201,7 @@ export class ChannelsApi extends runtime.BaseAPI {
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        });
+        }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => RespListAlertsFromJSON(jsonValue));
     }
@@ -210,8 +210,8 @@ export class ChannelsApi extends runtime.BaseAPI {
      * Get details of a specific channel by its id
      * List alerts for given channel id
      */
-    async listAlerts(requestParameters: ListAlertsRequest): Promise<RespListAlerts> {
-        const response = await this.listAlertsRaw(requestParameters);
+    async listAlerts(requestParameters: ListAlertsRequest, initOverrides?: RequestInit): Promise<RespListAlerts> {
+        const response = await this.listAlertsRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
@@ -219,7 +219,7 @@ export class ChannelsApi extends runtime.BaseAPI {
      * List channels.
      * List channels.
      */
-    async listChannelsRaw(requestParameters: ListChannelsRequest): Promise<runtime.ApiResponse<RespListChannels>> {
+    async listChannelsRaw(requestParameters: ListChannelsRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespListChannels>> {
         const queryParameters: any = {};
 
         if (requestParameters.query !== undefined) {
@@ -241,7 +241,7 @@ export class ChannelsApi extends runtime.BaseAPI {
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        });
+        }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => RespListChannelsFromJSON(jsonValue));
     }
@@ -250,8 +250,8 @@ export class ChannelsApi extends runtime.BaseAPI {
      * List channels.
      * List channels.
      */
-    async listChannels(requestParameters: ListChannelsRequest): Promise<RespListChannels> {
-        const response = await this.listChannelsRaw(requestParameters);
+    async listChannels(requestParameters: ListChannelsRequest, initOverrides?: RequestInit): Promise<RespListChannels> {
+        const response = await this.listChannelsRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
@@ -259,7 +259,7 @@ export class ChannelsApi extends runtime.BaseAPI {
      * Update a channel
      * Update a channel
      */
-    async updateChannelRaw(requestParameters: UpdateChannelRequest): Promise<runtime.ApiResponse<RespUpdateChannel>> {
+    async updateChannelRaw(requestParameters: UpdateChannelRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespUpdateChannel>> {
         if (requestParameters.channelId === null || requestParameters.channelId === undefined) {
             throw new runtime.RequiredError('channelId','Required parameter requestParameters.channelId was null or undefined when calling updateChannel.');
         }
@@ -280,7 +280,7 @@ export class ChannelsApi extends runtime.BaseAPI {
             headers: headerParameters,
             query: queryParameters,
             body: ReqCreateChannelToJSON(requestParameters.reqCreateChannel),
-        });
+        }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => RespUpdateChannelFromJSON(jsonValue));
     }
@@ -289,8 +289,8 @@ export class ChannelsApi extends runtime.BaseAPI {
      * Update a channel
      * Update a channel
      */
-    async updateChannel(requestParameters: UpdateChannelRequest): Promise<RespUpdateChannel> {
-        const response = await this.updateChannelRaw(requestParameters);
+    async updateChannel(requestParameters: UpdateChannelRequest, initOverrides?: RequestInit): Promise<RespUpdateChannel> {
+        const response = await this.updateChannelRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
@@ -298,7 +298,7 @@ export class ChannelsApi extends runtime.BaseAPI {
      * Update channel status
      * Update channel status
      */
-    async updateStatusRaw(requestParameters: UpdateStatusRequest): Promise<runtime.ApiResponse<RespUpdateStatus>> {
+    async updateStatusRaw(requestParameters: UpdateStatusRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespUpdateStatus>> {
         if (requestParameters.channelId === null || requestParameters.channelId === undefined) {
             throw new runtime.RequiredError('channelId','Required parameter requestParameters.channelId was null or undefined when calling updateStatus.');
         }
@@ -319,7 +319,7 @@ export class ChannelsApi extends runtime.BaseAPI {
             headers: headerParameters,
             query: queryParameters,
             body: UpdateChannelStatusToJSON(requestParameters.updateChannelStatus),
-        });
+        }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => RespUpdateStatusFromJSON(jsonValue));
     }
@@ -328,8 +328,8 @@ export class ChannelsApi extends runtime.BaseAPI {
      * Update channel status
      * Update channel status
      */
-    async updateStatus(requestParameters: UpdateStatusRequest): Promise<RespUpdateStatus> {
-        const response = await this.updateStatusRaw(requestParameters);
+    async updateStatus(requestParameters: UpdateStatusRequest, initOverrides?: RequestInit): Promise<RespUpdateStatus> {
+        const response = await this.updateStatusRaw(requestParameters, initOverrides);
         return await response.value();
     }
 

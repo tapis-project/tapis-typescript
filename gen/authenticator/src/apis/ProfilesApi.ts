@@ -39,7 +39,7 @@ export class ProfilesApi extends runtime.BaseAPI {
 
     /**
      */
-    async getProfileRaw(requestParameters: GetProfileRequest): Promise<runtime.ApiResponse<RespGetProfile>> {
+    async getProfileRaw(requestParameters: GetProfileRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespGetProfile>> {
         if (requestParameters.username === null || requestParameters.username === undefined) {
             throw new runtime.RequiredError('username','Required parameter requestParameters.username was null or undefined when calling getProfile.');
         }
@@ -53,21 +53,21 @@ export class ProfilesApi extends runtime.BaseAPI {
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        });
+        }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => RespGetProfileFromJSON(jsonValue));
     }
 
     /**
      */
-    async getProfile(requestParameters: GetProfileRequest): Promise<RespGetProfile> {
-        const response = await this.getProfileRaw(requestParameters);
+    async getProfile(requestParameters: GetProfileRequest, initOverrides?: RequestInit): Promise<RespGetProfile> {
+        const response = await this.getProfileRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
     /**
      */
-    async listProfilesRaw(requestParameters: ListProfilesRequest): Promise<runtime.ApiResponse<RespListProfiles>> {
+    async listProfilesRaw(requestParameters: ListProfilesRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespListProfiles>> {
         const queryParameters: any = {};
 
         if (requestParameters.limit !== undefined) {
@@ -85,15 +85,15 @@ export class ProfilesApi extends runtime.BaseAPI {
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        });
+        }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => RespListProfilesFromJSON(jsonValue));
     }
 
     /**
      */
-    async listProfiles(requestParameters: ListProfilesRequest): Promise<RespListProfiles> {
-        const response = await this.listProfilesRaw(requestParameters);
+    async listProfiles(requestParameters: ListProfilesRequest, initOverrides?: RequestInit): Promise<RespListProfiles> {
+        const response = await this.listProfilesRaw(requestParameters, initOverrides);
         return await response.value();
     }
 

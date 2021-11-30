@@ -62,4 +62,3 @@ export function ReqGrantAdminRoleToJSON(value?: ReqGrantAdminRole | null): any {
     };
 }
 
-

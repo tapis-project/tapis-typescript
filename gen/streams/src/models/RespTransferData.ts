@@ -93,4 +93,3 @@ export function RespTransferDataToJSON(value?: RespTransferData | null): any {
     };
 }
 
-

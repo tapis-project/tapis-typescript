@@ -79,4 +79,3 @@ export function RespDeleteTableToJSON(value?: RespDeleteTable | null): any {
     };
 }
 
-

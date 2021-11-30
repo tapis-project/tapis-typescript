@@ -70,4 +70,3 @@ export function NewAccessTokenResponseToJSON(value?: NewAccessTokenResponse | nu
     };
 }
 
-

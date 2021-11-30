@@ -54,4 +54,3 @@ export function BinaryMessageToJSON(value?: BinaryMessage | null): any {
     };
 }
 
-

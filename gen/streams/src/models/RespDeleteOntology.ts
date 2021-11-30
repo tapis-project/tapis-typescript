@@ -93,4 +93,3 @@ export function RespDeleteOntologyToJSON(value?: RespDeleteOntology | null): any
     };
 }
 
-

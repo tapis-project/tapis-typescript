@@ -70,7 +70,7 @@ export class OntologiesApi extends runtime.BaseAPI {
      * Add an ontology .
      * Add an ontology .
      */
-    async addOntologyRaw(requestParameters: AddOntologyRequest): Promise<runtime.ApiResponse<RespAddOntology>> {
+    async addOntologyRaw(requestParameters: AddOntologyRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespAddOntology>> {
         if (requestParameters.reqAddOntology === null || requestParameters.reqAddOntology === undefined) {
             throw new runtime.RequiredError('reqAddOntology','Required parameter requestParameters.reqAddOntology was null or undefined when calling addOntology.');
         }
@@ -87,7 +87,7 @@ export class OntologiesApi extends runtime.BaseAPI {
             headers: headerParameters,
             query: queryParameters,
             body: ReqAddOntologyToJSON(requestParameters.reqAddOntology),
-        });
+        }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => RespAddOntologyFromJSON(jsonValue));
     }
@@ -96,8 +96,8 @@ export class OntologiesApi extends runtime.BaseAPI {
      * Add an ontology .
      * Add an ontology .
      */
-    async addOntology(requestParameters: AddOntologyRequest): Promise<RespAddOntology> {
-        const response = await this.addOntologyRaw(requestParameters);
+    async addOntology(requestParameters: AddOntologyRequest, initOverrides?: RequestInit): Promise<RespAddOntology> {
+        const response = await this.addOntologyRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
@@ -105,7 +105,7 @@ export class OntologiesApi extends runtime.BaseAPI {
      * Delete an ontology
      * Delete an ontology
      */
-    async deleteOntologyRaw(requestParameters: DeleteOntologyRequest): Promise<runtime.ApiResponse<RespDeleteOntology>> {
+    async deleteOntologyRaw(requestParameters: DeleteOntologyRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespDeleteOntology>> {
         if (requestParameters.ontoId === null || requestParameters.ontoId === undefined) {
             throw new runtime.RequiredError('ontoId','Required parameter requestParameters.ontoId was null or undefined when calling deleteOntology.');
         }
@@ -119,7 +119,7 @@ export class OntologiesApi extends runtime.BaseAPI {
             method: 'DELETE',
             headers: headerParameters,
             query: queryParameters,
-        });
+        }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => RespDeleteOntologyFromJSON(jsonValue));
     }
@@ -128,8 +128,8 @@ export class OntologiesApi extends runtime.BaseAPI {
      * Delete an ontology
      * Delete an ontology
      */
-    async deleteOntology(requestParameters: DeleteOntologyRequest): Promise<RespDeleteOntology> {
-        const response = await this.deleteOntologyRaw(requestParameters);
+    async deleteOntology(requestParameters: DeleteOntologyRequest, initOverrides?: RequestInit): Promise<RespDeleteOntology> {
+        const response = await this.deleteOntologyRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
@@ -137,7 +137,7 @@ export class OntologiesApi extends runtime.BaseAPI {
      * Get ontology details.
      * Get ontology details.
      */
-    async getOntologyRaw(requestParameters: GetOntologyRequest): Promise<runtime.ApiResponse<RespGetOntology>> {
+    async getOntologyRaw(requestParameters: GetOntologyRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespGetOntology>> {
         if (requestParameters.ontoId === null || requestParameters.ontoId === undefined) {
             throw new runtime.RequiredError('ontoId','Required parameter requestParameters.ontoId was null or undefined when calling getOntology.');
         }
@@ -151,7 +151,7 @@ export class OntologiesApi extends runtime.BaseAPI {
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        });
+        }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => RespGetOntologyFromJSON(jsonValue));
     }
@@ -160,8 +160,8 @@ export class OntologiesApi extends runtime.BaseAPI {
      * Get ontology details.
      * Get ontology details.
      */
-    async getOntology(requestParameters: GetOntologyRequest): Promise<RespGetOntology> {
-        const response = await this.getOntologyRaw(requestParameters);
+    async getOntology(requestParameters: GetOntologyRequest, initOverrides?: RequestInit): Promise<RespGetOntology> {
+        const response = await this.getOntologyRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
@@ -169,7 +169,7 @@ export class OntologiesApi extends runtime.BaseAPI {
      * List ontologies.
      * List ontologies.
      */
-    async listOntologiesRaw(requestParameters: ListOntologiesRequest): Promise<runtime.ApiResponse<RespListOntologies>> {
+    async listOntologiesRaw(requestParameters: ListOntologiesRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespListOntologies>> {
         const queryParameters: any = {};
 
         if (requestParameters.query !== undefined) {
@@ -191,7 +191,7 @@ export class OntologiesApi extends runtime.BaseAPI {
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        });
+        }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => RespListOntologiesFromJSON(jsonValue));
     }
@@ -200,8 +200,8 @@ export class OntologiesApi extends runtime.BaseAPI {
      * List ontologies.
      * List ontologies.
      */
-    async listOntologies(requestParameters: ListOntologiesRequest): Promise<RespListOntologies> {
-        const response = await this.listOntologiesRaw(requestParameters);
+    async listOntologies(requestParameters: ListOntologiesRequest, initOverrides?: RequestInit): Promise<RespListOntologies> {
+        const response = await this.listOntologiesRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
@@ -209,7 +209,7 @@ export class OntologiesApi extends runtime.BaseAPI {
      * Update an ontology
      * Update an ontology
      */
-    async updateOntologyRaw(requestParameters: UpdateOntologyRequest): Promise<runtime.ApiResponse<RespUpdateOntology>> {
+    async updateOntologyRaw(requestParameters: UpdateOntologyRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespUpdateOntology>> {
         if (requestParameters.ontoId === null || requestParameters.ontoId === undefined) {
             throw new runtime.RequiredError('ontoId','Required parameter requestParameters.ontoId was null or undefined when calling updateOntology.');
         }
@@ -230,7 +230,7 @@ export class OntologiesApi extends runtime.BaseAPI {
             headers: headerParameters,
             query: queryParameters,
             body: ReqAddOntologyToJSON(requestParameters.reqAddOntology),
-        });
+        }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => RespUpdateOntologyFromJSON(jsonValue));
     }
@@ -239,8 +239,8 @@ export class OntologiesApi extends runtime.BaseAPI {
      * Update an ontology
      * Update an ontology
      */
-    async updateOntology(requestParameters: UpdateOntologyRequest): Promise<RespUpdateOntology> {
-        const response = await this.updateOntologyRaw(requestParameters);
+    async updateOntology(requestParameters: UpdateOntologyRequest, initOverrides?: RequestInit): Promise<RespUpdateOntology> {
+        const response = await this.updateOntologyRaw(requestParameters, initOverrides);
         return await response.value();
     }
 

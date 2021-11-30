@@ -93,4 +93,3 @@ export function RespDeleteActorToJSON(value?: RespDeleteActor | null): any {
     };
 }
 
-

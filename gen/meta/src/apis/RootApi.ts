@@ -24,7 +24,7 @@ export class RootApi extends runtime.BaseAPI {
      * List the names of all Dbs available. This operation is limited to Service admins.
      * listDBNames
      */
-    async listDBNamesRaw(): Promise<runtime.ApiResponse<Array<string>>> {
+    async listDBNamesRaw(initOverrides?: RequestInit): Promise<runtime.ApiResponse<Array<string>>> {
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -38,7 +38,7 @@ export class RootApi extends runtime.BaseAPI {
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        });
+        }, initOverrides);
 
         return new runtime.JSONApiResponse<any>(response);
     }
@@ -47,8 +47,8 @@ export class RootApi extends runtime.BaseAPI {
      * List the names of all Dbs available. This operation is limited to Service admins.
      * listDBNames
      */
-    async listDBNames(): Promise<Array<string>> {
-        const response = await this.listDBNamesRaw();
+    async listDBNames(initOverrides?: RequestInit): Promise<Array<string>> {
+        const response = await this.listDBNamesRaw(initOverrides);
         return await response.value();
     }
 

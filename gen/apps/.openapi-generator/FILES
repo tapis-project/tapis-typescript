@@ -11,10 +11,10 @@ src/index.ts
 src/models/AppArgSpec.ts
 src/models/AppFileInput.ts
 src/models/AppFileInputArray.ts
-src/models/AppTypeEnum.ts
 src/models/ArgInputModeEnum.ts
 src/models/FileInputModeEnum.ts
 src/models/JobAttributes.ts
+src/models/JobTypeEnum.ts
 src/models/KeyValuePair.ts
 src/models/NotificationMechanism.ts
 src/models/NotificationMechanismEnum.ts

@@ -118,4 +118,3 @@ export function InstrumentToJSON(value?: Instrument | null): any {
     };
 }
 
-

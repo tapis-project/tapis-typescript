@@ -54,4 +54,3 @@ export function OptionsToJSON(value?: Options | null): any {
     };
 }
 
-

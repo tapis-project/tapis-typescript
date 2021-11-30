@@ -78,4 +78,3 @@ export function JobsProbeToJSON(value?: JobsProbe | null): any {
     };
 }
 
-

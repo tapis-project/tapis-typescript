@@ -94,4 +94,3 @@ export function RespGetTableToJSON(value?: RespGetTable | null): any {
     };
 }
 
-

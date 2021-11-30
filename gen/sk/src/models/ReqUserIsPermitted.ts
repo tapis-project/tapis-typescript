@@ -78,4 +78,3 @@ export function ReqUserIsPermittedToJSON(value?: ReqUserIsPermitted | null): any
     };
 }
 
-

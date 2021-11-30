@@ -73,7 +73,7 @@ export class MessagesApi extends runtime.BaseAPI {
      * Delete all pending messages actor\'s inbox.
      * deletePendingMessages
      */
-    async deletePendingMessagesRaw(requestParameters: DeletePendingMessagesRequest): Promise<runtime.ApiResponse<RespDeletePendingMessages>> {
+    async deletePendingMessagesRaw(requestParameters: DeletePendingMessagesRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespDeletePendingMessages>> {
         if (requestParameters.actorId === null || requestParameters.actorId === undefined) {
             throw new runtime.RequiredError('actorId','Required parameter requestParameters.actorId was null or undefined when calling deletePendingMessages.');
         }
@@ -95,7 +95,7 @@ export class MessagesApi extends runtime.BaseAPI {
             method: 'DELETE',
             headers: headerParameters,
             query: queryParameters,
-        });
+        }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => RespDeletePendingMessagesFromJSON(jsonValue));
     }
@@ -104,8 +104,8 @@ export class MessagesApi extends runtime.BaseAPI {
      * Delete all pending messages actor\'s inbox.
      * deletePendingMessages
      */
-    async deletePendingMessages(requestParameters: DeletePendingMessagesRequest): Promise<RespDeletePendingMessages> {
-        const response = await this.deletePendingMessagesRaw(requestParameters);
+    async deletePendingMessages(requestParameters: DeletePendingMessagesRequest, initOverrides?: RequestInit): Promise<RespDeletePendingMessages> {
+        const response = await this.deletePendingMessagesRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
@@ -113,7 +113,7 @@ export class MessagesApi extends runtime.BaseAPI {
      * Get number of pending messages for an actor.
      * getMessages
      */
-    async getMessagesRaw(requestParameters: GetMessagesRequest): Promise<runtime.ApiResponse<RespGetMessages>> {
+    async getMessagesRaw(requestParameters: GetMessagesRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespGetMessages>> {
         if (requestParameters.actorId === null || requestParameters.actorId === undefined) {
             throw new runtime.RequiredError('actorId','Required parameter requestParameters.actorId was null or undefined when calling getMessages.');
         }
@@ -135,7 +135,7 @@ export class MessagesApi extends runtime.BaseAPI {
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        });
+        }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => RespGetMessagesFromJSON(jsonValue));
     }
@@ -144,8 +144,8 @@ export class MessagesApi extends runtime.BaseAPI {
      * Get number of pending messages for an actor.
      * getMessages
      */
-    async getMessages(requestParameters: GetMessagesRequest): Promise<RespGetMessages> {
-        const response = await this.getMessagesRaw(requestParameters);
+    async getMessages(requestParameters: GetMessagesRequest, initOverrides?: RequestInit): Promise<RespGetMessages> {
+        const response = await this.getMessagesRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
@@ -153,7 +153,7 @@ export class MessagesApi extends runtime.BaseAPI {
      * Send an actor a binary message
      * sendBinaryMessage
      */
-    async sendBinaryMessageRaw(requestParameters: SendBinaryMessageRequest): Promise<runtime.ApiResponse<RespSendBinaryMessage>> {
+    async sendBinaryMessageRaw(requestParameters: SendBinaryMessageRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespSendBinaryMessage>> {
         if (requestParameters.actorId === null || requestParameters.actorId === undefined) {
             throw new runtime.RequiredError('actorId','Required parameter requestParameters.actorId was null or undefined when calling sendBinaryMessage.');
         }
@@ -186,7 +186,7 @@ export class MessagesApi extends runtime.BaseAPI {
             headers: headerParameters,
             query: queryParameters,
             body: BinaryMessageToJSON(requestParameters.binaryMessage),
-        });
+        }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => RespSendBinaryMessageFromJSON(jsonValue));
     }
@@ -195,8 +195,8 @@ export class MessagesApi extends runtime.BaseAPI {
      * Send an actor a binary message
      * sendBinaryMessage
      */
-    async sendBinaryMessage(requestParameters: SendBinaryMessageRequest): Promise<RespSendBinaryMessage> {
-        const response = await this.sendBinaryMessageRaw(requestParameters);
+    async sendBinaryMessage(requestParameters: SendBinaryMessageRequest, initOverrides?: RequestInit): Promise<RespSendBinaryMessage> {
+        const response = await this.sendBinaryMessageRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
@@ -204,7 +204,7 @@ export class MessagesApi extends runtime.BaseAPI {
      * Send an actor a JSON message
      * sendJSONMessage
      */
-    async sendJSONMessageRaw(requestParameters: SendJSONMessageRequest): Promise<runtime.ApiResponse<RespSendJSONMessage>> {
+    async sendJSONMessageRaw(requestParameters: SendJSONMessageRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespSendJSONMessage>> {
         if (requestParameters.actorId === null || requestParameters.actorId === undefined) {
             throw new runtime.RequiredError('actorId','Required parameter requestParameters.actorId was null or undefined when calling sendJSONMessage.');
         }
@@ -237,7 +237,7 @@ export class MessagesApi extends runtime.BaseAPI {
             headers: headerParameters,
             query: queryParameters,
             body: JSONMessageToJSON(requestParameters.jSONMessage),
-        });
+        }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => RespSendJSONMessageFromJSON(jsonValue));
     }
@@ -246,8 +246,8 @@ export class MessagesApi extends runtime.BaseAPI {
      * Send an actor a JSON message
      * sendJSONMessage
      */
-    async sendJSONMessage(requestParameters: SendJSONMessageRequest): Promise<RespSendJSONMessage> {
-        const response = await this.sendJSONMessageRaw(requestParameters);
+    async sendJSONMessage(requestParameters: SendJSONMessageRequest, initOverrides?: RequestInit): Promise<RespSendJSONMessage> {
+        const response = await this.sendJSONMessageRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
@@ -255,7 +255,7 @@ export class MessagesApi extends runtime.BaseAPI {
      * Send an actor a message
      * sendMessage
      */
-    async sendMessageRaw(requestParameters: SendMessageRequest): Promise<runtime.ApiResponse<RespSendMessage>> {
+    async sendMessageRaw(requestParameters: SendMessageRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespSendMessage>> {
         if (requestParameters.actorId === null || requestParameters.actorId === undefined) {
             throw new runtime.RequiredError('actorId','Required parameter requestParameters.actorId was null or undefined when calling sendMessage.');
         }
@@ -288,7 +288,7 @@ export class MessagesApi extends runtime.BaseAPI {
             headers: headerParameters,
             query: queryParameters,
             body: JSONMessageToJSON(requestParameters.jSONMessage),
-        });
+        }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => RespSendMessageFromJSON(jsonValue));
     }
@@ -297,8 +297,8 @@ export class MessagesApi extends runtime.BaseAPI {
      * Send an actor a message
      * sendMessage
      */
-    async sendMessage(requestParameters: SendMessageRequest): Promise<RespSendMessage> {
-        const response = await this.sendMessageRaw(requestParameters);
+    async sendMessage(requestParameters: SendMessageRequest, initOverrides?: RequestInit): Promise<RespSendMessage> {
+        const response = await this.sendMessageRaw(requestParameters, initOverrides);
         return await response.value();
     }
 

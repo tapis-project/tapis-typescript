@@ -17,20 +17,20 @@
  * @export
  * @enum {string}
  */
-export enum AppTypeEnum {
+export enum JobTypeEnum {
     Batch = 'BATCH',
     Fork = 'FORK'
 }
 
-export function AppTypeEnumFromJSON(json: any): AppTypeEnum {
-    return AppTypeEnumFromJSONTyped(json, false);
+export function JobTypeEnumFromJSON(json: any): JobTypeEnum {
+    return JobTypeEnumFromJSONTyped(json, false);
 }
 
-export function AppTypeEnumFromJSONTyped(json: any, ignoreDiscriminator: boolean): AppTypeEnum {
-    return json as AppTypeEnum;
+export function JobTypeEnumFromJSONTyped(json: any, ignoreDiscriminator: boolean): JobTypeEnum {
+    return json as JobTypeEnum;
 }
 
-export function AppTypeEnumToJSON(value?: AppTypeEnum | null): any {
+export function JobTypeEnumToJSON(value?: JobTypeEnum | null): any {
     return value as any;
 }
 

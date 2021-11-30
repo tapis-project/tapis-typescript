@@ -94,4 +94,3 @@ export function RespGetTenantToJSON(value?: RespGetTenant | null): any {
     };
 }
 
-

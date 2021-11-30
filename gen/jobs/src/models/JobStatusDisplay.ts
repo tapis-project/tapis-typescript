@@ -54,4 +54,3 @@ export function JobStatusDisplayToJSON(value?: JobStatusDisplay | null): any {
     };
 }
 
-

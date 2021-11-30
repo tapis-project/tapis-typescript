@@ -126,4 +126,3 @@ export function TransferToJSON(value?: Transfer | null): any {
     };
 }
 
-

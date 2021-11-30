@@ -39,7 +39,7 @@ export class RevokeRolesApi extends runtime.BaseAPI {
      * Revoke user role.
      * Revoke user role.
      */
-    async revokeRoleRaw(requestParameters: RevokeRoleRequest): Promise<runtime.ApiResponse<RespRevokeRole>> {
+    async revokeRoleRaw(requestParameters: RevokeRoleRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespRevokeRole>> {
         if (requestParameters.revokeRole === null || requestParameters.revokeRole === undefined) {
             throw new runtime.RequiredError('revokeRole','Required parameter requestParameters.revokeRole was null or undefined when calling revokeRole.');
         }
@@ -56,7 +56,7 @@ export class RevokeRolesApi extends runtime.BaseAPI {
             headers: headerParameters,
             query: queryParameters,
             body: RevokeRoleToJSON(requestParameters.revokeRole),
-        });
+        }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => RespRevokeRoleFromJSON(jsonValue));
     }
@@ -65,8 +65,8 @@ export class RevokeRolesApi extends runtime.BaseAPI {
      * Revoke user role.
      * Revoke user role.
      */
-    async revokeRole(requestParameters: RevokeRoleRequest): Promise<RespRevokeRole> {
-        const response = await this.revokeRoleRaw(requestParameters);
+    async revokeRole(requestParameters: RevokeRoleRequest, initOverrides?: RequestInit): Promise<RespRevokeRole> {
+        const response = await this.revokeRoleRaw(requestParameters, initOverrides);
         return await response.value();
     }
 

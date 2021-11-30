@@ -65,7 +65,7 @@ export class CollectionApi extends runtime.BaseAPI {
      * Create a new collection in the database.
      * createCollection
      */
-    async createCollectionRaw(requestParameters: CreateCollectionRequest): Promise<runtime.ApiResponse<void>> {
+    async createCollectionRaw(requestParameters: CreateCollectionRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<void>> {
         if (requestParameters.db === null || requestParameters.db === undefined) {
             throw new runtime.RequiredError('db','Required parameter requestParameters.db was null or undefined when calling createCollection.');
         }
@@ -87,7 +87,7 @@ export class CollectionApi extends runtime.BaseAPI {
             method: 'PUT',
             headers: headerParameters,
             query: queryParameters,
-        });
+        }, initOverrides);
 
         return new runtime.VoidApiResponse(response);
     }
@@ -96,15 +96,15 @@ export class CollectionApi extends runtime.BaseAPI {
      * Create a new collection in the database.
      * createCollection
      */
-    async createCollection(requestParameters: CreateCollectionRequest): Promise<void> {
-        await this.createCollectionRaw(requestParameters);
+    async createCollection(requestParameters: CreateCollectionRequest, initOverrides?: RequestInit): Promise<void> {
+        await this.createCollectionRaw(requestParameters, initOverrides);
     }
 
     /**
      *  Delete a collection in the database. This operation is limit by default to tenant administrators.  An (If-Match) header parameter with the value of the collections etag must be supplied in order for this operations to succeed.
      * deleteCollection
      */
-    async deleteCollectionRaw(requestParameters: DeleteCollectionRequest): Promise<runtime.ApiResponse<void>> {
+    async deleteCollectionRaw(requestParameters: DeleteCollectionRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<void>> {
         if (requestParameters.ifMatch === null || requestParameters.ifMatch === undefined) {
             throw new runtime.RequiredError('ifMatch','Required parameter requestParameters.ifMatch was null or undefined when calling deleteCollection.');
         }
@@ -134,7 +134,7 @@ export class CollectionApi extends runtime.BaseAPI {
             method: 'DELETE',
             headers: headerParameters,
             query: queryParameters,
-        });
+        }, initOverrides);
 
         return new runtime.VoidApiResponse(response);
     }
@@ -143,15 +143,15 @@ export class CollectionApi extends runtime.BaseAPI {
      *  Delete a collection in the database. This operation is limit by default to tenant administrators.  An (If-Match) header parameter with the value of the collections etag must be supplied in order for this operations to succeed.
      * deleteCollection
      */
-    async deleteCollection(requestParameters: DeleteCollectionRequest): Promise<void> {
-        await this.deleteCollectionRaw(requestParameters);
+    async deleteCollection(requestParameters: DeleteCollectionRequest, initOverrides?: RequestInit): Promise<void> {
+        await this.deleteCollectionRaw(requestParameters, initOverrides);
     }
 
     /**
      * Get the Metadata for the collection.
      * getCollectionMetadata
      */
-    async getCollectionMetadataRaw(requestParameters: GetCollectionMetadataRequest): Promise<runtime.ApiResponse<object>> {
+    async getCollectionMetadataRaw(requestParameters: GetCollectionMetadataRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<object>> {
         if (requestParameters.db === null || requestParameters.db === undefined) {
             throw new runtime.RequiredError('db','Required parameter requestParameters.db was null or undefined when calling getCollectionMetadata.');
         }
@@ -173,7 +173,7 @@ export class CollectionApi extends runtime.BaseAPI {
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        });
+        }, initOverrides);
 
         return new runtime.JSONApiResponse<any>(response);
     }
@@ -182,8 +182,8 @@ export class CollectionApi extends runtime.BaseAPI {
      * Get the Metadata for the collection.
      * getCollectionMetadata
      */
-    async getCollectionMetadata(requestParameters: GetCollectionMetadataRequest): Promise<object> {
-        const response = await this.getCollectionMetadataRaw(requestParameters);
+    async getCollectionMetadata(requestParameters: GetCollectionMetadataRequest, initOverrides?: RequestInit): Promise<object> {
+        const response = await this.getCollectionMetadataRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
@@ -191,7 +191,7 @@ export class CollectionApi extends runtime.BaseAPI {
      * Get the size of the collection.  The response will contain the number of documents found in the collection.
      * getCollectionSize
      */
-    async getCollectionSizeRaw(requestParameters: GetCollectionSizeRequest): Promise<runtime.ApiResponse<Array<string>>> {
+    async getCollectionSizeRaw(requestParameters: GetCollectionSizeRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<Array<string>>> {
         if (requestParameters.db === null || requestParameters.db === undefined) {
             throw new runtime.RequiredError('db','Required parameter requestParameters.db was null or undefined when calling getCollectionSize.');
         }
@@ -213,7 +213,7 @@ export class CollectionApi extends runtime.BaseAPI {
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        });
+        }, initOverrides);
 
         return new runtime.JSONApiResponse<any>(response);
     }
@@ -222,8 +222,8 @@ export class CollectionApi extends runtime.BaseAPI {
      * Get the size of the collection.  The response will contain the number of documents found in the collection.
      * getCollectionSize
      */
-    async getCollectionSize(requestParameters: GetCollectionSizeRequest): Promise<Array<string>> {
-        const response = await this.getCollectionSizeRaw(requestParameters);
+    async getCollectionSize(requestParameters: GetCollectionSizeRequest, initOverrides?: RequestInit): Promise<Array<string>> {
+        const response = await this.getCollectionSizeRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
@@ -231,7 +231,7 @@ export class CollectionApi extends runtime.BaseAPI {
      * List of documents in the collection.  If no query parameters are submitted a default number of documents <pagesize> is returned in default sort order (sort)  as the first page <page> of a document result set. The default sort order is based on the \"_id\" of the document.  A (filter) query parameter value is represented by a valid MongoDb query document. This will allow retrieving documents that meet a desired criteria. When coupled with the (keys) query parameter a projection will limit the fields to return for all matching documents.
      * listDocuments
      */
-    async listDocumentsRaw(requestParameters: ListDocumentsRequest): Promise<runtime.ApiResponse<Array<object>>> {
+    async listDocumentsRaw(requestParameters: ListDocumentsRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<Array<object>>> {
         if (requestParameters.db === null || requestParameters.db === undefined) {
             throw new runtime.RequiredError('db','Required parameter requestParameters.db was null or undefined when calling listDocuments.');
         }
@@ -273,7 +273,7 @@ export class CollectionApi extends runtime.BaseAPI {
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        });
+        }, initOverrides);
 
         return new runtime.JSONApiResponse<any>(response);
     }
@@ -282,8 +282,8 @@ export class CollectionApi extends runtime.BaseAPI {
      * List of documents in the collection.  If no query parameters are submitted a default number of documents <pagesize> is returned in default sort order (sort)  as the first page <page> of a document result set. The default sort order is based on the \"_id\" of the document.  A (filter) query parameter value is represented by a valid MongoDb query document. This will allow retrieving documents that meet a desired criteria. When coupled with the (keys) query parameter a projection will limit the fields to return for all matching documents.
      * listDocuments
      */
-    async listDocuments(requestParameters: ListDocumentsRequest): Promise<Array<object>> {
-        const response = await this.listDocumentsRaw(requestParameters);
+    async listDocuments(requestParameters: ListDocumentsRequest, initOverrides?: RequestInit): Promise<Array<object>> {
+        const response = await this.listDocumentsRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
@@ -291,7 +291,7 @@ export class CollectionApi extends runtime.BaseAPI {
      *  This is a POST version of filter on a collection with a filter value to large to submit in a query parameter. If the filter parameter is to large, it may exceed the HTTP header character limit. The HTTP server will throw a query header to large error.
      * submitLargeQuery
      */
-    async submitLargeQueryRaw(requestParameters: SubmitLargeQueryRequest): Promise<runtime.ApiResponse<object>> {
+    async submitLargeQueryRaw(requestParameters: SubmitLargeQueryRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<object>> {
         if (requestParameters.db === null || requestParameters.db === undefined) {
             throw new runtime.RequiredError('db','Required parameter requestParameters.db was null or undefined when calling submitLargeQuery.');
         }
@@ -332,7 +332,7 @@ export class CollectionApi extends runtime.BaseAPI {
             headers: headerParameters,
             query: queryParameters,
             body: requestParameters.body as any,
-        });
+        }, initOverrides);
 
         return new runtime.JSONApiResponse<any>(response);
     }
@@ -341,8 +341,8 @@ export class CollectionApi extends runtime.BaseAPI {
      *  This is a POST version of filter on a collection with a filter value to large to submit in a query parameter. If the filter parameter is to large, it may exceed the HTTP header character limit. The HTTP server will throw a query header to large error.
      * submitLargeQuery
      */
-    async submitLargeQuery(requestParameters: SubmitLargeQueryRequest): Promise<object> {
-        const response = await this.submitLargeQueryRaw(requestParameters);
+    async submitLargeQuery(requestParameters: SubmitLargeQueryRequest, initOverrides?: RequestInit): Promise<object> {
+        const response = await this.submitLargeQueryRaw(requestParameters, initOverrides);
         return await response.value();
     }
 

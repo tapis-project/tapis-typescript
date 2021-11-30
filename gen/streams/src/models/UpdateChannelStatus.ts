@@ -63,4 +63,3 @@ export function UpdateChannelStatusToJSON(value?: UpdateChannelStatus | null): a
     };
 }
 
-

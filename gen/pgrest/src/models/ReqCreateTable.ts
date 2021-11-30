@@ -117,4 +117,3 @@ export function ReqCreateTableToJSON(value?: ReqCreateTable | null): any {
     };
 }
 
-

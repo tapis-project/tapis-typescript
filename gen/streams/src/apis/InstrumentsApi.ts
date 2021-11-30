@@ -80,7 +80,7 @@ export class InstrumentsApi extends runtime.BaseAPI {
      * Create instruments (single or bulk)
      * Create instruments (single or bulk)
      */
-    async createInstrumentRaw(requestParameters: CreateInstrumentRequest): Promise<runtime.ApiResponse<RespCreateInstrument>> {
+    async createInstrumentRaw(requestParameters: CreateInstrumentRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespCreateInstrument>> {
         if (requestParameters.projectId === null || requestParameters.projectId === undefined) {
             throw new runtime.RequiredError('projectId','Required parameter requestParameters.projectId was null or undefined when calling createInstrument.');
         }
@@ -105,7 +105,7 @@ export class InstrumentsApi extends runtime.BaseAPI {
             headers: headerParameters,
             query: queryParameters,
             body: requestParameters.reqCreateInstrument.map(ReqCreateInstrumentToJSON),
-        });
+        }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => RespCreateInstrumentFromJSON(jsonValue));
     }
@@ -114,8 +114,8 @@ export class InstrumentsApi extends runtime.BaseAPI {
      * Create instruments (single or bulk)
      * Create instruments (single or bulk)
      */
-    async createInstrument(requestParameters: CreateInstrumentRequest): Promise<RespCreateInstrument> {
-        const response = await this.createInstrumentRaw(requestParameters);
+    async createInstrument(requestParameters: CreateInstrumentRequest, initOverrides?: RequestInit): Promise<RespCreateInstrument> {
+        const response = await this.createInstrumentRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
@@ -123,7 +123,7 @@ export class InstrumentsApi extends runtime.BaseAPI {
      * Delete an instrument
      * Delete an instrument
      */
-    async deleteInstrumentRaw(requestParameters: DeleteInstrumentRequest): Promise<runtime.ApiResponse<RespDeleteInstrument>> {
+    async deleteInstrumentRaw(requestParameters: DeleteInstrumentRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespDeleteInstrument>> {
         if (requestParameters.projectId === null || requestParameters.projectId === undefined) {
             throw new runtime.RequiredError('projectId','Required parameter requestParameters.projectId was null or undefined when calling deleteInstrument.');
         }
@@ -145,7 +145,7 @@ export class InstrumentsApi extends runtime.BaseAPI {
             method: 'DELETE',
             headers: headerParameters,
             query: queryParameters,
-        });
+        }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => RespDeleteInstrumentFromJSON(jsonValue));
     }
@@ -154,8 +154,8 @@ export class InstrumentsApi extends runtime.BaseAPI {
      * Delete an instrument
      * Delete an instrument
      */
-    async deleteInstrument(requestParameters: DeleteInstrumentRequest): Promise<RespDeleteInstrument> {
-        const response = await this.deleteInstrumentRaw(requestParameters);
+    async deleteInstrument(requestParameters: DeleteInstrumentRequest, initOverrides?: RequestInit): Promise<RespDeleteInstrument> {
+        const response = await this.deleteInstrumentRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
@@ -163,7 +163,7 @@ export class InstrumentsApi extends runtime.BaseAPI {
      * Get instrument details
      * Get instrument details
      */
-    async getInstrumentRaw(requestParameters: GetInstrumentRequest): Promise<runtime.ApiResponse<RespGetInstrument>> {
+    async getInstrumentRaw(requestParameters: GetInstrumentRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespGetInstrument>> {
         if (requestParameters.projectId === null || requestParameters.projectId === undefined) {
             throw new runtime.RequiredError('projectId','Required parameter requestParameters.projectId was null or undefined when calling getInstrument.');
         }
@@ -185,7 +185,7 @@ export class InstrumentsApi extends runtime.BaseAPI {
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        });
+        }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => RespGetInstrumentFromJSON(jsonValue));
     }
@@ -194,8 +194,8 @@ export class InstrumentsApi extends runtime.BaseAPI {
      * Get instrument details
      * Get instrument details
      */
-    async getInstrument(requestParameters: GetInstrumentRequest): Promise<RespGetInstrument> {
-        const response = await this.getInstrumentRaw(requestParameters);
+    async getInstrument(requestParameters: GetInstrumentRequest, initOverrides?: RequestInit): Promise<RespGetInstrument> {
+        const response = await this.getInstrumentRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
@@ -203,7 +203,7 @@ export class InstrumentsApi extends runtime.BaseAPI {
      * List instruments
      * List instruments
      */
-    async listInstrumentsRaw(requestParameters: ListInstrumentsRequest): Promise<runtime.ApiResponse<RespListInstruments>> {
+    async listInstrumentsRaw(requestParameters: ListInstrumentsRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespListInstruments>> {
         if (requestParameters.projectId === null || requestParameters.projectId === undefined) {
             throw new runtime.RequiredError('projectId','Required parameter requestParameters.projectId was null or undefined when calling listInstruments.');
         }
@@ -233,7 +233,7 @@ export class InstrumentsApi extends runtime.BaseAPI {
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        });
+        }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => RespListInstrumentsFromJSON(jsonValue));
     }
@@ -242,8 +242,8 @@ export class InstrumentsApi extends runtime.BaseAPI {
      * List instruments
      * List instruments
      */
-    async listInstruments(requestParameters: ListInstrumentsRequest): Promise<RespListInstruments> {
-        const response = await this.listInstrumentsRaw(requestParameters);
+    async listInstruments(requestParameters: ListInstrumentsRequest, initOverrides?: RequestInit): Promise<RespListInstruments> {
+        const response = await this.listInstrumentsRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
@@ -251,7 +251,7 @@ export class InstrumentsApi extends runtime.BaseAPI {
      * Update an instrument
      * Update an instrument
      */
-    async updateInstrumentRaw(requestParameters: UpdateInstrumentRequest): Promise<runtime.ApiResponse<RespUpdateInstrument>> {
+    async updateInstrumentRaw(requestParameters: UpdateInstrumentRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespUpdateInstrument>> {
         if (requestParameters.projectId === null || requestParameters.projectId === undefined) {
             throw new runtime.RequiredError('projectId','Required parameter requestParameters.projectId was null or undefined when calling updateInstrument.');
         }
@@ -280,7 +280,7 @@ export class InstrumentsApi extends runtime.BaseAPI {
             headers: headerParameters,
             query: queryParameters,
             body: ReqCreateInstrumentToJSON(requestParameters.reqCreateInstrument),
-        });
+        }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => RespUpdateInstrumentFromJSON(jsonValue));
     }
@@ -289,8 +289,8 @@ export class InstrumentsApi extends runtime.BaseAPI {
      * Update an instrument
      * Update an instrument
      */
-    async updateInstrument(requestParameters: UpdateInstrumentRequest): Promise<RespUpdateInstrument> {
-        const response = await this.updateInstrumentRaw(requestParameters);
+    async updateInstrument(requestParameters: UpdateInstrumentRequest, initOverrides?: RequestInit): Promise<RespUpdateInstrument> {
+        const response = await this.updateInstrumentRaw(requestParameters, initOverrides);
         return await response.value();
     }
 

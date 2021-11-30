@@ -62,4 +62,3 @@ export function ShareFileRequestToJSON(value?: ShareFileRequest | null): any {
     };
 }
 
-

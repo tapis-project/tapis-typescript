@@ -70,4 +70,3 @@ export function ReqRemoveChildRoleToJSON(value?: ReqRemoveChildRole | null): any
     };
 }
 
-

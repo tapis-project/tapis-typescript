@@ -35,7 +35,7 @@ export class GeneralApi extends runtime.BaseAPI {
     /**
      * Lightwieght health check for liveness. No authorization required.
      */
-    async checkHealthRaw(): Promise<runtime.ApiResponse<RespProbe>> {
+    async checkHealthRaw(initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespProbe>> {
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -45,7 +45,7 @@ export class GeneralApi extends runtime.BaseAPI {
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        });
+        }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => RespProbeFromJSON(jsonValue));
     }
@@ -53,15 +53,15 @@ export class GeneralApi extends runtime.BaseAPI {
     /**
      * Lightwieght health check for liveness. No authorization required.
      */
-    async checkHealth(): Promise<RespProbe> {
-        const response = await this.checkHealthRaw();
+    async checkHealth(initOverrides?: RequestInit): Promise<RespProbe> {
+        const response = await this.checkHealthRaw(initOverrides);
         return await response.value();
     }
 
     /**
      * Lightwieght readiness check. No authorization required.
      */
-    async readyRaw(): Promise<runtime.ApiResponse<RespProbe>> {
+    async readyRaw(initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespProbe>> {
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -71,7 +71,7 @@ export class GeneralApi extends runtime.BaseAPI {
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        });
+        }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => RespProbeFromJSON(jsonValue));
     }
@@ -79,15 +79,15 @@ export class GeneralApi extends runtime.BaseAPI {
     /**
      * Lightwieght readiness check. No authorization required.
      */
-    async ready(): Promise<RespProbe> {
-        const response = await this.readyRaw();
+    async ready(initOverrides?: RequestInit): Promise<RespProbe> {
+        const response = await this.readyRaw(initOverrides);
         return await response.value();
     }
 
     /**
      * Logged connectivity test. No authorization required.
      */
-    async sayHelloRaw(requestParameters: SayHelloRequest): Promise<runtime.ApiResponse<RespBasic>> {
+    async sayHelloRaw(requestParameters: SayHelloRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespBasic>> {
         const queryParameters: any = {};
 
         if (requestParameters.pretty !== undefined) {
@@ -101,7 +101,7 @@ export class GeneralApi extends runtime.BaseAPI {
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        });
+        }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => RespBasicFromJSON(jsonValue));
     }
@@ -109,8 +109,8 @@ export class GeneralApi extends runtime.BaseAPI {
     /**
      * Logged connectivity test. No authorization required.
      */
-    async sayHello(requestParameters: SayHelloRequest): Promise<RespBasic> {
-        const response = await this.sayHelloRaw(requestParameters);
+    async sayHello(requestParameters: SayHelloRequest, initOverrides?: RequestInit): Promise<RespBasic> {
+        const response = await this.sayHelloRaw(requestParameters, initOverrides);
         return await response.value();
     }
 

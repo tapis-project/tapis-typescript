@@ -57,4 +57,3 @@ export function MeasurementValuesToJSON(value?: MeasurementValues | null): any {
     };
 }
 
-

@@ -94,4 +94,3 @@ export function RespUpdateStateToJSON(value?: RespUpdateState | null): any {
     };
 }
 
-

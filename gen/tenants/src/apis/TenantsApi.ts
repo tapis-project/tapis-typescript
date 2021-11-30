@@ -122,7 +122,7 @@ export class TenantsApi extends runtime.BaseAPI {
      * Create an ldap
      * Create an ldap
      */
-    async createLdapRaw(requestParameters: CreateLdapRequest): Promise<runtime.ApiResponse<RespCreateLdap>> {
+    async createLdapRaw(requestParameters: CreateLdapRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespCreateLdap>> {
         if (requestParameters.reqCreateLdap === null || requestParameters.reqCreateLdap === undefined) {
             throw new runtime.RequiredError('reqCreateLdap','Required parameter requestParameters.reqCreateLdap was null or undefined when calling createLdap.');
         }
@@ -139,7 +139,7 @@ export class TenantsApi extends runtime.BaseAPI {
             headers: headerParameters,
             query: queryParameters,
             body: ReqCreateLdapToJSON(requestParameters.reqCreateLdap),
-        });
+        }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => RespCreateLdapFromJSON(jsonValue));
     }
@@ -148,8 +148,8 @@ export class TenantsApi extends runtime.BaseAPI {
      * Create an ldap
      * Create an ldap
      */
-    async createLdap(requestParameters: CreateLdapRequest): Promise<RespCreateLdap> {
-        const response = await this.createLdapRaw(requestParameters);
+    async createLdap(requestParameters: CreateLdapRequest, initOverrides?: RequestInit): Promise<RespCreateLdap> {
+        const response = await this.createLdapRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
@@ -157,7 +157,7 @@ export class TenantsApi extends runtime.BaseAPI {
      * Create an owner
      * Create an owner
      */
-    async createOwnerRaw(requestParameters: CreateOwnerRequest): Promise<runtime.ApiResponse<RespCreateOwner>> {
+    async createOwnerRaw(requestParameters: CreateOwnerRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespCreateOwner>> {
         if (requestParameters.owner === null || requestParameters.owner === undefined) {
             throw new runtime.RequiredError('owner','Required parameter requestParameters.owner was null or undefined when calling createOwner.');
         }
@@ -174,7 +174,7 @@ export class TenantsApi extends runtime.BaseAPI {
             headers: headerParameters,
             query: queryParameters,
             body: OwnerToJSON(requestParameters.owner),
-        });
+        }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => RespCreateOwnerFromJSON(jsonValue));
     }
@@ -183,8 +183,8 @@ export class TenantsApi extends runtime.BaseAPI {
      * Create an owner
      * Create an owner
      */
-    async createOwner(requestParameters: CreateOwnerRequest): Promise<RespCreateOwner> {
-        const response = await this.createOwnerRaw(requestParameters);
+    async createOwner(requestParameters: CreateOwnerRequest, initOverrides?: RequestInit): Promise<RespCreateOwner> {
+        const response = await this.createOwnerRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
@@ -192,7 +192,7 @@ export class TenantsApi extends runtime.BaseAPI {
      * Create a tenant.
      * Create a tenant.
      */
-    async createTenantRaw(requestParameters: CreateTenantRequest): Promise<runtime.ApiResponse<RespCreateTenant>> {
+    async createTenantRaw(requestParameters: CreateTenantRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespCreateTenant>> {
         if (requestParameters.reqCreateTenant === null || requestParameters.reqCreateTenant === undefined) {
             throw new runtime.RequiredError('reqCreateTenant','Required parameter requestParameters.reqCreateTenant was null or undefined when calling createTenant.');
         }
@@ -209,7 +209,7 @@ export class TenantsApi extends runtime.BaseAPI {
             headers: headerParameters,
             query: queryParameters,
             body: ReqCreateTenantToJSON(requestParameters.reqCreateTenant),
-        });
+        }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => RespCreateTenantFromJSON(jsonValue));
     }
@@ -218,8 +218,8 @@ export class TenantsApi extends runtime.BaseAPI {
      * Create a tenant.
      * Create a tenant.
      */
-    async createTenant(requestParameters: CreateTenantRequest): Promise<RespCreateTenant> {
-        const response = await this.createTenantRaw(requestParameters);
+    async createTenant(requestParameters: CreateTenantRequest, initOverrides?: RequestInit): Promise<RespCreateTenant> {
+        const response = await this.createTenantRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
@@ -227,7 +227,7 @@ export class TenantsApi extends runtime.BaseAPI {
      * Permenantly delete an ldap.
      * Delete ldap
      */
-    async deleteLdapRaw(requestParameters: DeleteLdapRequest): Promise<runtime.ApiResponse<RespDeleteLdap>> {
+    async deleteLdapRaw(requestParameters: DeleteLdapRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespDeleteLdap>> {
         if (requestParameters.ldapId === null || requestParameters.ldapId === undefined) {
             throw new runtime.RequiredError('ldapId','Required parameter requestParameters.ldapId was null or undefined when calling deleteLdap.');
         }
@@ -241,7 +241,7 @@ export class TenantsApi extends runtime.BaseAPI {
             method: 'DELETE',
             headers: headerParameters,
             query: queryParameters,
-        });
+        }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => RespDeleteLdapFromJSON(jsonValue));
     }
@@ -250,8 +250,8 @@ export class TenantsApi extends runtime.BaseAPI {
      * Permenantly delete an ldap.
      * Delete ldap
      */
-    async deleteLdap(requestParameters: DeleteLdapRequest): Promise<RespDeleteLdap> {
-        const response = await this.deleteLdapRaw(requestParameters);
+    async deleteLdap(requestParameters: DeleteLdapRequest, initOverrides?: RequestInit): Promise<RespDeleteLdap> {
+        const response = await this.deleteLdapRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
@@ -259,7 +259,7 @@ export class TenantsApi extends runtime.BaseAPI {
      * Permenantly delete an owner.
      * Delete owner
      */
-    async deleteOwnerRaw(requestParameters: DeleteOwnerRequest): Promise<runtime.ApiResponse<RespDeleteOwner>> {
+    async deleteOwnerRaw(requestParameters: DeleteOwnerRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespDeleteOwner>> {
         if (requestParameters.email === null || requestParameters.email === undefined) {
             throw new runtime.RequiredError('email','Required parameter requestParameters.email was null or undefined when calling deleteOwner.');
         }
@@ -273,7 +273,7 @@ export class TenantsApi extends runtime.BaseAPI {
             method: 'DELETE',
             headers: headerParameters,
             query: queryParameters,
-        });
+        }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => RespDeleteOwnerFromJSON(jsonValue));
     }
@@ -282,8 +282,8 @@ export class TenantsApi extends runtime.BaseAPI {
      * Permenantly delete an owner.
      * Delete owner
      */
-    async deleteOwner(requestParameters: DeleteOwnerRequest): Promise<RespDeleteOwner> {
-        const response = await this.deleteOwnerRaw(requestParameters);
+    async deleteOwner(requestParameters: DeleteOwnerRequest, initOverrides?: RequestInit): Promise<RespDeleteOwner> {
+        const response = await this.deleteOwnerRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
@@ -291,7 +291,7 @@ export class TenantsApi extends runtime.BaseAPI {
      * Permenantly delete a tenant.
      * Delete a tenant
      */
-    async deleteTenantRaw(requestParameters: DeleteTenantRequest): Promise<runtime.ApiResponse<RespDeleteTenant>> {
+    async deleteTenantRaw(requestParameters: DeleteTenantRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespDeleteTenant>> {
         if (requestParameters.tenantId === null || requestParameters.tenantId === undefined) {
             throw new runtime.RequiredError('tenantId','Required parameter requestParameters.tenantId was null or undefined when calling deleteTenant.');
         }
@@ -305,7 +305,7 @@ export class TenantsApi extends runtime.BaseAPI {
             method: 'DELETE',
             headers: headerParameters,
             query: queryParameters,
-        });
+        }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => RespDeleteTenantFromJSON(jsonValue));
     }
@@ -314,8 +314,8 @@ export class TenantsApi extends runtime.BaseAPI {
      * Permenantly delete a tenant.
      * Delete a tenant
      */
-    async deleteTenant(requestParameters: DeleteTenantRequest): Promise<RespDeleteTenant> {
-        const response = await this.deleteTenantRaw(requestParameters);
+    async deleteTenant(requestParameters: DeleteTenantRequest, initOverrides?: RequestInit): Promise<RespDeleteTenant> {
+        const response = await this.deleteTenantRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
@@ -323,7 +323,7 @@ export class TenantsApi extends runtime.BaseAPI {
      * Get details of a specific ldap by its id.
      * Get ldap details
      */
-    async getLdapRaw(requestParameters: GetLdapRequest): Promise<runtime.ApiResponse<RespGetLdap>> {
+    async getLdapRaw(requestParameters: GetLdapRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespGetLdap>> {
         if (requestParameters.ldapId === null || requestParameters.ldapId === undefined) {
             throw new runtime.RequiredError('ldapId','Required parameter requestParameters.ldapId was null or undefined when calling getLdap.');
         }
@@ -337,7 +337,7 @@ export class TenantsApi extends runtime.BaseAPI {
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        });
+        }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => RespGetLdapFromJSON(jsonValue));
     }
@@ -346,8 +346,8 @@ export class TenantsApi extends runtime.BaseAPI {
      * Get details of a specific ldap by its id.
      * Get ldap details
      */
-    async getLdap(requestParameters: GetLdapRequest): Promise<RespGetLdap> {
-        const response = await this.getLdapRaw(requestParameters);
+    async getLdap(requestParameters: GetLdapRequest, initOverrides?: RequestInit): Promise<RespGetLdap> {
+        const response = await this.getLdapRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
@@ -355,7 +355,7 @@ export class TenantsApi extends runtime.BaseAPI {
      * Get details of a specific owner by its email address.
      * Get owner details
      */
-    async getOwnerRaw(requestParameters: GetOwnerRequest): Promise<runtime.ApiResponse<RespGetOwner>> {
+    async getOwnerRaw(requestParameters: GetOwnerRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespGetOwner>> {
         if (requestParameters.email === null || requestParameters.email === undefined) {
             throw new runtime.RequiredError('email','Required parameter requestParameters.email was null or undefined when calling getOwner.');
         }
@@ -369,7 +369,7 @@ export class TenantsApi extends runtime.BaseAPI {
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        });
+        }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => RespGetOwnerFromJSON(jsonValue));
     }
@@ -378,8 +378,8 @@ export class TenantsApi extends runtime.BaseAPI {
      * Get details of a specific owner by its email address.
      * Get owner details
      */
-    async getOwner(requestParameters: GetOwnerRequest): Promise<RespGetOwner> {
-        const response = await this.getOwnerRaw(requestParameters);
+    async getOwner(requestParameters: GetOwnerRequest, initOverrides?: RequestInit): Promise<RespGetOwner> {
+        const response = await this.getOwnerRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
@@ -387,7 +387,7 @@ export class TenantsApi extends runtime.BaseAPI {
      * Get details of a specific tenant by its id.
      * Get tenant details
      */
-    async getTenantRaw(requestParameters: GetTenantRequest): Promise<runtime.ApiResponse<RespGetTenant>> {
+    async getTenantRaw(requestParameters: GetTenantRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespGetTenant>> {
         if (requestParameters.tenantId === null || requestParameters.tenantId === undefined) {
             throw new runtime.RequiredError('tenantId','Required parameter requestParameters.tenantId was null or undefined when calling getTenant.');
         }
@@ -401,7 +401,7 @@ export class TenantsApi extends runtime.BaseAPI {
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        });
+        }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => RespGetTenantFromJSON(jsonValue));
     }
@@ -410,8 +410,8 @@ export class TenantsApi extends runtime.BaseAPI {
      * Get details of a specific tenant by its id.
      * Get tenant details
      */
-    async getTenant(requestParameters: GetTenantRequest): Promise<RespGetTenant> {
-        const response = await this.getTenantRaw(requestParameters);
+    async getTenant(requestParameters: GetTenantRequest, initOverrides?: RequestInit): Promise<RespGetTenant> {
+        const response = await this.getTenantRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
@@ -419,7 +419,7 @@ export class TenantsApi extends runtime.BaseAPI {
      * List ldaps
      * List ldaps
      */
-    async listLdapsRaw(requestParameters: ListLdapsRequest): Promise<runtime.ApiResponse<RespListLdaps>> {
+    async listLdapsRaw(requestParameters: ListLdapsRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespListLdaps>> {
         const queryParameters: any = {};
 
         if (requestParameters.limit !== undefined) {
@@ -437,7 +437,7 @@ export class TenantsApi extends runtime.BaseAPI {
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        });
+        }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => RespListLdapsFromJSON(jsonValue));
     }
@@ -446,8 +446,8 @@ export class TenantsApi extends runtime.BaseAPI {
      * List ldaps
      * List ldaps
      */
-    async listLdaps(requestParameters: ListLdapsRequest): Promise<RespListLdaps> {
-        const response = await this.listLdapsRaw(requestParameters);
+    async listLdaps(requestParameters: ListLdapsRequest, initOverrides?: RequestInit): Promise<RespListLdaps> {
+        const response = await this.listLdapsRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
@@ -455,7 +455,7 @@ export class TenantsApi extends runtime.BaseAPI {
      * List owners
      * List owners
      */
-    async listOwnersRaw(requestParameters: ListOwnersRequest): Promise<runtime.ApiResponse<RespListOwners>> {
+    async listOwnersRaw(requestParameters: ListOwnersRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespListOwners>> {
         const queryParameters: any = {};
 
         if (requestParameters.limit !== undefined) {
@@ -473,7 +473,7 @@ export class TenantsApi extends runtime.BaseAPI {
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        });
+        }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => RespListOwnersFromJSON(jsonValue));
     }
@@ -482,8 +482,8 @@ export class TenantsApi extends runtime.BaseAPI {
      * List owners
      * List owners
      */
-    async listOwners(requestParameters: ListOwnersRequest): Promise<RespListOwners> {
-        const response = await this.listOwnersRaw(requestParameters);
+    async listOwners(requestParameters: ListOwnersRequest, initOverrides?: RequestInit): Promise<RespListOwners> {
+        const response = await this.listOwnersRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
@@ -491,7 +491,7 @@ export class TenantsApi extends runtime.BaseAPI {
      * List tenants.
      * List tenants.
      */
-    async listTenantsRaw(requestParameters: ListTenantsRequest): Promise<runtime.ApiResponse<RespListTenants>> {
+    async listTenantsRaw(requestParameters: ListTenantsRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespListTenants>> {
         const queryParameters: any = {};
 
         if (requestParameters.limit !== undefined) {
@@ -509,7 +509,7 @@ export class TenantsApi extends runtime.BaseAPI {
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        });
+        }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => RespListTenantsFromJSON(jsonValue));
     }
@@ -518,8 +518,8 @@ export class TenantsApi extends runtime.BaseAPI {
      * List tenants.
      * List tenants.
      */
-    async listTenants(requestParameters: ListTenantsRequest): Promise<RespListTenants> {
-        const response = await this.listTenantsRaw(requestParameters);
+    async listTenants(requestParameters: ListTenantsRequest, initOverrides?: RequestInit): Promise<RespListTenants> {
+        const response = await this.listTenantsRaw(requestParameters, initOverrides);
         return await response.value();
     }
 

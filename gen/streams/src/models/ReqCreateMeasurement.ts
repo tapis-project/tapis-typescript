@@ -69,4 +69,3 @@ export function ReqCreateMeasurementToJSON(value?: ReqCreateMeasurement | null):
     };
 }
 
-

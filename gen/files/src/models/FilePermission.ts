@@ -95,4 +95,3 @@ export function FilePermissionToJSON(value?: FilePermission | null): any {
     };
 }
 
-

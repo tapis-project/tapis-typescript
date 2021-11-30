@@ -101,4 +101,3 @@ export function SkSecretVersionMetadataToJSON(value?: SkSecretVersionMetadata | 
     };
 }
 
-

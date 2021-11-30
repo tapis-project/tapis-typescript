@@ -94,4 +94,3 @@ export function RespGetOwnerToJSON(value?: RespGetOwner | null): any {
     };
 }
 
-

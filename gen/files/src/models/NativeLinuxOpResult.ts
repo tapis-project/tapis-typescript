@@ -78,4 +78,3 @@ export function NativeLinuxOpResultToJSON(value?: NativeLinuxOpResult | null): a
     };
 }
 
-

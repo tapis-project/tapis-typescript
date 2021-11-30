@@ -1,3 +1,5 @@
+/* tslint:disable */
+/* eslint-disable */
 export * from './Options';
 export * from './ReqAddChildRole';
 export * from './ReqAddRolePermission';

@@ -70,4 +70,3 @@ export function ReqVersionsToJSON(value?: ReqVersions | null): any {
     };
 }
 
-

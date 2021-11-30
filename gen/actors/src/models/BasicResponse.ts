@@ -79,4 +79,3 @@ export function BasicResponseToJSON(value?: BasicResponse | null): any {
     };
 }
 
-

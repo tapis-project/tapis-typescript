@@ -47,7 +47,7 @@ export class ArchivesApi extends runtime.BaseAPI {
      * Archive a projects data and metadata
      * Archive a projects data and metadata
      */
-    async archiveProjectRaw(requestParameters: ArchiveProjectRequest): Promise<runtime.ApiResponse<RespArchiveProject>> {
+    async archiveProjectRaw(requestParameters: ArchiveProjectRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespArchiveProject>> {
         if (requestParameters.projectId === null || requestParameters.projectId === undefined) {
             throw new runtime.RequiredError('projectId','Required parameter requestParameters.projectId was null or undefined when calling archiveProject.');
         }
@@ -68,7 +68,7 @@ export class ArchivesApi extends runtime.BaseAPI {
             headers: headerParameters,
             query: queryParameters,
             body: NewArchiveToJSON(requestParameters.newArchive),
-        });
+        }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => RespArchiveProjectFromJSON(jsonValue));
     }
@@ -77,8 +77,8 @@ export class ArchivesApi extends runtime.BaseAPI {
      * Archive a projects data and metadata
      * Archive a projects data and metadata
      */
-    async archiveProject(requestParameters: ArchiveProjectRequest): Promise<RespArchiveProject> {
-        const response = await this.archiveProjectRaw(requestParameters);
+    async archiveProject(requestParameters: ArchiveProjectRequest, initOverrides?: RequestInit): Promise<RespArchiveProject> {
+        const response = await this.archiveProjectRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
@@ -86,7 +86,7 @@ export class ArchivesApi extends runtime.BaseAPI {
      * List Archives policies for a project
      * List Archive policies for a project
      */
-    async listArchivesRaw(requestParameters: ListArchivesRequest): Promise<runtime.ApiResponse<RespListArchives>> {
+    async listArchivesRaw(requestParameters: ListArchivesRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespListArchives>> {
         if (requestParameters.projectId === null || requestParameters.projectId === undefined) {
             throw new runtime.RequiredError('projectId','Required parameter requestParameters.projectId was null or undefined when calling listArchives.');
         }
@@ -100,7 +100,7 @@ export class ArchivesApi extends runtime.BaseAPI {
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        });
+        }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => RespListArchivesFromJSON(jsonValue));
     }
@@ -109,8 +109,8 @@ export class ArchivesApi extends runtime.BaseAPI {
      * List Archives policies for a project
      * List Archive policies for a project
      */
-    async listArchives(requestParameters: ListArchivesRequest): Promise<RespListArchives> {
-        const response = await this.listArchivesRaw(requestParameters);
+    async listArchives(requestParameters: ListArchivesRequest, initOverrides?: RequestInit): Promise<RespListArchives> {
+        const response = await this.listArchivesRaw(requestParameters, initOverrides);
         return await response.value();
     }
 

@@ -54,4 +54,3 @@ export function ResultChangeCountToJSON(value?: ResultChangeCount | null): any {
     };
 }
 
-

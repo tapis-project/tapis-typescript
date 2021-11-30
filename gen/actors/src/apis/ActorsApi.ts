@@ -60,7 +60,7 @@ export class ActorsApi extends runtime.BaseAPI {
      * Register an actor
      * createActor
      */
-    async createActorRaw(requestParameters: CreateActorRequest): Promise<runtime.ApiResponse<RespCreateActor>> {
+    async createActorRaw(requestParameters: CreateActorRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespCreateActor>> {
         if (requestParameters.reqCreateActor === null || requestParameters.reqCreateActor === undefined) {
             throw new runtime.RequiredError('reqCreateActor','Required parameter requestParameters.reqCreateActor was null or undefined when calling createActor.');
         }
@@ -85,7 +85,7 @@ export class ActorsApi extends runtime.BaseAPI {
             headers: headerParameters,
             query: queryParameters,
             body: ReqCreateActorToJSON(requestParameters.reqCreateActor),
-        });
+        }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => RespCreateActorFromJSON(jsonValue));
     }
@@ -94,8 +94,8 @@ export class ActorsApi extends runtime.BaseAPI {
      * Register an actor
      * createActor
      */
-    async createActor(requestParameters: CreateActorRequest): Promise<RespCreateActor> {
-        const response = await this.createActorRaw(requestParameters);
+    async createActor(requestParameters: CreateActorRequest, initOverrides?: RequestInit): Promise<RespCreateActor> {
+        const response = await this.createActorRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
@@ -103,7 +103,7 @@ export class ActorsApi extends runtime.BaseAPI {
      * Permenantly delete an actor.
      * deleteActor
      */
-    async deleteActorRaw(requestParameters: DeleteActorRequest): Promise<runtime.ApiResponse<RespDeleteActor>> {
+    async deleteActorRaw(requestParameters: DeleteActorRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespDeleteActor>> {
         if (requestParameters.actorId === null || requestParameters.actorId === undefined) {
             throw new runtime.RequiredError('actorId','Required parameter requestParameters.actorId was null or undefined when calling deleteActor.');
         }
@@ -125,7 +125,7 @@ export class ActorsApi extends runtime.BaseAPI {
             method: 'DELETE',
             headers: headerParameters,
             query: queryParameters,
-        });
+        }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => RespDeleteActorFromJSON(jsonValue));
     }
@@ -134,8 +134,8 @@ export class ActorsApi extends runtime.BaseAPI {
      * Permenantly delete an actor.
      * deleteActor
      */
-    async deleteActor(requestParameters: DeleteActorRequest): Promise<RespDeleteActor> {
-        const response = await this.deleteActorRaw(requestParameters);
+    async deleteActor(requestParameters: DeleteActorRequest, initOverrides?: RequestInit): Promise<RespDeleteActor> {
+        const response = await this.deleteActorRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
@@ -143,7 +143,7 @@ export class ActorsApi extends runtime.BaseAPI {
      * Get details of a specific actor by its id.
      * getActor
      */
-    async getActorRaw(requestParameters: GetActorRequest): Promise<runtime.ApiResponse<object>> {
+    async getActorRaw(requestParameters: GetActorRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<object>> {
         if (requestParameters.actorId === null || requestParameters.actorId === undefined) {
             throw new runtime.RequiredError('actorId','Required parameter requestParameters.actorId was null or undefined when calling getActor.');
         }
@@ -165,7 +165,7 @@ export class ActorsApi extends runtime.BaseAPI {
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        });
+        }, initOverrides);
 
         return new runtime.JSONApiResponse<any>(response);
     }
@@ -174,8 +174,8 @@ export class ActorsApi extends runtime.BaseAPI {
      * Get details of a specific actor by its id.
      * getActor
      */
-    async getActor(requestParameters: GetActorRequest): Promise<object> {
-        const response = await this.getActorRaw(requestParameters);
+    async getActor(requestParameters: GetActorRequest, initOverrides?: RequestInit): Promise<object> {
+        const response = await this.getActorRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
@@ -183,7 +183,7 @@ export class ActorsApi extends runtime.BaseAPI {
      * List summary of all actors owned by user
      * listActors
      */
-    async listActorsRaw(requestParameters: ListActorsRequest): Promise<runtime.ApiResponse<RespListActors>> {
+    async listActorsRaw(requestParameters: ListActorsRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespListActors>> {
         const queryParameters: any = {};
 
         if (requestParameters.limit !== undefined) {
@@ -209,7 +209,7 @@ export class ActorsApi extends runtime.BaseAPI {
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        });
+        }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => RespListActorsFromJSON(jsonValue));
     }
@@ -218,8 +218,8 @@ export class ActorsApi extends runtime.BaseAPI {
      * List summary of all actors owned by user
      * listActors
      */
-    async listActors(requestParameters: ListActorsRequest): Promise<RespListActors> {
-        const response = await this.listActorsRaw(requestParameters);
+    async listActors(requestParameters: ListActorsRequest, initOverrides?: RequestInit): Promise<RespListActors> {
+        const response = await this.listActorsRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
@@ -227,7 +227,7 @@ export class ActorsApi extends runtime.BaseAPI {
      * Update an actor\'s definition.
      * updateActor
      */
-    async updateActorRaw(requestParameters: UpdateActorRequest): Promise<runtime.ApiResponse<object>> {
+    async updateActorRaw(requestParameters: UpdateActorRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<object>> {
         if (requestParameters.actorId === null || requestParameters.actorId === undefined) {
             throw new runtime.RequiredError('actorId','Required parameter requestParameters.actorId was null or undefined when calling updateActor.');
         }
@@ -256,7 +256,7 @@ export class ActorsApi extends runtime.BaseAPI {
             headers: headerParameters,
             query: queryParameters,
             body: ReqCreateActorToJSON(requestParameters.reqCreateActor),
-        });
+        }, initOverrides);
 
         return new runtime.JSONApiResponse<any>(response);
     }
@@ -265,8 +265,8 @@ export class ActorsApi extends runtime.BaseAPI {
      * Update an actor\'s definition.
      * updateActor
      */
-    async updateActor(requestParameters: UpdateActorRequest): Promise<object> {
-        const response = await this.updateActorRaw(requestParameters);
+    async updateActor(requestParameters: UpdateActorRequest, initOverrides?: RequestInit): Promise<object> {
+        const response = await this.updateActorRaw(requestParameters, initOverrides);
         return await response.value();
     }
 

@@ -70,4 +70,3 @@ export function ReqCreateTemplateToJSON(value?: ReqCreateTemplate | null): any {
     };
 }
 
-

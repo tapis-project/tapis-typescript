@@ -138,4 +138,3 @@ export function ChannelToJSON(value?: Channel | null): any {
     };
 }
 
-

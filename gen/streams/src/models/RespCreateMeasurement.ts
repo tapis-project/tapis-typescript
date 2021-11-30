@@ -93,4 +93,3 @@ export function RespCreateMeasurementToJSON(value?: RespCreateMeasurement | null
     };
 }
 
-

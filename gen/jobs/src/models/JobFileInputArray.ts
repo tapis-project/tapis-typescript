@@ -78,4 +78,3 @@ export function JobFileInputArrayToJSON(value?: JobFileInputArray | null): any {
     };
 }
 
-

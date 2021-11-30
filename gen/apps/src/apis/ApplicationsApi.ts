@@ -140,7 +140,7 @@ export class ApplicationsApi extends runtime.BaseAPI {
      * Change owner of an application. Applies to all versions.
      * Change application owner
      */
-    async changeAppOwnerRaw(requestParameters: ChangeAppOwnerRequest): Promise<runtime.ApiResponse<RespChangeCount>> {
+    async changeAppOwnerRaw(requestParameters: ChangeAppOwnerRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespChangeCount>> {
         if (requestParameters.appId === null || requestParameters.appId === undefined) {
             throw new runtime.RequiredError('appId','Required parameter requestParameters.appId was null or undefined when calling changeAppOwner.');
         }
@@ -162,7 +162,7 @@ export class ApplicationsApi extends runtime.BaseAPI {
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
-        });
+        }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => RespChangeCountFromJSON(jsonValue));
     }
@@ -171,8 +171,8 @@ export class ApplicationsApi extends runtime.BaseAPI {
      * Change owner of an application. Applies to all versions.
      * Change application owner
      */
-    async changeAppOwner(requestParameters: ChangeAppOwnerRequest): Promise<RespChangeCount> {
-        const response = await this.changeAppOwnerRaw(requestParameters);
+    async changeAppOwner(requestParameters: ChangeAppOwnerRequest, initOverrides?: RequestInit): Promise<RespChangeCount> {
+        const response = await this.changeAppOwnerRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
@@ -180,7 +180,7 @@ export class ApplicationsApi extends runtime.BaseAPI {
      *  Create an application using a request body. App id+version must be unique within tenant and can be composed of alphanumeric characters and the following special characters [-._~]. Id must begin with an alphabetic character and can be no more than 80 characters in length.  Note that certain attributes (such as tenant) are allowed but ignored so that the JSON result returned by a GET may be modified and used when making a POST request to create an application. The attributes that are allowed but ignored are    - tenant   - uuid   - deleted   - created   - updated 
      * Create a new version of an application
      */
-    async createAppVersionRaw(requestParameters: CreateAppVersionRequest): Promise<runtime.ApiResponse<RespResourceUrl>> {
+    async createAppVersionRaw(requestParameters: CreateAppVersionRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespResourceUrl>> {
         if (requestParameters.reqCreateApp === null || requestParameters.reqCreateApp === undefined) {
             throw new runtime.RequiredError('reqCreateApp','Required parameter requestParameters.reqCreateApp was null or undefined when calling createAppVersion.');
         }
@@ -201,7 +201,7 @@ export class ApplicationsApi extends runtime.BaseAPI {
             headers: headerParameters,
             query: queryParameters,
             body: ReqCreateAppToJSON(requestParameters.reqCreateApp),
-        });
+        }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => RespResourceUrlFromJSON(jsonValue));
     }
@@ -210,8 +210,8 @@ export class ApplicationsApi extends runtime.BaseAPI {
      *  Create an application using a request body. App id+version must be unique within tenant and can be composed of alphanumeric characters and the following special characters [-._~]. Id must begin with an alphabetic character and can be no more than 80 characters in length.  Note that certain attributes (such as tenant) are allowed but ignored so that the JSON result returned by a GET may be modified and used when making a POST request to create an application. The attributes that are allowed but ignored are    - tenant   - uuid   - deleted   - created   - updated 
      * Create a new version of an application
      */
-    async createAppVersion(requestParameters: CreateAppVersionRequest): Promise<RespResourceUrl> {
-        const response = await this.createAppVersionRaw(requestParameters);
+    async createAppVersion(requestParameters: CreateAppVersionRequest, initOverrides?: RequestInit): Promise<RespResourceUrl> {
+        const response = await this.createAppVersionRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
@@ -219,7 +219,7 @@ export class ApplicationsApi extends runtime.BaseAPI {
      * Mark an application as deleted. Application will not appear in queries unless explicitly requested.
      * Mark an application as deleted
      */
-    async deleteAppRaw(requestParameters: DeleteAppRequest): Promise<runtime.ApiResponse<RespChangeCount>> {
+    async deleteAppRaw(requestParameters: DeleteAppRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespChangeCount>> {
         if (requestParameters.appId === null || requestParameters.appId === undefined) {
             throw new runtime.RequiredError('appId','Required parameter requestParameters.appId was null or undefined when calling deleteApp.');
         }
@@ -237,7 +237,7 @@ export class ApplicationsApi extends runtime.BaseAPI {
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
-        });
+        }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => RespChangeCountFromJSON(jsonValue));
     }
@@ -246,8 +246,8 @@ export class ApplicationsApi extends runtime.BaseAPI {
      * Mark an application as deleted. Application will not appear in queries unless explicitly requested.
      * Mark an application as deleted
      */
-    async deleteApp(requestParameters: DeleteAppRequest): Promise<RespChangeCount> {
-        const response = await this.deleteAppRaw(requestParameters);
+    async deleteApp(requestParameters: DeleteAppRequest, initOverrides?: RequestInit): Promise<RespChangeCount> {
+        const response = await this.deleteAppRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
@@ -255,7 +255,7 @@ export class ApplicationsApi extends runtime.BaseAPI {
      * Mark an application unavailable for use. Applies to all versions.
      * Mark an application unavailabe for use
      */
-    async disableAppRaw(requestParameters: DisableAppRequest): Promise<runtime.ApiResponse<RespChangeCount>> {
+    async disableAppRaw(requestParameters: DisableAppRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespChangeCount>> {
         if (requestParameters.appId === null || requestParameters.appId === undefined) {
             throw new runtime.RequiredError('appId','Required parameter requestParameters.appId was null or undefined when calling disableApp.');
         }
@@ -273,7 +273,7 @@ export class ApplicationsApi extends runtime.BaseAPI {
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
-        });
+        }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => RespChangeCountFromJSON(jsonValue));
     }
@@ -282,8 +282,8 @@ export class ApplicationsApi extends runtime.BaseAPI {
      * Mark an application unavailable for use. Applies to all versions.
      * Mark an application unavailabe for use
      */
-    async disableApp(requestParameters: DisableAppRequest): Promise<RespChangeCount> {
-        const response = await this.disableAppRaw(requestParameters);
+    async disableApp(requestParameters: DisableAppRequest, initOverrides?: RequestInit): Promise<RespChangeCount> {
+        const response = await this.disableAppRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
@@ -291,7 +291,7 @@ export class ApplicationsApi extends runtime.BaseAPI {
      * Mark an application available for use. Applies to all versions.
      * Mark an application availabe for use
      */
-    async enableAppRaw(requestParameters: EnableAppRequest): Promise<runtime.ApiResponse<RespChangeCount>> {
+    async enableAppRaw(requestParameters: EnableAppRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespChangeCount>> {
         if (requestParameters.appId === null || requestParameters.appId === undefined) {
             throw new runtime.RequiredError('appId','Required parameter requestParameters.appId was null or undefined when calling enableApp.');
         }
@@ -309,7 +309,7 @@ export class ApplicationsApi extends runtime.BaseAPI {
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
-        });
+        }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => RespChangeCountFromJSON(jsonValue));
     }
@@ -318,8 +318,8 @@ export class ApplicationsApi extends runtime.BaseAPI {
      * Mark an application available for use. Applies to all versions.
      * Mark an application availabe for use
      */
-    async enableApp(requestParameters: EnableAppRequest): Promise<RespChangeCount> {
-        const response = await this.enableAppRaw(requestParameters);
+    async enableApp(requestParameters: EnableAppRequest, initOverrides?: RequestInit): Promise<RespChangeCount> {
+        const response = await this.enableAppRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
@@ -327,7 +327,7 @@ export class ApplicationsApi extends runtime.BaseAPI {
      * Retrieve information for an application given the application Id and version.
      * Retrieve details for specific version of an application
      */
-    async getAppRaw(requestParameters: GetAppRequest): Promise<runtime.ApiResponse<RespApp>> {
+    async getAppRaw(requestParameters: GetAppRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespApp>> {
         if (requestParameters.appId === null || requestParameters.appId === undefined) {
             throw new runtime.RequiredError('appId','Required parameter requestParameters.appId was null or undefined when calling getApp.');
         }
@@ -357,7 +357,7 @@ export class ApplicationsApi extends runtime.BaseAPI {
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        });
+        }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => RespAppFromJSON(jsonValue));
     }
@@ -366,8 +366,8 @@ export class ApplicationsApi extends runtime.BaseAPI {
      * Retrieve information for an application given the application Id and version.
      * Retrieve details for specific version of an application
      */
-    async getApp(requestParameters: GetAppRequest): Promise<RespApp> {
-        const response = await this.getAppRaw(requestParameters);
+    async getApp(requestParameters: GetAppRequest, initOverrides?: RequestInit): Promise<RespApp> {
+        const response = await this.getAppRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
@@ -375,7 +375,7 @@ export class ApplicationsApi extends runtime.BaseAPI {
      * Retrieve latest version of an application.
      * Retrieve latest version of an application
      */
-    async getAppLatestVersionRaw(requestParameters: GetAppLatestVersionRequest): Promise<runtime.ApiResponse<RespApp>> {
+    async getAppLatestVersionRaw(requestParameters: GetAppLatestVersionRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespApp>> {
         if (requestParameters.appId === null || requestParameters.appId === undefined) {
             throw new runtime.RequiredError('appId','Required parameter requestParameters.appId was null or undefined when calling getAppLatestVersion.');
         }
@@ -401,7 +401,7 @@ export class ApplicationsApi extends runtime.BaseAPI {
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        });
+        }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => RespAppFromJSON(jsonValue));
     }
@@ -410,8 +410,8 @@ export class ApplicationsApi extends runtime.BaseAPI {
      * Retrieve latest version of an application.
      * Retrieve latest version of an application
      */
-    async getAppLatestVersion(requestParameters: GetAppLatestVersionRequest): Promise<RespApp> {
-        const response = await this.getAppLatestVersionRaw(requestParameters);
+    async getAppLatestVersion(requestParameters: GetAppLatestVersionRequest, initOverrides?: RequestInit): Promise<RespApp> {
+        const response = await this.getAppLatestVersionRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
@@ -419,7 +419,7 @@ export class ApplicationsApi extends runtime.BaseAPI {
      * Retrieve list of applications. Use search and select query parameters to limit results.
      * Retrieve applications
      */
-    async getAppsRaw(requestParameters: GetAppsRequest): Promise<runtime.ApiResponse<RespApps>> {
+    async getAppsRaw(requestParameters: GetAppsRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespApps>> {
         const queryParameters: any = {};
 
         if (requestParameters.search !== undefined) {
@@ -465,7 +465,7 @@ export class ApplicationsApi extends runtime.BaseAPI {
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        });
+        }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => RespAppsFromJSON(jsonValue));
     }
@@ -474,8 +474,8 @@ export class ApplicationsApi extends runtime.BaseAPI {
      * Retrieve list of applications. Use search and select query parameters to limit results.
      * Retrieve applications
      */
-    async getApps(requestParameters: GetAppsRequest): Promise<RespApps> {
-        const response = await this.getAppsRaw(requestParameters);
+    async getApps(requestParameters: GetAppsRequest, initOverrides?: RequestInit): Promise<RespApps> {
+        const response = await this.getAppsRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
@@ -483,7 +483,7 @@ export class ApplicationsApi extends runtime.BaseAPI {
      * Check if an application is currently enabled, i.e. available for use.
      * Check if application is currently enabled
      */
-    async isEnabledRaw(requestParameters: IsEnabledRequest): Promise<runtime.ApiResponse<RespBoolean>> {
+    async isEnabledRaw(requestParameters: IsEnabledRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespBoolean>> {
         if (requestParameters.appId === null || requestParameters.appId === undefined) {
             throw new runtime.RequiredError('appId','Required parameter requestParameters.appId was null or undefined when calling isEnabled.');
         }
@@ -501,7 +501,7 @@ export class ApplicationsApi extends runtime.BaseAPI {
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        });
+        }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => RespBooleanFromJSON(jsonValue));
     }
@@ -510,16 +510,16 @@ export class ApplicationsApi extends runtime.BaseAPI {
      * Check if an application is currently enabled, i.e. available for use.
      * Check if application is currently enabled
      */
-    async isEnabled(requestParameters: IsEnabledRequest): Promise<RespBoolean> {
-        const response = await this.isEnabledRaw(requestParameters);
+    async isEnabled(requestParameters: IsEnabledRequest, initOverrides?: RequestInit): Promise<RespBoolean> {
+        const response = await this.isEnabledRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
     /**
-     * Update selected attributes of an existing version of an application. Request body may only contain updatable attributes. Application must exist.  Attributes that may not be updated via PATCH are    - id   - appType   - owner   - enabled  Note that the attributes owner and enabled may be modified using other endpoints. 
+     * Update selected attributes of an existing version of an application. Request body may only contain updatable attributes. Application must exist.  Attributes that may not be updated via PATCH are    - id   - owner   - enabled  Note that the attributes owner and enabled may be modified using other endpoints. 
      * Update selected attributes of an existing version of an application
      */
-    async patchAppRaw(requestParameters: PatchAppRequest): Promise<runtime.ApiResponse<RespResourceUrl>> {
+    async patchAppRaw(requestParameters: PatchAppRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespResourceUrl>> {
         if (requestParameters.appId === null || requestParameters.appId === undefined) {
             throw new runtime.RequiredError('appId','Required parameter requestParameters.appId was null or undefined when calling patchApp.');
         }
@@ -548,25 +548,25 @@ export class ApplicationsApi extends runtime.BaseAPI {
             headers: headerParameters,
             query: queryParameters,
             body: ReqPatchAppToJSON(requestParameters.reqPatchApp),
-        });
+        }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => RespResourceUrlFromJSON(jsonValue));
     }
 
     /**
-     * Update selected attributes of an existing version of an application. Request body may only contain updatable attributes. Application must exist.  Attributes that may not be updated via PATCH are    - id   - appType   - owner   - enabled  Note that the attributes owner and enabled may be modified using other endpoints. 
+     * Update selected attributes of an existing version of an application. Request body may only contain updatable attributes. Application must exist.  Attributes that may not be updated via PATCH are    - id   - owner   - enabled  Note that the attributes owner and enabled may be modified using other endpoints. 
      * Update selected attributes of an existing version of an application
      */
-    async patchApp(requestParameters: PatchAppRequest): Promise<RespResourceUrl> {
-        const response = await this.patchAppRaw(requestParameters);
+    async patchApp(requestParameters: PatchAppRequest, initOverrides?: RequestInit): Promise<RespResourceUrl> {
+        const response = await this.patchAppRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
     /**
-     * Update all updatable attributes of an application using a request body identical to POST. Application must exist.  Note that certain attributes (such as tenant) are allowed but ignored so that the JSON result returned by a GET may be modified and used when making a PUT request to update.  The attributes that are allowed but ignored for both PUT and POST are    - tenant   - uuid   - deleted   - created   - updated  In addition for a PUT operation the following non-updatable attributes are allowed but ignored    - id   - version   - appType   - owner   - enabled  Note that the attributes owner and enabled may be modified using other endpoints. 
+     * Update all updatable attributes of an application using a request body identical to POST. Application must exist.  Note that certain attributes (such as tenant) are allowed but ignored so that the JSON result returned by a GET may be modified and used when making a PUT request to update.  The attributes that are allowed but ignored for both PUT and POST are    - tenant   - uuid   - deleted   - created   - updated  In addition for a PUT operation the following non-updatable attributes are allowed but ignored    - id   - version   - owner   - enabled  Note that the attributes owner and enabled may be modified using other endpoints. 
      * Update all updatable attributes of an application
      */
-    async putAppRaw(requestParameters: PutAppRequest): Promise<runtime.ApiResponse<RespResourceUrl>> {
+    async putAppRaw(requestParameters: PutAppRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespResourceUrl>> {
         if (requestParameters.appId === null || requestParameters.appId === undefined) {
             throw new runtime.RequiredError('appId','Required parameter requestParameters.appId was null or undefined when calling putApp.');
         }
@@ -595,17 +595,17 @@ export class ApplicationsApi extends runtime.BaseAPI {
             headers: headerParameters,
             query: queryParameters,
             body: ReqPutAppToJSON(requestParameters.reqPutApp),
-        });
+        }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => RespResourceUrlFromJSON(jsonValue));
     }
 
     /**
-     * Update all updatable attributes of an application using a request body identical to POST. Application must exist.  Note that certain attributes (such as tenant) are allowed but ignored so that the JSON result returned by a GET may be modified and used when making a PUT request to update.  The attributes that are allowed but ignored for both PUT and POST are    - tenant   - uuid   - deleted   - created   - updated  In addition for a PUT operation the following non-updatable attributes are allowed but ignored    - id   - version   - appType   - owner   - enabled  Note that the attributes owner and enabled may be modified using other endpoints. 
+     * Update all updatable attributes of an application using a request body identical to POST. Application must exist.  Note that certain attributes (such as tenant) are allowed but ignored so that the JSON result returned by a GET may be modified and used when making a PUT request to update.  The attributes that are allowed but ignored for both PUT and POST are    - tenant   - uuid   - deleted   - created   - updated  In addition for a PUT operation the following non-updatable attributes are allowed but ignored    - id   - version   - owner   - enabled  Note that the attributes owner and enabled may be modified using other endpoints. 
      * Update all updatable attributes of an application
      */
-    async putApp(requestParameters: PutAppRequest): Promise<RespResourceUrl> {
-        const response = await this.putAppRaw(requestParameters);
+    async putApp(requestParameters: PutAppRequest, initOverrides?: RequestInit): Promise<RespResourceUrl> {
+        const response = await this.putAppRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
@@ -613,7 +613,7 @@ export class ApplicationsApi extends runtime.BaseAPI {
      * Retrieve details for applications. Use query parameters to specify search conditions. For example ?owner.eq=jdoe&enabled.eq=false
      * Retrieve list of applications matching search conditions specified as query parameters
      */
-    async searchAppsQueryParametersRaw(requestParameters: SearchAppsQueryParametersRequest): Promise<runtime.ApiResponse<RespApps>> {
+    async searchAppsQueryParametersRaw(requestParameters: SearchAppsQueryParametersRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespApps>> {
         const queryParameters: any = {};
 
         if (requestParameters.limit !== undefined) {
@@ -651,7 +651,7 @@ export class ApplicationsApi extends runtime.BaseAPI {
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        });
+        }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => RespAppsFromJSON(jsonValue));
     }
@@ -660,8 +660,8 @@ export class ApplicationsApi extends runtime.BaseAPI {
      * Retrieve details for applications. Use query parameters to specify search conditions. For example ?owner.eq=jdoe&enabled.eq=false
      * Retrieve list of applications matching search conditions specified as query parameters
      */
-    async searchAppsQueryParameters(requestParameters: SearchAppsQueryParametersRequest): Promise<RespApps> {
-        const response = await this.searchAppsQueryParametersRaw(requestParameters);
+    async searchAppsQueryParameters(requestParameters: SearchAppsQueryParametersRequest, initOverrides?: RequestInit): Promise<RespApps> {
+        const response = await this.searchAppsQueryParametersRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
@@ -669,7 +669,7 @@ export class ApplicationsApi extends runtime.BaseAPI {
      * Retrieve details for applications. Use request body to specify SQL-like search conditions.
      * Retrieve applications matching search conditions
      */
-    async searchAppsRequestBodyRaw(requestParameters: SearchAppsRequestBodyRequest): Promise<runtime.ApiResponse<RespApps>> {
+    async searchAppsRequestBodyRaw(requestParameters: SearchAppsRequestBodyRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespApps>> {
         if (requestParameters.reqSearchApps === null || requestParameters.reqSearchApps === undefined) {
             throw new runtime.RequiredError('reqSearchApps','Required parameter requestParameters.reqSearchApps was null or undefined when calling searchAppsRequestBody.');
         }
@@ -714,7 +714,7 @@ export class ApplicationsApi extends runtime.BaseAPI {
             headers: headerParameters,
             query: queryParameters,
             body: ReqSearchAppsToJSON(requestParameters.reqSearchApps),
-        });
+        }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => RespAppsFromJSON(jsonValue));
     }
@@ -723,8 +723,8 @@ export class ApplicationsApi extends runtime.BaseAPI {
      * Retrieve details for applications. Use request body to specify SQL-like search conditions.
      * Retrieve applications matching search conditions
      */
-    async searchAppsRequestBody(requestParameters: SearchAppsRequestBodyRequest): Promise<RespApps> {
-        const response = await this.searchAppsRequestBodyRaw(requestParameters);
+    async searchAppsRequestBody(requestParameters: SearchAppsRequestBodyRequest, initOverrides?: RequestInit): Promise<RespApps> {
+        const response = await this.searchAppsRequestBodyRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
@@ -732,7 +732,7 @@ export class ApplicationsApi extends runtime.BaseAPI {
      * Mark an application as not deleted. Application will appear in queries.
      * Mark an application as not deleted
      */
-    async undeleteAppRaw(requestParameters: UndeleteAppRequest): Promise<runtime.ApiResponse<RespChangeCount>> {
+    async undeleteAppRaw(requestParameters: UndeleteAppRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespChangeCount>> {
         if (requestParameters.appId === null || requestParameters.appId === undefined) {
             throw new runtime.RequiredError('appId','Required parameter requestParameters.appId was null or undefined when calling undeleteApp.');
         }
@@ -750,7 +750,7 @@ export class ApplicationsApi extends runtime.BaseAPI {
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
-        });
+        }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => RespChangeCountFromJSON(jsonValue));
     }
@@ -759,8 +759,8 @@ export class ApplicationsApi extends runtime.BaseAPI {
      * Mark an application as not deleted. Application will appear in queries.
      * Mark an application as not deleted
      */
-    async undeleteApp(requestParameters: UndeleteAppRequest): Promise<RespChangeCount> {
-        const response = await this.undeleteAppRaw(requestParameters);
+    async undeleteApp(requestParameters: UndeleteAppRequest, initOverrides?: RequestInit): Promise<RespChangeCount> {
+        const response = await this.undeleteAppRaw(requestParameters, initOverrides);
         return await response.value();
     }
 

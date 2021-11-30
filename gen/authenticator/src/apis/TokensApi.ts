@@ -34,7 +34,7 @@ export class TokensApi extends runtime.BaseAPI {
 
     /**
      */
-    async createTokenRaw(requestParameters: CreateTokenRequest): Promise<runtime.ApiResponse<RespCreateToken>> {
+    async createTokenRaw(requestParameters: CreateTokenRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespCreateToken>> {
         if (requestParameters.reqCreateToken === null || requestParameters.reqCreateToken === undefined) {
             throw new runtime.RequiredError('reqCreateToken','Required parameter requestParameters.reqCreateToken was null or undefined when calling createToken.');
         }
@@ -51,15 +51,15 @@ export class TokensApi extends runtime.BaseAPI {
             headers: headerParameters,
             query: queryParameters,
             body: ReqCreateTokenToJSON(requestParameters.reqCreateToken),
-        });
+        }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => RespCreateTokenFromJSON(jsonValue));
     }
 
     /**
      */
-    async createToken(requestParameters: CreateTokenRequest): Promise<RespCreateToken> {
-        const response = await this.createTokenRaw(requestParameters);
+    async createToken(requestParameters: CreateTokenRequest, initOverrides?: RequestInit): Promise<RespCreateToken> {
+        const response = await this.createTokenRaw(requestParameters, initOverrides);
         return await response.value();
     }
 

@@ -93,4 +93,3 @@ export function RespListMeasuredPropertiesToJSON(value?: RespListMeasuredPropert
     };
 }
 
-

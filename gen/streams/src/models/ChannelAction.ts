@@ -86,4 +86,3 @@ export function ChannelActionToJSON(value?: ChannelAction | null): any {
     };
 }
 
-

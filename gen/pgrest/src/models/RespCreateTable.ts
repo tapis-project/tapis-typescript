@@ -94,4 +94,3 @@ export function RespCreateTableToJSON(value?: RespCreateTable | null): any {
     };
 }
 
-

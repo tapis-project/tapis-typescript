@@ -1,3 +1,5 @@
+/* tslint:disable */
+/* eslint-disable */
 export * from './BasicResponse';
 export * from './Columns';
 export * from './ReqCreateInCollection';

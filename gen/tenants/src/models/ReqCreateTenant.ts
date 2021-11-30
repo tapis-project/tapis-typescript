@@ -142,4 +142,3 @@ export function ReqCreateTenantToJSON(value?: ReqCreateTenant | null): any {
     };
 }
 
-

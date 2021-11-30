@@ -199,4 +199,3 @@ export function ActorToJSON(value?: Actor | null): any {
     };
 }
 
-

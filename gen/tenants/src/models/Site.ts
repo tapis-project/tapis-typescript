@@ -94,4 +94,3 @@ export function SiteToJSON(value?: Site | null): any {
     };
 }
 
-

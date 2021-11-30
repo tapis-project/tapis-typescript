@@ -94,4 +94,3 @@ export function ReqCreateSiteToJSON(value?: ReqCreateSite | null): any {
     };
 }
 
-

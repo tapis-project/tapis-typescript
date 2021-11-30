@@ -96,4 +96,3 @@ export function NewRoleToJSON(value?: NewRole | null): any {
     };
 }
 
-

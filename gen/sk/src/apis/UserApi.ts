@@ -187,7 +187,7 @@ export class UserApi extends runtime.BaseAPI {
     /**
      * Get all users assigned the tenant administrator role ($!tenant_admin).  This request is authorized if the requestor is a user that has access to the specified tenant or if the requestor is a service.
      */
-    async getAdminsRaw(requestParameters: GetAdminsRequest): Promise<runtime.ApiResponse<RespNameArray>> {
+    async getAdminsRaw(requestParameters: GetAdminsRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespNameArray>> {
         if (requestParameters.tenant === null || requestParameters.tenant === undefined) {
             throw new runtime.RequiredError('tenant','Required parameter requestParameters.tenant was null or undefined when calling getAdmins.');
         }
@@ -209,7 +209,7 @@ export class UserApi extends runtime.BaseAPI {
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        });
+        }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => RespNameArrayFromJSON(jsonValue));
     }
@@ -217,15 +217,15 @@ export class UserApi extends runtime.BaseAPI {
     /**
      * Get all users assigned the tenant administrator role ($!tenant_admin).  This request is authorized if the requestor is a user that has access to the specified tenant or if the requestor is a service.
      */
-    async getAdmins(requestParameters: GetAdminsRequest): Promise<RespNameArray> {
-        const response = await this.getAdminsRaw(requestParameters);
+    async getAdmins(requestParameters: GetAdminsRequest, initOverrides?: RequestInit): Promise<RespNameArray> {
+        const response = await this.getAdminsRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
     /**
      * Get a user\'s default role. The default role is implicitly created by the system when needed if it doesn\'t already exist. No authorization required.  A user\'s default role is constructed by prepending \'$$\' to the user\'s name.  This implies the maximum length of a user name is 58 since role names are limited to 60 characters.
      */
-    async getDefaultUserRole1Raw(requestParameters: GetDefaultUserRole1Request): Promise<runtime.ApiResponse<RespName>> {
+    async getDefaultUserRole1Raw(requestParameters: GetDefaultUserRole1Request, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespName>> {
         if (requestParameters.user === null || requestParameters.user === undefined) {
             throw new runtime.RequiredError('user','Required parameter requestParameters.user was null or undefined when calling getDefaultUserRole1.');
         }
@@ -243,7 +243,7 @@ export class UserApi extends runtime.BaseAPI {
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        });
+        }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => RespNameFromJSON(jsonValue));
     }
@@ -251,15 +251,15 @@ export class UserApi extends runtime.BaseAPI {
     /**
      * Get a user\'s default role. The default role is implicitly created by the system when needed if it doesn\'t already exist. No authorization required.  A user\'s default role is constructed by prepending \'$$\' to the user\'s name.  This implies the maximum length of a user name is 58 since role names are limited to 60 characters.
      */
-    async getDefaultUserRole1(requestParameters: GetDefaultUserRole1Request): Promise<RespName> {
-        const response = await this.getDefaultUserRole1Raw(requestParameters);
+    async getDefaultUserRole1(requestParameters: GetDefaultUserRole1Request, initOverrides?: RequestInit): Promise<RespName> {
+        const response = await this.getDefaultUserRole1Raw(requestParameters, initOverrides);
         return await response.value();
     }
 
     /**
      * Get the names of all users in the tenant that have been granted a role or permission.  This request is authorized if the requestor is a user that has access to the specified tenant or if the requestor is a service.
      */
-    async getUserNamesRaw(requestParameters: GetUserNamesRequest): Promise<runtime.ApiResponse<RespNameArray>> {
+    async getUserNamesRaw(requestParameters: GetUserNamesRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespNameArray>> {
         const queryParameters: any = {};
 
         if (requestParameters.tenant !== undefined) {
@@ -281,7 +281,7 @@ export class UserApi extends runtime.BaseAPI {
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        });
+        }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => RespNameArrayFromJSON(jsonValue));
     }
@@ -289,15 +289,15 @@ export class UserApi extends runtime.BaseAPI {
     /**
      * Get the names of all users in the tenant that have been granted a role or permission.  This request is authorized if the requestor is a user that has access to the specified tenant or if the requestor is a service.
      */
-    async getUserNames(requestParameters: GetUserNamesRequest): Promise<RespNameArray> {
-        const response = await this.getUserNamesRaw(requestParameters);
+    async getUserNames(requestParameters: GetUserNamesRequest, initOverrides?: RequestInit): Promise<RespNameArray> {
+        const response = await this.getUserNamesRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
     /**
      * Get the permissions assigned to a user in a tenant, including those assigned transively.  The result list can be optionally filtered by the one or both of the query parameters: implies and impliedBy.  The implied parameter removes permissions from the result list that the specified permission do not imply. The impliedBy parameter removes permissions from the result list that the specified permission are not implied by. Below are some examples.Consider a user that is assigned these permissions:      stream:dev:read:project1     stream:dev:read,write:project1     stream:dev:read,write,exec:project1  **Using the *implies* Query Parameter**  When _implies=stream:dev:*:project1_, this endpoint returns:      stream:dev:read:project1     stream:dev:read,write:project1     stream:dev:read,write,exec:project1  When _implies=stream:dev:write:project1_, this endpoint returns an empty list.  **Using the *impliedBy* Query Parameter**  When _impliedBy=stream:dev:*:project1_, this endpoint returns an empty list.  When _impliedBy=stream:dev:write:project1_, this endpoint returns:      stream:dev:read,write:project1     stream:dev:read,write,exec:project1  This request is authorized if the requestor is a user that has access to the specified tenant or if the requestor is a service.
      */
-    async getUserPermsRaw(requestParameters: GetUserPermsRequest): Promise<runtime.ApiResponse<RespNameArray>> {
+    async getUserPermsRaw(requestParameters: GetUserPermsRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespNameArray>> {
         if (requestParameters.user === null || requestParameters.user === undefined) {
             throw new runtime.RequiredError('user','Required parameter requestParameters.user was null or undefined when calling getUserPerms.');
         }
@@ -331,7 +331,7 @@ export class UserApi extends runtime.BaseAPI {
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        });
+        }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => RespNameArrayFromJSON(jsonValue));
     }
@@ -339,15 +339,15 @@ export class UserApi extends runtime.BaseAPI {
     /**
      * Get the permissions assigned to a user in a tenant, including those assigned transively.  The result list can be optionally filtered by the one or both of the query parameters: implies and impliedBy.  The implied parameter removes permissions from the result list that the specified permission do not imply. The impliedBy parameter removes permissions from the result list that the specified permission are not implied by. Below are some examples.Consider a user that is assigned these permissions:      stream:dev:read:project1     stream:dev:read,write:project1     stream:dev:read,write,exec:project1  **Using the *implies* Query Parameter**  When _implies=stream:dev:*:project1_, this endpoint returns:      stream:dev:read:project1     stream:dev:read,write:project1     stream:dev:read,write,exec:project1  When _implies=stream:dev:write:project1_, this endpoint returns an empty list.  **Using the *impliedBy* Query Parameter**  When _impliedBy=stream:dev:*:project1_, this endpoint returns an empty list.  When _impliedBy=stream:dev:write:project1_, this endpoint returns:      stream:dev:read,write:project1     stream:dev:read,write,exec:project1  This request is authorized if the requestor is a user that has access to the specified tenant or if the requestor is a service.
      */
-    async getUserPerms(requestParameters: GetUserPermsRequest): Promise<RespNameArray> {
-        const response = await this.getUserPermsRaw(requestParameters);
+    async getUserPerms(requestParameters: GetUserPermsRequest, initOverrides?: RequestInit): Promise<RespNameArray> {
+        const response = await this.getUserPermsRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
     /**
      * Get the roles assigned to a user in the specified tenant, including those assigned transively.  This request is authorized if the requestor is a user that has access to the specified tenant or if the requestor is a service.
      */
-    async getUserRolesRaw(requestParameters: GetUserRolesRequest): Promise<runtime.ApiResponse<RespNameArray>> {
+    async getUserRolesRaw(requestParameters: GetUserRolesRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespNameArray>> {
         if (requestParameters.user === null || requestParameters.user === undefined) {
             throw new runtime.RequiredError('user','Required parameter requestParameters.user was null or undefined when calling getUserRoles.');
         }
@@ -373,7 +373,7 @@ export class UserApi extends runtime.BaseAPI {
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        });
+        }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => RespNameArrayFromJSON(jsonValue));
     }
@@ -381,15 +381,15 @@ export class UserApi extends runtime.BaseAPI {
     /**
      * Get the roles assigned to a user in the specified tenant, including those assigned transively.  This request is authorized if the requestor is a user that has access to the specified tenant or if the requestor is a service.
      */
-    async getUserRoles(requestParameters: GetUserRolesRequest): Promise<RespNameArray> {
-        const response = await this.getUserRolesRaw(requestParameters);
+    async getUserRoles(requestParameters: GetUserRolesRequest, initOverrides?: RequestInit): Promise<RespNameArray> {
+        const response = await this.getUserRolesRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
     /**
      * Get all users in a tenant assigned a permission.  The permSpec parameter is a permission specification that uses colons as separators, the asterisk as a wildcard character and commas to define lists.  Here are examples of permission specifications:      system:mytenant:read:mysystem     system:mytenant:*:mysystem     system:mytenant     files:mytenant:read,write:mysystems This method recognizes the percent sign (%) as a string wildcard only in the context of database searching.  If a percent sign (%) appears in the permSpec it is interpreted as a zero or more character wildcard.  For example, the following specification would match the first three of the above example specifications but not the fourth:      system:mytenant:%  The wildcard character cannot appear as the first character in the permSpec.  This request is authorized if the requestor is a user that has access to the specified tenant or if the requestor is a service.
      */
-    async getUsersWithPermissionRaw(requestParameters: GetUsersWithPermissionRequest): Promise<runtime.ApiResponse<RespNameArray>> {
+    async getUsersWithPermissionRaw(requestParameters: GetUsersWithPermissionRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespNameArray>> {
         if (requestParameters.permSpec === null || requestParameters.permSpec === undefined) {
             throw new runtime.RequiredError('permSpec','Required parameter requestParameters.permSpec was null or undefined when calling getUsersWithPermission.');
         }
@@ -415,7 +415,7 @@ export class UserApi extends runtime.BaseAPI {
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        });
+        }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => RespNameArrayFromJSON(jsonValue));
     }
@@ -423,15 +423,15 @@ export class UserApi extends runtime.BaseAPI {
     /**
      * Get all users in a tenant assigned a permission.  The permSpec parameter is a permission specification that uses colons as separators, the asterisk as a wildcard character and commas to define lists.  Here are examples of permission specifications:      system:mytenant:read:mysystem     system:mytenant:*:mysystem     system:mytenant     files:mytenant:read,write:mysystems This method recognizes the percent sign (%) as a string wildcard only in the context of database searching.  If a percent sign (%) appears in the permSpec it is interpreted as a zero or more character wildcard.  For example, the following specification would match the first three of the above example specifications but not the fourth:      system:mytenant:%  The wildcard character cannot appear as the first character in the permSpec.  This request is authorized if the requestor is a user that has access to the specified tenant or if the requestor is a service.
      */
-    async getUsersWithPermission(requestParameters: GetUsersWithPermissionRequest): Promise<RespNameArray> {
-        const response = await this.getUsersWithPermissionRaw(requestParameters);
+    async getUsersWithPermission(requestParameters: GetUsersWithPermissionRequest, initOverrides?: RequestInit): Promise<RespNameArray> {
+        const response = await this.getUsersWithPermissionRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
     /**
      * Get all users assigned a role.  The role must exist in the tenant.  This request is authorized if the requestor is a user that has access to the specified tenant or if the requestor is a service.
      */
-    async getUsersWithRoleRaw(requestParameters: GetUsersWithRoleRequest): Promise<runtime.ApiResponse<RespNameArray>> {
+    async getUsersWithRoleRaw(requestParameters: GetUsersWithRoleRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespNameArray>> {
         if (requestParameters.roleName === null || requestParameters.roleName === undefined) {
             throw new runtime.RequiredError('roleName','Required parameter requestParameters.roleName was null or undefined when calling getUsersWithRole.');
         }
@@ -457,7 +457,7 @@ export class UserApi extends runtime.BaseAPI {
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        });
+        }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => RespNameArrayFromJSON(jsonValue));
     }
@@ -465,15 +465,15 @@ export class UserApi extends runtime.BaseAPI {
     /**
      * Get all users assigned a role.  The role must exist in the tenant.  This request is authorized if the requestor is a user that has access to the specified tenant or if the requestor is a service.
      */
-    async getUsersWithRole(requestParameters: GetUsersWithRoleRequest): Promise<RespNameArray> {
-        const response = await this.getUsersWithRoleRaw(requestParameters);
+    async getUsersWithRole(requestParameters: GetUsersWithRoleRequest, initOverrides?: RequestInit): Promise<RespNameArray> {
+        const response = await this.getUsersWithRoleRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
     /**
      * Grant a user the tenant administrator role.  A valid tenant and user must be specified in the request body.  The user specified in the JWT must be an administrator in the tenant specified in the request body.
      */
-    async grantAdminRoleRaw(requestParameters: GrantAdminRoleRequest): Promise<runtime.ApiResponse<RespChangeCount>> {
+    async grantAdminRoleRaw(requestParameters: GrantAdminRoleRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespChangeCount>> {
         if (requestParameters.reqGrantAdminRole === null || requestParameters.reqGrantAdminRole === undefined) {
             throw new runtime.RequiredError('reqGrantAdminRole','Required parameter requestParameters.reqGrantAdminRole was null or undefined when calling grantAdminRole.');
         }
@@ -498,7 +498,7 @@ export class UserApi extends runtime.BaseAPI {
             headers: headerParameters,
             query: queryParameters,
             body: ReqGrantAdminRoleToJSON(requestParameters.reqGrantAdminRole),
-        });
+        }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => RespChangeCountFromJSON(jsonValue));
     }
@@ -506,15 +506,15 @@ export class UserApi extends runtime.BaseAPI {
     /**
      * Grant a user the tenant administrator role.  A valid tenant and user must be specified in the request body.  The user specified in the JWT must be an administrator in the tenant specified in the request body.
      */
-    async grantAdminRole(requestParameters: GrantAdminRoleRequest): Promise<RespChangeCount> {
-        const response = await this.grantAdminRoleRaw(requestParameters);
+    async grantAdminRole(requestParameters: GrantAdminRoleRequest, initOverrides?: RequestInit): Promise<RespChangeCount> {
+        const response = await this.grantAdminRoleRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
     /**
      * Grant a user the specified role.  A valid tenant and user must be specified in the request body.  This request is authorized only if the requestor is the role owner or an administrator.  The user and the role must be in the same tenant.
      */
-    async grantRoleRaw(requestParameters: GrantRoleRequest): Promise<runtime.ApiResponse<RespChangeCount>> {
+    async grantRoleRaw(requestParameters: GrantRoleRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespChangeCount>> {
         if (requestParameters.reqGrantUserRole === null || requestParameters.reqGrantUserRole === undefined) {
             throw new runtime.RequiredError('reqGrantUserRole','Required parameter requestParameters.reqGrantUserRole was null or undefined when calling grantRole.');
         }
@@ -539,7 +539,7 @@ export class UserApi extends runtime.BaseAPI {
             headers: headerParameters,
             query: queryParameters,
             body: ReqGrantUserRoleToJSON(requestParameters.reqGrantUserRole),
-        });
+        }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => RespChangeCountFromJSON(jsonValue));
     }
@@ -547,15 +547,15 @@ export class UserApi extends runtime.BaseAPI {
     /**
      * Grant a user the specified role.  A valid tenant and user must be specified in the request body.  This request is authorized only if the requestor is the role owner or an administrator.  The user and the role must be in the same tenant.
      */
-    async grantRole(requestParameters: GrantRoleRequest): Promise<RespChangeCount> {
-        const response = await this.grantRoleRaw(requestParameters);
+    async grantRole(requestParameters: GrantRoleRequest, initOverrides?: RequestInit): Promise<RespChangeCount> {
+        const response = await this.grantRoleRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
     /**
      * Grant a user the specified role containing the specified permission.  This compound request first adds the permission to the role if it is not already a member of the role and then assigns the role to the user.  The change count returned can range from zero to two depending on how many insertions were actually required.  Only the role owner or an administrator is authorized to make this request.  The user and the role must be in the same tenant.
      */
-    async grantRoleWithPermissionRaw(requestParameters: GrantRoleWithPermissionRequest): Promise<runtime.ApiResponse<RespChangeCount>> {
+    async grantRoleWithPermissionRaw(requestParameters: GrantRoleWithPermissionRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespChangeCount>> {
         if (requestParameters.reqGrantUserRoleWithPermission === null || requestParameters.reqGrantUserRoleWithPermission === undefined) {
             throw new runtime.RequiredError('reqGrantUserRoleWithPermission','Required parameter requestParameters.reqGrantUserRoleWithPermission was null or undefined when calling grantRoleWithPermission.');
         }
@@ -580,7 +580,7 @@ export class UserApi extends runtime.BaseAPI {
             headers: headerParameters,
             query: queryParameters,
             body: ReqGrantUserRoleWithPermissionToJSON(requestParameters.reqGrantUserRoleWithPermission),
-        });
+        }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => RespChangeCountFromJSON(jsonValue));
     }
@@ -588,15 +588,15 @@ export class UserApi extends runtime.BaseAPI {
     /**
      * Grant a user the specified role containing the specified permission.  This compound request first adds the permission to the role if it is not already a member of the role and then assigns the role to the user.  The change count returned can range from zero to two depending on how many insertions were actually required.  Only the role owner or an administrator is authorized to make this request.  The user and the role must be in the same tenant.
      */
-    async grantRoleWithPermission(requestParameters: GrantRoleWithPermissionRequest): Promise<RespChangeCount> {
-        const response = await this.grantRoleWithPermissionRaw(requestParameters);
+    async grantRoleWithPermission(requestParameters: GrantRoleWithPermissionRequest, initOverrides?: RequestInit): Promise<RespChangeCount> {
+        const response = await this.grantRoleWithPermissionRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
     /**
      * Grant a user the specified permission by assigning that permission to to the user\'s default role.  If the user\'s default role does not exist,this request will create that role and grant it to the user before assigning the permission to the role.  A user\'s default role name is discoverable by calling either of the user/defaultRole or role/defaultRole endpoints.  The change count returned can range from zero to three depending on how many insertions and updates were actually required  The caller must be an administrator or service allowed to perform updates in the user\'s tenant.
      */
-    async grantUserPermissionRaw(requestParameters: GrantUserPermissionRequest): Promise<runtime.ApiResponse<RespChangeCount>> {
+    async grantUserPermissionRaw(requestParameters: GrantUserPermissionRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespChangeCount>> {
         if (requestParameters.reqGrantUserPermission === null || requestParameters.reqGrantUserPermission === undefined) {
             throw new runtime.RequiredError('reqGrantUserPermission','Required parameter requestParameters.reqGrantUserPermission was null or undefined when calling grantUserPermission.');
         }
@@ -621,7 +621,7 @@ export class UserApi extends runtime.BaseAPI {
             headers: headerParameters,
             query: queryParameters,
             body: ReqGrantUserPermissionToJSON(requestParameters.reqGrantUserPermission),
-        });
+        }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => RespChangeCountFromJSON(jsonValue));
     }
@@ -629,15 +629,15 @@ export class UserApi extends runtime.BaseAPI {
     /**
      * Grant a user the specified permission by assigning that permission to to the user\'s default role.  If the user\'s default role does not exist,this request will create that role and grant it to the user before assigning the permission to the role.  A user\'s default role name is discoverable by calling either of the user/defaultRole or role/defaultRole endpoints.  The change count returned can range from zero to three depending on how many insertions and updates were actually required  The caller must be an administrator or service allowed to perform updates in the user\'s tenant.
      */
-    async grantUserPermission(requestParameters: GrantUserPermissionRequest): Promise<RespChangeCount> {
-        const response = await this.grantUserPermissionRaw(requestParameters);
+    async grantUserPermission(requestParameters: GrantUserPermissionRequest, initOverrides?: RequestInit): Promise<RespChangeCount> {
+        const response = await this.grantUserPermissionRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
     /**
      * Check whether a user in a tenant has been assigned the specified role, either directly or transitively.  This request is authorized if the requestor is a user that has access to the specified tenant or if the requestor is a service.
      */
-    async hasRoleRaw(requestParameters: HasRoleRequest): Promise<runtime.ApiResponse<RespAuthorized>> {
+    async hasRoleRaw(requestParameters: HasRoleRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespAuthorized>> {
         if (requestParameters.reqUserHasRole === null || requestParameters.reqUserHasRole === undefined) {
             throw new runtime.RequiredError('reqUserHasRole','Required parameter requestParameters.reqUserHasRole was null or undefined when calling hasRole.');
         }
@@ -662,7 +662,7 @@ export class UserApi extends runtime.BaseAPI {
             headers: headerParameters,
             query: queryParameters,
             body: ReqUserHasRoleToJSON(requestParameters.reqUserHasRole),
-        });
+        }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => RespAuthorizedFromJSON(jsonValue));
     }
@@ -670,15 +670,15 @@ export class UserApi extends runtime.BaseAPI {
     /**
      * Check whether a user in a tenant has been assigned the specified role, either directly or transitively.  This request is authorized if the requestor is a user that has access to the specified tenant or if the requestor is a service.
      */
-    async hasRole(requestParameters: HasRoleRequest): Promise<RespAuthorized> {
-        const response = await this.hasRoleRaw(requestParameters);
+    async hasRole(requestParameters: HasRoleRequest, initOverrides?: RequestInit): Promise<RespAuthorized> {
+        const response = await this.hasRoleRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
     /**
      * Check whether a user in a tenant has been assigned all of the roles specified in the request body.  This request is authorized if the requestor is a user that has access to the specified tenant or if the requestor is a service.
      */
-    async hasRoleAllRaw(requestParameters: HasRoleAllRequest): Promise<runtime.ApiResponse<RespAuthorized>> {
+    async hasRoleAllRaw(requestParameters: HasRoleAllRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespAuthorized>> {
         if (requestParameters.reqUserHasRoleMulti === null || requestParameters.reqUserHasRoleMulti === undefined) {
             throw new runtime.RequiredError('reqUserHasRoleMulti','Required parameter requestParameters.reqUserHasRoleMulti was null or undefined when calling hasRoleAll.');
         }
@@ -703,7 +703,7 @@ export class UserApi extends runtime.BaseAPI {
             headers: headerParameters,
             query: queryParameters,
             body: ReqUserHasRoleMultiToJSON(requestParameters.reqUserHasRoleMulti),
-        });
+        }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => RespAuthorizedFromJSON(jsonValue));
     }
@@ -711,15 +711,15 @@ export class UserApi extends runtime.BaseAPI {
     /**
      * Check whether a user in a tenant has been assigned all of the roles specified in the request body.  This request is authorized if the requestor is a user that has access to the specified tenant or if the requestor is a service.
      */
-    async hasRoleAll(requestParameters: HasRoleAllRequest): Promise<RespAuthorized> {
-        const response = await this.hasRoleAllRaw(requestParameters);
+    async hasRoleAll(requestParameters: HasRoleAllRequest, initOverrides?: RequestInit): Promise<RespAuthorized> {
+        const response = await this.hasRoleAllRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
     /**
      * Check whether a user in a tenant has been assigned any of the roles specified in the request body.  This request is authorized if the requestor is a user that has access to the specified tenant or if the requestor is a service.
      */
-    async hasRoleAnyRaw(requestParameters: HasRoleAnyRequest): Promise<runtime.ApiResponse<RespAuthorized>> {
+    async hasRoleAnyRaw(requestParameters: HasRoleAnyRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespAuthorized>> {
         if (requestParameters.reqUserHasRoleMulti === null || requestParameters.reqUserHasRoleMulti === undefined) {
             throw new runtime.RequiredError('reqUserHasRoleMulti','Required parameter requestParameters.reqUserHasRoleMulti was null or undefined when calling hasRoleAny.');
         }
@@ -744,7 +744,7 @@ export class UserApi extends runtime.BaseAPI {
             headers: headerParameters,
             query: queryParameters,
             body: ReqUserHasRoleMultiToJSON(requestParameters.reqUserHasRoleMulti),
-        });
+        }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => RespAuthorizedFromJSON(jsonValue));
     }
@@ -752,15 +752,15 @@ export class UserApi extends runtime.BaseAPI {
     /**
      * Check whether a user in a tenant has been assigned any of the roles specified in the request body.  This request is authorized if the requestor is a user that has access to the specified tenant or if the requestor is a service.
      */
-    async hasRoleAny(requestParameters: HasRoleAnyRequest): Promise<RespAuthorized> {
-        const response = await this.hasRoleAnyRaw(requestParameters);
+    async hasRoleAny(requestParameters: HasRoleAnyRequest, initOverrides?: RequestInit): Promise<RespAuthorized> {
+        const response = await this.hasRoleAnyRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
     /**
      * Check whether a user in a tenant has been assigned the tenant administrator role, either directly or transitively.  This request is authorized if the requestor is a user that has access to the specified tenant or if the requestor is a service.
      */
-    async isAdminRaw(requestParameters: IsAdminRequest): Promise<runtime.ApiResponse<RespAuthorized>> {
+    async isAdminRaw(requestParameters: IsAdminRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespAuthorized>> {
         if (requestParameters.reqUserIsAdmin === null || requestParameters.reqUserIsAdmin === undefined) {
             throw new runtime.RequiredError('reqUserIsAdmin','Required parameter requestParameters.reqUserIsAdmin was null or undefined when calling isAdmin.');
         }
@@ -785,7 +785,7 @@ export class UserApi extends runtime.BaseAPI {
             headers: headerParameters,
             query: queryParameters,
             body: ReqUserIsAdminToJSON(requestParameters.reqUserIsAdmin),
-        });
+        }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => RespAuthorizedFromJSON(jsonValue));
     }
@@ -793,15 +793,15 @@ export class UserApi extends runtime.BaseAPI {
     /**
      * Check whether a user in a tenant has been assigned the tenant administrator role, either directly or transitively.  This request is authorized if the requestor is a user that has access to the specified tenant or if the requestor is a service.
      */
-    async isAdmin(requestParameters: IsAdminRequest): Promise<RespAuthorized> {
-        const response = await this.isAdminRaw(requestParameters);
+    async isAdmin(requestParameters: IsAdminRequest, initOverrides?: RequestInit): Promise<RespAuthorized> {
+        const response = await this.isAdminRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
     /**
      * Check whether specified permission matches a permission assigned to the user, either directly or transitively.  This request is authorized if the requestor is a user that has access to the specified tenant or if the requestor is a service.
      */
-    async isPermittedRaw(requestParameters: IsPermittedRequest): Promise<runtime.ApiResponse<RespAuthorized>> {
+    async isPermittedRaw(requestParameters: IsPermittedRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespAuthorized>> {
         if (requestParameters.reqUserIsPermitted === null || requestParameters.reqUserIsPermitted === undefined) {
             throw new runtime.RequiredError('reqUserIsPermitted','Required parameter requestParameters.reqUserIsPermitted was null or undefined when calling isPermitted.');
         }
@@ -826,7 +826,7 @@ export class UserApi extends runtime.BaseAPI {
             headers: headerParameters,
             query: queryParameters,
             body: ReqUserIsPermittedToJSON(requestParameters.reqUserIsPermitted),
-        });
+        }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => RespAuthorizedFromJSON(jsonValue));
     }
@@ -834,15 +834,15 @@ export class UserApi extends runtime.BaseAPI {
     /**
      * Check whether specified permission matches a permission assigned to the user, either directly or transitively.  This request is authorized if the requestor is a user that has access to the specified tenant or if the requestor is a service.
      */
-    async isPermitted(requestParameters: IsPermittedRequest): Promise<RespAuthorized> {
-        const response = await this.isPermittedRaw(requestParameters);
+    async isPermitted(requestParameters: IsPermittedRequest, initOverrides?: RequestInit): Promise<RespAuthorized> {
+        const response = await this.isPermittedRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
     /**
      * Check whether a user\'s permissions satisfy all of the permission specifications contained in the request body.  This request is authorized if the requestor is a user that has access to the specified tenant or if the requestor is a service.
      */
-    async isPermittedAllRaw(requestParameters: IsPermittedAllRequest): Promise<runtime.ApiResponse<RespAuthorized>> {
+    async isPermittedAllRaw(requestParameters: IsPermittedAllRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespAuthorized>> {
         if (requestParameters.reqUserIsPermittedMulti === null || requestParameters.reqUserIsPermittedMulti === undefined) {
             throw new runtime.RequiredError('reqUserIsPermittedMulti','Required parameter requestParameters.reqUserIsPermittedMulti was null or undefined when calling isPermittedAll.');
         }
@@ -867,7 +867,7 @@ export class UserApi extends runtime.BaseAPI {
             headers: headerParameters,
             query: queryParameters,
             body: ReqUserIsPermittedMultiToJSON(requestParameters.reqUserIsPermittedMulti),
-        });
+        }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => RespAuthorizedFromJSON(jsonValue));
     }
@@ -875,15 +875,15 @@ export class UserApi extends runtime.BaseAPI {
     /**
      * Check whether a user\'s permissions satisfy all of the permission specifications contained in the request body.  This request is authorized if the requestor is a user that has access to the specified tenant or if the requestor is a service.
      */
-    async isPermittedAll(requestParameters: IsPermittedAllRequest): Promise<RespAuthorized> {
-        const response = await this.isPermittedAllRaw(requestParameters);
+    async isPermittedAll(requestParameters: IsPermittedAllRequest, initOverrides?: RequestInit): Promise<RespAuthorized> {
+        const response = await this.isPermittedAllRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
     /**
      * Check whether a user\'s permissions satisfy any of the permission specifications contained in the request body.  This request is authorized if the requestor is a user that has access to the specified tenant or if the requestor is a service.
      */
-    async isPermittedAnyRaw(requestParameters: IsPermittedAnyRequest): Promise<runtime.ApiResponse<RespAuthorized>> {
+    async isPermittedAnyRaw(requestParameters: IsPermittedAnyRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespAuthorized>> {
         if (requestParameters.reqUserIsPermittedMulti === null || requestParameters.reqUserIsPermittedMulti === undefined) {
             throw new runtime.RequiredError('reqUserIsPermittedMulti','Required parameter requestParameters.reqUserIsPermittedMulti was null or undefined when calling isPermittedAny.');
         }
@@ -908,7 +908,7 @@ export class UserApi extends runtime.BaseAPI {
             headers: headerParameters,
             query: queryParameters,
             body: ReqUserIsPermittedMultiToJSON(requestParameters.reqUserIsPermittedMulti),
-        });
+        }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => RespAuthorizedFromJSON(jsonValue));
     }
@@ -916,15 +916,15 @@ export class UserApi extends runtime.BaseAPI {
     /**
      * Check whether a user\'s permissions satisfy any of the permission specifications contained in the request body.  This request is authorized if the requestor is a user that has access to the specified tenant or if the requestor is a service.
      */
-    async isPermittedAny(requestParameters: IsPermittedAnyRequest): Promise<RespAuthorized> {
-        const response = await this.isPermittedAnyRaw(requestParameters);
+    async isPermittedAny(requestParameters: IsPermittedAnyRequest, initOverrides?: RequestInit): Promise<RespAuthorized> {
+        const response = await this.isPermittedAnyRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
     /**
      * Revoke the previously granted tenant administrator role from a user. No action is taken if the user is not currently assigned the role (the request is idempotent).  The request will not be honored if revoking the role would leave the tenant with no administrator.  The user specified in the JWT must themselves be an administrator and a valid tenant and user must be specified in the request body.
      */
-    async revokeAdminRoleRaw(requestParameters: RevokeAdminRoleRequest): Promise<runtime.ApiResponse<RespChangeCount>> {
+    async revokeAdminRoleRaw(requestParameters: RevokeAdminRoleRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespChangeCount>> {
         if (requestParameters.reqRevokeAdminRole === null || requestParameters.reqRevokeAdminRole === undefined) {
             throw new runtime.RequiredError('reqRevokeAdminRole','Required parameter requestParameters.reqRevokeAdminRole was null or undefined when calling revokeAdminRole.');
         }
@@ -949,7 +949,7 @@ export class UserApi extends runtime.BaseAPI {
             headers: headerParameters,
             query: queryParameters,
             body: ReqRevokeAdminRoleToJSON(requestParameters.reqRevokeAdminRole),
-        });
+        }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => RespChangeCountFromJSON(jsonValue));
     }
@@ -957,15 +957,15 @@ export class UserApi extends runtime.BaseAPI {
     /**
      * Revoke the previously granted tenant administrator role from a user. No action is taken if the user is not currently assigned the role (the request is idempotent).  The request will not be honored if revoking the role would leave the tenant with no administrator.  The user specified in the JWT must themselves be an administrator and a valid tenant and user must be specified in the request body.
      */
-    async revokeAdminRole(requestParameters: RevokeAdminRoleRequest): Promise<RespChangeCount> {
-        const response = await this.revokeAdminRoleRaw(requestParameters);
+    async revokeAdminRole(requestParameters: RevokeAdminRoleRequest, initOverrides?: RequestInit): Promise<RespChangeCount> {
+        const response = await this.revokeAdminRoleRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
     /**
      * Revoke the specified permission from the user\'s default role. A user\'s default role is constructed by prepending \'$$\' to the user\'s name. Default roles are created on demand. If the role does not exist when this method is called no error is reported and no changes occur.  The change count returned can be zero or one depending on how many permissions were revoked.  A valid tenant and user must be specified in the request body.  The caller must be an administrator, a service or the user themselves.
      */
-    async revokeUserPermissionRaw(requestParameters: RevokeUserPermissionRequest): Promise<runtime.ApiResponse<RespChangeCount>> {
+    async revokeUserPermissionRaw(requestParameters: RevokeUserPermissionRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespChangeCount>> {
         if (requestParameters.reqRevokeUserPermission === null || requestParameters.reqRevokeUserPermission === undefined) {
             throw new runtime.RequiredError('reqRevokeUserPermission','Required parameter requestParameters.reqRevokeUserPermission was null or undefined when calling revokeUserPermission.');
         }
@@ -990,7 +990,7 @@ export class UserApi extends runtime.BaseAPI {
             headers: headerParameters,
             query: queryParameters,
             body: ReqRevokeUserPermissionToJSON(requestParameters.reqRevokeUserPermission),
-        });
+        }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => RespChangeCountFromJSON(jsonValue));
     }
@@ -998,15 +998,15 @@ export class UserApi extends runtime.BaseAPI {
     /**
      * Revoke the specified permission from the user\'s default role. A user\'s default role is constructed by prepending \'$$\' to the user\'s name. Default roles are created on demand. If the role does not exist when this method is called no error is reported and no changes occur.  The change count returned can be zero or one depending on how many permissions were revoked.  A valid tenant and user must be specified in the request body.  The caller must be an administrator, a service or the user themselves.
      */
-    async revokeUserPermission(requestParameters: RevokeUserPermissionRequest): Promise<RespChangeCount> {
-        const response = await this.revokeUserPermissionRaw(requestParameters);
+    async revokeUserPermission(requestParameters: RevokeUserPermissionRequest, initOverrides?: RequestInit): Promise<RespChangeCount> {
+        const response = await this.revokeUserPermissionRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
     /**
      * Revoke a previously granted role from a user. No action is taken if the user is not currently assigned the role. This request is idempotent.  This request is authorized only if the requestor is the role owner or an administrator.
      */
-    async revokeUserRoleRaw(requestParameters: RevokeUserRoleRequest): Promise<runtime.ApiResponse<RespChangeCount>> {
+    async revokeUserRoleRaw(requestParameters: RevokeUserRoleRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespChangeCount>> {
         if (requestParameters.reqRevokeUserRole === null || requestParameters.reqRevokeUserRole === undefined) {
             throw new runtime.RequiredError('reqRevokeUserRole','Required parameter requestParameters.reqRevokeUserRole was null or undefined when calling revokeUserRole.');
         }
@@ -1031,7 +1031,7 @@ export class UserApi extends runtime.BaseAPI {
             headers: headerParameters,
             query: queryParameters,
             body: ReqRevokeUserRoleToJSON(requestParameters.reqRevokeUserRole),
-        });
+        }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => RespChangeCountFromJSON(jsonValue));
     }
@@ -1039,8 +1039,8 @@ export class UserApi extends runtime.BaseAPI {
     /**
      * Revoke a previously granted role from a user. No action is taken if the user is not currently assigned the role. This request is idempotent.  This request is authorized only if the requestor is the role owner or an administrator.
      */
-    async revokeUserRole(requestParameters: RevokeUserRoleRequest): Promise<RespChangeCount> {
-        const response = await this.revokeUserRoleRaw(requestParameters);
+    async revokeUserRole(requestParameters: RevokeUserRoleRequest, initOverrides?: RequestInit): Promise<RespChangeCount> {
+        const response = await this.revokeUserRoleRaw(requestParameters, initOverrides);
         return await response.value();
     }
 

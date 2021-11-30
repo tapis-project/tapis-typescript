@@ -93,4 +93,3 @@ export function RespAppToJSON(value?: RespApp | null): any {
     };
 }
 
-

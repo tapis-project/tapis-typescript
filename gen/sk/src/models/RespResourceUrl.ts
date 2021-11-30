@@ -85,4 +85,3 @@ export function RespResourceUrlToJSON(value?: RespResourceUrl | null): any {
     };
 }
 
-

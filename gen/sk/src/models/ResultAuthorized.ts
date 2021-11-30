@@ -54,4 +54,3 @@ export function ResultAuthorizedToJSON(value?: ResultAuthorized | null): any {
     };
 }
 
-

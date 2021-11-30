@@ -86,4 +86,3 @@ export function JobHistoryDisplayDTOToJSON(value?: JobHistoryDisplayDTO | null):
     };
 }
 
-

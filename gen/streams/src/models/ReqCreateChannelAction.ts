@@ -70,4 +70,3 @@ export function ReqCreateChannelActionToJSON(value?: ReqCreateChannelAction | nu
     };
 }
 
-

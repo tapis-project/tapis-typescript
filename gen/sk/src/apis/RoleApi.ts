@@ -158,7 +158,7 @@ export class RoleApi extends runtime.BaseAPI {
     /**
      * Add a child role to another role using a request body.  If the child already exists, then the request has no effect and the change count returned is zero. Otherwise, the child is added and the change count is one.  The user@tenant identity specified in JWT is authorized to make this request only if that user is an administrator or if the user owns both the parent and child roles.
      */
-    async addChildRoleRaw(requestParameters: AddChildRoleRequest): Promise<runtime.ApiResponse<RespChangeCount>> {
+    async addChildRoleRaw(requestParameters: AddChildRoleRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespChangeCount>> {
         if (requestParameters.reqAddChildRole === null || requestParameters.reqAddChildRole === undefined) {
             throw new runtime.RequiredError('reqAddChildRole','Required parameter requestParameters.reqAddChildRole was null or undefined when calling addChildRole.');
         }
@@ -183,7 +183,7 @@ export class RoleApi extends runtime.BaseAPI {
             headers: headerParameters,
             query: queryParameters,
             body: ReqAddChildRoleToJSON(requestParameters.reqAddChildRole),
-        });
+        }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => RespChangeCountFromJSON(jsonValue));
     }
@@ -191,15 +191,15 @@ export class RoleApi extends runtime.BaseAPI {
     /**
      * Add a child role to another role using a request body.  If the child already exists, then the request has no effect and the change count returned is zero. Otherwise, the child is added and the change count is one.  The user@tenant identity specified in JWT is authorized to make this request only if that user is an administrator or if the user owns both the parent and child roles.
      */
-    async addChildRole(requestParameters: AddChildRoleRequest): Promise<RespChangeCount> {
-        const response = await this.addChildRoleRaw(requestParameters);
+    async addChildRole(requestParameters: AddChildRoleRequest, initOverrides?: RequestInit): Promise<RespChangeCount> {
+        const response = await this.addChildRoleRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
     /**
      * Add a permission to an existing role using a request body.  If the permission already exists, then the request has no effect and the change count returned is zero. Otherwise, the permission is added and the change count is one.  Permissions are case-sensitive strings that follow the format defined by Apache Shiro (https://shiro.apache.org/permissions.html).  This format defines any number of colon-separated (:) parts, with the possible use of asterisks (*) as wildcards and commas (,) as aggregators.  Here are two example permission strings:      system:MyTenant:read,write:system1     system:MyTenant:create,read,write,delete:*  See the Shiro documentation for further details.  Note that the three reserved characters, [: * ,], cannot appear in the text of any part.  It\'s the application\'s responsibility to escape those characters in a manner that is safe in the application\'s domain.  This request is authorized only if the authenticated user is either the role owner or an administrator.
      */
-    async addRolePermissionRaw(requestParameters: AddRolePermissionRequest): Promise<runtime.ApiResponse<RespChangeCount>> {
+    async addRolePermissionRaw(requestParameters: AddRolePermissionRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespChangeCount>> {
         if (requestParameters.reqAddRolePermission === null || requestParameters.reqAddRolePermission === undefined) {
             throw new runtime.RequiredError('reqAddRolePermission','Required parameter requestParameters.reqAddRolePermission was null or undefined when calling addRolePermission.');
         }
@@ -224,7 +224,7 @@ export class RoleApi extends runtime.BaseAPI {
             headers: headerParameters,
             query: queryParameters,
             body: ReqAddRolePermissionToJSON(requestParameters.reqAddRolePermission),
-        });
+        }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => RespChangeCountFromJSON(jsonValue));
     }
@@ -232,15 +232,15 @@ export class RoleApi extends runtime.BaseAPI {
     /**
      * Add a permission to an existing role using a request body.  If the permission already exists, then the request has no effect and the change count returned is zero. Otherwise, the permission is added and the change count is one.  Permissions are case-sensitive strings that follow the format defined by Apache Shiro (https://shiro.apache.org/permissions.html).  This format defines any number of colon-separated (:) parts, with the possible use of asterisks (*) as wildcards and commas (,) as aggregators.  Here are two example permission strings:      system:MyTenant:read,write:system1     system:MyTenant:create,read,write,delete:*  See the Shiro documentation for further details.  Note that the three reserved characters, [: * ,], cannot appear in the text of any part.  It\'s the application\'s responsibility to escape those characters in a manner that is safe in the application\'s domain.  This request is authorized only if the authenticated user is either the role owner or an administrator.
      */
-    async addRolePermission(requestParameters: AddRolePermissionRequest): Promise<RespChangeCount> {
-        const response = await this.addRolePermissionRaw(requestParameters);
+    async addRolePermission(requestParameters: AddRolePermissionRequest, initOverrides?: RequestInit): Promise<RespChangeCount> {
+        const response = await this.addRolePermissionRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
     /**
      * Create a role using a request body.  Role names are case sensitive, alpha-numeric strings that can also contain underscores.  Role names must start with an alphbetic character and can be no more than 58 characters in length.  The desciption can be no more than 2048 characters long.  If the role already exists, this request has no effect.  For the request to be authorized, the requestor must be either an administrator or a service allowed to perform updates in the new role\'s tenant.
      */
-    async createRoleRaw(requestParameters: CreateRoleRequest): Promise<runtime.ApiResponse<RespResourceUrl>> {
+    async createRoleRaw(requestParameters: CreateRoleRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespResourceUrl>> {
         if (requestParameters.reqCreateRole === null || requestParameters.reqCreateRole === undefined) {
             throw new runtime.RequiredError('reqCreateRole','Required parameter requestParameters.reqCreateRole was null or undefined when calling createRole.');
         }
@@ -265,7 +265,7 @@ export class RoleApi extends runtime.BaseAPI {
             headers: headerParameters,
             query: queryParameters,
             body: ReqCreateRoleToJSON(requestParameters.reqCreateRole),
-        });
+        }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => RespResourceUrlFromJSON(jsonValue));
     }
@@ -273,15 +273,15 @@ export class RoleApi extends runtime.BaseAPI {
     /**
      * Create a role using a request body.  Role names are case sensitive, alpha-numeric strings that can also contain underscores.  Role names must start with an alphbetic character and can be no more than 58 characters in length.  The desciption can be no more than 2048 characters long.  If the role already exists, this request has no effect.  For the request to be authorized, the requestor must be either an administrator or a service allowed to perform updates in the new role\'s tenant.
      */
-    async createRole(requestParameters: CreateRoleRequest): Promise<RespResourceUrl> {
-        const response = await this.createRoleRaw(requestParameters);
+    async createRole(requestParameters: CreateRoleRequest, initOverrides?: RequestInit): Promise<RespResourceUrl> {
+        const response = await this.createRoleRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
     /**
      * Delete the named role. A valid tenant and user must be specified as query parameters.  This request is authorized only if the authenticated user is either the role owner or an administrator.
      */
-    async deleteRoleByNameRaw(requestParameters: DeleteRoleByNameRequest): Promise<runtime.ApiResponse<RespChangeCount>> {
+    async deleteRoleByNameRaw(requestParameters: DeleteRoleByNameRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespChangeCount>> {
         if (requestParameters.roleName === null || requestParameters.roleName === undefined) {
             throw new runtime.RequiredError('roleName','Required parameter requestParameters.roleName was null or undefined when calling deleteRoleByName.');
         }
@@ -307,7 +307,7 @@ export class RoleApi extends runtime.BaseAPI {
             method: 'DELETE',
             headers: headerParameters,
             query: queryParameters,
-        });
+        }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => RespChangeCountFromJSON(jsonValue));
     }
@@ -315,15 +315,15 @@ export class RoleApi extends runtime.BaseAPI {
     /**
      * Delete the named role. A valid tenant and user must be specified as query parameters.  This request is authorized only if the authenticated user is either the role owner or an administrator.
      */
-    async deleteRoleByName(requestParameters: DeleteRoleByNameRequest): Promise<RespChangeCount> {
-        const response = await this.deleteRoleByNameRaw(requestParameters);
+    async deleteRoleByName(requestParameters: DeleteRoleByNameRequest, initOverrides?: RequestInit): Promise<RespChangeCount> {
+        const response = await this.deleteRoleByNameRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
     /**
      * Get a user\'s default role. The default role is implicitly created by the system when needed if it doesn\'t already exist. No authorization required.  A user\'s default role is constructed by prepending \'$$\' to the user\'s name.  This implies the maximum length of a user name is 58 since role names are limited to 60 characters.  
      */
-    async getDefaultUserRoleRaw(requestParameters: GetDefaultUserRoleRequest): Promise<runtime.ApiResponse<RespName>> {
+    async getDefaultUserRoleRaw(requestParameters: GetDefaultUserRoleRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespName>> {
         if (requestParameters.user === null || requestParameters.user === undefined) {
             throw new runtime.RequiredError('user','Required parameter requestParameters.user was null or undefined when calling getDefaultUserRole.');
         }
@@ -341,7 +341,7 @@ export class RoleApi extends runtime.BaseAPI {
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        });
+        }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => RespNameFromJSON(jsonValue));
     }
@@ -349,15 +349,15 @@ export class RoleApi extends runtime.BaseAPI {
     /**
      * Get a user\'s default role. The default role is implicitly created by the system when needed if it doesn\'t already exist. No authorization required.  A user\'s default role is constructed by prepending \'$$\' to the user\'s name.  This implies the maximum length of a user name is 58 since role names are limited to 60 characters.  
      */
-    async getDefaultUserRole(requestParameters: GetDefaultUserRoleRequest): Promise<RespName> {
-        const response = await this.getDefaultUserRoleRaw(requestParameters);
+    async getDefaultUserRole(requestParameters: GetDefaultUserRoleRequest, initOverrides?: RequestInit): Promise<RespName> {
+        const response = await this.getDefaultUserRoleRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
     /**
      * Get the named role\'s definition.  A valid tenant must be specified as a query parameter.  This request is authorized if the requestor is a user that has access to the specified tenant or if the requestor is a service.
      */
-    async getRoleByNameRaw(requestParameters: GetRoleByNameRequest): Promise<runtime.ApiResponse<RespRole>> {
+    async getRoleByNameRaw(requestParameters: GetRoleByNameRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespRole>> {
         if (requestParameters.roleName === null || requestParameters.roleName === undefined) {
             throw new runtime.RequiredError('roleName','Required parameter requestParameters.roleName was null or undefined when calling getRoleByName.');
         }
@@ -383,7 +383,7 @@ export class RoleApi extends runtime.BaseAPI {
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        });
+        }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => RespRoleFromJSON(jsonValue));
     }
@@ -391,15 +391,15 @@ export class RoleApi extends runtime.BaseAPI {
     /**
      * Get the named role\'s definition.  A valid tenant must be specified as a query parameter.  This request is authorized if the requestor is a user that has access to the specified tenant or if the requestor is a service.
      */
-    async getRoleByName(requestParameters: GetRoleByNameRequest): Promise<RespRole> {
-        const response = await this.getRoleByNameRaw(requestParameters);
+    async getRoleByName(requestParameters: GetRoleByNameRequest, initOverrides?: RequestInit): Promise<RespRole> {
+        const response = await this.getRoleByNameRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
     /**
      * Get the names of all roles in the tenant in alphabetic order.  Future enhancements will include search filtering.  A valid tenant must be specified as a query parameter.  This request is authorized if the requestor is a user that has access to the specified tenant or if the requestor is a service.
      */
-    async getRoleNamesRaw(requestParameters: GetRoleNamesRequest): Promise<runtime.ApiResponse<RespNameArray>> {
+    async getRoleNamesRaw(requestParameters: GetRoleNamesRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespNameArray>> {
         const queryParameters: any = {};
 
         if (requestParameters.tenant !== undefined) {
@@ -421,7 +421,7 @@ export class RoleApi extends runtime.BaseAPI {
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        });
+        }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => RespNameArrayFromJSON(jsonValue));
     }
@@ -429,15 +429,15 @@ export class RoleApi extends runtime.BaseAPI {
     /**
      * Get the names of all roles in the tenant in alphabetic order.  Future enhancements will include search filtering.  A valid tenant must be specified as a query parameter.  This request is authorized if the requestor is a user that has access to the specified tenant or if the requestor is a service.
      */
-    async getRoleNames(requestParameters: GetRoleNamesRequest): Promise<RespNameArray> {
-        const response = await this.getRoleNamesRaw(requestParameters);
+    async getRoleNames(requestParameters: GetRoleNamesRequest, initOverrides?: RequestInit): Promise<RespNameArray> {
+        const response = await this.getRoleNamesRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
     /**
      * Get the named role\'s permissions.  By default, all permissions assigned to the role, whether directly and transitively through child roles, are returned.  Set the immediate query parameter to only retrieve permissions directly assigned to the role.  A valid tenant must be specified.  This request is authorized if the requestor is a user that has access to the specified tenant or if the requestor is a service.
      */
-    async getRolePermissionsRaw(requestParameters: GetRolePermissionsRequest): Promise<runtime.ApiResponse<RespNameArray>> {
+    async getRolePermissionsRaw(requestParameters: GetRolePermissionsRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespNameArray>> {
         if (requestParameters.roleName === null || requestParameters.roleName === undefined) {
             throw new runtime.RequiredError('roleName','Required parameter requestParameters.roleName was null or undefined when calling getRolePermissions.');
         }
@@ -467,7 +467,7 @@ export class RoleApi extends runtime.BaseAPI {
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        });
+        }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => RespNameArrayFromJSON(jsonValue));
     }
@@ -475,15 +475,15 @@ export class RoleApi extends runtime.BaseAPI {
     /**
      * Get the named role\'s permissions.  By default, all permissions assigned to the role, whether directly and transitively through child roles, are returned.  Set the immediate query parameter to only retrieve permissions directly assigned to the role.  A valid tenant must be specified.  This request is authorized if the requestor is a user that has access to the specified tenant or if the requestor is a service.
      */
-    async getRolePermissions(requestParameters: GetRolePermissionsRequest): Promise<RespNameArray> {
-        const response = await this.getRolePermissionsRaw(requestParameters);
+    async getRolePermissions(requestParameters: GetRolePermissionsRequest, initOverrides?: RequestInit): Promise<RespNameArray> {
+        const response = await this.getRolePermissionsRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
     /**
      * This read-only endpoint previews the transformations that would take place if the same input was used on a replacePathPrefix POST call. This call is also implemented as a POST so that the same input as used on replacePathPrefix can be used here, but this call changes nothing.  This endpoint can be used to get an accounting of existing system/path combinations that match the input specification. Such information is useful when trying to duplicate a set of permissions. For example, one may want to copy a file subtree to another location and assign the same permissions to the new subtree as currently exist on the original subtree. One could use  this call to calculate the users that should be granted permission on the new subtree.  The optional parameters are roleName, oldPrefix and newPrefix. No wildcards are defined for the path prefix parameters.  When roleName is specified then only permissions assigned to that role are considered.  When the oldPrefix parameter is provided, it\'s used to filter out permissions whose paths do not begin with the specified string; when not provided, no path prefix filtering occurs.  When the newPrefix parameter is not provided no new characters are prepended to the new path, effectively just removing the oldPrefix from the new path. When neither oldPrefix nor newPrefix are provided, no path transformation occurs, though system IDs can still be transformed.  The result object contains an array of transformation objects, each of which contains the unique permission sequence number, the existing permission that matched the search criteria and the new permission if the specified transformations were applied.  A valid tenant and user must be specified in the request body.  This request is authorized if the requestor is a user that has access to the specified tenant or if the requestor is a service.
      */
-    async previewPathPrefixRaw(requestParameters: PreviewPathPrefixRequest): Promise<runtime.ApiResponse<RespPathPrefixes>> {
+    async previewPathPrefixRaw(requestParameters: PreviewPathPrefixRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespPathPrefixes>> {
         if (requestParameters.reqPreviewPathPrefix === null || requestParameters.reqPreviewPathPrefix === undefined) {
             throw new runtime.RequiredError('reqPreviewPathPrefix','Required parameter requestParameters.reqPreviewPathPrefix was null or undefined when calling previewPathPrefix.');
         }
@@ -508,7 +508,7 @@ export class RoleApi extends runtime.BaseAPI {
             headers: headerParameters,
             query: queryParameters,
             body: ReqPreviewPathPrefixToJSON(requestParameters.reqPreviewPathPrefix),
-        });
+        }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => RespPathPrefixesFromJSON(jsonValue));
     }
@@ -516,15 +516,15 @@ export class RoleApi extends runtime.BaseAPI {
     /**
      * This read-only endpoint previews the transformations that would take place if the same input was used on a replacePathPrefix POST call. This call is also implemented as a POST so that the same input as used on replacePathPrefix can be used here, but this call changes nothing.  This endpoint can be used to get an accounting of existing system/path combinations that match the input specification. Such information is useful when trying to duplicate a set of permissions. For example, one may want to copy a file subtree to another location and assign the same permissions to the new subtree as currently exist on the original subtree. One could use  this call to calculate the users that should be granted permission on the new subtree.  The optional parameters are roleName, oldPrefix and newPrefix. No wildcards are defined for the path prefix parameters.  When roleName is specified then only permissions assigned to that role are considered.  When the oldPrefix parameter is provided, it\'s used to filter out permissions whose paths do not begin with the specified string; when not provided, no path prefix filtering occurs.  When the newPrefix parameter is not provided no new characters are prepended to the new path, effectively just removing the oldPrefix from the new path. When neither oldPrefix nor newPrefix are provided, no path transformation occurs, though system IDs can still be transformed.  The result object contains an array of transformation objects, each of which contains the unique permission sequence number, the existing permission that matched the search criteria and the new permission if the specified transformations were applied.  A valid tenant and user must be specified in the request body.  This request is authorized if the requestor is a user that has access to the specified tenant or if the requestor is a service.
      */
-    async previewPathPrefix(requestParameters: PreviewPathPrefixRequest): Promise<RespPathPrefixes> {
-        const response = await this.previewPathPrefixRaw(requestParameters);
+    async previewPathPrefix(requestParameters: PreviewPathPrefixRequest, initOverrides?: RequestInit): Promise<RespPathPrefixes> {
+        const response = await this.previewPathPrefixRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
     /**
      * Remove a child role from a parent role using a request body.  A valid tenant and user must be specified in the request body.  The user@tenant identity specified in JWT is authorized to make this request only if that user is an administrator or if they own the parent role.
      */
-    async removeChildRoleRaw(requestParameters: RemoveChildRoleRequest): Promise<runtime.ApiResponse<RespChangeCount>> {
+    async removeChildRoleRaw(requestParameters: RemoveChildRoleRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespChangeCount>> {
         if (requestParameters.reqRemoveChildRole === null || requestParameters.reqRemoveChildRole === undefined) {
             throw new runtime.RequiredError('reqRemoveChildRole','Required parameter requestParameters.reqRemoveChildRole was null or undefined when calling removeChildRole.');
         }
@@ -549,7 +549,7 @@ export class RoleApi extends runtime.BaseAPI {
             headers: headerParameters,
             query: queryParameters,
             body: ReqRemoveChildRoleToJSON(requestParameters.reqRemoveChildRole),
-        });
+        }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => RespChangeCountFromJSON(jsonValue));
     }
@@ -557,15 +557,15 @@ export class RoleApi extends runtime.BaseAPI {
     /**
      * Remove a child role from a parent role using a request body.  A valid tenant and user must be specified in the request body.  The user@tenant identity specified in JWT is authorized to make this request only if that user is an administrator or if they own the parent role.
      */
-    async removeChildRole(requestParameters: RemoveChildRoleRequest): Promise<RespChangeCount> {
-        const response = await this.removeChildRoleRaw(requestParameters);
+    async removeChildRole(requestParameters: RemoveChildRoleRequest, initOverrides?: RequestInit): Promise<RespChangeCount> {
+        const response = await this.removeChildRoleRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
     /**
      * Remove a permission from a role using a request body.  A valid role, roleTenant and permission must be specified in the request body.  Only the role owner or administrators are authorized to make this call.
      */
-    async removeRolePermissionRaw(requestParameters: RemoveRolePermissionRequest): Promise<runtime.ApiResponse<RespChangeCount>> {
+    async removeRolePermissionRaw(requestParameters: RemoveRolePermissionRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespChangeCount>> {
         if (requestParameters.reqRemoveRolePermission === null || requestParameters.reqRemoveRolePermission === undefined) {
             throw new runtime.RequiredError('reqRemoveRolePermission','Required parameter requestParameters.reqRemoveRolePermission was null or undefined when calling removeRolePermission.');
         }
@@ -590,7 +590,7 @@ export class RoleApi extends runtime.BaseAPI {
             headers: headerParameters,
             query: queryParameters,
             body: ReqRemoveRolePermissionToJSON(requestParameters.reqRemoveRolePermission),
-        });
+        }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => RespChangeCountFromJSON(jsonValue));
     }
@@ -598,15 +598,15 @@ export class RoleApi extends runtime.BaseAPI {
     /**
      * Remove a permission from a role using a request body.  A valid role, roleTenant and permission must be specified in the request body.  Only the role owner or administrators are authorized to make this call.
      */
-    async removeRolePermission(requestParameters: RemoveRolePermissionRequest): Promise<RespChangeCount> {
-        const response = await this.removeRolePermissionRaw(requestParameters);
+    async removeRolePermission(requestParameters: RemoveRolePermissionRequest, initOverrides?: RequestInit): Promise<RespChangeCount> {
+        const response = await this.removeRolePermissionRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
     /**
      * Replace the text in a permission specification when its last component defines an *extended path attribute*.  Extended path attributes enhance the standard Shiro matching algorithm with one that treats designated components in a permission specification as a path name, such as a posix file or directory path name.  This request is useful when files or directories have been renamed or moved and their authorizations need to be adjusted.  Consider, for example, permissions that conform to the following specification:        files:tenantId:op:systemId:path  By definition, the last component is an extended path attribute whose content can be changed by replacePathPrefix requests.  Specifically, paths that begin with the oldPrefix will have that prefix replaced with the newPrefix value.  Replacement only occurs on permissions that also match the schema and oldSystemId parameter values.  The systemId attribute is required to immediately precede the path attribute, which must be the last attribute.  Additionally, the oldSystemId is replaced with the newSystemId when a match is found.  If a roleName is provided, then replacement is limited to permissions defined only in that role.  Otherwise, permissions in all roles that meet the other matching criteria will be considered.  The optional parameters are roleName, oldPrefix and newPrefix. No wildcards are defined for the path prefix parameters.  When roleName is specified then only permissions assigned to that role are considered.  When the oldPrefix parameter is provided, it\'s used to filter out permissions whose paths do not begin with the specified string; when not provided, no path prefix filtering occurs.  When the newPrefix parameter is not provided no new characters are prepended to the new path, effectively just removing the oldPrefix from the new path. When neither oldPrefix nor newPrefix are provided, no path transformation occurs, though system IDs can still be transformed.  The previewPathPrefix request provides a way to do a dry run using the same input as this request. The preview call calculates the permissions that would change and what their new values would be, but it does not actually change those permissions as replacePathPrefix does.  The input parameters are passed in the payload of this request.  The response indicates the number of changed permission specifications.  The path prefix replacement operation is authorized if the user@tenant in the JWT represents a tenant administrator or the Files service.
      */
-    async replacePathPrefixRaw(requestParameters: ReplacePathPrefixRequest): Promise<runtime.ApiResponse<RespChangeCount>> {
+    async replacePathPrefixRaw(requestParameters: ReplacePathPrefixRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespChangeCount>> {
         if (requestParameters.reqReplacePathPrefix === null || requestParameters.reqReplacePathPrefix === undefined) {
             throw new runtime.RequiredError('reqReplacePathPrefix','Required parameter requestParameters.reqReplacePathPrefix was null or undefined when calling replacePathPrefix.');
         }
@@ -631,7 +631,7 @@ export class RoleApi extends runtime.BaseAPI {
             headers: headerParameters,
             query: queryParameters,
             body: ReqReplacePathPrefixToJSON(requestParameters.reqReplacePathPrefix),
-        });
+        }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => RespChangeCountFromJSON(jsonValue));
     }
@@ -639,15 +639,15 @@ export class RoleApi extends runtime.BaseAPI {
     /**
      * Replace the text in a permission specification when its last component defines an *extended path attribute*.  Extended path attributes enhance the standard Shiro matching algorithm with one that treats designated components in a permission specification as a path name, such as a posix file or directory path name.  This request is useful when files or directories have been renamed or moved and their authorizations need to be adjusted.  Consider, for example, permissions that conform to the following specification:        files:tenantId:op:systemId:path  By definition, the last component is an extended path attribute whose content can be changed by replacePathPrefix requests.  Specifically, paths that begin with the oldPrefix will have that prefix replaced with the newPrefix value.  Replacement only occurs on permissions that also match the schema and oldSystemId parameter values.  The systemId attribute is required to immediately precede the path attribute, which must be the last attribute.  Additionally, the oldSystemId is replaced with the newSystemId when a match is found.  If a roleName is provided, then replacement is limited to permissions defined only in that role.  Otherwise, permissions in all roles that meet the other matching criteria will be considered.  The optional parameters are roleName, oldPrefix and newPrefix. No wildcards are defined for the path prefix parameters.  When roleName is specified then only permissions assigned to that role are considered.  When the oldPrefix parameter is provided, it\'s used to filter out permissions whose paths do not begin with the specified string; when not provided, no path prefix filtering occurs.  When the newPrefix parameter is not provided no new characters are prepended to the new path, effectively just removing the oldPrefix from the new path. When neither oldPrefix nor newPrefix are provided, no path transformation occurs, though system IDs can still be transformed.  The previewPathPrefix request provides a way to do a dry run using the same input as this request. The preview call calculates the permissions that would change and what their new values would be, but it does not actually change those permissions as replacePathPrefix does.  The input parameters are passed in the payload of this request.  The response indicates the number of changed permission specifications.  The path prefix replacement operation is authorized if the user@tenant in the JWT represents a tenant administrator or the Files service.
      */
-    async replacePathPrefix(requestParameters: ReplacePathPrefixRequest): Promise<RespChangeCount> {
-        const response = await this.replacePathPrefixRaw(requestParameters);
+    async replacePathPrefix(requestParameters: ReplacePathPrefixRequest, initOverrides?: RequestInit): Promise<RespChangeCount> {
+        const response = await this.replacePathPrefixRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
     /**
      * Update an existing role\'s decription using a request body.  The size limit on a description is 2048 characters.  This request is authorized if the requestor is the role owner or an administrator.
      */
-    async updateRoleDescriptionRaw(requestParameters: UpdateRoleDescriptionRequest): Promise<runtime.ApiResponse<RespBasic>> {
+    async updateRoleDescriptionRaw(requestParameters: UpdateRoleDescriptionRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespBasic>> {
         if (requestParameters.roleName === null || requestParameters.roleName === undefined) {
             throw new runtime.RequiredError('roleName','Required parameter requestParameters.roleName was null or undefined when calling updateRoleDescription.');
         }
@@ -676,7 +676,7 @@ export class RoleApi extends runtime.BaseAPI {
             headers: headerParameters,
             query: queryParameters,
             body: ReqUpdateRoleDescriptionToJSON(requestParameters.reqUpdateRoleDescription),
-        });
+        }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => RespBasicFromJSON(jsonValue));
     }
@@ -684,15 +684,15 @@ export class RoleApi extends runtime.BaseAPI {
     /**
      * Update an existing role\'s decription using a request body.  The size limit on a description is 2048 characters.  This request is authorized if the requestor is the role owner or an administrator.
      */
-    async updateRoleDescription(requestParameters: UpdateRoleDescriptionRequest): Promise<RespBasic> {
-        const response = await this.updateRoleDescriptionRaw(requestParameters);
+    async updateRoleDescription(requestParameters: UpdateRoleDescriptionRequest, initOverrides?: RequestInit): Promise<RespBasic> {
+        const response = await this.updateRoleDescriptionRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
     /**
      * Update an existing role\'s name using a request body.  Role names are case sensitive, alphanumeric strings that can contain underscores but must begin with an alphabetic character.  The limit on role name is 58 characters.  This request is authorized if the requestor is the role owner or an administrator.
      */
-    async updateRoleNameRaw(requestParameters: UpdateRoleNameRequest): Promise<runtime.ApiResponse<RespBasic>> {
+    async updateRoleNameRaw(requestParameters: UpdateRoleNameRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespBasic>> {
         if (requestParameters.roleName === null || requestParameters.roleName === undefined) {
             throw new runtime.RequiredError('roleName','Required parameter requestParameters.roleName was null or undefined when calling updateRoleName.');
         }
@@ -721,7 +721,7 @@ export class RoleApi extends runtime.BaseAPI {
             headers: headerParameters,
             query: queryParameters,
             body: ReqUpdateRoleNameToJSON(requestParameters.reqUpdateRoleName),
-        });
+        }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => RespBasicFromJSON(jsonValue));
     }
@@ -729,15 +729,15 @@ export class RoleApi extends runtime.BaseAPI {
     /**
      * Update an existing role\'s name using a request body.  Role names are case sensitive, alphanumeric strings that can contain underscores but must begin with an alphabetic character.  The limit on role name is 58 characters.  This request is authorized if the requestor is the role owner or an administrator.
      */
-    async updateRoleName(requestParameters: UpdateRoleNameRequest): Promise<RespBasic> {
-        const response = await this.updateRoleNameRaw(requestParameters);
+    async updateRoleName(requestParameters: UpdateRoleNameRequest, initOverrides?: RequestInit): Promise<RespBasic> {
+        const response = await this.updateRoleNameRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
     /**
      * Update an existing role\'s owner using a request body. Required parameters in the payload are the *roleTenant*, which is the tenant of named role, and *newOwner*, which is the user to which role ownership is being transferred. The *newTenant* payload parameter is optional and only needed when the new owner resides in a different tenant than that of the current owner.  This request is authorized if the requestor is the role owner or an administrator. If a new tenant is specified, then the requestor must also be allowed to act in the new tenant.
      */
-    async updateRoleOwnerRaw(requestParameters: UpdateRoleOwnerRequest): Promise<runtime.ApiResponse<RespBasic>> {
+    async updateRoleOwnerRaw(requestParameters: UpdateRoleOwnerRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespBasic>> {
         if (requestParameters.roleName === null || requestParameters.roleName === undefined) {
             throw new runtime.RequiredError('roleName','Required parameter requestParameters.roleName was null or undefined when calling updateRoleOwner.');
         }
@@ -766,7 +766,7 @@ export class RoleApi extends runtime.BaseAPI {
             headers: headerParameters,
             query: queryParameters,
             body: ReqUpdateRoleOwnerToJSON(requestParameters.reqUpdateRoleOwner),
-        });
+        }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => RespBasicFromJSON(jsonValue));
     }
@@ -774,8 +774,8 @@ export class RoleApi extends runtime.BaseAPI {
     /**
      * Update an existing role\'s owner using a request body. Required parameters in the payload are the *roleTenant*, which is the tenant of named role, and *newOwner*, which is the user to which role ownership is being transferred. The *newTenant* payload parameter is optional and only needed when the new owner resides in a different tenant than that of the current owner.  This request is authorized if the requestor is the role owner or an administrator. If a new tenant is specified, then the requestor must also be allowed to act in the new tenant.
      */
-    async updateRoleOwner(requestParameters: UpdateRoleOwnerRequest): Promise<RespBasic> {
-        const response = await this.updateRoleOwnerRaw(requestParameters);
+    async updateRoleOwner(requestParameters: UpdateRoleOwnerRequest, initOverrides?: RequestInit): Promise<RespBasic> {
+        const response = await this.updateRoleOwnerRaw(requestParameters, initOverrides);
         return await response.value();
     }
 

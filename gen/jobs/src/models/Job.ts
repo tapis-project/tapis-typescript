@@ -349,6 +349,12 @@ export interface Job {
      * @memberof Job
      */
     tags?: Array<string>;
+    /**
+     * 
+     * @type {string}
+     * @memberof Job
+     */
+    jobType?: JobJobTypeEnum;
 }
 
 /**
@@ -377,6 +383,13 @@ export enum JobRemoteOutcomeEnum {
     Finished = 'FINISHED',
     Failed = 'FAILED',
     FailedSkipArchive = 'FAILED_SKIP_ARCHIVE'
+}/**
+* @export
+* @enum {string}
+*/
+export enum JobJobTypeEnum {
+    Fork = 'FORK',
+    Batch = 'BATCH'
 }
 
 export function JobFromJSON(json: any): Job {
@@ -444,6 +457,7 @@ export function JobFromJSONTyped(json: any, ignoreDiscriminator: boolean): Job {
         'createdby': !exists(json, 'createdby') ? undefined : json['createdby'],
         'createdbyTenant': !exists(json, 'createdbyTenant') ? undefined : json['createdbyTenant'],
         'tags': !exists(json, 'tags') ? undefined : json['tags'],
+        'jobType': !exists(json, 'jobType') ? undefined : json['jobType'],
     };
 }
 
@@ -511,7 +525,7 @@ export function JobToJSON(value?: Job | null): any {
         'createdby': value.createdby,
         'createdbyTenant': value.createdbyTenant,
         'tags': value.tags,
+        'jobType': value.jobType,
     };
 }
-
 

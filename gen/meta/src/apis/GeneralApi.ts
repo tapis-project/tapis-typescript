@@ -23,7 +23,7 @@ export class GeneralApi extends runtime.BaseAPI {
     /**
      * Health check for liveness. No authorization required.
      */
-    async healthCheckRaw(): Promise<runtime.ApiResponse<object>> {
+    async healthCheckRaw(initOverrides?: RequestInit): Promise<runtime.ApiResponse<object>> {
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -37,7 +37,7 @@ export class GeneralApi extends runtime.BaseAPI {
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        });
+        }, initOverrides);
 
         return new runtime.JSONApiResponse<any>(response);
     }
@@ -45,8 +45,8 @@ export class GeneralApi extends runtime.BaseAPI {
     /**
      * Health check for liveness. No authorization required.
      */
-    async healthCheck(): Promise<object> {
-        const response = await this.healthCheckRaw();
+    async healthCheck(initOverrides?: RequestInit): Promise<object> {
+        const response = await this.healthCheckRaw(initOverrides);
         return await response.value();
     }
 

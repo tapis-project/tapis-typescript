@@ -86,4 +86,3 @@ export function FileStringResponseToJSON(value?: FileStringResponse | null): any
     };
 }
 
-

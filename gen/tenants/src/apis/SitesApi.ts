@@ -58,7 +58,7 @@ export class SitesApi extends runtime.BaseAPI {
      * Create a site.
      * Create a site.
      */
-    async createSiteRaw(requestParameters: CreateSiteRequest): Promise<runtime.ApiResponse<RespCreateSite>> {
+    async createSiteRaw(requestParameters: CreateSiteRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespCreateSite>> {
         if (requestParameters.reqCreateSite === null || requestParameters.reqCreateSite === undefined) {
             throw new runtime.RequiredError('reqCreateSite','Required parameter requestParameters.reqCreateSite was null or undefined when calling createSite.');
         }
@@ -75,7 +75,7 @@ export class SitesApi extends runtime.BaseAPI {
             headers: headerParameters,
             query: queryParameters,
             body: ReqCreateSiteToJSON(requestParameters.reqCreateSite),
-        });
+        }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => RespCreateSiteFromJSON(jsonValue));
     }
@@ -84,8 +84,8 @@ export class SitesApi extends runtime.BaseAPI {
      * Create a site.
      * Create a site.
      */
-    async createSite(requestParameters: CreateSiteRequest): Promise<RespCreateSite> {
-        const response = await this.createSiteRaw(requestParameters);
+    async createSite(requestParameters: CreateSiteRequest, initOverrides?: RequestInit): Promise<RespCreateSite> {
+        const response = await this.createSiteRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
@@ -93,7 +93,7 @@ export class SitesApi extends runtime.BaseAPI {
      * Permenantly delete a site.
      * Delete a site
      */
-    async deleteSiteRaw(requestParameters: DeleteSiteRequest): Promise<runtime.ApiResponse<RespDeleteSite>> {
+    async deleteSiteRaw(requestParameters: DeleteSiteRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespDeleteSite>> {
         if (requestParameters.siteId === null || requestParameters.siteId === undefined) {
             throw new runtime.RequiredError('siteId','Required parameter requestParameters.siteId was null or undefined when calling deleteSite.');
         }
@@ -107,7 +107,7 @@ export class SitesApi extends runtime.BaseAPI {
             method: 'DELETE',
             headers: headerParameters,
             query: queryParameters,
-        });
+        }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => RespDeleteSiteFromJSON(jsonValue));
     }
@@ -116,8 +116,8 @@ export class SitesApi extends runtime.BaseAPI {
      * Permenantly delete a site.
      * Delete a site
      */
-    async deleteSite(requestParameters: DeleteSiteRequest): Promise<RespDeleteSite> {
-        const response = await this.deleteSiteRaw(requestParameters);
+    async deleteSite(requestParameters: DeleteSiteRequest, initOverrides?: RequestInit): Promise<RespDeleteSite> {
+        const response = await this.deleteSiteRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
@@ -125,7 +125,7 @@ export class SitesApi extends runtime.BaseAPI {
      * Get details of a specific site by its id.
      * Get site details
      */
-    async getSiteRaw(requestParameters: GetSiteRequest): Promise<runtime.ApiResponse<RespGetSite>> {
+    async getSiteRaw(requestParameters: GetSiteRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespGetSite>> {
         if (requestParameters.siteId === null || requestParameters.siteId === undefined) {
             throw new runtime.RequiredError('siteId','Required parameter requestParameters.siteId was null or undefined when calling getSite.');
         }
@@ -139,7 +139,7 @@ export class SitesApi extends runtime.BaseAPI {
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        });
+        }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => RespGetSiteFromJSON(jsonValue));
     }
@@ -148,8 +148,8 @@ export class SitesApi extends runtime.BaseAPI {
      * Get details of a specific site by its id.
      * Get site details
      */
-    async getSite(requestParameters: GetSiteRequest): Promise<RespGetSite> {
-        const response = await this.getSiteRaw(requestParameters);
+    async getSite(requestParameters: GetSiteRequest, initOverrides?: RequestInit): Promise<RespGetSite> {
+        const response = await this.getSiteRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
@@ -157,7 +157,7 @@ export class SitesApi extends runtime.BaseAPI {
      * List sites.
      * List sites.
      */
-    async listSitesRaw(requestParameters: ListSitesRequest): Promise<runtime.ApiResponse<RespListSites>> {
+    async listSitesRaw(requestParameters: ListSitesRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespListSites>> {
         const queryParameters: any = {};
 
         if (requestParameters.limit !== undefined) {
@@ -175,7 +175,7 @@ export class SitesApi extends runtime.BaseAPI {
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        });
+        }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => RespListSitesFromJSON(jsonValue));
     }
@@ -184,8 +184,8 @@ export class SitesApi extends runtime.BaseAPI {
      * List sites.
      * List sites.
      */
-    async listSites(requestParameters: ListSitesRequest): Promise<RespListSites> {
-        const response = await this.listSitesRaw(requestParameters);
+    async listSites(requestParameters: ListSitesRequest, initOverrides?: RequestInit): Promise<RespListSites> {
+        const response = await this.listSitesRaw(requestParameters, initOverrides);
         return await response.value();
     }
 

@@ -93,4 +93,3 @@ export function RespGetTemplateToJSON(value?: RespGetTemplate | null): any {
     };
 }
 
-

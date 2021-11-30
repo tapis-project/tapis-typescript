@@ -70,4 +70,3 @@ export function ReqRevokeUserRoleToJSON(value?: ReqRevokeUserRole | null): any {
     };
 }
 
-

@@ -1,3 +1,5 @@
+/* tslint:disable */
+/* eslint-disable */
 export * from './BasicResponse';
 export * from './LDAP';
 export * from './Owner';

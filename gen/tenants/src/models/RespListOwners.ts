@@ -94,4 +94,3 @@ export function RespListOwnersToJSON(value?: RespListOwners | null): any {
     };
 }
 
-

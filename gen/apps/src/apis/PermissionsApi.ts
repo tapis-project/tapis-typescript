@@ -58,7 +58,7 @@ export class PermissionsApi extends runtime.BaseAPI {
      * Retrieve all application related permissions for a given application and user.
      * Retrieve application user permissions
      */
-    async getUserPermsRaw(requestParameters: GetUserPermsRequest): Promise<runtime.ApiResponse<RespNameArray>> {
+    async getUserPermsRaw(requestParameters: GetUserPermsRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespNameArray>> {
         if (requestParameters.appId === null || requestParameters.appId === undefined) {
             throw new runtime.RequiredError('appId','Required parameter requestParameters.appId was null or undefined when calling getUserPerms.');
         }
@@ -80,7 +80,7 @@ export class PermissionsApi extends runtime.BaseAPI {
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        });
+        }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => RespNameArrayFromJSON(jsonValue));
     }
@@ -89,8 +89,8 @@ export class PermissionsApi extends runtime.BaseAPI {
      * Retrieve all application related permissions for a given application and user.
      * Retrieve application user permissions
      */
-    async getUserPerms(requestParameters: GetUserPermsRequest): Promise<RespNameArray> {
-        const response = await this.getUserPermsRaw(requestParameters);
+    async getUserPerms(requestParameters: GetUserPermsRequest, initOverrides?: RequestInit): Promise<RespNameArray> {
+        const response = await this.getUserPermsRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
@@ -98,7 +98,7 @@ export class PermissionsApi extends runtime.BaseAPI {
      * Create permissions in the Security Kernel for a user. Requester must be owner. Permissions are READ, MODIFY, EXECUTE.
      * Grant application user permissions
      */
-    async grantUserPermsRaw(requestParameters: GrantUserPermsRequest): Promise<runtime.ApiResponse<RespBasic>> {
+    async grantUserPermsRaw(requestParameters: GrantUserPermsRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespBasic>> {
         if (requestParameters.appId === null || requestParameters.appId === undefined) {
             throw new runtime.RequiredError('appId','Required parameter requestParameters.appId was null or undefined when calling grantUserPerms.');
         }
@@ -127,7 +127,7 @@ export class PermissionsApi extends runtime.BaseAPI {
             headers: headerParameters,
             query: queryParameters,
             body: ReqPermsToJSON(requestParameters.reqPerms),
-        });
+        }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => RespBasicFromJSON(jsonValue));
     }
@@ -136,8 +136,8 @@ export class PermissionsApi extends runtime.BaseAPI {
      * Create permissions in the Security Kernel for a user. Requester must be owner. Permissions are READ, MODIFY, EXECUTE.
      * Grant application user permissions
      */
-    async grantUserPerms(requestParameters: GrantUserPermsRequest): Promise<RespBasic> {
-        const response = await this.grantUserPermsRaw(requestParameters);
+    async grantUserPerms(requestParameters: GrantUserPermsRequest, initOverrides?: RequestInit): Promise<RespBasic> {
+        const response = await this.grantUserPermsRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
@@ -145,7 +145,7 @@ export class PermissionsApi extends runtime.BaseAPI {
      * Remove user permission from the Security Kernel. Requester must be owner. Permissions are READ, MODIFY, EXECUTE.
      * Revoke application user permission
      */
-    async revokeUserPermRaw(requestParameters: RevokeUserPermRequest): Promise<runtime.ApiResponse<RespBasic>> {
+    async revokeUserPermRaw(requestParameters: RevokeUserPermRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespBasic>> {
         if (requestParameters.appId === null || requestParameters.appId === undefined) {
             throw new runtime.RequiredError('appId','Required parameter requestParameters.appId was null or undefined when calling revokeUserPerm.');
         }
@@ -171,7 +171,7 @@ export class PermissionsApi extends runtime.BaseAPI {
             method: 'DELETE',
             headers: headerParameters,
             query: queryParameters,
-        });
+        }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => RespBasicFromJSON(jsonValue));
     }
@@ -180,8 +180,8 @@ export class PermissionsApi extends runtime.BaseAPI {
      * Remove user permission from the Security Kernel. Requester must be owner. Permissions are READ, MODIFY, EXECUTE.
      * Revoke application user permission
      */
-    async revokeUserPerm(requestParameters: RevokeUserPermRequest): Promise<RespBasic> {
-        const response = await this.revokeUserPermRaw(requestParameters);
+    async revokeUserPerm(requestParameters: RevokeUserPermRequest, initOverrides?: RequestInit): Promise<RespBasic> {
+        const response = await this.revokeUserPermRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
@@ -189,7 +189,7 @@ export class PermissionsApi extends runtime.BaseAPI {
      * Remove permissions from the Security Kernel for a user. Requester must be owner. Permissions are READ, MODIFY, EXECUTE.
      * Revoke application user permissions
      */
-    async revokeUserPermsRaw(requestParameters: RevokeUserPermsRequest): Promise<runtime.ApiResponse<RespBasic>> {
+    async revokeUserPermsRaw(requestParameters: RevokeUserPermsRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespBasic>> {
         if (requestParameters.appId === null || requestParameters.appId === undefined) {
             throw new runtime.RequiredError('appId','Required parameter requestParameters.appId was null or undefined when calling revokeUserPerms.');
         }
@@ -218,7 +218,7 @@ export class PermissionsApi extends runtime.BaseAPI {
             headers: headerParameters,
             query: queryParameters,
             body: ReqPermsToJSON(requestParameters.reqPerms),
-        });
+        }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => RespBasicFromJSON(jsonValue));
     }
@@ -227,8 +227,8 @@ export class PermissionsApi extends runtime.BaseAPI {
      * Remove permissions from the Security Kernel for a user. Requester must be owner. Permissions are READ, MODIFY, EXECUTE.
      * Revoke application user permissions
      */
-    async revokeUserPerms(requestParameters: RevokeUserPermsRequest): Promise<RespBasic> {
-        const response = await this.revokeUserPermsRaw(requestParameters);
+    async revokeUserPerms(requestParameters: RevokeUserPermsRequest, initOverrides?: RequestInit): Promise<RespBasic> {
+        const response = await this.revokeUserPermsRaw(requestParameters, initOverrides);
         return await response.value();
     }
 

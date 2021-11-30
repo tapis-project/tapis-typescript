@@ -70,4 +70,3 @@ export function ReqRemoveRolePermissionToJSON(value?: ReqRemoveRolePermission | 
     };
 }
 
-

@@ -78,4 +78,3 @@ export function ReqAddOntologyToJSON(value?: ReqAddOntology | null): any {
     };
 }
 
-

@@ -72,4 +72,3 @@ export function ActorPermissionToJSON(value?: ActorPermission | null): any {
     };
 }
 
-

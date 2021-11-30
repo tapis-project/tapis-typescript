@@ -48,7 +48,7 @@ export class ShareApi extends runtime.BaseAPI {
      * Removes any outstanding shares on a file resource. 
      * Revoke a shared file resource 
      */
-    async shareDeleteRaw(requestParameters: ShareDeleteRequest): Promise<runtime.ApiResponse<SharedFileObject>> {
+    async shareDeleteRaw(requestParameters: ShareDeleteRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<SharedFileObject>> {
         if (requestParameters.systemId === null || requestParameters.systemId === undefined) {
             throw new runtime.RequiredError('systemId','Required parameter requestParameters.systemId was null or undefined when calling shareDelete.');
         }
@@ -66,7 +66,7 @@ export class ShareApi extends runtime.BaseAPI {
             method: 'DELETE',
             headers: headerParameters,
             query: queryParameters,
-        });
+        }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => SharedFileObjectFromJSON(jsonValue));
     }
@@ -75,8 +75,8 @@ export class ShareApi extends runtime.BaseAPI {
      * Removes any outstanding shares on a file resource. 
      * Revoke a shared file resource 
      */
-    async shareDelete(requestParameters: ShareDeleteRequest): Promise<SharedFileObject> {
-        const response = await this.shareDeleteRaw(requestParameters);
+    async shareDelete(requestParameters: ShareDeleteRequest, initOverrides?: RequestInit): Promise<SharedFileObject> {
+        const response = await this.shareDeleteRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
@@ -84,7 +84,7 @@ export class ShareApi extends runtime.BaseAPI {
      * Creates a link that is valid for the requested validity time for the given user for the resource in {systemId} at path {path} 
      * Grant temporary access to a file resource. 
      */
-    async shareFileRaw(requestParameters: ShareFileOperationRequest): Promise<runtime.ApiResponse<SharedFileObject>> {
+    async shareFileRaw(requestParameters: ShareFileOperationRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<SharedFileObject>> {
         if (requestParameters.systemId === null || requestParameters.systemId === undefined) {
             throw new runtime.RequiredError('systemId','Required parameter requestParameters.systemId was null or undefined when calling shareFile.');
         }
@@ -105,7 +105,7 @@ export class ShareApi extends runtime.BaseAPI {
             headers: headerParameters,
             query: queryParameters,
             body: ShareFileRequestToJSON(requestParameters.shareFileRequest),
-        });
+        }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => SharedFileObjectFromJSON(jsonValue));
     }
@@ -114,8 +114,8 @@ export class ShareApi extends runtime.BaseAPI {
      * Creates a link that is valid for the requested validity time for the given user for the resource in {systemId} at path {path} 
      * Grant temporary access to a file resource. 
      */
-    async shareFile(requestParameters: ShareFileOperationRequest): Promise<SharedFileObject> {
-        const response = await this.shareFileRaw(requestParameters);
+    async shareFile(requestParameters: ShareFileOperationRequest, initOverrides?: RequestInit): Promise<SharedFileObject> {
+        const response = await this.shareFileRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
@@ -123,7 +123,7 @@ export class ShareApi extends runtime.BaseAPI {
      * List all shares on a given file resource. 
      * List the shares on a file resource. 
      */
-    async shareListRaw(requestParameters: ShareListRequest): Promise<runtime.ApiResponse<Array<SharedFileObject>>> {
+    async shareListRaw(requestParameters: ShareListRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<Array<SharedFileObject>>> {
         if (requestParameters.systemId === null || requestParameters.systemId === undefined) {
             throw new runtime.RequiredError('systemId','Required parameter requestParameters.systemId was null or undefined when calling shareList.');
         }
@@ -141,7 +141,7 @@ export class ShareApi extends runtime.BaseAPI {
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        });
+        }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(SharedFileObjectFromJSON));
     }
@@ -150,8 +150,8 @@ export class ShareApi extends runtime.BaseAPI {
      * List all shares on a given file resource. 
      * List the shares on a file resource. 
      */
-    async shareList(requestParameters: ShareListRequest): Promise<Array<SharedFileObject>> {
-        const response = await this.shareListRaw(requestParameters);
+    async shareList(requestParameters: ShareListRequest, initOverrides?: RequestInit): Promise<Array<SharedFileObject>> {
+        const response = await this.shareListRaw(requestParameters, initOverrides);
         return await response.value();
     }
 

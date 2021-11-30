@@ -54,4 +54,3 @@ export function ResultResourceUrlToJSON(value?: ResultResourceUrl | null): any {
     };
 }
 
-

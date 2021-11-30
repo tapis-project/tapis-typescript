@@ -70,4 +70,3 @@ export function ReqGrantUserRoleToJSON(value?: ReqGrantUserRole | null): any {
     };
 }
 
-

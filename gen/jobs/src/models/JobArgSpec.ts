@@ -78,4 +78,3 @@ export function JobArgSpecToJSON(value?: JobArgSpec | null): any {
     };
 }
 
-

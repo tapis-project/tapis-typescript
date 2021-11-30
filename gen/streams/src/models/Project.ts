@@ -110,4 +110,3 @@ export function ProjectToJSON(value?: Project | null): any {
     };
 }
 
-

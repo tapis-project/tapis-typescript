@@ -118,4 +118,3 @@ export function FileStatInfoToJSON(value?: FileStatInfo | null): any {
     };
 }
 
-

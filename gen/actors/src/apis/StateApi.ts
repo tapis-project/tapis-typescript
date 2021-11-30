@@ -41,7 +41,7 @@ export class StateApi extends runtime.BaseAPI {
      * Get state for an actor.
      * getState
      */
-    async getStateRaw(requestParameters: GetStateRequest): Promise<runtime.ApiResponse<RespGetState>> {
+    async getStateRaw(requestParameters: GetStateRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespGetState>> {
         if (requestParameters.actorId === null || requestParameters.actorId === undefined) {
             throw new runtime.RequiredError('actorId','Required parameter requestParameters.actorId was null or undefined when calling getState.');
         }
@@ -63,7 +63,7 @@ export class StateApi extends runtime.BaseAPI {
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        });
+        }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => RespGetStateFromJSON(jsonValue));
     }
@@ -72,8 +72,8 @@ export class StateApi extends runtime.BaseAPI {
      * Get state for an actor.
      * getState
      */
-    async getState(requestParameters: GetStateRequest): Promise<RespGetState> {
-        const response = await this.getStateRaw(requestParameters);
+    async getState(requestParameters: GetStateRequest, initOverrides?: RequestInit): Promise<RespGetState> {
+        const response = await this.getStateRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
@@ -81,7 +81,7 @@ export class StateApi extends runtime.BaseAPI {
      * Update state for an actor.
      * updateState
      */
-    async updateStateRaw(requestParameters: UpdateStateRequest): Promise<runtime.ApiResponse<RespUpdateState>> {
+    async updateStateRaw(requestParameters: UpdateStateRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespUpdateState>> {
         if (requestParameters.actorId === null || requestParameters.actorId === undefined) {
             throw new runtime.RequiredError('actorId','Required parameter requestParameters.actorId was null or undefined when calling updateState.');
         }
@@ -110,7 +110,7 @@ export class StateApi extends runtime.BaseAPI {
             headers: headerParameters,
             query: queryParameters,
             body: requestParameters.body as any,
-        });
+        }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => RespUpdateStateFromJSON(jsonValue));
     }
@@ -119,8 +119,8 @@ export class StateApi extends runtime.BaseAPI {
      * Update state for an actor.
      * updateState
      */
-    async updateState(requestParameters: UpdateStateRequest): Promise<RespUpdateState> {
-        const response = await this.updateStateRaw(requestParameters);
+    async updateState(requestParameters: UpdateStateRequest, initOverrides?: RequestInit): Promise<RespUpdateState> {
+        const response = await this.updateStateRaw(requestParameters, initOverrides);
         return await response.value();
     }
 

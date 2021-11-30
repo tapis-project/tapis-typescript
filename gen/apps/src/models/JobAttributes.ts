@@ -225,4 +225,3 @@ export function JobAttributesToJSON(value?: JobAttributes | null): any {
     };
 }
 
-

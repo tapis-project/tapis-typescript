@@ -78,4 +78,3 @@ export function SkSecretVersionToJSON(value?: SkSecretVersion | null): any {
     };
 }
 
-

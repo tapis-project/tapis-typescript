@@ -71,4 +71,3 @@ export function MoveCopyRequestToJSON(value?: MoveCopyRequest | null): any {
     };
 }
 
-

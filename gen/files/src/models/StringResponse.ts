@@ -86,4 +86,3 @@ export function StringResponseToJSON(value?: StringResponse | null): any {
     };
 }
 
-

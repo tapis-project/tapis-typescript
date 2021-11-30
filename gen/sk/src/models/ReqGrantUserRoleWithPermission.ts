@@ -78,4 +78,3 @@ export function ReqGrantUserRoleWithPermissionToJSON(value?: ReqGrantUserRoleWit
     };
 }
 
-

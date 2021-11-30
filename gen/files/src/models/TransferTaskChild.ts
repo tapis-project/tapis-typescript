@@ -197,4 +197,3 @@ export function TransferTaskChildToJSON(value?: TransferTaskChild | null): any {
     };
 }
 
-

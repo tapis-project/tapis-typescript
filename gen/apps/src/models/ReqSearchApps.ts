@@ -54,4 +54,3 @@ export function ReqSearchAppsToJSON(value?: ReqSearchApps | null): any {
     };
 }
 
-

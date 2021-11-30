@@ -93,4 +93,3 @@ export function RespGetVariableToJSON(value?: RespGetVariable | null): any {
     };
 }
 
-

@@ -70,7 +70,7 @@ export class ProjectsApi extends runtime.BaseAPI {
      * Create a project.
      * Create a project.
      */
-    async createProjectRaw(requestParameters: CreateProjectRequest): Promise<runtime.ApiResponse<RespCreateProject>> {
+    async createProjectRaw(requestParameters: CreateProjectRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespCreateProject>> {
         if (requestParameters.reqCreateProject === null || requestParameters.reqCreateProject === undefined) {
             throw new runtime.RequiredError('reqCreateProject','Required parameter requestParameters.reqCreateProject was null or undefined when calling createProject.');
         }
@@ -87,7 +87,7 @@ export class ProjectsApi extends runtime.BaseAPI {
             headers: headerParameters,
             query: queryParameters,
             body: ReqCreateProjectToJSON(requestParameters.reqCreateProject),
-        });
+        }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => RespCreateProjectFromJSON(jsonValue));
     }
@@ -96,8 +96,8 @@ export class ProjectsApi extends runtime.BaseAPI {
      * Create a project.
      * Create a project.
      */
-    async createProject(requestParameters: CreateProjectRequest): Promise<RespCreateProject> {
-        const response = await this.createProjectRaw(requestParameters);
+    async createProject(requestParameters: CreateProjectRequest, initOverrides?: RequestInit): Promise<RespCreateProject> {
+        const response = await this.createProjectRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
@@ -105,7 +105,7 @@ export class ProjectsApi extends runtime.BaseAPI {
      * Delete a project
      * Delete a project
      */
-    async deleteProjectRaw(requestParameters: DeleteProjectRequest): Promise<runtime.ApiResponse<RespDeleteProject>> {
+    async deleteProjectRaw(requestParameters: DeleteProjectRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespDeleteProject>> {
         if (requestParameters.projectId === null || requestParameters.projectId === undefined) {
             throw new runtime.RequiredError('projectId','Required parameter requestParameters.projectId was null or undefined when calling deleteProject.');
         }
@@ -119,7 +119,7 @@ export class ProjectsApi extends runtime.BaseAPI {
             method: 'DELETE',
             headers: headerParameters,
             query: queryParameters,
-        });
+        }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => RespDeleteProjectFromJSON(jsonValue));
     }
@@ -128,8 +128,8 @@ export class ProjectsApi extends runtime.BaseAPI {
      * Delete a project
      * Delete a project
      */
-    async deleteProject(requestParameters: DeleteProjectRequest): Promise<RespDeleteProject> {
-        const response = await this.deleteProjectRaw(requestParameters);
+    async deleteProject(requestParameters: DeleteProjectRequest, initOverrides?: RequestInit): Promise<RespDeleteProject> {
+        const response = await this.deleteProjectRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
@@ -137,7 +137,7 @@ export class ProjectsApi extends runtime.BaseAPI {
      * Get project details.
      * Get project details.
      */
-    async getProjectRaw(requestParameters: GetProjectRequest): Promise<runtime.ApiResponse<RespGetProject>> {
+    async getProjectRaw(requestParameters: GetProjectRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespGetProject>> {
         if (requestParameters.projectId === null || requestParameters.projectId === undefined) {
             throw new runtime.RequiredError('projectId','Required parameter requestParameters.projectId was null or undefined when calling getProject.');
         }
@@ -151,7 +151,7 @@ export class ProjectsApi extends runtime.BaseAPI {
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        });
+        }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => RespGetProjectFromJSON(jsonValue));
     }
@@ -160,8 +160,8 @@ export class ProjectsApi extends runtime.BaseAPI {
      * Get project details.
      * Get project details.
      */
-    async getProject(requestParameters: GetProjectRequest): Promise<RespGetProject> {
-        const response = await this.getProjectRaw(requestParameters);
+    async getProject(requestParameters: GetProjectRequest, initOverrides?: RequestInit): Promise<RespGetProject> {
+        const response = await this.getProjectRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
@@ -169,7 +169,7 @@ export class ProjectsApi extends runtime.BaseAPI {
      * List projects.
      * List projects.
      */
-    async listProjectsRaw(requestParameters: ListProjectsRequest): Promise<runtime.ApiResponse<RespListProjects>> {
+    async listProjectsRaw(requestParameters: ListProjectsRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespListProjects>> {
         const queryParameters: any = {};
 
         if (requestParameters.query !== undefined) {
@@ -191,7 +191,7 @@ export class ProjectsApi extends runtime.BaseAPI {
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
-        });
+        }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => RespListProjectsFromJSON(jsonValue));
     }
@@ -200,8 +200,8 @@ export class ProjectsApi extends runtime.BaseAPI {
      * List projects.
      * List projects.
      */
-    async listProjects(requestParameters: ListProjectsRequest): Promise<RespListProjects> {
-        const response = await this.listProjectsRaw(requestParameters);
+    async listProjects(requestParameters: ListProjectsRequest, initOverrides?: RequestInit): Promise<RespListProjects> {
+        const response = await this.listProjectsRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
@@ -209,7 +209,7 @@ export class ProjectsApi extends runtime.BaseAPI {
      * Update a project
      * Update a project
      */
-    async updateProjectRaw(requestParameters: UpdateProjectRequest): Promise<runtime.ApiResponse<RespUpdateProject>> {
+    async updateProjectRaw(requestParameters: UpdateProjectRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespUpdateProject>> {
         if (requestParameters.projectId === null || requestParameters.projectId === undefined) {
             throw new runtime.RequiredError('projectId','Required parameter requestParameters.projectId was null or undefined when calling updateProject.');
         }
@@ -230,7 +230,7 @@ export class ProjectsApi extends runtime.BaseAPI {
             headers: headerParameters,
             query: queryParameters,
             body: ReqCreateProjectToJSON(requestParameters.reqCreateProject),
-        });
+        }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => RespUpdateProjectFromJSON(jsonValue));
     }
@@ -239,8 +239,8 @@ export class ProjectsApi extends runtime.BaseAPI {
      * Update a project
      * Update a project
      */
-    async updateProject(requestParameters: UpdateProjectRequest): Promise<RespUpdateProject> {
-        const response = await this.updateProjectRaw(requestParameters);
+    async updateProject(requestParameters: UpdateProjectRequest, initOverrides?: RequestInit): Promise<RespUpdateProject> {
+        const response = await this.updateProjectRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
