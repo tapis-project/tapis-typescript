@@ -21,9 +21,9 @@ src/models/NotificationMechanismEnum.ts
 src/models/NotificationSubscription.ts
 src/models/ParameterSet.ts
 src/models/ParameterSetArchiveFilter.ts
-src/models/ReqCreateApp.ts
 src/models/ReqPatchApp.ts
 src/models/ReqPerms.ts
+src/models/ReqPostApp.ts
 src/models/ReqPutApp.ts
 src/models/ReqSearchApps.ts
 src/models/RespApp.ts

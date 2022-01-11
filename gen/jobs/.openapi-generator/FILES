@@ -14,6 +14,7 @@ src/models/JobArgSpec.ts
 src/models/JobCancelDisplay.ts
 src/models/JobFileInput.ts
 src/models/JobFileInputArray.ts
+src/models/JobHideDisplay.ts
 src/models/JobHistoryDisplayDTO.ts
 src/models/JobListDTO.ts
 src/models/JobParameterSet.ts
@@ -29,6 +30,7 @@ src/models/RespGetJob.ts
 src/models/RespGetJobList.ts
 src/models/RespGetJobOutputList.ts
 src/models/RespGetJobStatus.ts
+src/models/RespHideJob.ts
 src/models/RespJobHistory.ts
 src/models/RespJobSearchAllAttributes.ts
 src/models/RespName.ts

@@ -54,7 +54,7 @@ export interface FileInfo {
      * @type {string}
      * @memberof FileInfo
      */
-    uri?: string;
+    url?: string;
     /**
      * 
      * @type {number}
@@ -96,7 +96,7 @@ export function FileInfoFromJSONTyped(json: any, ignoreDiscriminator: boolean): 
         'owner': !exists(json, 'owner') ? undefined : json['owner'],
         'group': !exists(json, 'group') ? undefined : json['group'],
         'nativePermissions': !exists(json, 'nativePermissions') ? undefined : json['nativePermissions'],
-        'uri': !exists(json, 'uri') ? undefined : json['uri'],
+        'url': !exists(json, 'url') ? undefined : json['url'],
         'lastModified': !exists(json, 'lastModified') ? undefined : json['lastModified'],
         'name': !exists(json, 'name') ? undefined : json['name'],
         'path': !exists(json, 'path') ? undefined : json['path'],
@@ -118,7 +118,7 @@ export function FileInfoToJSON(value?: FileInfo | null): any {
         'owner': value.owner,
         'group': value.group,
         'nativePermissions': value.nativePermissions,
-        'uri': value.uri,
+        'url': value.url,
         'lastModified': value.lastModified,
         'name': value.name,
         'path': value.path,

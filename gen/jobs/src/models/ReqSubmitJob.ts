@@ -194,6 +194,24 @@ export interface ReqSubmitJob {
      * @memberof ReqSubmitJob
      */
     subscriptions?: Array<NotificationSubscription>;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof ReqSubmitJob
+     */
+    isMpi?: boolean;
+    /**
+     * 
+     * @type {string}
+     * @memberof ReqSubmitJob
+     */
+    mpiCmd?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof ReqSubmitJob
+     */
+    cmdPrefix?: string;
 }
 
 export function ReqSubmitJobFromJSON(json: any): ReqSubmitJob {
@@ -232,6 +250,9 @@ export function ReqSubmitJobFromJSONTyped(json: any, ignoreDiscriminator: boolea
         'execSystemConstraints': !exists(json, 'execSystemConstraints') ? undefined : json['execSystemConstraints'],
         'tags': !exists(json, 'tags') ? undefined : json['tags'],
         'subscriptions': !exists(json, 'subscriptions') ? undefined : ((json['subscriptions'] as Array<any>).map(NotificationSubscriptionFromJSON)),
+        'isMpi': !exists(json, 'isMpi') ? undefined : json['isMpi'],
+        'mpiCmd': !exists(json, 'mpiCmd') ? undefined : json['mpiCmd'],
+        'cmdPrefix': !exists(json, 'cmdPrefix') ? undefined : json['cmdPrefix'],
     };
 }
 
@@ -270,6 +291,9 @@ export function ReqSubmitJobToJSON(value?: ReqSubmitJob | null): any {
         'execSystemConstraints': value.execSystemConstraints,
         'tags': value.tags,
         'subscriptions': value.subscriptions === undefined ? undefined : ((value.subscriptions as Array<any>).map(NotificationSubscriptionToJSON)),
+        'isMpi': value.isMpi,
+        'mpiCmd': value.mpiCmd,
+        'cmdPrefix': value.cmdPrefix,
     };
 }
 

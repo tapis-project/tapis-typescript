@@ -81,6 +81,140 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/RespProbe'
+  /v3/jobs/{jobUuid}/hide:
+    post:
+      tags:
+        - jobs
+      description: |-
+        Hide a job by its UUID.
+
+        The caller must be the job owner, creator or a tenant administrator.
+      operationId: hideJob
+      parameters:
+        - name: jobUuid
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: pretty
+          in: query
+          schema:
+            type: boolean
+            default: false
+      responses:
+        '200':
+          description: Hide the job successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RespHideJob'
+        '400':
+          description: Input error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RespBasic'
+        '401':
+          description: Not authorized.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RespBasic'
+        '403':
+          description: Forbidden.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RespBasic'
+        '404':
+          description: Job not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RespName'
+        '409':
+          description: >-
+            Job is already in Terminal State (CANCELLED, FINISHED or FAILED).
+            Job state conflicts with the cancel request. No action taken
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RespName'
+        '500':
+          description: Server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RespBasic'
+      security:
+        - TapisJWT: []
+  /v3/jobs/{jobUuid}/unhide:
+    post:
+      tags:
+        - jobs
+      description: |-
+        Un-hide a job by its UUID.
+
+        The caller must be the job owner, creator or a tenant administrator.
+      operationId: unhideJob
+      parameters:
+        - name: jobUuid
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: pretty
+          in: query
+          schema:
+            type: boolean
+            default: false
+      responses:
+        '200':
+          description: Unhide the job successfuly.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RespHideJob'
+        '400':
+          description: Input error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RespBasic'
+        '401':
+          description: Not authorized.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RespBasic'
+        '403':
+          description: Forbidden.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RespBasic'
+        '404':
+          description: Job not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RespName'
+        '409':
+          description: >-
+            Job is already in Terminal State (CANCELLED, FINISHED or FAILED).
+            Job state conflicts with the cancel request. No action taken
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RespName'
+        '500':
+          description: Server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RespBasic'
+      security:
+        - TapisJWT: []
   /v3/jobs/{jobUuid}/cancel:
     post:
       tags:
@@ -905,12 +1039,12 @@ components:
           $ref: '#/components/schemas/ResultMetadata'
         result:
           $ref: '#/components/schemas/JobsProbe'
-    JobCancelDisplay:
+    JobHideDisplay:
       type: object
       properties:
         message:
           type: string
-    RespCancelJob:
+    RespHideJob:
       type: object
       properties:
         status:
@@ -922,7 +1056,7 @@ components:
         metadata:
           $ref: '#/components/schemas/ResultMetadata'
         result:
-          $ref: '#/components/schemas/JobCancelDisplay'
+          $ref: '#/components/schemas/JobHideDisplay'
     RespName:
       type: object
       properties:
@@ -941,6 +1075,24 @@ components:
       properties:
         name:
           type: string
+    JobCancelDisplay:
+      type: object
+      properties:
+        message:
+          type: string
+    RespCancelJob:
+      type: object
+      properties:
+        status:
+          type: string
+        message:
+          type: string
+        version:
+          type: string
+        metadata:
+          $ref: '#/components/schemas/ResultMetadata'
+        result:
+          $ref: '#/components/schemas/JobCancelDisplay'
     Job:
       type: object
       properties:
@@ -1088,6 +1240,12 @@ components:
           enum:
             - FORK
             - BATCH
+        mpiCmd:
+          type: string
+        cmdPrefix:
+          type: string
+        mpi:
+          type: boolean
     RespGetJob:
       type: object
       properties:
@@ -1205,7 +1363,7 @@ components:
           type: string
         nativePermissions:
           type: string
-        uri:
+        url:
           type: string
         lastModified:
           type: integer
@@ -1452,6 +1610,12 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/NotificationSubscription'
+        isMpi:
+          type: boolean
+        mpiCmd:
+          type: string
+        cmdPrefix:
+          type: string
   securitySchemes:
     TapisJWT:
       type: apiKey

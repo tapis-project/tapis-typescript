@@ -355,6 +355,24 @@ export interface Job {
      * @memberof Job
      */
     jobType?: JobJobTypeEnum;
+    /**
+     * 
+     * @type {string}
+     * @memberof Job
+     */
+    mpiCmd?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof Job
+     */
+    cmdPrefix?: string;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof Job
+     */
+    mpi?: boolean;
 }
 
 /**
@@ -458,6 +476,9 @@ export function JobFromJSONTyped(json: any, ignoreDiscriminator: boolean): Job {
         'createdbyTenant': !exists(json, 'createdbyTenant') ? undefined : json['createdbyTenant'],
         'tags': !exists(json, 'tags') ? undefined : json['tags'],
         'jobType': !exists(json, 'jobType') ? undefined : json['jobType'],
+        'mpiCmd': !exists(json, 'mpiCmd') ? undefined : json['mpiCmd'],
+        'cmdPrefix': !exists(json, 'cmdPrefix') ? undefined : json['cmdPrefix'],
+        'mpi': !exists(json, 'mpi') ? undefined : json['mpi'],
     };
 }
 
@@ -526,6 +547,9 @@ export function JobToJSON(value?: Job | null): any {
         'createdbyTenant': value.createdbyTenant,
         'tags': value.tags,
         'jobType': value.jobType,
+        'mpiCmd': value.mpiCmd,
+        'cmdPrefix': value.cmdPrefix,
+        'mpi': value.mpi,
     };
 }
 

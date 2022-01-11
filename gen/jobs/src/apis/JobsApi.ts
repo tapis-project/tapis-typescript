@@ -36,6 +36,9 @@ import {
     RespGetJobStatus,
     RespGetJobStatusFromJSON,
     RespGetJobStatusToJSON,
+    RespHideJob,
+    RespHideJobFromJSON,
+    RespHideJobToJSON,
     RespJobHistory,
     RespJobHistoryFromJSON,
     RespJobHistoryToJSON,
@@ -118,6 +121,11 @@ export interface GetJobStatusRequest {
     pretty?: boolean;
 }
 
+export interface HideJobRequest {
+    jobUuid: string;
+    pretty?: boolean;
+}
+
 export interface ResubmitJobRequest {
     jobuuid: string;
     pretty?: boolean;
@@ -125,6 +133,11 @@ export interface ResubmitJobRequest {
 
 export interface SubmitJobRequest {
     reqSubmitJob: ReqSubmitJob;
+    pretty?: boolean;
+}
+
+export interface UnhideJobRequest {
+    jobUuid: string;
     pretty?: boolean;
 }
 
@@ -567,6 +580,44 @@ export class JobsApi extends runtime.BaseAPI {
     }
 
     /**
+     * Hide a job by its UUID.  The caller must be the job owner, creator or a tenant administrator.
+     */
+    async hideJobRaw(requestParameters: HideJobRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespHideJob>> {
+        if (requestParameters.jobUuid === null || requestParameters.jobUuid === undefined) {
+            throw new runtime.RequiredError('jobUuid','Required parameter requestParameters.jobUuid was null or undefined when calling hideJob.');
+        }
+
+        const queryParameters: any = {};
+
+        if (requestParameters.pretty !== undefined) {
+            queryParameters['pretty'] = requestParameters.pretty;
+        }
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        if (this.configuration && this.configuration.apiKey) {
+            headerParameters["X-Tapis-Token"] = this.configuration.apiKey("X-Tapis-Token"); // TapisJWT authentication
+        }
+
+        const response = await this.request({
+            path: `/v3/jobs/{jobUuid}/hide`.replace(`{${"jobUuid"}}`, encodeURIComponent(String(requestParameters.jobUuid))),
+            method: 'POST',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => RespHideJobFromJSON(jsonValue));
+    }
+
+    /**
+     * Hide a job by its UUID.  The caller must be the job owner, creator or a tenant administrator.
+     */
+    async hideJob(requestParameters: HideJobRequest, initOverrides?: RequestInit): Promise<RespHideJob> {
+        const response = await this.hideJobRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
      * Resubmit a job for execution using the original parameters.  The main phases of job execution are:    - validate input   - check resource availability   - stage input files   - stage application code   - launch application   - monitor application   - archive application output 
      */
     async resubmitJobRaw(requestParameters: ResubmitJobRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespSubmitJob>> {
@@ -642,6 +693,44 @@ export class JobsApi extends runtime.BaseAPI {
      */
     async submitJob(requestParameters: SubmitJobRequest, initOverrides?: RequestInit): Promise<RespSubmitJob> {
         const response = await this.submitJobRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     * Un-hide a job by its UUID.  The caller must be the job owner, creator or a tenant administrator.
+     */
+    async unhideJobRaw(requestParameters: UnhideJobRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespHideJob>> {
+        if (requestParameters.jobUuid === null || requestParameters.jobUuid === undefined) {
+            throw new runtime.RequiredError('jobUuid','Required parameter requestParameters.jobUuid was null or undefined when calling unhideJob.');
+        }
+
+        const queryParameters: any = {};
+
+        if (requestParameters.pretty !== undefined) {
+            queryParameters['pretty'] = requestParameters.pretty;
+        }
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        if (this.configuration && this.configuration.apiKey) {
+            headerParameters["X-Tapis-Token"] = this.configuration.apiKey("X-Tapis-Token"); // TapisJWT authentication
+        }
+
+        const response = await this.request({
+            path: `/v3/jobs/{jobUuid}/unhide`.replace(`{${"jobUuid"}}`, encodeURIComponent(String(requestParameters.jobUuid))),
+            method: 'POST',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => RespHideJobFromJSON(jsonValue));
+    }
+
+    /**
+     * Un-hide a job by its UUID.  The caller must be the job owner, creator or a tenant administrator.
+     */
+    async unhideJob(requestParameters: UnhideJobRequest, initOverrides?: RequestInit): Promise<RespHideJob> {
+        const response = await this.unhideJobRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
