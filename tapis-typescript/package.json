@@ -31,6 +31,7 @@
     "@tapis/tapis-typescript-streams": "^0.0.4",
     "@tapis/tapis-typescript-systems": "^0.0.2",
     "@tapis/tapis-typescript-tenants": "^0.0.2",
+    "@tapis/tapis-typescript-workflows": "file:../gen/workflows",
     "@types/mocha": "^9.0.0"
   },
   "devDependencies": {

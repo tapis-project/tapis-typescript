@@ -6,7 +6,8 @@ import {
   Files,
   Apps,
   Jobs,
-  Streams
+  Streams,
+  Workflows
 } from '../src';
 import { expect } from 'chai';
 
@@ -55,5 +56,19 @@ describe('tapis-typescript', () => {
     expect(Streams).to.have.property('TemplatesApi');
     expect(Streams).to.have.property('UnitsApi');
     expect(Streams).to.have.property('MeasuredPropertiesApi');
+  });
+  it('should have Workflows service', () => {
+    expect(Workflows).to.have.property('ArchivesApi');
+    expect(Workflows).to.have.property('CICDApi');
+    expect(Workflows).to.have.property('EventsApi');
+    expect(Workflows).to.have.property('GeneralApi');
+    expect(Workflows).to.have.property('GroupsApi');
+    expect(Workflows).to.have.property('IdentitiesApi');
+    expect(Workflows).to.have.property('PipelineArchivesApi');
+    expect(Workflows).to.have.property('PipelineRunsApi');
+    expect(Workflows).to.have.property('PipelinesApi');
+    expect(Workflows).to.have.property('TaskExecutionsApi');
+    expect(Workflows).to.have.property('TasksApi');
+    expect(Workflows).to.have.property('UsersApi');
   });
 });
