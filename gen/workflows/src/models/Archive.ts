@@ -14,11 +14,12 @@
 
 import {
     S3Archive,
-    SystemArchive,
+    TapisSystemArchive,
     S3ArchiveFromJSONTyped,
     S3ArchiveToJSON,
-    SystemArchiveFromJSONTyped,
-    SystemArchiveToJSON,
+    TapisSystemArchiveFromJSONTyped,
+    TapisSystemArchiveToJSON,
+	EnumArchiveType
 } from './';
 
 /**
@@ -26,7 +27,7 @@ import {
  * 
  * @export
  */
-export type Archive = { type: 's3' } & S3Archive | { type: 'system' } & SystemArchive;
+export type Archive = { type: EnumArchiveType.S3 } & S3Archive | { type: EnumArchiveType.System } & TapisSystemArchive;
 
 export function ArchiveFromJSON(json: any): Archive {
     return ArchiveFromJSONTyped(json, false);
@@ -37,10 +38,10 @@ export function ArchiveFromJSONTyped(json: any, ignoreDiscriminator: boolean): A
         return json;
     }
     switch (json['type']) {
-        case 's3':
-            return {...S3ArchiveFromJSONTyped(json, true), type: 's3'};
-        case 'system':
-            return {...SystemArchiveFromJSONTyped(json, true), type: 'system'};
+        case EnumArchiveType.S3:
+            return {...S3ArchiveFromJSONTyped(json, true), type: EnumArchiveType.S3};
+        case EnumArchiveType.System:
+            return {...TapisSystemArchiveFromJSONTyped(json, true), type: EnumArchiveType.System};
         default:
             throw new Error(`No variant of Archive exists with 'type=${json['type']}'`);
     }
@@ -54,10 +55,10 @@ export function ArchiveToJSON(value?: Archive | null): any {
         return null;
     }
     switch (value['type']) {
-        case 's3':
-            return S3ArchiveToJSON(value);
-        case 'system':
-            return SystemArchiveToJSON(value);
+        case EnumArchiveType.S3:
+            return S3ArchiveToJSON(<S3Archive>value);
+        case EnumArchiveType.System:
+            return TapisSystemArchiveToJSON(<TapisSystemArchive>value);
         default:
             throw new Error(`No variant of Archive exists with 'type=${value['type']}'`);
     }

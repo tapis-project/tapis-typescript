@@ -14,10 +14,10 @@
 
 import { exists, mapValues } from '../runtime';
 import {
-    DestinationTypeEnum,
-    DestinationTypeEnumFromJSON,
-    DestinationTypeEnumFromJSONTyped,
-    DestinationTypeEnumToJSON,
+    EnumDestinationType,
+    EnumDestinationTypeFromJSON,
+    EnumDestinationTypeFromJSONTyped,
+    EnumDestinationTypeToJSON,
 } from './';
 
 /**
@@ -40,10 +40,10 @@ export interface Destination {
     tag?: string;
     /**
      * 
-     * @type {DestinationTypeEnum}
+     * @type {EnumDestinationType}
      * @memberof Destination
      */
-    type?: DestinationTypeEnum;
+    type?: EnumDestinationType;
     /**
      * 
      * @type {string}
@@ -64,7 +64,7 @@ export function DestinationFromJSONTyped(json: any, ignoreDiscriminator: boolean
         
         'credentials': !exists(json, 'credentials') ? undefined : json['credentials'],
         'tag': !exists(json, 'tag') ? undefined : json['tag'],
-        'type': !exists(json, 'type') ? undefined : DestinationTypeEnumFromJSON(json['type']),
+        'type': !exists(json, 'type') ? undefined : EnumDestinationTypeFromJSON(json['type']),
         'url': !exists(json, 'url') ? undefined : json['url'],
     };
 }
@@ -80,7 +80,7 @@ export function DestinationToJSON(value?: Destination | null): any {
         
         'credentials': value.credentials,
         'tag': value.tag,
-        'type': DestinationTypeEnumToJSON(value.type),
+        'type': EnumDestinationTypeToJSON(value.type),
         'url': value.url,
     };
 }

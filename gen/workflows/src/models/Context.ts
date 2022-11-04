@@ -14,14 +14,14 @@
 
 import { exists, mapValues } from '../runtime';
 import {
-    ContextTypeEnum,
-    ContextTypeEnumFromJSON,
-    ContextTypeEnumFromJSONTyped,
-    ContextTypeEnumToJSON,
-    ContextVisibilityEnum,
-    ContextVisibilityEnumFromJSON,
-    ContextVisibilityEnumFromJSONTyped,
-    ContextVisibilityEnumToJSON,
+    EnumContextType,
+    EnumContextTypeFromJSON,
+    EnumContextTypeFromJSONTyped,
+    EnumContextTypeToJSON,
+    EnumContextVisibility,
+    EnumContextVisibilityFromJSON,
+    EnumContextVisibilityFromJSONTyped,
+    EnumContextVisibilityToJSON,
 } from './';
 
 /**
@@ -56,10 +56,10 @@ export interface Context {
     sub_path?: string;
     /**
      * 
-     * @type {ContextTypeEnum}
+     * @type {EnumContextType}
      * @memberof Context
      */
-    type?: ContextTypeEnum;
+    type: EnumContextType;
     /**
      * 
      * @type {string}
@@ -68,10 +68,10 @@ export interface Context {
     url?: string;
     /**
      * 
-     * @type {ContextVisibilityEnum}
+     * @type {EnumContextVisibility}
      * @memberof Context
      */
-    visibility?: ContextVisibilityEnum;
+    visibility?: EnumContextVisibility;
 }
 
 export function ContextFromJSON(json: any): Context {
@@ -88,9 +88,9 @@ export function ContextFromJSONTyped(json: any, ignoreDiscriminator: boolean): C
         'credentials': !exists(json, 'credentials') ? undefined : json['credentials'],
         'build_file_path': !exists(json, 'build_file_path') ? undefined : json['build_file_path'],
         'sub_path': !exists(json, 'sub_path') ? undefined : json['sub_path'],
-        'type': !exists(json, 'type') ? undefined : ContextTypeEnumFromJSON(json['type']),
+        'type': EnumContextTypeFromJSON(json['type']),
         'url': !exists(json, 'url') ? undefined : json['url'],
-        'visibility': !exists(json, 'visibility') ? undefined : ContextVisibilityEnumFromJSON(json['visibility']),
+        'visibility': !exists(json, 'visibility') ? undefined : EnumContextVisibilityFromJSON(json['visibility']),
     };
 }
 
@@ -107,9 +107,9 @@ export function ContextToJSON(value?: Context | null): any {
         'credentials': value.credentials,
         'build_file_path': value.build_file_path,
         'sub_path': value.sub_path,
-        'type': ContextTypeEnumToJSON(value.type),
+        'type': EnumContextTypeToJSON(value.type),
         'url': value.url,
-        'visibility': ContextVisibilityEnumToJSON(value.visibility),
+        'visibility': EnumContextVisibilityToJSON(value.visibility),
     };
 }
 

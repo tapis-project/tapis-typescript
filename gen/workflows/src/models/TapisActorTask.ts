@@ -14,14 +14,18 @@
 
 import { exists, mapValues } from '../runtime';
 import {
-    BaseTaskReq,
-    BaseTaskReqFromJSON,
-    BaseTaskReqFromJSONTyped,
-    BaseTaskReqToJSON,
+    EnumTaskType,
+    EnumTaskTypeFromJSON,
+    EnumTaskTypeFromJSONTyped,
+    EnumTaskTypeToJSON,
     ExecutionProfile,
     ExecutionProfileFromJSON,
     ExecutionProfileFromJSONTyped,
     ExecutionProfileToJSON,
+    ReqBaseTask,
+    ReqBaseTaskFromJSON,
+    ReqBaseTaskFromJSONTyped,
+    ReqBaseTaskToJSON,
     TapisActorTaskAllOf,
     TapisActorTaskAllOfFromJSON,
     TapisActorTaskAllOfFromJSONTyped,
@@ -46,10 +50,10 @@ export interface TapisActorTask {
     id: string;
     /**
      * 
-     * @type {any}
+     * @type {EnumTaskType}
      * @memberof TapisActorTask
      */
-    type: any | null;
+    type: EnumTaskType;
     /**
      * 
      * @type {Array<TaskDependency>}
@@ -105,7 +109,7 @@ export function TapisActorTaskFromJSONTyped(json: any, ignoreDiscriminator: bool
     return {
         
         'id': json['id'],
-        'type': json['type'],
+        'type': EnumTaskTypeFromJSON(json['type']),
         'depends_on': !exists(json, 'depends_on') ? undefined : ((json['depends_on'] as Array<any>).map(TaskDependencyFromJSON)),
         'description': !exists(json, 'description') ? undefined : json['description'],
         'execution_profile': !exists(json, 'execution_profile') ? undefined : ExecutionProfileFromJSON(json['execution_profile']),
@@ -126,7 +130,7 @@ export function TapisActorTaskToJSON(value?: TapisActorTask | null): any {
     return {
         
         'id': value.id,
-        'type': value.type,
+        'type': EnumTaskTypeToJSON(value.type),
         'depends_on': value.depends_on === undefined ? undefined : ((value.depends_on as Array<any>).map(TaskDependencyToJSON)),
         'description': value.description,
         'execution_profile': ExecutionProfileToJSON(value.execution_profile),

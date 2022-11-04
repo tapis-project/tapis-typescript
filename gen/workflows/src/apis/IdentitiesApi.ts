@@ -15,28 +15,28 @@
 
 import * as runtime from '../runtime';
 import {
-    ErrorResp,
-    ErrorRespFromJSON,
-    ErrorRespToJSON,
-    IdentityListResp,
-    IdentityListRespFromJSON,
-    IdentityListRespToJSON,
-    IdentityPostReq,
-    IdentityPostReqFromJSON,
-    IdentityPostReqToJSON,
-    IdentityResp,
-    IdentityRespFromJSON,
-    IdentityRespToJSON,
-    ResourceURLResp,
-    ResourceURLRespFromJSON,
-    ResourceURLRespToJSON,
-    StringResp,
-    StringRespFromJSON,
-    StringRespToJSON,
+    ReqIdentity,
+    ReqIdentityFromJSON,
+    ReqIdentityToJSON,
+    RespError,
+    RespErrorFromJSON,
+    RespErrorToJSON,
+    RespIdentity,
+    RespIdentityFromJSON,
+    RespIdentityToJSON,
+    RespIdentityList,
+    RespIdentityListFromJSON,
+    RespIdentityListToJSON,
+    RespResourceURL,
+    RespResourceURLFromJSON,
+    RespResourceURLToJSON,
+    RespString,
+    RespStringFromJSON,
+    RespStringToJSON,
 } from '../models';
 
 export interface CreateIdentityRequest {
-    identityPostReq: IdentityPostReq;
+    reqIdentity: ReqIdentity;
 }
 
 export interface DeleteIdentityRequest {
@@ -56,9 +56,9 @@ export class IdentitiesApi extends runtime.BaseAPI {
      * Create a mapping between a group user and an external identity.  Users can only create identities for themselves. i.e., group admins and owners cannot create identities for any user but themselves. 
      * Create an identity
      */
-    async createIdentityRaw(requestParameters: CreateIdentityRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<ResourceURLResp>> {
-        if (requestParameters.identityPostReq === null || requestParameters.identityPostReq === undefined) {
-            throw new runtime.RequiredError('identityPostReq','Required parameter requestParameters.identityPostReq was null or undefined when calling createIdentity.');
+    async createIdentityRaw(requestParameters: CreateIdentityRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespResourceURL>> {
+        if (requestParameters.reqIdentity === null || requestParameters.reqIdentity === undefined) {
+            throw new runtime.RequiredError('reqIdentity','Required parameter requestParameters.reqIdentity was null or undefined when calling createIdentity.');
         }
 
         const queryParameters: any = {};
@@ -76,17 +76,17 @@ export class IdentitiesApi extends runtime.BaseAPI {
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
-            body: IdentityPostReqToJSON(requestParameters.identityPostReq),
+            body: ReqIdentityToJSON(requestParameters.reqIdentity),
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => ResourceURLRespFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => RespResourceURLFromJSON(jsonValue));
     }
 
     /**
      * Create a mapping between a group user and an external identity.  Users can only create identities for themselves. i.e., group admins and owners cannot create identities for any user but themselves. 
      * Create an identity
      */
-    async createIdentity(requestParameters: CreateIdentityRequest, initOverrides?: RequestInit): Promise<ResourceURLResp> {
+    async createIdentity(requestParameters: CreateIdentityRequest, initOverrides?: RequestInit): Promise<RespResourceURL> {
         const response = await this.createIdentityRaw(requestParameters, initOverrides);
         return await response.value();
     }
@@ -95,7 +95,7 @@ export class IdentitiesApi extends runtime.BaseAPI {
      * Delete an identitiy 
      * Delete an identity
      */
-    async deleteIdentityRaw(requestParameters: DeleteIdentityRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<StringResp>> {
+    async deleteIdentityRaw(requestParameters: DeleteIdentityRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespString>> {
         if (requestParameters.identityUuid === null || requestParameters.identityUuid === undefined) {
             throw new runtime.RequiredError('identityUuid','Required parameter requestParameters.identityUuid was null or undefined when calling deleteIdentity.');
         }
@@ -115,14 +115,14 @@ export class IdentitiesApi extends runtime.BaseAPI {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => StringRespFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => RespStringFromJSON(jsonValue));
     }
 
     /**
      * Delete an identitiy 
      * Delete an identity
      */
-    async deleteIdentity(requestParameters: DeleteIdentityRequest, initOverrides?: RequestInit): Promise<StringResp> {
+    async deleteIdentity(requestParameters: DeleteIdentityRequest, initOverrides?: RequestInit): Promise<RespString> {
         const response = await this.deleteIdentityRaw(requestParameters, initOverrides);
         return await response.value();
     }
@@ -131,7 +131,7 @@ export class IdentitiesApi extends runtime.BaseAPI {
      * Get a specific identity by its UUID 
      * Get identity
      */
-    async getIdentityRaw(requestParameters: GetIdentityRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<IdentityResp>> {
+    async getIdentityRaw(requestParameters: GetIdentityRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespIdentity>> {
         if (requestParameters.identityUuid === null || requestParameters.identityUuid === undefined) {
             throw new runtime.RequiredError('identityUuid','Required parameter requestParameters.identityUuid was null or undefined when calling getIdentity.');
         }
@@ -151,14 +151,14 @@ export class IdentitiesApi extends runtime.BaseAPI {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => IdentityRespFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => RespIdentityFromJSON(jsonValue));
     }
 
     /**
      * Get a specific identity by its UUID 
      * Get identity
      */
-    async getIdentity(requestParameters: GetIdentityRequest, initOverrides?: RequestInit): Promise<IdentityResp> {
+    async getIdentity(requestParameters: GetIdentityRequest, initOverrides?: RequestInit): Promise<RespIdentity> {
         const response = await this.getIdentityRaw(requestParameters, initOverrides);
         return await response.value();
     }
@@ -167,7 +167,7 @@ export class IdentitiesApi extends runtime.BaseAPI {
      * Retrieve identities for the requesting user 
      * List user identities for a given user
      */
-    async listIdentitiesRaw(initOverrides?: RequestInit): Promise<runtime.ApiResponse<IdentityListResp>> {
+    async listIdentitiesRaw(initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespIdentityList>> {
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -183,14 +183,14 @@ export class IdentitiesApi extends runtime.BaseAPI {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => IdentityListRespFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => RespIdentityListFromJSON(jsonValue));
     }
 
     /**
      * Retrieve identities for the requesting user 
      * List user identities for a given user
      */
-    async listIdentities(initOverrides?: RequestInit): Promise<IdentityListResp> {
+    async listIdentities(initOverrides?: RequestInit): Promise<RespIdentityList> {
         const response = await this.listIdentitiesRaw(initOverrides);
         return await response.value();
     }

@@ -14,10 +14,10 @@
 
 import { exists, mapValues } from '../runtime';
 import {
-    RunStatusEnum,
-    RunStatusEnumFromJSON,
-    RunStatusEnumFromJSONTyped,
-    RunStatusEnumToJSON,
+    EnumRunStatus,
+    EnumRunStatusFromJSON,
+    EnumRunStatusFromJSONTyped,
+    EnumRunStatusToJSON,
 } from './';
 
 /**
@@ -46,10 +46,10 @@ export interface TaskExecution {
     task?: string;
     /**
      * 
-     * @type {RunStatusEnum}
+     * @type {EnumRunStatus}
      * @memberof TaskExecution
      */
-    status?: RunStatusEnum;
+    status?: EnumRunStatus;
     /**
      * 
      * @type {string}
@@ -77,7 +77,7 @@ export function TaskExecutionFromJSONTyped(json: any, ignoreDiscriminator: boole
         'uuid': !exists(json, 'uuid') ? undefined : json['uuid'],
         'pipeline_run': !exists(json, 'pipeline_run') ? undefined : json['pipeline_run'],
         'task': !exists(json, 'task') ? undefined : json['task'],
-        'status': !exists(json, 'status') ? undefined : RunStatusEnumFromJSON(json['status']),
+        'status': !exists(json, 'status') ? undefined : EnumRunStatusFromJSON(json['status']),
         'started_at': !exists(json, 'started_at') ? undefined : json['started_at'],
         'ended_at': !exists(json, 'ended_at') ? undefined : json['ended_at'],
     };
@@ -95,7 +95,7 @@ export function TaskExecutionToJSON(value?: TaskExecution | null): any {
         'uuid': value.uuid,
         'pipeline_run': value.pipeline_run,
         'task': value.task,
-        'status': RunStatusEnumToJSON(value.status),
+        'status': EnumRunStatusToJSON(value.status),
         'started_at': value.started_at,
         'ended_at': value.ended_at,
     };

@@ -15,45 +15,43 @@
 
 import * as runtime from '../runtime';
 import {
-    BaseResp,
-    BaseRespFromJSON,
-    BaseRespToJSON,
-    ErrorResp,
-    ErrorRespFromJSON,
-    ErrorRespToJSON,
-    PipelineListResp,
-    PipelineListRespFromJSON,
-    PipelineListRespToJSON,
-    PipelinePostReq,
-    PipelinePostReqFromJSON,
-    PipelinePostReqToJSON,
-    PipelineResp,
-    PipelineRespFromJSON,
-    PipelineRespToJSON,
-    ResourceURLResp,
-    ResourceURLRespFromJSON,
-    ResourceURLRespToJSON,
-    StringResp,
-    StringRespFromJSON,
-    StringRespToJSON,
+    ReqPipeline,
+    ReqPipelineFromJSON,
+    ReqPipelineToJSON,
+    RespBase,
+    RespBaseFromJSON,
+    RespBaseToJSON,
+    RespError,
+    RespErrorFromJSON,
+    RespErrorToJSON,
+    RespPipeline,
+    RespPipelineFromJSON,
+    RespPipelineToJSON,
+    RespPipelineList,
+    RespPipelineListFromJSON,
+    RespPipelineListToJSON,
+    RespResourceURL,
+    RespResourceURLFromJSON,
+    RespResourceURLToJSON,
+    RespString,
+    RespStringFromJSON,
+    RespStringToJSON,
 } from '../models';
 
 export interface AddPipelineArchiveRequest {
     groupId: string;
     pipelineId: string;
-    UNKNOWN_PARAM_NAME?: ;
 }
 
 export interface ChangePipelineOwnerRequest {
     groupId: string;
     pipelineId: string;
     username: string;
-    UNKNOWN_PARAM_NAME?: ;
 }
 
 export interface CreatePipelineRequest {
     groupId: string;
-    pipelinePostReq: PipelinePostReq;
+    reqPipeline: ReqPipeline;
 }
 
 export interface DeletePipelineRequest {
@@ -84,7 +82,7 @@ export class PipelinesApi extends runtime.BaseAPI {
      * Add an archive to a pipeline. 
      * Add an archive to a pipeline
      */
-    async addPipelineArchiveRaw(requestParameters: AddPipelineArchiveRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<BaseResp>> {
+    async addPipelineArchiveRaw(requestParameters: AddPipelineArchiveRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespBase>> {
         if (requestParameters.groupId === null || requestParameters.groupId === undefined) {
             throw new runtime.RequiredError('groupId','Required parameter requestParameters.groupId was null or undefined when calling addPipelineArchive.');
         }
@@ -97,8 +95,6 @@ export class PipelinesApi extends runtime.BaseAPI {
 
         const headerParameters: runtime.HTTPHeaders = {};
 
-        headerParameters['Content-Type'] = 'application/json';
-
         if (this.configuration && this.configuration.apiKey) {
             headerParameters["X-TAPIS-TOKEN"] = this.configuration.apiKey("X-TAPIS-TOKEN"); // TapisJWT authentication
         }
@@ -108,17 +104,16 @@ export class PipelinesApi extends runtime.BaseAPI {
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
-            body: ToJSON(requestParameters.UNKNOWN_PARAM_NAME),
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => BaseRespFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => RespBaseFromJSON(jsonValue));
     }
 
     /**
      * Add an archive to a pipeline. 
      * Add an archive to a pipeline
      */
-    async addPipelineArchive(requestParameters: AddPipelineArchiveRequest, initOverrides?: RequestInit): Promise<BaseResp> {
+    async addPipelineArchive(requestParameters: AddPipelineArchiveRequest, initOverrides?: RequestInit): Promise<RespBase> {
         const response = await this.addPipelineArchiveRaw(requestParameters, initOverrides);
         return await response.value();
     }
@@ -127,7 +122,7 @@ export class PipelinesApi extends runtime.BaseAPI {
      * Change the owner of a pipeline. Requesting user must be the current owner 
      * Change pipeline owner
      */
-    async changePipelineOwnerRaw(requestParameters: ChangePipelineOwnerRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<BaseResp>> {
+    async changePipelineOwnerRaw(requestParameters: ChangePipelineOwnerRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespBase>> {
         if (requestParameters.groupId === null || requestParameters.groupId === undefined) {
             throw new runtime.RequiredError('groupId','Required parameter requestParameters.groupId was null or undefined when calling changePipelineOwner.');
         }
@@ -144,8 +139,6 @@ export class PipelinesApi extends runtime.BaseAPI {
 
         const headerParameters: runtime.HTTPHeaders = {};
 
-        headerParameters['Content-Type'] = 'application/json';
-
         if (this.configuration && this.configuration.apiKey) {
             headerParameters["X-TAPIS-TOKEN"] = this.configuration.apiKey("X-TAPIS-TOKEN"); // TapisJWT authentication
         }
@@ -155,17 +148,16 @@ export class PipelinesApi extends runtime.BaseAPI {
             method: 'PATCH',
             headers: headerParameters,
             query: queryParameters,
-            body: ToJSON(requestParameters.UNKNOWN_PARAM_NAME),
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => BaseRespFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => RespBaseFromJSON(jsonValue));
     }
 
     /**
      * Change the owner of a pipeline. Requesting user must be the current owner 
      * Change pipeline owner
      */
-    async changePipelineOwner(requestParameters: ChangePipelineOwnerRequest, initOverrides?: RequestInit): Promise<BaseResp> {
+    async changePipelineOwner(requestParameters: ChangePipelineOwnerRequest, initOverrides?: RequestInit): Promise<RespBase> {
         const response = await this.changePipelineOwnerRaw(requestParameters, initOverrides);
         return await response.value();
     }
@@ -174,13 +166,13 @@ export class PipelinesApi extends runtime.BaseAPI {
      * Create a pipeline using a request body. Pipeline id must be unique within a group and can be composed of alphanumeric characters and the following special characters [-_.]. 
      * Create a pipeline
      */
-    async createPipelineRaw(requestParameters: CreatePipelineRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<ResourceURLResp>> {
+    async createPipelineRaw(requestParameters: CreatePipelineRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespResourceURL>> {
         if (requestParameters.groupId === null || requestParameters.groupId === undefined) {
             throw new runtime.RequiredError('groupId','Required parameter requestParameters.groupId was null or undefined when calling createPipeline.');
         }
 
-        if (requestParameters.pipelinePostReq === null || requestParameters.pipelinePostReq === undefined) {
-            throw new runtime.RequiredError('pipelinePostReq','Required parameter requestParameters.pipelinePostReq was null or undefined when calling createPipeline.');
+        if (requestParameters.reqPipeline === null || requestParameters.reqPipeline === undefined) {
+            throw new runtime.RequiredError('reqPipeline','Required parameter requestParameters.reqPipeline was null or undefined when calling createPipeline.');
         }
 
         const queryParameters: any = {};
@@ -198,17 +190,17 @@ export class PipelinesApi extends runtime.BaseAPI {
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
-            body: PipelinePostReqToJSON(requestParameters.pipelinePostReq),
+            body: ReqPipelineToJSON(requestParameters.reqPipeline),
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => ResourceURLRespFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => RespResourceURLFromJSON(jsonValue));
     }
 
     /**
      * Create a pipeline using a request body. Pipeline id must be unique within a group and can be composed of alphanumeric characters and the following special characters [-_.]. 
      * Create a pipeline
      */
-    async createPipeline(requestParameters: CreatePipelineRequest, initOverrides?: RequestInit): Promise<ResourceURLResp> {
+    async createPipeline(requestParameters: CreatePipelineRequest, initOverrides?: RequestInit): Promise<RespResourceURL> {
         const response = await this.createPipelineRaw(requestParameters, initOverrides);
         return await response.value();
     }
@@ -217,7 +209,7 @@ export class PipelinesApi extends runtime.BaseAPI {
      * Delete a pipeline 
      * Delete a pipeline
      */
-    async deletePipelineRaw(requestParameters: DeletePipelineRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<StringResp>> {
+    async deletePipelineRaw(requestParameters: DeletePipelineRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespString>> {
         if (requestParameters.groupId === null || requestParameters.groupId === undefined) {
             throw new runtime.RequiredError('groupId','Required parameter requestParameters.groupId was null or undefined when calling deletePipeline.');
         }
@@ -241,14 +233,14 @@ export class PipelinesApi extends runtime.BaseAPI {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => StringRespFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => RespStringFromJSON(jsonValue));
     }
 
     /**
      * Delete a pipeline 
      * Delete a pipeline
      */
-    async deletePipeline(requestParameters: DeletePipelineRequest, initOverrides?: RequestInit): Promise<StringResp> {
+    async deletePipeline(requestParameters: DeletePipelineRequest, initOverrides?: RequestInit): Promise<RespString> {
         const response = await this.deletePipelineRaw(requestParameters, initOverrides);
         return await response.value();
     }
@@ -257,7 +249,7 @@ export class PipelinesApi extends runtime.BaseAPI {
      * Retrieve information for a pipeline given the pipeline id 
      * Retrieve pipeline details
      */
-    async getPipelineRaw(requestParameters: GetPipelineRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<PipelineResp>> {
+    async getPipelineRaw(requestParameters: GetPipelineRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespPipeline>> {
         if (requestParameters.groupId === null || requestParameters.groupId === undefined) {
             throw new runtime.RequiredError('groupId','Required parameter requestParameters.groupId was null or undefined when calling getPipeline.');
         }
@@ -281,14 +273,14 @@ export class PipelinesApi extends runtime.BaseAPI {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => PipelineRespFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => RespPipelineFromJSON(jsonValue));
     }
 
     /**
      * Retrieve information for a pipeline given the pipeline id 
      * Retrieve pipeline details
      */
-    async getPipeline(requestParameters: GetPipelineRequest, initOverrides?: RequestInit): Promise<PipelineResp> {
+    async getPipeline(requestParameters: GetPipelineRequest, initOverrides?: RequestInit): Promise<RespPipeline> {
         const response = await this.getPipelineRaw(requestParameters, initOverrides);
         return await response.value();
     }
@@ -297,7 +289,7 @@ export class PipelinesApi extends runtime.BaseAPI {
      * Retrieve a list of pipelines for all groups that the requesting user belongs to.
      * Retrieve pipelines
      */
-    async listPipelinesRaw(requestParameters: ListPipelinesRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<PipelineListResp>> {
+    async listPipelinesRaw(requestParameters: ListPipelinesRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespPipelineList>> {
         if (requestParameters.groupId === null || requestParameters.groupId === undefined) {
             throw new runtime.RequiredError('groupId','Required parameter requestParameters.groupId was null or undefined when calling listPipelines.');
         }
@@ -317,14 +309,14 @@ export class PipelinesApi extends runtime.BaseAPI {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => PipelineListRespFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => RespPipelineListFromJSON(jsonValue));
     }
 
     /**
      * Retrieve a list of pipelines for all groups that the requesting user belongs to.
      * Retrieve pipelines
      */
-    async listPipelines(requestParameters: ListPipelinesRequest, initOverrides?: RequestInit): Promise<PipelineListResp> {
+    async listPipelines(requestParameters: ListPipelinesRequest, initOverrides?: RequestInit): Promise<RespPipelineList> {
         const response = await this.listPipelinesRaw(requestParameters, initOverrides);
         return await response.value();
     }
@@ -333,7 +325,7 @@ export class PipelinesApi extends runtime.BaseAPI {
      * Remove an archive to a pipeline. 
      * Remove archive to a pipeline
      */
-    async removePipelineArchiveRaw(requestParameters: RemovePipelineArchiveRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<BaseResp>> {
+    async removePipelineArchiveRaw(requestParameters: RemovePipelineArchiveRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespBase>> {
         if (requestParameters.groupId === null || requestParameters.groupId === undefined) {
             throw new runtime.RequiredError('groupId','Required parameter requestParameters.groupId was null or undefined when calling removePipelineArchive.');
         }
@@ -357,14 +349,14 @@ export class PipelinesApi extends runtime.BaseAPI {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => BaseRespFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => RespBaseFromJSON(jsonValue));
     }
 
     /**
      * Remove an archive to a pipeline. 
      * Remove archive to a pipeline
      */
-    async removePipelineArchive(requestParameters: RemovePipelineArchiveRequest, initOverrides?: RequestInit): Promise<BaseResp> {
+    async removePipelineArchive(requestParameters: RemovePipelineArchiveRequest, initOverrides?: RequestInit): Promise<RespBase> {
         const response = await this.removePipelineArchiveRaw(requestParameters, initOverrides);
         return await response.value();
     }

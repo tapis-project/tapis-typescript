@@ -31,6 +31,7 @@ import {
     TapisActorTaskToJSON,
     TapisJobTaskFromJSONTyped,
     TapisJobTaskToJSON,
+	EnumTaskType
 } from './';
 
 /**
@@ -38,7 +39,7 @@ import {
  * 
  * @export
  */
-export type Task = ContainerRunTask | FunctionTask | ImageBuildTask | RequestTask | TapisActorTask | TapisJobTask;
+export type Task = { type: EnumTaskType.ContainerRun } & ContainerRunTask | { type: EnumTaskType.Function } & FunctionTask | { type: EnumTaskType.ImageBuild } & ImageBuildTask | { type: EnumTaskType.Request } & RequestTask | { type: EnumTaskType.TapisActor } & TapisActorTask | { type: EnumTaskType.TapisJob } & TapisJobTask;
 
 export function TaskFromJSON(json: any): Task {
     return TaskFromJSONTyped(json, false);
@@ -48,7 +49,22 @@ export function TaskFromJSONTyped(json: any, ignoreDiscriminator: boolean): Task
     if ((json === undefined) || (json === null)) {
         return json;
     }
-    return { ...ContainerRunTaskFromJSONTyped(json, true), ...FunctionTaskFromJSONTyped(json, true), ...ImageBuildTaskFromJSONTyped(json, true), ...RequestTaskFromJSONTyped(json, true), ...TapisActorTaskFromJSONTyped(json, true), ...TapisJobTaskFromJSONTyped(json, true) };
+    switch (json['type']) {
+        case EnumTaskType.ContainerRun:
+            return {...ContainerRunTaskFromJSONTyped(json, true), type: EnumTaskType.ContainerRun};
+        case EnumTaskType.Function:
+            return {...FunctionTaskFromJSONTyped(json, true), type: EnumTaskType.Function};
+        case EnumTaskType.ImageBuild:
+            return {...ImageBuildTaskFromJSONTyped(json, true), type: EnumTaskType.ImageBuild};
+        case EnumTaskType.Request:
+            return {...RequestTaskFromJSONTyped(json, true), type: EnumTaskType.Request};
+        case EnumTaskType.TapisActor:
+            return {...TapisActorTaskFromJSONTyped(json, true), type: EnumTaskType.TapisActor};
+        case EnumTaskType.TapisJob:
+            return {...TapisJobTaskFromJSONTyped(json, true), type: EnumTaskType.TapisJob};
+        default:
+            throw new Error(`No variant of Task exists with 'type=${json['type']}'`);
+    }
 }
 
 export function TaskToJSON(value?: Task | null): any {
@@ -58,6 +74,21 @@ export function TaskToJSON(value?: Task | null): any {
     if (value === null) {
         return null;
     }
-    return { ...ContainerRunTaskToJSON(value), ...FunctionTaskToJSON(value), ...ImageBuildTaskToJSON(value), ...RequestTaskToJSON(value), ...TapisActorTaskToJSON(value), ...TapisJobTaskToJSON(value) };
+    switch (value['type']) {
+        case EnumTaskType.ContainerRun:
+            return ContainerRunTaskToJSON(<ContainerRunTask>value);
+        case EnumTaskType.Function:
+            return FunctionTaskToJSON(<FunctionTask>value);
+        case EnumTaskType.ImageBuild:
+            return ImageBuildTaskToJSON(<ImageBuildTask>value);
+        case EnumTaskType.Request:
+            return RequestTaskToJSON(<RequestTask>value);
+        case EnumTaskType.TapisActor:
+            return TapisActorTaskToJSON(<TapisActorTask>value);
+        case EnumTaskType.TapisJob:
+            return TapisJobTaskToJSON(<TapisJobTask>value);
+        default:
+            throw new Error(`No variant of Task exists with 'type=${value['type']}'`);
+    }
 }
 

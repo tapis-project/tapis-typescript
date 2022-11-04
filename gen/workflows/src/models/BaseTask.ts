@@ -14,6 +14,10 @@
 
 import { exists, mapValues } from '../runtime';
 import {
+    EnumTaskType,
+    EnumTaskTypeFromJSON,
+    EnumTaskTypeFromJSONTyped,
+    EnumTaskTypeToJSON,
     ExecutionProfile,
     ExecutionProfileFromJSON,
     ExecutionProfileFromJSONTyped,
@@ -22,10 +26,6 @@ import {
     TaskDependencyFromJSON,
     TaskDependencyFromJSONTyped,
     TaskDependencyToJSON,
-    TaskTypeEnum,
-    TaskTypeEnumFromJSON,
-    TaskTypeEnumFromJSONTyped,
-    TaskTypeEnumToJSON,
 } from './';
 
 /**
@@ -42,10 +42,10 @@ export interface BaseTask {
     id: string;
     /**
      * 
-     * @type {TaskTypeEnum}
+     * @type {EnumTaskType}
      * @memberof BaseTask
      */
-    type: TaskTypeEnum;
+    type: EnumTaskType;
     /**
      * 
      * @type {Array<TaskDependency>}
@@ -89,7 +89,7 @@ export function BaseTaskFromJSONTyped(json: any, ignoreDiscriminator: boolean): 
     return {
         
         'id': json['id'],
-        'type': TaskTypeEnumFromJSON(json['type']),
+        'type': EnumTaskTypeFromJSON(json['type']),
         'depends_on': !exists(json, 'depends_on') ? undefined : ((json['depends_on'] as Array<any>).map(TaskDependencyFromJSON)),
         'description': !exists(json, 'description') ? undefined : json['description'],
         'execution_profile': !exists(json, 'execution_profile') ? undefined : ExecutionProfileFromJSON(json['execution_profile']),
@@ -108,7 +108,7 @@ export function BaseTaskToJSON(value?: BaseTask | null): any {
     return {
         
         'id': value.id,
-        'type': TaskTypeEnumToJSON(value.type),
+        'type': EnumTaskTypeToJSON(value.type),
         'depends_on': value.depends_on === undefined ? undefined : ((value.depends_on as Array<any>).map(TaskDependencyToJSON)),
         'description': value.description,
         'execution_profile': ExecutionProfileToJSON(value.execution_profile),

@@ -18,10 +18,6 @@ import {
     BaseTaskFromJSON,
     BaseTaskFromJSONTyped,
     BaseTaskToJSON,
-    BuilderEnum,
-    BuilderEnumFromJSON,
-    BuilderEnumFromJSONTyped,
-    BuilderEnumToJSON,
     Context,
     ContextFromJSON,
     ContextFromJSONTyped,
@@ -30,6 +26,14 @@ import {
     DestinationFromJSON,
     DestinationFromJSONTyped,
     DestinationToJSON,
+    EnumBuilder,
+    EnumBuilderFromJSON,
+    EnumBuilderFromJSONTyped,
+    EnumBuilderToJSON,
+    EnumTaskType,
+    EnumTaskTypeFromJSON,
+    EnumTaskTypeFromJSONTyped,
+    EnumTaskTypeToJSON,
     ExecutionProfile,
     ExecutionProfileFromJSON,
     ExecutionProfileFromJSONTyped,
@@ -58,10 +62,10 @@ export interface ImageBuildTask {
     id: string;
     /**
      * 
-     * @type {any}
+     * @type {EnumTaskType}
      * @memberof ImageBuildTask
      */
-    type: any | null;
+    type: EnumTaskType;
     /**
      * 
      * @type {Array<TaskDependency>}
@@ -94,10 +98,10 @@ export interface ImageBuildTask {
     output?: object;
     /**
      * 
-     * @type {BuilderEnum}
+     * @type {EnumBuilder}
      * @memberof ImageBuildTask
      */
-    builder?: BuilderEnum | null;
+    builder?: EnumBuilder | null;
     /**
      * 
      * @type {boolean}
@@ -129,13 +133,13 @@ export function ImageBuildTaskFromJSONTyped(json: any, ignoreDiscriminator: bool
     return {
         
         'id': json['id'],
-        'type': json['type'],
+        'type': EnumTaskTypeFromJSON(json['type']),
         'depends_on': !exists(json, 'depends_on') ? undefined : ((json['depends_on'] as Array<any>).map(TaskDependencyFromJSON)),
         'description': !exists(json, 'description') ? undefined : json['description'],
         'execution_profile': !exists(json, 'execution_profile') ? undefined : ExecutionProfileFromJSON(json['execution_profile']),
         'input': !exists(json, 'input') ? undefined : json['input'],
         'output': !exists(json, 'output') ? undefined : json['output'],
-        'builder': !exists(json, 'builder') ? undefined : BuilderEnumFromJSON(json['builder']),
+        'builder': !exists(json, 'builder') ? undefined : EnumBuilderFromJSON(json['builder']),
         'cache': !exists(json, 'cache') ? undefined : json['cache'],
         'context': !exists(json, 'context') ? undefined : ContextFromJSON(json['context']),
         'destination': !exists(json, 'destination') ? undefined : DestinationFromJSON(json['destination']),
@@ -152,13 +156,13 @@ export function ImageBuildTaskToJSON(value?: ImageBuildTask | null): any {
     return {
         
         'id': value.id,
-        'type': value.type,
+        'type': EnumTaskTypeToJSON(value.type),
         'depends_on': value.depends_on === undefined ? undefined : ((value.depends_on as Array<any>).map(TaskDependencyToJSON)),
         'description': value.description,
         'execution_profile': ExecutionProfileToJSON(value.execution_profile),
         'input': value.input,
         'output': value.output,
-        'builder': BuilderEnumToJSON(value.builder),
+        'builder': EnumBuilderToJSON(value.builder),
         'cache': value.cache,
         'context': ContextToJSON(value.context),
         'destination': DestinationToJSON(value.destination),

@@ -14,10 +14,14 @@
 
 import { exists, mapValues } from '../runtime';
 import {
-    BaseTaskReq,
-    BaseTaskReqFromJSON,
-    BaseTaskReqFromJSONTyped,
-    BaseTaskReqToJSON,
+    EnumRuntimeEnvironment,
+    EnumRuntimeEnvironmentFromJSON,
+    EnumRuntimeEnvironmentFromJSONTyped,
+    EnumRuntimeEnvironmentToJSON,
+    EnumTaskType,
+    EnumTaskTypeFromJSON,
+    EnumTaskTypeFromJSONTyped,
+    EnumTaskTypeToJSON,
     ExecutionProfile,
     ExecutionProfileFromJSON,
     ExecutionProfileFromJSONTyped,
@@ -26,18 +30,14 @@ import {
     FunctionTaskAllOfFromJSON,
     FunctionTaskAllOfFromJSONTyped,
     FunctionTaskAllOfToJSON,
-    RuntimeEnvironmentEnum,
-    RuntimeEnvironmentEnumFromJSON,
-    RuntimeEnvironmentEnumFromJSONTyped,
-    RuntimeEnvironmentEnumToJSON,
+    ReqBaseTask,
+    ReqBaseTaskFromJSON,
+    ReqBaseTaskFromJSONTyped,
+    ReqBaseTaskToJSON,
     TaskDependency,
     TaskDependencyFromJSON,
     TaskDependencyFromJSONTyped,
     TaskDependencyToJSON,
-    TaskTypeEnum,
-    TaskTypeEnumFromJSON,
-    TaskTypeEnumFromJSONTyped,
-    TaskTypeEnumToJSON,
 } from './';
 
 /**
@@ -54,10 +54,10 @@ export interface FunctionTask {
     id: string;
     /**
      * 
-     * @type {TaskTypeEnum}
+     * @type {EnumTaskType}
      * @memberof FunctionTask
      */
-    type: TaskTypeEnum;
+    type: EnumTaskType;
     /**
      * 
      * @type {Array<TaskDependency>}
@@ -90,10 +90,10 @@ export interface FunctionTask {
     output?: object;
     /**
      * 
-     * @type {RuntimeEnvironmentEnum}
+     * @type {EnumRuntimeEnvironment}
      * @memberof FunctionTask
      */
-    runtime?: RuntimeEnvironmentEnum;
+    runtime?: EnumRuntimeEnvironment;
 }
 
 export function FunctionTaskFromJSON(json: any): FunctionTask {
@@ -107,13 +107,13 @@ export function FunctionTaskFromJSONTyped(json: any, ignoreDiscriminator: boolea
     return {
         
         'id': json['id'],
-        'type': TaskTypeEnumFromJSON(json['type']),
+        'type': EnumTaskTypeFromJSON(json['type']),
         'depends_on': !exists(json, 'depends_on') ? undefined : ((json['depends_on'] as Array<any>).map(TaskDependencyFromJSON)),
         'description': !exists(json, 'description') ? undefined : json['description'],
         'execution_profile': !exists(json, 'execution_profile') ? undefined : ExecutionProfileFromJSON(json['execution_profile']),
         'input': !exists(json, 'input') ? undefined : json['input'],
         'output': !exists(json, 'output') ? undefined : json['output'],
-        'runtime': !exists(json, 'runtime') ? undefined : RuntimeEnvironmentEnumFromJSON(json['runtime']),
+        'runtime': !exists(json, 'runtime') ? undefined : EnumRuntimeEnvironmentFromJSON(json['runtime']),
     };
 }
 
@@ -127,13 +127,13 @@ export function FunctionTaskToJSON(value?: FunctionTask | null): any {
     return {
         
         'id': value.id,
-        'type': TaskTypeEnumToJSON(value.type),
+        'type': EnumTaskTypeToJSON(value.type),
         'depends_on': value.depends_on === undefined ? undefined : ((value.depends_on as Array<any>).map(TaskDependencyToJSON)),
         'description': value.description,
         'execution_profile': ExecutionProfileToJSON(value.execution_profile),
         'input': value.input,
         'output': value.output,
-        'runtime': RuntimeEnvironmentEnumToJSON(value.runtime),
+        'runtime': EnumRuntimeEnvironmentToJSON(value.runtime),
     };
 }
 

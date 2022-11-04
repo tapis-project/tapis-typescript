@@ -15,15 +15,15 @@
 
 import * as runtime from '../runtime';
 import {
-    EventResp,
-    EventRespFromJSON,
-    EventRespToJSON,
-    RunPipelinePostReq,
-    RunPipelinePostReqFromJSON,
-    RunPipelinePostReqToJSON,
-    WebhookEventPostReq,
-    WebhookEventPostReqFromJSON,
-    WebhookEventPostReqToJSON,
+    ReqRunPipeline,
+    ReqRunPipelineFromJSON,
+    ReqRunPipelineToJSON,
+    ReqWebhookEvent,
+    ReqWebhookEventFromJSON,
+    ReqWebhookEventToJSON,
+    RespEvent,
+    RespEventFromJSON,
+    RespEventToJSON,
 } from '../models';
 
 export interface ListEventsRequest {
@@ -34,13 +34,13 @@ export interface ListEventsRequest {
 export interface RunPipelineRequest {
     groupId: string;
     pipelineId: string;
-    runPipelinePostReq: RunPipelinePostReq;
+    reqRunPipeline: ReqRunPipeline;
 }
 
 export interface RunPipelineWebhookRequest {
     groupId: string;
     pipelineId: string;
-    webhookEventPostReq: WebhookEventPostReq;
+    reqWebhookEvent: ReqWebhookEvent;
 }
 
 /**
@@ -52,7 +52,7 @@ export class EventsApi extends runtime.BaseAPI {
      * Retrieve all events for a given pipeline 
      * Retrieve Event details
      */
-    async listEventsRaw(requestParameters: ListEventsRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<EventResp>> {
+    async listEventsRaw(requestParameters: ListEventsRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespEvent>> {
         if (requestParameters.groupId === null || requestParameters.groupId === undefined) {
             throw new runtime.RequiredError('groupId','Required parameter requestParameters.groupId was null or undefined when calling listEvents.');
         }
@@ -76,14 +76,14 @@ export class EventsApi extends runtime.BaseAPI {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => EventRespFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => RespEventFromJSON(jsonValue));
     }
 
     /**
      * Retrieve all events for a given pipeline 
      * Retrieve Event details
      */
-    async listEvents(requestParameters: ListEventsRequest, initOverrides?: RequestInit): Promise<EventResp> {
+    async listEvents(requestParameters: ListEventsRequest, initOverrides?: RequestInit): Promise<RespEvent> {
         const response = await this.listEventsRaw(requestParameters, initOverrides);
         return await response.value();
     }
@@ -92,7 +92,7 @@ export class EventsApi extends runtime.BaseAPI {
      * Trigger a pipeline run 
      * Trigger a pipeline run
      */
-    async runPipelineRaw(requestParameters: RunPipelineRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<EventResp>> {
+    async runPipelineRaw(requestParameters: RunPipelineRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespEvent>> {
         if (requestParameters.groupId === null || requestParameters.groupId === undefined) {
             throw new runtime.RequiredError('groupId','Required parameter requestParameters.groupId was null or undefined when calling runPipeline.');
         }
@@ -101,8 +101,8 @@ export class EventsApi extends runtime.BaseAPI {
             throw new runtime.RequiredError('pipelineId','Required parameter requestParameters.pipelineId was null or undefined when calling runPipeline.');
         }
 
-        if (requestParameters.runPipelinePostReq === null || requestParameters.runPipelinePostReq === undefined) {
-            throw new runtime.RequiredError('runPipelinePostReq','Required parameter requestParameters.runPipelinePostReq was null or undefined when calling runPipeline.');
+        if (requestParameters.reqRunPipeline === null || requestParameters.reqRunPipeline === undefined) {
+            throw new runtime.RequiredError('reqRunPipeline','Required parameter requestParameters.reqRunPipeline was null or undefined when calling runPipeline.');
         }
 
         const queryParameters: any = {};
@@ -120,17 +120,17 @@ export class EventsApi extends runtime.BaseAPI {
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
-            body: RunPipelinePostReqToJSON(requestParameters.runPipelinePostReq),
+            body: ReqRunPipelineToJSON(requestParameters.reqRunPipeline),
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => EventRespFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => RespEventFromJSON(jsonValue));
     }
 
     /**
      * Trigger a pipeline run 
      * Trigger a pipeline run
      */
-    async runPipeline(requestParameters: RunPipelineRequest, initOverrides?: RequestInit): Promise<EventResp> {
+    async runPipeline(requestParameters: RunPipelineRequest, initOverrides?: RequestInit): Promise<RespEvent> {
         const response = await this.runPipelineRaw(requestParameters, initOverrides);
         return await response.value();
     }
@@ -139,7 +139,7 @@ export class EventsApi extends runtime.BaseAPI {
      * Trigger a pipeline run 
      * Trigger a pipeline run
      */
-    async runPipelineWebhookRaw(requestParameters: RunPipelineWebhookRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<EventResp>> {
+    async runPipelineWebhookRaw(requestParameters: RunPipelineWebhookRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespEvent>> {
         if (requestParameters.groupId === null || requestParameters.groupId === undefined) {
             throw new runtime.RequiredError('groupId','Required parameter requestParameters.groupId was null or undefined when calling runPipelineWebhook.');
         }
@@ -148,8 +148,8 @@ export class EventsApi extends runtime.BaseAPI {
             throw new runtime.RequiredError('pipelineId','Required parameter requestParameters.pipelineId was null or undefined when calling runPipelineWebhook.');
         }
 
-        if (requestParameters.webhookEventPostReq === null || requestParameters.webhookEventPostReq === undefined) {
-            throw new runtime.RequiredError('webhookEventPostReq','Required parameter requestParameters.webhookEventPostReq was null or undefined when calling runPipelineWebhook.');
+        if (requestParameters.reqWebhookEvent === null || requestParameters.reqWebhookEvent === undefined) {
+            throw new runtime.RequiredError('reqWebhookEvent','Required parameter requestParameters.reqWebhookEvent was null or undefined when calling runPipelineWebhook.');
         }
 
         const queryParameters: any = {};
@@ -167,17 +167,17 @@ export class EventsApi extends runtime.BaseAPI {
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
-            body: WebhookEventPostReqToJSON(requestParameters.webhookEventPostReq),
+            body: ReqWebhookEventToJSON(requestParameters.reqWebhookEvent),
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => EventRespFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => RespEventFromJSON(jsonValue));
     }
 
     /**
      * Trigger a pipeline run 
      * Trigger a pipeline run
      */
-    async runPipelineWebhook(requestParameters: RunPipelineWebhookRequest, initOverrides?: RequestInit): Promise<EventResp> {
+    async runPipelineWebhook(requestParameters: RunPipelineWebhookRequest, initOverrides?: RequestInit): Promise<RespEvent> {
         const response = await this.runPipelineWebhookRaw(requestParameters, initOverrides);
         return await response.value();
     }

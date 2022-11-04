@@ -14,10 +14,10 @@
 
 import { exists, mapValues } from '../runtime';
 import {
-    HTTPMethodEnum,
-    HTTPMethodEnumFromJSON,
-    HTTPMethodEnumFromJSONTyped,
-    HTTPMethodEnumToJSON,
+    EnumHTTPMethod,
+    EnumHTTPMethodFromJSON,
+    EnumHTTPMethodFromJSONTyped,
+    EnumHTTPMethodToJSON,
 } from './';
 
 /**
@@ -46,22 +46,16 @@ export interface RequestTaskAllOf {
     headers?: object;
     /**
      * 
-     * @type {HTTPMethodEnum}
+     * @type {EnumHTTPMethod}
      * @memberof RequestTaskAllOf
      */
-    http_method?: HTTPMethodEnum | null;
+    http_method?: EnumHTTPMethod;
     /**
      * 
      * @type {object}
      * @memberof RequestTaskAllOf
      */
     query_params?: object;
-    /**
-     * 
-     * @type {any}
-     * @memberof RequestTaskAllOf
-     */
-    type?: any | null;
     /**
      * 
      * @type {string}
@@ -83,9 +77,8 @@ export function RequestTaskAllOfFromJSONTyped(json: any, ignoreDiscriminator: bo
         'auth': !exists(json, 'auth') ? undefined : json['auth'],
         'data': !exists(json, 'data') ? undefined : json['data'],
         'headers': !exists(json, 'headers') ? undefined : json['headers'],
-        'http_method': !exists(json, 'http_method') ? undefined : HTTPMethodEnumFromJSON(json['http_method']),
+        'http_method': !exists(json, 'http_method') ? undefined : EnumHTTPMethodFromJSON(json['http_method']),
         'query_params': !exists(json, 'query_params') ? undefined : json['query_params'],
-        'type': !exists(json, 'type') ? undefined : json['type'],
         'url': !exists(json, 'url') ? undefined : json['url'],
     };
 }
@@ -102,9 +95,8 @@ export function RequestTaskAllOfToJSON(value?: RequestTaskAllOf | null): any {
         'auth': value.auth,
         'data': value.data,
         'headers': value.headers,
-        'http_method': HTTPMethodEnumToJSON(value.http_method),
+        'http_method': EnumHTTPMethodToJSON(value.http_method),
         'query_params': value.query_params,
-        'type': value.type,
         'url': value.url,
     };
 }

@@ -15,39 +15,24 @@
 
 import * as runtime from '../runtime';
 import {
-    ContainerRunTaskReq,
-    ContainerRunTaskReqFromJSON,
-    ContainerRunTaskReqToJSON,
-    FunctionTaskReq,
-    FunctionTaskReqFromJSON,
-    FunctionTaskReqToJSON,
-    ImageBuildTaskReq,
-    ImageBuildTaskReqFromJSON,
-    ImageBuildTaskReqToJSON,
-    RequestTaskReq,
-    RequestTaskReqFromJSON,
-    RequestTaskReqToJSON,
-    ResourceURLResp,
-    ResourceURLRespFromJSON,
-    ResourceURLRespToJSON,
-    TapisActorTaskReq,
-    TapisActorTaskReqFromJSON,
-    TapisActorTaskReqToJSON,
-    TapisJobTaskReq,
-    TapisJobTaskReqFromJSON,
-    TapisJobTaskReqToJSON,
-    TaskListResp,
-    TaskListRespFromJSON,
-    TaskListRespToJSON,
-    TaskResp,
-    TaskRespFromJSON,
-    TaskRespToJSON,
+    ReqTask,
+    ReqTaskFromJSON,
+    ReqTaskToJSON,
+    RespResourceURL,
+    RespResourceURLFromJSON,
+    RespResourceURLToJSON,
+    RespTask,
+    RespTaskFromJSON,
+    RespTaskToJSON,
+    RespTaskList,
+    RespTaskListFromJSON,
+    RespTaskListToJSON,
 } from '../models';
 
 export interface CreateTaskRequest {
     groupId: string;
     pipelineId: string;
-    imageBuildTaskReqRequestTaskReqContainerRunTaskReqTapisJobTaskReqTapisActorTaskReqFunctionTaskReq: ImageBuildTaskReq | RequestTaskReq | ContainerRunTaskReq | TapisJobTaskReq | TapisActorTaskReq | FunctionTaskReq | null;
+    reqTask: ReqTask;
 }
 
 export interface GetTaskRequest {
@@ -70,7 +55,7 @@ export class TasksApi extends runtime.BaseAPI {
      * Create a task for a pipeline 
      * Create a task
      */
-    async createTaskRaw(requestParameters: CreateTaskRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<ResourceURLResp>> {
+    async createTaskRaw(requestParameters: CreateTaskRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespResourceURL>> {
         if (requestParameters.groupId === null || requestParameters.groupId === undefined) {
             throw new runtime.RequiredError('groupId','Required parameter requestParameters.groupId was null or undefined when calling createTask.');
         }
@@ -79,8 +64,8 @@ export class TasksApi extends runtime.BaseAPI {
             throw new runtime.RequiredError('pipelineId','Required parameter requestParameters.pipelineId was null or undefined when calling createTask.');
         }
 
-        if (requestParameters.imageBuildTaskReqRequestTaskReqContainerRunTaskReqTapisJobTaskReqTapisActorTaskReqFunctionTaskReq === null || requestParameters.imageBuildTaskReqRequestTaskReqContainerRunTaskReqTapisJobTaskReqTapisActorTaskReqFunctionTaskReq === undefined) {
-            throw new runtime.RequiredError('imageBuildTaskReqRequestTaskReqContainerRunTaskReqTapisJobTaskReqTapisActorTaskReqFunctionTaskReq','Required parameter requestParameters.imageBuildTaskReqRequestTaskReqContainerRunTaskReqTapisJobTaskReqTapisActorTaskReqFunctionTaskReq was null or undefined when calling createTask.');
+        if (requestParameters.reqTask === null || requestParameters.reqTask === undefined) {
+            throw new runtime.RequiredError('reqTask','Required parameter requestParameters.reqTask was null or undefined when calling createTask.');
         }
 
         const queryParameters: any = {};
@@ -98,17 +83,17 @@ export class TasksApi extends runtime.BaseAPI {
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
-            body: ImageBuildTaskReq | RequestTaskReq | ContainerRunTaskReq | TapisJobTaskReq | TapisActorTaskReq | FunctionTaskReqToJSON(requestParameters.imageBuildTaskReqRequestTaskReqContainerRunTaskReqTapisJobTaskReqTapisActorTaskReqFunctionTaskReq),
+            body: ReqTaskToJSON(requestParameters.reqTask),
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => ResourceURLRespFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => RespResourceURLFromJSON(jsonValue));
     }
 
     /**
      * Create a task for a pipeline 
      * Create a task
      */
-    async createTask(requestParameters: CreateTaskRequest, initOverrides?: RequestInit): Promise<ResourceURLResp> {
+    async createTask(requestParameters: CreateTaskRequest, initOverrides?: RequestInit): Promise<RespResourceURL> {
         const response = await this.createTaskRaw(requestParameters, initOverrides);
         return await response.value();
     }
@@ -117,7 +102,7 @@ export class TasksApi extends runtime.BaseAPI {
      * Retrieve task details for given pipeline id and task id 
      * Retrieve task details
      */
-    async getTaskRaw(requestParameters: GetTaskRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<TaskResp>> {
+    async getTaskRaw(requestParameters: GetTaskRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespTask>> {
         if (requestParameters.groupId === null || requestParameters.groupId === undefined) {
             throw new runtime.RequiredError('groupId','Required parameter requestParameters.groupId was null or undefined when calling getTask.');
         }
@@ -145,14 +130,14 @@ export class TasksApi extends runtime.BaseAPI {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => TaskRespFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => RespTaskFromJSON(jsonValue));
     }
 
     /**
      * Retrieve task details for given pipeline id and task id 
      * Retrieve task details
      */
-    async getTask(requestParameters: GetTaskRequest, initOverrides?: RequestInit): Promise<TaskResp> {
+    async getTask(requestParameters: GetTaskRequest, initOverrides?: RequestInit): Promise<RespTask> {
         const response = await this.getTaskRaw(requestParameters, initOverrides);
         return await response.value();
     }
@@ -161,7 +146,7 @@ export class TasksApi extends runtime.BaseAPI {
      * Retrieve all tasks for a given pipeline 
      * List tasks
      */
-    async listTasksRaw(requestParameters: ListTasksRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<TaskListResp>> {
+    async listTasksRaw(requestParameters: ListTasksRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespTaskList>> {
         if (requestParameters.groupId === null || requestParameters.groupId === undefined) {
             throw new runtime.RequiredError('groupId','Required parameter requestParameters.groupId was null or undefined when calling listTasks.');
         }
@@ -185,14 +170,14 @@ export class TasksApi extends runtime.BaseAPI {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => TaskListRespFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => RespTaskListFromJSON(jsonValue));
     }
 
     /**
      * Retrieve all tasks for a given pipeline 
      * List tasks
      */
-    async listTasks(requestParameters: ListTasksRequest, initOverrides?: RequestInit): Promise<TaskListResp> {
+    async listTasks(requestParameters: ListTasksRequest, initOverrides?: RequestInit): Promise<RespTaskList> {
         const response = await this.listTasksRaw(requestParameters, initOverrides);
         return await response.value();
     }

@@ -18,14 +18,18 @@ import {
     BaseTaskFromJSON,
     BaseTaskFromJSONTyped,
     BaseTaskToJSON,
+    EnumHTTPMethod,
+    EnumHTTPMethodFromJSON,
+    EnumHTTPMethodFromJSONTyped,
+    EnumHTTPMethodToJSON,
+    EnumTaskType,
+    EnumTaskTypeFromJSON,
+    EnumTaskTypeFromJSONTyped,
+    EnumTaskTypeToJSON,
     ExecutionProfile,
     ExecutionProfileFromJSON,
     ExecutionProfileFromJSONTyped,
     ExecutionProfileToJSON,
-    HTTPMethodEnum,
-    HTTPMethodEnumFromJSON,
-    HTTPMethodEnumFromJSONTyped,
-    HTTPMethodEnumToJSON,
     RequestTaskAllOf,
     RequestTaskAllOfFromJSON,
     RequestTaskAllOfFromJSONTyped,
@@ -50,10 +54,10 @@ export interface RequestTask {
     id: string;
     /**
      * 
-     * @type {any}
+     * @type {EnumTaskType}
      * @memberof RequestTask
      */
-    type: any | null;
+    type: EnumTaskType;
     /**
      * 
      * @type {Array<TaskDependency>}
@@ -104,10 +108,10 @@ export interface RequestTask {
     headers?: object;
     /**
      * 
-     * @type {HTTPMethodEnum}
+     * @type {EnumHTTPMethod}
      * @memberof RequestTask
      */
-    http_method?: HTTPMethodEnum | null;
+    http_method?: EnumHTTPMethod;
     /**
      * 
      * @type {object}
@@ -133,7 +137,7 @@ export function RequestTaskFromJSONTyped(json: any, ignoreDiscriminator: boolean
     return {
         
         'id': json['id'],
-        'type': json['type'],
+        'type': EnumTaskTypeFromJSON(json['type']),
         'depends_on': !exists(json, 'depends_on') ? undefined : ((json['depends_on'] as Array<any>).map(TaskDependencyFromJSON)),
         'description': !exists(json, 'description') ? undefined : json['description'],
         'execution_profile': !exists(json, 'execution_profile') ? undefined : ExecutionProfileFromJSON(json['execution_profile']),
@@ -142,7 +146,7 @@ export function RequestTaskFromJSONTyped(json: any, ignoreDiscriminator: boolean
         'auth': !exists(json, 'auth') ? undefined : json['auth'],
         'data': !exists(json, 'data') ? undefined : json['data'],
         'headers': !exists(json, 'headers') ? undefined : json['headers'],
-        'http_method': !exists(json, 'http_method') ? undefined : HTTPMethodEnumFromJSON(json['http_method']),
+        'http_method': !exists(json, 'http_method') ? undefined : EnumHTTPMethodFromJSON(json['http_method']),
         'query_params': !exists(json, 'query_params') ? undefined : json['query_params'],
         'url': !exists(json, 'url') ? undefined : json['url'],
     };
@@ -158,7 +162,7 @@ export function RequestTaskToJSON(value?: RequestTask | null): any {
     return {
         
         'id': value.id,
-        'type': value.type,
+        'type': EnumTaskTypeToJSON(value.type),
         'depends_on': value.depends_on === undefined ? undefined : ((value.depends_on as Array<any>).map(TaskDependencyToJSON)),
         'description': value.description,
         'execution_profile': ExecutionProfileToJSON(value.execution_profile),
@@ -167,7 +171,7 @@ export function RequestTaskToJSON(value?: RequestTask | null): any {
         'auth': value.auth,
         'data': value.data,
         'headers': value.headers,
-        'http_method': HTTPMethodEnumToJSON(value.http_method),
+        'http_method': EnumHTTPMethodToJSON(value.http_method),
         'query_params': value.query_params,
         'url': value.url,
     };

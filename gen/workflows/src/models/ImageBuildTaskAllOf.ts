@@ -14,10 +14,6 @@
 
 import { exists, mapValues } from '../runtime';
 import {
-    BuilderEnum,
-    BuilderEnumFromJSON,
-    BuilderEnumFromJSONTyped,
-    BuilderEnumToJSON,
     Context,
     ContextFromJSON,
     ContextFromJSONTyped,
@@ -26,6 +22,10 @@ import {
     DestinationFromJSON,
     DestinationFromJSONTyped,
     DestinationToJSON,
+    EnumBuilder,
+    EnumBuilderFromJSON,
+    EnumBuilderFromJSONTyped,
+    EnumBuilderToJSON,
 } from './';
 
 /**
@@ -36,10 +36,10 @@ import {
 export interface ImageBuildTaskAllOf {
     /**
      * 
-     * @type {BuilderEnum}
+     * @type {EnumBuilder}
      * @memberof ImageBuildTaskAllOf
      */
-    builder?: BuilderEnum | null;
+    builder?: EnumBuilder | null;
     /**
      * 
      * @type {boolean}
@@ -58,12 +58,6 @@ export interface ImageBuildTaskAllOf {
      * @memberof ImageBuildTaskAllOf
      */
     destination?: Destination;
-    /**
-     * 
-     * @type {any}
-     * @memberof ImageBuildTaskAllOf
-     */
-    type?: any | null;
 }
 
 export function ImageBuildTaskAllOfFromJSON(json: any): ImageBuildTaskAllOf {
@@ -76,11 +70,10 @@ export function ImageBuildTaskAllOfFromJSONTyped(json: any, ignoreDiscriminator:
     }
     return {
         
-        'builder': !exists(json, 'builder') ? undefined : BuilderEnumFromJSON(json['builder']),
+        'builder': !exists(json, 'builder') ? undefined : EnumBuilderFromJSON(json['builder']),
         'cache': !exists(json, 'cache') ? undefined : json['cache'],
         'context': !exists(json, 'context') ? undefined : ContextFromJSON(json['context']),
         'destination': !exists(json, 'destination') ? undefined : DestinationFromJSON(json['destination']),
-        'type': !exists(json, 'type') ? undefined : json['type'],
     };
 }
 
@@ -93,11 +86,10 @@ export function ImageBuildTaskAllOfToJSON(value?: ImageBuildTaskAllOf | null): a
     }
     return {
         
-        'builder': BuilderEnumToJSON(value.builder),
+        'builder': EnumBuilderToJSON(value.builder),
         'cache': value.cache,
         'context': ContextToJSON(value.context),
         'destination': DestinationToJSON(value.destination),
-        'type': value.type,
     };
 }
 

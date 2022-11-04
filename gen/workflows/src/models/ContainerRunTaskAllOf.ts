@@ -25,12 +25,6 @@ export interface ContainerRunTaskAllOf {
      * @memberof ContainerRunTaskAllOf
      */
     image?: string;
-    /**
-     * 
-     * @type {any}
-     * @memberof ContainerRunTaskAllOf
-     */
-    type?: any | null;
 }
 
 export function ContainerRunTaskAllOfFromJSON(json: any): ContainerRunTaskAllOf {
@@ -44,7 +38,6 @@ export function ContainerRunTaskAllOfFromJSONTyped(json: any, ignoreDiscriminato
     return {
         
         'image': !exists(json, 'image') ? undefined : json['image'],
-        'type': !exists(json, 'type') ? undefined : json['type'],
     };
 }
 
@@ -58,7 +51,6 @@ export function ContainerRunTaskAllOfToJSON(value?: ContainerRunTaskAllOf | null
     return {
         
         'image': value.image,
-        'type': value.type,
     };
 }
 

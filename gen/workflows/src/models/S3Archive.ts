@@ -14,14 +14,14 @@
 
 import { exists, mapValues } from '../runtime';
 import {
-    ArchiveTypeEnum,
-    ArchiveTypeEnumFromJSON,
-    ArchiveTypeEnumFromJSONTyped,
-    ArchiveTypeEnumToJSON,
     BaseArchive,
     BaseArchiveFromJSON,
     BaseArchiveFromJSONTyped,
     BaseArchiveToJSON,
+    EnumArchiveType,
+    EnumArchiveTypeFromJSON,
+    EnumArchiveTypeFromJSONTyped,
+    EnumArchiveTypeToJSON,
     S3ArchiveAllOf,
     S3ArchiveAllOfFromJSON,
     S3ArchiveAllOfFromJSONTyped,
@@ -39,31 +39,31 @@ export interface S3Archive {
      * @type {string}
      * @memberof S3Archive
      */
-    id?: string;
+    id: string;
     /**
      * 
-     * @type {ArchiveTypeEnum}
+     * @type {EnumArchiveType}
      * @memberof S3Archive
      */
-    type: ArchiveTypeEnum;
-    /**
-     * 
-     * @type {string}
-     * @memberof S3Archive
-     */
-    group?: string;
+    type: EnumArchiveType;
     /**
      * 
      * @type {string}
      * @memberof S3Archive
      */
-    tenant_id?: string;
+    group: string;
     /**
      * 
      * @type {string}
      * @memberof S3Archive
      */
-    owner?: string;
+    tenant_id: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof S3Archive
+     */
+    owner: string;
     /**
      * 
      * @type {string}
@@ -75,7 +75,7 @@ export interface S3Archive {
      * @type {string}
      * @memberof S3Archive
      */
-    archive_dir?: string;
+    archive_dir: string;
     /**
      * 
      * @type {string}
@@ -112,13 +112,13 @@ export function S3ArchiveFromJSONTyped(json: any, ignoreDiscriminator: boolean):
     }
     return {
         
-        'id': !exists(json, 'id') ? undefined : json['id'],
-        'type': ArchiveTypeEnumFromJSON(json['type']),
-        'group': !exists(json, 'group') ? undefined : json['group'],
-        'tenant_id': !exists(json, 'tenant_id') ? undefined : json['tenant_id'],
-        'owner': !exists(json, 'owner') ? undefined : json['owner'],
+        'id': json['id'],
+        'type': EnumArchiveTypeFromJSON(json['type']),
+        'group': json['group'],
+        'tenant_id': json['tenant_id'],
+        'owner': json['owner'],
         'uuid': !exists(json, 'uuid') ? undefined : json['uuid'],
-        'archive_dir': !exists(json, 'archive_dir') ? undefined : json['archive_dir'],
+        'archive_dir': json['archive_dir'],
         'endpoint': json['endpoint'],
         'bucket': json['bucket'],
         'access_key': !exists(json, 'access_key') ? undefined : json['access_key'],
@@ -136,7 +136,7 @@ export function S3ArchiveToJSON(value?: S3Archive | null): any {
     return {
         
         'id': value.id,
-        'type': ArchiveTypeEnumToJSON(value.type),
+        'type': EnumArchiveTypeToJSON(value.type),
         'group': value.group,
         'tenant_id': value.tenant_id,
         'owner': value.owner,

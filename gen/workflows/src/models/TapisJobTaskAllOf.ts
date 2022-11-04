@@ -31,12 +31,6 @@ export interface TapisJobTaskAllOf {
      * @memberof TapisJobTaskAllOf
      */
     tapis_job_def?: object;
-    /**
-     * 
-     * @type {any}
-     * @memberof TapisJobTaskAllOf
-     */
-    type?: any | null;
 }
 
 export function TapisJobTaskAllOfFromJSON(json: any): TapisJobTaskAllOf {
@@ -51,7 +45,6 @@ export function TapisJobTaskAllOfFromJSONTyped(json: any, ignoreDiscriminator: b
         
         'poll': !exists(json, 'poll') ? undefined : json['poll'],
         'tapis_job_def': !exists(json, 'tapis_job_def') ? undefined : json['tapis_job_def'],
-        'type': !exists(json, 'type') ? undefined : json['type'],
     };
 }
 
@@ -66,7 +59,6 @@ export function TapisJobTaskAllOfToJSON(value?: TapisJobTaskAllOf | null): any {
         
         'poll': value.poll,
         'tapis_job_def': value.tapis_job_def,
-        'type': value.type,
     };
 }
 

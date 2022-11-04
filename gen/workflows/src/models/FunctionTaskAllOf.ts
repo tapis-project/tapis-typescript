@@ -14,10 +14,10 @@
 
 import { exists, mapValues } from '../runtime';
 import {
-    RuntimeEnvironmentEnum,
-    RuntimeEnvironmentEnumFromJSON,
-    RuntimeEnvironmentEnumFromJSONTyped,
-    RuntimeEnvironmentEnumToJSON,
+    EnumRuntimeEnvironment,
+    EnumRuntimeEnvironmentFromJSON,
+    EnumRuntimeEnvironmentFromJSONTyped,
+    EnumRuntimeEnvironmentToJSON,
 } from './';
 
 /**
@@ -28,10 +28,10 @@ import {
 export interface FunctionTaskAllOf {
     /**
      * 
-     * @type {RuntimeEnvironmentEnum}
+     * @type {EnumRuntimeEnvironment}
      * @memberof FunctionTaskAllOf
      */
-    runtime?: RuntimeEnvironmentEnum;
+    runtime?: EnumRuntimeEnvironment;
 }
 
 export function FunctionTaskAllOfFromJSON(json: any): FunctionTaskAllOf {
@@ -44,7 +44,7 @@ export function FunctionTaskAllOfFromJSONTyped(json: any, ignoreDiscriminator: b
     }
     return {
         
-        'runtime': !exists(json, 'runtime') ? undefined : RuntimeEnvironmentEnumFromJSON(json['runtime']),
+        'runtime': !exists(json, 'runtime') ? undefined : EnumRuntimeEnvironmentFromJSON(json['runtime']),
     };
 }
 
@@ -57,7 +57,7 @@ export function FunctionTaskAllOfToJSON(value?: FunctionTaskAllOf | null): any {
     }
     return {
         
-        'runtime': RuntimeEnvironmentEnumToJSON(value.runtime),
+        'runtime': EnumRuntimeEnvironmentToJSON(value.runtime),
     };
 }
 

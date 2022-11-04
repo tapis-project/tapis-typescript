@@ -15,12 +15,12 @@
 
 import * as runtime from '../runtime';
 import {
-    ArchiveListResp,
-    ArchiveListRespFromJSON,
-    ArchiveListRespToJSON,
-    ErrorResp,
-    ErrorRespFromJSON,
-    ErrorRespToJSON,
+    RespArchiveList,
+    RespArchiveListFromJSON,
+    RespArchiveListToJSON,
+    RespError,
+    RespErrorFromJSON,
+    RespErrorToJSON,
 } from '../models';
 
 export interface ListPipelineArchivesRequest {
@@ -37,7 +37,7 @@ export class PipelineArchivesApi extends runtime.BaseAPI {
      * Retrieve a list of archives attached to a pipeline
      * Retrieve pipeline archives
      */
-    async listPipelineArchivesRaw(requestParameters: ListPipelineArchivesRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<ArchiveListResp>> {
+    async listPipelineArchivesRaw(requestParameters: ListPipelineArchivesRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespArchiveList>> {
         if (requestParameters.groupId === null || requestParameters.groupId === undefined) {
             throw new runtime.RequiredError('groupId','Required parameter requestParameters.groupId was null or undefined when calling listPipelineArchives.');
         }
@@ -61,14 +61,14 @@ export class PipelineArchivesApi extends runtime.BaseAPI {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => ArchiveListRespFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => RespArchiveListFromJSON(jsonValue));
     }
 
     /**
      * Retrieve a list of archives attached to a pipeline
      * Retrieve pipeline archives
      */
-    async listPipelineArchives(requestParameters: ListPipelineArchivesRequest, initOverrides?: RequestInit): Promise<ArchiveListResp> {
+    async listPipelineArchives(requestParameters: ListPipelineArchivesRequest, initOverrides?: RequestInit): Promise<RespArchiveList> {
         const response = await this.listPipelineArchivesRaw(requestParameters, initOverrides);
         return await response.value();
     }

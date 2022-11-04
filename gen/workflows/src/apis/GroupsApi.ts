@@ -15,25 +15,25 @@
 
 import * as runtime from '../runtime';
 import {
-    ErrorResp,
-    ErrorRespFromJSON,
-    ErrorRespToJSON,
-    GroupDetailResp,
-    GroupDetailRespFromJSON,
-    GroupDetailRespToJSON,
-    GroupListResp,
-    GroupListRespFromJSON,
-    GroupListRespToJSON,
-    GroupPostReq,
-    GroupPostReqFromJSON,
-    GroupPostReqToJSON,
-    ResourceURLResp,
-    ResourceURLRespFromJSON,
-    ResourceURLRespToJSON,
+    ReqGroup,
+    ReqGroupFromJSON,
+    ReqGroupToJSON,
+    RespError,
+    RespErrorFromJSON,
+    RespErrorToJSON,
+    RespGroupDetail,
+    RespGroupDetailFromJSON,
+    RespGroupDetailToJSON,
+    RespGroupList,
+    RespGroupListFromJSON,
+    RespGroupListToJSON,
+    RespResourceURL,
+    RespResourceURLFromJSON,
+    RespResourceURLToJSON,
 } from '../models';
 
 export interface CreateGroupRequest {
-    groupPostReq: GroupPostReq;
+    reqGroup: ReqGroup;
 }
 
 export interface GetGroupRequest {
@@ -49,9 +49,9 @@ export class GroupsApi extends runtime.BaseAPI {
      * Create a group that perform CRUD operations on workflow resources.  The owner of the group will be made an admin by default. If you want to set other users as admins, you must use the \'\' endpoint. 
      * Create a group
      */
-    async createGroupRaw(requestParameters: CreateGroupRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<ResourceURLResp>> {
-        if (requestParameters.groupPostReq === null || requestParameters.groupPostReq === undefined) {
-            throw new runtime.RequiredError('groupPostReq','Required parameter requestParameters.groupPostReq was null or undefined when calling createGroup.');
+    async createGroupRaw(requestParameters: CreateGroupRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespResourceURL>> {
+        if (requestParameters.reqGroup === null || requestParameters.reqGroup === undefined) {
+            throw new runtime.RequiredError('reqGroup','Required parameter requestParameters.reqGroup was null or undefined when calling createGroup.');
         }
 
         const queryParameters: any = {};
@@ -69,17 +69,17 @@ export class GroupsApi extends runtime.BaseAPI {
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
-            body: GroupPostReqToJSON(requestParameters.groupPostReq),
+            body: ReqGroupToJSON(requestParameters.reqGroup),
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => ResourceURLRespFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => RespResourceURLFromJSON(jsonValue));
     }
 
     /**
      * Create a group that perform CRUD operations on workflow resources.  The owner of the group will be made an admin by default. If you want to set other users as admins, you must use the \'\' endpoint. 
      * Create a group
      */
-    async createGroup(requestParameters: CreateGroupRequest, initOverrides?: RequestInit): Promise<ResourceURLResp> {
+    async createGroup(requestParameters: CreateGroupRequest, initOverrides?: RequestInit): Promise<RespResourceURL> {
         const response = await this.createGroupRaw(requestParameters, initOverrides);
         return await response.value();
     }
@@ -88,7 +88,7 @@ export class GroupsApi extends runtime.BaseAPI {
      * Retrieve details for a given group id 
      * Retrieve group details
      */
-    async getGroupRaw(requestParameters: GetGroupRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<GroupDetailResp>> {
+    async getGroupRaw(requestParameters: GetGroupRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespGroupDetail>> {
         if (requestParameters.groupId === null || requestParameters.groupId === undefined) {
             throw new runtime.RequiredError('groupId','Required parameter requestParameters.groupId was null or undefined when calling getGroup.');
         }
@@ -108,14 +108,14 @@ export class GroupsApi extends runtime.BaseAPI {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => GroupDetailRespFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => RespGroupDetailFromJSON(jsonValue));
     }
 
     /**
      * Retrieve details for a given group id 
      * Retrieve group details
      */
-    async getGroup(requestParameters: GetGroupRequest, initOverrides?: RequestInit): Promise<GroupDetailResp> {
+    async getGroup(requestParameters: GetGroupRequest, initOverrides?: RequestInit): Promise<RespGroupDetail> {
         const response = await this.getGroupRaw(requestParameters, initOverrides);
         return await response.value();
     }
@@ -124,7 +124,7 @@ export class GroupsApi extends runtime.BaseAPI {
      * Retrieve all groups to which the user belongs 
      * Retrieve groups
      */
-    async listGroupsRaw(initOverrides?: RequestInit): Promise<runtime.ApiResponse<GroupListResp>> {
+    async listGroupsRaw(initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespGroupList>> {
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -140,14 +140,14 @@ export class GroupsApi extends runtime.BaseAPI {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => GroupListRespFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => RespGroupListFromJSON(jsonValue));
     }
 
     /**
      * Retrieve all groups to which the user belongs 
      * Retrieve groups
      */
-    async listGroups(initOverrides?: RequestInit): Promise<GroupListResp> {
+    async listGroups(initOverrides?: RequestInit): Promise<RespGroupList> {
         const response = await this.listGroupsRaw(initOverrides);
         return await response.value();
     }

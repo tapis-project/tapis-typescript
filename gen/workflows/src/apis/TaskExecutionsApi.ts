@@ -15,30 +15,30 @@
 
 import * as runtime from '../runtime';
 import {
-    CreateTaskExecutionPostReq,
-    CreateTaskExecutionPostReqFromJSON,
-    CreateTaskExecutionPostReqToJSON,
-    ResourceURLResp,
-    ResourceURLRespFromJSON,
-    ResourceURLRespToJSON,
-    RunStatusEnum,
-    RunStatusEnumFromJSON,
-    RunStatusEnumToJSON,
-    StringResp,
-    StringRespFromJSON,
-    StringRespToJSON,
-    TaskExecutionListResp,
-    TaskExecutionListRespFromJSON,
-    TaskExecutionListRespToJSON,
-    TaskExecutionResp,
-    TaskExecutionRespFromJSON,
-    TaskExecutionRespToJSON,
+    EnumRunStatus,
+    EnumRunStatusFromJSON,
+    EnumRunStatusToJSON,
+    ReqCreateTaskExecution,
+    ReqCreateTaskExecutionFromJSON,
+    ReqCreateTaskExecutionToJSON,
+    RespResourceURL,
+    RespResourceURLFromJSON,
+    RespResourceURLToJSON,
+    RespString,
+    RespStringFromJSON,
+    RespStringToJSON,
+    RespTaskExecution,
+    RespTaskExecutionFromJSON,
+    RespTaskExecutionToJSON,
+    RespTaskExecutionList,
+    RespTaskExecutionListFromJSON,
+    RespTaskExecutionListToJSON,
 } from '../models';
 
 export interface CreateTaskExecutionRequest {
     xWORKFLOWEXECUTORTOKEN: string;
     pipelineRunUuid: string;
-    createTaskExecutionPostReq: CreateTaskExecutionPostReq;
+    reqCreateTaskExecution: ReqCreateTaskExecution;
 }
 
 export interface GetTaskExecutionRequest {
@@ -57,8 +57,7 @@ export interface ListTaskExecutionsRequest {
 export interface UpdateTaskExecutionStatusRequest {
     xWORKFLOWEXECUTORTOKEN: string;
     taskExecutionUuid: string;
-    status: RunStatusEnum;
-    UNKNOWN_PARAM_NAME?: ;
+    status: EnumRunStatus;
 }
 
 /**
@@ -70,7 +69,7 @@ export class TaskExecutionsApi extends runtime.BaseAPI {
      * Create a task execution 
      * Task Executions
      */
-    async createTaskExecutionRaw(requestParameters: CreateTaskExecutionRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<ResourceURLResp>> {
+    async createTaskExecutionRaw(requestParameters: CreateTaskExecutionRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespResourceURL>> {
         if (requestParameters.xWORKFLOWEXECUTORTOKEN === null || requestParameters.xWORKFLOWEXECUTORTOKEN === undefined) {
             throw new runtime.RequiredError('xWORKFLOWEXECUTORTOKEN','Required parameter requestParameters.xWORKFLOWEXECUTORTOKEN was null or undefined when calling createTaskExecution.');
         }
@@ -79,8 +78,8 @@ export class TaskExecutionsApi extends runtime.BaseAPI {
             throw new runtime.RequiredError('pipelineRunUuid','Required parameter requestParameters.pipelineRunUuid was null or undefined when calling createTaskExecution.');
         }
 
-        if (requestParameters.createTaskExecutionPostReq === null || requestParameters.createTaskExecutionPostReq === undefined) {
-            throw new runtime.RequiredError('createTaskExecutionPostReq','Required parameter requestParameters.createTaskExecutionPostReq was null or undefined when calling createTaskExecution.');
+        if (requestParameters.reqCreateTaskExecution === null || requestParameters.reqCreateTaskExecution === undefined) {
+            throw new runtime.RequiredError('reqCreateTaskExecution','Required parameter requestParameters.reqCreateTaskExecution was null or undefined when calling createTaskExecution.');
         }
 
         const queryParameters: any = {};
@@ -102,17 +101,17 @@ export class TaskExecutionsApi extends runtime.BaseAPI {
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
-            body: CreateTaskExecutionPostReqToJSON(requestParameters.createTaskExecutionPostReq),
+            body: ReqCreateTaskExecutionToJSON(requestParameters.reqCreateTaskExecution),
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => ResourceURLRespFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => RespResourceURLFromJSON(jsonValue));
     }
 
     /**
      * Create a task execution 
      * Task Executions
      */
-    async createTaskExecution(requestParameters: CreateTaskExecutionRequest, initOverrides?: RequestInit): Promise<ResourceURLResp> {
+    async createTaskExecution(requestParameters: CreateTaskExecutionRequest, initOverrides?: RequestInit): Promise<RespResourceURL> {
         const response = await this.createTaskExecutionRaw(requestParameters, initOverrides);
         return await response.value();
     }
@@ -121,7 +120,7 @@ export class TaskExecutionsApi extends runtime.BaseAPI {
      * Get a Task Execution 
      * Task Executions
      */
-    async getTaskExecutionRaw(requestParameters: GetTaskExecutionRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<TaskExecutionResp>> {
+    async getTaskExecutionRaw(requestParameters: GetTaskExecutionRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespTaskExecution>> {
         if (requestParameters.groupId === null || requestParameters.groupId === undefined) {
             throw new runtime.RequiredError('groupId','Required parameter requestParameters.groupId was null or undefined when calling getTaskExecution.');
         }
@@ -153,14 +152,14 @@ export class TaskExecutionsApi extends runtime.BaseAPI {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => TaskExecutionRespFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => RespTaskExecutionFromJSON(jsonValue));
     }
 
     /**
      * Get a Task Execution 
      * Task Executions
      */
-    async getTaskExecution(requestParameters: GetTaskExecutionRequest, initOverrides?: RequestInit): Promise<TaskExecutionResp> {
+    async getTaskExecution(requestParameters: GetTaskExecutionRequest, initOverrides?: RequestInit): Promise<RespTaskExecution> {
         const response = await this.getTaskExecutionRaw(requestParameters, initOverrides);
         return await response.value();
     }
@@ -169,7 +168,7 @@ export class TaskExecutionsApi extends runtime.BaseAPI {
      * List Task Executions for a pipeline run 
      * Task Executions
      */
-    async listTaskExecutionsRaw(requestParameters: ListTaskExecutionsRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<TaskExecutionListResp>> {
+    async listTaskExecutionsRaw(requestParameters: ListTaskExecutionsRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespTaskExecutionList>> {
         if (requestParameters.groupId === null || requestParameters.groupId === undefined) {
             throw new runtime.RequiredError('groupId','Required parameter requestParameters.groupId was null or undefined when calling listTaskExecutions.');
         }
@@ -197,14 +196,14 @@ export class TaskExecutionsApi extends runtime.BaseAPI {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => TaskExecutionListRespFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => RespTaskExecutionListFromJSON(jsonValue));
     }
 
     /**
      * List Task Executions for a pipeline run 
      * Task Executions
      */
-    async listTaskExecutions(requestParameters: ListTaskExecutionsRequest, initOverrides?: RequestInit): Promise<TaskExecutionListResp> {
+    async listTaskExecutions(requestParameters: ListTaskExecutionsRequest, initOverrides?: RequestInit): Promise<RespTaskExecutionList> {
         const response = await this.listTaskExecutionsRaw(requestParameters, initOverrides);
         return await response.value();
     }
@@ -213,7 +212,7 @@ export class TaskExecutionsApi extends runtime.BaseAPI {
      * update a task execution status 
      * Task Executions
      */
-    async updateTaskExecutionStatusRaw(requestParameters: UpdateTaskExecutionStatusRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<StringResp>> {
+    async updateTaskExecutionStatusRaw(requestParameters: UpdateTaskExecutionStatusRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespString>> {
         if (requestParameters.xWORKFLOWEXECUTORTOKEN === null || requestParameters.xWORKFLOWEXECUTORTOKEN === undefined) {
             throw new runtime.RequiredError('xWORKFLOWEXECUTORTOKEN','Required parameter requestParameters.xWORKFLOWEXECUTORTOKEN was null or undefined when calling updateTaskExecutionStatus.');
         }
@@ -230,8 +229,6 @@ export class TaskExecutionsApi extends runtime.BaseAPI {
 
         const headerParameters: runtime.HTTPHeaders = {};
 
-        headerParameters['Content-Type'] = 'application/json';
-
         if (requestParameters.xWORKFLOWEXECUTORTOKEN !== undefined && requestParameters.xWORKFLOWEXECUTORTOKEN !== null) {
             headerParameters['X-WORKFLOW-EXECUTOR-TOKEN'] = String(requestParameters.xWORKFLOWEXECUTORTOKEN);
         }
@@ -245,17 +242,16 @@ export class TaskExecutionsApi extends runtime.BaseAPI {
             method: 'PATCH',
             headers: headerParameters,
             query: queryParameters,
-            body: ToJSON(requestParameters.UNKNOWN_PARAM_NAME),
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => StringRespFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => RespStringFromJSON(jsonValue));
     }
 
     /**
      * update a task execution status 
      * Task Executions
      */
-    async updateTaskExecutionStatus(requestParameters: UpdateTaskExecutionStatusRequest, initOverrides?: RequestInit): Promise<StringResp> {
+    async updateTaskExecutionStatus(requestParameters: UpdateTaskExecutionStatusRequest, initOverrides?: RequestInit): Promise<RespString> {
         const response = await this.updateTaskExecutionStatusRaw(requestParameters, initOverrides);
         return await response.value();
     }

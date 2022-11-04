@@ -14,10 +14,10 @@
 
 import { exists, mapValues } from '../runtime';
 import {
-    ArchiveTypeEnum,
-    ArchiveTypeEnumFromJSON,
-    ArchiveTypeEnumFromJSONTyped,
-    ArchiveTypeEnumToJSON,
+    EnumArchiveType,
+    EnumArchiveTypeFromJSON,
+    EnumArchiveTypeFromJSONTyped,
+    EnumArchiveTypeToJSON,
 } from './';
 
 /**
@@ -31,31 +31,31 @@ export interface BaseArchive {
      * @type {string}
      * @memberof BaseArchive
      */
-    id?: string;
+    id: string;
     /**
      * 
-     * @type {ArchiveTypeEnum}
+     * @type {EnumArchiveType}
      * @memberof BaseArchive
      */
-    type?: ArchiveTypeEnum;
-    /**
-     * 
-     * @type {string}
-     * @memberof BaseArchive
-     */
-    group?: string;
+    type: EnumArchiveType;
     /**
      * 
      * @type {string}
      * @memberof BaseArchive
      */
-    tenant_id?: string;
+    group: string;
     /**
      * 
      * @type {string}
      * @memberof BaseArchive
      */
-    owner?: string;
+    tenant_id: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof BaseArchive
+     */
+    owner: string;
     /**
      * 
      * @type {string}
@@ -67,7 +67,7 @@ export interface BaseArchive {
      * @type {string}
      * @memberof BaseArchive
      */
-    archive_dir?: string;
+    archive_dir: string;
 }
 
 export function BaseArchiveFromJSON(json: any): BaseArchive {
@@ -80,13 +80,13 @@ export function BaseArchiveFromJSONTyped(json: any, ignoreDiscriminator: boolean
     }
     return {
         
-        'id': !exists(json, 'id') ? undefined : json['id'],
-        'type': !exists(json, 'type') ? undefined : ArchiveTypeEnumFromJSON(json['type']),
-        'group': !exists(json, 'group') ? undefined : json['group'],
-        'tenant_id': !exists(json, 'tenant_id') ? undefined : json['tenant_id'],
-        'owner': !exists(json, 'owner') ? undefined : json['owner'],
+        'id': json['id'],
+        'type': EnumArchiveTypeFromJSON(json['type']),
+        'group': json['group'],
+        'tenant_id': json['tenant_id'],
+        'owner': json['owner'],
         'uuid': !exists(json, 'uuid') ? undefined : json['uuid'],
-        'archive_dir': !exists(json, 'archive_dir') ? undefined : json['archive_dir'],
+        'archive_dir': json['archive_dir'],
     };
 }
 
@@ -100,7 +100,7 @@ export function BaseArchiveToJSON(value?: BaseArchive | null): any {
     return {
         
         'id': value.id,
-        'type': ArchiveTypeEnumToJSON(value.type),
+        'type': EnumArchiveTypeToJSON(value.type),
         'group': value.group,
         'tenant_id': value.tenant_id,
         'owner': value.owner,

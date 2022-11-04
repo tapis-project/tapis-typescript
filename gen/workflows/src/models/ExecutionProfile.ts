@@ -14,18 +14,18 @@
 
 import { exists, mapValues } from '../runtime';
 import {
-    DuplicateSubmissionPolicyEnum,
-    DuplicateSubmissionPolicyEnumFromJSON,
-    DuplicateSubmissionPolicyEnumFromJSONTyped,
-    DuplicateSubmissionPolicyEnumToJSON,
-    InvocationModeEnum,
-    InvocationModeEnumFromJSON,
-    InvocationModeEnumFromJSONTyped,
-    InvocationModeEnumToJSON,
-    RetryPolicyEnum,
-    RetryPolicyEnumFromJSON,
-    RetryPolicyEnumFromJSONTyped,
-    RetryPolicyEnumToJSON,
+    EnumDuplicateSubmissionPolicy,
+    EnumDuplicateSubmissionPolicyFromJSON,
+    EnumDuplicateSubmissionPolicyFromJSONTyped,
+    EnumDuplicateSubmissionPolicyToJSON,
+    EnumInvocationMode,
+    EnumInvocationModeFromJSON,
+    EnumInvocationModeFromJSONTyped,
+    EnumInvocationModeToJSON,
+    EnumRetryPolicy,
+    EnumRetryPolicyFromJSON,
+    EnumRetryPolicyFromJSONTyped,
+    EnumRetryPolicyToJSON,
 } from './';
 
 /**
@@ -48,22 +48,22 @@ export interface ExecutionProfile {
     max_exec_time?: number;
     /**
      * 
-     * @type {InvocationModeEnum}
+     * @type {EnumInvocationMode}
      * @memberof ExecutionProfile
      */
-    invocation_mode?: InvocationModeEnum;
+    invocation_mode?: EnumInvocationMode;
     /**
      * 
-     * @type {RetryPolicyEnum}
+     * @type {EnumRetryPolicy}
      * @memberof ExecutionProfile
      */
-    retry_policy?: RetryPolicyEnum;
+    retry_policy?: EnumRetryPolicy;
     /**
      * 
-     * @type {DuplicateSubmissionPolicyEnum}
+     * @type {EnumDuplicateSubmissionPolicy}
      * @memberof ExecutionProfile
      */
-    duplicate_submission_policy?: DuplicateSubmissionPolicyEnum;
+    duplicate_submission_policy?: EnumDuplicateSubmissionPolicy;
 }
 
 export function ExecutionProfileFromJSON(json: any): ExecutionProfile {
@@ -78,9 +78,9 @@ export function ExecutionProfileFromJSONTyped(json: any, ignoreDiscriminator: bo
         
         'max_retries': !exists(json, 'max_retries') ? undefined : json['max_retries'],
         'max_exec_time': !exists(json, 'max_exec_time') ? undefined : json['max_exec_time'],
-        'invocation_mode': !exists(json, 'invocation_mode') ? undefined : InvocationModeEnumFromJSON(json['invocation_mode']),
-        'retry_policy': !exists(json, 'retry_policy') ? undefined : RetryPolicyEnumFromJSON(json['retry_policy']),
-        'duplicate_submission_policy': !exists(json, 'duplicate_submission_policy') ? undefined : DuplicateSubmissionPolicyEnumFromJSON(json['duplicate_submission_policy']),
+        'invocation_mode': !exists(json, 'invocation_mode') ? undefined : EnumInvocationModeFromJSON(json['invocation_mode']),
+        'retry_policy': !exists(json, 'retry_policy') ? undefined : EnumRetryPolicyFromJSON(json['retry_policy']),
+        'duplicate_submission_policy': !exists(json, 'duplicate_submission_policy') ? undefined : EnumDuplicateSubmissionPolicyFromJSON(json['duplicate_submission_policy']),
     };
 }
 
@@ -95,9 +95,9 @@ export function ExecutionProfileToJSON(value?: ExecutionProfile | null): any {
         
         'max_retries': value.max_retries,
         'max_exec_time': value.max_exec_time,
-        'invocation_mode': InvocationModeEnumToJSON(value.invocation_mode),
-        'retry_policy': RetryPolicyEnumToJSON(value.retry_policy),
-        'duplicate_submission_policy': DuplicateSubmissionPolicyEnumToJSON(value.duplicate_submission_policy),
+        'invocation_mode': EnumInvocationModeToJSON(value.invocation_mode),
+        'retry_policy': EnumRetryPolicyToJSON(value.retry_policy),
+        'duplicate_submission_policy': EnumDuplicateSubmissionPolicyToJSON(value.duplicate_submission_policy),
     };
 }
 

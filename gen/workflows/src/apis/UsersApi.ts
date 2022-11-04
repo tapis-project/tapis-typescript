@@ -15,29 +15,29 @@
 
 import * as runtime from '../runtime';
 import {
-    ErrorResp,
-    ErrorRespFromJSON,
-    ErrorRespToJSON,
-    GroupUserListResp,
-    GroupUserListRespFromJSON,
-    GroupUserListRespToJSON,
-    GroupUserPostReq,
-    GroupUserPostReqFromJSON,
-    GroupUserPostReqToJSON,
-    GroupUserPutPatchReq,
-    GroupUserPutPatchReqFromJSON,
-    GroupUserPutPatchReqToJSON,
-    GroupUserResp,
-    GroupUserRespFromJSON,
-    GroupUserRespToJSON,
-    ResourceURLResp,
-    ResourceURLRespFromJSON,
-    ResourceURLRespToJSON,
+    ReqGroupUser,
+    ReqGroupUserFromJSON,
+    ReqGroupUserToJSON,
+    ReqUpdateGroupUser,
+    ReqUpdateGroupUserFromJSON,
+    ReqUpdateGroupUserToJSON,
+    RespError,
+    RespErrorFromJSON,
+    RespErrorToJSON,
+    RespGroupUser,
+    RespGroupUserFromJSON,
+    RespGroupUserToJSON,
+    RespGroupUserList,
+    RespGroupUserListFromJSON,
+    RespGroupUserListToJSON,
+    RespResourceURL,
+    RespResourceURLFromJSON,
+    RespResourceURLToJSON,
 } from '../models';
 
 export interface AddGroupUserRequest {
     groupId: string;
-    groupUserPostReq: GroupUserPostReq;
+    reqGroupUser: ReqGroupUser;
 }
 
 export interface GetGroupUserRequest {
@@ -57,7 +57,7 @@ export interface RemoveGroupUserRequest {
 export interface UpdateGroupUserRequest {
     groupId: string;
     username: string;
-    groupUserPutPatchReq: GroupUserPutPatchReq;
+    reqUpdateGroupUser: ReqUpdateGroupUser;
 }
 
 /**
@@ -69,13 +69,13 @@ export class UsersApi extends runtime.BaseAPI {
      * Add a user to a group. 
      * Add a user to a group
      */
-    async addGroupUserRaw(requestParameters: AddGroupUserRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<ResourceURLResp>> {
+    async addGroupUserRaw(requestParameters: AddGroupUserRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespResourceURL>> {
         if (requestParameters.groupId === null || requestParameters.groupId === undefined) {
             throw new runtime.RequiredError('groupId','Required parameter requestParameters.groupId was null or undefined when calling addGroupUser.');
         }
 
-        if (requestParameters.groupUserPostReq === null || requestParameters.groupUserPostReq === undefined) {
-            throw new runtime.RequiredError('groupUserPostReq','Required parameter requestParameters.groupUserPostReq was null or undefined when calling addGroupUser.');
+        if (requestParameters.reqGroupUser === null || requestParameters.reqGroupUser === undefined) {
+            throw new runtime.RequiredError('reqGroupUser','Required parameter requestParameters.reqGroupUser was null or undefined when calling addGroupUser.');
         }
 
         const queryParameters: any = {};
@@ -93,17 +93,17 @@ export class UsersApi extends runtime.BaseAPI {
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
-            body: GroupUserPostReqToJSON(requestParameters.groupUserPostReq),
+            body: ReqGroupUserToJSON(requestParameters.reqGroupUser),
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => ResourceURLRespFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => RespResourceURLFromJSON(jsonValue));
     }
 
     /**
      * Add a user to a group. 
      * Add a user to a group
      */
-    async addGroupUser(requestParameters: AddGroupUserRequest, initOverrides?: RequestInit): Promise<ResourceURLResp> {
+    async addGroupUser(requestParameters: AddGroupUserRequest, initOverrides?: RequestInit): Promise<RespResourceURL> {
         const response = await this.addGroupUserRaw(requestParameters, initOverrides);
         return await response.value();
     }
@@ -112,7 +112,7 @@ export class UsersApi extends runtime.BaseAPI {
      * Get a user from a group 
      * Get group user
      */
-    async getGroupUserRaw(requestParameters: GetGroupUserRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<GroupUserResp>> {
+    async getGroupUserRaw(requestParameters: GetGroupUserRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespGroupUser>> {
         if (requestParameters.groupId === null || requestParameters.groupId === undefined) {
             throw new runtime.RequiredError('groupId','Required parameter requestParameters.groupId was null or undefined when calling getGroupUser.');
         }
@@ -136,14 +136,14 @@ export class UsersApi extends runtime.BaseAPI {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => GroupUserRespFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => RespGroupUserFromJSON(jsonValue));
     }
 
     /**
      * Get a user from a group 
      * Get group user
      */
-    async getGroupUser(requestParameters: GetGroupUserRequest, initOverrides?: RequestInit): Promise<GroupUserResp> {
+    async getGroupUser(requestParameters: GetGroupUserRequest, initOverrides?: RequestInit): Promise<RespGroupUser> {
         const response = await this.getGroupUserRaw(requestParameters, initOverrides);
         return await response.value();
     }
@@ -152,7 +152,7 @@ export class UsersApi extends runtime.BaseAPI {
      * List users. 
      * List users
      */
-    async listGroupUsersRaw(requestParameters: ListGroupUsersRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<GroupUserListResp>> {
+    async listGroupUsersRaw(requestParameters: ListGroupUsersRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespGroupUserList>> {
         if (requestParameters.groupId === null || requestParameters.groupId === undefined) {
             throw new runtime.RequiredError('groupId','Required parameter requestParameters.groupId was null or undefined when calling listGroupUsers.');
         }
@@ -172,14 +172,14 @@ export class UsersApi extends runtime.BaseAPI {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => GroupUserListRespFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => RespGroupUserListFromJSON(jsonValue));
     }
 
     /**
      * List users. 
      * List users
      */
-    async listGroupUsers(requestParameters: ListGroupUsersRequest, initOverrides?: RequestInit): Promise<GroupUserListResp> {
+    async listGroupUsers(requestParameters: ListGroupUsersRequest, initOverrides?: RequestInit): Promise<RespGroupUserList> {
         const response = await this.listGroupUsersRaw(requestParameters, initOverrides);
         return await response.value();
     }
@@ -188,7 +188,7 @@ export class UsersApi extends runtime.BaseAPI {
      * Remove a user from a group. 
      * Remove user from group
      */
-    async removeGroupUserRaw(requestParameters: RemoveGroupUserRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<GroupUserResp>> {
+    async removeGroupUserRaw(requestParameters: RemoveGroupUserRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespGroupUser>> {
         if (requestParameters.groupId === null || requestParameters.groupId === undefined) {
             throw new runtime.RequiredError('groupId','Required parameter requestParameters.groupId was null or undefined when calling removeGroupUser.');
         }
@@ -212,14 +212,14 @@ export class UsersApi extends runtime.BaseAPI {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => GroupUserRespFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => RespGroupUserFromJSON(jsonValue));
     }
 
     /**
      * Remove a user from a group. 
      * Remove user from group
      */
-    async removeGroupUser(requestParameters: RemoveGroupUserRequest, initOverrides?: RequestInit): Promise<GroupUserResp> {
+    async removeGroupUser(requestParameters: RemoveGroupUserRequest, initOverrides?: RequestInit): Promise<RespGroupUser> {
         const response = await this.removeGroupUserRaw(requestParameters, initOverrides);
         return await response.value();
     }
@@ -228,7 +228,7 @@ export class UsersApi extends runtime.BaseAPI {
      * Update a user for a specified group. Only group admins can perform this operation. 
      * Update group user
      */
-    async updateGroupUserRaw(requestParameters: UpdateGroupUserRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<GroupUserResp>> {
+    async updateGroupUserRaw(requestParameters: UpdateGroupUserRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespGroupUser>> {
         if (requestParameters.groupId === null || requestParameters.groupId === undefined) {
             throw new runtime.RequiredError('groupId','Required parameter requestParameters.groupId was null or undefined when calling updateGroupUser.');
         }
@@ -237,8 +237,8 @@ export class UsersApi extends runtime.BaseAPI {
             throw new runtime.RequiredError('username','Required parameter requestParameters.username was null or undefined when calling updateGroupUser.');
         }
 
-        if (requestParameters.groupUserPutPatchReq === null || requestParameters.groupUserPutPatchReq === undefined) {
-            throw new runtime.RequiredError('groupUserPutPatchReq','Required parameter requestParameters.groupUserPutPatchReq was null or undefined when calling updateGroupUser.');
+        if (requestParameters.reqUpdateGroupUser === null || requestParameters.reqUpdateGroupUser === undefined) {
+            throw new runtime.RequiredError('reqUpdateGroupUser','Required parameter requestParameters.reqUpdateGroupUser was null or undefined when calling updateGroupUser.');
         }
 
         const queryParameters: any = {};
@@ -256,17 +256,17 @@ export class UsersApi extends runtime.BaseAPI {
             method: 'PATCH',
             headers: headerParameters,
             query: queryParameters,
-            body: GroupUserPutPatchReqToJSON(requestParameters.groupUserPutPatchReq),
+            body: ReqUpdateGroupUserToJSON(requestParameters.reqUpdateGroupUser),
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => GroupUserRespFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => RespGroupUserFromJSON(jsonValue));
     }
 
     /**
      * Update a user for a specified group. Only group admins can perform this operation. 
      * Update group user
      */
-    async updateGroupUser(requestParameters: UpdateGroupUserRequest, initOverrides?: RequestInit): Promise<GroupUserResp> {
+    async updateGroupUser(requestParameters: UpdateGroupUserRequest, initOverrides?: RequestInit): Promise<RespGroupUser> {
         const response = await this.updateGroupUserRaw(requestParameters, initOverrides);
         return await response.value();
     }

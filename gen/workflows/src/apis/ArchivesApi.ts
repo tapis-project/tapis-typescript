@@ -15,29 +15,26 @@
 
 import * as runtime from '../runtime';
 import {
-    ArchiveListResp,
-    ArchiveListRespFromJSON,
-    ArchiveListRespToJSON,
-    ArchivePostReq,
-    ArchivePostReqFromJSON,
-    ArchivePostReqToJSON,
-    ArchiveResp,
-    ArchiveRespFromJSON,
-    ArchiveRespToJSON,
-    BaseResp,
-    BaseRespFromJSON,
-    BaseRespToJSON,
-    ErrorResp,
-    ErrorRespFromJSON,
-    ErrorRespToJSON,
-    ResourceURLResp,
-    ResourceURLRespFromJSON,
-    ResourceURLRespToJSON,
+    ReqArchive,
+    ReqArchiveFromJSON,
+    ReqArchiveToJSON,
+    RespArchive,
+    RespArchiveFromJSON,
+    RespArchiveToJSON,
+    RespArchiveList,
+    RespArchiveListFromJSON,
+    RespArchiveListToJSON,
+    RespError,
+    RespErrorFromJSON,
+    RespErrorToJSON,
+    RespResourceURL,
+    RespResourceURLFromJSON,
+    RespResourceURLToJSON,
 } from '../models';
 
 export interface CreateArchiveRequest {
     groupId: string;
-    archivePostReq: ArchivePostReq;
+    reqArchive: ReqArchive;
 }
 
 export interface GetArchiveRequest {
@@ -49,11 +46,6 @@ export interface ListArchivesRequest {
     groupId: string;
 }
 
-export interface RemovePipelineArchiveRequest {
-    groupId: string;
-    pipelineId: string;
-}
-
 /**
  * 
  */
@@ -63,13 +55,13 @@ export class ArchivesApi extends runtime.BaseAPI {
      * Create an Archive. Archives are used to persist the results of a pipeline run 
      * Create an archive
      */
-    async createArchiveRaw(requestParameters: CreateArchiveRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<ResourceURLResp>> {
+    async createArchiveRaw(requestParameters: CreateArchiveRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespResourceURL>> {
         if (requestParameters.groupId === null || requestParameters.groupId === undefined) {
             throw new runtime.RequiredError('groupId','Required parameter requestParameters.groupId was null or undefined when calling createArchive.');
         }
 
-        if (requestParameters.archivePostReq === null || requestParameters.archivePostReq === undefined) {
-            throw new runtime.RequiredError('archivePostReq','Required parameter requestParameters.archivePostReq was null or undefined when calling createArchive.');
+        if (requestParameters.reqArchive === null || requestParameters.reqArchive === undefined) {
+            throw new runtime.RequiredError('reqArchive','Required parameter requestParameters.reqArchive was null or undefined when calling createArchive.');
         }
 
         const queryParameters: any = {};
@@ -87,17 +79,17 @@ export class ArchivesApi extends runtime.BaseAPI {
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
-            body: ArchivePostReqToJSON(requestParameters.archivePostReq),
+            body: ReqArchiveToJSON(requestParameters.reqArchive),
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => ResourceURLRespFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => RespResourceURLFromJSON(jsonValue));
     }
 
     /**
      * Create an Archive. Archives are used to persist the results of a pipeline run 
      * Create an archive
      */
-    async createArchive(requestParameters: CreateArchiveRequest, initOverrides?: RequestInit): Promise<ResourceURLResp> {
+    async createArchive(requestParameters: CreateArchiveRequest, initOverrides?: RequestInit): Promise<RespResourceURL> {
         const response = await this.createArchiveRaw(requestParameters, initOverrides);
         return await response.value();
     }
@@ -106,7 +98,7 @@ export class ArchivesApi extends runtime.BaseAPI {
      * Retrieve an archive
      * Retrieve an archive
      */
-    async getArchiveRaw(requestParameters: GetArchiveRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<ArchiveResp>> {
+    async getArchiveRaw(requestParameters: GetArchiveRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespArchive>> {
         if (requestParameters.groupId === null || requestParameters.groupId === undefined) {
             throw new runtime.RequiredError('groupId','Required parameter requestParameters.groupId was null or undefined when calling getArchive.');
         }
@@ -130,14 +122,14 @@ export class ArchivesApi extends runtime.BaseAPI {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => ArchiveRespFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => RespArchiveFromJSON(jsonValue));
     }
 
     /**
      * Retrieve an archive
      * Retrieve an archive
      */
-    async getArchive(requestParameters: GetArchiveRequest, initOverrides?: RequestInit): Promise<ArchiveResp> {
+    async getArchive(requestParameters: GetArchiveRequest, initOverrides?: RequestInit): Promise<RespArchive> {
         const response = await this.getArchiveRaw(requestParameters, initOverrides);
         return await response.value();
     }
@@ -146,7 +138,7 @@ export class ArchivesApi extends runtime.BaseAPI {
      * Retrieve a list of archives for in group
      * Retrieve archives
      */
-    async listArchivesRaw(requestParameters: ListArchivesRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<ArchiveListResp>> {
+    async listArchivesRaw(requestParameters: ListArchivesRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespArchiveList>> {
         if (requestParameters.groupId === null || requestParameters.groupId === undefined) {
             throw new runtime.RequiredError('groupId','Required parameter requestParameters.groupId was null or undefined when calling listArchives.');
         }
@@ -166,55 +158,15 @@ export class ArchivesApi extends runtime.BaseAPI {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => ArchiveListRespFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => RespArchiveListFromJSON(jsonValue));
     }
 
     /**
      * Retrieve a list of archives for in group
      * Retrieve archives
      */
-    async listArchives(requestParameters: ListArchivesRequest, initOverrides?: RequestInit): Promise<ArchiveListResp> {
+    async listArchives(requestParameters: ListArchivesRequest, initOverrides?: RequestInit): Promise<RespArchiveList> {
         const response = await this.listArchivesRaw(requestParameters, initOverrides);
-        return await response.value();
-    }
-
-    /**
-     * Remove an archive to a pipeline. 
-     * Remove archive to a pipeline
-     */
-    async removePipelineArchiveRaw(requestParameters: RemovePipelineArchiveRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<BaseResp>> {
-        if (requestParameters.groupId === null || requestParameters.groupId === undefined) {
-            throw new runtime.RequiredError('groupId','Required parameter requestParameters.groupId was null or undefined when calling removePipelineArchive.');
-        }
-
-        if (requestParameters.pipelineId === null || requestParameters.pipelineId === undefined) {
-            throw new runtime.RequiredError('pipelineId','Required parameter requestParameters.pipelineId was null or undefined when calling removePipelineArchive.');
-        }
-
-        const queryParameters: any = {};
-
-        const headerParameters: runtime.HTTPHeaders = {};
-
-        if (this.configuration && this.configuration.apiKey) {
-            headerParameters["X-TAPIS-TOKEN"] = this.configuration.apiKey("X-TAPIS-TOKEN"); // TapisJWT authentication
-        }
-
-        const response = await this.request({
-            path: `/v3/workflows/groups/{group_id}/pipelines/{pipeline_id}/archives/remove`.replace(`{${"group_id"}}`, encodeURIComponent(String(requestParameters.groupId))).replace(`{${"pipeline_id"}}`, encodeURIComponent(String(requestParameters.pipelineId))),
-            method: 'DELETE',
-            headers: headerParameters,
-            query: queryParameters,
-        }, initOverrides);
-
-        return new runtime.JSONApiResponse(response, (jsonValue) => BaseRespFromJSON(jsonValue));
-    }
-
-    /**
-     * Remove an archive to a pipeline. 
-     * Remove archive to a pipeline
-     */
-    async removePipelineArchive(requestParameters: RemovePipelineArchiveRequest, initOverrides?: RequestInit): Promise<BaseResp> {
-        const response = await this.removePipelineArchiveRaw(requestParameters, initOverrides);
         return await response.value();
     }
 

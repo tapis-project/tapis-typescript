@@ -15,9 +15,9 @@
 
 import * as runtime from '../runtime';
 import {
-    BaseResp,
-    BaseRespFromJSON,
-    BaseRespToJSON,
+    RespBase,
+    RespBaseFromJSON,
+    RespBaseToJSON,
 } from '../models';
 
 /**
@@ -28,7 +28,7 @@ export class GeneralApi extends runtime.BaseAPI {
     /**
      * Health check.
      */
-    async healthCheckRaw(initOverrides?: RequestInit): Promise<runtime.ApiResponse<BaseResp>> {
+    async healthCheckRaw(initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespBase>> {
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -44,13 +44,13 @@ export class GeneralApi extends runtime.BaseAPI {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => BaseRespFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => RespBaseFromJSON(jsonValue));
     }
 
     /**
      * Health check.
      */
-    async healthCheck(initOverrides?: RequestInit): Promise<BaseResp> {
+    async healthCheck(initOverrides?: RequestInit): Promise<RespBase> {
         const response = await this.healthCheckRaw(initOverrides);
         return await response.value();
     }

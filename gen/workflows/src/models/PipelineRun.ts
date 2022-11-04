@@ -14,10 +14,10 @@
 
 import { exists, mapValues } from '../runtime';
 import {
-    RunStatusEnum,
-    RunStatusEnumFromJSON,
-    RunStatusEnumFromJSONTyped,
-    RunStatusEnumToJSON,
+    EnumRunStatus,
+    EnumRunStatusFromJSON,
+    EnumRunStatusFromJSONTyped,
+    EnumRunStatusToJSON,
 } from './';
 
 /**
@@ -40,10 +40,10 @@ export interface PipelineRun {
     pipeline?: string;
     /**
      * 
-     * @type {RunStatusEnum}
+     * @type {EnumRunStatus}
      * @memberof PipelineRun
      */
-    status?: RunStatusEnum;
+    status?: EnumRunStatus;
     /**
      * 
      * @type {string}
@@ -70,7 +70,7 @@ export function PipelineRunFromJSONTyped(json: any, ignoreDiscriminator: boolean
         
         'uuid': !exists(json, 'uuid') ? undefined : json['uuid'],
         'pipeline': !exists(json, 'pipeline') ? undefined : json['pipeline'],
-        'status': !exists(json, 'status') ? undefined : RunStatusEnumFromJSON(json['status']),
+        'status': !exists(json, 'status') ? undefined : EnumRunStatusFromJSON(json['status']),
         'started_at': !exists(json, 'started_at') ? undefined : json['started_at'],
         'ended_at': !exists(json, 'ended_at') ? undefined : json['ended_at'],
     };
@@ -87,7 +87,7 @@ export function PipelineRunToJSON(value?: PipelineRun | null): any {
         
         'uuid': value.uuid,
         'pipeline': value.pipeline,
-        'status': RunStatusEnumToJSON(value.status),
+        'status': EnumRunStatusToJSON(value.status),
         'started_at': value.started_at,
         'ended_at': value.ended_at,
     };

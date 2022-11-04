@@ -15,18 +15,18 @@
 
 import * as runtime from '../runtime';
 import {
-    PipelineRunListResp,
-    PipelineRunListRespFromJSON,
-    PipelineRunListRespToJSON,
-    PipelineRunResp,
-    PipelineRunRespFromJSON,
-    PipelineRunRespToJSON,
-    RunStatusEnum,
-    RunStatusEnumFromJSON,
-    RunStatusEnumToJSON,
-    StringResp,
-    StringRespFromJSON,
-    StringRespToJSON,
+    EnumRunStatus,
+    EnumRunStatusFromJSON,
+    EnumRunStatusToJSON,
+    RespPipelineRun,
+    RespPipelineRunFromJSON,
+    RespPipelineRunToJSON,
+    RespPipelineRunList,
+    RespPipelineRunListFromJSON,
+    RespPipelineRunListToJSON,
+    RespString,
+    RespStringFromJSON,
+    RespStringToJSON,
 } from '../models';
 
 export interface GetPipelineRunRequest {
@@ -43,8 +43,7 @@ export interface ListPipelineRunsRequest {
 export interface UpdatePipelineRunStatusRequest {
     xWORKFLOWEXECUTORTOKEN: string;
     pipelineRunUuid: string;
-    status: RunStatusEnum;
-    UNKNOWN_PARAM_NAME?: ;
+    status: EnumRunStatus;
 }
 
 /**
@@ -56,7 +55,7 @@ export class PipelineRunsApi extends runtime.BaseAPI {
      * Get a pipeline run 
      * Pipeline Runs
      */
-    async getPipelineRunRaw(requestParameters: GetPipelineRunRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<PipelineRunResp>> {
+    async getPipelineRunRaw(requestParameters: GetPipelineRunRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespPipelineRun>> {
         if (requestParameters.groupId === null || requestParameters.groupId === undefined) {
             throw new runtime.RequiredError('groupId','Required parameter requestParameters.groupId was null or undefined when calling getPipelineRun.');
         }
@@ -84,14 +83,14 @@ export class PipelineRunsApi extends runtime.BaseAPI {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => PipelineRunRespFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => RespPipelineRunFromJSON(jsonValue));
     }
 
     /**
      * Get a pipeline run 
      * Pipeline Runs
      */
-    async getPipelineRun(requestParameters: GetPipelineRunRequest, initOverrides?: RequestInit): Promise<PipelineRunResp> {
+    async getPipelineRun(requestParameters: GetPipelineRunRequest, initOverrides?: RequestInit): Promise<RespPipelineRun> {
         const response = await this.getPipelineRunRaw(requestParameters, initOverrides);
         return await response.value();
     }
@@ -100,7 +99,7 @@ export class PipelineRunsApi extends runtime.BaseAPI {
      * List runs for a pipeline 
      * Pipeline Runs
      */
-    async listPipelineRunsRaw(requestParameters: ListPipelineRunsRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<PipelineRunListResp>> {
+    async listPipelineRunsRaw(requestParameters: ListPipelineRunsRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespPipelineRunList>> {
         if (requestParameters.groupId === null || requestParameters.groupId === undefined) {
             throw new runtime.RequiredError('groupId','Required parameter requestParameters.groupId was null or undefined when calling listPipelineRuns.');
         }
@@ -124,14 +123,14 @@ export class PipelineRunsApi extends runtime.BaseAPI {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => PipelineRunListRespFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => RespPipelineRunListFromJSON(jsonValue));
     }
 
     /**
      * List runs for a pipeline 
      * Pipeline Runs
      */
-    async listPipelineRuns(requestParameters: ListPipelineRunsRequest, initOverrides?: RequestInit): Promise<PipelineRunListResp> {
+    async listPipelineRuns(requestParameters: ListPipelineRunsRequest, initOverrides?: RequestInit): Promise<RespPipelineRunList> {
         const response = await this.listPipelineRunsRaw(requestParameters, initOverrides);
         return await response.value();
     }
@@ -140,7 +139,7 @@ export class PipelineRunsApi extends runtime.BaseAPI {
      * Endpoints that update pipeline runs are only accessible to the Workflow Executor 
      * Pipeline Runs
      */
-    async updatePipelineRunStatusRaw(requestParameters: UpdatePipelineRunStatusRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<StringResp>> {
+    async updatePipelineRunStatusRaw(requestParameters: UpdatePipelineRunStatusRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespString>> {
         if (requestParameters.xWORKFLOWEXECUTORTOKEN === null || requestParameters.xWORKFLOWEXECUTORTOKEN === undefined) {
             throw new runtime.RequiredError('xWORKFLOWEXECUTORTOKEN','Required parameter requestParameters.xWORKFLOWEXECUTORTOKEN was null or undefined when calling updatePipelineRunStatus.');
         }
@@ -157,8 +156,6 @@ export class PipelineRunsApi extends runtime.BaseAPI {
 
         const headerParameters: runtime.HTTPHeaders = {};
 
-        headerParameters['Content-Type'] = 'application/json';
-
         if (requestParameters.xWORKFLOWEXECUTORTOKEN !== undefined && requestParameters.xWORKFLOWEXECUTORTOKEN !== null) {
             headerParameters['X-WORKFLOW-EXECUTOR-TOKEN'] = String(requestParameters.xWORKFLOWEXECUTORTOKEN);
         }
@@ -172,17 +169,16 @@ export class PipelineRunsApi extends runtime.BaseAPI {
             method: 'PATCH',
             headers: headerParameters,
             query: queryParameters,
-            body: ToJSON(requestParameters.UNKNOWN_PARAM_NAME),
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => StringRespFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => RespStringFromJSON(jsonValue));
     }
 
     /**
      * Endpoints that update pipeline runs are only accessible to the Workflow Executor 
      * Pipeline Runs
      */
-    async updatePipelineRunStatus(requestParameters: UpdatePipelineRunStatusRequest, initOverrides?: RequestInit): Promise<StringResp> {
+    async updatePipelineRunStatus(requestParameters: UpdatePipelineRunStatusRequest, initOverrides?: RequestInit): Promise<RespString> {
         const response = await this.updatePipelineRunStatusRaw(requestParameters, initOverrides);
         return await response.value();
     }
