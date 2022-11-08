@@ -36,13 +36,7 @@ export interface S3ArchiveAllOf {
      * @type {string}
      * @memberof S3ArchiveAllOf
      */
-    access_key?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof S3ArchiveAllOf
-     */
-    access_secret?: string;
+    region: string;
 }
 
 export function S3ArchiveAllOfFromJSON(json: any): S3ArchiveAllOf {
@@ -57,8 +51,7 @@ export function S3ArchiveAllOfFromJSONTyped(json: any, ignoreDiscriminator: bool
         
         'endpoint': json['endpoint'],
         'bucket': json['bucket'],
-        'access_key': !exists(json, 'access_key') ? undefined : json['access_key'],
-        'access_secret': !exists(json, 'access_secret') ? undefined : json['access_secret'],
+        'region': json['region'],
     };
 }
 
@@ -73,8 +66,7 @@ export function S3ArchiveAllOfToJSON(value?: S3ArchiveAllOf | null): any {
         
         'endpoint': value.endpoint,
         'bucket': value.bucket,
-        'access_key': value.access_key,
-        'access_secret': value.access_secret,
+        'region': value.region,
     };
 }
 

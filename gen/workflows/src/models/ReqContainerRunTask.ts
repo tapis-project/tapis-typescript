@@ -14,10 +14,6 @@
 
 import { exists, mapValues } from '../runtime';
 import {
-    ContainerRunTaskAllOf,
-    ContainerRunTaskAllOfFromJSON,
-    ContainerRunTaskAllOfFromJSONTyped,
-    ContainerRunTaskAllOfToJSON,
     EnumTaskType,
     EnumTaskTypeFromJSON,
     EnumTaskTypeFromJSONTyped,
@@ -30,6 +26,10 @@ import {
     ReqBaseTaskFromJSON,
     ReqBaseTaskFromJSONTyped,
     ReqBaseTaskToJSON,
+    ReqContainerRunTaskAllOf,
+    ReqContainerRunTaskAllOfFromJSON,
+    ReqContainerRunTaskAllOfFromJSONTyped,
+    ReqContainerRunTaskAllOfToJSON,
     TaskDependency,
     TaskDependencyFromJSON,
     TaskDependencyFromJSONTyped,
@@ -89,7 +89,7 @@ export interface ReqContainerRunTask {
      * @type {string}
      * @memberof ReqContainerRunTask
      */
-    image?: string;
+    image: string;
 }
 
 export function ReqContainerRunTaskFromJSON(json: any): ReqContainerRunTask {
@@ -109,7 +109,7 @@ export function ReqContainerRunTaskFromJSONTyped(json: any, ignoreDiscriminator:
         'execution_profile': !exists(json, 'execution_profile') ? undefined : ExecutionProfileFromJSON(json['execution_profile']),
         'input': !exists(json, 'input') ? undefined : json['input'],
         'output': !exists(json, 'output') ? undefined : json['output'],
-        'image': !exists(json, 'image') ? undefined : json['image'],
+        'image': json['image'],
     };
 }
 

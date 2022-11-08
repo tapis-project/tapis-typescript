@@ -16,40 +16,40 @@ import { exists, mapValues } from '../runtime';
 /**
  * 
  * @export
- * @interface ReqCreateTaskExecution
+ * @interface ReqTaskExecution
  */
-export interface ReqCreateTaskExecution {
+export interface ReqTaskExecution {
     /**
      * 
      * @type {string}
-     * @memberof ReqCreateTaskExecution
+     * @memberof ReqTaskExecution
      */
     task_id: string;
     /**
      * 
      * @type {string}
-     * @memberof ReqCreateTaskExecution
+     * @memberof ReqTaskExecution
      */
     started_at?: string;
     /**
      * 
      * @type {string}
-     * @memberof ReqCreateTaskExecution
+     * @memberof ReqTaskExecution
      */
     last_modified?: string;
     /**
      * 
      * @type {string}
-     * @memberof ReqCreateTaskExecution
+     * @memberof ReqTaskExecution
      */
     uuid: string;
 }
 
-export function ReqCreateTaskExecutionFromJSON(json: any): ReqCreateTaskExecution {
-    return ReqCreateTaskExecutionFromJSONTyped(json, false);
+export function ReqTaskExecutionFromJSON(json: any): ReqTaskExecution {
+    return ReqTaskExecutionFromJSONTyped(json, false);
 }
 
-export function ReqCreateTaskExecutionFromJSONTyped(json: any, ignoreDiscriminator: boolean): ReqCreateTaskExecution {
+export function ReqTaskExecutionFromJSONTyped(json: any, ignoreDiscriminator: boolean): ReqTaskExecution {
     if ((json === undefined) || (json === null)) {
         return json;
     }
@@ -62,7 +62,7 @@ export function ReqCreateTaskExecutionFromJSONTyped(json: any, ignoreDiscriminat
     };
 }
 
-export function ReqCreateTaskExecutionToJSON(value?: ReqCreateTaskExecution | null): any {
+export function ReqTaskExecutionToJSON(value?: ReqTaskExecution | null): any {
     if (value === undefined) {
         return undefined;
     }

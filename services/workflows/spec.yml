@@ -1641,7 +1641,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/ReqCreateTaskExecution'
+              $ref: '#/components/schemas/ReqTaskExecution'
       responses:
         '200':
           description: Success
@@ -1847,14 +1847,13 @@ components:
           required:
             - endpoint
             - bucket
+            - region
           properties:
             endpoint:
               type: string
             bucket:
               type: string
-            access_key:
-              type: string
-            access_secret:
+            region:
               type: string
 
     TapisSystemArchive:
@@ -2280,17 +2279,35 @@ components:
           required:
             - endpoint
             - bucket
+            - region
+          oneOf:
+            - required: [credentials]
+            - required: [identity_uuid]
           properties:
             endpoint:
               type: string
             bucket:
               type: string
-            access_key:
+            region:
               type: string
-            access_secret:
+            credentials:
+              $ref: "#/components/schemas/ReqS3Cred"
+            identity_uuid:
               type: string
+              format: uuid
+          
 
     ReqIdentity:
+      oneOf:
+        - $ref: "#/components/schemas/ReqDockerhubIdentity"
+        - $ref: "#/components/schemas/ReqGithubIdentity"
+      discriminator:
+        propertyName: type
+        mapping:
+          dockerhub: "#/components/schemas/ReqDockerhubIdentity"
+          github: "#/components/schemas/ReqGithubIdentity"
+
+    ReqBaseIdentity:
       type: object
       required:
         - type
@@ -2301,34 +2318,22 @@ components:
           type: string
         type:
           $ref: '#/components/schemas/EnumIdentityType'
-        credentials:
-          $ref: "#/components/schemas/ReqIdentityCred"
 
-    ReqIdentityCred:
-      oneOf:
-        - $ref: "#/components/schemas/ReqGithubAuth"
-        - $ref: "#/components/schemas/ReqDockerhubAuth"
-      discriminator:
-        propertyName: type
-        mapping:
-          github: "#/components/schemas/ReqGithubAuth"
-          dockerhub: "#/components/schemas/ReqDockerhubAuth"
-          
-    ReqGithubAuth:
-      type: object
-      properties:
-        username:
-          $ref: '#/components/schemas/Username'
-        personal_access_token:
-          type: string
+    ReqDockerhubIdentity:
+      allOf:
+        - $ref: "#/components/schemas/ReqBaseIdentity"
+        - type: object
+          properties:
+            credentials:
+              $ref: "#/components/schemas/ReqDockerhubCred"
 
-    ReqDockerhubAuth:
-      type: object
-      properties:
-        username:
-          $ref: '#/components/schemas/Username'
-        token:
-          type: string
+    ReqGithubIdentity:
+      allOf:
+        - $ref: "#/components/schemas/ReqBaseIdentity"
+        - type: object
+          properties:
+            credentials:
+              $ref: "#/components/schemas/ReqGithubCred"
 
     ReqPipeline:
       type: object
@@ -2380,6 +2385,10 @@ components:
       allOf:
         - $ref: '#/components/schemas/ReqBaseTask'
         - type: object
+          required:
+            - context
+            - destination
+            - builder
           properties:
             builder:
               allOf:
@@ -2397,6 +2406,9 @@ components:
       allOf:
         - $ref: '#/components/schemas/ReqBaseTask'
         - type: object
+          required:
+            - http_method
+            - url
           properties:
             auth:
               type: object
@@ -2415,6 +2427,8 @@ components:
       allOf:
         - $ref: '#/components/schemas/ReqBaseTask'
         - type: object
+          required:
+            - image
           properties:
             image:
               type: string
@@ -2423,6 +2437,8 @@ components:
       allOf:
         - $ref: '#/components/schemas/ReqBaseTask'
         - type: object
+          required:
+            - tapis_job_def
           properties:
             poll:
               type: boolean
@@ -2434,6 +2450,8 @@ components:
       allOf:
         - $ref: '#/components/schemas/ReqBaseTask'
         - type: object
+          required:
+            - tapis_actor_id
           properties:
             poll:
               type: boolean
@@ -2446,6 +2464,8 @@ components:
       allOf:
         - $ref: '#/components/schemas/ReqBaseTask'
         - type: object
+          required:
+            - runtime
           properties:
             runtime:
               $ref: "#/components/schemas/EnumRuntimeEnvironment"
@@ -2522,11 +2542,6 @@ components:
           properties: 
             visibility:
               $ref: "#/components/schemas/EnumContextVisibility"
-            credentials:
-              $ref: "#/components/schemas/ReqContextCredentials"
-            identity_uuid:
-              type: string
-              format: uuid
             url:
               type: string
           oneOf:
@@ -2561,6 +2576,13 @@ components:
       allOf:
         - $ref: "#/components/schemas/ReqBaseContext"
         - $ref: "#/components/schemas/ReqRepoContext"
+        - type: object
+          properties:
+            credentials:
+              $ref: '#/components/schemas/ReqGithubCred'
+            identity_uuid:
+              type: string
+              format: uuid
 
     ReqGitlabContext:
       allOf:
@@ -2571,6 +2593,13 @@ components:
       allOf:
         - $ref: "#/components/schemas/ReqBaseContext"
         - $ref: "#/components/schemas/ReqRegistryContext"
+        - type: object
+          properties:
+            credentials:
+              $ref: '#/components/schemas/ReqDockerhubCred'
+            identity_uuid:
+              type: string
+              format: uuid
 
     ReqContext:
       oneOf:
@@ -2587,7 +2616,15 @@ components:
           local: "#/components/schemas/ReqLocalContext"
 
     # --- Credentials ---
-    DockerhubCred:
+    ReqS3Cred:
+      type: object
+      properties:
+        access_key:
+          type: string
+        access_secret:
+          type: string
+
+    ReqDockerhubCred:
       type: object
       properties:
         token:
@@ -2595,18 +2632,13 @@ components:
         username:
           type: string
     
-    GithubCred:
+    ReqGithubCred:
       type: object
       properties:
         personal_access_token:
           type: string
         username:
           type: string
-
-    ReqContextCredentials:
-      oneOf:
-        - $ref: '#/components/schemas/GithubCred'
-        - $ref: '#/components/schemas/DockerhubCred'
       
     # --- Destination ---
     ReqBaseDestination:
@@ -2633,7 +2665,7 @@ components:
             - url
           properties:
             credentials:
-              $ref: '#/components/schemas/ReqDestinationCredentials'
+              $ref: '#/components/schemas/ReqDockerhubCred'
             identity_uuid:
               type: string
               format: uuid
@@ -2645,14 +2677,6 @@ components:
           oneOf:
             - required: [credentials]
             - required: [identity_uuid]
-
-    ReqDestinationCredentials:
-      type: object
-      properties:
-        token:
-          type: string
-        username:
-          type: string
 
     ReqDockerhubDestination:
       allOf:
@@ -2696,7 +2720,7 @@ components:
           items:
             type: string
 
-    ReqCreateTaskExecution:
+    ReqTaskExecution:
       type: object
       required:
         - task_id

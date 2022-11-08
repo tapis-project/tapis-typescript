@@ -26,10 +26,14 @@ import {
     ReqBaseContextFromJSON,
     ReqBaseContextFromJSONTyped,
     ReqBaseContextToJSON,
-    ReqContextCredentials,
-    ReqContextCredentialsFromJSON,
-    ReqContextCredentialsFromJSONTyped,
-    ReqContextCredentialsToJSON,
+    ReqGithubContextAllOf,
+    ReqGithubContextAllOfFromJSON,
+    ReqGithubContextAllOfFromJSONTyped,
+    ReqGithubContextAllOfToJSON,
+    ReqGithubCred,
+    ReqGithubCredFromJSON,
+    ReqGithubCredFromJSONTyped,
+    ReqGithubCredToJSON,
     ReqRepoContext,
     ReqRepoContextFromJSON,
     ReqRepoContextFromJSONTyped,
@@ -56,18 +60,6 @@ export interface ReqGithubContext {
     visibility: EnumContextVisibility;
     /**
      * 
-     * @type {ReqContextCredentials}
-     * @memberof ReqGithubContext
-     */
-    credentials?: ReqContextCredentials;
-    /**
-     * 
-     * @type {string}
-     * @memberof ReqGithubContext
-     */
-    identity_uuid?: string;
-    /**
-     * 
      * @type {string}
      * @memberof ReqGithubContext
      */
@@ -90,6 +82,18 @@ export interface ReqGithubContext {
      * @memberof ReqGithubContext
      */
     sub_path?: string;
+    /**
+     * 
+     * @type {ReqGithubCred}
+     * @memberof ReqGithubContext
+     */
+    credentials?: ReqGithubCred;
+    /**
+     * 
+     * @type {string}
+     * @memberof ReqGithubContext
+     */
+    identity_uuid?: string;
 }
 
 export function ReqGithubContextFromJSON(json: any): ReqGithubContext {
@@ -104,12 +108,12 @@ export function ReqGithubContextFromJSONTyped(json: any, ignoreDiscriminator: bo
         
         'type': EnumContextTypeFromJSON(json['type']),
         'visibility': EnumContextVisibilityFromJSON(json['visibility']),
-        'credentials': !exists(json, 'credentials') ? undefined : ReqContextCredentialsFromJSON(json['credentials']),
-        'identity_uuid': !exists(json, 'identity_uuid') ? undefined : json['identity_uuid'],
         'url': json['url'],
         'branch': json['branch'],
         'build_file_path': json['build_file_path'],
         'sub_path': !exists(json, 'sub_path') ? undefined : json['sub_path'],
+        'credentials': !exists(json, 'credentials') ? undefined : ReqGithubCredFromJSON(json['credentials']),
+        'identity_uuid': !exists(json, 'identity_uuid') ? undefined : json['identity_uuid'],
     };
 }
 
@@ -124,12 +128,12 @@ export function ReqGithubContextToJSON(value?: ReqGithubContext | null): any {
         
         'type': EnumContextTypeToJSON(value.type),
         'visibility': EnumContextVisibilityToJSON(value.visibility),
-        'credentials': ReqContextCredentialsToJSON(value.credentials),
-        'identity_uuid': value.identity_uuid,
         'url': value.url,
         'branch': value.branch,
         'build_file_path': value.build_file_path,
         'sub_path': value.sub_path,
+        'credentials': ReqGithubCredToJSON(value.credentials),
+        'identity_uuid': value.identity_uuid,
     };
 }
 

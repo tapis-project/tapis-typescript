@@ -22,10 +22,6 @@ import {
     EnumContextVisibilityFromJSON,
     EnumContextVisibilityFromJSONTyped,
     EnumContextVisibilityToJSON,
-    ReqContextCredentials,
-    ReqContextCredentialsFromJSON,
-    ReqContextCredentialsFromJSONTyped,
-    ReqContextCredentialsToJSON,
     ReqNonLocalContext,
     ReqNonLocalContextFromJSON,
     ReqNonLocalContextFromJSONTyped,
@@ -56,18 +52,6 @@ export interface ReqRegistryContext {
     visibility: EnumContextVisibility;
     /**
      * 
-     * @type {ReqContextCredentials}
-     * @memberof ReqRegistryContext
-     */
-    credentials?: ReqContextCredentials;
-    /**
-     * 
-     * @type {string}
-     * @memberof ReqRegistryContext
-     */
-    identity_uuid?: string;
-    /**
-     * 
      * @type {string}
      * @memberof ReqRegistryContext
      */
@@ -92,8 +76,6 @@ export function ReqRegistryContextFromJSONTyped(json: any, ignoreDiscriminator: 
         
         'type': EnumContextTypeFromJSON(json['type']),
         'visibility': EnumContextVisibilityFromJSON(json['visibility']),
-        'credentials': !exists(json, 'credentials') ? undefined : ReqContextCredentialsFromJSON(json['credentials']),
-        'identity_uuid': !exists(json, 'identity_uuid') ? undefined : json['identity_uuid'],
         'url': json['url'],
         'tag': !exists(json, 'tag') ? undefined : json['tag'],
     };
@@ -110,8 +92,6 @@ export function ReqRegistryContextToJSON(value?: ReqRegistryContext | null): any
         
         'type': EnumContextTypeToJSON(value.type),
         'visibility': EnumContextVisibilityToJSON(value.visibility),
-        'credentials': ReqContextCredentialsToJSON(value.credentials),
-        'identity_uuid': value.identity_uuid,
         'url': value.url,
         'tag': value.tag,
     };

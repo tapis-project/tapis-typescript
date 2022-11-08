@@ -39,13 +39,19 @@ types["ReqDestination"] = {
     literals: ["dockerhub", "local"]
 }
 
+types["ReqIdentity"] = {
+    enum: "EnumIdentityType",
+    literals: ["dockerhub", "github"]
+}
+
 types["ReqTask"] = {
     enum: "EnumTaskType",
     literals: ["image_build", "container_run", "request", "tapis_job", "tapis_actor", "function"]
 }
 types["Task"] = types["ReqTask"]
     
-
+// Replaces string literal values with the appropriate Enums and adds typecasting
+// where necessary for the types to properly compile
 Object.keys(types).map((type, _) => {
     console.log(`Modifying typescript file for ${type} type`)
     modelsDir = "../../gen/workflows/src/models"

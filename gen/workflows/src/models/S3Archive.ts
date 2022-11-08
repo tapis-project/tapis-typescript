@@ -93,13 +93,7 @@ export interface S3Archive {
      * @type {string}
      * @memberof S3Archive
      */
-    access_key?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof S3Archive
-     */
-    access_secret?: string;
+    region: string;
 }
 
 export function S3ArchiveFromJSON(json: any): S3Archive {
@@ -121,8 +115,7 @@ export function S3ArchiveFromJSONTyped(json: any, ignoreDiscriminator: boolean):
         'archive_dir': json['archive_dir'],
         'endpoint': json['endpoint'],
         'bucket': json['bucket'],
-        'access_key': !exists(json, 'access_key') ? undefined : json['access_key'],
-        'access_secret': !exists(json, 'access_secret') ? undefined : json['access_secret'],
+        'region': json['region'],
     };
 }
 
@@ -144,8 +137,7 @@ export function S3ArchiveToJSON(value?: S3Archive | null): any {
         'archive_dir': value.archive_dir,
         'endpoint': value.endpoint,
         'bucket': value.bucket,
-        'access_key': value.access_key,
-        'access_secret': value.access_secret,
+        'region': value.region,
     };
 }
 

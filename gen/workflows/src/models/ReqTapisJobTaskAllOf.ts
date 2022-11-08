@@ -30,7 +30,7 @@ export interface ReqTapisJobTaskAllOf {
      * @type {object}
      * @memberof ReqTapisJobTaskAllOf
      */
-    tapis_job_def?: object;
+    tapis_job_def: object;
 }
 
 export function ReqTapisJobTaskAllOfFromJSON(json: any): ReqTapisJobTaskAllOf {
@@ -44,7 +44,7 @@ export function ReqTapisJobTaskAllOfFromJSONTyped(json: any, ignoreDiscriminator
     return {
         
         'poll': !exists(json, 'poll') ? undefined : json['poll'],
-        'tapis_job_def': !exists(json, 'tapis_job_def') ? undefined : json['tapis_job_def'],
+        'tapis_job_def': json['tapis_job_def'],
     };
 }
 

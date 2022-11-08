@@ -12,49 +12,22 @@
  * Do not edit the class manually.
  */
 
-import { exists, mapValues } from '../runtime';
 import {
-    EnumIdentityType,
-    EnumIdentityTypeFromJSON,
-    EnumIdentityTypeFromJSONTyped,
-    EnumIdentityTypeToJSON,
-    ReqIdentityCred,
-    ReqIdentityCredFromJSON,
-    ReqIdentityCredFromJSONTyped,
-    ReqIdentityCredToJSON,
+    ReqDockerhubIdentity,
+    ReqGithubIdentity,
+    ReqDockerhubIdentityFromJSONTyped,
+    ReqDockerhubIdentityToJSON,
+    ReqGithubIdentityFromJSONTyped,
+    ReqGithubIdentityToJSON,
+	EnumIdentityType
 } from './';
 
 /**
+ * @type ReqIdentity
  * 
  * @export
- * @interface ReqIdentity
  */
-export interface ReqIdentity {
-    /**
-     * 
-     * @type {string}
-     * @memberof ReqIdentity
-     */
-    name?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof ReqIdentity
-     */
-    description?: string;
-    /**
-     * 
-     * @type {EnumIdentityType}
-     * @memberof ReqIdentity
-     */
-    type: EnumIdentityType;
-    /**
-     * 
-     * @type {ReqIdentityCred}
-     * @memberof ReqIdentity
-     */
-    credentials?: ReqIdentityCred;
-}
+export type ReqIdentity = { type: EnumIdentityType.Dockerhub } & ReqDockerhubIdentity | { type: EnumIdentityType.Github } & ReqGithubIdentity;
 
 export function ReqIdentityFromJSON(json: any): ReqIdentity {
     return ReqIdentityFromJSONTyped(json, false);
@@ -64,13 +37,14 @@ export function ReqIdentityFromJSONTyped(json: any, ignoreDiscriminator: boolean
     if ((json === undefined) || (json === null)) {
         return json;
     }
-    return {
-        
-        'name': !exists(json, 'name') ? undefined : json['name'],
-        'description': !exists(json, 'description') ? undefined : json['description'],
-        'type': EnumIdentityTypeFromJSON(json['type']),
-        'credentials': !exists(json, 'credentials') ? undefined : ReqIdentityCredFromJSON(json['credentials']),
-    };
+    switch (json['type']) {
+        case EnumIdentityType.Dockerhub:
+            return {...ReqDockerhubIdentityFromJSONTyped(json, true), type: EnumIdentityType.Dockerhub};
+        case EnumIdentityType.Github:
+            return {...ReqGithubIdentityFromJSONTyped(json, true), type: EnumIdentityType.Github};
+        default:
+            throw new Error(`No variant of ReqIdentity exists with 'type=${json['type']}'`);
+    }
 }
 
 export function ReqIdentityToJSON(value?: ReqIdentity | null): any {
@@ -80,12 +54,13 @@ export function ReqIdentityToJSON(value?: ReqIdentity | null): any {
     if (value === null) {
         return null;
     }
-    return {
-        
-        'name': value.name,
-        'description': value.description,
-        'type': EnumIdentityTypeToJSON(value.type),
-        'credentials': ReqIdentityCredToJSON(value.credentials),
-    };
+    switch (value['type']) {
+        case EnumIdentityType.Dockerhub:
+            return ReqDockerhubIdentityToJSON(<ReqDockerhubIdentity>value);
+        case EnumIdentityType.Github:
+            return ReqGithubIdentityToJSON(<ReqGithubIdentity>value);
+        default:
+            throw new Error(`No variant of ReqIdentity exists with 'type=${value['type']}'`);
+    }
 }
 

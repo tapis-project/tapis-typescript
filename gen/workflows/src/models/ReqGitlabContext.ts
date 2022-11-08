@@ -26,10 +26,6 @@ import {
     ReqBaseContextFromJSON,
     ReqBaseContextFromJSONTyped,
     ReqBaseContextToJSON,
-    ReqContextCredentials,
-    ReqContextCredentialsFromJSON,
-    ReqContextCredentialsFromJSONTyped,
-    ReqContextCredentialsToJSON,
     ReqRepoContext,
     ReqRepoContextFromJSON,
     ReqRepoContextFromJSONTyped,
@@ -54,18 +50,6 @@ export interface ReqGitlabContext {
      * @memberof ReqGitlabContext
      */
     visibility: EnumContextVisibility;
-    /**
-     * 
-     * @type {ReqContextCredentials}
-     * @memberof ReqGitlabContext
-     */
-    credentials?: ReqContextCredentials;
-    /**
-     * 
-     * @type {string}
-     * @memberof ReqGitlabContext
-     */
-    identity_uuid?: string;
     /**
      * 
      * @type {string}
@@ -104,8 +88,6 @@ export function ReqGitlabContextFromJSONTyped(json: any, ignoreDiscriminator: bo
         
         'type': EnumContextTypeFromJSON(json['type']),
         'visibility': EnumContextVisibilityFromJSON(json['visibility']),
-        'credentials': !exists(json, 'credentials') ? undefined : ReqContextCredentialsFromJSON(json['credentials']),
-        'identity_uuid': !exists(json, 'identity_uuid') ? undefined : json['identity_uuid'],
         'url': json['url'],
         'branch': json['branch'],
         'build_file_path': json['build_file_path'],
@@ -124,8 +106,6 @@ export function ReqGitlabContextToJSON(value?: ReqGitlabContext | null): any {
         
         'type': EnumContextTypeToJSON(value.type),
         'visibility': EnumContextVisibilityToJSON(value.visibility),
-        'credentials': ReqContextCredentialsToJSON(value.credentials),
-        'identity_uuid': value.identity_uuid,
         'url': value.url,
         'branch': value.branch,
         'build_file_path': value.build_file_path,

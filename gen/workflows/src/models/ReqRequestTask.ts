@@ -30,10 +30,10 @@ import {
     ReqBaseTaskFromJSON,
     ReqBaseTaskFromJSONTyped,
     ReqBaseTaskToJSON,
-    RequestTaskAllOf,
-    RequestTaskAllOfFromJSON,
-    RequestTaskAllOfFromJSONTyped,
-    RequestTaskAllOfToJSON,
+    ReqRequestTaskAllOf,
+    ReqRequestTaskAllOfFromJSON,
+    ReqRequestTaskAllOfFromJSONTyped,
+    ReqRequestTaskAllOfToJSON,
     TaskDependency,
     TaskDependencyFromJSON,
     TaskDependencyFromJSONTyped,
@@ -111,7 +111,7 @@ export interface ReqRequestTask {
      * @type {EnumHTTPMethod}
      * @memberof ReqRequestTask
      */
-    http_method?: EnumHTTPMethod;
+    http_method: EnumHTTPMethod;
     /**
      * 
      * @type {object}
@@ -123,7 +123,7 @@ export interface ReqRequestTask {
      * @type {string}
      * @memberof ReqRequestTask
      */
-    url?: string;
+    url: string;
 }
 
 export function ReqRequestTaskFromJSON(json: any): ReqRequestTask {
@@ -146,9 +146,9 @@ export function ReqRequestTaskFromJSONTyped(json: any, ignoreDiscriminator: bool
         'auth': !exists(json, 'auth') ? undefined : json['auth'],
         'data': !exists(json, 'data') ? undefined : json['data'],
         'headers': !exists(json, 'headers') ? undefined : json['headers'],
-        'http_method': !exists(json, 'http_method') ? undefined : EnumHTTPMethodFromJSON(json['http_method']),
+        'http_method': EnumHTTPMethodFromJSON(json['http_method']),
         'query_params': !exists(json, 'query_params') ? undefined : json['query_params'],
-        'url': !exists(json, 'url') ? undefined : json['url'],
+        'url': json['url'],
     };
 }
 

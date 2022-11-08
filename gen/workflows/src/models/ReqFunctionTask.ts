@@ -26,14 +26,14 @@ import {
     ExecutionProfileFromJSON,
     ExecutionProfileFromJSONTyped,
     ExecutionProfileToJSON,
-    FunctionTaskAllOf,
-    FunctionTaskAllOfFromJSON,
-    FunctionTaskAllOfFromJSONTyped,
-    FunctionTaskAllOfToJSON,
     ReqBaseTask,
     ReqBaseTaskFromJSON,
     ReqBaseTaskFromJSONTyped,
     ReqBaseTaskToJSON,
+    ReqFunctionTaskAllOf,
+    ReqFunctionTaskAllOfFromJSON,
+    ReqFunctionTaskAllOfFromJSONTyped,
+    ReqFunctionTaskAllOfToJSON,
     TaskDependency,
     TaskDependencyFromJSON,
     TaskDependencyFromJSONTyped,
@@ -93,7 +93,7 @@ export interface ReqFunctionTask {
      * @type {EnumRuntimeEnvironment}
      * @memberof ReqFunctionTask
      */
-    runtime?: EnumRuntimeEnvironment;
+    runtime: EnumRuntimeEnvironment;
 }
 
 export function ReqFunctionTaskFromJSON(json: any): ReqFunctionTask {
@@ -113,7 +113,7 @@ export function ReqFunctionTaskFromJSONTyped(json: any, ignoreDiscriminator: boo
         'execution_profile': !exists(json, 'execution_profile') ? undefined : ExecutionProfileFromJSON(json['execution_profile']),
         'input': !exists(json, 'input') ? undefined : json['input'],
         'output': !exists(json, 'output') ? undefined : json['output'],
-        'runtime': !exists(json, 'runtime') ? undefined : EnumRuntimeEnvironmentFromJSON(json['runtime']),
+        'runtime': EnumRuntimeEnvironmentFromJSON(json['runtime']),
     };
 }
 

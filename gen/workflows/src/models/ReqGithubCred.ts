@@ -16,39 +16,39 @@ import { exists, mapValues } from '../runtime';
 /**
  * 
  * @export
- * @interface DockerhubCred
+ * @interface ReqGithubCred
  */
-export interface DockerhubCred {
+export interface ReqGithubCred {
     /**
      * 
      * @type {string}
-     * @memberof DockerhubCred
+     * @memberof ReqGithubCred
      */
-    token?: string;
+    personal_access_token?: string;
     /**
      * 
      * @type {string}
-     * @memberof DockerhubCred
+     * @memberof ReqGithubCred
      */
     username?: string;
 }
 
-export function DockerhubCredFromJSON(json: any): DockerhubCred {
-    return DockerhubCredFromJSONTyped(json, false);
+export function ReqGithubCredFromJSON(json: any): ReqGithubCred {
+    return ReqGithubCredFromJSONTyped(json, false);
 }
 
-export function DockerhubCredFromJSONTyped(json: any, ignoreDiscriminator: boolean): DockerhubCred {
+export function ReqGithubCredFromJSONTyped(json: any, ignoreDiscriminator: boolean): ReqGithubCred {
     if ((json === undefined) || (json === null)) {
         return json;
     }
     return {
         
-        'token': !exists(json, 'token') ? undefined : json['token'],
+        'personal_access_token': !exists(json, 'personal_access_token') ? undefined : json['personal_access_token'],
         'username': !exists(json, 'username') ? undefined : json['username'],
     };
 }
 
-export function DockerhubCredToJSON(value?: DockerhubCred | null): any {
+export function ReqGithubCredToJSON(value?: ReqGithubCred | null): any {
     if (value === undefined) {
         return undefined;
     }
@@ -57,7 +57,7 @@ export function DockerhubCredToJSON(value?: DockerhubCred | null): any {
     }
     return {
         
-        'token': value.token,
+        'personal_access_token': value.personal_access_token,
         'username': value.username,
     };
 }

@@ -26,10 +26,14 @@ import {
     ReqBaseContextFromJSON,
     ReqBaseContextFromJSONTyped,
     ReqBaseContextToJSON,
-    ReqContextCredentials,
-    ReqContextCredentialsFromJSON,
-    ReqContextCredentialsFromJSONTyped,
-    ReqContextCredentialsToJSON,
+    ReqDockerhubContextAllOf,
+    ReqDockerhubContextAllOfFromJSON,
+    ReqDockerhubContextAllOfFromJSONTyped,
+    ReqDockerhubContextAllOfToJSON,
+    ReqDockerhubCred,
+    ReqDockerhubCredFromJSON,
+    ReqDockerhubCredFromJSONTyped,
+    ReqDockerhubCredToJSON,
     ReqRegistryContext,
     ReqRegistryContextFromJSON,
     ReqRegistryContextFromJSONTyped,
@@ -56,18 +60,6 @@ export interface ReqDockerhubContext {
     visibility: EnumContextVisibility;
     /**
      * 
-     * @type {ReqContextCredentials}
-     * @memberof ReqDockerhubContext
-     */
-    credentials?: ReqContextCredentials;
-    /**
-     * 
-     * @type {string}
-     * @memberof ReqDockerhubContext
-     */
-    identity_uuid?: string;
-    /**
-     * 
      * @type {string}
      * @memberof ReqDockerhubContext
      */
@@ -78,6 +70,18 @@ export interface ReqDockerhubContext {
      * @memberof ReqDockerhubContext
      */
     tag?: string;
+    /**
+     * 
+     * @type {ReqDockerhubCred}
+     * @memberof ReqDockerhubContext
+     */
+    credentials?: ReqDockerhubCred;
+    /**
+     * 
+     * @type {string}
+     * @memberof ReqDockerhubContext
+     */
+    identity_uuid?: string;
 }
 
 export function ReqDockerhubContextFromJSON(json: any): ReqDockerhubContext {
@@ -92,10 +96,10 @@ export function ReqDockerhubContextFromJSONTyped(json: any, ignoreDiscriminator:
         
         'type': EnumContextTypeFromJSON(json['type']),
         'visibility': EnumContextVisibilityFromJSON(json['visibility']),
-        'credentials': !exists(json, 'credentials') ? undefined : ReqContextCredentialsFromJSON(json['credentials']),
-        'identity_uuid': !exists(json, 'identity_uuid') ? undefined : json['identity_uuid'],
         'url': json['url'],
         'tag': !exists(json, 'tag') ? undefined : json['tag'],
+        'credentials': !exists(json, 'credentials') ? undefined : ReqDockerhubCredFromJSON(json['credentials']),
+        'identity_uuid': !exists(json, 'identity_uuid') ? undefined : json['identity_uuid'],
     };
 }
 
@@ -110,10 +114,10 @@ export function ReqDockerhubContextToJSON(value?: ReqDockerhubContext | null): a
         
         'type': EnumContextTypeToJSON(value.type),
         'visibility': EnumContextVisibilityToJSON(value.visibility),
-        'credentials': ReqContextCredentialsToJSON(value.credentials),
-        'identity_uuid': value.identity_uuid,
         'url': value.url,
         'tag': value.tag,
+        'credentials': ReqDockerhubCredToJSON(value.credentials),
+        'identity_uuid': value.identity_uuid,
     };
 }
 

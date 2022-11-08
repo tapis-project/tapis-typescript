@@ -23,40 +23,28 @@ import {
 /**
  * 
  * @export
- * @interface ReqRegistryDestinationAllOf
+ * @interface ReqDockerhubContextAllOf
  */
-export interface ReqRegistryDestinationAllOf {
+export interface ReqDockerhubContextAllOf {
     /**
      * 
      * @type {ReqDockerhubCred}
-     * @memberof ReqRegistryDestinationAllOf
+     * @memberof ReqDockerhubContextAllOf
      */
     credentials?: ReqDockerhubCred;
     /**
      * 
      * @type {string}
-     * @memberof ReqRegistryDestinationAllOf
+     * @memberof ReqDockerhubContextAllOf
      */
     identity_uuid?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof ReqRegistryDestinationAllOf
-     */
-    tag?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof ReqRegistryDestinationAllOf
-     */
-    url: string;
 }
 
-export function ReqRegistryDestinationAllOfFromJSON(json: any): ReqRegistryDestinationAllOf {
-    return ReqRegistryDestinationAllOfFromJSONTyped(json, false);
+export function ReqDockerhubContextAllOfFromJSON(json: any): ReqDockerhubContextAllOf {
+    return ReqDockerhubContextAllOfFromJSONTyped(json, false);
 }
 
-export function ReqRegistryDestinationAllOfFromJSONTyped(json: any, ignoreDiscriminator: boolean): ReqRegistryDestinationAllOf {
+export function ReqDockerhubContextAllOfFromJSONTyped(json: any, ignoreDiscriminator: boolean): ReqDockerhubContextAllOf {
     if ((json === undefined) || (json === null)) {
         return json;
     }
@@ -64,12 +52,10 @@ export function ReqRegistryDestinationAllOfFromJSONTyped(json: any, ignoreDiscri
         
         'credentials': !exists(json, 'credentials') ? undefined : ReqDockerhubCredFromJSON(json['credentials']),
         'identity_uuid': !exists(json, 'identity_uuid') ? undefined : json['identity_uuid'],
-        'tag': !exists(json, 'tag') ? undefined : json['tag'],
-        'url': json['url'],
     };
 }
 
-export function ReqRegistryDestinationAllOfToJSON(value?: ReqRegistryDestinationAllOf | null): any {
+export function ReqDockerhubContextAllOfToJSON(value?: ReqDockerhubContextAllOf | null): any {
     if (value === undefined) {
         return undefined;
     }
@@ -80,8 +66,6 @@ export function ReqRegistryDestinationAllOfToJSON(value?: ReqRegistryDestination
         
         'credentials': ReqDockerhubCredToJSON(value.credentials),
         'identity_uuid': value.identity_uuid,
-        'tag': value.tag,
-        'url': value.url,
     };
 }
 

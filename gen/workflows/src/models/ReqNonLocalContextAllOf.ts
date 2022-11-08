@@ -18,10 +18,6 @@ import {
     EnumContextVisibilityFromJSON,
     EnumContextVisibilityFromJSONTyped,
     EnumContextVisibilityToJSON,
-    ReqContextCredentials,
-    ReqContextCredentialsFromJSON,
-    ReqContextCredentialsFromJSONTyped,
-    ReqContextCredentialsToJSON,
 } from './';
 
 /**
@@ -36,18 +32,6 @@ export interface ReqNonLocalContextAllOf {
      * @memberof ReqNonLocalContextAllOf
      */
     visibility: EnumContextVisibility;
-    /**
-     * 
-     * @type {ReqContextCredentials}
-     * @memberof ReqNonLocalContextAllOf
-     */
-    credentials?: ReqContextCredentials;
-    /**
-     * 
-     * @type {string}
-     * @memberof ReqNonLocalContextAllOf
-     */
-    identity_uuid?: string;
     /**
      * 
      * @type {string}
@@ -67,8 +51,6 @@ export function ReqNonLocalContextAllOfFromJSONTyped(json: any, ignoreDiscrimina
     return {
         
         'visibility': EnumContextVisibilityFromJSON(json['visibility']),
-        'credentials': !exists(json, 'credentials') ? undefined : ReqContextCredentialsFromJSON(json['credentials']),
-        'identity_uuid': !exists(json, 'identity_uuid') ? undefined : json['identity_uuid'],
         'url': json['url'],
     };
 }
@@ -83,8 +65,6 @@ export function ReqNonLocalContextAllOfToJSON(value?: ReqNonLocalContextAllOf | 
     return {
         
         'visibility': EnumContextVisibilityToJSON(value.visibility),
-        'credentials': ReqContextCredentialsToJSON(value.credentials),
-        'identity_uuid': value.identity_uuid,
         'url': value.url,
     };
 }

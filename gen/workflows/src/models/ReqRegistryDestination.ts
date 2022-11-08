@@ -22,10 +22,10 @@ import {
     ReqBaseDestinationFromJSON,
     ReqBaseDestinationFromJSONTyped,
     ReqBaseDestinationToJSON,
-    ReqDestinationCredentials,
-    ReqDestinationCredentialsFromJSON,
-    ReqDestinationCredentialsFromJSONTyped,
-    ReqDestinationCredentialsToJSON,
+    ReqDockerhubCred,
+    ReqDockerhubCredFromJSON,
+    ReqDockerhubCredFromJSONTyped,
+    ReqDockerhubCredToJSON,
     ReqRegistryDestinationAllOf,
     ReqRegistryDestinationAllOfFromJSON,
     ReqRegistryDestinationAllOfFromJSONTyped,
@@ -46,10 +46,10 @@ export interface ReqRegistryDestination {
     type: EnumDestinationType;
     /**
      * 
-     * @type {ReqDestinationCredentials}
+     * @type {ReqDockerhubCred}
      * @memberof ReqRegistryDestination
      */
-    credentials?: ReqDestinationCredentials;
+    credentials?: ReqDockerhubCred;
     /**
      * 
      * @type {string}
@@ -81,7 +81,7 @@ export function ReqRegistryDestinationFromJSONTyped(json: any, ignoreDiscriminat
     return {
         
         'type': EnumDestinationTypeFromJSON(json['type']),
-        'credentials': !exists(json, 'credentials') ? undefined : ReqDestinationCredentialsFromJSON(json['credentials']),
+        'credentials': !exists(json, 'credentials') ? undefined : ReqDockerhubCredFromJSON(json['credentials']),
         'identity_uuid': !exists(json, 'identity_uuid') ? undefined : json['identity_uuid'],
         'tag': !exists(json, 'tag') ? undefined : json['tag'],
         'url': json['url'],
@@ -98,7 +98,7 @@ export function ReqRegistryDestinationToJSON(value?: ReqRegistryDestination | nu
     return {
         
         'type': EnumDestinationTypeToJSON(value.type),
-        'credentials': ReqDestinationCredentialsToJSON(value.credentials),
+        'credentials': ReqDockerhubCredToJSON(value.credentials),
         'identity_uuid': value.identity_uuid,
         'tag': value.tag,
         'url': value.url,

@@ -16,39 +16,39 @@ import { exists, mapValues } from '../runtime';
 /**
  * 
  * @export
- * @interface ReqDockerhubAuth
+ * @interface ReqS3Cred
  */
-export interface ReqDockerhubAuth {
+export interface ReqS3Cred {
     /**
      * 
      * @type {string}
-     * @memberof ReqDockerhubAuth
+     * @memberof ReqS3Cred
      */
-    username?: string;
+    access_key?: string;
     /**
      * 
      * @type {string}
-     * @memberof ReqDockerhubAuth
+     * @memberof ReqS3Cred
      */
-    token?: string;
+    access_secret?: string;
 }
 
-export function ReqDockerhubAuthFromJSON(json: any): ReqDockerhubAuth {
-    return ReqDockerhubAuthFromJSONTyped(json, false);
+export function ReqS3CredFromJSON(json: any): ReqS3Cred {
+    return ReqS3CredFromJSONTyped(json, false);
 }
 
-export function ReqDockerhubAuthFromJSONTyped(json: any, ignoreDiscriminator: boolean): ReqDockerhubAuth {
+export function ReqS3CredFromJSONTyped(json: any, ignoreDiscriminator: boolean): ReqS3Cred {
     if ((json === undefined) || (json === null)) {
         return json;
     }
     return {
         
-        'username': !exists(json, 'username') ? undefined : json['username'],
-        'token': !exists(json, 'token') ? undefined : json['token'],
+        'access_key': !exists(json, 'access_key') ? undefined : json['access_key'],
+        'access_secret': !exists(json, 'access_secret') ? undefined : json['access_secret'],
     };
 }
 
-export function ReqDockerhubAuthToJSON(value?: ReqDockerhubAuth | null): any {
+export function ReqS3CredToJSON(value?: ReqS3Cred | null): any {
     if (value === undefined) {
         return undefined;
     }
@@ -57,8 +57,8 @@ export function ReqDockerhubAuthToJSON(value?: ReqDockerhubAuth | null): any {
     }
     return {
         
-        'username': value.username,
-        'token': value.token,
+        'access_key': value.access_key,
+        'access_secret': value.access_secret,
     };
 }
 

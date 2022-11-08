@@ -95,7 +95,7 @@ export interface ReqTapisActorTask {
      * @type {string}
      * @memberof ReqTapisActorTask
      */
-    tapis_actor_id?: string;
+    tapis_actor_id: string;
 }
 
 export function ReqTapisActorTaskFromJSON(json: any): ReqTapisActorTask {
@@ -116,7 +116,7 @@ export function ReqTapisActorTaskFromJSONTyped(json: any, ignoreDiscriminator: b
         'input': !exists(json, 'input') ? undefined : json['input'],
         'output': !exists(json, 'output') ? undefined : json['output'],
         'poll': !exists(json, 'poll') ? undefined : json['poll'],
-        'tapis_actor_id': !exists(json, 'tapis_actor_id') ? undefined : json['tapis_actor_id'],
+        'tapis_actor_id': json['tapis_actor_id'],
     };
 }
 

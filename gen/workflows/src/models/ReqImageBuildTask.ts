@@ -101,7 +101,7 @@ export interface ReqImageBuildTask {
      * @type {EnumBuilder}
      * @memberof ReqImageBuildTask
      */
-    builder?: EnumBuilder | null;
+    builder: EnumBuilder | null;
     /**
      * 
      * @type {boolean}
@@ -113,13 +113,13 @@ export interface ReqImageBuildTask {
      * @type {ReqContext}
      * @memberof ReqImageBuildTask
      */
-    context?: ReqContext;
+    context: ReqContext;
     /**
      * 
      * @type {ReqDestination}
      * @memberof ReqImageBuildTask
      */
-    destination?: ReqDestination;
+    destination: ReqDestination;
 }
 
 export function ReqImageBuildTaskFromJSON(json: any): ReqImageBuildTask {
@@ -139,10 +139,10 @@ export function ReqImageBuildTaskFromJSONTyped(json: any, ignoreDiscriminator: b
         'execution_profile': !exists(json, 'execution_profile') ? undefined : ExecutionProfileFromJSON(json['execution_profile']),
         'input': !exists(json, 'input') ? undefined : json['input'],
         'output': !exists(json, 'output') ? undefined : json['output'],
-        'builder': !exists(json, 'builder') ? undefined : EnumBuilderFromJSON(json['builder']),
+        'builder': EnumBuilderFromJSON(json['builder']),
         'cache': !exists(json, 'cache') ? undefined : json['cache'],
-        'context': !exists(json, 'context') ? undefined : ReqContextFromJSON(json['context']),
-        'destination': !exists(json, 'destination') ? undefined : ReqDestinationFromJSON(json['destination']),
+        'context': ReqContextFromJSON(json['context']),
+        'destination': ReqDestinationFromJSON(json['destination']),
     };
 }
 

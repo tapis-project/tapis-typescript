@@ -16,28 +16,28 @@ import { exists, mapValues } from '../runtime';
 /**
  * 
  * @export
- * @interface ReqDestinationCredentials
+ * @interface ReqDockerhubCred
  */
-export interface ReqDestinationCredentials {
+export interface ReqDockerhubCred {
     /**
      * 
      * @type {string}
-     * @memberof ReqDestinationCredentials
+     * @memberof ReqDockerhubCred
      */
     token?: string;
     /**
      * 
      * @type {string}
-     * @memberof ReqDestinationCredentials
+     * @memberof ReqDockerhubCred
      */
     username?: string;
 }
 
-export function ReqDestinationCredentialsFromJSON(json: any): ReqDestinationCredentials {
-    return ReqDestinationCredentialsFromJSONTyped(json, false);
+export function ReqDockerhubCredFromJSON(json: any): ReqDockerhubCred {
+    return ReqDockerhubCredFromJSONTyped(json, false);
 }
 
-export function ReqDestinationCredentialsFromJSONTyped(json: any, ignoreDiscriminator: boolean): ReqDestinationCredentials {
+export function ReqDockerhubCredFromJSONTyped(json: any, ignoreDiscriminator: boolean): ReqDockerhubCred {
     if ((json === undefined) || (json === null)) {
         return json;
     }
@@ -48,7 +48,7 @@ export function ReqDestinationCredentialsFromJSONTyped(json: any, ignoreDiscrimi
     };
 }
 
-export function ReqDestinationCredentialsToJSON(value?: ReqDestinationCredentials | null): any {
+export function ReqDockerhubCredToJSON(value?: ReqDockerhubCred | null): any {
     if (value === undefined) {
         return undefined;
     }

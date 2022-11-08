@@ -30,7 +30,7 @@ export interface ReqTapisActorTaskAllOf {
      * @type {string}
      * @memberof ReqTapisActorTaskAllOf
      */
-    tapis_actor_id?: string;
+    tapis_actor_id: string;
 }
 
 export function ReqTapisActorTaskAllOfFromJSON(json: any): ReqTapisActorTaskAllOf {
@@ -44,7 +44,7 @@ export function ReqTapisActorTaskAllOfFromJSONTyped(json: any, ignoreDiscriminat
     return {
         
         'poll': !exists(json, 'poll') ? undefined : json['poll'],
-        'tapis_actor_id': !exists(json, 'tapis_actor_id') ? undefined : json['tapis_actor_id'],
+        'tapis_actor_id': json['tapis_actor_id'],
     };
 }
 

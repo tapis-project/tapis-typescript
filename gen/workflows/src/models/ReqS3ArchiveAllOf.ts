@@ -14,18 +14,6 @@
 
 import { exists, mapValues } from '../runtime';
 import {
-    EnumArchiveType,
-    EnumArchiveTypeFromJSON,
-    EnumArchiveTypeFromJSONTyped,
-    EnumArchiveTypeToJSON,
-    ReqBaseArchive,
-    ReqBaseArchiveFromJSON,
-    ReqBaseArchiveFromJSONTyped,
-    ReqBaseArchiveToJSON,
-    ReqS3ArchiveAllOf,
-    ReqS3ArchiveAllOfFromJSON,
-    ReqS3ArchiveAllOfFromJSONTyped,
-    ReqS3ArchiveAllOfToJSON,
     ReqS3Cred,
     ReqS3CredFromJSON,
     ReqS3CredFromJSONTyped,
@@ -35,72 +23,51 @@ import {
 /**
  * 
  * @export
- * @interface ReqS3Archive
+ * @interface ReqS3ArchiveAllOf
  */
-export interface ReqS3Archive {
+export interface ReqS3ArchiveAllOf {
     /**
      * 
      * @type {string}
-     * @memberof ReqS3Archive
-     */
-    id: string;
-    /**
-     * 
-     * @type {EnumArchiveType}
-     * @memberof ReqS3Archive
-     */
-    type: EnumArchiveType;
-    /**
-     * 
-     * @type {string}
-     * @memberof ReqS3Archive
-     */
-    archive_dir?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof ReqS3Archive
+     * @memberof ReqS3ArchiveAllOf
      */
     endpoint: string;
     /**
      * 
      * @type {string}
-     * @memberof ReqS3Archive
+     * @memberof ReqS3ArchiveAllOf
      */
     bucket: string;
     /**
      * 
      * @type {string}
-     * @memberof ReqS3Archive
+     * @memberof ReqS3ArchiveAllOf
      */
     region: string;
     /**
      * 
      * @type {ReqS3Cred}
-     * @memberof ReqS3Archive
+     * @memberof ReqS3ArchiveAllOf
      */
     credentials?: ReqS3Cred;
     /**
      * 
      * @type {string}
-     * @memberof ReqS3Archive
+     * @memberof ReqS3ArchiveAllOf
      */
     identity_uuid?: string;
 }
 
-export function ReqS3ArchiveFromJSON(json: any): ReqS3Archive {
-    return ReqS3ArchiveFromJSONTyped(json, false);
+export function ReqS3ArchiveAllOfFromJSON(json: any): ReqS3ArchiveAllOf {
+    return ReqS3ArchiveAllOfFromJSONTyped(json, false);
 }
 
-export function ReqS3ArchiveFromJSONTyped(json: any, ignoreDiscriminator: boolean): ReqS3Archive {
+export function ReqS3ArchiveAllOfFromJSONTyped(json: any, ignoreDiscriminator: boolean): ReqS3ArchiveAllOf {
     if ((json === undefined) || (json === null)) {
         return json;
     }
     return {
         
-        'id': json['id'],
-        'type': EnumArchiveTypeFromJSON(json['type']),
-        'archive_dir': !exists(json, 'archive_dir') ? undefined : json['archive_dir'],
         'endpoint': json['endpoint'],
         'bucket': json['bucket'],
         'region': json['region'],
@@ -109,7 +76,7 @@ export function ReqS3ArchiveFromJSONTyped(json: any, ignoreDiscriminator: boolea
     };
 }
 
-export function ReqS3ArchiveToJSON(value?: ReqS3Archive | null): any {
+export function ReqS3ArchiveAllOfToJSON(value?: ReqS3ArchiveAllOf | null): any {
     if (value === undefined) {
         return undefined;
     }
@@ -118,9 +85,6 @@ export function ReqS3ArchiveToJSON(value?: ReqS3Archive | null): any {
     }
     return {
         
-        'id': value.id,
-        'type': EnumArchiveTypeToJSON(value.type),
-        'archive_dir': value.archive_dir,
         'endpoint': value.endpoint,
         'bucket': value.bucket,
         'region': value.region,

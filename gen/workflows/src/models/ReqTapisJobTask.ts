@@ -95,7 +95,7 @@ export interface ReqTapisJobTask {
      * @type {object}
      * @memberof ReqTapisJobTask
      */
-    tapis_job_def?: object;
+    tapis_job_def: object;
 }
 
 export function ReqTapisJobTaskFromJSON(json: any): ReqTapisJobTask {
@@ -116,7 +116,7 @@ export function ReqTapisJobTaskFromJSONTyped(json: any, ignoreDiscriminator: boo
         'input': !exists(json, 'input') ? undefined : json['input'],
         'output': !exists(json, 'output') ? undefined : json['output'],
         'poll': !exists(json, 'poll') ? undefined : json['poll'],
-        'tapis_job_def': !exists(json, 'tapis_job_def') ? undefined : json['tapis_job_def'],
+        'tapis_job_def': json['tapis_job_def'],
     };
 }
 

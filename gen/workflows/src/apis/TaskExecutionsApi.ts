@@ -18,9 +18,9 @@ import {
     EnumRunStatus,
     EnumRunStatusFromJSON,
     EnumRunStatusToJSON,
-    ReqCreateTaskExecution,
-    ReqCreateTaskExecutionFromJSON,
-    ReqCreateTaskExecutionToJSON,
+    ReqTaskExecution,
+    ReqTaskExecutionFromJSON,
+    ReqTaskExecutionToJSON,
     RespResourceURL,
     RespResourceURLFromJSON,
     RespResourceURLToJSON,
@@ -38,7 +38,7 @@ import {
 export interface CreateTaskExecutionRequest {
     xWORKFLOWEXECUTORTOKEN: string;
     pipelineRunUuid: string;
-    reqCreateTaskExecution: ReqCreateTaskExecution;
+    reqTaskExecution: ReqTaskExecution;
 }
 
 export interface GetTaskExecutionRequest {
@@ -78,8 +78,8 @@ export class TaskExecutionsApi extends runtime.BaseAPI {
             throw new runtime.RequiredError('pipelineRunUuid','Required parameter requestParameters.pipelineRunUuid was null or undefined when calling createTaskExecution.');
         }
 
-        if (requestParameters.reqCreateTaskExecution === null || requestParameters.reqCreateTaskExecution === undefined) {
-            throw new runtime.RequiredError('reqCreateTaskExecution','Required parameter requestParameters.reqCreateTaskExecution was null or undefined when calling createTaskExecution.');
+        if (requestParameters.reqTaskExecution === null || requestParameters.reqTaskExecution === undefined) {
+            throw new runtime.RequiredError('reqTaskExecution','Required parameter requestParameters.reqTaskExecution was null or undefined when calling createTaskExecution.');
         }
 
         const queryParameters: any = {};
@@ -101,7 +101,7 @@ export class TaskExecutionsApi extends runtime.BaseAPI {
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
-            body: ReqCreateTaskExecutionToJSON(requestParameters.reqCreateTaskExecution),
+            body: ReqTaskExecutionToJSON(requestParameters.reqTaskExecution),
         }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => RespResourceURLFromJSON(jsonValue));

@@ -22,10 +22,6 @@ import {
     EnumContextVisibilityFromJSON,
     EnumContextVisibilityFromJSONTyped,
     EnumContextVisibilityToJSON,
-    ReqContextCredentials,
-    ReqContextCredentialsFromJSON,
-    ReqContextCredentialsFromJSONTyped,
-    ReqContextCredentialsToJSON,
     ReqNonLocalContext,
     ReqNonLocalContextFromJSON,
     ReqNonLocalContextFromJSONTyped,
@@ -54,18 +50,6 @@ export interface ReqRepoContext {
      * @memberof ReqRepoContext
      */
     visibility: EnumContextVisibility;
-    /**
-     * 
-     * @type {ReqContextCredentials}
-     * @memberof ReqRepoContext
-     */
-    credentials?: ReqContextCredentials;
-    /**
-     * 
-     * @type {string}
-     * @memberof ReqRepoContext
-     */
-    identity_uuid?: string;
     /**
      * 
      * @type {string}
@@ -104,8 +88,6 @@ export function ReqRepoContextFromJSONTyped(json: any, ignoreDiscriminator: bool
         
         'type': EnumContextTypeFromJSON(json['type']),
         'visibility': EnumContextVisibilityFromJSON(json['visibility']),
-        'credentials': !exists(json, 'credentials') ? undefined : ReqContextCredentialsFromJSON(json['credentials']),
-        'identity_uuid': !exists(json, 'identity_uuid') ? undefined : json['identity_uuid'],
         'url': json['url'],
         'branch': json['branch'],
         'build_file_path': json['build_file_path'],
@@ -124,8 +106,6 @@ export function ReqRepoContextToJSON(value?: ReqRepoContext | null): any {
         
         'type': EnumContextTypeToJSON(value.type),
         'visibility': EnumContextVisibilityToJSON(value.visibility),
-        'credentials': ReqContextCredentialsToJSON(value.credentials),
-        'identity_uuid': value.identity_uuid,
         'url': value.url,
         'branch': value.branch,
         'build_file_path': value.build_file_path,

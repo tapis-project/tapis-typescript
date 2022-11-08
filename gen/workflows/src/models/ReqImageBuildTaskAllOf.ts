@@ -39,7 +39,7 @@ export interface ReqImageBuildTaskAllOf {
      * @type {EnumBuilder}
      * @memberof ReqImageBuildTaskAllOf
      */
-    builder?: EnumBuilder | null;
+    builder: EnumBuilder | null;
     /**
      * 
      * @type {boolean}
@@ -51,13 +51,13 @@ export interface ReqImageBuildTaskAllOf {
      * @type {ReqContext}
      * @memberof ReqImageBuildTaskAllOf
      */
-    context?: ReqContext;
+    context: ReqContext;
     /**
      * 
      * @type {ReqDestination}
      * @memberof ReqImageBuildTaskAllOf
      */
-    destination?: ReqDestination;
+    destination: ReqDestination;
 }
 
 export function ReqImageBuildTaskAllOfFromJSON(json: any): ReqImageBuildTaskAllOf {
@@ -70,10 +70,10 @@ export function ReqImageBuildTaskAllOfFromJSONTyped(json: any, ignoreDiscriminat
     }
     return {
         
-        'builder': !exists(json, 'builder') ? undefined : EnumBuilderFromJSON(json['builder']),
+        'builder': EnumBuilderFromJSON(json['builder']),
         'cache': !exists(json, 'cache') ? undefined : json['cache'],
-        'context': !exists(json, 'context') ? undefined : ReqContextFromJSON(json['context']),
-        'destination': !exists(json, 'destination') ? undefined : ReqDestinationFromJSON(json['destination']),
+        'context': ReqContextFromJSON(json['context']),
+        'destination': ReqDestinationFromJSON(json['destination']),
     };
 }
 
