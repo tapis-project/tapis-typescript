@@ -19,13 +19,15 @@
  */
 export enum EnumRunStatus {
     Active = 'active',
+    Submitted = 'submitted',
     Pending = 'pending',
     Backoff = 'backoff',
     Completed = 'completed',
     Failed = 'failed',
     Suspended = 'suspended',
     Archiving = 'archiving',
-    Terminated = 'terminated'
+    Terminated = 'terminated',
+    Terminating = 'terminating'
 }
 
 export function EnumRunStatusFromJSON(json: any): EnumRunStatus {

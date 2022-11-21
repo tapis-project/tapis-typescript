@@ -61,7 +61,7 @@ export interface TaskExecution {
      * @type {string}
      * @memberof TaskExecution
      */
-    ended_at?: string;
+    last_modified?: string;
 }
 
 export function TaskExecutionFromJSON(json: any): TaskExecution {
@@ -79,7 +79,7 @@ export function TaskExecutionFromJSONTyped(json: any, ignoreDiscriminator: boole
         'task': !exists(json, 'task') ? undefined : json['task'],
         'status': !exists(json, 'status') ? undefined : EnumRunStatusFromJSON(json['status']),
         'started_at': !exists(json, 'started_at') ? undefined : json['started_at'],
-        'ended_at': !exists(json, 'ended_at') ? undefined : json['ended_at'],
+        'last_modified': !exists(json, 'last_modified') ? undefined : json['last_modified'],
     };
 }
 
@@ -97,7 +97,7 @@ export function TaskExecutionToJSON(value?: TaskExecution | null): any {
         'task': value.task,
         'status': EnumRunStatusToJSON(value.status),
         'started_at': value.started_at,
-        'ended_at': value.ended_at,
+        'last_modified': value.last_modified,
     };
 }
 

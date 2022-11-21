@@ -55,7 +55,7 @@ export interface PipelineRun {
      * @type {string}
      * @memberof PipelineRun
      */
-    ended_at?: string;
+    last_modified?: string;
 }
 
 export function PipelineRunFromJSON(json: any): PipelineRun {
@@ -72,7 +72,7 @@ export function PipelineRunFromJSONTyped(json: any, ignoreDiscriminator: boolean
         'pipeline': !exists(json, 'pipeline') ? undefined : json['pipeline'],
         'status': !exists(json, 'status') ? undefined : EnumRunStatusFromJSON(json['status']),
         'started_at': !exists(json, 'started_at') ? undefined : json['started_at'],
-        'ended_at': !exists(json, 'ended_at') ? undefined : json['ended_at'],
+        'last_modified': !exists(json, 'last_modified') ? undefined : json['last_modified'],
     };
 }
 
@@ -89,7 +89,7 @@ export function PipelineRunToJSON(value?: PipelineRun | null): any {
         'pipeline': value.pipeline,
         'status': EnumRunStatusToJSON(value.status),
         'started_at': value.started_at,
-        'ended_at': value.ended_at,
+        'last_modified': value.last_modified,
     };
 }
 

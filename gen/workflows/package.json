@@ -1,6 +1,6 @@
 {
   "name": "@tapis/tapis-typescript-workflows",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "OpenAPI client for @tapis/tapis-typescript-workflows",
   "author": "OpenAPI-Generator",
   "main": "./dist/index.js",
@@ -11,17 +11,5 @@
   },
   "devDependencies": {
     "typescript": "^2.4"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/tapis-project/tapis-typescript.git"
-  },
-  "keywords": [
-    "workflows"
-  ],
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/tapis-project/tapis-typescript/issues"
-  },
-  "homepage": "https://github.com/tapis-project/tapis-typescript#readme"
+  }
 }
