@@ -18,7 +18,7 @@
  * @enum {string}
  */
 export enum EnumRetryPolicy {
-    ExponentionBackoff = 'exponention_backoff'
+    ExponentialBackoff = 'exponential_backoff'
 }
 
 export function EnumRetryPolicyFromJSON(json: any): EnumRetryPolicy {
