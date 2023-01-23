@@ -22,6 +22,10 @@ import {
     ExecutionProfileFromJSON,
     ExecutionProfileFromJSONTyped,
     ExecutionProfileToJSON,
+    NullableAnyType,
+    NullableAnyTypeFromJSON,
+    NullableAnyTypeFromJSONTyped,
+    NullableAnyTypeToJSON,
     ReqBaseTask,
     ReqBaseTaskFromJSON,
     ReqBaseTaskFromJSONTyped,
@@ -96,6 +100,12 @@ export interface TapisActorTask {
      * @memberof TapisActorTask
      */
     tapis_actor_id?: string;
+    /**
+     * 
+     * @type {NullableAnyType}
+     * @memberof TapisActorTask
+     */
+    tapis_actor_message?: NullableAnyType | null;
 }
 
 export function TapisActorTaskFromJSON(json: any): TapisActorTask {
@@ -117,6 +127,7 @@ export function TapisActorTaskFromJSONTyped(json: any, ignoreDiscriminator: bool
         'output': !exists(json, 'output') ? undefined : json['output'],
         'poll': !exists(json, 'poll') ? undefined : json['poll'],
         'tapis_actor_id': !exists(json, 'tapis_actor_id') ? undefined : json['tapis_actor_id'],
+        'tapis_actor_message': !exists(json, 'tapis_actor_message') ? undefined : NullableAnyTypeFromJSON(json['tapis_actor_message']),
     };
 }
 
@@ -138,6 +149,7 @@ export function TapisActorTaskToJSON(value?: TapisActorTask | null): any {
         'output': value.output,
         'poll': value.poll,
         'tapis_actor_id': value.tapis_actor_id,
+        'tapis_actor_message': NullableAnyTypeToJSON(value.tapis_actor_message),
     };
 }
 

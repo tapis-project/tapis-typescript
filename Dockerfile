@@ -10,6 +10,8 @@ COPY . /src
 
 WORKDIR /src
 
+RUN npm install -g @openapitools/openapi-generator-cli
+
 RUN npm install
 
 ENTRYPOINT [ "bash" ]

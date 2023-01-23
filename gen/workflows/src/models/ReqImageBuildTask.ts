@@ -101,7 +101,7 @@ export interface ReqImageBuildTask {
      * @type {EnumBuilder}
      * @memberof ReqImageBuildTask
      */
-    builder: EnumBuilder | null;
+    builder: EnumBuilder;
     /**
      * 
      * @type {boolean}

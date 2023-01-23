@@ -39,7 +39,7 @@ export interface ImageBuildTaskAllOf {
      * @type {EnumBuilder}
      * @memberof ImageBuildTaskAllOf
      */
-    builder?: EnumBuilder | null;
+    builder?: EnumBuilder;
     /**
      * 
      * @type {boolean}

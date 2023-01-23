@@ -13,6 +13,13 @@
  */
 
 import { exists, mapValues } from '../runtime';
+import {
+    NullableAnyType,
+    NullableAnyTypeFromJSON,
+    NullableAnyTypeFromJSONTyped,
+    NullableAnyTypeToJSON,
+} from './';
+
 /**
  * 
  * @export
@@ -31,6 +38,12 @@ export interface TapisActorTaskAllOf {
      * @memberof TapisActorTaskAllOf
      */
     tapis_actor_id?: string;
+    /**
+     * 
+     * @type {NullableAnyType}
+     * @memberof TapisActorTaskAllOf
+     */
+    tapis_actor_message?: NullableAnyType | null;
 }
 
 export function TapisActorTaskAllOfFromJSON(json: any): TapisActorTaskAllOf {
@@ -45,6 +58,7 @@ export function TapisActorTaskAllOfFromJSONTyped(json: any, ignoreDiscriminator:
         
         'poll': !exists(json, 'poll') ? undefined : json['poll'],
         'tapis_actor_id': !exists(json, 'tapis_actor_id') ? undefined : json['tapis_actor_id'],
+        'tapis_actor_message': !exists(json, 'tapis_actor_message') ? undefined : NullableAnyTypeFromJSON(json['tapis_actor_message']),
     };
 }
 
@@ -59,6 +73,7 @@ export function TapisActorTaskAllOfToJSON(value?: TapisActorTaskAllOf | null): a
         
         'poll': value.poll,
         'tapis_actor_id': value.tapis_actor_id,
+        'tapis_actor_message': NullableAnyTypeToJSON(value.tapis_actor_message),
     };
 }
 

@@ -26,6 +26,14 @@ import {
     ReqBaseContextFromJSON,
     ReqBaseContextFromJSONTyped,
     ReqBaseContextToJSON,
+    ReqGitlabContextAllOf,
+    ReqGitlabContextAllOfFromJSON,
+    ReqGitlabContextAllOfFromJSONTyped,
+    ReqGitlabContextAllOfToJSON,
+    ReqGitlabCred,
+    ReqGitlabCredFromJSON,
+    ReqGitlabCredFromJSONTyped,
+    ReqGitlabCredToJSON,
     ReqRepoContext,
     ReqRepoContextFromJSON,
     ReqRepoContextFromJSONTyped,
@@ -74,6 +82,18 @@ export interface ReqGitlabContext {
      * @memberof ReqGitlabContext
      */
     sub_path?: string;
+    /**
+     * 
+     * @type {ReqGitlabCred}
+     * @memberof ReqGitlabContext
+     */
+    credentials?: ReqGitlabCred;
+    /**
+     * 
+     * @type {string}
+     * @memberof ReqGitlabContext
+     */
+    identity_uuid?: string;
 }
 
 export function ReqGitlabContextFromJSON(json: any): ReqGitlabContext {
@@ -92,6 +112,8 @@ export function ReqGitlabContextFromJSONTyped(json: any, ignoreDiscriminator: bo
         'branch': json['branch'],
         'build_file_path': json['build_file_path'],
         'sub_path': !exists(json, 'sub_path') ? undefined : json['sub_path'],
+        'credentials': !exists(json, 'credentials') ? undefined : ReqGitlabCredFromJSON(json['credentials']),
+        'identity_uuid': !exists(json, 'identity_uuid') ? undefined : json['identity_uuid'],
     };
 }
 
@@ -110,6 +132,8 @@ export function ReqGitlabContextToJSON(value?: ReqGitlabContext | null): any {
         'branch': value.branch,
         'build_file_path': value.build_file_path,
         'sub_path': value.sub_path,
+        'credentials': ReqGitlabCredToJSON(value.credentials),
+        'identity_uuid': value.identity_uuid,
     };
 }
 
