@@ -1891,6 +1891,12 @@ components:
           format: uuid
         execution_profile:
           $ref: '#/components/schemas/ExecutionProfile'
+        current_run:
+          type: string
+          format: uuid
+        last_run:
+          type: string
+          format: uuid
         tasks:
           type: array
           items:
@@ -1921,9 +1927,8 @@ components:
         pipeline_run:
           type: string
           format: uuid
-        task:
+        task_id:
           type: string
-          format: uuid
         status:
           $ref: "#/components/schemas/EnumRunStatus"
         started_at:
@@ -1980,9 +1985,8 @@ components:
         - type: object
           properties:
             builder:
-              allOf:
-                - $ref: '#/components/schemas/EnumBuilder'
-                - default: "kaniko"
+              $ref: '#/components/schemas/EnumBuilder'
+              default: "kaniko"
             cache:
               type: boolean
               default: true
@@ -2038,6 +2042,10 @@ components:
               default: true
             tapis_actor_id:
               type: string
+            tapis_actor_message:
+              $ref: "#/components/schemas/NullableAnyType"
+                  
+
 
     FunctionTask:
       allOf:
@@ -2391,9 +2399,8 @@ components:
             - builder
           properties:
             builder:
-              allOf:
-                - $ref: '#/components/schemas/EnumBuilder'
-                - default: "kaniko"
+              $ref: '#/components/schemas/EnumBuilder'
+              default: "kaniko"
             cache:
               type: boolean
               default: true
@@ -2458,7 +2465,9 @@ components:
               default: true
             tapis_actor_id:
               type: string
-              default: null
+            tapis_actor_message:
+              $ref: "#/components/schemas/NullableAnyType"
+                    
     
     ReqFunctionTask:
       allOf:
@@ -2588,6 +2597,13 @@ components:
       allOf:
         - $ref: "#/components/schemas/ReqBaseContext"
         - $ref: "#/components/schemas/ReqRepoContext"
+        - type: object
+          properties:
+            credentials:
+              $ref: '#/components/schemas/ReqGitlabCred'
+            identity_uuid:
+              type: string
+              format: uuid
 
     ReqDockerhubContext:
       allOf:
@@ -2625,6 +2641,14 @@ components:
           type: string
 
     ReqDockerhubCred:
+      type: object
+      properties:
+        token:
+          type: string
+        username:
+          type: string
+
+    ReqGitlabCred:
       type: object
       properties:
         token:
@@ -3011,6 +3035,7 @@ components:
         - archiving
         - terminated
         - terminating
+        - skipped
 
     EnumInvocationMode:
       type: string
@@ -3088,3 +3113,15 @@ components:
         - python2.7
         - node20
         - java17
+
+    # Generic
+    NullableAnyType:
+      nullable: true
+      anyOf:
+        - type: string
+        - type: number
+        - type: integer
+        - type: boolean
+        - type: array
+          items: {}
+        - type: object

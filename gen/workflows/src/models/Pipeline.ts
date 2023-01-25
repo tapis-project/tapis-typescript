@@ -62,6 +62,18 @@ export interface Pipeline {
     execution_profile?: ExecutionProfile;
     /**
      * 
+     * @type {string}
+     * @memberof Pipeline
+     */
+    current_run?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof Pipeline
+     */
+    last_run?: string;
+    /**
+     * 
      * @type {Array<Task>}
      * @memberof Pipeline
      */
@@ -83,6 +95,8 @@ export function PipelineFromJSONTyped(json: any, ignoreDiscriminator: boolean): 
         'owner': !exists(json, 'owner') ? undefined : json['owner'],
         'uuid': !exists(json, 'uuid') ? undefined : json['uuid'],
         'execution_profile': !exists(json, 'execution_profile') ? undefined : ExecutionProfileFromJSON(json['execution_profile']),
+        'current_run': !exists(json, 'current_run') ? undefined : json['current_run'],
+        'last_run': !exists(json, 'last_run') ? undefined : json['last_run'],
         'tasks': !exists(json, 'tasks') ? undefined : ((json['tasks'] as Array<any>).map(TaskFromJSON)),
     };
 }
@@ -101,6 +115,8 @@ export function PipelineToJSON(value?: Pipeline | null): any {
         'owner': value.owner,
         'uuid': value.uuid,
         'execution_profile': ExecutionProfileToJSON(value.execution_profile),
+        'current_run': value.current_run,
+        'last_run': value.last_run,
         'tasks': value.tasks === undefined ? undefined : ((value.tasks as Array<any>).map(TaskToJSON)),
     };
 }

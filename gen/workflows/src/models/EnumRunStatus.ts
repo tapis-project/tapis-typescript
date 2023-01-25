@@ -27,7 +27,8 @@ export enum EnumRunStatus {
     Suspended = 'suspended',
     Archiving = 'archiving',
     Terminated = 'terminated',
-    Terminating = 'terminating'
+    Terminating = 'terminating',
+    Skipped = 'skipped'
 }
 
 export function EnumRunStatusFromJSON(json: any): EnumRunStatus {

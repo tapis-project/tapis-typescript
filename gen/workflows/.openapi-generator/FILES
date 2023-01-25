@@ -48,6 +48,7 @@ src/models/GroupUser.ts
 src/models/Identity.ts
 src/models/ImageBuildTask.ts
 src/models/ImageBuildTaskAllOf.ts
+src/models/NullableAnyType.ts
 src/models/Pipeline.ts
 src/models/PipelineRun.ts
 src/models/ReqArchive.ts
@@ -75,6 +76,8 @@ src/models/ReqGithubCred.ts
 src/models/ReqGithubIdentity.ts
 src/models/ReqGithubIdentityAllOf.ts
 src/models/ReqGitlabContext.ts
+src/models/ReqGitlabContextAllOf.ts
+src/models/ReqGitlabCred.ts
 src/models/ReqGroup.ts
 src/models/ReqGroupUser.ts
 src/models/ReqGroupUsers.ts

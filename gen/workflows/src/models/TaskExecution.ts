@@ -43,7 +43,7 @@ export interface TaskExecution {
      * @type {string}
      * @memberof TaskExecution
      */
-    task?: string;
+    task_id?: string;
     /**
      * 
      * @type {EnumRunStatus}
@@ -76,7 +76,7 @@ export function TaskExecutionFromJSONTyped(json: any, ignoreDiscriminator: boole
         
         'uuid': !exists(json, 'uuid') ? undefined : json['uuid'],
         'pipeline_run': !exists(json, 'pipeline_run') ? undefined : json['pipeline_run'],
-        'task': !exists(json, 'task') ? undefined : json['task'],
+        'task_id': !exists(json, 'task_id') ? undefined : json['task_id'],
         'status': !exists(json, 'status') ? undefined : EnumRunStatusFromJSON(json['status']),
         'started_at': !exists(json, 'started_at') ? undefined : json['started_at'],
         'last_modified': !exists(json, 'last_modified') ? undefined : json['last_modified'],
@@ -94,7 +94,7 @@ export function TaskExecutionToJSON(value?: TaskExecution | null): any {
         
         'uuid': value.uuid,
         'pipeline_run': value.pipeline_run,
-        'task': value.task,
+        'task_id': value.task_id,
         'status': EnumRunStatusToJSON(value.status),
         'started_at': value.started_at,
         'last_modified': value.last_modified,
