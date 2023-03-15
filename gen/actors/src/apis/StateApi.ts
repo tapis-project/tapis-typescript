@@ -39,7 +39,7 @@ export class StateApi extends runtime.BaseAPI {
 
     /**
      * Get state for an actor.
-     * getState
+     * get_state
      */
     async getStateRaw(requestParameters: GetStateRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespGetState>> {
         if (requestParameters.actorId === null || requestParameters.actorId === undefined) {
@@ -70,7 +70,7 @@ export class StateApi extends runtime.BaseAPI {
 
     /**
      * Get state for an actor.
-     * getState
+     * get_state
      */
     async getState(requestParameters: GetStateRequest, initOverrides?: RequestInit): Promise<RespGetState> {
         const response = await this.getStateRaw(requestParameters, initOverrides);
@@ -79,7 +79,7 @@ export class StateApi extends runtime.BaseAPI {
 
     /**
      * Update state for an actor.
-     * updateState
+     * update_state
      */
     async updateStateRaw(requestParameters: UpdateStateRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespUpdateState>> {
         if (requestParameters.actorId === null || requestParameters.actorId === undefined) {
@@ -117,7 +117,7 @@ export class StateApi extends runtime.BaseAPI {
 
     /**
      * Update state for an actor.
-     * updateState
+     * update_state
      */
     async updateState(requestParameters: UpdateStateRequest, initOverrides?: RequestInit): Promise<RespUpdateState> {
         const response = await this.updateStateRaw(requestParameters, initOverrides);

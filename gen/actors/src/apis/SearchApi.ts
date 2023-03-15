@@ -34,7 +34,7 @@ export class SearchApi extends runtime.BaseAPI {
 
     /**
      * Return db records that match query
-     * searchDatabase
+     * search_database
      */
     async searchDatabaseRaw(requestParameters: SearchDatabaseRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespSearchDatabase>> {
         if (requestParameters.searchType === null || requestParameters.searchType === undefined) {
@@ -77,7 +77,7 @@ export class SearchApi extends runtime.BaseAPI {
 
     /**
      * Return db records that match query
-     * searchDatabase
+     * search_database
      */
     async searchDatabase(requestParameters: SearchDatabaseRequest, initOverrides?: RequestInit): Promise<RespSearchDatabase> {
         const response = await this.searchDatabaseRaw(requestParameters, initOverrides);

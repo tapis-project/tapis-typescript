@@ -24,7 +24,7 @@ export interface ActorWorker {
      * @type {string}
      * @memberof ActorWorker
      */
-    chName?: string;
+    ch_name?: string;
     /**
      * The container id for the worker.
      * @type {string}
@@ -36,7 +36,7 @@ export interface ActorWorker {
      * @type {string}
      * @memberof ActorWorker
      */
-    createTime?: string;
+    create_time?: string;
     /**
      * unique id for the worker.
      * @type {string}
@@ -54,13 +54,13 @@ export interface ActorWorker {
      * @type {string}
      * @memberof ActorWorker
      */
-    lastExecutionTime?: string;
+    last_execution_time?: string;
     /**
      * The last ime (UTC) the worker responded to a health check.
      * @type {string}
      * @memberof ActorWorker
      */
-    lastHealthCheckTime?: string;
+    last_health_check_time?: string;
     /**
      * The location of the docker daemon used by this worker.
      * @type {string}
@@ -106,13 +106,13 @@ export function ActorWorkerFromJSONTyped(json: any, ignoreDiscriminator: boolean
     }
     return {
         
-        'chName': !exists(json, 'chName') ? undefined : json['chName'],
+        'ch_name': !exists(json, 'ch_name') ? undefined : json['ch_name'],
         'cid': !exists(json, 'cid') ? undefined : json['cid'],
-        'createTime': !exists(json, 'createTime') ? undefined : json['createTime'],
+        'create_time': !exists(json, 'create_time') ? undefined : json['create_time'],
         'id': !exists(json, 'id') ? undefined : json['id'],
         'image': !exists(json, 'image') ? undefined : json['image'],
-        'lastExecutionTime': !exists(json, 'lastExecutionTime') ? undefined : json['lastExecutionTime'],
-        'lastHealthCheckTime': !exists(json, 'lastHealthCheckTime') ? undefined : json['lastHealthCheckTime'],
+        'last_execution_time': !exists(json, 'last_execution_time') ? undefined : json['last_execution_time'],
+        'last_health_check_time': !exists(json, 'last_health_check_time') ? undefined : json['last_health_check_time'],
         'location': !exists(json, 'location') ? undefined : json['location'],
         'status': !exists(json, 'status') ? undefined : json['status'],
         'tenant': !exists(json, 'tenant') ? undefined : json['tenant'],
@@ -128,13 +128,13 @@ export function ActorWorkerToJSON(value?: ActorWorker | null): any {
     }
     return {
         
-        'chName': value.chName,
+        'ch_name': value.ch_name,
         'cid': value.cid,
-        'createTime': value.createTime,
+        'create_time': value.create_time,
         'id': value.id,
         'image': value.image,
-        'lastExecutionTime': value.lastExecutionTime,
-        'lastHealthCheckTime': value.lastHealthCheckTime,
+        'last_execution_time': value.last_execution_time,
+        'last_health_check_time': value.last_health_check_time,
         'location': value.location,
         'status': value.status,
         'tenant': value.tenant,

@@ -36,19 +36,19 @@ export interface ActorNonce {
      * @type {number}
      * @memberof ActorNonce
      */
-    maxUses?: number;
+    max_uses?: number;
     /**
      * the id of the actor
      * @type {string}
      * @memberof ActorNonce
      */
-    actorId?: string;
+    actor_id?: string;
     /**
      * the base URL for this Abaco instance.
      * @type {string}
      * @memberof ActorNonce
      */
-    apiServer?: string;
+    api_server?: string;
     /**
      * The user who owns the associated actor.
      * @type {string}
@@ -60,13 +60,13 @@ export interface ActorNonce {
      * @type {string}
      * @memberof ActorNonce
      */
-    createTime?: string;
+    create_time?: string;
     /**
      * Number of uses remaining for the nonce; set to -1 for unlimited uses.
      * @type {number}
      * @memberof ActorNonce
      */
-    remainingUses?: number;
+    remaining_uses?: number;
     /**
      * The roles associated with the nonce.
      * @type {Array<string>}
@@ -97,12 +97,12 @@ export function ActorNonceFromJSONTyped(json: any, ignoreDiscriminator: boolean)
         
         'id': !exists(json, 'id') ? undefined : json['id'],
         'level': !exists(json, 'level') ? undefined : json['level'],
-        'maxUses': !exists(json, 'maxUses') ? undefined : json['maxUses'],
-        'actorId': !exists(json, 'actorId') ? undefined : json['actorId'],
-        'apiServer': !exists(json, 'apiServer') ? undefined : json['apiServer'],
+        'max_uses': !exists(json, 'max_uses') ? undefined : json['max_uses'],
+        'actor_id': !exists(json, 'actor_id') ? undefined : json['actor_id'],
+        'api_server': !exists(json, 'api_server') ? undefined : json['api_server'],
         'owner': !exists(json, 'owner') ? undefined : json['owner'],
-        'createTime': !exists(json, 'createTime') ? undefined : json['createTime'],
-        'remainingUses': !exists(json, 'remainingUses') ? undefined : json['remainingUses'],
+        'create_time': !exists(json, 'create_time') ? undefined : json['create_time'],
+        'remaining_uses': !exists(json, 'remaining_uses') ? undefined : json['remaining_uses'],
         'roles': !exists(json, 'roles') ? undefined : json['roles'],
     };
 }
@@ -118,12 +118,12 @@ export function ActorNonceToJSON(value?: ActorNonce | null): any {
         
         'id': value.id,
         'level': value.level,
-        'maxUses': value.maxUses,
-        'actorId': value.actorId,
-        'apiServer': value.apiServer,
+        'max_uses': value.max_uses,
+        'actor_id': value.actor_id,
+        'api_server': value.api_server,
         'owner': value.owner,
-        'createTime': value.createTime,
-        'remainingUses': value.remainingUses,
+        'create_time': value.create_time,
+        'remaining_uses': value.remaining_uses,
         'roles': value.roles,
     };
 }

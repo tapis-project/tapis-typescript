@@ -20,6 +20,12 @@ import { exists, mapValues } from '../runtime';
  */
 export interface ReqCreateActor {
     /**
+     * The name of the actor
+     * @type {string}
+     * @memberof ReqCreateActor
+     */
+    name?: string;
+    /**
      * The Docker image associated with the actor.
      * @type {string}
      * @memberof ReqCreateActor
@@ -36,7 +42,7 @@ export interface ReqCreateActor {
      * @type {object}
      * @memberof ReqCreateActor
      */
-    defaultEnvironment?: object;
+    default_environment?: object;
     /**
      * User provided description of the actor.
      * @type {string}
@@ -67,6 +73,18 @@ export interface ReqCreateActor {
      * @memberof ReqCreateActor
      */
     link?: string | null;
+    /**
+     * String of 'yyyy-mm-dd hh + <number> <unit of time>' format. Turns on cron feature for actor so that at the specified times the actor with execute with a generic static message.
+     * @type {string}
+     * @memberof ReqCreateActor
+     */
+    cron_schedule?: string;
+    /**
+     * Variable to turn on or off the cron schedule feature for the actor.
+     * @type {boolean}
+     * @memberof ReqCreateActor
+     */
+    cron_on?: boolean;
 }
 
 export function ReqCreateActorFromJSON(json: any): ReqCreateActor {
@@ -79,14 +97,17 @@ export function ReqCreateActorFromJSONTyped(json: any, ignoreDiscriminator: bool
     }
     return {
         
+        'name': !exists(json, 'name') ? undefined : json['name'],
         'image': json['image'],
         'token': !exists(json, 'token') ? undefined : json['token'],
-        'defaultEnvironment': !exists(json, 'defaultEnvironment') ? undefined : json['defaultEnvironment'],
+        'default_environment': !exists(json, 'default_environment') ? undefined : json['default_environment'],
         'description': !exists(json, 'description') ? undefined : json['description'],
         'privileged': !exists(json, 'privileged') ? undefined : json['privileged'],
         'queue': !exists(json, 'queue') ? undefined : json['queue'],
         'stateless': !exists(json, 'stateless') ? undefined : json['stateless'],
         'link': !exists(json, 'link') ? undefined : json['link'],
+        'cron_schedule': !exists(json, 'cron_schedule') ? undefined : json['cron_schedule'],
+        'cron_on': !exists(json, 'cron_on') ? undefined : json['cron_on'],
     };
 }
 
@@ -99,14 +120,17 @@ export function ReqCreateActorToJSON(value?: ReqCreateActor | null): any {
     }
     return {
         
+        'name': value.name,
         'image': value.image,
         'token': value.token,
-        'defaultEnvironment': value.defaultEnvironment,
+        'default_environment': value.default_environment,
         'description': value.description,
         'privileged': value.privileged,
         'queue': value.queue,
         'stateless': value.stateless,
         'link': value.link,
+        'cron_schedule': value.cron_schedule,
+        'cron_on': value.cron_on,
     };
 }
 

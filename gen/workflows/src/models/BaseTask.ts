@@ -66,16 +66,16 @@ export interface BaseTask {
     execution_profile?: ExecutionProfile;
     /**
      * 
-     * @type {object}
+     * @type {{ [key: string]: object; }}
      * @memberof BaseTask
      */
-    input?: object;
+    input?: { [key: string]: object; };
     /**
      * 
-     * @type {object}
+     * @type {{ [key: string]: object; }}
      * @memberof BaseTask
      */
-    output?: object;
+    output?: { [key: string]: object; };
 }
 
 export function BaseTaskFromJSON(json: any): BaseTask {

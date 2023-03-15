@@ -24,13 +24,13 @@ export interface ActorExecution {
      * @type {string}
      * @memberof ActorExecution
      */
-    actorId?: string;
+    actor_id?: string;
     /**
      * the base URL for this Abaco instance.
      * @type {string}
      * @memberof ActorExecution
      */
-    apiServer?: string;
+    api_server?: string;
     /**
      * The user who owns the associated actor.
      * @type {string}
@@ -54,7 +54,7 @@ export interface ActorExecution {
      * @type {string}
      * @memberof ActorExecution
      */
-    startTime?: string;
+    start_time?: string;
     /**
      * the status of the execution.
      * @type {string}
@@ -66,7 +66,7 @@ export interface ActorExecution {
      * @type {string}
      * @memberof ActorExecution
      */
-    messageReceivedTime?: string;
+    message_received_time?: string;
     /**
      * 
      * @type {number}
@@ -84,7 +84,7 @@ export interface ActorExecution {
      * @type {string}
      * @memberof ActorExecution
      */
-    workerId?: string;
+    worker_id?: string;
 }
 
 /**
@@ -107,17 +107,17 @@ export function ActorExecutionFromJSONTyped(json: any, ignoreDiscriminator: bool
     }
     return {
         
-        'actorId': !exists(json, 'actorId') ? undefined : json['actorId'],
-        'apiServer': !exists(json, 'apiServer') ? undefined : json['apiServer'],
+        'actor_id': !exists(json, 'actor_id') ? undefined : json['actor_id'],
+        'api_server': !exists(json, 'api_server') ? undefined : json['api_server'],
         'owner': !exists(json, 'owner') ? undefined : json['owner'],
         'cpu': !exists(json, 'cpu') ? undefined : json['cpu'],
         'id': !exists(json, 'id') ? undefined : json['id'],
-        'startTime': !exists(json, 'startTime') ? undefined : json['startTime'],
+        'start_time': !exists(json, 'start_time') ? undefined : json['start_time'],
         'status': !exists(json, 'status') ? undefined : json['status'],
-        'messageReceivedTime': !exists(json, 'messageReceivedTime') ? undefined : json['messageReceivedTime'],
+        'message_received_time': !exists(json, 'message_received_time') ? undefined : json['message_received_time'],
         'io': !exists(json, 'io') ? undefined : json['io'],
         'runtime': !exists(json, 'runtime') ? undefined : json['runtime'],
-        'workerId': !exists(json, 'workerId') ? undefined : json['workerId'],
+        'worker_id': !exists(json, 'worker_id') ? undefined : json['worker_id'],
     };
 }
 
@@ -130,17 +130,17 @@ export function ActorExecutionToJSON(value?: ActorExecution | null): any {
     }
     return {
         
-        'actorId': value.actorId,
-        'apiServer': value.apiServer,
+        'actor_id': value.actor_id,
+        'api_server': value.api_server,
         'owner': value.owner,
         'cpu': value.cpu,
         'id': value.id,
-        'startTime': value.startTime,
+        'start_time': value.start_time,
         'status': value.status,
-        'messageReceivedTime': value.messageReceivedTime,
+        'message_received_time': value.message_received_time,
         'io': value.io,
         'runtime': value.runtime,
-        'workerId': value.workerId,
+        'worker_id': value.worker_id,
     };
 }
 

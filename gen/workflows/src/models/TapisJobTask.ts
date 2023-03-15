@@ -74,16 +74,16 @@ export interface TapisJobTask {
     execution_profile?: ExecutionProfile;
     /**
      * 
-     * @type {object}
+     * @type {{ [key: string]: object; }}
      * @memberof TapisJobTask
      */
-    input?: object;
+    input?: { [key: string]: object; };
     /**
      * 
-     * @type {object}
+     * @type {{ [key: string]: object; }}
      * @memberof TapisJobTask
      */
-    output?: object;
+    output?: { [key: string]: object; };
     /**
      * 
      * @type {boolean}

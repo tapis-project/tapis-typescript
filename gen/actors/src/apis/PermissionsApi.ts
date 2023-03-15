@@ -42,7 +42,7 @@ export class PermissionsApi extends runtime.BaseAPI {
 
     /**
      * List permissions for an actor.
-     * listPermissions
+     * list_permissions
      */
     async listPermissionsRaw(requestParameters: ListPermissionsRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespListPermissions>> {
         if (requestParameters.actorId === null || requestParameters.actorId === undefined) {
@@ -73,7 +73,7 @@ export class PermissionsApi extends runtime.BaseAPI {
 
     /**
      * List permissions for an actor.
-     * listPermissions
+     * list_permissions
      */
     async listPermissions(requestParameters: ListPermissionsRequest, initOverrides?: RequestInit): Promise<RespListPermissions> {
         const response = await this.listPermissionsRaw(requestParameters, initOverrides);
@@ -82,7 +82,7 @@ export class PermissionsApi extends runtime.BaseAPI {
 
     /**
      * Add or update permissions for an actor.
-     * updatePermissions
+     * update_permissions
      */
     async updatePermissionsRaw(requestParameters: UpdatePermissionsRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespUpdatePermissions>> {
         if (requestParameters.actorId === null || requestParameters.actorId === undefined) {
@@ -120,7 +120,7 @@ export class PermissionsApi extends runtime.BaseAPI {
 
     /**
      * Add or update permissions for an actor.
-     * updatePermissions
+     * update_permissions
      */
     async updatePermissions(requestParameters: UpdatePermissionsRequest, initOverrides?: RequestInit): Promise<RespUpdatePermissions> {
         const response = await this.updatePermissionsRaw(requestParameters, initOverrides);

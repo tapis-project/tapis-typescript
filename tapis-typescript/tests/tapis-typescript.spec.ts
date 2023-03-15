@@ -7,7 +7,8 @@ import {
   Apps,
   Jobs,
   Streams,
-  Workflows
+  Workflows,
+  Actors
 } from '../src';
 import { expect } from 'chai';
 
@@ -70,5 +71,16 @@ describe('tapis-typescript', () => {
     expect(Workflows).to.have.property('TaskExecutionsApi');
     expect(Workflows).to.have.property('TasksApi');
     expect(Workflows).to.have.property('UsersApi');
+  });
+  it('should have Actors service', () => {
+    expect(Actors).to.have.property('ActorsApi');
+    expect(Actors).to.have.property('MessagesApi')
+    expect(Actors).to.have.property('ExecutionsApi')
+    expect(Actors).to.have.property('NoncesApi')
+    expect(Actors).to.have.property('StateApi')
+    expect(Actors).to.have.property('PermissionsApi')
+    expect(Actors).to.have.property('WorkersApi')
+    expect(Actors).to.have.property('AliasesApi')
+    expect(Actors).to.have.property('SearchApi')
   });
 });

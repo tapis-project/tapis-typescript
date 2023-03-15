@@ -32,6 +32,8 @@ src/models/EnumDestinationType.ts
 src/models/EnumDuplicateSubmissionPolicy.ts
 src/models/EnumHTTPMethod.ts
 src/models/EnumIdentityType.ts
+src/models/EnumInputType.ts
+src/models/EnumInstaller.ts
 src/models/EnumInvocationMode.ts
 src/models/EnumPipelineType.ts
 src/models/EnumRetryPolicy.ts
@@ -48,7 +50,6 @@ src/models/GroupUser.ts
 src/models/Identity.ts
 src/models/ImageBuildTask.ts
 src/models/ImageBuildTaskAllOf.ts
-src/models/NullableAnyType.ts
 src/models/Pipeline.ts
 src/models/PipelineRun.ts
 src/models/ReqArchive.ts

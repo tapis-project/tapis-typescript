@@ -30,9 +30,9 @@ import {
     RespSendBinaryMessage,
     RespSendBinaryMessageFromJSON,
     RespSendBinaryMessageToJSON,
-    RespSendJSONMessage,
-    RespSendJSONMessageFromJSON,
-    RespSendJSONMessageToJSON,
+    RespSendJsonMessage,
+    RespSendJsonMessageFromJSON,
+    RespSendJsonMessageToJSON,
     RespSendMessage,
     RespSendMessageFromJSON,
     RespSendMessageToJSON,
@@ -52,10 +52,10 @@ export interface SendBinaryMessageRequest {
     abacoSynchronous?: SendBinaryMessageAbacoSynchronousEnum;
 }
 
-export interface SendJSONMessageRequest {
+export interface SendJsonMessageRequest {
     actorId: string;
     jSONMessage: JSONMessage;
-    abacoSynchronous?: SendJSONMessageAbacoSynchronousEnum;
+    abacoSynchronous?: SendJsonMessageAbacoSynchronousEnum;
 }
 
 export interface SendMessageRequest {
@@ -71,7 +71,7 @@ export class MessagesApi extends runtime.BaseAPI {
 
     /**
      * Delete all pending messages actor\'s inbox.
-     * deletePendingMessages
+     * delete_pending_messages
      */
     async deletePendingMessagesRaw(requestParameters: DeletePendingMessagesRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespDeletePendingMessages>> {
         if (requestParameters.actorId === null || requestParameters.actorId === undefined) {
@@ -102,7 +102,7 @@ export class MessagesApi extends runtime.BaseAPI {
 
     /**
      * Delete all pending messages actor\'s inbox.
-     * deletePendingMessages
+     * delete_pending_messages
      */
     async deletePendingMessages(requestParameters: DeletePendingMessagesRequest, initOverrides?: RequestInit): Promise<RespDeletePendingMessages> {
         const response = await this.deletePendingMessagesRaw(requestParameters, initOverrides);
@@ -111,7 +111,7 @@ export class MessagesApi extends runtime.BaseAPI {
 
     /**
      * Get number of pending messages for an actor.
-     * getMessages
+     * get_messages
      */
     async getMessagesRaw(requestParameters: GetMessagesRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespGetMessages>> {
         if (requestParameters.actorId === null || requestParameters.actorId === undefined) {
@@ -142,7 +142,7 @@ export class MessagesApi extends runtime.BaseAPI {
 
     /**
      * Get number of pending messages for an actor.
-     * getMessages
+     * get_messages
      */
     async getMessages(requestParameters: GetMessagesRequest, initOverrides?: RequestInit): Promise<RespGetMessages> {
         const response = await this.getMessagesRaw(requestParameters, initOverrides);
@@ -151,7 +151,7 @@ export class MessagesApi extends runtime.BaseAPI {
 
     /**
      * Send an actor a binary message
-     * sendBinaryMessage
+     * send_binary_message
      */
     async sendBinaryMessageRaw(requestParameters: SendBinaryMessageRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespSendBinaryMessage>> {
         if (requestParameters.actorId === null || requestParameters.actorId === undefined) {
@@ -193,7 +193,7 @@ export class MessagesApi extends runtime.BaseAPI {
 
     /**
      * Send an actor a binary message
-     * sendBinaryMessage
+     * send_binary_message
      */
     async sendBinaryMessage(requestParameters: SendBinaryMessageRequest, initOverrides?: RequestInit): Promise<RespSendBinaryMessage> {
         const response = await this.sendBinaryMessageRaw(requestParameters, initOverrides);
@@ -202,15 +202,15 @@ export class MessagesApi extends runtime.BaseAPI {
 
     /**
      * Send an actor a JSON message
-     * sendJSONMessage
+     * send_json_message
      */
-    async sendJSONMessageRaw(requestParameters: SendJSONMessageRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespSendJSONMessage>> {
+    async sendJsonMessageRaw(requestParameters: SendJsonMessageRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespSendJsonMessage>> {
         if (requestParameters.actorId === null || requestParameters.actorId === undefined) {
-            throw new runtime.RequiredError('actorId','Required parameter requestParameters.actorId was null or undefined when calling sendJSONMessage.');
+            throw new runtime.RequiredError('actorId','Required parameter requestParameters.actorId was null or undefined when calling sendJsonMessage.');
         }
 
         if (requestParameters.jSONMessage === null || requestParameters.jSONMessage === undefined) {
-            throw new runtime.RequiredError('jSONMessage','Required parameter requestParameters.jSONMessage was null or undefined when calling sendJSONMessage.');
+            throw new runtime.RequiredError('jSONMessage','Required parameter requestParameters.jSONMessage was null or undefined when calling sendJsonMessage.');
         }
 
         const queryParameters: any = {};
@@ -239,21 +239,21 @@ export class MessagesApi extends runtime.BaseAPI {
             body: JSONMessageToJSON(requestParameters.jSONMessage),
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => RespSendJSONMessageFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => RespSendJsonMessageFromJSON(jsonValue));
     }
 
     /**
      * Send an actor a JSON message
-     * sendJSONMessage
+     * send_json_message
      */
-    async sendJSONMessage(requestParameters: SendJSONMessageRequest, initOverrides?: RequestInit): Promise<RespSendJSONMessage> {
-        const response = await this.sendJSONMessageRaw(requestParameters, initOverrides);
+    async sendJsonMessage(requestParameters: SendJsonMessageRequest, initOverrides?: RequestInit): Promise<RespSendJsonMessage> {
+        const response = await this.sendJsonMessageRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
     /**
-     * Send an actor a message
-     * sendMessage
+     * Send an actor a string message
+     * send_message
      */
     async sendMessageRaw(requestParameters: SendMessageRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespSendMessage>> {
         if (requestParameters.actorId === null || requestParameters.actorId === undefined) {
@@ -294,8 +294,8 @@ export class MessagesApi extends runtime.BaseAPI {
     }
 
     /**
-     * Send an actor a message
-     * sendMessage
+     * Send an actor a string message
+     * send_message
      */
     async sendMessage(requestParameters: SendMessageRequest, initOverrides?: RequestInit): Promise<RespSendMessage> {
         const response = await this.sendMessageRaw(requestParameters, initOverrides);
@@ -316,7 +316,7 @@ export enum SendBinaryMessageAbacoSynchronousEnum {
     * @export
     * @enum {string}
     */
-export enum SendJSONMessageAbacoSynchronousEnum {
+export enum SendJsonMessageAbacoSynchronousEnum {
     True = 'true',
     False = 'false'
 }

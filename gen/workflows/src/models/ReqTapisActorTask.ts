@@ -22,10 +22,6 @@ import {
     ExecutionProfileFromJSON,
     ExecutionProfileFromJSONTyped,
     ExecutionProfileToJSON,
-    NullableAnyType,
-    NullableAnyTypeFromJSON,
-    NullableAnyTypeFromJSONTyped,
-    NullableAnyTypeToJSON,
     ReqBaseTask,
     ReqBaseTaskFromJSON,
     ReqBaseTaskFromJSONTyped,
@@ -78,16 +74,16 @@ export interface ReqTapisActorTask {
     execution_profile?: ExecutionProfile;
     /**
      * 
-     * @type {object}
+     * @type {{ [key: string]: object; }}
      * @memberof ReqTapisActorTask
      */
-    input?: object;
+    input?: { [key: string]: object; };
     /**
      * 
-     * @type {object}
+     * @type {{ [key: string]: object; }}
      * @memberof ReqTapisActorTask
      */
-    output?: object;
+    output?: { [key: string]: object; };
     /**
      * 
      * @type {boolean}
@@ -102,10 +98,10 @@ export interface ReqTapisActorTask {
     tapis_actor_id: string;
     /**
      * 
-     * @type {NullableAnyType}
+     * @type {string}
      * @memberof ReqTapisActorTask
      */
-    tapis_actor_message?: NullableAnyType | null;
+    tapis_actor_message?: string | null;
 }
 
 export function ReqTapisActorTaskFromJSON(json: any): ReqTapisActorTask {
@@ -127,7 +123,7 @@ export function ReqTapisActorTaskFromJSONTyped(json: any, ignoreDiscriminator: b
         'output': !exists(json, 'output') ? undefined : json['output'],
         'poll': !exists(json, 'poll') ? undefined : json['poll'],
         'tapis_actor_id': json['tapis_actor_id'],
-        'tapis_actor_message': !exists(json, 'tapis_actor_message') ? undefined : NullableAnyTypeFromJSON(json['tapis_actor_message']),
+        'tapis_actor_message': !exists(json, 'tapis_actor_message') ? undefined : json['tapis_actor_message'],
     };
 }
 
@@ -149,7 +145,7 @@ export function ReqTapisActorTaskToJSON(value?: ReqTapisActorTask | null): any {
         'output': value.output,
         'poll': value.poll,
         'tapis_actor_id': value.tapis_actor_id,
-        'tapis_actor_message': NullableAnyTypeToJSON(value.tapis_actor_message),
+        'tapis_actor_message': value.tapis_actor_message,
     };
 }
 

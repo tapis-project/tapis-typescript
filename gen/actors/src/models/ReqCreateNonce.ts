@@ -30,7 +30,7 @@ export interface ReqCreateNonce {
      * @type {number}
      * @memberof ReqCreateNonce
      */
-    maxUses?: number;
+    max_uses?: number;
 }
 
 /**
@@ -54,7 +54,7 @@ export function ReqCreateNonceFromJSONTyped(json: any, ignoreDiscriminator: bool
     return {
         
         'level': !exists(json, 'level') ? undefined : json['level'],
-        'maxUses': !exists(json, 'maxUses') ? undefined : json['maxUses'],
+        'max_uses': !exists(json, 'max_uses') ? undefined : json['max_uses'],
     };
 }
 
@@ -68,7 +68,7 @@ export function ReqCreateNonceToJSON(value?: ReqCreateNonce | null): any {
     return {
         
         'level': value.level,
-        'maxUses': value.maxUses,
+        'max_uses': value.max_uses,
     };
 }
 

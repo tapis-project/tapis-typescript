@@ -30,7 +30,7 @@ export interface ReqCreateAlias {
      * @type {string}
      * @memberof ReqCreateAlias
      */
-    actorId?: string;
+    actor_id?: string;
 }
 
 export function ReqCreateAliasFromJSON(json: any): ReqCreateAlias {
@@ -44,7 +44,7 @@ export function ReqCreateAliasFromJSONTyped(json: any, ignoreDiscriminator: bool
     return {
         
         'alias': !exists(json, 'alias') ? undefined : json['alias'],
-        'actorId': !exists(json, 'actorId') ? undefined : json['actorId'],
+        'actor_id': !exists(json, 'actor_id') ? undefined : json['actor_id'],
     };
 }
 
@@ -58,7 +58,7 @@ export function ReqCreateAliasToJSON(value?: ReqCreateAlias | null): any {
     return {
         
         'alias': value.alias,
-        'actorId': value.actorId,
+        'actor_id': value.actor_id,
     };
 }
 

@@ -55,7 +55,7 @@ src/models/RespListPermissions.ts
 src/models/RespManageWorkerPoolSize.ts
 src/models/RespSearchDatabase.ts
 src/models/RespSendBinaryMessage.ts
-src/models/RespSendJSONMessage.ts
+src/models/RespSendJsonMessage.ts
 src/models/RespSendMessage.ts
 src/models/RespUpdateActorAlias.ts
 src/models/RespUpdatePermissions.ts

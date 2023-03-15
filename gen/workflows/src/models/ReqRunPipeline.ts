@@ -21,6 +21,12 @@ import { exists, mapValues } from '../runtime';
 export interface ReqRunPipeline {
     /**
      * 
+     * @type {{ [key: string]: object; }}
+     * @memberof ReqRunPipeline
+     */
+    params?: { [key: string]: object; };
+    /**
+     * 
      * @type {Array<string>}
      * @memberof ReqRunPipeline
      */
@@ -37,6 +43,7 @@ export function ReqRunPipelineFromJSONTyped(json: any, ignoreDiscriminator: bool
     }
     return {
         
+        'params': !exists(json, 'params') ? undefined : json['params'],
         'directives': !exists(json, 'directives') ? undefined : json['directives'],
     };
 }
@@ -50,6 +57,7 @@ export function ReqRunPipelineToJSON(value?: ReqRunPipeline | null): any {
     }
     return {
         
+        'params': value.params,
         'directives': value.directives,
     };
 }

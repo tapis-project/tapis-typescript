@@ -42,7 +42,7 @@ export class WorkersApi extends runtime.BaseAPI {
 
     /**
      * List workers for an actor.
-     * listWorkers
+     * list_workers
      */
     async listWorkersRaw(requestParameters: ListWorkersRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<ActorWorkerResponse>> {
         if (requestParameters.actorId === null || requestParameters.actorId === undefined) {
@@ -73,7 +73,7 @@ export class WorkersApi extends runtime.BaseAPI {
 
     /**
      * List workers for an actor.
-     * listWorkers
+     * list_workers
      */
     async listWorkers(requestParameters: ListWorkersRequest, initOverrides?: RequestInit): Promise<ActorWorkerResponse> {
         const response = await this.listWorkersRaw(requestParameters, initOverrides);
@@ -82,7 +82,7 @@ export class WorkersApi extends runtime.BaseAPI {
 
     /**
      * Manage number of workers in actor\'s worker pool. Pool size will not decrease as a result of this action.
-     * manageWorkerPoolSize
+     * manage_worker_pool_size
      */
     async manageWorkerPoolSizeRaw(requestParameters: ManageWorkerPoolSizeRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespManageWorkerPoolSize>> {
         if (requestParameters.actorId === null || requestParameters.actorId === undefined) {
@@ -120,7 +120,7 @@ export class WorkersApi extends runtime.BaseAPI {
 
     /**
      * Manage number of workers in actor\'s worker pool. Pool size will not decrease as a result of this action.
-     * manageWorkerPoolSize
+     * manage_worker_pool_size
      */
     async manageWorkerPoolSize(requestParameters: ManageWorkerPoolSizeRequest, initOverrides?: RequestInit): Promise<RespManageWorkerPoolSize> {
         const response = await this.manageWorkerPoolSizeRaw(requestParameters, initOverrides);

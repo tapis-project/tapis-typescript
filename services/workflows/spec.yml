@@ -1796,6 +1796,10 @@ components:
     # ------------------------------------------------------------------------------
     
     # --- Pipelines ---
+    Env:
+      type: object
+      additionalProperties: true
+        
 
     ExecutionProfile:
       type: object
@@ -1881,6 +1885,8 @@ components:
       properties:
         id:
           $ref: '#/components/schemas/ID'
+        env:
+          $ref: "#/components/schemas/Env"
         group:
           type: string
           format: uuid
@@ -1976,8 +1982,10 @@ components:
           $ref: '#/components/schemas/ExecutionProfile'
         input:
           type: object
+          additionalProperties: true
         output:
           type: object
+          additionalProperties: true
 
     ImageBuildTask:
       allOf:
@@ -2034,7 +2042,7 @@ components:
 
     TapisActorTask:
       allOf:
-        - $ref: '#/components/schemas/ReqBaseTask'
+        - $ref: '#/components/schemas/BaseTask'
         - type: object
           properties:
             poll:
@@ -2043,17 +2051,27 @@ components:
             tapis_actor_id:
               type: string
             tapis_actor_message:
-              $ref: "#/components/schemas/NullableAnyType"
+              nullable: true
+              type: string
                   
-
-
     FunctionTask:
       allOf:
-        - $ref: '#/components/schemas/ReqBaseTask'
+        - $ref: '#/components/schemas/BaseTask'
         - type: object
           properties:
             runtime:
               $ref: "#/components/schemas/EnumRuntimeEnvironment"
+            installer:
+              $ref: "#/components/schemas/EnumInstaller"
+            command:
+              type: string
+            code:
+              type: string
+              format: byte
+            packages:
+              type: array
+              items:
+                type: string
 
     # --- Task Dependency ---
     TaskDependency:
@@ -2357,6 +2375,8 @@ components:
             $ref: "#/components/schemas/ID"
         description:
           $ref: '#/components/schemas/DescriptionString'
+        env:
+          $ref: "#/components/schemas/Env"
         type:
           $ref: '#/components/schemas/EnumPipelineType'
         execution_profile:
@@ -2386,8 +2406,10 @@ components:
           $ref: "#/components/schemas/ExecutionProfile"
         input:
           type: object
+          additionalProperties: true
         output:
           type: object
+          additionalProperties: true
 
     ReqImageBuildTask:
       allOf:
@@ -2466,7 +2488,8 @@ components:
             tapis_actor_id:
               type: string
             tapis_actor_message:
-              $ref: "#/components/schemas/NullableAnyType"
+              nullable: true
+              type: string
                     
     
     ReqFunctionTask:
@@ -2475,9 +2498,22 @@ components:
         - type: object
           required:
             - runtime
+            - installer
+            - code
           properties:
             runtime:
               $ref: "#/components/schemas/EnumRuntimeEnvironment"
+            installer:
+              $ref: "#/components/schemas/EnumInstaller"
+            command:
+              type: string
+            code:
+              type: string
+              format: byte
+            packages:
+              type: array
+              items:
+                type: string
 
     ReqTask:
       oneOf:
@@ -2739,6 +2775,9 @@ components:
     ReqRunPipeline:
       type: object
       properties:
+        params:
+          type: object
+          additionalProperties: true
         directives:
           type: array
           items:
@@ -2862,14 +2901,6 @@ components:
               type: array
               items:
                 $ref: '#/components/schemas/GroupUser'
-
-    # RespGroup:
-    #   allOf:
-    #     - $ref: '#/components/schemas/RespObject'
-    #     - type: object
-    #       properties:
-    #         result:
-    #           $ref: '#/components/schemas/Group'
 
     RespGroupList:
       allOf:
@@ -3105,23 +3136,20 @@ components:
       enum:
         - github
         - dockerhub
+    
+    EnumInputType:
+      type: string
+      enum:
+        - string
+        - int
+        - float
+
+    EnumInstaller:
+      type: string
+      enum:
+        - pip
 
     EnumRuntimeEnvironment:
       type: string
       enum:
-        - python3.9
-        - python2.7
-        - node20
-        - java17
-
-    # Generic
-    NullableAnyType:
-      nullable: true
-      anyOf:
-        - type: string
-        - type: number
-        - type: integer
-        - type: boolean
-        - type: array
-          items: {}
-        - type: object
+        - python:3.9

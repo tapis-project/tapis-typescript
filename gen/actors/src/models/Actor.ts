@@ -37,7 +37,7 @@ export interface Actor {
      * @type {string}
      * @memberof Actor
      */
-    createTime?: string;
+    create_time?: string;
     /**
      * The Docker image associated with the actor.
      * @type {string}
@@ -49,7 +49,7 @@ export interface Actor {
      * @type {object}
      * @memberof Actor
      */
-    defaultEnvironment?: object;
+    default_environment?: object;
     /**
      * User provided description of the actor.
      * @type {string}
@@ -61,7 +61,7 @@ export interface Actor {
      * @type {string}
      * @memberof Actor
      */
-    lastUpdateTime?: string;
+    last_update_time?: string;
     /**
      * Actor identifier of actor to link this actor's events too. May be an actor id or an alias. Cycles not permitted.
      * @type {string}
@@ -121,7 +121,25 @@ export interface Actor {
      * @type {string}
      * @memberof Actor
      */
-    statusMessage?: string;
+    status_message?: string;
+    /**
+     * String of 'yyyy-mm-dd hh + <number> <unit of time>' format. Turns on cron feature for actor so that at the specified times the actor with execute with a generic static message.
+     * @type {string}
+     * @memberof Actor
+     */
+    cron_schedule?: string;
+    /**
+     * Variable to turn on or off the cron schedule feature for the actor.
+     * @type {boolean}
+     * @memberof Actor
+     */
+    cron_on?: boolean;
+    /**
+     * Next cron execution time for the actor. Only used when `cronOn` is set to True.
+     * @type {string}
+     * @memberof Actor
+     */
+    cron_next_ex?: string;
     /**
      * Return type (none, bin, json) for this actor. Default is none.
      * @type {string}
@@ -151,11 +169,11 @@ export function ActorFromJSONTyped(json: any, ignoreDiscriminator: boolean): Act
     return {
         
         'id': !exists(json, 'id') ? undefined : json['id'],
-        'createTime': !exists(json, 'createTime') ? undefined : json['createTime'],
+        'create_time': !exists(json, 'create_time') ? undefined : json['create_time'],
         'image': !exists(json, 'image') ? undefined : json['image'],
-        'defaultEnvironment': !exists(json, 'defaultEnvironment') ? undefined : json['defaultEnvironment'],
+        'default_environment': !exists(json, 'default_environment') ? undefined : json['default_environment'],
         'description': !exists(json, 'description') ? undefined : json['description'],
-        'lastUpdateTime': !exists(json, 'lastUpdateTime') ? undefined : json['lastUpdateTime'],
+        'last_update_time': !exists(json, 'last_update_time') ? undefined : json['last_update_time'],
         'link': !exists(json, 'link') ? undefined : json['link'],
         'mounts': !exists(json, 'mounts') ? undefined : ((json['mounts'] as Array<any>).map(ActorMountFromJSON)),
         'owner': !exists(json, 'owner') ? undefined : json['owner'],
@@ -165,7 +183,10 @@ export function ActorFromJSONTyped(json: any, ignoreDiscriminator: boolean): Act
         'stateless': !exists(json, 'stateless') ? undefined : json['stateless'],
         'token': !exists(json, 'token') ? undefined : json['token'],
         'status': !exists(json, 'status') ? undefined : json['status'],
-        'statusMessage': !exists(json, 'statusMessage') ? undefined : json['statusMessage'],
+        'status_message': !exists(json, 'status_message') ? undefined : json['status_message'],
+        'cron_schedule': !exists(json, 'cron_schedule') ? undefined : json['cron_schedule'],
+        'cron_on': !exists(json, 'cron_on') ? undefined : json['cron_on'],
+        'cron_next_ex': !exists(json, 'cron_next_ex') ? undefined : json['cron_next_ex'],
         'type': !exists(json, 'type') ? undefined : json['type'],
     };
 }
@@ -180,11 +201,11 @@ export function ActorToJSON(value?: Actor | null): any {
     return {
         
         'id': value.id,
-        'createTime': value.createTime,
+        'create_time': value.create_time,
         'image': value.image,
-        'defaultEnvironment': value.defaultEnvironment,
+        'default_environment': value.default_environment,
         'description': value.description,
-        'lastUpdateTime': value.lastUpdateTime,
+        'last_update_time': value.last_update_time,
         'link': value.link,
         'mounts': value.mounts === undefined ? undefined : ((value.mounts as Array<any>).map(ActorMountToJSON)),
         'owner': value.owner,
@@ -194,7 +215,10 @@ export function ActorToJSON(value?: Actor | null): any {
         'stateless': value.stateless,
         'token': value.token,
         'status': value.status,
-        'statusMessage': value.statusMessage,
+        'status_message': value.status_message,
+        'cron_schedule': value.cron_schedule,
+        'cron_on': value.cron_on,
+        'cron_next_ex': value.cron_next_ex,
         'type': value.type,
     };
 }

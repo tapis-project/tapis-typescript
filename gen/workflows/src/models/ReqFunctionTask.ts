@@ -14,6 +14,10 @@
 
 import { exists, mapValues } from '../runtime';
 import {
+    EnumInstaller,
+    EnumInstallerFromJSON,
+    EnumInstallerFromJSONTyped,
+    EnumInstallerToJSON,
     EnumRuntimeEnvironment,
     EnumRuntimeEnvironmentFromJSON,
     EnumRuntimeEnvironmentFromJSONTyped,
@@ -78,22 +82,46 @@ export interface ReqFunctionTask {
     execution_profile?: ExecutionProfile;
     /**
      * 
-     * @type {object}
+     * @type {{ [key: string]: object; }}
      * @memberof ReqFunctionTask
      */
-    input?: object;
+    input?: { [key: string]: object; };
     /**
      * 
-     * @type {object}
+     * @type {{ [key: string]: object; }}
      * @memberof ReqFunctionTask
      */
-    output?: object;
+    output?: { [key: string]: object; };
     /**
      * 
      * @type {EnumRuntimeEnvironment}
      * @memberof ReqFunctionTask
      */
     runtime: EnumRuntimeEnvironment;
+    /**
+     * 
+     * @type {EnumInstaller}
+     * @memberof ReqFunctionTask
+     */
+    installer: EnumInstaller;
+    /**
+     * 
+     * @type {string}
+     * @memberof ReqFunctionTask
+     */
+    command?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof ReqFunctionTask
+     */
+    code: string;
+    /**
+     * 
+     * @type {Array<string>}
+     * @memberof ReqFunctionTask
+     */
+    packages?: Array<string>;
 }
 
 export function ReqFunctionTaskFromJSON(json: any): ReqFunctionTask {
@@ -114,6 +142,10 @@ export function ReqFunctionTaskFromJSONTyped(json: any, ignoreDiscriminator: boo
         'input': !exists(json, 'input') ? undefined : json['input'],
         'output': !exists(json, 'output') ? undefined : json['output'],
         'runtime': EnumRuntimeEnvironmentFromJSON(json['runtime']),
+        'installer': EnumInstallerFromJSON(json['installer']),
+        'command': !exists(json, 'command') ? undefined : json['command'],
+        'code': json['code'],
+        'packages': !exists(json, 'packages') ? undefined : json['packages'],
     };
 }
 
@@ -134,6 +166,10 @@ export function ReqFunctionTaskToJSON(value?: ReqFunctionTask | null): any {
         'input': value.input,
         'output': value.output,
         'runtime': EnumRuntimeEnvironmentToJSON(value.runtime),
+        'installer': EnumInstallerToJSON(value.installer),
+        'command': value.command,
+        'code': value.code,
+        'packages': value.packages,
     };
 }
 
