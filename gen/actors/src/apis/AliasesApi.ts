@@ -64,7 +64,7 @@ export class AliasesApi extends runtime.BaseAPI {
 
     /**
      * Register an actor alias
-     * createAlias
+     * create_alias
      */
     async createAliasRaw(requestParameters: CreateAliasRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespCreateAlias>> {
         if (requestParameters.reqCreateAlias === null || requestParameters.reqCreateAlias === undefined) {
@@ -98,7 +98,7 @@ export class AliasesApi extends runtime.BaseAPI {
 
     /**
      * Register an actor alias
-     * createAlias
+     * create_alias
      */
     async createAlias(requestParameters: CreateAliasRequest, initOverrides?: RequestInit): Promise<RespCreateAlias> {
         const response = await this.createAliasRaw(requestParameters, initOverrides);
@@ -107,7 +107,7 @@ export class AliasesApi extends runtime.BaseAPI {
 
     /**
      * Permenantly delete an actor alias.
-     * deleteAlias
+     * delete_alias
      */
     async deleteAliasRaw(requestParameters: DeleteAliasRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespDeleteAlias>> {
         if (requestParameters.alias === null || requestParameters.alias === undefined) {
@@ -138,7 +138,7 @@ export class AliasesApi extends runtime.BaseAPI {
 
     /**
      * Permenantly delete an actor alias.
-     * deleteAlias
+     * delete_alias
      */
     async deleteAlias(requestParameters: DeleteAliasRequest, initOverrides?: RequestInit): Promise<RespDeleteAlias> {
         const response = await this.deleteAliasRaw(requestParameters, initOverrides);
@@ -147,7 +147,7 @@ export class AliasesApi extends runtime.BaseAPI {
 
     /**
      * Get details of a specific actor alias.
-     * getAlias
+     * get_alias
      */
     async getAliasRaw(requestParameters: GetAliasRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespGetAlias>> {
         if (requestParameters.alias === null || requestParameters.alias === undefined) {
@@ -178,7 +178,7 @@ export class AliasesApi extends runtime.BaseAPI {
 
     /**
      * Get details of a specific actor alias.
-     * getAlias
+     * get_alias
      */
     async getAlias(requestParameters: GetAliasRequest, initOverrides?: RequestInit): Promise<RespGetAlias> {
         const response = await this.getAliasRaw(requestParameters, initOverrides);
@@ -187,7 +187,7 @@ export class AliasesApi extends runtime.BaseAPI {
 
     /**
      * List all actor aliases available to user
-     * listAliases
+     * list_aliases
      */
     async listAliasesRaw(requestParameters: ListAliasesRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespListAliases>> {
         const queryParameters: any = {};
@@ -222,7 +222,7 @@ export class AliasesApi extends runtime.BaseAPI {
 
     /**
      * List all actor aliases available to user
-     * listAliases
+     * list_aliases
      */
     async listAliases(requestParameters: ListAliasesRequest, initOverrides?: RequestInit): Promise<RespListAliases> {
         const response = await this.listAliasesRaw(requestParameters, initOverrides);
@@ -231,7 +231,7 @@ export class AliasesApi extends runtime.BaseAPI {
 
     /**
      * Update an alias definition.
-     * updateActorAlias
+     * update_actor_alias
      */
     async updateActorAliasRaw(requestParameters: UpdateActorAliasRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespUpdateActorAlias>> {
         if (requestParameters.alias === null || requestParameters.alias === undefined) {
@@ -269,7 +269,7 @@ export class AliasesApi extends runtime.BaseAPI {
 
     /**
      * Update an alias definition.
-     * updateActorAlias
+     * update_actor_alias
      */
     async updateActorAlias(requestParameters: UpdateActorAliasRequest, initOverrides?: RequestInit): Promise<RespUpdateActorAlias> {
         const response = await this.updateActorAliasRaw(requestParameters, initOverrides);

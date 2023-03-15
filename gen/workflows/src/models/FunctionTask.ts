@@ -14,6 +14,14 @@
 
 import { exists, mapValues } from '../runtime';
 import {
+    BaseTask,
+    BaseTaskFromJSON,
+    BaseTaskFromJSONTyped,
+    BaseTaskToJSON,
+    EnumInstaller,
+    EnumInstallerFromJSON,
+    EnumInstallerFromJSONTyped,
+    EnumInstallerToJSON,
     EnumRuntimeEnvironment,
     EnumRuntimeEnvironmentFromJSON,
     EnumRuntimeEnvironmentFromJSONTyped,
@@ -30,10 +38,6 @@ import {
     FunctionTaskAllOfFromJSON,
     FunctionTaskAllOfFromJSONTyped,
     FunctionTaskAllOfToJSON,
-    ReqBaseTask,
-    ReqBaseTaskFromJSON,
-    ReqBaseTaskFromJSONTyped,
-    ReqBaseTaskToJSON,
     TaskDependency,
     TaskDependencyFromJSON,
     TaskDependencyFromJSONTyped,
@@ -78,22 +82,46 @@ export interface FunctionTask {
     execution_profile?: ExecutionProfile;
     /**
      * 
-     * @type {object}
+     * @type {{ [key: string]: object; }}
      * @memberof FunctionTask
      */
-    input?: object;
+    input?: { [key: string]: object; };
     /**
      * 
-     * @type {object}
+     * @type {{ [key: string]: object; }}
      * @memberof FunctionTask
      */
-    output?: object;
+    output?: { [key: string]: object; };
     /**
      * 
      * @type {EnumRuntimeEnvironment}
      * @memberof FunctionTask
      */
     runtime?: EnumRuntimeEnvironment;
+    /**
+     * 
+     * @type {EnumInstaller}
+     * @memberof FunctionTask
+     */
+    installer?: EnumInstaller;
+    /**
+     * 
+     * @type {string}
+     * @memberof FunctionTask
+     */
+    command?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof FunctionTask
+     */
+    code?: string;
+    /**
+     * 
+     * @type {Array<string>}
+     * @memberof FunctionTask
+     */
+    packages?: Array<string>;
 }
 
 export function FunctionTaskFromJSON(json: any): FunctionTask {
@@ -114,6 +142,10 @@ export function FunctionTaskFromJSONTyped(json: any, ignoreDiscriminator: boolea
         'input': !exists(json, 'input') ? undefined : json['input'],
         'output': !exists(json, 'output') ? undefined : json['output'],
         'runtime': !exists(json, 'runtime') ? undefined : EnumRuntimeEnvironmentFromJSON(json['runtime']),
+        'installer': !exists(json, 'installer') ? undefined : EnumInstallerFromJSON(json['installer']),
+        'command': !exists(json, 'command') ? undefined : json['command'],
+        'code': !exists(json, 'code') ? undefined : json['code'],
+        'packages': !exists(json, 'packages') ? undefined : json['packages'],
     };
 }
 
@@ -134,6 +166,10 @@ export function FunctionTaskToJSON(value?: FunctionTask | null): any {
         'input': value.input,
         'output': value.output,
         'runtime': EnumRuntimeEnvironmentToJSON(value.runtime),
+        'installer': EnumInstallerToJSON(value.installer),
+        'command': value.command,
+        'code': value.code,
+        'packages': value.packages,
     };
 }
 

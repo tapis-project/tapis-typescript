@@ -66,16 +66,16 @@ export interface ReqBaseTask {
     execution_profile?: ExecutionProfile;
     /**
      * 
-     * @type {object}
+     * @type {{ [key: string]: object; }}
      * @memberof ReqBaseTask
      */
-    input?: object;
+    input?: { [key: string]: object; };
     /**
      * 
-     * @type {object}
+     * @type {{ [key: string]: object; }}
      * @memberof ReqBaseTask
      */
-    output?: object;
+    output?: { [key: string]: object; };
 }
 
 export function ReqBaseTaskFromJSON(json: any): ReqBaseTask {

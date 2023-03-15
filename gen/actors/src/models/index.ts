@@ -41,7 +41,7 @@ export * from './RespListPermissions';
 export * from './RespManageWorkerPoolSize';
 export * from './RespSearchDatabase';
 export * from './RespSendBinaryMessage';
-export * from './RespSendJSONMessage';
+export * from './RespSendJsonMessage';
 export * from './RespSendMessage';
 export * from './RespUpdateActorAlias';
 export * from './RespUpdatePermissions';

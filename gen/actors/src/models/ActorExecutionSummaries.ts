@@ -31,13 +31,13 @@ export interface ActorExecutionSummaries {
      * @type {string}
      * @memberof ActorExecutionSummaries
      */
-    actorId?: string;
+    actor_id?: string;
     /**
      * the base URL for this Abaco instance.
      * @type {string}
      * @memberof ActorExecutionSummaries
      */
-    apiServer?: string;
+    api_server?: string;
     /**
      * The user who owns the associated actor.
      * @type {string}
@@ -49,25 +49,25 @@ export interface ActorExecutionSummaries {
      * @type {number}
      * @memberof ActorExecutionSummaries
      */
-    totalCpu?: number;
+    total_cpu?: number;
     /**
      * 
      * @type {number}
      * @memberof ActorExecutionSummaries
      */
-    totalExecutions?: number;
+    total_executions?: number;
     /**
      * 
      * @type {number}
      * @memberof ActorExecutionSummaries
      */
-    totalIo?: number;
+    total_io?: number;
     /**
      * 
      * @type {number}
      * @memberof ActorExecutionSummaries
      */
-    totalRuntime?: number;
+    total_runtime?: number;
     /**
      * 
      * @type {Array<ExecutionSummary>}
@@ -86,13 +86,13 @@ export function ActorExecutionSummariesFromJSONTyped(json: any, ignoreDiscrimina
     }
     return {
         
-        'actorId': !exists(json, 'actorId') ? undefined : json['actorId'],
-        'apiServer': !exists(json, 'apiServer') ? undefined : json['apiServer'],
+        'actor_id': !exists(json, 'actor_id') ? undefined : json['actor_id'],
+        'api_server': !exists(json, 'api_server') ? undefined : json['api_server'],
         'owner': !exists(json, 'owner') ? undefined : json['owner'],
-        'totalCpu': !exists(json, 'totalCpu') ? undefined : json['totalCpu'],
-        'totalExecutions': !exists(json, 'totalExecutions') ? undefined : json['totalExecutions'],
-        'totalIo': !exists(json, 'totalIo') ? undefined : json['totalIo'],
-        'totalRuntime': !exists(json, 'totalRuntime') ? undefined : json['totalRuntime'],
+        'total_cpu': !exists(json, 'total_cpu') ? undefined : json['total_cpu'],
+        'total_executions': !exists(json, 'total_executions') ? undefined : json['total_executions'],
+        'total_io': !exists(json, 'total_io') ? undefined : json['total_io'],
+        'total_runtime': !exists(json, 'total_runtime') ? undefined : json['total_runtime'],
         'executions': !exists(json, 'executions') ? undefined : ((json['executions'] as Array<any>).map(ExecutionSummaryFromJSON)),
     };
 }
@@ -106,13 +106,13 @@ export function ActorExecutionSummariesToJSON(value?: ActorExecutionSummaries | 
     }
     return {
         
-        'actorId': value.actorId,
-        'apiServer': value.apiServer,
+        'actor_id': value.actor_id,
+        'api_server': value.api_server,
         'owner': value.owner,
-        'totalCpu': value.totalCpu,
-        'totalExecutions': value.totalExecutions,
-        'totalIo': value.totalIo,
-        'totalRuntime': value.totalRuntime,
+        'total_cpu': value.total_cpu,
+        'total_executions': value.total_executions,
+        'total_io': value.total_io,
+        'total_runtime': value.total_runtime,
         'executions': value.executions === undefined ? undefined : ((value.executions as Array<any>).map(ExecutionSummaryToJSON)),
     };
 }

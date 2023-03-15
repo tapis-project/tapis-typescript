@@ -86,16 +86,16 @@ export interface ReqImageBuildTask {
     execution_profile?: ExecutionProfile;
     /**
      * 
-     * @type {object}
+     * @type {{ [key: string]: object; }}
      * @memberof ReqImageBuildTask
      */
-    input?: object;
+    input?: { [key: string]: object; };
     /**
      * 
-     * @type {object}
+     * @type {{ [key: string]: object; }}
      * @memberof ReqImageBuildTask
      */
-    output?: object;
+    output?: { [key: string]: object; };
     /**
      * 
      * @type {EnumBuilder}

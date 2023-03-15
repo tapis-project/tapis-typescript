@@ -58,7 +58,7 @@ export class ActorsApi extends runtime.BaseAPI {
 
     /**
      * Register an actor
-     * createActor
+     * create_actor
      */
     async createActorRaw(requestParameters: CreateActorRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespCreateActor>> {
         if (requestParameters.reqCreateActor === null || requestParameters.reqCreateActor === undefined) {
@@ -92,7 +92,7 @@ export class ActorsApi extends runtime.BaseAPI {
 
     /**
      * Register an actor
-     * createActor
+     * create_actor
      */
     async createActor(requestParameters: CreateActorRequest, initOverrides?: RequestInit): Promise<RespCreateActor> {
         const response = await this.createActorRaw(requestParameters, initOverrides);
@@ -101,7 +101,7 @@ export class ActorsApi extends runtime.BaseAPI {
 
     /**
      * Permenantly delete an actor.
-     * deleteActor
+     * delete_actor
      */
     async deleteActorRaw(requestParameters: DeleteActorRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespDeleteActor>> {
         if (requestParameters.actorId === null || requestParameters.actorId === undefined) {
@@ -132,7 +132,7 @@ export class ActorsApi extends runtime.BaseAPI {
 
     /**
      * Permenantly delete an actor.
-     * deleteActor
+     * delete_actor
      */
     async deleteActor(requestParameters: DeleteActorRequest, initOverrides?: RequestInit): Promise<RespDeleteActor> {
         const response = await this.deleteActorRaw(requestParameters, initOverrides);
@@ -141,7 +141,7 @@ export class ActorsApi extends runtime.BaseAPI {
 
     /**
      * Get details of a specific actor by its id.
-     * getActor
+     * get_actor
      */
     async getActorRaw(requestParameters: GetActorRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<object>> {
         if (requestParameters.actorId === null || requestParameters.actorId === undefined) {
@@ -172,7 +172,7 @@ export class ActorsApi extends runtime.BaseAPI {
 
     /**
      * Get details of a specific actor by its id.
-     * getActor
+     * get_actor
      */
     async getActor(requestParameters: GetActorRequest, initOverrides?: RequestInit): Promise<object> {
         const response = await this.getActorRaw(requestParameters, initOverrides);
@@ -181,7 +181,7 @@ export class ActorsApi extends runtime.BaseAPI {
 
     /**
      * List summary of all actors owned by user
-     * listActors
+     * list_actors
      */
     async listActorsRaw(requestParameters: ListActorsRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespListActors>> {
         const queryParameters: any = {};
@@ -216,7 +216,7 @@ export class ActorsApi extends runtime.BaseAPI {
 
     /**
      * List summary of all actors owned by user
-     * listActors
+     * list_actors
      */
     async listActors(requestParameters: ListActorsRequest, initOverrides?: RequestInit): Promise<RespListActors> {
         const response = await this.listActorsRaw(requestParameters, initOverrides);
@@ -225,7 +225,7 @@ export class ActorsApi extends runtime.BaseAPI {
 
     /**
      * Update an actor\'s definition.
-     * updateActor
+     * update_actor
      */
     async updateActorRaw(requestParameters: UpdateActorRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<object>> {
         if (requestParameters.actorId === null || requestParameters.actorId === undefined) {
@@ -263,7 +263,7 @@ export class ActorsApi extends runtime.BaseAPI {
 
     /**
      * Update an actor\'s definition.
-     * updateActor
+     * update_actor
      */
     async updateActor(requestParameters: UpdateActorRequest, initOverrides?: RequestInit): Promise<object> {
         const response = await this.updateActorRaw(requestParameters, initOverrides);

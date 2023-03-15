@@ -14,6 +14,10 @@
 
 import { exists, mapValues } from '../runtime';
 import {
+    EnumInstaller,
+    EnumInstallerFromJSON,
+    EnumInstallerFromJSONTyped,
+    EnumInstallerToJSON,
     EnumRuntimeEnvironment,
     EnumRuntimeEnvironmentFromJSON,
     EnumRuntimeEnvironmentFromJSONTyped,
@@ -32,6 +36,30 @@ export interface ReqFunctionTaskAllOf {
      * @memberof ReqFunctionTaskAllOf
      */
     runtime: EnumRuntimeEnvironment;
+    /**
+     * 
+     * @type {EnumInstaller}
+     * @memberof ReqFunctionTaskAllOf
+     */
+    installer: EnumInstaller;
+    /**
+     * 
+     * @type {string}
+     * @memberof ReqFunctionTaskAllOf
+     */
+    command?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof ReqFunctionTaskAllOf
+     */
+    code: string;
+    /**
+     * 
+     * @type {Array<string>}
+     * @memberof ReqFunctionTaskAllOf
+     */
+    packages?: Array<string>;
 }
 
 export function ReqFunctionTaskAllOfFromJSON(json: any): ReqFunctionTaskAllOf {
@@ -45,6 +73,10 @@ export function ReqFunctionTaskAllOfFromJSONTyped(json: any, ignoreDiscriminator
     return {
         
         'runtime': EnumRuntimeEnvironmentFromJSON(json['runtime']),
+        'installer': EnumInstallerFromJSON(json['installer']),
+        'command': !exists(json, 'command') ? undefined : json['command'],
+        'code': json['code'],
+        'packages': !exists(json, 'packages') ? undefined : json['packages'],
     };
 }
 
@@ -58,6 +90,10 @@ export function ReqFunctionTaskAllOfToJSON(value?: ReqFunctionTaskAllOf | null):
     return {
         
         'runtime': EnumRuntimeEnvironmentToJSON(value.runtime),
+        'installer': EnumInstallerToJSON(value.installer),
+        'command': value.command,
+        'code': value.code,
+        'packages': value.packages,
     };
 }
 

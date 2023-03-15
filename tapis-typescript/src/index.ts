@@ -6,9 +6,9 @@ import * as Apps from '@tapis/tapis-typescript-apps';
 import * as Jobs from '@tapis/tapis-typescript-jobs';
 import * as Streams from '@tapis/tapis-typescript-streams';
 import * as Workflows from '@tapis/tapis-typescript-workflows';
+import * as Actors from '@tapis/tapis-typescript-actors'
 
 /*
-import * as Actors from '@tapis/tapis-typescript-actors';
 import * as Meta from '@tapis/tapis-typescript-meta';
 import * as PGRest from '@tapis/tapis-typescript-pgrest';
 import * as SK from '@tapis/tapis-typescript-sk';
@@ -23,9 +23,9 @@ export {
   Apps,
   Jobs,
   Streams,
-  Workflows
-  /*
+  Workflows,
   Actors,
+  /*
   Meta,
   PGRest,
   SK,

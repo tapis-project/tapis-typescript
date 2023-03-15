@@ -58,7 +58,7 @@ export class NoncesApi extends runtime.BaseAPI {
 
     /**
      * Create a nonce for an actor.
-     * createNonce
+     * create_nonce
      */
     async createNonceRaw(requestParameters: CreateNonceRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespCreateNonce>> {
         if (requestParameters.actorId === null || requestParameters.actorId === undefined) {
@@ -96,7 +96,7 @@ export class NoncesApi extends runtime.BaseAPI {
 
     /**
      * Create a nonce for an actor.
-     * createNonce
+     * create_nonce
      */
     async createNonce(requestParameters: CreateNonceRequest, initOverrides?: RequestInit): Promise<RespCreateNonce> {
         const response = await this.createNonceRaw(requestParameters, initOverrides);
@@ -105,7 +105,7 @@ export class NoncesApi extends runtime.BaseAPI {
 
     /**
      * Delete a nonce.
-     * deleteNonce
+     * delete_nonce
      */
     async deleteNonceRaw(requestParameters: DeleteNonceRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespDeleteNonce>> {
         if (requestParameters.actorId === null || requestParameters.actorId === undefined) {
@@ -140,7 +140,7 @@ export class NoncesApi extends runtime.BaseAPI {
 
     /**
      * Delete a nonce.
-     * deleteNonce
+     * delete_nonce
      */
     async deleteNonce(requestParameters: DeleteNonceRequest, initOverrides?: RequestInit): Promise<RespDeleteNonce> {
         const response = await this.deleteNonceRaw(requestParameters, initOverrides);
@@ -149,7 +149,7 @@ export class NoncesApi extends runtime.BaseAPI {
 
     /**
      * Get details about a nonce for an actor.
-     * getNonce
+     * get_nonce
      */
     async getNonceRaw(requestParameters: GetNonceRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespGetNonce>> {
         if (requestParameters.actorId === null || requestParameters.actorId === undefined) {
@@ -184,7 +184,7 @@ export class NoncesApi extends runtime.BaseAPI {
 
     /**
      * Get details about a nonce for an actor.
-     * getNonce
+     * get_nonce
      */
     async getNonce(requestParameters: GetNonceRequest, initOverrides?: RequestInit): Promise<RespGetNonce> {
         const response = await this.getNonceRaw(requestParameters, initOverrides);
@@ -193,7 +193,7 @@ export class NoncesApi extends runtime.BaseAPI {
 
     /**
      * List nonces for an actor.
-     * listNonces
+     * list_nonces
      */
     async listNoncesRaw(requestParameters: ListNoncesRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespListNonces>> {
         if (requestParameters.actorId === null || requestParameters.actorId === undefined) {
@@ -224,7 +224,7 @@ export class NoncesApi extends runtime.BaseAPI {
 
     /**
      * List nonces for an actor.
-     * listNonces
+     * list_nonces
      */
     async listNonces(requestParameters: ListNoncesRequest, initOverrides?: RequestInit): Promise<RespListNonces> {
         const response = await this.listNoncesRaw(requestParameters, initOverrides);

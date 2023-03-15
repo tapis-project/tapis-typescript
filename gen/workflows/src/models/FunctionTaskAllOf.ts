@@ -14,6 +14,10 @@
 
 import { exists, mapValues } from '../runtime';
 import {
+    EnumInstaller,
+    EnumInstallerFromJSON,
+    EnumInstallerFromJSONTyped,
+    EnumInstallerToJSON,
     EnumRuntimeEnvironment,
     EnumRuntimeEnvironmentFromJSON,
     EnumRuntimeEnvironmentFromJSONTyped,
@@ -32,6 +36,30 @@ export interface FunctionTaskAllOf {
      * @memberof FunctionTaskAllOf
      */
     runtime?: EnumRuntimeEnvironment;
+    /**
+     * 
+     * @type {EnumInstaller}
+     * @memberof FunctionTaskAllOf
+     */
+    installer?: EnumInstaller;
+    /**
+     * 
+     * @type {string}
+     * @memberof FunctionTaskAllOf
+     */
+    command?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof FunctionTaskAllOf
+     */
+    code?: string;
+    /**
+     * 
+     * @type {Array<string>}
+     * @memberof FunctionTaskAllOf
+     */
+    packages?: Array<string>;
 }
 
 export function FunctionTaskAllOfFromJSON(json: any): FunctionTaskAllOf {
@@ -45,6 +73,10 @@ export function FunctionTaskAllOfFromJSONTyped(json: any, ignoreDiscriminator: b
     return {
         
         'runtime': !exists(json, 'runtime') ? undefined : EnumRuntimeEnvironmentFromJSON(json['runtime']),
+        'installer': !exists(json, 'installer') ? undefined : EnumInstallerFromJSON(json['installer']),
+        'command': !exists(json, 'command') ? undefined : json['command'],
+        'code': !exists(json, 'code') ? undefined : json['code'],
+        'packages': !exists(json, 'packages') ? undefined : json['packages'],
     };
 }
 
@@ -58,6 +90,10 @@ export function FunctionTaskAllOfToJSON(value?: FunctionTaskAllOf | null): any {
     return {
         
         'runtime': EnumRuntimeEnvironmentToJSON(value.runtime),
+        'installer': EnumInstallerToJSON(value.installer),
+        'command': value.command,
+        'code': value.code,
+        'packages': value.packages,
     };
 }
 

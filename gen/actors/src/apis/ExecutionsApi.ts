@@ -52,7 +52,7 @@ export class ExecutionsApi extends runtime.BaseAPI {
 
     /**
      * Get details about an execution.
-     * getExecution
+     * get_execution
      */
     async getExecutionRaw(requestParameters: GetExecutionRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespGetExecution>> {
         if (requestParameters.actorId === null || requestParameters.actorId === undefined) {
@@ -87,7 +87,7 @@ export class ExecutionsApi extends runtime.BaseAPI {
 
     /**
      * Get details about an execution.
-     * getExecution
+     * get_execution
      */
     async getExecution(requestParameters: GetExecutionRequest, initOverrides?: RequestInit): Promise<RespGetExecution> {
         const response = await this.getExecutionRaw(requestParameters, initOverrides);
@@ -96,7 +96,7 @@ export class ExecutionsApi extends runtime.BaseAPI {
 
     /**
      * Get an execution\'s logs.
-     * getExecutionLogs
+     * get_execution_logs
      */
     async getExecutionLogsRaw(requestParameters: GetExecutionLogsRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespGetExecutionLogs>> {
         if (requestParameters.actorId === null || requestParameters.actorId === undefined) {
@@ -131,7 +131,7 @@ export class ExecutionsApi extends runtime.BaseAPI {
 
     /**
      * Get an execution\'s logs.
-     * getExecutionLogs
+     * get_execution_logs
      */
     async getExecutionLogs(requestParameters: GetExecutionLogsRequest, initOverrides?: RequestInit): Promise<RespGetExecutionLogs> {
         const response = await this.getExecutionLogsRaw(requestParameters, initOverrides);
@@ -140,7 +140,7 @@ export class ExecutionsApi extends runtime.BaseAPI {
 
     /**
      * Get an execution\'s result.
-     * Get an execution\'s result.
+     * get_execution_result
      */
     async getExecutionResultRaw(requestParameters: GetExecutionResultRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<Blob>> {
         if (requestParameters.actorId === null || requestParameters.actorId === undefined) {
@@ -175,7 +175,7 @@ export class ExecutionsApi extends runtime.BaseAPI {
 
     /**
      * Get an execution\'s result.
-     * Get an execution\'s result.
+     * get_execution_result
      */
     async getExecutionResult(requestParameters: GetExecutionResultRequest, initOverrides?: RequestInit): Promise<Blob> {
         const response = await this.getExecutionResultRaw(requestParameters, initOverrides);
@@ -184,7 +184,7 @@ export class ExecutionsApi extends runtime.BaseAPI {
 
     /**
      * List executions for an actor.
-     * listExecutions
+     * list_executions
      */
     async listExecutionsRaw(requestParameters: ListExecutionsRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespListExecutions>> {
         if (requestParameters.actorId === null || requestParameters.actorId === undefined) {
@@ -215,7 +215,7 @@ export class ExecutionsApi extends runtime.BaseAPI {
 
     /**
      * List executions for an actor.
-     * listExecutions
+     * list_executions
      */
     async listExecutions(requestParameters: ListExecutionsRequest, initOverrides?: RequestInit): Promise<RespListExecutions> {
         const response = await this.listExecutionsRaw(requestParameters, initOverrides);

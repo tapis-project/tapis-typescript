@@ -18,10 +18,7 @@
  * @enum {string}
  */
 export enum EnumRuntimeEnvironment {
-    Python39 = 'python3.9',
-    Python27 = 'python2.7',
-    Node20 = 'node20',
-    Java17 = 'java17'
+    Python39 = 'python:3.9'
 }
 
 export function EnumRuntimeEnvironmentFromJSON(json: any): EnumRuntimeEnvironment {

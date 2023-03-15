@@ -30,7 +30,7 @@ export interface Alias {
      * @type {string}
      * @memberof Alias
      */
-    actorId?: string;
+    actor_id?: string;
     /**
      * The username of the owner of the alias.
      * @type {string}
@@ -50,7 +50,7 @@ export function AliasFromJSONTyped(json: any, ignoreDiscriminator: boolean): Ali
     return {
         
         'alias': !exists(json, 'alias') ? undefined : json['alias'],
-        'actorId': !exists(json, 'actorId') ? undefined : json['actorId'],
+        'actor_id': !exists(json, 'actor_id') ? undefined : json['actor_id'],
         'owner': !exists(json, 'owner') ? undefined : json['owner'],
     };
 }
@@ -65,7 +65,7 @@ export function AliasToJSON(value?: Alias | null): any {
     return {
         
         'alias': value.alias,
-        'actorId': value.actorId,
+        'actor_id': value.actor_id,
         'owner': value.owner,
     };
 }

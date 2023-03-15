@@ -78,16 +78,16 @@ export interface ReqRequestTask {
     execution_profile?: ExecutionProfile;
     /**
      * 
-     * @type {object}
+     * @type {{ [key: string]: object; }}
      * @memberof ReqRequestTask
      */
-    input?: object;
+    input?: { [key: string]: object; };
     /**
      * 
-     * @type {object}
+     * @type {{ [key: string]: object; }}
      * @memberof ReqRequestTask
      */
-    output?: object;
+    output?: { [key: string]: object; };
     /**
      * 
      * @type {object}

@@ -14,6 +14,10 @@
 
 import { exists, mapValues } from '../runtime';
 import {
+    BaseTask,
+    BaseTaskFromJSON,
+    BaseTaskFromJSONTyped,
+    BaseTaskToJSON,
     EnumTaskType,
     EnumTaskTypeFromJSON,
     EnumTaskTypeFromJSONTyped,
@@ -22,14 +26,6 @@ import {
     ExecutionProfileFromJSON,
     ExecutionProfileFromJSONTyped,
     ExecutionProfileToJSON,
-    NullableAnyType,
-    NullableAnyTypeFromJSON,
-    NullableAnyTypeFromJSONTyped,
-    NullableAnyTypeToJSON,
-    ReqBaseTask,
-    ReqBaseTaskFromJSON,
-    ReqBaseTaskFromJSONTyped,
-    ReqBaseTaskToJSON,
     TapisActorTaskAllOf,
     TapisActorTaskAllOfFromJSON,
     TapisActorTaskAllOfFromJSONTyped,
@@ -78,16 +74,16 @@ export interface TapisActorTask {
     execution_profile?: ExecutionProfile;
     /**
      * 
-     * @type {object}
+     * @type {{ [key: string]: object; }}
      * @memberof TapisActorTask
      */
-    input?: object;
+    input?: { [key: string]: object; };
     /**
      * 
-     * @type {object}
+     * @type {{ [key: string]: object; }}
      * @memberof TapisActorTask
      */
-    output?: object;
+    output?: { [key: string]: object; };
     /**
      * 
      * @type {boolean}
@@ -102,10 +98,10 @@ export interface TapisActorTask {
     tapis_actor_id?: string;
     /**
      * 
-     * @type {NullableAnyType}
+     * @type {string}
      * @memberof TapisActorTask
      */
-    tapis_actor_message?: NullableAnyType | null;
+    tapis_actor_message?: string | null;
 }
 
 export function TapisActorTaskFromJSON(json: any): TapisActorTask {
@@ -127,7 +123,7 @@ export function TapisActorTaskFromJSONTyped(json: any, ignoreDiscriminator: bool
         'output': !exists(json, 'output') ? undefined : json['output'],
         'poll': !exists(json, 'poll') ? undefined : json['poll'],
         'tapis_actor_id': !exists(json, 'tapis_actor_id') ? undefined : json['tapis_actor_id'],
-        'tapis_actor_message': !exists(json, 'tapis_actor_message') ? undefined : NullableAnyTypeFromJSON(json['tapis_actor_message']),
+        'tapis_actor_message': !exists(json, 'tapis_actor_message') ? undefined : json['tapis_actor_message'],
     };
 }
 
@@ -149,7 +145,7 @@ export function TapisActorTaskToJSON(value?: TapisActorTask | null): any {
         'output': value.output,
         'poll': value.poll,
         'tapis_actor_id': value.tapis_actor_id,
-        'tapis_actor_message': NullableAnyTypeToJSON(value.tapis_actor_message),
+        'tapis_actor_message': value.tapis_actor_message,
     };
 }
 

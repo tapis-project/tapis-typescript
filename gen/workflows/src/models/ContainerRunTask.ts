@@ -74,16 +74,16 @@ export interface ContainerRunTask {
     execution_profile?: ExecutionProfile;
     /**
      * 
-     * @type {object}
+     * @type {{ [key: string]: object; }}
      * @memberof ContainerRunTask
      */
-    input?: object;
+    input?: { [key: string]: object; };
     /**
      * 
-     * @type {object}
+     * @type {{ [key: string]: object; }}
      * @memberof ContainerRunTask
      */
-    output?: object;
+    output?: { [key: string]: object; };
     /**
      * 
      * @type {string}
