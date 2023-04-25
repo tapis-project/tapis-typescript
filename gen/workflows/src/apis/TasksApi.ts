@@ -18,9 +18,15 @@ import {
     ReqTask,
     ReqTaskFromJSON,
     ReqTaskToJSON,
+    RespError,
+    RespErrorFromJSON,
+    RespErrorToJSON,
     RespResourceURL,
     RespResourceURLFromJSON,
     RespResourceURLToJSON,
+    RespString,
+    RespStringFromJSON,
+    RespStringToJSON,
     RespTask,
     RespTaskFromJSON,
     RespTaskToJSON,
@@ -33,6 +39,12 @@ export interface CreateTaskRequest {
     groupId: string;
     pipelineId: string;
     reqTask: ReqTask;
+}
+
+export interface DeleteTaskRequest {
+    groupId: string;
+    pipelineId: string;
+    taskId: string;
 }
 
 export interface GetTaskRequest {
@@ -95,6 +107,50 @@ export class TasksApi extends runtime.BaseAPI {
      */
     async createTask(requestParameters: CreateTaskRequest, initOverrides?: RequestInit): Promise<RespResourceURL> {
         const response = await this.createTaskRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     * Delete a task 
+     * Delete a task
+     */
+    async deleteTaskRaw(requestParameters: DeleteTaskRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespString>> {
+        if (requestParameters.groupId === null || requestParameters.groupId === undefined) {
+            throw new runtime.RequiredError('groupId','Required parameter requestParameters.groupId was null or undefined when calling deleteTask.');
+        }
+
+        if (requestParameters.pipelineId === null || requestParameters.pipelineId === undefined) {
+            throw new runtime.RequiredError('pipelineId','Required parameter requestParameters.pipelineId was null or undefined when calling deleteTask.');
+        }
+
+        if (requestParameters.taskId === null || requestParameters.taskId === undefined) {
+            throw new runtime.RequiredError('taskId','Required parameter requestParameters.taskId was null or undefined when calling deleteTask.');
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        if (this.configuration && this.configuration.apiKey) {
+            headerParameters["X-TAPIS-TOKEN"] = this.configuration.apiKey("X-TAPIS-TOKEN"); // TapisJWT authentication
+        }
+
+        const response = await this.request({
+            path: `/v3/workflows/groups/{group_id}/pipelines/{pipeline_id}/tasks/{task_id}`.replace(`{${"group_id"}}`, encodeURIComponent(String(requestParameters.groupId))).replace(`{${"pipeline_id"}}`, encodeURIComponent(String(requestParameters.pipelineId))).replace(`{${"task_id"}}`, encodeURIComponent(String(requestParameters.taskId))),
+            method: 'DELETE',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => RespStringFromJSON(jsonValue));
+    }
+
+    /**
+     * Delete a task 
+     * Delete a task
+     */
+    async deleteTask(requestParameters: DeleteTaskRequest, initOverrides?: RequestInit): Promise<RespString> {
+        const response = await this.deleteTaskRaw(requestParameters, initOverrides);
         return await response.value();
     }
 

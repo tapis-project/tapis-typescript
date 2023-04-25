@@ -22,6 +22,7 @@ export * from './EnumPipelineType';
 export * from './EnumRetryPolicy';
 export * from './EnumRunStatus';
 export * from './EnumRuntimeEnvironment';
+export * from './EnumTaskFlavor';
 export * from './EnumTaskType';
 export * from './Event';
 export * from './ExecutionProfile';

@@ -44,6 +44,12 @@ export interface Pipeline {
     env?: { [key: string]: object; };
     /**
      * 
+     * @type {{ [key: string]: object; }}
+     * @memberof Pipeline
+     */
+    params?: { [key: string]: object; };
+    /**
+     * 
      * @type {string}
      * @memberof Pipeline
      */
@@ -98,6 +104,7 @@ export function PipelineFromJSONTyped(json: any, ignoreDiscriminator: boolean): 
         
         'id': !exists(json, 'id') ? undefined : json['id'],
         'env': !exists(json, 'env') ? undefined : json['env'],
+        'params': !exists(json, 'params') ? undefined : json['params'],
         'group': !exists(json, 'group') ? undefined : json['group'],
         'owner': !exists(json, 'owner') ? undefined : json['owner'],
         'uuid': !exists(json, 'uuid') ? undefined : json['uuid'],
@@ -119,6 +126,7 @@ export function PipelineToJSON(value?: Pipeline | null): any {
         
         'id': value.id,
         'env': value.env,
+        'params': value.params,
         'group': value.group,
         'owner': value.owner,
         'uuid': value.uuid,

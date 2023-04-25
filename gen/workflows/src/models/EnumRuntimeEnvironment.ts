@@ -18,7 +18,8 @@
  * @enum {string}
  */
 export enum EnumRuntimeEnvironment {
-    Python39 = 'python:3.9'
+    Python39 = 'python:3.9',
+    TapisWorkflowsPythonSingularity010 = 'tapis/workflows-python-singularity:0.1.0'
 }
 
 export function EnumRuntimeEnvironmentFromJSON(json: any): EnumRuntimeEnvironment {

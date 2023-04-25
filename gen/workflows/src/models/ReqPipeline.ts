@@ -60,6 +60,12 @@ export interface ReqPipeline {
     env?: { [key: string]: object; };
     /**
      * 
+     * @type {{ [key: string]: object; }}
+     * @memberof ReqPipeline
+     */
+    params?: { [key: string]: object; };
+    /**
+     * 
      * @type {EnumPipelineType}
      * @memberof ReqPipeline
      */
@@ -92,6 +98,7 @@ export function ReqPipelineFromJSONTyped(json: any, ignoreDiscriminator: boolean
         'archive_ids': !exists(json, 'archive_ids') ? undefined : json['archive_ids'],
         'description': !exists(json, 'description') ? undefined : json['description'],
         'env': !exists(json, 'env') ? undefined : json['env'],
+        'params': !exists(json, 'params') ? undefined : json['params'],
         'type': EnumPipelineTypeFromJSON(json['type']),
         'execution_profile': !exists(json, 'execution_profile') ? undefined : ExecutionProfileFromJSON(json['execution_profile']),
         'tasks': !exists(json, 'tasks') ? undefined : ((json['tasks'] as Array<any>).map(ReqTaskFromJSON)),
@@ -111,6 +118,7 @@ export function ReqPipelineToJSON(value?: ReqPipeline | null): any {
         'archive_ids': value.archive_ids,
         'description': value.description,
         'env': value.env,
+        'params': value.params,
         'type': EnumPipelineTypeToJSON(value.type),
         'execution_profile': ExecutionProfileToJSON(value.execution_profile),
         'tasks': value.tasks === undefined ? undefined : ((value.tasks as Array<any>).map(ReqTaskToJSON)),

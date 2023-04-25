@@ -39,6 +39,7 @@ src/models/EnumPipelineType.ts
 src/models/EnumRetryPolicy.ts
 src/models/EnumRunStatus.ts
 src/models/EnumRuntimeEnvironment.ts
+src/models/EnumTaskFlavor.ts
 src/models/EnumTaskType.ts
 src/models/Event.ts
 src/models/ExecutionProfile.ts
