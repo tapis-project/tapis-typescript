@@ -16,32 +16,39 @@ import { exists, mapValues } from '../runtime';
 /**
  * 
  * @export
- * @interface ResultNameArray
+ * @interface ResultGlobusAuthUrl
  */
-export interface ResultNameArray {
+export interface ResultGlobusAuthUrl {
     /**
      * 
-     * @type {Array<string>}
-     * @memberof ResultNameArray
+     * @type {string}
+     * @memberof ResultGlobusAuthUrl
      */
-    names?: Array<string>;
+    url?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof ResultGlobusAuthUrl
+     */
+    sesssionId?: string;
 }
 
-export function ResultNameArrayFromJSON(json: any): ResultNameArray {
-    return ResultNameArrayFromJSONTyped(json, false);
+export function ResultGlobusAuthUrlFromJSON(json: any): ResultGlobusAuthUrl {
+    return ResultGlobusAuthUrlFromJSONTyped(json, false);
 }
 
-export function ResultNameArrayFromJSONTyped(json: any, ignoreDiscriminator: boolean): ResultNameArray {
+export function ResultGlobusAuthUrlFromJSONTyped(json: any, ignoreDiscriminator: boolean): ResultGlobusAuthUrl {
     if ((json === undefined) || (json === null)) {
         return json;
     }
     return {
         
-        'names': !exists(json, 'names') ? undefined : json['names'],
+        'url': !exists(json, 'url') ? undefined : json['url'],
+        'sesssionId': !exists(json, 'sesssionId') ? undefined : json['sesssionId'],
     };
 }
 
-export function ResultNameArrayToJSON(value?: ResultNameArray | null): any {
+export function ResultGlobusAuthUrlToJSON(value?: ResultGlobusAuthUrl | null): any {
     if (value === undefined) {
         return undefined;
     }
@@ -50,7 +57,8 @@ export function ResultNameArrayToJSON(value?: ResultNameArray | null): any {
     }
     return {
         
-        'names': value.names,
+        'url': value.url,
+        'sesssionId': value.sesssionId,
     };
 }
 

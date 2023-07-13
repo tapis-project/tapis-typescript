@@ -16,46 +16,46 @@ import { exists, mapValues } from '../runtime';
 /**
  * 
  * @export
- * @interface KeyValuePair
+ * @interface ReqPostChildSystem
  */
-export interface KeyValuePair {
+export interface ReqPostChildSystem {
     /**
      * 
      * @type {string}
-     * @memberof KeyValuePair
+     * @memberof ReqPostChildSystem
      */
-    key: string;
+    id?: string;
     /**
      * 
      * @type {string}
-     * @memberof KeyValuePair
+     * @memberof ReqPostChildSystem
      */
-    value?: string;
+    effectiveUserId: string;
     /**
      * 
      * @type {string}
-     * @memberof KeyValuePair
+     * @memberof ReqPostChildSystem
      */
-    description?: string;
+    rootDir: string;
 }
 
-export function KeyValuePairFromJSON(json: any): KeyValuePair {
-    return KeyValuePairFromJSONTyped(json, false);
+export function ReqPostChildSystemFromJSON(json: any): ReqPostChildSystem {
+    return ReqPostChildSystemFromJSONTyped(json, false);
 }
 
-export function KeyValuePairFromJSONTyped(json: any, ignoreDiscriminator: boolean): KeyValuePair {
+export function ReqPostChildSystemFromJSONTyped(json: any, ignoreDiscriminator: boolean): ReqPostChildSystem {
     if ((json === undefined) || (json === null)) {
         return json;
     }
     return {
         
-        'key': json['key'],
-        'value': !exists(json, 'value') ? undefined : json['value'],
-        'description': !exists(json, 'description') ? undefined : json['description'],
+        'id': !exists(json, 'id') ? undefined : json['id'],
+        'effectiveUserId': json['effectiveUserId'],
+        'rootDir': json['rootDir'],
     };
 }
 
-export function KeyValuePairToJSON(value?: KeyValuePair | null): any {
+export function ReqPostChildSystemToJSON(value?: ReqPostChildSystem | null): any {
     if (value === undefined) {
         return undefined;
     }
@@ -64,9 +64,9 @@ export function KeyValuePairToJSON(value?: KeyValuePair | null): any {
     }
     return {
         
-        'key': value.key,
-        'value': value.value,
-        'description': value.description,
+        'id': value.id,
+        'effectiveUserId': value.effectiveUserId,
+        'rootDir': value.rootDir,
     };
 }
 

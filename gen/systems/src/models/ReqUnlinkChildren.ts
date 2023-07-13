@@ -16,32 +16,32 @@ import { exists, mapValues } from '../runtime';
 /**
  * 
  * @export
- * @interface ResultNameArray
+ * @interface ReqUnlinkChildren
  */
-export interface ResultNameArray {
+export interface ReqUnlinkChildren {
     /**
-     * 
+     * List containing the IDs of the child systems to unlink from the parent system.
      * @type {Array<string>}
-     * @memberof ResultNameArray
+     * @memberof ReqUnlinkChildren
      */
-    names?: Array<string>;
+    childSystemIds?: Array<string>;
 }
 
-export function ResultNameArrayFromJSON(json: any): ResultNameArray {
-    return ResultNameArrayFromJSONTyped(json, false);
+export function ReqUnlinkChildrenFromJSON(json: any): ReqUnlinkChildren {
+    return ReqUnlinkChildrenFromJSONTyped(json, false);
 }
 
-export function ResultNameArrayFromJSONTyped(json: any, ignoreDiscriminator: boolean): ResultNameArray {
+export function ReqUnlinkChildrenFromJSONTyped(json: any, ignoreDiscriminator: boolean): ReqUnlinkChildren {
     if ((json === undefined) || (json === null)) {
         return json;
     }
     return {
         
-        'names': !exists(json, 'names') ? undefined : json['names'],
+        'childSystemIds': !exists(json, 'childSystemIds') ? undefined : json['childSystemIds'],
     };
 }
 
-export function ResultNameArrayToJSON(value?: ResultNameArray | null): any {
+export function ReqUnlinkChildrenToJSON(value?: ReqUnlinkChildren | null): any {
     if (value === undefined) {
         return undefined;
     }
@@ -50,7 +50,7 @@ export function ResultNameArrayToJSON(value?: ResultNameArray | null): any {
     }
     return {
         
-        'names': value.names,
+        'childSystemIds': value.childSystemIds,
     };
 }
 

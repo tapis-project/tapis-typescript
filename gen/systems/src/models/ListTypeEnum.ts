@@ -17,24 +17,21 @@
  * @export
  * @enum {string}
  */
-export enum SchedulerTypeEnum {
-    Slurm = 'SLURM',
-    Condor = 'CONDOR',
-    Pbs = 'PBS',
-    Sge = 'SGE',
-    Uge = 'UGE',
-    Torque = 'TORQUE'
+export enum ListTypeEnum {
+    Owned = 'OWNED',
+    SharedPublic = 'SHARED_PUBLIC',
+    All = 'ALL'
 }
 
-export function SchedulerTypeEnumFromJSON(json: any): SchedulerTypeEnum {
-    return SchedulerTypeEnumFromJSONTyped(json, false);
+export function ListTypeEnumFromJSON(json: any): ListTypeEnum {
+    return ListTypeEnumFromJSONTyped(json, false);
 }
 
-export function SchedulerTypeEnumFromJSONTyped(json: any, ignoreDiscriminator: boolean): SchedulerTypeEnum {
-    return json as SchedulerTypeEnum;
+export function ListTypeEnumFromJSONTyped(json: any, ignoreDiscriminator: boolean): ListTypeEnum {
+    return json as ListTypeEnum;
 }
 
-export function SchedulerTypeEnumToJSON(value?: SchedulerTypeEnum | null): any {
+export function ListTypeEnumToJSON(value?: ListTypeEnum | null): any {
     return value as any;
 }
 

@@ -16,32 +16,39 @@ import { exists, mapValues } from '../runtime';
 /**
  * 
  * @export
- * @interface ResultNameArray
+ * @interface ShareInfo
  */
-export interface ResultNameArray {
+export interface ShareInfo {
+    /**
+     * 
+     * @type {boolean}
+     * @memberof ShareInfo
+     */
+    _public: boolean;
     /**
      * 
      * @type {Array<string>}
-     * @memberof ResultNameArray
+     * @memberof ShareInfo
      */
-    names?: Array<string>;
+    userList: Array<string>;
 }
 
-export function ResultNameArrayFromJSON(json: any): ResultNameArray {
-    return ResultNameArrayFromJSONTyped(json, false);
+export function ShareInfoFromJSON(json: any): ShareInfo {
+    return ShareInfoFromJSONTyped(json, false);
 }
 
-export function ResultNameArrayFromJSONTyped(json: any, ignoreDiscriminator: boolean): ResultNameArray {
+export function ShareInfoFromJSONTyped(json: any, ignoreDiscriminator: boolean): ShareInfo {
     if ((json === undefined) || (json === null)) {
         return json;
     }
     return {
         
-        'names': !exists(json, 'names') ? undefined : json['names'],
+        '_public': json['public'],
+        'userList': json['userList'],
     };
 }
 
-export function ResultNameArrayToJSON(value?: ResultNameArray | null): any {
+export function ShareInfoToJSON(value?: ShareInfo | null): any {
     if (value === undefined) {
         return undefined;
     }
@@ -50,7 +57,8 @@ export function ResultNameArrayToJSON(value?: ResultNameArray | null): any {
     }
     return {
         
-        'names': value.names,
+        'public': value._public,
+        'userList': value.userList,
     };
 }
 
