@@ -14,67 +14,67 @@
 
 import { exists, mapValues } from '../runtime';
 import {
-    ResultBoolean,
-    ResultBooleanFromJSON,
-    ResultBooleanFromJSONTyped,
-    ResultBooleanToJSON,
+    SystemHistory,
+    SystemHistoryFromJSON,
+    SystemHistoryFromJSONTyped,
+    SystemHistoryToJSON,
 } from './';
 
 /**
  * 
  * @export
- * @interface RespBoolean
+ * @interface RespSystemHistory
  */
-export interface RespBoolean {
+export interface RespSystemHistory {
     /**
      * 
      * @type {string}
-     * @memberof RespBoolean
+     * @memberof RespSystemHistory
      */
     status?: string;
     /**
      * 
      * @type {string}
-     * @memberof RespBoolean
+     * @memberof RespSystemHistory
      */
     message?: string;
     /**
      * 
      * @type {string}
-     * @memberof RespBoolean
+     * @memberof RespSystemHistory
      */
     version?: string;
     /**
      * 
      * @type {string}
-     * @memberof RespBoolean
+     * @memberof RespSystemHistory
      */
     commit?: string;
     /**
      * 
      * @type {string}
-     * @memberof RespBoolean
+     * @memberof RespSystemHistory
      */
     build?: string;
     /**
      * 
-     * @type {ResultBoolean}
-     * @memberof RespBoolean
+     * @type {Array<SystemHistory>}
+     * @memberof RespSystemHistory
      */
-    result?: ResultBoolean;
+    result?: Array<SystemHistory>;
     /**
      * 
      * @type {object}
-     * @memberof RespBoolean
+     * @memberof RespSystemHistory
      */
     metadata?: object;
 }
 
-export function RespBooleanFromJSON(json: any): RespBoolean {
-    return RespBooleanFromJSONTyped(json, false);
+export function RespSystemHistoryFromJSON(json: any): RespSystemHistory {
+    return RespSystemHistoryFromJSONTyped(json, false);
 }
 
-export function RespBooleanFromJSONTyped(json: any, ignoreDiscriminator: boolean): RespBoolean {
+export function RespSystemHistoryFromJSONTyped(json: any, ignoreDiscriminator: boolean): RespSystemHistory {
     if ((json === undefined) || (json === null)) {
         return json;
     }
@@ -85,12 +85,12 @@ export function RespBooleanFromJSONTyped(json: any, ignoreDiscriminator: boolean
         'version': !exists(json, 'version') ? undefined : json['version'],
         'commit': !exists(json, 'commit') ? undefined : json['commit'],
         'build': !exists(json, 'build') ? undefined : json['build'],
-        'result': !exists(json, 'result') ? undefined : ResultBooleanFromJSON(json['result']),
+        'result': !exists(json, 'result') ? undefined : ((json['result'] as Array<any>).map(SystemHistoryFromJSON)),
         'metadata': !exists(json, 'metadata') ? undefined : json['metadata'],
     };
 }
 
-export function RespBooleanToJSON(value?: RespBoolean | null): any {
+export function RespSystemHistoryToJSON(value?: RespSystemHistory | null): any {
     if (value === undefined) {
         return undefined;
     }
@@ -104,7 +104,7 @@ export function RespBooleanToJSON(value?: RespBoolean | null): any {
         'version': value.version,
         'commit': value.commit,
         'build': value.build,
-        'result': ResultBooleanToJSON(value.result),
+        'result': value.result === undefined ? undefined : ((value.result as Array<any>).map(SystemHistoryToJSON)),
         'metadata': value.metadata,
     };
 }

@@ -14,67 +14,67 @@
 
 import { exists, mapValues } from '../runtime';
 import {
-    ResultBoolean,
-    ResultBooleanFromJSON,
-    ResultBooleanFromJSONTyped,
-    ResultBooleanToJSON,
+    ResultGlobusAuthUrl,
+    ResultGlobusAuthUrlFromJSON,
+    ResultGlobusAuthUrlFromJSONTyped,
+    ResultGlobusAuthUrlToJSON,
 } from './';
 
 /**
  * 
  * @export
- * @interface RespBoolean
+ * @interface RespGlobusAuthUrl
  */
-export interface RespBoolean {
+export interface RespGlobusAuthUrl {
     /**
      * 
      * @type {string}
-     * @memberof RespBoolean
+     * @memberof RespGlobusAuthUrl
      */
     status?: string;
     /**
      * 
      * @type {string}
-     * @memberof RespBoolean
+     * @memberof RespGlobusAuthUrl
      */
     message?: string;
     /**
      * 
      * @type {string}
-     * @memberof RespBoolean
+     * @memberof RespGlobusAuthUrl
      */
     version?: string;
     /**
      * 
      * @type {string}
-     * @memberof RespBoolean
+     * @memberof RespGlobusAuthUrl
      */
     commit?: string;
     /**
      * 
      * @type {string}
-     * @memberof RespBoolean
+     * @memberof RespGlobusAuthUrl
      */
     build?: string;
     /**
      * 
-     * @type {ResultBoolean}
-     * @memberof RespBoolean
+     * @type {ResultGlobusAuthUrl}
+     * @memberof RespGlobusAuthUrl
      */
-    result?: ResultBoolean;
+    result?: ResultGlobusAuthUrl;
     /**
      * 
      * @type {object}
-     * @memberof RespBoolean
+     * @memberof RespGlobusAuthUrl
      */
     metadata?: object;
 }
 
-export function RespBooleanFromJSON(json: any): RespBoolean {
-    return RespBooleanFromJSONTyped(json, false);
+export function RespGlobusAuthUrlFromJSON(json: any): RespGlobusAuthUrl {
+    return RespGlobusAuthUrlFromJSONTyped(json, false);
 }
 
-export function RespBooleanFromJSONTyped(json: any, ignoreDiscriminator: boolean): RespBoolean {
+export function RespGlobusAuthUrlFromJSONTyped(json: any, ignoreDiscriminator: boolean): RespGlobusAuthUrl {
     if ((json === undefined) || (json === null)) {
         return json;
     }
@@ -85,12 +85,12 @@ export function RespBooleanFromJSONTyped(json: any, ignoreDiscriminator: boolean
         'version': !exists(json, 'version') ? undefined : json['version'],
         'commit': !exists(json, 'commit') ? undefined : json['commit'],
         'build': !exists(json, 'build') ? undefined : json['build'],
-        'result': !exists(json, 'result') ? undefined : ResultBooleanFromJSON(json['result']),
+        'result': !exists(json, 'result') ? undefined : ResultGlobusAuthUrlFromJSON(json['result']),
         'metadata': !exists(json, 'metadata') ? undefined : json['metadata'],
     };
 }
 
-export function RespBooleanToJSON(value?: RespBoolean | null): any {
+export function RespGlobusAuthUrlToJSON(value?: RespGlobusAuthUrl | null): any {
     if (value === undefined) {
         return undefined;
     }
@@ -104,7 +104,7 @@ export function RespBooleanToJSON(value?: RespBoolean | null): any {
         'version': value.version,
         'commit': value.commit,
         'build': value.build,
-        'result': ResultBooleanToJSON(value.result),
+        'result': ResultGlobusAuthUrlToJSON(value.result),
         'metadata': value.metadata,
     };
 }

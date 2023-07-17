@@ -16,32 +16,39 @@ import { exists, mapValues } from '../runtime';
 /**
  * 
  * @export
- * @interface ResultNameArray
+ * @interface ModuleLoadSpec
  */
-export interface ResultNameArray {
+export interface ModuleLoadSpec {
+    /**
+     * 
+     * @type {string}
+     * @memberof ModuleLoadSpec
+     */
+    moduleLoadCommand: string;
     /**
      * 
      * @type {Array<string>}
-     * @memberof ResultNameArray
+     * @memberof ModuleLoadSpec
      */
-    names?: Array<string>;
+    modulesToLoad?: Array<string>;
 }
 
-export function ResultNameArrayFromJSON(json: any): ResultNameArray {
-    return ResultNameArrayFromJSONTyped(json, false);
+export function ModuleLoadSpecFromJSON(json: any): ModuleLoadSpec {
+    return ModuleLoadSpecFromJSONTyped(json, false);
 }
 
-export function ResultNameArrayFromJSONTyped(json: any, ignoreDiscriminator: boolean): ResultNameArray {
+export function ModuleLoadSpecFromJSONTyped(json: any, ignoreDiscriminator: boolean): ModuleLoadSpec {
     if ((json === undefined) || (json === null)) {
         return json;
     }
     return {
         
-        'names': !exists(json, 'names') ? undefined : json['names'],
+        'moduleLoadCommand': json['moduleLoadCommand'],
+        'modulesToLoad': !exists(json, 'modulesToLoad') ? undefined : json['modulesToLoad'],
     };
 }
 
-export function ResultNameArrayToJSON(value?: ResultNameArray | null): any {
+export function ModuleLoadSpecToJSON(value?: ModuleLoadSpec | null): any {
     if (value === undefined) {
         return undefined;
     }
@@ -50,7 +57,8 @@ export function ResultNameArrayToJSON(value?: ResultNameArray | null): any {
     }
     return {
         
-        'names': value.names,
+        'moduleLoadCommand': value.moduleLoadCommand,
+        'modulesToLoad': value.modulesToLoad,
     };
 }
 

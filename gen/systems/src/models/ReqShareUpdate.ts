@@ -16,32 +16,32 @@ import { exists, mapValues } from '../runtime';
 /**
  * 
  * @export
- * @interface ResultNameArray
+ * @interface ReqShareUpdate
  */
-export interface ResultNameArray {
+export interface ReqShareUpdate {
     /**
      * 
      * @type {Array<string>}
-     * @memberof ResultNameArray
+     * @memberof ReqShareUpdate
      */
-    names?: Array<string>;
+    users: Array<string>;
 }
 
-export function ResultNameArrayFromJSON(json: any): ResultNameArray {
-    return ResultNameArrayFromJSONTyped(json, false);
+export function ReqShareUpdateFromJSON(json: any): ReqShareUpdate {
+    return ReqShareUpdateFromJSONTyped(json, false);
 }
 
-export function ResultNameArrayFromJSONTyped(json: any, ignoreDiscriminator: boolean): ResultNameArray {
+export function ReqShareUpdateFromJSONTyped(json: any, ignoreDiscriminator: boolean): ReqShareUpdate {
     if ((json === undefined) || (json === null)) {
         return json;
     }
     return {
         
-        'names': !exists(json, 'names') ? undefined : json['names'],
+        'users': json['users'],
     };
 }
 
-export function ResultNameArrayToJSON(value?: ResultNameArray | null): any {
+export function ReqShareUpdateToJSON(value?: ReqShareUpdate | null): any {
     if (value === undefined) {
         return undefined;
     }
@@ -50,7 +50,7 @@ export function ResultNameArrayToJSON(value?: ResultNameArray | null): any {
     }
     return {
         
-        'names': value.names,
+        'users': value.users,
     };
 }
 

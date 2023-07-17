@@ -14,67 +14,67 @@
 
 import { exists, mapValues } from '../runtime';
 import {
-    ResultBoolean,
-    ResultBooleanFromJSON,
-    ResultBooleanFromJSONTyped,
-    ResultBooleanToJSON,
+    ShareInfo,
+    ShareInfoFromJSON,
+    ShareInfoFromJSONTyped,
+    ShareInfoToJSON,
 } from './';
 
 /**
  * 
  * @export
- * @interface RespBoolean
+ * @interface RespShareInfo
  */
-export interface RespBoolean {
+export interface RespShareInfo {
     /**
      * 
      * @type {string}
-     * @memberof RespBoolean
+     * @memberof RespShareInfo
      */
     status?: string;
     /**
      * 
      * @type {string}
-     * @memberof RespBoolean
+     * @memberof RespShareInfo
      */
     message?: string;
     /**
      * 
      * @type {string}
-     * @memberof RespBoolean
+     * @memberof RespShareInfo
      */
     version?: string;
     /**
      * 
      * @type {string}
-     * @memberof RespBoolean
+     * @memberof RespShareInfo
      */
     commit?: string;
     /**
      * 
      * @type {string}
-     * @memberof RespBoolean
+     * @memberof RespShareInfo
      */
     build?: string;
     /**
      * 
-     * @type {ResultBoolean}
-     * @memberof RespBoolean
+     * @type {ShareInfo}
+     * @memberof RespShareInfo
      */
-    result?: ResultBoolean;
+    result?: ShareInfo;
     /**
      * 
      * @type {object}
-     * @memberof RespBoolean
+     * @memberof RespShareInfo
      */
     metadata?: object;
 }
 
-export function RespBooleanFromJSON(json: any): RespBoolean {
-    return RespBooleanFromJSONTyped(json, false);
+export function RespShareInfoFromJSON(json: any): RespShareInfo {
+    return RespShareInfoFromJSONTyped(json, false);
 }
 
-export function RespBooleanFromJSONTyped(json: any, ignoreDiscriminator: boolean): RespBoolean {
+export function RespShareInfoFromJSONTyped(json: any, ignoreDiscriminator: boolean): RespShareInfo {
     if ((json === undefined) || (json === null)) {
         return json;
     }
@@ -85,12 +85,12 @@ export function RespBooleanFromJSONTyped(json: any, ignoreDiscriminator: boolean
         'version': !exists(json, 'version') ? undefined : json['version'],
         'commit': !exists(json, 'commit') ? undefined : json['commit'],
         'build': !exists(json, 'build') ? undefined : json['build'],
-        'result': !exists(json, 'result') ? undefined : ResultBooleanFromJSON(json['result']),
+        'result': !exists(json, 'result') ? undefined : ShareInfoFromJSON(json['result']),
         'metadata': !exists(json, 'metadata') ? undefined : json['metadata'],
     };
 }
 
-export function RespBooleanToJSON(value?: RespBoolean | null): any {
+export function RespShareInfoToJSON(value?: RespShareInfo | null): any {
     if (value === undefined) {
         return undefined;
     }
@@ -104,7 +104,7 @@ export function RespBooleanToJSON(value?: RespBoolean | null): any {
         'version': value.version,
         'commit': value.commit,
         'build': value.build,
-        'result': ResultBooleanToJSON(value.result),
+        'result': ShareInfoToJSON(value.result),
         'metadata': value.metadata,
     };
 }

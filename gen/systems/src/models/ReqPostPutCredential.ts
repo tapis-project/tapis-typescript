@@ -13,93 +13,72 @@
  */
 
 import { exists, mapValues } from '../runtime';
-import {
-    AuthnEnum,
-    AuthnEnumFromJSON,
-    AuthnEnumFromJSONTyped,
-    AuthnEnumToJSON,
-} from './';
-
 /**
  * 
  * @export
- * @interface Credential
+ * @interface ReqPostPutCredential
  */
-export interface Credential {
-    /**
-     * 
-     * @type {AuthnEnum}
-     * @memberof Credential
-     */
-    authnMethod?: AuthnEnum;
+export interface ReqPostPutCredential {
     /**
      * 
      * @type {string}
-     * @memberof Credential
-     */
-    loginUser?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof Credential
+     * @memberof ReqPostPutCredential
      */
     password?: string;
     /**
      * 
      * @type {string}
-     * @memberof Credential
+     * @memberof ReqPostPutCredential
      */
     privateKey?: string;
     /**
      * 
      * @type {string}
-     * @memberof Credential
+     * @memberof ReqPostPutCredential
      */
     publicKey?: string;
     /**
      * 
      * @type {string}
-     * @memberof Credential
+     * @memberof ReqPostPutCredential
      */
     accessKey?: string;
     /**
      * 
      * @type {string}
-     * @memberof Credential
+     * @memberof ReqPostPutCredential
      */
     accessSecret?: string;
     /**
      * 
      * @type {string}
-     * @memberof Credential
+     * @memberof ReqPostPutCredential
      */
     accessToken?: string;
     /**
      * 
      * @type {string}
-     * @memberof Credential
+     * @memberof ReqPostPutCredential
      */
     refreshToken?: string;
     /**
      * 
      * @type {string}
-     * @memberof Credential
+     * @memberof ReqPostPutCredential
      */
     certificate?: string;
 }
 
-export function CredentialFromJSON(json: any): Credential {
-    return CredentialFromJSONTyped(json, false);
+export function ReqPostPutCredentialFromJSON(json: any): ReqPostPutCredential {
+    return ReqPostPutCredentialFromJSONTyped(json, false);
 }
 
-export function CredentialFromJSONTyped(json: any, ignoreDiscriminator: boolean): Credential {
+export function ReqPostPutCredentialFromJSONTyped(json: any, ignoreDiscriminator: boolean): ReqPostPutCredential {
     if ((json === undefined) || (json === null)) {
         return json;
     }
     return {
         
-        'authnMethod': !exists(json, 'authnMethod') ? undefined : AuthnEnumFromJSON(json['authnMethod']),
-        'loginUser': !exists(json, 'loginUser') ? undefined : json['loginUser'],
         'password': !exists(json, 'password') ? undefined : json['password'],
         'privateKey': !exists(json, 'privateKey') ? undefined : json['privateKey'],
         'publicKey': !exists(json, 'publicKey') ? undefined : json['publicKey'],
@@ -111,7 +90,7 @@ export function CredentialFromJSONTyped(json: any, ignoreDiscriminator: boolean)
     };
 }
 
-export function CredentialToJSON(value?: Credential | null): any {
+export function ReqPostPutCredentialToJSON(value?: ReqPostPutCredential | null): any {
     if (value === undefined) {
         return undefined;
     }
@@ -120,8 +99,6 @@ export function CredentialToJSON(value?: Credential | null): any {
     }
     return {
         
-        'authnMethod': AuthnEnumToJSON(value.authnMethod),
-        'loginUser': value.loginUser,
         'password': value.password,
         'privateKey': value.privateKey,
         'publicKey': value.publicKey,
