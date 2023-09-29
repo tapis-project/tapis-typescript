@@ -17,22 +17,22 @@
  * @export
  * @enum {string}
  */
-export enum ArgInputModeEnum {
+export enum KeyValueInputModeEnum {
     Required = 'REQUIRED',
     Fixed = 'FIXED',
     IncludeOnDemand = 'INCLUDE_ON_DEMAND',
     IncludeByDefault = 'INCLUDE_BY_DEFAULT'
 }
 
-export function ArgInputModeEnumFromJSON(json: any): ArgInputModeEnum {
-    return ArgInputModeEnumFromJSONTyped(json, false);
+export function KeyValueInputModeEnumFromJSON(json: any): KeyValueInputModeEnum {
+    return KeyValueInputModeEnumFromJSONTyped(json, false);
 }
 
-export function ArgInputModeEnumFromJSONTyped(json: any, ignoreDiscriminator: boolean): ArgInputModeEnum {
-    return json as ArgInputModeEnum;
+export function KeyValueInputModeEnumFromJSONTyped(json: any, ignoreDiscriminator: boolean): KeyValueInputModeEnum {
+    return json as KeyValueInputModeEnum;
 }
 
-export function ArgInputModeEnumToJSON(value?: ArgInputModeEnum | null): any {
+export function KeyValueInputModeEnumToJSON(value?: KeyValueInputModeEnum | null): any {
     return value as any;
 }
 

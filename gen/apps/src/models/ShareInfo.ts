@@ -16,32 +16,39 @@ import { exists, mapValues } from '../runtime';
 /**
  * 
  * @export
- * @interface ResultChangeCount
+ * @interface ShareInfo
  */
-export interface ResultChangeCount {
+export interface ShareInfo {
     /**
      * 
-     * @type {number}
-     * @memberof ResultChangeCount
+     * @type {boolean}
+     * @memberof ShareInfo
      */
-    changes?: number;
+    _public: boolean;
+    /**
+     * 
+     * @type {Array<string>}
+     * @memberof ShareInfo
+     */
+    userList: Array<string>;
 }
 
-export function ResultChangeCountFromJSON(json: any): ResultChangeCount {
-    return ResultChangeCountFromJSONTyped(json, false);
+export function ShareInfoFromJSON(json: any): ShareInfo {
+    return ShareInfoFromJSONTyped(json, false);
 }
 
-export function ResultChangeCountFromJSONTyped(json: any, ignoreDiscriminator: boolean): ResultChangeCount {
+export function ShareInfoFromJSONTyped(json: any, ignoreDiscriminator: boolean): ShareInfo {
     if ((json === undefined) || (json === null)) {
         return json;
     }
     return {
         
-        'changes': !exists(json, 'changes') ? undefined : json['changes'],
+        '_public': json['public'],
+        'userList': json['userList'],
     };
 }
 
-export function ResultChangeCountToJSON(value?: ResultChangeCount | null): any {
+export function ShareInfoToJSON(value?: ShareInfo | null): any {
     if (value === undefined) {
         return undefined;
     }
@@ -50,7 +57,8 @@ export function ResultChangeCountToJSON(value?: ResultChangeCount | null): any {
     }
     return {
         
-        'changes': value.changes,
+        'public': value._public,
+        'userList': value.userList,
     };
 }
 

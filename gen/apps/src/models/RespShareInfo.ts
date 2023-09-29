@@ -14,67 +14,67 @@
 
 import { exists, mapValues } from '../runtime';
 import {
-    ResultResourceUrl,
-    ResultResourceUrlFromJSON,
-    ResultResourceUrlFromJSONTyped,
-    ResultResourceUrlToJSON,
+    ShareInfo,
+    ShareInfoFromJSON,
+    ShareInfoFromJSONTyped,
+    ShareInfoToJSON,
 } from './';
 
 /**
  * 
  * @export
- * @interface RespResourceUrl
+ * @interface RespShareInfo
  */
-export interface RespResourceUrl {
+export interface RespShareInfo {
     /**
      * 
      * @type {string}
-     * @memberof RespResourceUrl
+     * @memberof RespShareInfo
      */
     status?: string;
     /**
      * 
      * @type {string}
-     * @memberof RespResourceUrl
+     * @memberof RespShareInfo
      */
     message?: string;
     /**
      * 
      * @type {string}
-     * @memberof RespResourceUrl
+     * @memberof RespShareInfo
      */
     version?: string;
     /**
      * 
      * @type {string}
-     * @memberof RespResourceUrl
+     * @memberof RespShareInfo
      */
     commit?: string;
     /**
      * 
      * @type {string}
-     * @memberof RespResourceUrl
+     * @memberof RespShareInfo
      */
     build?: string;
     /**
      * 
-     * @type {ResultResourceUrl}
-     * @memberof RespResourceUrl
+     * @type {ShareInfo}
+     * @memberof RespShareInfo
      */
-    result?: ResultResourceUrl;
+    result?: ShareInfo;
     /**
      * 
      * @type {object}
-     * @memberof RespResourceUrl
+     * @memberof RespShareInfo
      */
     metadata?: object;
 }
 
-export function RespResourceUrlFromJSON(json: any): RespResourceUrl {
-    return RespResourceUrlFromJSONTyped(json, false);
+export function RespShareInfoFromJSON(json: any): RespShareInfo {
+    return RespShareInfoFromJSONTyped(json, false);
 }
 
-export function RespResourceUrlFromJSONTyped(json: any, ignoreDiscriminator: boolean): RespResourceUrl {
+export function RespShareInfoFromJSONTyped(json: any, ignoreDiscriminator: boolean): RespShareInfo {
     if ((json === undefined) || (json === null)) {
         return json;
     }
@@ -85,12 +85,12 @@ export function RespResourceUrlFromJSONTyped(json: any, ignoreDiscriminator: boo
         'version': !exists(json, 'version') ? undefined : json['version'],
         'commit': !exists(json, 'commit') ? undefined : json['commit'],
         'build': !exists(json, 'build') ? undefined : json['build'],
-        'result': !exists(json, 'result') ? undefined : ResultResourceUrlFromJSON(json['result']),
+        'result': !exists(json, 'result') ? undefined : ShareInfoFromJSON(json['result']),
         'metadata': !exists(json, 'metadata') ? undefined : json['metadata'],
     };
 }
 
-export function RespResourceUrlToJSON(value?: RespResourceUrl | null): any {
+export function RespShareInfoToJSON(value?: RespShareInfo | null): any {
     if (value === undefined) {
         return undefined;
     }
@@ -104,7 +104,7 @@ export function RespResourceUrlToJSON(value?: RespResourceUrl | null): any {
         'version': value.version,
         'commit': value.commit,
         'build': value.build,
-        'result': ResultResourceUrlToJSON(value.result),
+        'result': ShareInfoToJSON(value.result),
         'metadata': value.metadata,
     };
 }

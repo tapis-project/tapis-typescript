@@ -16,32 +16,32 @@ import { exists, mapValues } from '../runtime';
 /**
  * 
  * @export
- * @interface ResultChangeCount
+ * @interface ReqShareUpdate
  */
-export interface ResultChangeCount {
+export interface ReqShareUpdate {
     /**
      * 
-     * @type {number}
-     * @memberof ResultChangeCount
+     * @type {Array<string>}
+     * @memberof ReqShareUpdate
      */
-    changes?: number;
+    users: Array<string>;
 }
 
-export function ResultChangeCountFromJSON(json: any): ResultChangeCount {
-    return ResultChangeCountFromJSONTyped(json, false);
+export function ReqShareUpdateFromJSON(json: any): ReqShareUpdate {
+    return ReqShareUpdateFromJSONTyped(json, false);
 }
 
-export function ResultChangeCountFromJSONTyped(json: any, ignoreDiscriminator: boolean): ResultChangeCount {
+export function ReqShareUpdateFromJSONTyped(json: any, ignoreDiscriminator: boolean): ReqShareUpdate {
     if ((json === undefined) || (json === null)) {
         return json;
     }
     return {
         
-        'changes': !exists(json, 'changes') ? undefined : json['changes'],
+        'users': json['users'],
     };
 }
 
-export function ResultChangeCountToJSON(value?: ResultChangeCount | null): any {
+export function ReqShareUpdateToJSON(value?: ReqShareUpdate | null): any {
     if (value === undefined) {
         return undefined;
     }
@@ -50,7 +50,7 @@ export function ResultChangeCountToJSON(value?: ResultChangeCount | null): any {
     }
     return {
         
-        'changes': value.changes,
+        'users': value.users,
     };
 }
 

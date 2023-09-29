@@ -16,32 +16,39 @@ import { exists, mapValues } from '../runtime';
 /**
  * 
  * @export
- * @interface ResultResourceUrl
+ * @interface ParameterSetLogConfig
  */
-export interface ResultResourceUrl {
+export interface ParameterSetLogConfig {
     /**
      * 
      * @type {string}
-     * @memberof ResultResourceUrl
+     * @memberof ParameterSetLogConfig
      */
-    url?: string;
+    stdoutFilename: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof ParameterSetLogConfig
+     */
+    stderrFilename: string;
 }
 
-export function ResultResourceUrlFromJSON(json: any): ResultResourceUrl {
-    return ResultResourceUrlFromJSONTyped(json, false);
+export function ParameterSetLogConfigFromJSON(json: any): ParameterSetLogConfig {
+    return ParameterSetLogConfigFromJSONTyped(json, false);
 }
 
-export function ResultResourceUrlFromJSONTyped(json: any, ignoreDiscriminator: boolean): ResultResourceUrl {
+export function ParameterSetLogConfigFromJSONTyped(json: any, ignoreDiscriminator: boolean): ParameterSetLogConfig {
     if ((json === undefined) || (json === null)) {
         return json;
     }
     return {
         
-        'url': !exists(json, 'url') ? undefined : json['url'],
+        'stdoutFilename': json['stdoutFilename'],
+        'stderrFilename': json['stderrFilename'],
     };
 }
 
-export function ResultResourceUrlToJSON(value?: ResultResourceUrl | null): any {
+export function ParameterSetLogConfigToJSON(value?: ParameterSetLogConfig | null): any {
     if (value === undefined) {
         return undefined;
     }
@@ -50,7 +57,8 @@ export function ResultResourceUrlToJSON(value?: ResultResourceUrl | null): any {
     }
     return {
         
-        'url': value.url,
+        'stdoutFilename': value.stdoutFilename,
+        'stderrFilename': value.stderrFilename,
     };
 }
 

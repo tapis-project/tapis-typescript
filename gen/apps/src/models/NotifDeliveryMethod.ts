@@ -17,20 +17,20 @@
  * @export
  * @enum {string}
  */
-export enum JobTypeEnum {
-    Batch = 'BATCH',
-    Fork = 'FORK'
+export enum NotifDeliveryMethod {
+    Webhook = 'WEBHOOK',
+    Email = 'EMAIL'
 }
 
-export function JobTypeEnumFromJSON(json: any): JobTypeEnum {
-    return JobTypeEnumFromJSONTyped(json, false);
+export function NotifDeliveryMethodFromJSON(json: any): NotifDeliveryMethod {
+    return NotifDeliveryMethodFromJSONTyped(json, false);
 }
 
-export function JobTypeEnumFromJSONTyped(json: any, ignoreDiscriminator: boolean): JobTypeEnum {
-    return json as JobTypeEnum;
+export function NotifDeliveryMethodFromJSONTyped(json: any, ignoreDiscriminator: boolean): NotifDeliveryMethod {
+    return json as NotifDeliveryMethod;
 }
 
-export function JobTypeEnumToJSON(value?: JobTypeEnum | null): any {
+export function NotifDeliveryMethodToJSON(value?: NotifDeliveryMethod | null): any {
     return value as any;
 }
 

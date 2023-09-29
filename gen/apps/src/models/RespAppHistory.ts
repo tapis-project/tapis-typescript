@@ -14,67 +14,67 @@
 
 import { exists, mapValues } from '../runtime';
 import {
-    ResultResourceUrl,
-    ResultResourceUrlFromJSON,
-    ResultResourceUrlFromJSONTyped,
-    ResultResourceUrlToJSON,
+    AppHistory,
+    AppHistoryFromJSON,
+    AppHistoryFromJSONTyped,
+    AppHistoryToJSON,
 } from './';
 
 /**
  * 
  * @export
- * @interface RespResourceUrl
+ * @interface RespAppHistory
  */
-export interface RespResourceUrl {
+export interface RespAppHistory {
     /**
      * 
      * @type {string}
-     * @memberof RespResourceUrl
+     * @memberof RespAppHistory
      */
     status?: string;
     /**
      * 
      * @type {string}
-     * @memberof RespResourceUrl
+     * @memberof RespAppHistory
      */
     message?: string;
     /**
      * 
      * @type {string}
-     * @memberof RespResourceUrl
+     * @memberof RespAppHistory
      */
     version?: string;
     /**
      * 
      * @type {string}
-     * @memberof RespResourceUrl
+     * @memberof RespAppHistory
      */
     commit?: string;
     /**
      * 
      * @type {string}
-     * @memberof RespResourceUrl
+     * @memberof RespAppHistory
      */
     build?: string;
     /**
      * 
-     * @type {ResultResourceUrl}
-     * @memberof RespResourceUrl
+     * @type {Array<AppHistory>}
+     * @memberof RespAppHistory
      */
-    result?: ResultResourceUrl;
+    result?: Array<AppHistory>;
     /**
      * 
      * @type {object}
-     * @memberof RespResourceUrl
+     * @memberof RespAppHistory
      */
     metadata?: object;
 }
 
-export function RespResourceUrlFromJSON(json: any): RespResourceUrl {
-    return RespResourceUrlFromJSONTyped(json, false);
+export function RespAppHistoryFromJSON(json: any): RespAppHistory {
+    return RespAppHistoryFromJSONTyped(json, false);
 }
 
-export function RespResourceUrlFromJSONTyped(json: any, ignoreDiscriminator: boolean): RespResourceUrl {
+export function RespAppHistoryFromJSONTyped(json: any, ignoreDiscriminator: boolean): RespAppHistory {
     if ((json === undefined) || (json === null)) {
         return json;
     }
@@ -85,12 +85,12 @@ export function RespResourceUrlFromJSONTyped(json: any, ignoreDiscriminator: boo
         'version': !exists(json, 'version') ? undefined : json['version'],
         'commit': !exists(json, 'commit') ? undefined : json['commit'],
         'build': !exists(json, 'build') ? undefined : json['build'],
-        'result': !exists(json, 'result') ? undefined : ResultResourceUrlFromJSON(json['result']),
+        'result': !exists(json, 'result') ? undefined : ((json['result'] as Array<any>).map(AppHistoryFromJSON)),
         'metadata': !exists(json, 'metadata') ? undefined : json['metadata'],
     };
 }
 
-export function RespResourceUrlToJSON(value?: RespResourceUrl | null): any {
+export function RespAppHistoryToJSON(value?: RespAppHistory | null): any {
     if (value === undefined) {
         return undefined;
     }
@@ -104,7 +104,7 @@ export function RespResourceUrlToJSON(value?: RespResourceUrl | null): any {
         'version': value.version,
         'commit': value.commit,
         'build': value.build,
-        'result': ResultResourceUrlToJSON(value.result),
+        'result': value.result === undefined ? undefined : ((value.result as Array<any>).map(AppHistoryToJSON)),
         'metadata': value.metadata,
     };
 }

@@ -1,6 +1,6 @@
 {
   "name": "@tapis/tapis-typescript-apps",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "description": "OpenAPI client for @tapis/tapis-typescript-apps",
   "author": "OpenAPI-Generator",
   "main": "./dist/index.js",

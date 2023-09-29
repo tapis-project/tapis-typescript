@@ -17,20 +17,24 @@
  * @export
  * @enum {string}
  */
-export enum JobTypeEnum {
-    Batch = 'BATCH',
-    Fork = 'FORK'
+export enum ListTypeEnum {
+    Owned = 'OWNED',
+    SharedPublic = 'SHARED_PUBLIC',
+    SharedDirect = 'SHARED_DIRECT',
+    ReadPerm = 'READ_PERM',
+    Mine = 'MINE',
+    All = 'ALL'
 }
 
-export function JobTypeEnumFromJSON(json: any): JobTypeEnum {
-    return JobTypeEnumFromJSONTyped(json, false);
+export function ListTypeEnumFromJSON(json: any): ListTypeEnum {
+    return ListTypeEnumFromJSONTyped(json, false);
 }
 
-export function JobTypeEnumFromJSONTyped(json: any, ignoreDiscriminator: boolean): JobTypeEnum {
-    return json as JobTypeEnum;
+export function ListTypeEnumFromJSONTyped(json: any, ignoreDiscriminator: boolean): ListTypeEnum {
+    return json as ListTypeEnum;
 }
 
-export function JobTypeEnumToJSON(value?: JobTypeEnum | null): any {
+export function ListTypeEnumToJSON(value?: ListTypeEnum | null): any {
     return value as any;
 }
 
