@@ -15,7 +15,7 @@ const idPrefix: string = process.env.TEST_WORKLFOWS_ID_PREFIX
 
 let archivesApi: Workflows.ArchivesApi;
 let cicdApi: Workflows.CICDApi;
-let eventsApi: Workflows.EventsApi; // Not sure if needs to be tested yet as not user facing
+let etlApi: Workflows.ETLApi;
 let generalApi: Workflows.GeneralApi;
 let groupsApi: Workflows.GroupsApi;
 let identitiesApi: Workflows.IdentitiesApi;
@@ -38,7 +38,7 @@ describe('Workflows e2e tests', async () => {
     const configurationParameters: Workflows.ConfigurationParameters = {
       basePath: process.env.TEST_TENANT,
       headers: {
-        "X-TAPIS-TOKEN": token.access_token
+        "X-TAPIS-TOKEN": token.access_token!
       },
       fetchApi: fetch
     }
@@ -46,7 +46,7 @@ describe('Workflows e2e tests', async () => {
     
     archivesApi = new Workflows.ArchivesApi(configuration);
     cicdApi = new Workflows.CICDApi(configuration);
-    eventsApi = new Workflows.EventsApi(configuration);
+    etlApi = new Workflows.ETLApi(configuration);
     generalApi = new Workflows.GeneralApi(configuration);
     groupsApi = new Workflows.GroupsApi(configuration);
     identitiesApi = new Workflows.IdentitiesApi(configuration);
@@ -118,26 +118,28 @@ describe('Workflows e2e tests', async () => {
             },
             // NOTE Uncomment to ensure there are no type errors.
             // TODO Remove comments when these task types are fully implemented
-            // {
-            //   id: id("task3-container-run"),
-            //   type: Workflows.EnumTaskType.ContainerRun,
-            //   image: "my/image"
-            // },
-            // {
-            //   id: id("task4-function"),
-            //   type: Workflows.EnumTaskType.Function,
-            //   runtime: Workflows.EnumRuntimeEnvironment.Python39
-            // },
-            // {
-            //   id: id("task5-tapis-job"),
-            //   type: Workflows.EnumTaskType.TapisJob,
-            //   tapis_job_def: {}
-            // },
-            // {
-            //   id: id("task5-tapis-actor"),
-            //   type: Workflows.EnumTaskType.TapisActor,
-            //   tapis_actor_id: "my-actor-id"
-            // }
+            {
+              id: id("task3-container-run"),
+              type: Workflows.EnumTaskType.Application,
+              image: "my/image"
+            },
+            {
+              id: id("task4-function"),
+              type: Workflows.EnumTaskType.Function,
+              runtime: Workflows.EnumRuntimeEnvironment.Python39,
+              installer: Workflows.EnumInstaller.Pip,
+              code: ""
+            },
+            {
+              id: id("task5-tapis-job"),
+              type: Workflows.EnumTaskType.TapisJob,
+              tapis_job_def: {}
+            },
+            {
+              id: id("task5-tapis-actor"),
+              type: Workflows.EnumTaskType.TapisActor,
+              tapis_actor_id: "my-actor-id"
+            }
           ]
         }
       }
@@ -256,5 +258,9 @@ describe('Workflows e2e tests', async () => {
     let groupUserListResp: Workflows.RespGroupUserList = await usersApi.listGroupUsers(listGroupUsersParams)
     
     expect(groupUserListResp.result.length).equals(1);
+  });
+
+  it(`should 1 ETL pipeline`, async () => {
+    
   });
 });

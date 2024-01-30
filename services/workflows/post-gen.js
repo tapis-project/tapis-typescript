@@ -46,7 +46,7 @@ types["ReqIdentity"] = {
 
 types["ReqTask"] = {
     enum: "EnumTaskType",
-    literals: ["image_build", "container_run", "request", "tapis_job", "tapis_actor", "function"]
+    literals: ["image_build", "application", "request", "tapis_job", "tapis_actor", "function", "template"]
 }
 types["Task"] = types["ReqTask"]
     

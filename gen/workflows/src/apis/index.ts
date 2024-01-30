@@ -2,7 +2,7 @@
 /* eslint-disable */
 export * from './ArchivesApi';
 export * from './CICDApi';
-export * from './EventsApi';
+export * from './ETLApi';
 export * from './GeneralApi';
 export * from './GroupsApi';
 export * from './IdentitiesApi';
