@@ -2125,8 +2125,6 @@ components:
       allOf:
         - $ref: '#/components/schemas/BaseTask'
         - type: object
-          required:
-            - uses
           properties:
             uses:
               $ref: '#/components/schemas/Uses'

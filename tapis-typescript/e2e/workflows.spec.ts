@@ -260,7 +260,7 @@ describe('Workflows e2e tests', async () => {
     expect(groupUserListResp.result.length).equals(1);
   });
 
-  it(`should 1 ETL pipeline`, async () => {
+  it(`should ? 1 ETL pipeline`, async () => {
     
   });
 });

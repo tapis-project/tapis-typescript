@@ -97,7 +97,7 @@ export interface TemplateTask {
      * @type {Uses}
      * @memberof TemplateTask
      */
-    uses: Uses;
+    uses?: Uses;
 }
 
 export function TemplateTaskFromJSON(json: any): TemplateTask {
@@ -117,7 +117,7 @@ export function TemplateTaskFromJSONTyped(json: any, ignoreDiscriminator: boolea
         'execution_profile': !exists(json, 'execution_profile') ? undefined : TaskExecutionProfileFromJSON(json['execution_profile']),
         'input': !exists(json, 'input') ? undefined : (mapValues(json['input'], SpecWithValueFromJSON)),
         'output': !exists(json, 'output') ? undefined : json['output'],
-        'uses': UsesFromJSON(json['uses']),
+        'uses': !exists(json, 'uses') ? undefined : UsesFromJSON(json['uses']),
     };
 }
 

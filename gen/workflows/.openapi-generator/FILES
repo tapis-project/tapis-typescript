@@ -133,6 +133,7 @@ src/models/ReqTapisJobTaskAllOf.ts
 src/models/ReqTapisSystemArchive.ts
 src/models/ReqTask.ts
 src/models/ReqTemplateTask.ts
+src/models/ReqTemplateTaskAllOf.ts
 src/models/ReqUpdateGroupUser.ts
 src/models/RequestTask.ts
 src/models/RequestTaskAllOf.ts

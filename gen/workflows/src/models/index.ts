@@ -116,6 +116,7 @@ export * from './ReqTapisJobTaskAllOf';
 export * from './ReqTapisSystemArchive';
 export * from './ReqTask';
 export * from './ReqTemplateTask';
+export * from './ReqTemplateTaskAllOf';
 export * from './ReqUpdateGroupUser';
 export * from './RequestTask';
 export * from './RequestTaskAllOf';

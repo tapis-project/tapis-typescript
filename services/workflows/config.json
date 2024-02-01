@@ -1,6 +1,6 @@
 {
 	"npmName": "@tapis/tapis-typescript-workflows",
-	"npmVersion": "0.0.7",
+	"npmVersion": "0.0.8",
 	"snapshot" : false,
 	"supportsES6": false,
 	"modelPropertyNaming": "original"

@@ -61,7 +61,7 @@ describe('tapis-typescript', () => {
   it('should have Workflows service', () => {
     expect(Workflows).to.have.property('ArchivesApi');
     expect(Workflows).to.have.property('CICDApi');
-    expect(Workflows).to.have.property('EventsApi');
+    expect(Workflows).to.have.property('ETLApi');
     expect(Workflows).to.have.property('GeneralApi');
     expect(Workflows).to.have.property('GroupsApi');
     expect(Workflows).to.have.property('IdentitiesApi');

@@ -23,32 +23,32 @@ import {
 /**
  * 
  * @export
- * @interface TemplateTaskAllOf
+ * @interface ReqTemplateTaskAllOf
  */
-export interface TemplateTaskAllOf {
+export interface ReqTemplateTaskAllOf {
     /**
      * 
      * @type {Uses}
-     * @memberof TemplateTaskAllOf
+     * @memberof ReqTemplateTaskAllOf
      */
-    uses?: Uses;
+    uses: Uses;
 }
 
-export function TemplateTaskAllOfFromJSON(json: any): TemplateTaskAllOf {
-    return TemplateTaskAllOfFromJSONTyped(json, false);
+export function ReqTemplateTaskAllOfFromJSON(json: any): ReqTemplateTaskAllOf {
+    return ReqTemplateTaskAllOfFromJSONTyped(json, false);
 }
 
-export function TemplateTaskAllOfFromJSONTyped(json: any, ignoreDiscriminator: boolean): TemplateTaskAllOf {
+export function ReqTemplateTaskAllOfFromJSONTyped(json: any, ignoreDiscriminator: boolean): ReqTemplateTaskAllOf {
     if ((json === undefined) || (json === null)) {
         return json;
     }
     return {
         
-        'uses': !exists(json, 'uses') ? undefined : UsesFromJSON(json['uses']),
+        'uses': UsesFromJSON(json['uses']),
     };
 }
 
-export function TemplateTaskAllOfToJSON(value?: TemplateTaskAllOf | null): any {
+export function ReqTemplateTaskAllOfToJSON(value?: ReqTemplateTaskAllOf | null): any {
     if (value === undefined) {
         return undefined;
     }
