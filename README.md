@@ -46,3 +46,23 @@ The `@tapis/typescript` top level package locally references all of the services
 - `npm run build`
 
 Then you can run `npm run test`
+
+## Building and Testing - In Docker
+
+This library contains some dependencies which makes configuring your environment somewhat complicated. To alleviate this, there is a provided Docker environment to work in. 
+
+- `cd <your_path>/tapis-typescript`
+- `docker build -t tapis-typescript-environment .`
+- `docker run -it -v .:/src --entrypoint=bash tapis-typescript-environment`
+- This should mount your host's repo folder to the container's `/src`. Meaning all changes in the container should persists on your host.
+- Now you should be able to run npm commands and `./generate.sh` script
+- `./generated.sh pods` 
+
+## Brief words on adding a service
+To add the Pods service, I was able to:
+- Copy `/services/workflows` to `/services/pods` and start changing files within.
+- Add my own `spec.yml`
+- Change `config.json`
+- Run `./generate.sh pods`
+- Attempt to parse generation errors and configure `post-gen.js` and `transform.js` to fix any problems. You can also fix problems at the spec level if it's something else.
+- Generated library should be in `/gen/pods`
