@@ -6,7 +6,8 @@ import * as Apps from '@tapis/tapis-typescript-apps';
 import * as Jobs from '@tapis/tapis-typescript-jobs';
 import * as Streams from '@tapis/tapis-typescript-streams';
 import * as Workflows from '@tapis/tapis-typescript-workflows';
-import * as Actors from '@tapis/tapis-typescript-actors'
+import * as Actors from '@tapis/tapis-typescript-actors';
+import * as Pods from '@tapis/tapis-typescript-pods';
 
 /*
 import * as Meta from '@tapis/tapis-typescript-meta';
@@ -25,6 +26,7 @@ export {
   Streams,
   Workflows,
   Actors,
+  Pods
   /*
   Meta,
   PGRest,

@@ -37,12 +37,16 @@ Generation script that accepts the name of the service as a parameter and runs t
 - Run [`transforms/systems.js`](./transforms/systems.js), which should read [`tapis_openapi/systems.yml`](./tapis_openapi/systems.yml) and output the transformed results to [`transformed_openapi/systems.yml`](./transformed_openapi/systems.yml)
 - Run the `openapi-generator-cli` and pass it [`configs/systems.json`](./configs/systems.json)with an output directory of [`gen/systems`](./gen/systems)
 
+## Visit the Wiki (!!)
+[There's lots of greate information in the wiki how to create services and various transformations of the data.]https://github.com/tapis-project/tapis-typescript/wiki/Publishing-New-Services-to-@tapis-tapis-typescript
+
 ## Building and Testing
 
 The `@tapis/typescript` top level package locally references all of the services in the `./gen` folder. These services must be built, and then the top level package can be built. To do so, do the following:
 
-- `npm run build-services`
+- `cd tapis-typescript`
 - `npm install`
+- `npm run build-services`
 - `npm run build`
 
 Then you can run `npm run test`
@@ -53,16 +57,8 @@ This library contains some dependencies which makes configuring your environment
 
 - `cd <your_path>/tapis-typescript`
 - `docker build -t tapis-typescript-environment .`
-- `docker run -it -v .:/src --entrypoint=bash tapis-typescript-environment`
+- `docker run -it -v $(pwd):/src --entrypoint=bash tapis-typescript-environment` (also seen in `run.sh`)
+  - You might need to leave out the volume mount to run npm install due to user permissions.
 - This should mount your host's repo folder to the container's `/src`. Meaning all changes in the container should persists on your host.
 - Now you should be able to run npm commands and `./generate.sh` script
-- `./generated.sh pods` 
-
-## Brief words on adding a service
-To add the Pods service, I was able to:
-- Copy `/services/workflows` to `/services/pods` and start changing files within.
-- Add my own `spec.yml`
-- Change `config.json`
-- Run `./generate.sh pods`
-- Attempt to parse generation errors and configure `post-gen.js` and `transform.js` to fix any problems. You can also fix problems at the spec level if it's something else.
-- Generated library should be in `/gen/pods`
+- `./generate.sh pods` 
