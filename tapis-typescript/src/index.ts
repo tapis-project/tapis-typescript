@@ -8,7 +8,7 @@ import * as Streams from '@tapis/tapis-typescript-streams';
 import * as Workflows from '@tapis/tapis-typescript-workflows';
 import * as Actors from '@tapis/tapis-typescript-actors';
 import * as Pods from '@tapis/tapis-typescript-pods';
-
+import * as Models from '@tapis/tapis-typescript-mlhub-models'
 /*
 import * as Meta from '@tapis/tapis-typescript-meta';
 import * as PGRest from '@tapis/tapis-typescript-pgrest';
@@ -26,7 +26,8 @@ export {
   Streams,
   Workflows,
   Actors,
-  Pods
+  Pods,
+  Models
   /*
   Meta,
   PGRest,

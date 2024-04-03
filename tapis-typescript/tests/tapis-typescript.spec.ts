@@ -9,7 +9,8 @@ import {
   Streams,
   Workflows,
   Actors,
-  Pods
+  Pods,
+  Models
 } from '../src';
 import { expect } from 'chai';
 
@@ -93,6 +94,9 @@ describe('tapis-typescript', () => {
     expect(Pods).to.have.property('PodsApi')
     expect(Pods).to.have.property('SnapshotsApi')
     expect(Pods).to.have.property('VolumesApi')
+  });
+  it('should have Models service', () => {
+    expect(Models).to.have.property('ModelsApi')
   });
 
 });
