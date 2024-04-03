@@ -729,7 +729,7 @@ paths:
                 $ref: '#/components/schemas/RespError'
 
   # --- Paths for ETL pipelines -----------------------------------------------------
-  '/v3/workflows/groups/{group_id}/etl':
+  '/v3/workflows/beta/groups/{group_id}/etl':
     post:
       tags:
         - ETL
@@ -1996,6 +1996,10 @@ components:
     PipelineRun:
       type: object
       properties:
+        name:
+          type: string
+        description:
+          type: string
         uuid:
           type: string
           format: uuid
@@ -2727,7 +2731,7 @@ components:
               type: boolean
               default: true
             tapis_job_def:
-              $ref: '#/components/schemas/ReqTapisJobDef'
+              $ref: '#/components/schemas/TapisJobDef'
 
     ReqTapisActorTask:
       allOf:
@@ -2744,7 +2748,6 @@ components:
             tapis_actor_message:
               nullable: true
               type: string
-                    
     
     ReqFunctionTask:
       allOf:
@@ -2796,7 +2799,6 @@ components:
           function: "#/components/schemas/ReqFunctionTask"
           template: "#/components/schemas/ReqTemplateTask"
 
-    
     ########################### ETL
 
     ReqCreateETLPipeline:
@@ -2821,11 +2823,87 @@ components:
         jobs:
           type: array
           items:
-            $ref: '#/components/schemas/ReqTapisJobDef'
+            $ref: '#/components/schemas/WorkflowsExtendedTapisJobDef'
         local_outbox:
           $ref: '#/components/schemas/ETLLocalOutbox'
         remote_inbox:
           $ref: '#/components/schemas/ETLRemoteInbox'
+
+    WorkflowsTapisJobDefExtension:
+      type: object
+      properties:
+        workflows:
+          type: object
+          properties:
+            etl:
+              type: object
+              properties:
+                input:
+                  type: string
+                output:
+                  type: string
+
+    WorkflowsExtendedTapisJobDef:
+      allOf:
+        - $ref: "#/components/schemas/TapisJobDef"
+        - $ref: "#/components/schemas/WorkflowsTapisJobDefExtension"
+
+    BaseDataIntegrityProfile:
+      type: object
+      required:
+        - type
+      properties:
+        type:
+          $ref: "#/components/schemas/ETLEnumDataIntegrityType"
+
+    ChecksumDataIntegrityProfile:
+      allOf:
+        - $ref: "#/components/schemas/BaseDataIntegrityProfile"
+        - type: object
+          required:
+            - checksum_algo
+            - checksums_path
+          properties:
+            type:
+              type: string
+            checksum_algo:
+              $ref: "#/components/schemas/ETLEnumChecksumAlgorithm"
+            checksums_path:
+              type: string
+
+    DoneFileDataIntegrityProfile:
+      allOf:
+        - $ref: "#/components/schemas/BaseDataIntegrityProfile"
+        - type: object
+          required:
+            - done_files_path
+          properties:
+            type:
+              type: string
+            done_files_path:
+              type: string
+            pattern:
+              type: string
+
+    ByteCheckDataIntegrityProfile:
+      allOf:
+        - $ref: "#/components/schemas/BaseDataIntegrityProfile"
+        - type: object
+          properties:
+            type:
+              type: string
+
+    DataIntegrityProfile:
+      oneOf:
+        - $ref: "#/components/schemas/ChecksumDataIntegrityProfile"
+        - $ref: "#/components/schemas/DoneFileDataIntegrityProfile"
+        - $ref: "#/components/schemas/ByteCheckDataIntegrityProfile"
+      discriminator:
+        propertyName: type
+        mapping:
+          checksum: "#/components/schemas/ChecksumDataIntegrityProfile"
+          done_file: "#/components/schemas/DoneFileDataIntegrityProfile"
+          byte_check: "#/components/schemas/ByteCheckDataIntegrityProfile"
 
     ETLLocalIOBox:
       type: object
@@ -2844,6 +2922,8 @@ components:
         manifest_priority:
           $ref: "#/components/schemas/ETLEnumManifestPriority"
           default: 'oldest'
+        data_integrity_profile:
+          $ref: "#/components/schemas/DataIntegrityProfile"
         exclude_pattern:
           type: array
           items:
@@ -2898,6 +2978,20 @@ components:
         - oldest
         - newest
         - any
+
+    ETLEnumDataIntegrityType:
+      type: string
+      enum:
+        - checksum
+        - byte_check
+        - done_file
+
+    ETLEnumChecksumAlgorithm:
+      type: string
+      enum:
+        - md5
+        - sha256
+        - sha3
 
     ################################# End ETL
         
@@ -3121,12 +3215,16 @@ components:
           dockerhub: "#/components/schemas/ReqDockerhubDestination"
           local: "#/components/schemas/ReqLocalDestination"
         
-    ReqTapisJobDef:
+    TapisJobDef:
       $ref: "https://raw.githubusercontent.com/tapis-project/tapis-client-java/prod/jobs-client/src/main/resources/JobsAPI.yaml#components/schemas/ReqSubmitJob"
 
     ReqRunPipeline:
       type: object
       properties:
+        name:
+          type: string
+        description:
+          type: string
         args:
           $ref: "#/components/schemas/Args"
         directives:

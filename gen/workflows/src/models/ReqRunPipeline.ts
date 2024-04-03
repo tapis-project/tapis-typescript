@@ -28,6 +28,18 @@ import {
 export interface ReqRunPipeline {
     /**
      * 
+     * @type {string}
+     * @memberof ReqRunPipeline
+     */
+    name?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof ReqRunPipeline
+     */
+    description?: string;
+    /**
+     * 
      * @type {{ [key: string]: ArgSpec; }}
      * @memberof ReqRunPipeline
      */
@@ -50,6 +62,8 @@ export function ReqRunPipelineFromJSONTyped(json: any, ignoreDiscriminator: bool
     }
     return {
         
+        'name': !exists(json, 'name') ? undefined : json['name'],
+        'description': !exists(json, 'description') ? undefined : json['description'],
         'args': !exists(json, 'args') ? undefined : (mapValues(json['args'], ArgSpecFromJSON)),
         'directives': !exists(json, 'directives') ? undefined : json['directives'],
     };
@@ -64,6 +78,8 @@ export function ReqRunPipelineToJSON(value?: ReqRunPipeline | null): any {
     }
     return {
         
+        'name': value.name,
+        'description': value.description,
         'args': value.args === undefined ? undefined : (mapValues(value.args, ArgSpecToJSON)),
         'directives': value.directives,
     };

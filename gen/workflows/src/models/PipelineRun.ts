@@ -31,6 +31,18 @@ export interface PipelineRun {
      * @type {string}
      * @memberof PipelineRun
      */
+    name?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof PipelineRun
+     */
+    description?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof PipelineRun
+     */
     uuid?: string;
     /**
      * 
@@ -74,6 +86,8 @@ export function PipelineRunFromJSONTyped(json: any, ignoreDiscriminator: boolean
     }
     return {
         
+        'name': !exists(json, 'name') ? undefined : json['name'],
+        'description': !exists(json, 'description') ? undefined : json['description'],
         'uuid': !exists(json, 'uuid') ? undefined : json['uuid'],
         'pipeline': !exists(json, 'pipeline') ? undefined : json['pipeline'],
         'status': !exists(json, 'status') ? undefined : EnumRunStatusFromJSON(json['status']),
@@ -92,6 +106,8 @@ export function PipelineRunToJSON(value?: PipelineRun | null): any {
     }
     return {
         
+        'name': value.name,
+        'description': value.description,
         'uuid': value.uuid,
         'pipeline': value.pipeline,
         'status': EnumRunStatusToJSON(value.status),

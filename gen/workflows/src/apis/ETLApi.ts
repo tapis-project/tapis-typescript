@@ -60,7 +60,7 @@ export class ETLApi extends runtime.BaseAPI {
         }
 
         const response = await this.request({
-            path: `/v3/workflows/groups/{group_id}/etl`.replace(`{${"group_id"}}`, encodeURIComponent(String(requestParameters.groupId))),
+            path: `/v3/workflows/beta/groups/{group_id}/etl`.replace(`{${"group_id"}}`, encodeURIComponent(String(requestParameters.groupId))),
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,

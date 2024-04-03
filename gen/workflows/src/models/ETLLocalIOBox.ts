@@ -14,6 +14,10 @@
 
 import { exists, mapValues } from '../runtime';
 import {
+    DataIntegrityProfile,
+    DataIntegrityProfileFromJSON,
+    DataIntegrityProfileFromJSONTyped,
+    DataIntegrityProfileToJSON,
     ETLEnumManifestGenerationPolicy,
     ETLEnumManifestGenerationPolicyFromJSON,
     ETLEnumManifestGenerationPolicyFromJSONTyped,
@@ -62,6 +66,12 @@ export interface ETLLocalIOBox {
     manifest_priority?: ETLEnumManifestPriority;
     /**
      * 
+     * @type {DataIntegrityProfile}
+     * @memberof ETLLocalIOBox
+     */
+    data_integrity_profile?: DataIntegrityProfile;
+    /**
+     * 
      * @type {Array<string>}
      * @memberof ETLLocalIOBox
      */
@@ -83,6 +93,7 @@ export function ETLLocalIOBoxFromJSONTyped(json: any, ignoreDiscriminator: boole
         'manifests_path': !exists(json, 'manifests_path') ? undefined : json['manifests_path'],
         'manifest_generation_policy': !exists(json, 'manifest_generation_policy') ? undefined : ETLEnumManifestGenerationPolicyFromJSON(json['manifest_generation_policy']),
         'manifest_priority': !exists(json, 'manifest_priority') ? undefined : ETLEnumManifestPriorityFromJSON(json['manifest_priority']),
+        'data_integrity_profile': !exists(json, 'data_integrity_profile') ? undefined : DataIntegrityProfileFromJSON(json['data_integrity_profile']),
         'exclude_pattern': !exists(json, 'exclude_pattern') ? undefined : json['exclude_pattern'],
     };
 }
@@ -101,6 +112,7 @@ export function ETLLocalIOBoxToJSON(value?: ETLLocalIOBox | null): any {
         'manifests_path': value.manifests_path,
         'manifest_generation_policy': ETLEnumManifestGenerationPolicyToJSON(value.manifest_generation_policy),
         'manifest_priority': ETLEnumManifestPriorityToJSON(value.manifest_priority),
+        'data_integrity_profile': DataIntegrityProfileToJSON(value.data_integrity_profile),
         'exclude_pattern': value.exclude_pattern,
     };
 }

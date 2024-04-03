@@ -48,7 +48,13 @@ types["ReqTask"] = {
     enum: "EnumTaskType",
     literals: ["image_build", "application", "request", "tapis_job", "tapis_actor", "function", "template"]
 }
+
 types["Task"] = types["ReqTask"]
+
+types["DataIntegrityProfile"] = {
+    enum: "ETLEnumDataIntegrityType",
+    literals: ["check_sum", "byte_check", "done_file"]
+}
     
 // Replaces string literal values with the appropriate Enums and adds typecasting
 // where necessary for the types to properly compile

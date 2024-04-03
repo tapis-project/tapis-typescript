@@ -30,6 +30,10 @@ import {
     PipelineExecutionProfileFromJSON,
     PipelineExecutionProfileFromJSONTyped,
     PipelineExecutionProfileToJSON,
+    WorkflowsExtendedTapisJobDef,
+    WorkflowsExtendedTapisJobDefFromJSON,
+    WorkflowsExtendedTapisJobDefFromJSONTyped,
+    WorkflowsExtendedTapisJobDefToJSON,
 } from './';
 
 /**
@@ -70,10 +74,10 @@ export interface ReqCreateETLPipeline {
     local_inbox: ETLLocalInbox;
     /**
      * 
-     * @type {Array<object>}
+     * @type {Array<WorkflowsExtendedTapisJobDef>}
      * @memberof ReqCreateETLPipeline
      */
-    jobs: Array<object>;
+    jobs: Array<WorkflowsExtendedTapisJobDef>;
     /**
      * 
      * @type {ETLLocalOutbox}
@@ -103,7 +107,7 @@ export function ReqCreateETLPipelineFromJSONTyped(json: any, ignoreDiscriminator
         'execution_profile': !exists(json, 'execution_profile') ? undefined : PipelineExecutionProfileFromJSON(json['execution_profile']),
         'remote_outbox': !exists(json, 'remote_outbox') ? undefined : json['remote_outbox'],
         'local_inbox': ETLLocalInboxFromJSON(json['local_inbox']),
-        'jobs': json['jobs'],
+        'jobs': ((json['jobs'] as Array<any>).map(WorkflowsExtendedTapisJobDefFromJSON)),
         'local_outbox': ETLLocalOutboxFromJSON(json['local_outbox']),
         'remote_inbox': ETLRemoteInboxFromJSON(json['remote_inbox']),
     };
@@ -123,7 +127,7 @@ export function ReqCreateETLPipelineToJSON(value?: ReqCreateETLPipeline | null):
         'execution_profile': PipelineExecutionProfileToJSON(value.execution_profile),
         'remote_outbox': value.remote_outbox,
         'local_inbox': ETLLocalInboxToJSON(value.local_inbox),
-        'jobs': value.jobs,
+        'jobs': ((value.jobs as Array<any>).map(WorkflowsExtendedTapisJobDefToJSON)),
         'local_outbox': ETLLocalOutboxToJSON(value.local_outbox),
         'remote_inbox': ETLRemoteInboxToJSON(value.remote_inbox),
     };
