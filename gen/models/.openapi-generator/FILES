@@ -1,0 +1,16 @@
+.gitignore
+.npmignore
+.openapi-generator-ignore
+README.md
+package.json
+src/apis/ModelsApi.ts
+src/apis/index.ts
+src/index.ts
+src/models/RespBasic.ts
+src/models/RespDict.ts
+src/models/RespDictAllOf.ts
+src/models/RespError.ts
+src/models/RespErrorAllOf.ts
+src/models/index.ts
+src/runtime.ts
+tsconfig.json

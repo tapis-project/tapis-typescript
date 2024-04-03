@@ -1,0 +1,299 @@
+openapi: 3.0.3
+info:
+  title: Tapis Machine Learning Hub API
+  description: The Tapis Machine Learning Hub API provides users access to machine learning models from HuggingFace within the Tapis framework.
+  version: "0.0.1"
+  termsOfService: "https://tapis-project.org"
+  contact:
+    name: "Machine Learning Hub API - CICSupport"
+    url: "https://tapis-project.org"
+    email: "cicsupport@tacc.utexas.edu"
+  license:
+    name: 3-Clause BSD License
+    url: "https://opensource.org/licenses/BSD-3-Clause"
+externalDocs:
+  description: Tapis Project
+  url: "https://tapis-project.org"
+servers:
+  - url: "http://localhost:8080/"
+    description: Local test environment
+    variables: {}
+  - url: "https://dev.develop.tapis.io/"
+    description: Development environment
+    variables: {}
+security:
+  - TapisJWT: []
+tags:
+  - name: Models
+    description: List available machine learning model(s) for usage and relevant information.
+
+# ------------------------------------------------------------------------------
+# --- Paths -------------------------------------------------------------------
+# ------------------------------------------------------------------------------
+paths:
+  # --- Paths for /models -----------------------------------------------------
+  "/v3/ml-hub/models":
+    get:
+      tags:
+        - Models
+      description: Retrieve information on 100 most downloaded machine learning models.
+      operationId: listModels
+      responses:
+        "200":
+          description: A JSON dictionary containing information on 100 most downloaded machine learning models.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RespDict"
+        "400":
+          description: Input error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RespError"
+        "401":
+          description: Authentication error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RespError"
+        "500":
+          description: Server error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RespError"
+
+  "/v3/ml-hub/models/{modelId}":
+    get:
+      tags:
+        - Models
+      description: Retrieve information for a machine learning model given the model Id.
+      operationId: getModel
+      parameters:
+        - name: modelId
+          in: path
+          required: true
+          schema:
+            $ref: "#/components/schemas/IdString"
+      responses:
+        "200":
+          description: A JSON dictionary containing information of machine learning model specified.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RespDict"
+        "400":
+          description: Input error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RespError"
+        "401":
+          description: Authentication error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RespError"
+        "404":
+          description: Model not found.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RespError"
+        "500":
+          description: Server error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RespError"
+
+  "/v3/ml-hub/models/{modelId}/inference":
+    get:
+      tags:
+        - Models
+      description: Retrieve information on inference server availability and transformersInfo for requested model.
+      operationId: getModelInferenceServer
+      parameters:
+        - name: modelId
+          in: path
+          required: true
+          schema:
+            $ref: "#/components/schemas/IdString"
+      responses:
+        "200":
+          description: A JSON dictionary containing inference server information of requested model.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RespDict"
+        "400":
+          description: Input error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RespError"
+        "401":
+          description: Authentication error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RespError"
+        "404":
+          description: Model not found.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RespError"
+        "500":
+          description: Server error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RespError"
+
+  "/v3/ml-hub/authors/{authorId}/models":
+    get:
+      tags:
+        - Models
+      description: Retrieve information on machine learning models created by specified author Id.
+      operationId: listModelsByAuthor
+      parameters:
+        - name: authorId
+          in: path
+          required: true
+          schema:
+            $ref: "#/components/schemas/IdString"
+      responses:
+        "200":
+          description: A JSON dictionary containing information of machine learning models from specified author.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RespDict"
+        "400":
+          description: Input error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RespError"
+        "401":
+          description: Authentication error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RespError"
+        "404":
+          description: Model not found.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RespError"
+        "500":
+          description: Server error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RespError"
+
+  "/v3/ml-hub/download_model/{modelId}":
+    get:
+      tags:
+        - Models
+      description: Generates download links for model repository files.
+      operationId: downloadModel
+      parameters:
+        - name: modelId
+          in: path
+          required: true
+          schema:
+            $ref: "#/components/schemas/IdString"
+      responses:
+        "200":
+          description: A JSON dictionary containing download links of of requested model.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RespDict"
+        "400":
+          description: Input error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RespError"
+        "401":
+          description: Authentication error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RespError"
+        "404":
+          description: Model not found.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RespError"
+        "500":
+          description: Server error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RespError"
+                
+
+# ------------------------------------------------------------------------------
+# --- Components ---------------------------------------------------------------
+# ------------------------------------------------------------------------------
+components:
+  securitySchemes:
+    TapisJWT:
+      type: apiKey
+      description: Tapis signed JWT token authentication
+      name: X-TAPIS-TOKEN
+      in: header
+  schemas:
+    # ------------------------------------------------------------------------------
+    # --- Model objects ------------------------------------------------------------
+    # ------------------------------------------------------------------------------
+    IdString:
+      type: string
+      minLength: 1
+      maxLength: 128
+    # -------------------------------------------------------------------------
+    # --- Response objects ----------------------------------------------------
+    # -------------------------------------------------------------------------
+    RespBasic:
+      type: object
+      properties:
+        status:
+          type: string
+        message:
+          type: string
+        version:
+          type: string
+        commit:
+          type: string
+        build:
+          type: string
+        result:
+          type: object
+        metadata:
+          type: object
+    RespError:
+      allOf:
+        - $ref: "#/components/schemas/RespBasic"
+        - type: object
+          properties:
+            status:
+              type: string
+              default: error
+            message:
+              type: string
+              default: error
+    RespDict:
+      allOf:
+        - $ref: "#/components/schemas/RespBasic"
+        - type: object
+          properties:
+            result:
+              type: object
