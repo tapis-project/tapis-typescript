@@ -1,5 +1,5 @@
 /**
- * This script fixes a type generation error produced by the opeanapi-generator-cli
+ * This script fixes a type generation error produced by the openapi-generator-cli
  * library in the typescript model files. When using polymorphisms with the
  * discriminator object, the types generated use the string value of the enum("some_value")
  * rather than the enum type itself(SomeEnum.SomeValue).

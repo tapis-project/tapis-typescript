@@ -8,7 +8,8 @@ import {
   Jobs,
   Streams,
   Workflows,
-  Actors
+  Actors,
+  Pods
 } from '../src';
 import { expect } from 'chai';
 
@@ -83,4 +84,15 @@ describe('tapis-typescript', () => {
     expect(Actors).to.have.property('AliasesApi')
     expect(Actors).to.have.property('SearchApi')
   });
+  it('should have Pods service', () => {
+    expect(Pods).to.have.property('CredentialsApi');
+    expect(Pods).to.have.property('DefaultApi')
+    expect(Pods).to.have.property('LogsApi')
+    expect(Pods).to.have.property('MiscApi')
+    expect(Pods).to.have.property('PermissionsApi')
+    expect(Pods).to.have.property('PodsApi')
+    expect(Pods).to.have.property('SnapshotsApi')
+    expect(Pods).to.have.property('VolumesApi')
+  });
+
 });
