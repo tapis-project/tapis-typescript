@@ -39,6 +39,26 @@ export interface ListModelsByAuthorRequest {
     authorId: string;
 }
 
+export interface ListModelsByDatasetRequest {
+    dataset: string;
+}
+
+export interface ListModelsByLanguageRequest {
+    languageName: string;
+}
+
+export interface ListModelsByLibraryRequest {
+    libraryName: string;
+}
+
+export interface ListModelsByQueryRequest {
+    query: string;
+}
+
+export interface ListModelsByTaskRequest {
+    taskType: string;
+}
+
 /**
  * 
  */
@@ -79,7 +99,7 @@ export class ModelsApi extends runtime.BaseAPI {
     }
 
     /**
-     * Retrieve information for a machine learning model given the model Id.
+     * Retrieve information for a machine learning model given the modelId.
      */
     async getModelRaw(requestParameters: GetModelRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespDict>> {
         if (requestParameters.modelId === null || requestParameters.modelId === undefined) {
@@ -105,7 +125,7 @@ export class ModelsApi extends runtime.BaseAPI {
     }
 
     /**
-     * Retrieve information for a machine learning model given the model Id.
+     * Retrieve information for a machine learning model given the modelId.
      */
     async getModel(requestParameters: GetModelRequest, initOverrides?: RequestInit): Promise<RespDict> {
         const response = await this.getModelRaw(requestParameters, initOverrides);
@@ -177,7 +197,7 @@ export class ModelsApi extends runtime.BaseAPI {
     }
 
     /**
-     * Retrieve information on machine learning models created by specified author Id.
+     * Retrieve information on machine learning models created by specified authorId. authorId is case-sensitive.
      */
     async listModelsByAuthorRaw(requestParameters: ListModelsByAuthorRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespDict>> {
         if (requestParameters.authorId === null || requestParameters.authorId === undefined) {
@@ -203,10 +223,180 @@ export class ModelsApi extends runtime.BaseAPI {
     }
 
     /**
-     * Retrieve information on machine learning models created by specified author Id.
+     * Retrieve information on machine learning models created by specified authorId. authorId is case-sensitive.
      */
     async listModelsByAuthor(requestParameters: ListModelsByAuthorRequest, initOverrides?: RequestInit): Promise<RespDict> {
         const response = await this.listModelsByAuthorRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     * Retrieve information on top 100 most downloaded machine learning models filtered by a string tag of the dataset.
+     */
+    async listModelsByDatasetRaw(requestParameters: ListModelsByDatasetRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespDict>> {
+        if (requestParameters.dataset === null || requestParameters.dataset === undefined) {
+            throw new runtime.RequiredError('dataset','Required parameter requestParameters.dataset was null or undefined when calling listModelsByDataset.');
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        if (this.configuration && this.configuration.apiKey) {
+            headerParameters["X-TAPIS-TOKEN"] = this.configuration.apiKey("X-TAPIS-TOKEN"); // TapisJWT authentication
+        }
+
+        const response = await this.request({
+            path: `/v3/ml-hub/trained_datasets/{dataset}/models`.replace(`{${"dataset"}}`, encodeURIComponent(String(requestParameters.dataset))),
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => RespDictFromJSON(jsonValue));
+    }
+
+    /**
+     * Retrieve information on top 100 most downloaded machine learning models filtered by a string tag of the dataset.
+     */
+    async listModelsByDataset(requestParameters: ListModelsByDatasetRequest, initOverrides?: RequestInit): Promise<RespDict> {
+        const response = await this.listModelsByDatasetRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     * Retrieve information on top 100 most downloaded machine learning models filtered by language.
+     */
+    async listModelsByLanguageRaw(requestParameters: ListModelsByLanguageRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespDict>> {
+        if (requestParameters.languageName === null || requestParameters.languageName === undefined) {
+            throw new runtime.RequiredError('languageName','Required parameter requestParameters.languageName was null or undefined when calling listModelsByLanguage.');
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        if (this.configuration && this.configuration.apiKey) {
+            headerParameters["X-TAPIS-TOKEN"] = this.configuration.apiKey("X-TAPIS-TOKEN"); // TapisJWT authentication
+        }
+
+        const response = await this.request({
+            path: `/v3/ml-hub/languages/{languageName}/models`.replace(`{${"languageName"}}`, encodeURIComponent(String(requestParameters.languageName))),
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => RespDictFromJSON(jsonValue));
+    }
+
+    /**
+     * Retrieve information on top 100 most downloaded machine learning models filtered by language.
+     */
+    async listModelsByLanguage(requestParameters: ListModelsByLanguageRequest, initOverrides?: RequestInit): Promise<RespDict> {
+        const response = await this.listModelsByLanguageRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     * Retrieve information on top 100 most downloaded machine learning models filtered by foundational library models were originally trained from.
+     */
+    async listModelsByLibraryRaw(requestParameters: ListModelsByLibraryRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespDict>> {
+        if (requestParameters.libraryName === null || requestParameters.libraryName === undefined) {
+            throw new runtime.RequiredError('libraryName','Required parameter requestParameters.libraryName was null or undefined when calling listModelsByLibrary.');
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        if (this.configuration && this.configuration.apiKey) {
+            headerParameters["X-TAPIS-TOKEN"] = this.configuration.apiKey("X-TAPIS-TOKEN"); // TapisJWT authentication
+        }
+
+        const response = await this.request({
+            path: `/v3/ml-hub/libraries/{libraryName}/models`.replace(`{${"libraryName"}}`, encodeURIComponent(String(requestParameters.libraryName))),
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => RespDictFromJSON(jsonValue));
+    }
+
+    /**
+     * Retrieve information on top 100 most downloaded machine learning models filtered by foundational library models were originally trained from.
+     */
+    async listModelsByLibrary(requestParameters: ListModelsByLibraryRequest, initOverrides?: RequestInit): Promise<RespDict> {
+        const response = await this.listModelsByLibraryRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     * Retrieve information on top 100 most downloaded machine learning models filtered by query.
+     */
+    async listModelsByQueryRaw(requestParameters: ListModelsByQueryRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespDict>> {
+        if (requestParameters.query === null || requestParameters.query === undefined) {
+            throw new runtime.RequiredError('query','Required parameter requestParameters.query was null or undefined when calling listModelsByQuery.');
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        if (this.configuration && this.configuration.apiKey) {
+            headerParameters["X-TAPIS-TOKEN"] = this.configuration.apiKey("X-TAPIS-TOKEN"); // TapisJWT authentication
+        }
+
+        const response = await this.request({
+            path: `/v3/ml-hub/search/{query}/models`.replace(`{${"query"}}`, encodeURIComponent(String(requestParameters.query))),
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => RespDictFromJSON(jsonValue));
+    }
+
+    /**
+     * Retrieve information on top 100 most downloaded machine learning models filtered by query.
+     */
+    async listModelsByQuery(requestParameters: ListModelsByQueryRequest, initOverrides?: RequestInit): Promise<RespDict> {
+        const response = await this.listModelsByQueryRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     * Retrieve information on top 100 most downloaded machine learning models filtered by taskType. taskType is case-sensitive.
+     */
+    async listModelsByTaskRaw(requestParameters: ListModelsByTaskRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespDict>> {
+        if (requestParameters.taskType === null || requestParameters.taskType === undefined) {
+            throw new runtime.RequiredError('taskType','Required parameter requestParameters.taskType was null or undefined when calling listModelsByTask.');
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        if (this.configuration && this.configuration.apiKey) {
+            headerParameters["X-TAPIS-TOKEN"] = this.configuration.apiKey("X-TAPIS-TOKEN"); // TapisJWT authentication
+        }
+
+        const response = await this.request({
+            path: `/v3/ml-hub/tasks/{taskType}/models`.replace(`{${"taskType"}}`, encodeURIComponent(String(requestParameters.taskType))),
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => RespDictFromJSON(jsonValue));
+    }
+
+    /**
+     * Retrieve information on top 100 most downloaded machine learning models filtered by taskType. taskType is case-sensitive.
+     */
+    async listModelsByTask(requestParameters: ListModelsByTaskRequest, initOverrides?: RequestInit): Promise<RespDict> {
+        const response = await this.listModelsByTaskRaw(requestParameters, initOverrides);
         return await response.value();
     }
 

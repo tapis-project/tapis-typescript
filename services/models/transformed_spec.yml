@@ -25,7 +25,7 @@ security:
   - TapisJWT: []
 tags:
   - name: Models
-    description: List available machine learning model(s) for usage and relevant information.
+    description: List available machine learning model(s) for usage with relevant information.
 
 # ------------------------------------------------------------------------------
 # --- Paths -------------------------------------------------------------------
@@ -68,7 +68,7 @@ paths:
     get:
       tags:
         - Models
-      description: Retrieve information for a machine learning model given the model Id.
+      description: Retrieve information for a machine learning model given the modelId.
       operationId: getModel
       parameters:
         - name: modelId
@@ -156,7 +156,7 @@ paths:
     get:
       tags:
         - Models
-      description: Retrieve information on machine learning models created by specified author Id.
+      description: Retrieve information on machine learning models created by specified authorId. authorId is case-sensitive.
       operationId: listModelsByAuthor
       parameters:
         - name: authorId
@@ -239,7 +239,226 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/RespError"
-                
+
+  "/v3/ml-hub/search/{query}/models":
+    get:
+      tags:
+        - Models
+      description: Retrieve information on top 100 most downloaded machine learning models filtered by query.
+      operationId: listModelsByQuery
+      parameters:
+        - name: query
+          in: path
+          required: true
+          schema:
+            $ref: "#/components/schemas/IdString"
+      responses:
+        "200":
+          description: A JSON dictionary containing information of top 100 machine learning models based on query.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RespDict"
+        "400":
+          description: Input error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RespError"
+        "401":
+          description: Authentication error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RespError"
+        "404":
+          description: Model not found.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RespError"
+        "500":
+          description: Server error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RespError"              
+
+  "/v3/ml-hub/tasks/{taskType}/models":
+    get:
+      tags:
+        - Models
+      description: Retrieve information on top 100 most downloaded machine learning models filtered by taskType. taskType is case-sensitive.
+      operationId: listModelsByTask
+      parameters:
+        - name: taskType
+          in: path
+          required: true
+          schema:
+            $ref: "#/components/schemas/IdString"
+      responses:
+        "200":
+          description: A JSON dictionary containing information of top 100 machine learning models based for a specified taskName.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RespDict"
+        "400":
+          description: Input error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RespError"
+        "401":
+          description: Authentication error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RespError"
+        "404":
+          description: Model not found.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RespError"
+        "500":
+          description: Server error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RespError" 
+
+  "/v3/ml-hub/trained_datasets/{dataset}/models":
+    get:
+      tags:
+        - Models
+      description: Retrieve information on top 100 most downloaded machine learning models filtered by a string tag of the dataset.
+      operationId: listModelsByDataset
+      parameters:
+        - name: dataset
+          in: path
+          required: true
+          schema:
+            $ref: "#/components/schemas/IdString"
+      responses:
+        "200":
+          description: A JSON dictionary containing information of top 100 machine learning models based on dataset.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RespDict"
+        "400":
+          description: Input error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RespError"
+        "401":
+          description: Authentication error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RespError"
+        "404":
+          description: Model not found.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RespError"
+        "500":
+          description: Server error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RespError" 
+
+  "/v3/ml-hub/libraries/{libraryName}/models":
+    get:
+      tags:
+        - Models
+      description: Retrieve information on top 100 most downloaded machine learning models filtered by foundational library models were originally trained from.
+      operationId: listModelsByLibrary
+      parameters:
+        - name: libraryName
+          in: path
+          required: true
+          schema:
+            $ref: "#/components/schemas/IdString"
+      responses:
+        "200":
+          description: A JSON dictionary containing information of top 100 machine learning models based on foundational library.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RespDict"
+        "400":
+          description: Input error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RespError"
+        "401":
+          description: Authentication error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RespError"
+        "404":
+          description: Model not found.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RespError"
+        "500":
+          description: Server error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RespError" 
+
+  "/v3/ml-hub/languages/{languageName}/models":
+    get:
+      tags:
+        - Models
+      description: Retrieve information on top 100 most downloaded machine learning models filtered by language.
+      operationId: listModelsByLanguage
+      parameters:
+        - name: languageName
+          in: path
+          required: true
+          schema:
+            $ref: "#/components/schemas/IdString"
+      responses:
+        "200":
+          description: A JSON dictionary containing information of top 100 machine learning models based on language.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RespDict"
+        "400":
+          description: Input error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RespError"
+        "401":
+          description: Authentication error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RespError"
+        "404":
+          description: Model not found.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RespError"
+        "500":
+          description: Server error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RespError" 
 
 # ------------------------------------------------------------------------------
 # --- Components ---------------------------------------------------------------
