@@ -1,0 +1,679 @@
+openapi: 3.0.3
+info:
+  title: Tapis Machine Learning Hub API
+  description: The Tapis Machine Learning Hub API provides users access to machine learning models from HuggingFace within the Tapis framework.
+  version: "0.0.1"
+  termsOfService: "https://tapis-project.org"
+  contact:
+    name: "Machine Learning Hub API - CICSupport"
+    url: "https://tapis-project.org"
+    email: "cicsupport@tacc.utexas.edu"
+  license:
+    name: 3-Clause BSD License
+    url: "https://opensource.org/licenses/BSD-3-Clause"
+externalDocs:
+  description: Tapis Project
+  url: "https://tapis-project.org"
+servers:
+  - url: "http://localhost:8080/"
+    description: Local test environment
+    variables: {}
+  - url: "https://dev.develop.tapis.io/"
+    description: Development environment
+    variables: {}
+security:
+  - TapisJWT: []
+tags:
+  - name: Models
+    description: List available machine learning model(s) for usage with relevant information.
+
+# ------------------------------------------------------------------------------
+# --- Paths -------------------------------------------------------------------
+# ------------------------------------------------------------------------------
+paths:
+  # --- Paths for /models -----------------------------------------------------
+  "/v3/ml-hub/models":
+    get:
+      tags:
+        - Models
+      description: Retrieve information on 100 most downloaded machine learning models.
+      operationId: listModels
+      responses:
+        "200":
+          description: A JSON dictionary containing information on 100 most downloaded machine learning models.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RespModelObject"
+        "400":
+          description: Input error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RespError"
+        "401":
+          description: Authentication error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RespError"
+        "500":
+          description: Server error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RespError"
+
+  "/v3/ml-hub/models/{modelId}":
+    get:
+      tags:
+        - Models
+      description: Retrieve information for a machine learning model given the modelId.
+      operationId: getModel
+      parameters:
+        - name: modelId
+          in: path
+          required: true
+          schema:
+            $ref: "#/components/schemas/IdString"
+      responses:
+        "200":
+          description: A JSON dictionary containing information of machine learning model specified.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RespModel"
+        "400":
+          description: Input error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RespError"
+        "401":
+          description: Authentication error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RespError"
+        "404":
+          description: Model not found.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RespError"
+        "500":
+          description: Server error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RespError"
+
+  "/v3/ml-hub/models/{modelId}/inference":
+    get:
+      tags:
+        - Models
+      description: Retrieve information on inference server availability and transformersInfo for requested model.
+      operationId: getModelInferenceServer
+      parameters:
+        - name: modelId
+          in: path
+          required: true
+          schema:
+            $ref: "#/components/schemas/IdString"
+      responses:
+        "200":
+          description: A JSON dictionary containing inference server information of requested model.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RespModelServer"
+        "400":
+          description: Input error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RespError"
+        "401":
+          description: Authentication error.
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: "#/components/schemas/RespError"
+                  - $ref: "#/components/schemas/RespModelServerError"
+        "404":
+          description: Model not found.
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: "#/components/schemas/RespError"
+                  - $ref: "#/components/schemas/RespModelServerError"
+        "500":
+          description: Server error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RespError"
+
+  "/v3/ml-hub/authors/{authorId}/models":
+    get:
+      tags:
+        - Models
+      description: Retrieve information on machine learning models created by specified authorId. authorId is case-sensitive.
+      operationId: listModelsByAuthor
+      parameters:
+        - name: authorId
+          in: path
+          required: true
+          schema:
+            $ref: "#/components/schemas/IdString"
+      responses:
+        "200":
+          description: A JSON dictionary containing information of machine learning models from specified author.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RespModelObject"
+        "400":
+          description: Input error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RespError"
+        "401":
+          description: Authentication error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RespError"
+        "404":
+          description: Model not found.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RespError"
+        "500":
+          description: Server error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RespError"
+
+  "/v3/ml-hub/download_model/{modelId}":
+    get:
+      tags:
+        - Models
+      description: Generates download links for model repository files.
+      operationId: downloadModel
+      parameters:
+        - name: modelId
+          in: path
+          required: true
+          schema:
+            $ref: "#/components/schemas/IdString"
+      responses:
+        "200":
+          description: A JSON dictionary containing download links of of requested model.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RespModelDownload"
+        "400":
+          description: Input error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RespError"
+        "401":
+          description: Authentication error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RespError"
+        "404":
+          description: Model not found.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RespError"
+        "500":
+          description: Server error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RespError"
+
+  "/v3/ml-hub/search/{query}/models":
+    get:
+      tags:
+        - Models
+      description: Retrieve information on top 100 most downloaded machine learning models filtered by query.
+      operationId: listModelsByQuery
+      parameters:
+        - name: query
+          in: path
+          required: true
+          schema:
+            $ref: "#/components/schemas/IdString"
+      responses:
+        "200":
+          description: A JSON dictionary containing information of top 100 machine learning models based on query.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RespModelObject"
+        "400":
+          description: Input error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RespError"
+        "401":
+          description: Authentication error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RespError"
+        "404":
+          description: Model not found.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RespError"
+        "500":
+          description: Server error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RespError"              
+
+  "/v3/ml-hub/tasks/{taskType}/models":
+    get:
+      tags:
+        - Models
+      description: Retrieve information on top 100 most downloaded machine learning models filtered by taskType. taskType is case-sensitive.
+      operationId: listModelsByTask
+      parameters:
+        - name: taskType
+          in: path
+          required: true
+          schema:
+            $ref: "#/components/schemas/IdString"
+      responses:
+        "200":
+          description: A JSON dictionary containing information of top 100 machine learning models based for a specified taskName.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RespModelObject"
+        "400":
+          description: Input error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RespError"
+        "401":
+          description: Authentication error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RespError"
+        "404":
+          description: Model not found.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RespError"
+        "500":
+          description: Server error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RespError" 
+
+  "/v3/ml-hub/trained_datasets/{dataset}/models":
+    get:
+      tags:
+        - Models
+      description: Retrieve information on top 100 most downloaded machine learning models filtered by a string tag of the dataset.
+      operationId: listModelsByDataset
+      parameters:
+        - name: dataset
+          in: path
+          required: true
+          schema:
+            $ref: "#/components/schemas/IdString"
+      responses:
+        "200":
+          description: A JSON dictionary containing information of top 100 machine learning models based on dataset.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RespModelObject"
+        "400":
+          description: Input error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RespError"
+        "401":
+          description: Authentication error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RespError"
+        "404":
+          description: Model not found.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RespError"
+        "500":
+          description: Server error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RespError" 
+
+  "/v3/ml-hub/libraries/{libraryName}/models":
+    get:
+      tags:
+        - Models
+      description: Retrieve information on top 100 most downloaded machine learning models filtered by foundational library models were originally trained from.
+      operationId: listModelsByLibrary
+      parameters:
+        - name: libraryName
+          in: path
+          required: true
+          schema:
+            $ref: "#/components/schemas/IdString"
+      responses:
+        "200":
+          description: A JSON dictionary containing information of top 100 machine learning models based on foundational library.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RespModelObject"
+        "400":
+          description: Input error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RespError"
+        "401":
+          description: Authentication error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RespError"
+        "404":
+          description: Model not found.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RespError"
+        "500":
+          description: Server error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RespError" 
+
+  "/v3/ml-hub/languages/{languageName}/models":
+    get:
+      tags:
+        - Models
+      description: Retrieve information on top 100 most downloaded machine learning models filtered by language.
+      operationId: listModelsByLanguage
+      parameters:
+        - name: languageName
+          in: path
+          required: true
+          schema:
+            $ref: "#/components/schemas/IdString"
+      responses:
+        "200":
+          description: A JSON dictionary containing information of top 100 machine learning models based on language.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RespModelObject"
+        "400":
+          description: Input error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RespError"
+        "401":
+          description: Authentication error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RespError"
+        "404":
+          description: Model not found.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RespError"
+        "500":
+          description: Server error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RespError" 
+
+# ------------------------------------------------------------------------------
+# --- Components ---------------------------------------------------------------
+# ------------------------------------------------------------------------------
+components:
+  securitySchemes:
+    TapisJWT:
+      type: apiKey
+      description: Tapis signed JWT token authentication
+      name: X-TAPIS-TOKEN
+      in: header
+  schemas:
+    # ------------------------------------------------------------------------------
+    # --- Model objects ------------------------------------------------------------
+    # ------------------------------------------------------------------------------
+    IdString:
+      type: string
+      minLength: 1
+      maxLength: 128
+    
+    ModelShortInfo:
+      type: object
+      properties:
+        model_id:
+          type: string
+        _id:
+          type: string
+        created_at:
+          type: string
+        last_modified:
+          type: string
+          nullable: true
+        author:
+          type: string
+        disabled:
+          type: boolean
+          nullable: true
+        downloads:
+          type: integer
+        gated:
+          type: boolean
+        library_name:
+          type: string
+        pipeline_tag:
+          type: string
+        private:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    
+    TransformersInfo:
+      type: object
+      properties:
+        auto_model:
+          type: string
+          nullable: true
+        custom_class:
+          type: string
+          nullable: true
+        pipeline_tag:
+          type: string
+          nullable: true
+        processor:
+          type: string
+          nullable: true
+    
+    ModelFullInfo:
+      allOf:
+        - $ref: "#/components/schemas/ModelShortInfo"
+        - type: object
+      properties:
+        card_data:
+          type: object
+          nullable: true
+        config:
+          type: object
+        model_index:
+          type: array
+          items:
+            type: object
+          nullable: true
+        repository_content:
+          type: array
+          items:
+            type: string
+        sha:
+          type: string
+        transformers_info:
+          $ref: "#/components/schemas/TransformersInfo"
+          nullable: true
+        widget_data:
+          type: array
+          items:
+            type: object
+          nullable: true
+    
+    ModelServerInfo:
+      type: object
+      properties:
+        model_id:
+          type: string
+        inference_endpoint:
+          type: string
+        prompt_example:
+          type: array
+          items:
+            type: object
+        transformers_info:
+          $ref: "#/components/schemas/TransformersInfo"
+
+    ModelServerPossible:
+      type: object
+      properties:
+        inference_server_possible:
+          type: boolean
+        transformers_info:
+          $ref: "#/components/schemas/TransformersInfo"
+          nullable: true
+    
+    ModelDownloadInfo:
+      type: object
+      properties:
+        model_id:
+          type: string
+        created_at:
+          type: string
+        last_modified:
+          type: string
+        sha:
+          type: string
+        download_links:
+          type: object
+
+    # -------------------------------------------------------------------------
+    # --- Response objects ----------------------------------------------------
+    # -------------------------------------------------------------------------
+    RespBasic:
+      type: object
+      properties:
+        status:
+          type: string
+        message:
+          type: string
+        version:
+          type: string
+        result:
+          type: object
+        metadata:
+          type: object
+    
+    RespError:
+      allOf:
+        - $ref: "#/components/schemas/RespBasic"
+        - type: object
+          properties:
+            status:
+              type: string
+              default: error
+            message:
+              type: string
+              default: error
+    
+    RespDict:
+      allOf:
+        - $ref: "#/components/schemas/RespBasic"
+        - type: object
+          properties:
+            result:
+              type: object
+    
+    RespModel:
+      allOf:
+        - $ref: "#/components/schemas/RespBasic"
+        - type: object
+          properties:
+            result:
+              $ref: "#/components/schemas/ModelFullInfo"
+    
+    RespModelObject:
+      allOf:
+        - $ref: "#/components/schemas/RespBasic"
+        - type: object
+          properties:
+            result:
+              type: object
+              additionalProperties:
+                $ref: "#/components/schemas/ModelShortInfo"
+    
+    RespModelDownload:
+      allOf:
+        - $ref: "#/components/schemas/RespBasic"
+        - type: object
+          properties:
+            result:
+              $ref: "#/components/schemas/ModelDownloadInfo"
+    
+    RespModelServer:
+      allOf:
+        - $ref: "#/components/schemas/RespBasic"
+        - type: object
+          properties:
+            result:
+              $ref: "#/components/schemas/ModelServerInfo"
+    
+    RespModelServerError:
+      allOf:
+        - $ref: "#/components/schemas/RespError"
+        - type: object
+          properties:
+            result:
+              $ref: "#/components/schemas/ModelServerPossible"
+    
