@@ -39,18 +39,6 @@ export interface RespBasic {
     version?: string;
     /**
      * 
-     * @type {string}
-     * @memberof RespBasic
-     */
-    commit?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof RespBasic
-     */
-    build?: string;
-    /**
-     * 
      * @type {object}
      * @memberof RespBasic
      */
@@ -76,8 +64,6 @@ export function RespBasicFromJSONTyped(json: any, ignoreDiscriminator: boolean):
         'status': !exists(json, 'status') ? undefined : json['status'],
         'message': !exists(json, 'message') ? undefined : json['message'],
         'version': !exists(json, 'version') ? undefined : json['version'],
-        'commit': !exists(json, 'commit') ? undefined : json['commit'],
-        'build': !exists(json, 'build') ? undefined : json['build'],
         'result': !exists(json, 'result') ? undefined : json['result'],
         'metadata': !exists(json, 'metadata') ? undefined : json['metadata'],
     };
@@ -95,8 +81,6 @@ export function RespBasicToJSON(value?: RespBasic | null): any {
         'status': value.status,
         'message': value.message,
         'version': value.version,
-        'commit': value.commit,
-        'build': value.build,
         'result': value.result,
         'metadata': value.metadata,
     };

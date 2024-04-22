@@ -14,59 +14,63 @@
 
 import { exists, mapValues } from '../runtime';
 import {
+    ModelFullInfo,
+    ModelFullInfoFromJSON,
+    ModelFullInfoFromJSONTyped,
+    ModelFullInfoToJSON,
     RespBasic,
     RespBasicFromJSON,
     RespBasicFromJSONTyped,
     RespBasicToJSON,
-    RespDictAllOf,
-    RespDictAllOfFromJSON,
-    RespDictAllOfFromJSONTyped,
-    RespDictAllOfToJSON,
+    RespModelAllOf,
+    RespModelAllOfFromJSON,
+    RespModelAllOfFromJSONTyped,
+    RespModelAllOfToJSON,
 } from './';
 
 /**
  * 
  * @export
- * @interface RespDict
+ * @interface RespModel
  */
-export interface RespDict {
+export interface RespModel {
     /**
      * 
      * @type {string}
-     * @memberof RespDict
+     * @memberof RespModel
      */
     status?: string;
     /**
      * 
      * @type {string}
-     * @memberof RespDict
+     * @memberof RespModel
      */
     message?: string;
     /**
      * 
      * @type {string}
-     * @memberof RespDict
+     * @memberof RespModel
      */
     version?: string;
     /**
      * 
-     * @type {object}
-     * @memberof RespDict
+     * @type {ModelFullInfo}
+     * @memberof RespModel
      */
-    result?: object;
+    result?: ModelFullInfo;
     /**
      * 
      * @type {object}
-     * @memberof RespDict
+     * @memberof RespModel
      */
     metadata?: object;
 }
 
-export function RespDictFromJSON(json: any): RespDict {
-    return RespDictFromJSONTyped(json, false);
+export function RespModelFromJSON(json: any): RespModel {
+    return RespModelFromJSONTyped(json, false);
 }
 
-export function RespDictFromJSONTyped(json: any, ignoreDiscriminator: boolean): RespDict {
+export function RespModelFromJSONTyped(json: any, ignoreDiscriminator: boolean): RespModel {
     if ((json === undefined) || (json === null)) {
         return json;
     }
@@ -75,12 +79,12 @@ export function RespDictFromJSONTyped(json: any, ignoreDiscriminator: boolean): 
         'status': !exists(json, 'status') ? undefined : json['status'],
         'message': !exists(json, 'message') ? undefined : json['message'],
         'version': !exists(json, 'version') ? undefined : json['version'],
-        'result': !exists(json, 'result') ? undefined : json['result'],
+        'result': !exists(json, 'result') ? undefined : ModelFullInfoFromJSON(json['result']),
         'metadata': !exists(json, 'metadata') ? undefined : json['metadata'],
     };
 }
 
-export function RespDictToJSON(value?: RespDict | null): any {
+export function RespModelToJSON(value?: RespModel | null): any {
     if (value === undefined) {
         return undefined;
     }
@@ -92,7 +96,7 @@ export function RespDictToJSON(value?: RespDict | null): any {
         'status': value.status,
         'message': value.message,
         'version': value.version,
-        'result': value.result,
+        'result': ModelFullInfoToJSON(value.result),
         'metadata': value.metadata,
     };
 }

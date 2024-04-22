@@ -34,7 +34,7 @@
     "@tapis/tapis-typescript-tenants": "^0.0.2",
     "@tapis/tapis-typescript-workflows": "^0.0.8",
     "@tapis/tapis-typescript-pods": "^0.0.2",
-    "@tapis/tapis-typescript-mlhub-models": "^0.0.1",
+    "@tapis/tapis-typescript-mlhub-models": "file:../gen/models",
     "@types/mocha": "^9.0.0"
   },
   "devDependencies": {

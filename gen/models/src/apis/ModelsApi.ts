@@ -15,12 +15,24 @@
 
 import * as runtime from '../runtime';
 import {
-    RespDict,
-    RespDictFromJSON,
-    RespDictToJSON,
     RespError,
     RespErrorFromJSON,
     RespErrorToJSON,
+    RespModel,
+    RespModelFromJSON,
+    RespModelToJSON,
+    RespModelDownload,
+    RespModelDownloadFromJSON,
+    RespModelDownloadToJSON,
+    RespModelObject,
+    RespModelObjectFromJSON,
+    RespModelObjectToJSON,
+    RespModelServer,
+    RespModelServerFromJSON,
+    RespModelServerToJSON,
+    RespModelServerError,
+    RespModelServerErrorFromJSON,
+    RespModelServerErrorToJSON,
 } from '../models';
 
 export interface DownloadModelRequest {
@@ -67,7 +79,7 @@ export class ModelsApi extends runtime.BaseAPI {
     /**
      * Generates download links for model repository files.
      */
-    async downloadModelRaw(requestParameters: DownloadModelRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespDict>> {
+    async downloadModelRaw(requestParameters: DownloadModelRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespModelDownload>> {
         if (requestParameters.modelId === null || requestParameters.modelId === undefined) {
             throw new runtime.RequiredError('modelId','Required parameter requestParameters.modelId was null or undefined when calling downloadModel.');
         }
@@ -87,13 +99,13 @@ export class ModelsApi extends runtime.BaseAPI {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => RespDictFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => RespModelDownloadFromJSON(jsonValue));
     }
 
     /**
      * Generates download links for model repository files.
      */
-    async downloadModel(requestParameters: DownloadModelRequest, initOverrides?: RequestInit): Promise<RespDict> {
+    async downloadModel(requestParameters: DownloadModelRequest, initOverrides?: RequestInit): Promise<RespModelDownload> {
         const response = await this.downloadModelRaw(requestParameters, initOverrides);
         return await response.value();
     }
@@ -101,7 +113,7 @@ export class ModelsApi extends runtime.BaseAPI {
     /**
      * Retrieve information for a machine learning model given the modelId.
      */
-    async getModelRaw(requestParameters: GetModelRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespDict>> {
+    async getModelRaw(requestParameters: GetModelRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespModel>> {
         if (requestParameters.modelId === null || requestParameters.modelId === undefined) {
             throw new runtime.RequiredError('modelId','Required parameter requestParameters.modelId was null or undefined when calling getModel.');
         }
@@ -121,13 +133,13 @@ export class ModelsApi extends runtime.BaseAPI {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => RespDictFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => RespModelFromJSON(jsonValue));
     }
 
     /**
      * Retrieve information for a machine learning model given the modelId.
      */
-    async getModel(requestParameters: GetModelRequest, initOverrides?: RequestInit): Promise<RespDict> {
+    async getModel(requestParameters: GetModelRequest, initOverrides?: RequestInit): Promise<RespModel> {
         const response = await this.getModelRaw(requestParameters, initOverrides);
         return await response.value();
     }
@@ -135,7 +147,7 @@ export class ModelsApi extends runtime.BaseAPI {
     /**
      * Retrieve information on inference server availability and transformersInfo for requested model.
      */
-    async getModelInferenceServerRaw(requestParameters: GetModelInferenceServerRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespDict>> {
+    async getModelInferenceServerRaw(requestParameters: GetModelInferenceServerRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespModelServer>> {
         if (requestParameters.modelId === null || requestParameters.modelId === undefined) {
             throw new runtime.RequiredError('modelId','Required parameter requestParameters.modelId was null or undefined when calling getModelInferenceServer.');
         }
@@ -155,13 +167,13 @@ export class ModelsApi extends runtime.BaseAPI {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => RespDictFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => RespModelServerFromJSON(jsonValue));
     }
 
     /**
      * Retrieve information on inference server availability and transformersInfo for requested model.
      */
-    async getModelInferenceServer(requestParameters: GetModelInferenceServerRequest, initOverrides?: RequestInit): Promise<RespDict> {
+    async getModelInferenceServer(requestParameters: GetModelInferenceServerRequest, initOverrides?: RequestInit): Promise<RespModelServer> {
         const response = await this.getModelInferenceServerRaw(requestParameters, initOverrides);
         return await response.value();
     }
@@ -169,7 +181,7 @@ export class ModelsApi extends runtime.BaseAPI {
     /**
      * Retrieve information on 100 most downloaded machine learning models.
      */
-    async listModelsRaw(initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespDict>> {
+    async listModelsRaw(initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespModelObject>> {
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -185,13 +197,13 @@ export class ModelsApi extends runtime.BaseAPI {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => RespDictFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => RespModelObjectFromJSON(jsonValue));
     }
 
     /**
      * Retrieve information on 100 most downloaded machine learning models.
      */
-    async listModels(initOverrides?: RequestInit): Promise<RespDict> {
+    async listModels(initOverrides?: RequestInit): Promise<RespModelObject> {
         const response = await this.listModelsRaw(initOverrides);
         return await response.value();
     }
@@ -199,7 +211,7 @@ export class ModelsApi extends runtime.BaseAPI {
     /**
      * Retrieve information on machine learning models created by specified authorId. authorId is case-sensitive.
      */
-    async listModelsByAuthorRaw(requestParameters: ListModelsByAuthorRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespDict>> {
+    async listModelsByAuthorRaw(requestParameters: ListModelsByAuthorRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespModelObject>> {
         if (requestParameters.authorId === null || requestParameters.authorId === undefined) {
             throw new runtime.RequiredError('authorId','Required parameter requestParameters.authorId was null or undefined when calling listModelsByAuthor.');
         }
@@ -219,13 +231,13 @@ export class ModelsApi extends runtime.BaseAPI {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => RespDictFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => RespModelObjectFromJSON(jsonValue));
     }
 
     /**
      * Retrieve information on machine learning models created by specified authorId. authorId is case-sensitive.
      */
-    async listModelsByAuthor(requestParameters: ListModelsByAuthorRequest, initOverrides?: RequestInit): Promise<RespDict> {
+    async listModelsByAuthor(requestParameters: ListModelsByAuthorRequest, initOverrides?: RequestInit): Promise<RespModelObject> {
         const response = await this.listModelsByAuthorRaw(requestParameters, initOverrides);
         return await response.value();
     }
@@ -233,7 +245,7 @@ export class ModelsApi extends runtime.BaseAPI {
     /**
      * Retrieve information on top 100 most downloaded machine learning models filtered by a string tag of the dataset.
      */
-    async listModelsByDatasetRaw(requestParameters: ListModelsByDatasetRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespDict>> {
+    async listModelsByDatasetRaw(requestParameters: ListModelsByDatasetRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespModelObject>> {
         if (requestParameters.dataset === null || requestParameters.dataset === undefined) {
             throw new runtime.RequiredError('dataset','Required parameter requestParameters.dataset was null or undefined when calling listModelsByDataset.');
         }
@@ -253,13 +265,13 @@ export class ModelsApi extends runtime.BaseAPI {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => RespDictFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => RespModelObjectFromJSON(jsonValue));
     }
 
     /**
      * Retrieve information on top 100 most downloaded machine learning models filtered by a string tag of the dataset.
      */
-    async listModelsByDataset(requestParameters: ListModelsByDatasetRequest, initOverrides?: RequestInit): Promise<RespDict> {
+    async listModelsByDataset(requestParameters: ListModelsByDatasetRequest, initOverrides?: RequestInit): Promise<RespModelObject> {
         const response = await this.listModelsByDatasetRaw(requestParameters, initOverrides);
         return await response.value();
     }
@@ -267,7 +279,7 @@ export class ModelsApi extends runtime.BaseAPI {
     /**
      * Retrieve information on top 100 most downloaded machine learning models filtered by language.
      */
-    async listModelsByLanguageRaw(requestParameters: ListModelsByLanguageRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespDict>> {
+    async listModelsByLanguageRaw(requestParameters: ListModelsByLanguageRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespModelObject>> {
         if (requestParameters.languageName === null || requestParameters.languageName === undefined) {
             throw new runtime.RequiredError('languageName','Required parameter requestParameters.languageName was null or undefined when calling listModelsByLanguage.');
         }
@@ -287,13 +299,13 @@ export class ModelsApi extends runtime.BaseAPI {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => RespDictFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => RespModelObjectFromJSON(jsonValue));
     }
 
     /**
      * Retrieve information on top 100 most downloaded machine learning models filtered by language.
      */
-    async listModelsByLanguage(requestParameters: ListModelsByLanguageRequest, initOverrides?: RequestInit): Promise<RespDict> {
+    async listModelsByLanguage(requestParameters: ListModelsByLanguageRequest, initOverrides?: RequestInit): Promise<RespModelObject> {
         const response = await this.listModelsByLanguageRaw(requestParameters, initOverrides);
         return await response.value();
     }
@@ -301,7 +313,7 @@ export class ModelsApi extends runtime.BaseAPI {
     /**
      * Retrieve information on top 100 most downloaded machine learning models filtered by foundational library models were originally trained from.
      */
-    async listModelsByLibraryRaw(requestParameters: ListModelsByLibraryRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespDict>> {
+    async listModelsByLibraryRaw(requestParameters: ListModelsByLibraryRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespModelObject>> {
         if (requestParameters.libraryName === null || requestParameters.libraryName === undefined) {
             throw new runtime.RequiredError('libraryName','Required parameter requestParameters.libraryName was null or undefined when calling listModelsByLibrary.');
         }
@@ -321,13 +333,13 @@ export class ModelsApi extends runtime.BaseAPI {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => RespDictFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => RespModelObjectFromJSON(jsonValue));
     }
 
     /**
      * Retrieve information on top 100 most downloaded machine learning models filtered by foundational library models were originally trained from.
      */
-    async listModelsByLibrary(requestParameters: ListModelsByLibraryRequest, initOverrides?: RequestInit): Promise<RespDict> {
+    async listModelsByLibrary(requestParameters: ListModelsByLibraryRequest, initOverrides?: RequestInit): Promise<RespModelObject> {
         const response = await this.listModelsByLibraryRaw(requestParameters, initOverrides);
         return await response.value();
     }
@@ -335,7 +347,7 @@ export class ModelsApi extends runtime.BaseAPI {
     /**
      * Retrieve information on top 100 most downloaded machine learning models filtered by query.
      */
-    async listModelsByQueryRaw(requestParameters: ListModelsByQueryRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespDict>> {
+    async listModelsByQueryRaw(requestParameters: ListModelsByQueryRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespModelObject>> {
         if (requestParameters.query === null || requestParameters.query === undefined) {
             throw new runtime.RequiredError('query','Required parameter requestParameters.query was null or undefined when calling listModelsByQuery.');
         }
@@ -355,13 +367,13 @@ export class ModelsApi extends runtime.BaseAPI {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => RespDictFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => RespModelObjectFromJSON(jsonValue));
     }
 
     /**
      * Retrieve information on top 100 most downloaded machine learning models filtered by query.
      */
-    async listModelsByQuery(requestParameters: ListModelsByQueryRequest, initOverrides?: RequestInit): Promise<RespDict> {
+    async listModelsByQuery(requestParameters: ListModelsByQueryRequest, initOverrides?: RequestInit): Promise<RespModelObject> {
         const response = await this.listModelsByQueryRaw(requestParameters, initOverrides);
         return await response.value();
     }
@@ -369,7 +381,7 @@ export class ModelsApi extends runtime.BaseAPI {
     /**
      * Retrieve information on top 100 most downloaded machine learning models filtered by taskType. taskType is case-sensitive.
      */
-    async listModelsByTaskRaw(requestParameters: ListModelsByTaskRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespDict>> {
+    async listModelsByTaskRaw(requestParameters: ListModelsByTaskRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespModelObject>> {
         if (requestParameters.taskType === null || requestParameters.taskType === undefined) {
             throw new runtime.RequiredError('taskType','Required parameter requestParameters.taskType was null or undefined when calling listModelsByTask.');
         }
@@ -389,13 +401,13 @@ export class ModelsApi extends runtime.BaseAPI {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => RespDictFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => RespModelObjectFromJSON(jsonValue));
     }
 
     /**
      * Retrieve information on top 100 most downloaded machine learning models filtered by taskType. taskType is case-sensitive.
      */
-    async listModelsByTask(requestParameters: ListModelsByTaskRequest, initOverrides?: RequestInit): Promise<RespDict> {
+    async listModelsByTask(requestParameters: ListModelsByTaskRequest, initOverrides?: RequestInit): Promise<RespModelObject> {
         const response = await this.listModelsByTaskRaw(requestParameters, initOverrides);
         return await response.value();
     }

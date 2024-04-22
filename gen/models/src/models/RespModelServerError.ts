@@ -14,59 +14,63 @@
 
 import { exists, mapValues } from '../runtime';
 import {
-    RespBasic,
-    RespBasicFromJSON,
-    RespBasicFromJSONTyped,
-    RespBasicToJSON,
-    RespDictAllOf,
-    RespDictAllOfFromJSON,
-    RespDictAllOfFromJSONTyped,
-    RespDictAllOfToJSON,
+    ModelServerPossible,
+    ModelServerPossibleFromJSON,
+    ModelServerPossibleFromJSONTyped,
+    ModelServerPossibleToJSON,
+    RespError,
+    RespErrorFromJSON,
+    RespErrorFromJSONTyped,
+    RespErrorToJSON,
+    RespModelServerErrorAllOf,
+    RespModelServerErrorAllOfFromJSON,
+    RespModelServerErrorAllOfFromJSONTyped,
+    RespModelServerErrorAllOfToJSON,
 } from './';
 
 /**
  * 
  * @export
- * @interface RespDict
+ * @interface RespModelServerError
  */
-export interface RespDict {
+export interface RespModelServerError {
     /**
      * 
      * @type {string}
-     * @memberof RespDict
+     * @memberof RespModelServerError
      */
     status?: string;
     /**
      * 
      * @type {string}
-     * @memberof RespDict
+     * @memberof RespModelServerError
      */
     message?: string;
     /**
      * 
      * @type {string}
-     * @memberof RespDict
+     * @memberof RespModelServerError
      */
     version?: string;
     /**
      * 
-     * @type {object}
-     * @memberof RespDict
+     * @type {ModelServerPossible}
+     * @memberof RespModelServerError
      */
-    result?: object;
+    result?: ModelServerPossible;
     /**
      * 
      * @type {object}
-     * @memberof RespDict
+     * @memberof RespModelServerError
      */
     metadata?: object;
 }
 
-export function RespDictFromJSON(json: any): RespDict {
-    return RespDictFromJSONTyped(json, false);
+export function RespModelServerErrorFromJSON(json: any): RespModelServerError {
+    return RespModelServerErrorFromJSONTyped(json, false);
 }
 
-export function RespDictFromJSONTyped(json: any, ignoreDiscriminator: boolean): RespDict {
+export function RespModelServerErrorFromJSONTyped(json: any, ignoreDiscriminator: boolean): RespModelServerError {
     if ((json === undefined) || (json === null)) {
         return json;
     }
@@ -75,12 +79,12 @@ export function RespDictFromJSONTyped(json: any, ignoreDiscriminator: boolean): 
         'status': !exists(json, 'status') ? undefined : json['status'],
         'message': !exists(json, 'message') ? undefined : json['message'],
         'version': !exists(json, 'version') ? undefined : json['version'],
-        'result': !exists(json, 'result') ? undefined : json['result'],
+        'result': !exists(json, 'result') ? undefined : ModelServerPossibleFromJSON(json['result']),
         'metadata': !exists(json, 'metadata') ? undefined : json['metadata'],
     };
 }
 
-export function RespDictToJSON(value?: RespDict | null): any {
+export function RespModelServerErrorToJSON(value?: RespModelServerError | null): any {
     if (value === undefined) {
         return undefined;
     }
@@ -92,7 +96,7 @@ export function RespDictToJSON(value?: RespDict | null): any {
         'status': value.status,
         'message': value.message,
         'version': value.version,
-        'result': value.result,
+        'result': ModelServerPossibleToJSON(value.result),
         'metadata': value.metadata,
     };
 }

@@ -14,59 +14,63 @@
 
 import { exists, mapValues } from '../runtime';
 import {
+    ModelServerInfo,
+    ModelServerInfoFromJSON,
+    ModelServerInfoFromJSONTyped,
+    ModelServerInfoToJSON,
     RespBasic,
     RespBasicFromJSON,
     RespBasicFromJSONTyped,
     RespBasicToJSON,
-    RespDictAllOf,
-    RespDictAllOfFromJSON,
-    RespDictAllOfFromJSONTyped,
-    RespDictAllOfToJSON,
+    RespModelServerAllOf,
+    RespModelServerAllOfFromJSON,
+    RespModelServerAllOfFromJSONTyped,
+    RespModelServerAllOfToJSON,
 } from './';
 
 /**
  * 
  * @export
- * @interface RespDict
+ * @interface RespModelServer
  */
-export interface RespDict {
+export interface RespModelServer {
     /**
      * 
      * @type {string}
-     * @memberof RespDict
+     * @memberof RespModelServer
      */
     status?: string;
     /**
      * 
      * @type {string}
-     * @memberof RespDict
+     * @memberof RespModelServer
      */
     message?: string;
     /**
      * 
      * @type {string}
-     * @memberof RespDict
+     * @memberof RespModelServer
      */
     version?: string;
     /**
      * 
-     * @type {object}
-     * @memberof RespDict
+     * @type {ModelServerInfo}
+     * @memberof RespModelServer
      */
-    result?: object;
+    result?: ModelServerInfo;
     /**
      * 
      * @type {object}
-     * @memberof RespDict
+     * @memberof RespModelServer
      */
     metadata?: object;
 }
 
-export function RespDictFromJSON(json: any): RespDict {
-    return RespDictFromJSONTyped(json, false);
+export function RespModelServerFromJSON(json: any): RespModelServer {
+    return RespModelServerFromJSONTyped(json, false);
 }
 
-export function RespDictFromJSONTyped(json: any, ignoreDiscriminator: boolean): RespDict {
+export function RespModelServerFromJSONTyped(json: any, ignoreDiscriminator: boolean): RespModelServer {
     if ((json === undefined) || (json === null)) {
         return json;
     }
@@ -75,12 +79,12 @@ export function RespDictFromJSONTyped(json: any, ignoreDiscriminator: boolean): 
         'status': !exists(json, 'status') ? undefined : json['status'],
         'message': !exists(json, 'message') ? undefined : json['message'],
         'version': !exists(json, 'version') ? undefined : json['version'],
-        'result': !exists(json, 'result') ? undefined : json['result'],
+        'result': !exists(json, 'result') ? undefined : ModelServerInfoFromJSON(json['result']),
         'metadata': !exists(json, 'metadata') ? undefined : json['metadata'],
     };
 }
 
-export function RespDictToJSON(value?: RespDict | null): any {
+export function RespModelServerToJSON(value?: RespModelServer | null): any {
     if (value === undefined) {
         return undefined;
     }
@@ -92,7 +96,7 @@ export function RespDictToJSON(value?: RespDict | null): any {
         'status': value.status,
         'message': value.message,
         'version': value.version,
-        'result': value.result,
+        'result': ModelServerInfoToJSON(value.result),
         'metadata': value.metadata,
     };
 }

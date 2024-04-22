@@ -14,59 +14,63 @@
 
 import { exists, mapValues } from '../runtime';
 import {
+    ModelDownloadInfo,
+    ModelDownloadInfoFromJSON,
+    ModelDownloadInfoFromJSONTyped,
+    ModelDownloadInfoToJSON,
     RespBasic,
     RespBasicFromJSON,
     RespBasicFromJSONTyped,
     RespBasicToJSON,
-    RespDictAllOf,
-    RespDictAllOfFromJSON,
-    RespDictAllOfFromJSONTyped,
-    RespDictAllOfToJSON,
+    RespModelDownloadAllOf,
+    RespModelDownloadAllOfFromJSON,
+    RespModelDownloadAllOfFromJSONTyped,
+    RespModelDownloadAllOfToJSON,
 } from './';
 
 /**
  * 
  * @export
- * @interface RespDict
+ * @interface RespModelDownload
  */
-export interface RespDict {
+export interface RespModelDownload {
     /**
      * 
      * @type {string}
-     * @memberof RespDict
+     * @memberof RespModelDownload
      */
     status?: string;
     /**
      * 
      * @type {string}
-     * @memberof RespDict
+     * @memberof RespModelDownload
      */
     message?: string;
     /**
      * 
      * @type {string}
-     * @memberof RespDict
+     * @memberof RespModelDownload
      */
     version?: string;
     /**
      * 
-     * @type {object}
-     * @memberof RespDict
+     * @type {ModelDownloadInfo}
+     * @memberof RespModelDownload
      */
-    result?: object;
+    result?: ModelDownloadInfo;
     /**
      * 
      * @type {object}
-     * @memberof RespDict
+     * @memberof RespModelDownload
      */
     metadata?: object;
 }
 
-export function RespDictFromJSON(json: any): RespDict {
-    return RespDictFromJSONTyped(json, false);
+export function RespModelDownloadFromJSON(json: any): RespModelDownload {
+    return RespModelDownloadFromJSONTyped(json, false);
 }
 
-export function RespDictFromJSONTyped(json: any, ignoreDiscriminator: boolean): RespDict {
+export function RespModelDownloadFromJSONTyped(json: any, ignoreDiscriminator: boolean): RespModelDownload {
     if ((json === undefined) || (json === null)) {
         return json;
     }
@@ -75,12 +79,12 @@ export function RespDictFromJSONTyped(json: any, ignoreDiscriminator: boolean): 
         'status': !exists(json, 'status') ? undefined : json['status'],
         'message': !exists(json, 'message') ? undefined : json['message'],
         'version': !exists(json, 'version') ? undefined : json['version'],
-        'result': !exists(json, 'result') ? undefined : json['result'],
+        'result': !exists(json, 'result') ? undefined : ModelDownloadInfoFromJSON(json['result']),
         'metadata': !exists(json, 'metadata') ? undefined : json['metadata'],
     };
 }
 
-export function RespDictToJSON(value?: RespDict | null): any {
+export function RespModelDownloadToJSON(value?: RespModelDownload | null): any {
     if (value === undefined) {
         return undefined;
     }
@@ -92,7 +96,7 @@ export function RespDictToJSON(value?: RespDict | null): any {
         'status': value.status,
         'message': value.message,
         'version': value.version,
-        'result': value.result,
+        'result': ModelDownloadInfoToJSON(value.result),
         'metadata': value.metadata,
     };
 }

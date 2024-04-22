@@ -44,7 +44,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/RespDict"
+                $ref: "#/components/schemas/RespModelObject"
         "400":
           description: Input error.
           content:
@@ -82,7 +82,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/RespDict"
+                $ref: "#/components/schemas/RespModel"
         "400":
           description: Input error.
           content:
@@ -126,7 +126,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/RespDict"
+                $ref: "#/components/schemas/RespModelServer"
         "400":
           description: Input error.
           content:
@@ -138,13 +138,17 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/RespError"
+                oneOf:
+                  - $ref: "#/components/schemas/RespError"
+                  - $ref: "#/components/schemas/RespModelServerError"
         "404":
           description: Model not found.
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/RespError"
+                oneOf:
+                  - $ref: "#/components/schemas/RespError"
+                  - $ref: "#/components/schemas/RespModelServerError"
         "500":
           description: Server error.
           content:
@@ -170,7 +174,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/RespDict"
+                $ref: "#/components/schemas/RespModelObject"
         "400":
           description: Input error.
           content:
@@ -214,7 +218,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/RespDict"
+                $ref: "#/components/schemas/RespModelDownload"
         "400":
           description: Input error.
           content:
@@ -258,7 +262,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/RespDict"
+                $ref: "#/components/schemas/RespModelObject"
         "400":
           description: Input error.
           content:
@@ -302,7 +306,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/RespDict"
+                $ref: "#/components/schemas/RespModelObject"
         "400":
           description: Input error.
           content:
@@ -346,7 +350,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/RespDict"
+                $ref: "#/components/schemas/RespModelObject"
         "400":
           description: Input error.
           content:
@@ -390,7 +394,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/RespDict"
+                $ref: "#/components/schemas/RespModelObject"
         "400":
           description: Input error.
           content:
@@ -434,7 +438,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/RespDict"
+                $ref: "#/components/schemas/RespModelObject"
         "400":
           description: Input error.
           content:
@@ -478,6 +482,122 @@ components:
       type: string
       minLength: 1
       maxLength: 128
+    
+    ModelShortInfo:
+      type: object
+      properties:
+        model_id:
+          type: string
+        _id:
+          type: string
+        created_at:
+          type: string
+        last_modified:
+          type: string
+          nullable: true
+        author:
+          type: string
+        disabled:
+          type: boolean
+          nullable: true
+        downloads:
+          type: integer
+        gated:
+          type: boolean
+        library_name:
+          type: string
+        pipeline_tag:
+          type: string
+        private:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+    
+    TransformersInfo:
+      type: object
+      properties:
+        auto_model:
+          type: string
+          nullable: true
+        custom_class:
+          type: string
+          nullable: true
+        pipeline_tag:
+          type: string
+          nullable: true
+        processor:
+          type: string
+          nullable: true
+    
+    ModelFullInfo:
+      allOf:
+        - $ref: "#/components/schemas/ModelShortInfo"
+        - type: object
+      properties:
+        card_data:
+          type: object
+          nullable: true
+        config:
+          type: object
+        model_index:
+          type: array
+          items:
+            type: object
+          nullable: true
+        repository_content:
+          type: array
+          items:
+            type: string
+        sha:
+          type: string
+        transformers_info:
+          $ref: "#/components/schemas/TransformersInfo"
+          nullable: true
+        widget_data:
+          type: array
+          items:
+            type: object
+          nullable: true
+    
+    ModelServerInfo:
+      type: object
+      properties:
+        model_id:
+          type: string
+        inference_endpoint:
+          type: string
+        prompt_example:
+          type: array
+          items:
+            type: object
+        transformers_info:
+          $ref: "#/components/schemas/TransformersInfo"
+
+    ModelServerPossible:
+      type: object
+      properties:
+        inference_server_possible:
+          type: boolean
+        transformers_info:
+          $ref: "#/components/schemas/TransformersInfo"
+          nullable: true
+    
+    ModelDownloadInfo:
+      type: object
+      properties:
+        model_id:
+          type: string
+        created_at:
+          type: string
+        last_modified:
+          type: string
+        sha:
+          type: string
+        download_links:
+          type: object
+
     # -------------------------------------------------------------------------
     # --- Response objects ----------------------------------------------------
     # -------------------------------------------------------------------------
@@ -490,14 +610,11 @@ components:
           type: string
         version:
           type: string
-        commit:
-          type: string
-        build:
-          type: string
         result:
           type: object
         metadata:
           type: object
+    
     RespError:
       allOf:
         - $ref: "#/components/schemas/RespBasic"
@@ -509,6 +626,7 @@ components:
             message:
               type: string
               default: error
+    
     RespDict:
       allOf:
         - $ref: "#/components/schemas/RespBasic"
@@ -516,3 +634,46 @@ components:
           properties:
             result:
               type: object
+    
+    RespModel:
+      allOf:
+        - $ref: "#/components/schemas/RespBasic"
+        - type: object
+          properties:
+            result:
+              $ref: "#/components/schemas/ModelFullInfo"
+    
+    RespModelObject:
+      allOf:
+        - $ref: "#/components/schemas/RespBasic"
+        - type: object
+          properties:
+            result:
+              type: object
+              additionalProperties:
+                $ref: "#/components/schemas/ModelShortInfo"
+    
+    RespModelDownload:
+      allOf:
+        - $ref: "#/components/schemas/RespBasic"
+        - type: object
+          properties:
+            result:
+              $ref: "#/components/schemas/ModelDownloadInfo"
+    
+    RespModelServer:
+      allOf:
+        - $ref: "#/components/schemas/RespBasic"
+        - type: object
+          properties:
+            result:
+              $ref: "#/components/schemas/ModelServerInfo"
+    
+    RespModelServerError:
+      allOf:
+        - $ref: "#/components/schemas/RespError"
+        - type: object
+          properties:
+            result:
+              $ref: "#/components/schemas/ModelServerPossible"
+    

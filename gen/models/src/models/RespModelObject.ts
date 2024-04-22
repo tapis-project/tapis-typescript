@@ -14,59 +14,63 @@
 
 import { exists, mapValues } from '../runtime';
 import {
+    ModelShortInfo,
+    ModelShortInfoFromJSON,
+    ModelShortInfoFromJSONTyped,
+    ModelShortInfoToJSON,
     RespBasic,
     RespBasicFromJSON,
     RespBasicFromJSONTyped,
     RespBasicToJSON,
-    RespDictAllOf,
-    RespDictAllOfFromJSON,
-    RespDictAllOfFromJSONTyped,
-    RespDictAllOfToJSON,
+    RespModelObjectAllOf,
+    RespModelObjectAllOfFromJSON,
+    RespModelObjectAllOfFromJSONTyped,
+    RespModelObjectAllOfToJSON,
 } from './';
 
 /**
  * 
  * @export
- * @interface RespDict
+ * @interface RespModelObject
  */
-export interface RespDict {
+export interface RespModelObject {
     /**
      * 
      * @type {string}
-     * @memberof RespDict
+     * @memberof RespModelObject
      */
     status?: string;
     /**
      * 
      * @type {string}
-     * @memberof RespDict
+     * @memberof RespModelObject
      */
     message?: string;
     /**
      * 
      * @type {string}
-     * @memberof RespDict
+     * @memberof RespModelObject
      */
     version?: string;
     /**
      * 
-     * @type {object}
-     * @memberof RespDict
+     * @type {{ [key: string]: ModelShortInfo; }}
+     * @memberof RespModelObject
      */
-    result?: object;
+    result?: { [key: string]: ModelShortInfo; };
     /**
      * 
      * @type {object}
-     * @memberof RespDict
+     * @memberof RespModelObject
      */
     metadata?: object;
 }
 
-export function RespDictFromJSON(json: any): RespDict {
-    return RespDictFromJSONTyped(json, false);
+export function RespModelObjectFromJSON(json: any): RespModelObject {
+    return RespModelObjectFromJSONTyped(json, false);
 }
 
-export function RespDictFromJSONTyped(json: any, ignoreDiscriminator: boolean): RespDict {
+export function RespModelObjectFromJSONTyped(json: any, ignoreDiscriminator: boolean): RespModelObject {
     if ((json === undefined) || (json === null)) {
         return json;
     }
@@ -75,12 +79,12 @@ export function RespDictFromJSONTyped(json: any, ignoreDiscriminator: boolean): 
         'status': !exists(json, 'status') ? undefined : json['status'],
         'message': !exists(json, 'message') ? undefined : json['message'],
         'version': !exists(json, 'version') ? undefined : json['version'],
-        'result': !exists(json, 'result') ? undefined : json['result'],
+        'result': !exists(json, 'result') ? undefined : (mapValues(json['result'], ModelShortInfoFromJSON)),
         'metadata': !exists(json, 'metadata') ? undefined : json['metadata'],
     };
 }
 
-export function RespDictToJSON(value?: RespDict | null): any {
+export function RespModelObjectToJSON(value?: RespModelObject | null): any {
     if (value === undefined) {
         return undefined;
     }
@@ -92,7 +96,7 @@ export function RespDictToJSON(value?: RespDict | null): any {
         'status': value.status,
         'message': value.message,
         'version': value.version,
-        'result': value.result,
+        'result': value.result === undefined ? undefined : (mapValues(value.result, ModelShortInfoToJSON)),
         'metadata': value.metadata,
     };
 }
