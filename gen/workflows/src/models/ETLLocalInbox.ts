@@ -14,26 +14,26 @@
 
 import { exists, mapValues } from '../runtime';
 import {
-    DataIntegrityProfile,
-    DataIntegrityProfileFromJSON,
-    DataIntegrityProfileFromJSONTyped,
-    DataIntegrityProfileToJSON,
-    ETLEnumManifestGenerationPolicy,
-    ETLEnumManifestGenerationPolicyFromJSON,
-    ETLEnumManifestGenerationPolicyFromJSONTyped,
-    ETLEnumManifestGenerationPolicyToJSON,
-    ETLEnumManifestPriority,
-    ETLEnumManifestPriorityFromJSON,
-    ETLEnumManifestPriorityFromJSONTyped,
-    ETLEnumManifestPriorityToJSON,
-    ETLLocalIOBox,
-    ETLLocalIOBoxFromJSON,
-    ETLLocalIOBoxFromJSONTyped,
-    ETLLocalIOBoxToJSON,
+    ETLControlSystem,
+    ETLControlSystemFromJSON,
+    ETLControlSystemFromJSONTyped,
+    ETLControlSystemToJSON,
+    ETLDataSystem,
+    ETLDataSystemFromJSON,
+    ETLDataSystemFromJSONTyped,
+    ETLDataSystemToJSON,
     ETLLocalInboxAllOf,
     ETLLocalInboxAllOfFromJSON,
     ETLLocalInboxAllOfFromJSONTyped,
     ETLLocalInboxAllOfToJSON,
+    ETLManifestsSystem,
+    ETLManifestsSystemFromJSON,
+    ETLManifestsSystemFromJSONTyped,
+    ETLManifestsSystemToJSON,
+    ETLSystemsConfiguration,
+    ETLSystemsConfigurationFromJSON,
+    ETLSystemsConfigurationFromJSONTyped,
+    ETLSystemsConfigurationToJSON,
 } from './';
 
 /**
@@ -44,46 +44,22 @@ import {
 export interface ETLLocalInbox {
     /**
      * 
-     * @type {string}
+     * @type {ETLManifestsSystem}
      * @memberof ETLLocalInbox
      */
-    system_id: string;
+    manifests: ETLManifestsSystem;
     /**
      * 
-     * @type {string}
+     * @type {ETLDataSystem}
      * @memberof ETLLocalInbox
      */
-    data_path: string;
+    data: ETLDataSystem;
     /**
      * 
-     * @type {string}
+     * @type {ETLControlSystem}
      * @memberof ETLLocalInbox
      */
-    manifests_path?: string;
-    /**
-     * 
-     * @type {ETLEnumManifestGenerationPolicy}
-     * @memberof ETLLocalInbox
-     */
-    manifest_generation_policy?: ETLEnumManifestGenerationPolicy;
-    /**
-     * 
-     * @type {ETLEnumManifestPriority}
-     * @memberof ETLLocalInbox
-     */
-    manifest_priority?: ETLEnumManifestPriority;
-    /**
-     * 
-     * @type {DataIntegrityProfile}
-     * @memberof ETLLocalInbox
-     */
-    data_integrity_profile?: DataIntegrityProfile;
-    /**
-     * 
-     * @type {Array<string>}
-     * @memberof ETLLocalInbox
-     */
-    exclude_pattern?: Array<string>;
+    control?: ETLControlSystem;
 }
 
 export function ETLLocalInboxFromJSON(json: any): ETLLocalInbox {
@@ -96,13 +72,9 @@ export function ETLLocalInboxFromJSONTyped(json: any, ignoreDiscriminator: boole
     }
     return {
         
-        'system_id': json['system_id'],
-        'data_path': json['data_path'],
-        'manifests_path': !exists(json, 'manifests_path') ? undefined : json['manifests_path'],
-        'manifest_generation_policy': !exists(json, 'manifest_generation_policy') ? undefined : ETLEnumManifestGenerationPolicyFromJSON(json['manifest_generation_policy']),
-        'manifest_priority': !exists(json, 'manifest_priority') ? undefined : ETLEnumManifestPriorityFromJSON(json['manifest_priority']),
-        'data_integrity_profile': !exists(json, 'data_integrity_profile') ? undefined : DataIntegrityProfileFromJSON(json['data_integrity_profile']),
-        'exclude_pattern': !exists(json, 'exclude_pattern') ? undefined : json['exclude_pattern'],
+        'manifests': ETLManifestsSystemFromJSON(json['manifests']),
+        'data': ETLDataSystemFromJSON(json['data']),
+        'control': !exists(json, 'control') ? undefined : ETLControlSystemFromJSON(json['control']),
     };
 }
 
@@ -115,13 +87,9 @@ export function ETLLocalInboxToJSON(value?: ETLLocalInbox | null): any {
     }
     return {
         
-        'system_id': value.system_id,
-        'data_path': value.data_path,
-        'manifests_path': value.manifests_path,
-        'manifest_generation_policy': ETLEnumManifestGenerationPolicyToJSON(value.manifest_generation_policy),
-        'manifest_priority': ETLEnumManifestPriorityToJSON(value.manifest_priority),
-        'data_integrity_profile': DataIntegrityProfileToJSON(value.data_integrity_profile),
-        'exclude_pattern': value.exclude_pattern,
+        'manifests': ETLManifestsSystemToJSON(value.manifests),
+        'data': ETLDataSystemToJSON(value.data),
+        'control': ETLControlSystemToJSON(value.control),
     };
 }
 

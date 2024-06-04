@@ -129,6 +129,12 @@ export interface FunctionTask {
      * @type {string}
      * @memberof FunctionTask
      */
+    entrypoint?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof FunctionTask
+     */
     code?: string;
     /**
      * 
@@ -159,6 +165,7 @@ export function FunctionTaskFromJSONTyped(json: any, ignoreDiscriminator: boolea
         'runtime': !exists(json, 'runtime') ? undefined : EnumRuntimeEnvironmentFromJSON(json['runtime']),
         'installer': !exists(json, 'installer') ? undefined : EnumInstallerFromJSON(json['installer']),
         'command': !exists(json, 'command') ? undefined : json['command'],
+        'entrypoint': !exists(json, 'entrypoint') ? undefined : json['entrypoint'],
         'code': !exists(json, 'code') ? undefined : json['code'],
         'packages': !exists(json, 'packages') ? undefined : json['packages'],
     };
@@ -184,6 +191,7 @@ export function FunctionTaskToJSON(value?: FunctionTask | null): any {
         'runtime': EnumRuntimeEnvironmentToJSON(value.runtime),
         'installer': EnumInstallerToJSON(value.installer),
         'command': value.command,
+        'entrypoint': value.entrypoint,
         'code': value.code,
         'packages': value.packages,
     };

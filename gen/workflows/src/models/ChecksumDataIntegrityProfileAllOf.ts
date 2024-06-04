@@ -13,13 +13,6 @@
  */
 
 import { exists, mapValues } from '../runtime';
-import {
-    ETLEnumChecksumAlgorithm,
-    ETLEnumChecksumAlgorithmFromJSON,
-    ETLEnumChecksumAlgorithmFromJSONTyped,
-    ETLEnumChecksumAlgorithmToJSON,
-} from './';
-
 /**
  * 
  * @export
@@ -32,18 +25,6 @@ export interface ChecksumDataIntegrityProfileAllOf {
      * @memberof ChecksumDataIntegrityProfileAllOf
      */
     type?: string;
-    /**
-     * 
-     * @type {ETLEnumChecksumAlgorithm}
-     * @memberof ChecksumDataIntegrityProfileAllOf
-     */
-    checksum_algo: ETLEnumChecksumAlgorithm;
-    /**
-     * 
-     * @type {string}
-     * @memberof ChecksumDataIntegrityProfileAllOf
-     */
-    checksums_path: string;
 }
 
 export function ChecksumDataIntegrityProfileAllOfFromJSON(json: any): ChecksumDataIntegrityProfileAllOf {
@@ -57,8 +38,6 @@ export function ChecksumDataIntegrityProfileAllOfFromJSONTyped(json: any, ignore
     return {
         
         'type': !exists(json, 'type') ? undefined : json['type'],
-        'checksum_algo': ETLEnumChecksumAlgorithmFromJSON(json['checksum_algo']),
-        'checksums_path': json['checksums_path'],
     };
 }
 
@@ -72,8 +51,6 @@ export function ChecksumDataIntegrityProfileAllOfToJSON(value?: ChecksumDataInte
     return {
         
         'type': value.type,
-        'checksum_algo': ETLEnumChecksumAlgorithmToJSON(value.checksum_algo),
-        'checksums_path': value.checksums_path,
     };
 }
 

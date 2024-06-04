@@ -37,6 +37,8 @@ tags:
     description: Manage external identities . Create, retrieve, delete.
   - name: Pipelines
     description: Manage collections of tasks. Create, retrieve and delete.
+  - name: PipelineLocks
+    description: Create locks help to manage concurrent state mutations between pipeline runs.
   - name: Tasks
     description: Manage tasks to be executed as part of a workflow. Create, retrieve and delete.
   - name: CI/CD
@@ -1591,6 +1593,64 @@ paths:
               schema:
                 $ref: '#/components/schemas/RespPipelineRunList'
 
+  '/v3/workflows/groups/{group_id}/pipelines/{pipeline_id}/locks':
+    get:
+      tags:
+        - PipelineLocks
+      summary: PipelineLocks
+      description: List all locks for a given pipeline 
+      operationId: listPipelineLocks
+      parameters:
+        - name: group_id
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/ID'
+        - name: pipeline_id
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/ID'
+      responses:
+        '200':
+          description: Pipeline Locks listed.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RespPipelineLockList'
+
+  '/v3/workflows/groups/{group_id}/pipelines/{pipeline_id}/locks/{pipeline_lock_uuid}':
+    get:
+      tags:
+        - PipelineLocks
+      summary: PipelineLocks
+      description: Get a pipeline lock by its UUID 
+      operationId: getPipelineLock
+      parameters:
+        - name: group_id
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/ID'
+        - name: pipeline_id
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/ID'
+        - name: pipeline_lock_uuid
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Pipeline Lock fetched.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RespPipelineLock'
+
   '/v3/workflows/groups/{group_id}/pipelines/{pipeline_id}/runs/{pipeline_run_uuid}':
     get:
       tags:
@@ -1623,6 +1683,71 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/RespPipelineRun'
+
+  '/v3/workflows/groups/{group_id}/pipelines/{pipeline_id}/runs/{pipeline_run_uuid}/locks':
+    post:
+      tags:
+        - PipelineRuns
+      summary: PipelineRuns
+      description: Attempt to acquire a lock on a Pipeline 
+      operationId: acquirePipelineLock
+      parameters:
+        - name: group_id
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/ID'
+        - name: pipeline_id
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/ID'
+        - name: pipeline_run_uuid
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        description: Data about the pipeline run attempting to acquire a lock.
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ReqPipelineLock"
+      responses:
+        '200':
+          description: Pipeline lock acquisition attempted.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RespPipelineLockAcquisition'
+    delete:
+      tags:
+        - PipelineLocks
+      summary: PipelineLocks
+      description: Release a lock on the Pipeline 
+      operationId: releasePipelineLock
+      parameters:
+        - name: group_id
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/ID'
+        - name: pipeline_id
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/ID'
+        - name: pipeline_run_uuid
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '204':
+          description: Pipeline lock released.
   
   '/v3/workflows/executor/runs/{pipeline_run_uuid}/{status}':
     patch:
@@ -1970,6 +2095,8 @@ components:
           $ref: '#/components/schemas/Uses'
         env:
           $ref: "#/components/schemas/Env"
+        enabled:
+          type: boolean
         params:
           $ref: "#/components/schemas/Params"
         group:
@@ -1992,6 +2119,24 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Task'
+
+    PipelineLock:
+      type: object
+      properties:
+        uuid:
+          type: string
+          format: uuid
+        pipeline_id:
+          $ref: "#/components/schemas/ID"
+        pipeline_run_uuid:
+          type: string
+          format: uuid
+        created_at:
+          type: string
+        acquired_at:
+          type: string
+        expires_in:
+          type: integer
 
     PipelineRun:
       type: object
@@ -2172,6 +2317,8 @@ components:
             installer:
               $ref: "#/components/schemas/EnumInstaller"
             command:
+              type: string
+            entrypoint:
               type: string
             code:
               type: string
@@ -2465,6 +2612,9 @@ components:
       type: string
       minLength: 1
       maxLength: 64
+    UUID:
+      type: string
+      format: uuid
     DescriptionString:
       type: string
       maxLength: 2048
@@ -2607,6 +2757,13 @@ components:
             credentials:
               $ref: "#/components/schemas/ReqGithubCred"
 
+    ReqPipelineLock:
+      type: object
+      properties:
+        expires_in:
+          type: integer
+          default: 0
+
     ReqPipeline:
       type: object
       required:
@@ -2625,6 +2782,8 @@ components:
           $ref: '#/components/schemas/DescriptionString'
         env:
           $ref: "#/components/schemas/Env"
+        enabled:
+          type: boolean
         params:
           $ref: "#/components/schemas/Params"
         type:
@@ -2768,6 +2927,8 @@ components:
               $ref: "#/components/schemas/EnumInstaller"
             command:
               type: string
+            entrypoint:
+              type: string
             code:
               type: string
               format: byte
@@ -2802,51 +2963,76 @@ components:
     ########################### ETL
 
     ReqCreateETLPipeline:
+      allOf:
+        - $ref: "#/components/schemas/ReqPipeline"
+        - type: object
+          required:
+            - id
+            - remote_outbox
+            - local_inbox
+            - jobs
+            - local_outbox
+            - remote_inbox
+          properties:
+            id:
+              $ref: '#/components/schemas/ID'
+            description:
+              type: string
+            before:
+              $ref: "#/components/schemas/ETLActionFilter"
+            remote_outbox:
+              $ref: '#/components/schemas/ETLRemoteOutbox'
+            local_inbox:
+              $ref: '#/components/schemas/ETLLocalInbox'
+            jobs:
+              type: array
+              items:
+                $ref: '#/components/schemas/TapisETLExtendedTapisJobDef'
+            local_outbox:
+              $ref: '#/components/schemas/ETLLocalOutbox'
+            remote_inbox:
+              $ref: '#/components/schemas/ETLRemoteInbox'
+            after:
+              $ref: "#/components/schemas/ETLActionFilter"
+
+    ETLActionFilter:
       type: object
-      required:
-        - id
-        - local_inbox
-        - jobs
-        - local_outbox
-        - remote_inbox
       properties:
-        id:
-          $ref: '#/components/schemas/ID'
-        description:
-          type: string
-        execution_profile:
-          $ref: '#/components/schemas/PipelineExecutionProfile'
-        remote_outbox:
-          $ref: '#/components/schemas/ETLRemoteOutbox'
-        local_inbox:
-          $ref: '#/components/schemas/ETLLocalInbox'
-        jobs:
+        pipeline_ids:
           type: array
           items:
-            $ref: '#/components/schemas/WorkflowsExtendedTapisJobDef'
-        local_outbox:
-          $ref: '#/components/schemas/ETLLocalOutbox'
-        remote_inbox:
-          $ref: '#/components/schemas/ETLRemoteInbox'
+            type: string
+          default: []
+        run_async:
+          type: boolean
+          default: true
 
-    WorkflowsTapisJobDefExtension:
+    TapisETLExtension:
       type: object
       properties:
-        workflows:
+        env_mappings:
           type: object
-          properties:
-            etl:
-              type: object
-              properties:
-                input:
-                  type: string
-                output:
-                  type: string
+          additionalProperties: true
+        last_status:
+          type: string
+          default: PENDING
+    
+    TapisJobExtensions:
+      type: object
+      properties:
+        tapis_etl:
+          $ref: "#/components/schemas/TapisETLExtension"
 
-    WorkflowsExtendedTapisJobDef:
+    ExtendedTapisJob:
+      type: object
+      properties:
+        extensions:
+          $ref: "#/components/schemas/TapisJobExtensions"
+
+    TapisETLExtendedTapisJobDef:
       allOf:
         - $ref: "#/components/schemas/TapisJobDef"
-        - $ref: "#/components/schemas/WorkflowsTapisJobDefExtension"
+        - $ref: "#/components/schemas/ExtendedTapisJob"
 
     BaseDataIntegrityProfile:
       type: object
@@ -2860,15 +3046,8 @@ components:
       allOf:
         - $ref: "#/components/schemas/BaseDataIntegrityProfile"
         - type: object
-          required:
-            - checksum_algo
-            - checksums_path
           properties:
             type:
-              type: string
-            checksum_algo:
-              $ref: "#/components/schemas/ETLEnumChecksumAlgorithm"
-            checksums_path:
               type: string
 
     DoneFileDataIntegrityProfile:
@@ -2882,8 +3061,14 @@ components:
               type: string
             done_files_path:
               type: string
-            pattern:
-              type: string
+            include_patterns:
+              type: array
+              items:
+                type: string
+            exclude_patterns:
+              type: array
+              items:
+                type: string
 
     ByteCheckDataIntegrityProfile:
       allOf:
@@ -2905,72 +3090,81 @@ components:
           done_file: "#/components/schemas/DoneFileDataIntegrityProfile"
           byte_check: "#/components/schemas/ByteCheckDataIntegrityProfile"
 
-    ETLLocalIOBox:
+    ETLSystem:
       type: object
-      required:
-        - system_id
-        - data_path
-      properties:
-        system_id:
-          type: string
-        data_path:
-          type: string
-        manifests_path:
-          type: string
-        manifest_generation_policy:
-          $ref: "#/components/schemas/ETLEnumManifestGenerationPolicy"
-        manifest_priority:
-          $ref: "#/components/schemas/ETLEnumManifestPriority"
-          default: 'oldest'
-        data_integrity_profile:
-          $ref: "#/components/schemas/DataIntegrityProfile"
-        exclude_pattern:
-          type: array
-          items:
-            type: string
-
-    ETLRemoteOutbox:
-      type: object
-      additionalProperties: true
-
-    ETLLocalInbox:
-      allOf:
-        - $ref: "#/components/schemas/ETLLocalIOBox"
-        - type: object
-          properties:
-            manifest_generation_policy:
-              $ref: "#/components/schemas/ETLEnumManifestGenerationPolicy"
-              default: 'one_per_file'
-
-    ETLLocalOutbox:
-      allOf:
-        - $ref: "#/components/schemas/ETLLocalIOBox"
-        - type: object
-          properties:
-            manifest_generation_policy:
-              $ref: "#/components/schemas/ETLEnumManifestGenerationPolicy"
-              default: 'one_for_all'
-
-    ETLTapisSystemRemoteInbox:
-      type: object
-      required:
-        - system_id
-        - path
       properties:
         system_id:
           type: string
         path:
           type: string
+        include_patterns:
+          type: array
+          items: 
+            type: string
+        exclude_patterns:
+          type: array
+          items: 
+            type: string
+
+    ETLManifestsSystem:
+      allOf:
+        - $ref: "#/components/schemas/ETLSystem"
+        - type: object
+          properties:
+            generation_policy:
+              $ref: "#/components/schemas/ETLEnumManifestGenerationPolicy"
+            priority:
+              $ref: "#/components/schemas/ETLEnumManifestPriority"
+
+    ETLDataSystem:
+      allOf:
+        - $ref: "#/components/schemas/ETLSystem"
+        - type: object
+          properties:
+            integrity_profile:
+              $ref: "#/components/schemas/DataIntegrityProfile"
+
+    ETLControlSystem:
+      allOf:
+        - $ref: "#/components/schemas/ETLSystem"
+
+    ETLSystemsConfiguration:
+      type: object
+      required:
+        - manifests
+        - data
+      properties:
+        manifests:
+          $ref: "#/components/schemas/ETLManifestsSystem"
+        data:
+          $ref: "#/components/schemas/ETLDataSystem"
+    
+    ETLRemoteOutbox:
+      allOf:
+        - $ref: "#/components/schemas/ETLSystemsConfiguration"
+
+    ETLLocalInbox:
+      allOf:
+        - $ref: "#/components/schemas/ETLSystemsConfiguration"
+        - type: object
+          properties:
+            control:
+              $ref: "#/components/schemas/ETLControlSystem"
+
+    ETLLocalOutbox:
+      allOf:
+        - $ref: "#/components/schemas/ETLSystemsConfiguration"
 
     ETLRemoteInbox:
-      allOf:
-        - $ref: "#/components/schemas/ETLTapisSystemRemoteInbox"
+      allOf: 
+        - $ref: "#/components/schemas/ETLSystemsConfiguration"
 
     ETLEnumManifestGenerationPolicy:
       type: string
       enum:
-        - one_per_file
-        - one_for_all
+        - manual
+        - auto_one_per_file
+        - auto_one_for_all
 
     ETLEnumManifestPriority:
       type: string
@@ -2985,13 +3179,6 @@ components:
         - checksum
         - byte_check
         - done_file
-
-    ETLEnumChecksumAlgorithm:
-      type: string
-      enum:
-        - md5
-        - sha256
-        - sha3
 
     ################################# End ETL
         
@@ -3314,6 +3501,7 @@ components:
           properties:
             result:
               type: string
+              
 
     RespObject:
       $ref: "#/components/schemas/RespBase"
@@ -3411,6 +3599,40 @@ components:
               type: array
               items:
                 $ref: '#/components/schemas/Archive'
+
+    RespPipelineLock:
+      allOf:
+        - $ref: '#/components/schemas/RespObject'
+        - type: object
+          properties:
+            result:
+              $ref: "#/components/schemas/PipelineLock"
+
+    RespPipelineLockList:
+      allOf:
+        - $ref: '#/components/schemas/RespObject'
+        - type: object
+          properties:
+            result:
+              type: array
+              items:
+                $ref: "#/components/schemas/PipelineLock"
+
+    RespPipelineLockAcquisition:
+      allOf:
+        - $ref: '#/components/schemas/RespObject'
+        - type: object
+          properties:
+            result:
+              type: object
+              properties:
+                pipeline_lock_uuid:
+                  type: string
+                  format: uuid
+                acquired:
+                  type: boolean
+                message:
+                  type: string
 
     RespPipeline:
       allOf:

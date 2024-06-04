@@ -22,37 +22,33 @@ import {
     ETLManifestsSystemFromJSON,
     ETLManifestsSystemFromJSONTyped,
     ETLManifestsSystemToJSON,
-    ETLSystemsConfiguration,
-    ETLSystemsConfigurationFromJSON,
-    ETLSystemsConfigurationFromJSONTyped,
-    ETLSystemsConfigurationToJSON,
 } from './';
 
 /**
  * 
  * @export
- * @interface ETLLocalOutbox
+ * @interface ETLSystemsConfiguration
  */
-export interface ETLLocalOutbox {
+export interface ETLSystemsConfiguration {
     /**
      * 
      * @type {ETLManifestsSystem}
-     * @memberof ETLLocalOutbox
+     * @memberof ETLSystemsConfiguration
      */
     manifests: ETLManifestsSystem;
     /**
      * 
      * @type {ETLDataSystem}
-     * @memberof ETLLocalOutbox
+     * @memberof ETLSystemsConfiguration
      */
     data: ETLDataSystem;
 }
 
-export function ETLLocalOutboxFromJSON(json: any): ETLLocalOutbox {
-    return ETLLocalOutboxFromJSONTyped(json, false);
+export function ETLSystemsConfigurationFromJSON(json: any): ETLSystemsConfiguration {
+    return ETLSystemsConfigurationFromJSONTyped(json, false);
 }
 
-export function ETLLocalOutboxFromJSONTyped(json: any, ignoreDiscriminator: boolean): ETLLocalOutbox {
+export function ETLSystemsConfigurationFromJSONTyped(json: any, ignoreDiscriminator: boolean): ETLSystemsConfiguration {
     if ((json === undefined) || (json === null)) {
         return json;
     }
@@ -63,7 +59,7 @@ export function ETLLocalOutboxFromJSONTyped(json: any, ignoreDiscriminator: bool
     };
 }
 
-export function ETLLocalOutboxToJSON(value?: ETLLocalOutbox | null): any {
+export function ETLSystemsConfigurationToJSON(value?: ETLSystemsConfiguration | null): any {
     if (value === undefined) {
         return undefined;
     }

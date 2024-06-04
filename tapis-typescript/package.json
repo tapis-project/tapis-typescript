@@ -1,6 +1,6 @@
 {
   "name": "@tapis/tapis-typescript",
-  "version": "0.0.27",
+  "version": "0.0.28",
   "description": "TypeScript bindings for tapis.io api",
   "main": "./dist/index.js",
   "typings": "./dist/index.d.ts",
@@ -32,7 +32,7 @@
     "@tapis/tapis-typescript-streams": "^0.0.4",
     "@tapis/tapis-typescript-systems": "^0.0.3",
     "@tapis/tapis-typescript-tenants": "^0.0.2",
-    "@tapis/tapis-typescript-workflows": "^0.0.8",
+    "@tapis/tapis-typescript-workflows": "^0.0.9",
     "@tapis/tapis-typescript-pods": "^0.0.2",
     "@tapis/tapis-typescript-mlhub-models": "^0.0.1",
     "@types/mocha": "^9.0.0"

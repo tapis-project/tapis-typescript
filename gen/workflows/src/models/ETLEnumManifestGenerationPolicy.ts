@@ -18,8 +18,9 @@
  * @enum {string}
  */
 export enum ETLEnumManifestGenerationPolicy {
-    PerFile = 'one_per_file',
-    ForAll = 'one_for_all'
+    Manual = 'manual',
+    AutoOnePerFile = 'auto_one_per_file',
+    AutoOneForAll = 'auto_one_for_all'
 }
 
 export function ETLEnumManifestGenerationPolicyFromJSON(json: any): ETLEnumManifestGenerationPolicy {

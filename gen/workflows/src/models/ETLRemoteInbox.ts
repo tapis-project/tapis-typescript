@@ -14,10 +14,18 @@
 
 import { exists, mapValues } from '../runtime';
 import {
-    ETLTapisSystemRemoteInbox,
-    ETLTapisSystemRemoteInboxFromJSON,
-    ETLTapisSystemRemoteInboxFromJSONTyped,
-    ETLTapisSystemRemoteInboxToJSON,
+    ETLDataSystem,
+    ETLDataSystemFromJSON,
+    ETLDataSystemFromJSONTyped,
+    ETLDataSystemToJSON,
+    ETLManifestsSystem,
+    ETLManifestsSystemFromJSON,
+    ETLManifestsSystemFromJSONTyped,
+    ETLManifestsSystemToJSON,
+    ETLSystemsConfiguration,
+    ETLSystemsConfigurationFromJSON,
+    ETLSystemsConfigurationFromJSONTyped,
+    ETLSystemsConfigurationToJSON,
 } from './';
 
 /**
@@ -28,16 +36,16 @@ import {
 export interface ETLRemoteInbox {
     /**
      * 
-     * @type {string}
+     * @type {ETLManifestsSystem}
      * @memberof ETLRemoteInbox
      */
-    system_id: string;
+    manifests: ETLManifestsSystem;
     /**
      * 
-     * @type {string}
+     * @type {ETLDataSystem}
      * @memberof ETLRemoteInbox
      */
-    path: string;
+    data: ETLDataSystem;
 }
 
 export function ETLRemoteInboxFromJSON(json: any): ETLRemoteInbox {
@@ -50,8 +58,8 @@ export function ETLRemoteInboxFromJSONTyped(json: any, ignoreDiscriminator: bool
     }
     return {
         
-        'system_id': json['system_id'],
-        'path': json['path'],
+        'manifests': ETLManifestsSystemFromJSON(json['manifests']),
+        'data': ETLDataSystemFromJSON(json['data']),
     };
 }
 
@@ -64,8 +72,8 @@ export function ETLRemoteInboxToJSON(value?: ETLRemoteInbox | null): any {
     }
     return {
         
-        'system_id': value.system_id,
-        'path': value.path,
+        'manifests': ETLManifestsSystemToJSON(value.manifests),
+        'data': ETLDataSystemToJSON(value.data),
     };
 }
 

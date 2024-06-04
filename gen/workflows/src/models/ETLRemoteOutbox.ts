@@ -31,28 +31,28 @@ import {
 /**
  * 
  * @export
- * @interface ETLLocalOutbox
+ * @interface ETLRemoteOutbox
  */
-export interface ETLLocalOutbox {
+export interface ETLRemoteOutbox {
     /**
      * 
      * @type {ETLManifestsSystem}
-     * @memberof ETLLocalOutbox
+     * @memberof ETLRemoteOutbox
      */
     manifests: ETLManifestsSystem;
     /**
      * 
      * @type {ETLDataSystem}
-     * @memberof ETLLocalOutbox
+     * @memberof ETLRemoteOutbox
      */
     data: ETLDataSystem;
 }
 
-export function ETLLocalOutboxFromJSON(json: any): ETLLocalOutbox {
-    return ETLLocalOutboxFromJSONTyped(json, false);
+export function ETLRemoteOutboxFromJSON(json: any): ETLRemoteOutbox {
+    return ETLRemoteOutboxFromJSONTyped(json, false);
 }
 
-export function ETLLocalOutboxFromJSONTyped(json: any, ignoreDiscriminator: boolean): ETLLocalOutbox {
+export function ETLRemoteOutboxFromJSONTyped(json: any, ignoreDiscriminator: boolean): ETLRemoteOutbox {
     if ((json === undefined) || (json === null)) {
         return json;
     }
@@ -63,7 +63,7 @@ export function ETLLocalOutboxFromJSONTyped(json: any, ignoreDiscriminator: bool
     };
 }
 
-export function ETLLocalOutboxToJSON(value?: ETLLocalOutbox | null): any {
+export function ETLRemoteOutboxToJSON(value?: ETLRemoteOutbox | null): any {
     if (value === undefined) {
         return undefined;
     }

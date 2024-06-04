@@ -63,6 +63,12 @@ export interface ReqFunctionTaskAllOf {
      * @type {string}
      * @memberof ReqFunctionTaskAllOf
      */
+    entrypoint?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof ReqFunctionTaskAllOf
+     */
     code: string;
     /**
      * 
@@ -86,6 +92,7 @@ export function ReqFunctionTaskAllOfFromJSONTyped(json: any, ignoreDiscriminator
         'runtime': EnumRuntimeEnvironmentFromJSON(json['runtime']),
         'installer': EnumInstallerFromJSON(json['installer']),
         'command': !exists(json, 'command') ? undefined : json['command'],
+        'entrypoint': !exists(json, 'entrypoint') ? undefined : json['entrypoint'],
         'code': json['code'],
         'packages': !exists(json, 'packages') ? undefined : json['packages'],
     };
@@ -104,6 +111,7 @@ export function ReqFunctionTaskAllOfToJSON(value?: ReqFunctionTaskAllOf | null):
         'runtime': EnumRuntimeEnvironmentToJSON(value.runtime),
         'installer': EnumInstallerToJSON(value.installer),
         'command': value.command,
+        'entrypoint': value.entrypoint,
         'code': value.code,
         'packages': value.packages,
     };

@@ -13,56 +13,63 @@
  */
 
 import { exists, mapValues } from '../runtime';
+import {
+    ETLSystem,
+    ETLSystemFromJSON,
+    ETLSystemFromJSONTyped,
+    ETLSystemToJSON,
+} from './';
+
 /**
  * 
  * @export
- * @interface DoneFileDataIntegrityProfileAllOf
+ * @interface ETLControlSystem
  */
-export interface DoneFileDataIntegrityProfileAllOf {
+export interface ETLControlSystem {
     /**
      * 
      * @type {string}
-     * @memberof DoneFileDataIntegrityProfileAllOf
+     * @memberof ETLControlSystem
      */
-    type?: string;
+    system_id?: string;
     /**
      * 
      * @type {string}
-     * @memberof DoneFileDataIntegrityProfileAllOf
+     * @memberof ETLControlSystem
      */
-    done_files_path: string;
+    path?: string;
     /**
      * 
      * @type {Array<string>}
-     * @memberof DoneFileDataIntegrityProfileAllOf
+     * @memberof ETLControlSystem
      */
     include_patterns?: Array<string>;
     /**
      * 
      * @type {Array<string>}
-     * @memberof DoneFileDataIntegrityProfileAllOf
+     * @memberof ETLControlSystem
      */
     exclude_patterns?: Array<string>;
 }
 
-export function DoneFileDataIntegrityProfileAllOfFromJSON(json: any): DoneFileDataIntegrityProfileAllOf {
-    return DoneFileDataIntegrityProfileAllOfFromJSONTyped(json, false);
+export function ETLControlSystemFromJSON(json: any): ETLControlSystem {
+    return ETLControlSystemFromJSONTyped(json, false);
 }
 
-export function DoneFileDataIntegrityProfileAllOfFromJSONTyped(json: any, ignoreDiscriminator: boolean): DoneFileDataIntegrityProfileAllOf {
+export function ETLControlSystemFromJSONTyped(json: any, ignoreDiscriminator: boolean): ETLControlSystem {
     if ((json === undefined) || (json === null)) {
         return json;
     }
     return {
         
-        'type': !exists(json, 'type') ? undefined : json['type'],
-        'done_files_path': json['done_files_path'],
+        'system_id': !exists(json, 'system_id') ? undefined : json['system_id'],
+        'path': !exists(json, 'path') ? undefined : json['path'],
         'include_patterns': !exists(json, 'include_patterns') ? undefined : json['include_patterns'],
         'exclude_patterns': !exists(json, 'exclude_patterns') ? undefined : json['exclude_patterns'],
     };
 }
 
-export function DoneFileDataIntegrityProfileAllOfToJSON(value?: DoneFileDataIntegrityProfileAllOf | null): any {
+export function ETLControlSystemToJSON(value?: ETLControlSystem | null): any {
     if (value === undefined) {
         return undefined;
     }
@@ -71,8 +78,8 @@ export function DoneFileDataIntegrityProfileAllOfToJSON(value?: DoneFileDataInte
     }
     return {
         
-        'type': value.type,
-        'done_files_path': value.done_files_path,
+        'system_id': value.system_id,
+        'path': value.path,
         'include_patterns': value.include_patterns,
         'exclude_patterns': value.exclude_patterns,
     };

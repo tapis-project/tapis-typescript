@@ -21,6 +21,12 @@ import {
     ReqPatchPipelineRun,
     ReqPatchPipelineRunFromJSON,
     ReqPatchPipelineRunToJSON,
+    ReqPipelineLock,
+    ReqPipelineLockFromJSON,
+    ReqPipelineLockToJSON,
+    RespPipelineLockAcquisition,
+    RespPipelineLockAcquisitionFromJSON,
+    RespPipelineLockAcquisitionToJSON,
     RespPipelineRun,
     RespPipelineRunFromJSON,
     RespPipelineRunToJSON,
@@ -31,6 +37,13 @@ import {
     RespStringFromJSON,
     RespStringToJSON,
 } from '../models';
+
+export interface AcquirePipelineLockRequest {
+    groupId: string;
+    pipelineId: string;
+    pipelineRunUuid: string;
+    reqPipelineLock: ReqPipelineLock;
+}
 
 export interface GetPipelineRunRequest {
     groupId: string;
@@ -54,6 +67,57 @@ export interface UpdatePipelineRunStatusRequest {
  * 
  */
 export class PipelineRunsApi extends runtime.BaseAPI {
+
+    /**
+     * Attempt to acquire a lock on a Pipeline
+     * PipelineRuns
+     */
+    async acquirePipelineLockRaw(requestParameters: AcquirePipelineLockRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespPipelineLockAcquisition>> {
+        if (requestParameters.groupId === null || requestParameters.groupId === undefined) {
+            throw new runtime.RequiredError('groupId','Required parameter requestParameters.groupId was null or undefined when calling acquirePipelineLock.');
+        }
+
+        if (requestParameters.pipelineId === null || requestParameters.pipelineId === undefined) {
+            throw new runtime.RequiredError('pipelineId','Required parameter requestParameters.pipelineId was null or undefined when calling acquirePipelineLock.');
+        }
+
+        if (requestParameters.pipelineRunUuid === null || requestParameters.pipelineRunUuid === undefined) {
+            throw new runtime.RequiredError('pipelineRunUuid','Required parameter requestParameters.pipelineRunUuid was null or undefined when calling acquirePipelineLock.');
+        }
+
+        if (requestParameters.reqPipelineLock === null || requestParameters.reqPipelineLock === undefined) {
+            throw new runtime.RequiredError('reqPipelineLock','Required parameter requestParameters.reqPipelineLock was null or undefined when calling acquirePipelineLock.');
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'application/json';
+
+        if (this.configuration && this.configuration.apiKey) {
+            headerParameters["X-TAPIS-TOKEN"] = this.configuration.apiKey("X-TAPIS-TOKEN"); // TapisJWT authentication
+        }
+
+        const response = await this.request({
+            path: `/v3/workflows/groups/{group_id}/pipelines/{pipeline_id}/runs/{pipeline_run_uuid}/locks`.replace(`{${"group_id"}}`, encodeURIComponent(String(requestParameters.groupId))).replace(`{${"pipeline_id"}}`, encodeURIComponent(String(requestParameters.pipelineId))).replace(`{${"pipeline_run_uuid"}}`, encodeURIComponent(String(requestParameters.pipelineRunUuid))),
+            method: 'POST',
+            headers: headerParameters,
+            query: queryParameters,
+            body: ReqPipelineLockToJSON(requestParameters.reqPipelineLock),
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => RespPipelineLockAcquisitionFromJSON(jsonValue));
+    }
+
+    /**
+     * Attempt to acquire a lock on a Pipeline
+     * PipelineRuns
+     */
+    async acquirePipelineLock(requestParameters: AcquirePipelineLockRequest, initOverrides?: RequestInit): Promise<RespPipelineLockAcquisition> {
+        const response = await this.acquirePipelineLockRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
 
     /**
      * Get a pipeline run 
