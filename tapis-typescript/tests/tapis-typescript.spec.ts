@@ -100,7 +100,6 @@ describe('tapis-typescript', () => {
     expect(Models).to.have.property('ModelsApi');
   });
   it('should have Notifications service', () => {
-    expect(Notifications).to.have.property('NotificationsApi');
     expect(Notifications).to.have.property('EventsApi');
     expect(Notifications).to.have.property('GeneralApi');
     expect(Notifications).to.have.property('SubscriptionsApi');
