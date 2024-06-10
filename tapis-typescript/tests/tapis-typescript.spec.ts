@@ -1,7 +1,7 @@
 import 'mocha';
-import { 
-  Authenticator, 
-  Systems, 
+import {
+  Authenticator,
+  Systems,
   Tenants,
   Files,
   Apps,
@@ -10,16 +10,17 @@ import {
   Workflows,
   Actors,
   Pods,
-  Models
+  Models,
+  Notifications,
 } from '../src';
 import { expect } from 'chai';
 
-describe('tapis-typescript', () => { 
+describe('tapis-typescript', () => {
   it('should have Authenticator service', () => {
     expect(Authenticator).to.have.property('ClientsApi');
     expect(Authenticator).to.have.property('ProfilesApi');
     expect(Authenticator).to.have.property('TokensApi');
-  })
+  });
   it('should have Systems service', () => {
     expect(Systems).to.have.property('CredentialsApi');
     expect(Systems).to.have.property('GeneralApi');
@@ -76,27 +77,33 @@ describe('tapis-typescript', () => {
   });
   it('should have Actors service', () => {
     expect(Actors).to.have.property('ActorsApi');
-    expect(Actors).to.have.property('MessagesApi')
-    expect(Actors).to.have.property('ExecutionsApi')
-    expect(Actors).to.have.property('NoncesApi')
-    expect(Actors).to.have.property('StateApi')
-    expect(Actors).to.have.property('PermissionsApi')
-    expect(Actors).to.have.property('WorkersApi')
-    expect(Actors).to.have.property('AliasesApi')
-    expect(Actors).to.have.property('SearchApi')
+    expect(Actors).to.have.property('MessagesApi');
+    expect(Actors).to.have.property('ExecutionsApi');
+    expect(Actors).to.have.property('NoncesApi');
+    expect(Actors).to.have.property('StateApi');
+    expect(Actors).to.have.property('PermissionsApi');
+    expect(Actors).to.have.property('WorkersApi');
+    expect(Actors).to.have.property('AliasesApi');
+    expect(Actors).to.have.property('SearchApi');
   });
   it('should have Pods service', () => {
     expect(Pods).to.have.property('CredentialsApi');
-    expect(Pods).to.have.property('DefaultApi')
-    expect(Pods).to.have.property('LogsApi')
-    expect(Pods).to.have.property('MiscApi')
-    expect(Pods).to.have.property('PermissionsApi')
-    expect(Pods).to.have.property('PodsApi')
-    expect(Pods).to.have.property('SnapshotsApi')
-    expect(Pods).to.have.property('VolumesApi')
+    expect(Pods).to.have.property('DefaultApi');
+    expect(Pods).to.have.property('LogsApi');
+    expect(Pods).to.have.property('MiscApi');
+    expect(Pods).to.have.property('PermissionsApi');
+    expect(Pods).to.have.property('PodsApi');
+    expect(Pods).to.have.property('SnapshotsApi');
+    expect(Pods).to.have.property('VolumesApi');
   });
   it('should have Models service', () => {
-    expect(Models).to.have.property('ModelsApi')
+    expect(Models).to.have.property('ModelsApi');
   });
-
+  it('should have Notifications service', () => {
+    expect(Notifications).to.have.property('NotificationsApi');
+    expect(Notifications).to.have.property('EventsApi');
+    expect(Notifications).to.have.property('GeneralApi');
+    expect(Notifications).to.have.property('SubscriptionsApi');
+    expect(Notifications).to.have.property('TestApi');
+  });
 });
