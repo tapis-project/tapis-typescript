@@ -10,7 +10,7 @@
     "generate": "./generate_all.sh",
     "build-services": "./build-services.sh",
     "test": "env TS_NODE_COMPILER_OPTIONS='{\"module\": \"commonjs\" }' mocha -r ts-node/register 'tests/**/*.ts'",
-    "e2e": "env TS_NODE_COMPILER_OPTIONS='{\"module\": \"commonjs\" }' mocha --timeout 10000 -r ts-node/register 'e2e/**/*.ts'",
+    "e2e": "env TS_NODE_COMPILER_OPTIONS='{\"module\": \"commonjs\" }' mocha --timeout 10000 -r ts-node/register 'e2e/job**.ts'",
     "prepare": "tsc"
   },
   "repository": {

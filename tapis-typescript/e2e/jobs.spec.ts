@@ -136,4 +136,25 @@ describe("Jobs e2e tests", async () => {
       throw error;
     }
   });
+
+  //test subscription api = deleteSubscriptions
+  it("should delete subscriptions for a job", async () => {
+    try {
+      const api: Jobs.SubscriptionsApi = new Jobs.SubscriptionsApi(
+        configuration
+      );
+
+      const request: Jobs.DeleteSubscriptionsRequest = {
+        uuid: testJobUuid,
+      };
+      const response: Jobs.ResultChangeCount = await api.deleteSubscriptions(
+        request
+      );
+      console.info("Deleted subscriptions", response.changes);
+      expect(response.changes).to.be.greaterThanOrEqual(1);
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  });
 });
