@@ -110,4 +110,30 @@ describe("Jobs e2e tests", async () => {
       throw error;
     }
   });
+
+  //test subscription api - getSubscriptions
+  it("should get subscriptions for a job", async () => {
+    try {
+      const api: Jobs.SubscriptionsApi = new Jobs.SubscriptionsApi(
+        configuration
+      );
+
+      const request: Jobs.GetSubscriptionsRequest = {
+        jobUuid: testJobUuid,
+      };
+      const response: Jobs.RespGetSubscriptions = await api.getSubscriptions(
+        request
+      );
+      const subscriptions: Jobs.TapisSubscription[] | undefined =
+        response.result;
+
+      if (subscriptions === undefined) {
+        throw new Error("Subscriptions are undefined");
+      }
+      expect(subscriptions.length).to.be.greaterThanOrEqual(1);
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  });
 });
