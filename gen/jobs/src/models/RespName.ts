@@ -46,6 +46,18 @@ export interface RespName {
     version?: string;
     /**
      * 
+     * @type {string}
+     * @memberof RespName
+     */
+    commit?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof RespName
+     */
+    build?: string;
+    /**
+     * 
      * @type {object}
      * @memberof RespName
      */
@@ -71,6 +83,8 @@ export function RespNameFromJSONTyped(json: any, ignoreDiscriminator: boolean): 
         'status': !exists(json, 'status') ? undefined : json['status'],
         'message': !exists(json, 'message') ? undefined : json['message'],
         'version': !exists(json, 'version') ? undefined : json['version'],
+        'commit': !exists(json, 'commit') ? undefined : json['commit'],
+        'build': !exists(json, 'build') ? undefined : json['build'],
         'metadata': !exists(json, 'metadata') ? undefined : json['metadata'],
         'result': !exists(json, 'result') ? undefined : ResultNameFromJSON(json['result']),
     };
@@ -88,6 +102,8 @@ export function RespNameToJSON(value?: RespName | null): any {
         'status': value.status,
         'message': value.message,
         'version': value.version,
+        'commit': value.commit,
+        'build': value.build,
         'metadata': value.metadata,
         'result': ResultNameToJSON(value.result),
     };

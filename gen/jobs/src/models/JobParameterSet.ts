@@ -26,6 +26,10 @@ import {
     KeyValuePairFromJSON,
     KeyValuePairFromJSONTyped,
     KeyValuePairToJSON,
+    LogConfig,
+    LogConfigFromJSON,
+    LogConfigFromJSONTyped,
+    LogConfigToJSON,
 } from './';
 
 /**
@@ -64,6 +68,12 @@ export interface JobParameterSet {
      * @memberof JobParameterSet
      */
     archiveFilter?: IncludeExcludeFilter;
+    /**
+     * 
+     * @type {LogConfig}
+     * @memberof JobParameterSet
+     */
+    logConfig?: LogConfig;
 }
 
 export function JobParameterSetFromJSON(json: any): JobParameterSet {
@@ -81,6 +91,7 @@ export function JobParameterSetFromJSONTyped(json: any, ignoreDiscriminator: boo
         'schedulerOptions': !exists(json, 'schedulerOptions') ? undefined : ((json['schedulerOptions'] as Array<any>).map(JobArgSpecFromJSON)),
         'envVariables': !exists(json, 'envVariables') ? undefined : ((json['envVariables'] as Array<any>).map(KeyValuePairFromJSON)),
         'archiveFilter': !exists(json, 'archiveFilter') ? undefined : IncludeExcludeFilterFromJSON(json['archiveFilter']),
+        'logConfig': !exists(json, 'logConfig') ? undefined : LogConfigFromJSON(json['logConfig']),
     };
 }
 
@@ -98,6 +109,7 @@ export function JobParameterSetToJSON(value?: JobParameterSet | null): any {
         'schedulerOptions': value.schedulerOptions === undefined ? undefined : ((value.schedulerOptions as Array<any>).map(JobArgSpecToJSON)),
         'envVariables': value.envVariables === undefined ? undefined : ((value.envVariables as Array<any>).map(KeyValuePairToJSON)),
         'archiveFilter': IncludeExcludeFilterToJSON(value.archiveFilter),
+        'logConfig': LogConfigToJSON(value.logConfig),
     };
 }
 

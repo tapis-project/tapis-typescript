@@ -13,61 +13,68 @@
  */
 
 import { exists, mapValues } from '../runtime';
+import {
+    TapisSubscription,
+    TapisSubscriptionFromJSON,
+    TapisSubscriptionFromJSONTyped,
+    TapisSubscriptionToJSON,
+} from './';
+
 /**
  * 
  * @export
- * @interface RespBasic
+ * @interface RespGetSubscriptions
  */
-export interface RespBasic {
+export interface RespGetSubscriptions {
     /**
      * 
      * @type {string}
-     * @memberof RespBasic
+     * @memberof RespGetSubscriptions
      */
     status?: string;
     /**
      * 
      * @type {string}
-     * @memberof RespBasic
+     * @memberof RespGetSubscriptions
      */
     message?: string;
     /**
      * 
      * @type {string}
-     * @memberof RespBasic
+     * @memberof RespGetSubscriptions
      */
     version?: string;
     /**
      * 
      * @type {string}
-     * @memberof RespBasic
+     * @memberof RespGetSubscriptions
      */
     commit?: string;
     /**
      * 
      * @type {string}
-     * @memberof RespBasic
+     * @memberof RespGetSubscriptions
      */
     build?: string;
     /**
      * 
      * @type {object}
-     * @memberof RespBasic
+     * @memberof RespGetSubscriptions
      */
     metadata?: object;
     /**
      * 
-     * @type {object}
-     * @memberof RespBasic
+     * @type {Array<TapisSubscription>}
+     * @memberof RespGetSubscriptions
      */
-    result?: object;
+    result?: Array<TapisSubscription>;
 }
 
-export function RespBasicFromJSON(json: any): RespBasic {
-    return RespBasicFromJSONTyped(json, false);
+export function RespGetSubscriptionsFromJSON(json: any): RespGetSubscriptions {
+    return RespGetSubscriptionsFromJSONTyped(json, false);
 }
 
-export function RespBasicFromJSONTyped(json: any, ignoreDiscriminator: boolean): RespBasic {
+export function RespGetSubscriptionsFromJSONTyped(json: any, ignoreDiscriminator: boolean): RespGetSubscriptions {
     if ((json === undefined) || (json === null)) {
         return json;
     }
@@ -79,11 +86,11 @@ export function RespBasicFromJSONTyped(json: any, ignoreDiscriminator: boolean):
         'commit': !exists(json, 'commit') ? undefined : json['commit'],
         'build': !exists(json, 'build') ? undefined : json['build'],
         'metadata': !exists(json, 'metadata') ? undefined : json['metadata'],
-        'result': !exists(json, 'result') ? undefined : json['result'],
+        'result': !exists(json, 'result') ? undefined : ((json['result'] as Array<any>).map(TapisSubscriptionFromJSON)),
     };
 }
 
-export function RespBasicToJSON(value?: RespBasic | null): any {
+export function RespGetSubscriptionsToJSON(value?: RespGetSubscriptions | null): any {
     if (value === undefined) {
         return undefined;
     }
@@ -98,7 +105,7 @@ export function RespBasicToJSON(value?: RespBasic | null): any {
         'commit': value.commit,
         'build': value.build,
         'metadata': value.metadata,
-        'result': value.result,
+        'result': value.result === undefined ? undefined : ((value.result as Array<any>).map(TapisSubscriptionToJSON)),
     };
 }
 

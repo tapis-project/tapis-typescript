@@ -46,6 +46,18 @@ export interface RespGetJobStatus {
     version?: string;
     /**
      * 
+     * @type {string}
+     * @memberof RespGetJobStatus
+     */
+    commit?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof RespGetJobStatus
+     */
+    build?: string;
+    /**
+     * 
      * @type {object}
      * @memberof RespGetJobStatus
      */
@@ -71,6 +83,8 @@ export function RespGetJobStatusFromJSONTyped(json: any, ignoreDiscriminator: bo
         'status': !exists(json, 'status') ? undefined : json['status'],
         'message': !exists(json, 'message') ? undefined : json['message'],
         'version': !exists(json, 'version') ? undefined : json['version'],
+        'commit': !exists(json, 'commit') ? undefined : json['commit'],
+        'build': !exists(json, 'build') ? undefined : json['build'],
         'metadata': !exists(json, 'metadata') ? undefined : json['metadata'],
         'result': !exists(json, 'result') ? undefined : JobStatusDisplayFromJSON(json['result']),
     };
@@ -88,6 +102,8 @@ export function RespGetJobStatusToJSON(value?: RespGetJobStatus | null): any {
         'status': value.status,
         'message': value.message,
         'version': value.version,
+        'commit': value.commit,
+        'build': value.build,
         'metadata': value.metadata,
         'result': JobStatusDisplayToJSON(value.result),
     };

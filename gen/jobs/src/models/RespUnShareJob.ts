@@ -13,61 +13,68 @@
  */
 
 import { exists, mapValues } from '../runtime';
+import {
+    JobUnShareDisplay,
+    JobUnShareDisplayFromJSON,
+    JobUnShareDisplayFromJSONTyped,
+    JobUnShareDisplayToJSON,
+} from './';
+
 /**
  * 
  * @export
- * @interface RespBasic
+ * @interface RespUnShareJob
  */
-export interface RespBasic {
+export interface RespUnShareJob {
     /**
      * 
      * @type {string}
-     * @memberof RespBasic
+     * @memberof RespUnShareJob
      */
     status?: string;
     /**
      * 
      * @type {string}
-     * @memberof RespBasic
+     * @memberof RespUnShareJob
      */
     message?: string;
     /**
      * 
      * @type {string}
-     * @memberof RespBasic
+     * @memberof RespUnShareJob
      */
     version?: string;
     /**
      * 
      * @type {string}
-     * @memberof RespBasic
+     * @memberof RespUnShareJob
      */
     commit?: string;
     /**
      * 
      * @type {string}
-     * @memberof RespBasic
+     * @memberof RespUnShareJob
      */
     build?: string;
     /**
      * 
      * @type {object}
-     * @memberof RespBasic
+     * @memberof RespUnShareJob
      */
     metadata?: object;
     /**
      * 
-     * @type {object}
-     * @memberof RespBasic
+     * @type {JobUnShareDisplay}
+     * @memberof RespUnShareJob
      */
-    result?: object;
+    result?: JobUnShareDisplay;
 }
 
-export function RespBasicFromJSON(json: any): RespBasic {
-    return RespBasicFromJSONTyped(json, false);
+export function RespUnShareJobFromJSON(json: any): RespUnShareJob {
+    return RespUnShareJobFromJSONTyped(json, false);
 }
 
-export function RespBasicFromJSONTyped(json: any, ignoreDiscriminator: boolean): RespBasic {
+export function RespUnShareJobFromJSONTyped(json: any, ignoreDiscriminator: boolean): RespUnShareJob {
     if ((json === undefined) || (json === null)) {
         return json;
     }
@@ -79,11 +86,11 @@ export function RespBasicFromJSONTyped(json: any, ignoreDiscriminator: boolean):
         'commit': !exists(json, 'commit') ? undefined : json['commit'],
         'build': !exists(json, 'build') ? undefined : json['build'],
         'metadata': !exists(json, 'metadata') ? undefined : json['metadata'],
-        'result': !exists(json, 'result') ? undefined : json['result'],
+        'result': !exists(json, 'result') ? undefined : JobUnShareDisplayFromJSON(json['result']),
     };
 }
 
-export function RespBasicToJSON(value?: RespBasic | null): any {
+export function RespUnShareJobToJSON(value?: RespUnShareJob | null): any {
     if (value === undefined) {
         return undefined;
     }
@@ -98,7 +105,7 @@ export function RespBasicToJSON(value?: RespBasic | null): any {
         'commit': value.commit,
         'build': value.build,
         'metadata': value.metadata,
-        'result': value.result,
+        'result': JobUnShareDisplayToJSON(value.result),
     };
 }
 

@@ -26,10 +26,10 @@ import {
     JobParameterSetFromJSON,
     JobParameterSetFromJSONTyped,
     JobParameterSetToJSON,
-    NotificationSubscription,
-    NotificationSubscriptionFromJSON,
-    NotificationSubscriptionFromJSONTyped,
-    NotificationSubscriptionToJSON,
+    ReqSubscribe,
+    ReqSubscribeFromJSON,
+    ReqSubscribeFromJSONTyped,
+    ReqSubscribeToJSON,
 } from './';
 
 /**
@@ -136,6 +136,18 @@ export interface ReqSubmitJob {
     archiveSystemDir?: string;
     /**
      * 
+     * @type {string}
+     * @memberof ReqSubmitJob
+     */
+    dtnSystemInputDir?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof ReqSubmitJob
+     */
+    dtnSystemOutputDir?: string;
+    /**
+     * 
      * @type {number}
      * @memberof ReqSubmitJob
      */
@@ -190,10 +202,10 @@ export interface ReqSubmitJob {
     tags?: Array<string>;
     /**
      * 
-     * @type {Array<NotificationSubscription>}
+     * @type {Array<ReqSubscribe>}
      * @memberof ReqSubmitJob
      */
-    subscriptions?: Array<NotificationSubscription>;
+    subscriptions?: Array<ReqSubscribe>;
     /**
      * 
      * @type {boolean}
@@ -212,6 +224,12 @@ export interface ReqSubmitJob {
      * @memberof ReqSubmitJob
      */
     cmdPrefix?: string;
+    /**
+     * 
+     * @type {object}
+     * @memberof ReqSubmitJob
+     */
+    notes?: object;
 }
 
 export function ReqSubmitJobFromJSON(json: any): ReqSubmitJob {
@@ -240,6 +258,8 @@ export function ReqSubmitJobFromJSONTyped(json: any, ignoreDiscriminator: boolea
         'execSystemLogicalQueue': !exists(json, 'execSystemLogicalQueue') ? undefined : json['execSystemLogicalQueue'],
         'archiveSystemId': !exists(json, 'archiveSystemId') ? undefined : json['archiveSystemId'],
         'archiveSystemDir': !exists(json, 'archiveSystemDir') ? undefined : json['archiveSystemDir'],
+        'dtnSystemInputDir': !exists(json, 'dtnSystemInputDir') ? undefined : json['dtnSystemInputDir'],
+        'dtnSystemOutputDir': !exists(json, 'dtnSystemOutputDir') ? undefined : json['dtnSystemOutputDir'],
         'nodeCount': !exists(json, 'nodeCount') ? undefined : json['nodeCount'],
         'coresPerNode': !exists(json, 'coresPerNode') ? undefined : json['coresPerNode'],
         'memoryMB': !exists(json, 'memoryMB') ? undefined : json['memoryMB'],
@@ -249,10 +269,11 @@ export function ReqSubmitJobFromJSONTyped(json: any, ignoreDiscriminator: boolea
         'parameterSet': !exists(json, 'parameterSet') ? undefined : JobParameterSetFromJSON(json['parameterSet']),
         'execSystemConstraints': !exists(json, 'execSystemConstraints') ? undefined : json['execSystemConstraints'],
         'tags': !exists(json, 'tags') ? undefined : json['tags'],
-        'subscriptions': !exists(json, 'subscriptions') ? undefined : ((json['subscriptions'] as Array<any>).map(NotificationSubscriptionFromJSON)),
+        'subscriptions': !exists(json, 'subscriptions') ? undefined : ((json['subscriptions'] as Array<any>).map(ReqSubscribeFromJSON)),
         'isMpi': !exists(json, 'isMpi') ? undefined : json['isMpi'],
         'mpiCmd': !exists(json, 'mpiCmd') ? undefined : json['mpiCmd'],
         'cmdPrefix': !exists(json, 'cmdPrefix') ? undefined : json['cmdPrefix'],
+        'notes': !exists(json, 'notes') ? undefined : json['notes'],
     };
 }
 
@@ -281,6 +302,8 @@ export function ReqSubmitJobToJSON(value?: ReqSubmitJob | null): any {
         'execSystemLogicalQueue': value.execSystemLogicalQueue,
         'archiveSystemId': value.archiveSystemId,
         'archiveSystemDir': value.archiveSystemDir,
+        'dtnSystemInputDir': value.dtnSystemInputDir,
+        'dtnSystemOutputDir': value.dtnSystemOutputDir,
         'nodeCount': value.nodeCount,
         'coresPerNode': value.coresPerNode,
         'memoryMB': value.memoryMB,
@@ -290,10 +313,11 @@ export function ReqSubmitJobToJSON(value?: ReqSubmitJob | null): any {
         'parameterSet': JobParameterSetToJSON(value.parameterSet),
         'execSystemConstraints': value.execSystemConstraints,
         'tags': value.tags,
-        'subscriptions': value.subscriptions === undefined ? undefined : ((value.subscriptions as Array<any>).map(NotificationSubscriptionToJSON)),
+        'subscriptions': value.subscriptions === undefined ? undefined : ((value.subscriptions as Array<any>).map(ReqSubscribeToJSON)),
         'isMpi': value.isMpi,
         'mpiCmd': value.mpiCmd,
         'cmdPrefix': value.cmdPrefix,
+        'notes': value.notes,
     };
 }
 

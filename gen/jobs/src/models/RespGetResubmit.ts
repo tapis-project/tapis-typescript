@@ -13,61 +13,68 @@
  */
 
 import { exists, mapValues } from '../runtime';
+import {
+    ReqSubmitJob,
+    ReqSubmitJobFromJSON,
+    ReqSubmitJobFromJSONTyped,
+    ReqSubmitJobToJSON,
+} from './';
+
 /**
  * 
  * @export
- * @interface RespBasic
+ * @interface RespGetResubmit
  */
-export interface RespBasic {
+export interface RespGetResubmit {
     /**
      * 
      * @type {string}
-     * @memberof RespBasic
+     * @memberof RespGetResubmit
      */
     status?: string;
     /**
      * 
      * @type {string}
-     * @memberof RespBasic
+     * @memberof RespGetResubmit
      */
     message?: string;
     /**
      * 
      * @type {string}
-     * @memberof RespBasic
+     * @memberof RespGetResubmit
      */
     version?: string;
     /**
      * 
      * @type {string}
-     * @memberof RespBasic
+     * @memberof RespGetResubmit
      */
     commit?: string;
     /**
      * 
      * @type {string}
-     * @memberof RespBasic
+     * @memberof RespGetResubmit
      */
     build?: string;
     /**
      * 
      * @type {object}
-     * @memberof RespBasic
+     * @memberof RespGetResubmit
      */
     metadata?: object;
     /**
      * 
-     * @type {object}
-     * @memberof RespBasic
+     * @type {ReqSubmitJob}
+     * @memberof RespGetResubmit
      */
-    result?: object;
+    result?: ReqSubmitJob;
 }
 
-export function RespBasicFromJSON(json: any): RespBasic {
-    return RespBasicFromJSONTyped(json, false);
+export function RespGetResubmitFromJSON(json: any): RespGetResubmit {
+    return RespGetResubmitFromJSONTyped(json, false);
 }
 
-export function RespBasicFromJSONTyped(json: any, ignoreDiscriminator: boolean): RespBasic {
+export function RespGetResubmitFromJSONTyped(json: any, ignoreDiscriminator: boolean): RespGetResubmit {
     if ((json === undefined) || (json === null)) {
         return json;
     }
@@ -79,11 +86,11 @@ export function RespBasicFromJSONTyped(json: any, ignoreDiscriminator: boolean):
         'commit': !exists(json, 'commit') ? undefined : json['commit'],
         'build': !exists(json, 'build') ? undefined : json['build'],
         'metadata': !exists(json, 'metadata') ? undefined : json['metadata'],
-        'result': !exists(json, 'result') ? undefined : json['result'],
+        'result': !exists(json, 'result') ? undefined : ReqSubmitJobFromJSON(json['result']),
     };
 }
 
-export function RespBasicToJSON(value?: RespBasic | null): any {
+export function RespGetResubmitToJSON(value?: RespGetResubmit | null): any {
     if (value === undefined) {
         return undefined;
     }
@@ -98,7 +105,7 @@ export function RespBasicToJSON(value?: RespBasic | null): any {
         'commit': value.commit,
         'build': value.build,
         'metadata': value.metadata,
-        'result': value.result,
+        'result': ReqSubmitJobToJSON(value.result),
     };
 }
 

@@ -46,6 +46,18 @@ export interface RespGetJobOutputList {
     version?: string;
     /**
      * 
+     * @type {string}
+     * @memberof RespGetJobOutputList
+     */
+    commit?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof RespGetJobOutputList
+     */
+    build?: string;
+    /**
+     * 
      * @type {object}
      * @memberof RespGetJobOutputList
      */
@@ -71,6 +83,8 @@ export function RespGetJobOutputListFromJSONTyped(json: any, ignoreDiscriminator
         'status': !exists(json, 'status') ? undefined : json['status'],
         'message': !exists(json, 'message') ? undefined : json['message'],
         'version': !exists(json, 'version') ? undefined : json['version'],
+        'commit': !exists(json, 'commit') ? undefined : json['commit'],
+        'build': !exists(json, 'build') ? undefined : json['build'],
         'metadata': !exists(json, 'metadata') ? undefined : json['metadata'],
         'result': !exists(json, 'result') ? undefined : ((json['result'] as Array<any>).map(FileInfoFromJSON)),
     };
@@ -88,6 +102,8 @@ export function RespGetJobOutputListToJSON(value?: RespGetJobOutputList | null):
         'status': value.status,
         'message': value.message,
         'version': value.version,
+        'commit': value.commit,
+        'build': value.build,
         'metadata': value.metadata,
         'result': value.result === undefined ? undefined : ((value.result as Array<any>).map(FileInfoToJSON)),
     };
