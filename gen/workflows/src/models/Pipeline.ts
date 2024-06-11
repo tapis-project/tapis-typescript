@@ -68,6 +68,12 @@ export interface Pipeline {
     env?: { [key: string]: EnvSpec; };
     /**
      * 
+     * @type {boolean}
+     * @memberof Pipeline
+     */
+    enabled?: boolean;
+    /**
+     * 
      * @type {{ [key: string]: Spec; }}
      * @memberof Pipeline
      */
@@ -130,6 +136,7 @@ export function PipelineFromJSONTyped(json: any, ignoreDiscriminator: boolean): 
         'description': !exists(json, 'description') ? undefined : json['description'],
         'uses': !exists(json, 'uses') ? undefined : UsesFromJSON(json['uses']),
         'env': !exists(json, 'env') ? undefined : (mapValues(json['env'], EnvSpecFromJSON)),
+        'enabled': !exists(json, 'enabled') ? undefined : json['enabled'],
         'params': !exists(json, 'params') ? undefined : (mapValues(json['params'], SpecFromJSON)),
         'group': !exists(json, 'group') ? undefined : json['group'],
         'owner': !exists(json, 'owner') ? undefined : json['owner'],
@@ -154,6 +161,7 @@ export function PipelineToJSON(value?: Pipeline | null): any {
         'description': value.description,
         'uses': UsesToJSON(value.uses),
         'env': value.env === undefined ? undefined : (mapValues(value.env, EnvSpecToJSON)),
+        'enabled': value.enabled,
         'params': value.params === undefined ? undefined : (mapValues(value.params, SpecToJSON)),
         'group': value.group,
         'owner': value.owner,

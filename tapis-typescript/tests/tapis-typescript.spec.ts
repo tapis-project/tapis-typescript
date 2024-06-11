@@ -11,6 +11,7 @@ import {
   Actors,
   Pods,
   Models,
+  Notifications,
 } from '../src';
 import { expect } from 'chai';
 
@@ -99,5 +100,11 @@ describe('tapis-typescript', () => {
   });
   it('should have Models service', () => {
     expect(Models).to.have.property('ModelsApi');
+  });
+  it('should have Notifications service', () => {
+    expect(Notifications).to.have.property('EventsApi');
+    expect(Notifications).to.have.property('GeneralApi');
+    expect(Notifications).to.have.property('SubscriptionsApi');
+    expect(Notifications).to.have.property('TestApi');
   });
 });

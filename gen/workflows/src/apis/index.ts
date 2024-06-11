@@ -7,6 +7,7 @@ export * from './GeneralApi';
 export * from './GroupsApi';
 export * from './IdentitiesApi';
 export * from './PipelineArchivesApi';
+export * from './PipelineLocksApi';
 export * from './PipelineRunsApi';
 export * from './PipelinesApi';
 export * from './TaskExecutionsApi';

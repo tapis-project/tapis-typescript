@@ -129,7 +129,13 @@ export interface ReqFunctionTask {
      * @type {string}
      * @memberof ReqFunctionTask
      */
-    code: string;
+    entrypoint?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof ReqFunctionTask
+     */
+    code?: string;
     /**
      * 
      * @type {Array<string>}
@@ -159,7 +165,8 @@ export function ReqFunctionTaskFromJSONTyped(json: any, ignoreDiscriminator: boo
         'runtime': EnumRuntimeEnvironmentFromJSON(json['runtime']),
         'installer': EnumInstallerFromJSON(json['installer']),
         'command': !exists(json, 'command') ? undefined : json['command'],
-        'code': json['code'],
+        'entrypoint': !exists(json, 'entrypoint') ? undefined : json['entrypoint'],
+        'code': !exists(json, 'code') ? undefined : json['code'],
         'packages': !exists(json, 'packages') ? undefined : json['packages'],
     };
 }
@@ -184,6 +191,7 @@ export function ReqFunctionTaskToJSON(value?: ReqFunctionTask | null): any {
         'runtime': EnumRuntimeEnvironmentToJSON(value.runtime),
         'installer': EnumInstallerToJSON(value.installer),
         'command': value.command,
+        'entrypoint': value.entrypoint,
         'code': value.code,
         'packages': value.packages,
     };

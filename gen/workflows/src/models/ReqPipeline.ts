@@ -78,6 +78,12 @@ export interface ReqPipeline {
     env?: { [key: string]: EnvSpec; };
     /**
      * 
+     * @type {boolean}
+     * @memberof ReqPipeline
+     */
+    enabled?: boolean;
+    /**
+     * 
      * @type {{ [key: string]: Spec; }}
      * @memberof ReqPipeline
      */
@@ -117,6 +123,7 @@ export function ReqPipelineFromJSONTyped(json: any, ignoreDiscriminator: boolean
         'archive_ids': !exists(json, 'archive_ids') ? undefined : json['archive_ids'],
         'description': !exists(json, 'description') ? undefined : json['description'],
         'env': !exists(json, 'env') ? undefined : (mapValues(json['env'], EnvSpecFromJSON)),
+        'enabled': !exists(json, 'enabled') ? undefined : json['enabled'],
         'params': !exists(json, 'params') ? undefined : (mapValues(json['params'], SpecFromJSON)),
         'type': EnumPipelineTypeFromJSON(json['type']),
         'execution_profile': !exists(json, 'execution_profile') ? undefined : ExecutionProfileFromJSON(json['execution_profile']),
@@ -138,6 +145,7 @@ export function ReqPipelineToJSON(value?: ReqPipeline | null): any {
         'archive_ids': value.archive_ids,
         'description': value.description,
         'env': value.env === undefined ? undefined : (mapValues(value.env, EnvSpecToJSON)),
+        'enabled': value.enabled,
         'params': value.params === undefined ? undefined : (mapValues(value.params, SpecToJSON)),
         'type': EnumPipelineTypeToJSON(value.type),
         'execution_profile': ExecutionProfileToJSON(value.execution_profile),

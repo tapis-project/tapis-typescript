@@ -18,10 +18,10 @@ import {
     BaseDataIntegrityProfileFromJSON,
     BaseDataIntegrityProfileFromJSONTyped,
     BaseDataIntegrityProfileToJSON,
-    ByteCheckDataIntegrityProfileAllOf,
-    ByteCheckDataIntegrityProfileAllOfFromJSON,
-    ByteCheckDataIntegrityProfileAllOfFromJSONTyped,
-    ByteCheckDataIntegrityProfileAllOfToJSON,
+    ChecksumDataIntegrityProfileAllOf,
+    ChecksumDataIntegrityProfileAllOfFromJSON,
+    ChecksumDataIntegrityProfileAllOfFromJSONTyped,
+    ChecksumDataIntegrityProfileAllOfToJSON,
 } from './';
 
 /**

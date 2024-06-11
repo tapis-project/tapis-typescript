@@ -14,26 +14,18 @@
 
 import { exists, mapValues } from '../runtime';
 import {
-    DataIntegrityProfile,
-    DataIntegrityProfileFromJSON,
-    DataIntegrityProfileFromJSONTyped,
-    DataIntegrityProfileToJSON,
-    ETLEnumManifestGenerationPolicy,
-    ETLEnumManifestGenerationPolicyFromJSON,
-    ETLEnumManifestGenerationPolicyFromJSONTyped,
-    ETLEnumManifestGenerationPolicyToJSON,
-    ETLEnumManifestPriority,
-    ETLEnumManifestPriorityFromJSON,
-    ETLEnumManifestPriorityFromJSONTyped,
-    ETLEnumManifestPriorityToJSON,
-    ETLLocalIOBox,
-    ETLLocalIOBoxFromJSON,
-    ETLLocalIOBoxFromJSONTyped,
-    ETLLocalIOBoxToJSON,
-    ETLLocalInboxAllOf,
-    ETLLocalInboxAllOfFromJSON,
-    ETLLocalInboxAllOfFromJSONTyped,
-    ETLLocalInboxAllOfToJSON,
+    ETLDataSystem,
+    ETLDataSystemFromJSON,
+    ETLDataSystemFromJSONTyped,
+    ETLDataSystemToJSON,
+    ETLManifestsSystem,
+    ETLManifestsSystemFromJSON,
+    ETLManifestsSystemFromJSONTyped,
+    ETLManifestsSystemToJSON,
+    ETLSystemsConfiguration,
+    ETLSystemsConfigurationFromJSON,
+    ETLSystemsConfigurationFromJSONTyped,
+    ETLSystemsConfigurationToJSON,
 } from './';
 
 /**
@@ -44,46 +36,16 @@ import {
 export interface ETLLocalOutbox {
     /**
      * 
-     * @type {string}
+     * @type {ETLManifestsSystem}
      * @memberof ETLLocalOutbox
      */
-    system_id: string;
+    manifests: ETLManifestsSystem;
     /**
      * 
-     * @type {string}
+     * @type {ETLDataSystem}
      * @memberof ETLLocalOutbox
      */
-    data_path: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof ETLLocalOutbox
-     */
-    manifests_path?: string;
-    /**
-     * 
-     * @type {ETLEnumManifestGenerationPolicy}
-     * @memberof ETLLocalOutbox
-     */
-    manifest_generation_policy?: ETLEnumManifestGenerationPolicy;
-    /**
-     * 
-     * @type {ETLEnumManifestPriority}
-     * @memberof ETLLocalOutbox
-     */
-    manifest_priority?: ETLEnumManifestPriority;
-    /**
-     * 
-     * @type {DataIntegrityProfile}
-     * @memberof ETLLocalOutbox
-     */
-    data_integrity_profile?: DataIntegrityProfile;
-    /**
-     * 
-     * @type {Array<string>}
-     * @memberof ETLLocalOutbox
-     */
-    exclude_pattern?: Array<string>;
+    data: ETLDataSystem;
 }
 
 export function ETLLocalOutboxFromJSON(json: any): ETLLocalOutbox {
@@ -96,13 +58,8 @@ export function ETLLocalOutboxFromJSONTyped(json: any, ignoreDiscriminator: bool
     }
     return {
         
-        'system_id': json['system_id'],
-        'data_path': json['data_path'],
-        'manifests_path': !exists(json, 'manifests_path') ? undefined : json['manifests_path'],
-        'manifest_generation_policy': !exists(json, 'manifest_generation_policy') ? undefined : ETLEnumManifestGenerationPolicyFromJSON(json['manifest_generation_policy']),
-        'manifest_priority': !exists(json, 'manifest_priority') ? undefined : ETLEnumManifestPriorityFromJSON(json['manifest_priority']),
-        'data_integrity_profile': !exists(json, 'data_integrity_profile') ? undefined : DataIntegrityProfileFromJSON(json['data_integrity_profile']),
-        'exclude_pattern': !exists(json, 'exclude_pattern') ? undefined : json['exclude_pattern'],
+        'manifests': ETLManifestsSystemFromJSON(json['manifests']),
+        'data': ETLDataSystemFromJSON(json['data']),
     };
 }
 
@@ -115,13 +72,8 @@ export function ETLLocalOutboxToJSON(value?: ETLLocalOutbox | null): any {
     }
     return {
         
-        'system_id': value.system_id,
-        'data_path': value.data_path,
-        'manifests_path': value.manifests_path,
-        'manifest_generation_policy': ETLEnumManifestGenerationPolicyToJSON(value.manifest_generation_policy),
-        'manifest_priority': ETLEnumManifestPriorityToJSON(value.manifest_priority),
-        'data_integrity_profile': DataIntegrityProfileToJSON(value.data_integrity_profile),
-        'exclude_pattern': value.exclude_pattern,
+        'manifests': ETLManifestsSystemToJSON(value.manifests),
+        'data': ETLDataSystemToJSON(value.data),
     };
 }
 

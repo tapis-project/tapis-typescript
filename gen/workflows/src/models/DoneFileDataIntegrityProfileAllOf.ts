@@ -33,10 +33,16 @@ export interface DoneFileDataIntegrityProfileAllOf {
     done_files_path: string;
     /**
      * 
-     * @type {string}
+     * @type {Array<string>}
      * @memberof DoneFileDataIntegrityProfileAllOf
      */
-    pattern?: string;
+    include_patterns?: Array<string>;
+    /**
+     * 
+     * @type {Array<string>}
+     * @memberof DoneFileDataIntegrityProfileAllOf
+     */
+    exclude_patterns?: Array<string>;
 }
 
 export function DoneFileDataIntegrityProfileAllOfFromJSON(json: any): DoneFileDataIntegrityProfileAllOf {
@@ -51,7 +57,8 @@ export function DoneFileDataIntegrityProfileAllOfFromJSONTyped(json: any, ignore
         
         'type': !exists(json, 'type') ? undefined : json['type'],
         'done_files_path': json['done_files_path'],
-        'pattern': !exists(json, 'pattern') ? undefined : json['pattern'],
+        'include_patterns': !exists(json, 'include_patterns') ? undefined : json['include_patterns'],
+        'exclude_patterns': !exists(json, 'exclude_patterns') ? undefined : json['exclude_patterns'],
     };
 }
 
@@ -66,7 +73,8 @@ export function DoneFileDataIntegrityProfileAllOfToJSON(value?: DoneFileDataInte
         
         'type': value.type,
         'done_files_path': value.done_files_path,
-        'pattern': value.pattern,
+        'include_patterns': value.include_patterns,
+        'exclude_patterns': value.exclude_patterns,
     };
 }
 

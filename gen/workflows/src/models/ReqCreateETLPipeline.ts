@@ -14,6 +14,10 @@
 
 import { exists, mapValues } from '../runtime';
 import {
+    ETLActionFilter,
+    ETLActionFilterFromJSON,
+    ETLActionFilterFromJSONTyped,
+    ETLActionFilterToJSON,
     ETLLocalInbox,
     ETLLocalInboxFromJSON,
     ETLLocalInboxFromJSONTyped,
@@ -26,14 +30,46 @@ import {
     ETLRemoteInboxFromJSON,
     ETLRemoteInboxFromJSONTyped,
     ETLRemoteInboxToJSON,
-    PipelineExecutionProfile,
-    PipelineExecutionProfileFromJSON,
-    PipelineExecutionProfileFromJSONTyped,
-    PipelineExecutionProfileToJSON,
-    WorkflowsExtendedTapisJobDef,
-    WorkflowsExtendedTapisJobDefFromJSON,
-    WorkflowsExtendedTapisJobDefFromJSONTyped,
-    WorkflowsExtendedTapisJobDefToJSON,
+    ETLRemoteOutbox,
+    ETLRemoteOutboxFromJSON,
+    ETLRemoteOutboxFromJSONTyped,
+    ETLRemoteOutboxToJSON,
+    EnumPipelineType,
+    EnumPipelineTypeFromJSON,
+    EnumPipelineTypeFromJSONTyped,
+    EnumPipelineTypeToJSON,
+    EnvSpec,
+    EnvSpecFromJSON,
+    EnvSpecFromJSONTyped,
+    EnvSpecToJSON,
+    ExecutionProfile,
+    ExecutionProfileFromJSON,
+    ExecutionProfileFromJSONTyped,
+    ExecutionProfileToJSON,
+    ReqCreateETLPipelineAllOf,
+    ReqCreateETLPipelineAllOfFromJSON,
+    ReqCreateETLPipelineAllOfFromJSONTyped,
+    ReqCreateETLPipelineAllOfToJSON,
+    ReqPipeline,
+    ReqPipelineFromJSON,
+    ReqPipelineFromJSONTyped,
+    ReqPipelineToJSON,
+    ReqTask,
+    ReqTaskFromJSON,
+    ReqTaskFromJSONTyped,
+    ReqTaskToJSON,
+    Spec,
+    SpecFromJSON,
+    SpecFromJSONTyped,
+    SpecToJSON,
+    TapisETLExtendedTapisJobDef,
+    TapisETLExtendedTapisJobDefFromJSON,
+    TapisETLExtendedTapisJobDefFromJSONTyped,
+    TapisETLExtendedTapisJobDefToJSON,
+    Uses,
+    UsesFromJSON,
+    UsesFromJSONTyped,
+    UsesToJSON,
 } from './';
 
 /**
@@ -50,22 +86,70 @@ export interface ReqCreateETLPipeline {
     id: string;
     /**
      * 
+     * @type {Uses}
+     * @memberof ReqCreateETLPipeline
+     */
+    uses?: Uses;
+    /**
+     * 
+     * @type {Array<string>}
+     * @memberof ReqCreateETLPipeline
+     */
+    archive_ids?: Array<string>;
+    /**
+     * 
      * @type {string}
      * @memberof ReqCreateETLPipeline
      */
     description?: string;
     /**
      * 
-     * @type {PipelineExecutionProfile}
+     * @type {{ [key: string]: EnvSpec; }}
      * @memberof ReqCreateETLPipeline
      */
-    execution_profile?: PipelineExecutionProfile;
+    env?: { [key: string]: EnvSpec; };
     /**
      * 
-     * @type {{ [key: string]: object; }}
+     * @type {boolean}
      * @memberof ReqCreateETLPipeline
      */
-    remote_outbox?: { [key: string]: object; };
+    enabled?: boolean;
+    /**
+     * 
+     * @type {{ [key: string]: Spec; }}
+     * @memberof ReqCreateETLPipeline
+     */
+    params?: { [key: string]: Spec; };
+    /**
+     * 
+     * @type {EnumPipelineType}
+     * @memberof ReqCreateETLPipeline
+     */
+    type: EnumPipelineType;
+    /**
+     * 
+     * @type {ExecutionProfile}
+     * @memberof ReqCreateETLPipeline
+     */
+    execution_profile?: ExecutionProfile;
+    /**
+     * 
+     * @type {Array<ReqTask>}
+     * @memberof ReqCreateETLPipeline
+     */
+    tasks?: Array<ReqTask>;
+    /**
+     * 
+     * @type {ETLActionFilter}
+     * @memberof ReqCreateETLPipeline
+     */
+    before?: ETLActionFilter;
+    /**
+     * 
+     * @type {ETLRemoteOutbox}
+     * @memberof ReqCreateETLPipeline
+     */
+    remote_outbox: ETLRemoteOutbox;
     /**
      * 
      * @type {ETLLocalInbox}
@@ -74,10 +158,10 @@ export interface ReqCreateETLPipeline {
     local_inbox: ETLLocalInbox;
     /**
      * 
-     * @type {Array<WorkflowsExtendedTapisJobDef>}
+     * @type {Array<TapisETLExtendedTapisJobDef>}
      * @memberof ReqCreateETLPipeline
      */
-    jobs: Array<WorkflowsExtendedTapisJobDef>;
+    jobs: Array<TapisETLExtendedTapisJobDef>;
     /**
      * 
      * @type {ETLLocalOutbox}
@@ -90,6 +174,12 @@ export interface ReqCreateETLPipeline {
      * @memberof ReqCreateETLPipeline
      */
     remote_inbox: ETLRemoteInbox;
+    /**
+     * 
+     * @type {ETLActionFilter}
+     * @memberof ReqCreateETLPipeline
+     */
+    after?: ETLActionFilter;
 }
 
 export function ReqCreateETLPipelineFromJSON(json: any): ReqCreateETLPipeline {
@@ -103,13 +193,22 @@ export function ReqCreateETLPipelineFromJSONTyped(json: any, ignoreDiscriminator
     return {
         
         'id': json['id'],
+        'uses': !exists(json, 'uses') ? undefined : UsesFromJSON(json['uses']),
+        'archive_ids': !exists(json, 'archive_ids') ? undefined : json['archive_ids'],
         'description': !exists(json, 'description') ? undefined : json['description'],
-        'execution_profile': !exists(json, 'execution_profile') ? undefined : PipelineExecutionProfileFromJSON(json['execution_profile']),
-        'remote_outbox': !exists(json, 'remote_outbox') ? undefined : json['remote_outbox'],
+        'env': !exists(json, 'env') ? undefined : (mapValues(json['env'], EnvSpecFromJSON)),
+        'enabled': !exists(json, 'enabled') ? undefined : json['enabled'],
+        'params': !exists(json, 'params') ? undefined : (mapValues(json['params'], SpecFromJSON)),
+        'type': EnumPipelineTypeFromJSON(json['type']),
+        'execution_profile': !exists(json, 'execution_profile') ? undefined : ExecutionProfileFromJSON(json['execution_profile']),
+        'tasks': !exists(json, 'tasks') ? undefined : ((json['tasks'] as Array<any>).map(ReqTaskFromJSON)),
+        'before': !exists(json, 'before') ? undefined : ETLActionFilterFromJSON(json['before']),
+        'remote_outbox': ETLRemoteOutboxFromJSON(json['remote_outbox']),
         'local_inbox': ETLLocalInboxFromJSON(json['local_inbox']),
-        'jobs': ((json['jobs'] as Array<any>).map(WorkflowsExtendedTapisJobDefFromJSON)),
+        'jobs': ((json['jobs'] as Array<any>).map(TapisETLExtendedTapisJobDefFromJSON)),
         'local_outbox': ETLLocalOutboxFromJSON(json['local_outbox']),
         'remote_inbox': ETLRemoteInboxFromJSON(json['remote_inbox']),
+        'after': !exists(json, 'after') ? undefined : ETLActionFilterFromJSON(json['after']),
     };
 }
 
@@ -123,13 +222,22 @@ export function ReqCreateETLPipelineToJSON(value?: ReqCreateETLPipeline | null):
     return {
         
         'id': value.id,
+        'uses': UsesToJSON(value.uses),
+        'archive_ids': value.archive_ids,
         'description': value.description,
-        'execution_profile': PipelineExecutionProfileToJSON(value.execution_profile),
-        'remote_outbox': value.remote_outbox,
+        'env': value.env === undefined ? undefined : (mapValues(value.env, EnvSpecToJSON)),
+        'enabled': value.enabled,
+        'params': value.params === undefined ? undefined : (mapValues(value.params, SpecToJSON)),
+        'type': EnumPipelineTypeToJSON(value.type),
+        'execution_profile': ExecutionProfileToJSON(value.execution_profile),
+        'tasks': value.tasks === undefined ? undefined : ((value.tasks as Array<any>).map(ReqTaskToJSON)),
+        'before': ETLActionFilterToJSON(value.before),
+        'remote_outbox': ETLRemoteOutboxToJSON(value.remote_outbox),
         'local_inbox': ETLLocalInboxToJSON(value.local_inbox),
-        'jobs': ((value.jobs as Array<any>).map(WorkflowsExtendedTapisJobDefToJSON)),
+        'jobs': ((value.jobs as Array<any>).map(TapisETLExtendedTapisJobDefToJSON)),
         'local_outbox': ETLLocalOutboxToJSON(value.local_outbox),
         'remote_inbox': ETLRemoteInboxToJSON(value.remote_inbox),
+        'after': ETLActionFilterToJSON(value.after),
     };
 }
 

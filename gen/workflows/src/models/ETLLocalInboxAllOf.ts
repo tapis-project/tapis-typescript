@@ -14,10 +14,10 @@
 
 import { exists, mapValues } from '../runtime';
 import {
-    ETLEnumManifestGenerationPolicy,
-    ETLEnumManifestGenerationPolicyFromJSON,
-    ETLEnumManifestGenerationPolicyFromJSONTyped,
-    ETLEnumManifestGenerationPolicyToJSON,
+    ETLControlSystem,
+    ETLControlSystemFromJSON,
+    ETLControlSystemFromJSONTyped,
+    ETLControlSystemToJSON,
 } from './';
 
 /**
@@ -28,10 +28,10 @@ import {
 export interface ETLLocalInboxAllOf {
     /**
      * 
-     * @type {ETLEnumManifestGenerationPolicy}
+     * @type {ETLControlSystem}
      * @memberof ETLLocalInboxAllOf
      */
-    manifest_generation_policy?: ETLEnumManifestGenerationPolicy;
+    control?: ETLControlSystem;
 }
 
 export function ETLLocalInboxAllOfFromJSON(json: any): ETLLocalInboxAllOf {
@@ -44,7 +44,7 @@ export function ETLLocalInboxAllOfFromJSONTyped(json: any, ignoreDiscriminator: 
     }
     return {
         
-        'manifest_generation_policy': !exists(json, 'manifest_generation_policy') ? undefined : ETLEnumManifestGenerationPolicyFromJSON(json['manifest_generation_policy']),
+        'control': !exists(json, 'control') ? undefined : ETLControlSystemFromJSON(json['control']),
     };
 }
 
@@ -57,7 +57,7 @@ export function ETLLocalInboxAllOfToJSON(value?: ETLLocalInboxAllOf | null): any
     }
     return {
         
-        'manifest_generation_policy': ETLEnumManifestGenerationPolicyToJSON(value.manifest_generation_policy),
+        'control': ETLControlSystemToJSON(value.control),
     };
 }
 
