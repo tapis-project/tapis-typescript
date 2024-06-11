@@ -1,17 +1,17 @@
 // Load e2e environment variables into process.env
-require("dotenv").config({ path: "e2e.env" });
+require('dotenv').config({ path: 'e2e.env' });
 
-import "mocha";
-import { before } from "mocha";
-import { Jobs } from "../src";
-import { getToken, checkJsonError } from "./utils";
-import { expect } from "chai";
-import fetch from "cross-fetch";
+import 'mocha';
+import { before } from 'mocha';
+import { Jobs } from '../src';
+import { getToken, checkJsonError } from './utils';
+import { expect } from 'chai';
+import fetch from 'cross-fetch';
 
 let testJobUuid: string;
 const jobStatusEnumStatus: string[] = Object.values(Jobs.JobStatusEnum);
 
-describe("Jobs e2e tests", async () => {
+describe('Jobs e2e tests', async () => {
   let configuration: Jobs.Configuration;
 
   before(async () => {
@@ -20,14 +20,14 @@ describe("Jobs e2e tests", async () => {
     const configurationParameters: Jobs.ConfigurationParameters = {
       basePath: process.env.TEST_TENANT,
       headers: {
-        "X-Tapis-Token": token.access_token,
+        'X-Tapis-Token': token.access_token,
       },
       fetchApi: fetch,
     };
     configuration = new Jobs.Configuration(configurationParameters);
   });
 
-  it("should submit a job", async () => {
+  it('should submit a job', async () => {
     try {
       const api: Jobs.JobsApi = new Jobs.JobsApi(configuration);
       const reqSubmitJob: Jobs.ReqSubmitJob = {
@@ -40,7 +40,7 @@ describe("Jobs e2e tests", async () => {
         reqSubmitJob,
       });
       const job: Jobs.Job = response.result;
-      console.info("Submitted job uuid", job.uuid);
+      console.info('Submitted job uuid', job.uuid);
       const statusReq: Jobs.GetJobStatusRequest = {
         jobUuid: job.uuid,
       };
@@ -49,18 +49,18 @@ describe("Jobs e2e tests", async () => {
       );
       const jobStatus: Jobs.JobStatusDisplay = statusResponse.result;
       if (jobStatus.status === undefined) {
-        throw new Error("Job status is undefined");
+        throw new Error('Job status is undefined');
       }
       expect(jobStatus.status).to.be.oneOf(jobStatusEnumStatus);
       testJobUuid = job.uuid;
-      console.info("Test job uuid", testJobUuid);
+      console.info('Test job uuid', testJobUuid);
     } catch (error) {
       console.error(error);
       throw error;
     }
   });
 
-  it("should get a job listing", async () => {
+  it('should get a job listing', async () => {
     try {
       const api: Jobs.JobsApi = new Jobs.JobsApi(configuration);
       const request: Jobs.GetJobListRequest = {};
@@ -74,7 +74,7 @@ describe("Jobs e2e tests", async () => {
   });
 
   //test subscription api
-  it("should subscribe to a job", async () => {
+  it('should subscribe to a job', async () => {
     try {
       const api: Jobs.SubscriptionsApi = new Jobs.SubscriptionsApi(
         configuration
@@ -86,7 +86,7 @@ describe("Jobs e2e tests", async () => {
       };
 
       const body: Jobs.ReqSubscribe = {
-        description: "Test subscription",
+        description: 'Test subscription',
         enabled: true,
         eventCategoryFilter:
           Jobs.ReqSubscribeEventCategoryFilterEnum.JobNewStatus,
@@ -101,7 +101,7 @@ describe("Jobs e2e tests", async () => {
       const { result: subscription }: Jobs.RespResourceUrl =
         await api.subscribe(request);
       if (subscription === undefined) {
-        throw new Error("Subscription URL is undefined");
+        throw new Error('Subscription URL is undefined');
       } else {
         expect(subscription).to.not.be.undefined;
       }
@@ -112,7 +112,7 @@ describe("Jobs e2e tests", async () => {
   });
 
   //test subscription api - getSubscriptions
-  it("should get subscriptions for a job", async () => {
+  it('should get subscriptions for a job', async () => {
     try {
       const api: Jobs.SubscriptionsApi = new Jobs.SubscriptionsApi(
         configuration
@@ -131,7 +131,7 @@ describe("Jobs e2e tests", async () => {
     }
   });
 
-  it.skip("should delete subscriptions for a job using subscriptionId", async () => {
+  it.skip('should delete subscriptions for a job using subscriptionId', async () => {
     try {
       const api: Jobs.SubscriptionsApi = new Jobs.SubscriptionsApi(
         configuration
@@ -144,7 +144,7 @@ describe("Jobs e2e tests", async () => {
       );
       expect(subscription).to.not.be.undefined;
       if (subscription === undefined || subscription.uuid === undefined) {
-        throw new Error("Subscription to delete is undefined");
+        throw new Error('Subscription to delete is undefined');
       }
       // Delete the subscription
       const request: Jobs.DeleteSubscriptionsRequest = {
@@ -154,7 +154,7 @@ describe("Jobs e2e tests", async () => {
         request
       );
 
-      console.info("Deleted subscriptions", response.changes);
+      console.info('Deleted subscriptions', response.changes);
       expect(response.changes).to.be.greaterThanOrEqual(1);
     } catch (error) {
       console.error(error);
@@ -175,7 +175,7 @@ async function getSubscriptionsByJobUuid(
   );
   const subscriptions: Jobs.TapisSubscription[] | undefined = response.result;
   if (subscriptions === undefined) {
-    throw new Error("Subscriptions are undefined");
+    throw new Error('Subscriptions are undefined');
   }
   return subscriptions;
 }
