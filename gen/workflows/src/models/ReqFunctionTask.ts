@@ -135,7 +135,7 @@ export interface ReqFunctionTask {
      * @type {string}
      * @memberof ReqFunctionTask
      */
-    code: string;
+    code?: string;
     /**
      * 
      * @type {Array<string>}
@@ -166,7 +166,7 @@ export function ReqFunctionTaskFromJSONTyped(json: any, ignoreDiscriminator: boo
         'installer': EnumInstallerFromJSON(json['installer']),
         'command': !exists(json, 'command') ? undefined : json['command'],
         'entrypoint': !exists(json, 'entrypoint') ? undefined : json['entrypoint'],
-        'code': json['code'],
+        'code': !exists(json, 'code') ? undefined : json['code'],
         'packages': !exists(json, 'packages') ? undefined : json['packages'],
     };
 }

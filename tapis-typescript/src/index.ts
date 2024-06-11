@@ -27,7 +27,7 @@ export {
   Workflows,
   Actors,
   Pods,
-  Models
+  Models,
   /*
   Meta,
   PGRest,

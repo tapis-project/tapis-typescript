@@ -2915,7 +2915,6 @@ components:
           required:
             - runtime
             - installer
-            - code
           properties:
             git_repositories:
               type: array

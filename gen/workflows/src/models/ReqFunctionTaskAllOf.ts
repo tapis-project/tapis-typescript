@@ -69,7 +69,7 @@ export interface ReqFunctionTaskAllOf {
      * @type {string}
      * @memberof ReqFunctionTaskAllOf
      */
-    code: string;
+    code?: string;
     /**
      * 
      * @type {Array<string>}
@@ -93,7 +93,7 @@ export function ReqFunctionTaskAllOfFromJSONTyped(json: any, ignoreDiscriminator
         'installer': EnumInstallerFromJSON(json['installer']),
         'command': !exists(json, 'command') ? undefined : json['command'],
         'entrypoint': !exists(json, 'entrypoint') ? undefined : json['entrypoint'],
-        'code': json['code'],
+        'code': !exists(json, 'code') ? undefined : json['code'],
         'packages': !exists(json, 'packages') ? undefined : json['packages'],
     };
 }
