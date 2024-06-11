@@ -28,7 +28,7 @@
     "@tapis/tapis-typescript-apps": "^0.0.8",
     "@tapis/tapis-typescript-authenticator": "^0.0.2",
     "@tapis/tapis-typescript-files": "^0.0.3",
-    "@tapis/tapis-typescript-jobs": "file:../gen/jobs",
+    "@tapis/tapis-typescript-jobs": "^0.0.5",
     "@tapis/tapis-typescript-streams": "^0.0.4",
     "@tapis/tapis-typescript-systems": "^0.0.3",
     "@tapis/tapis-typescript-tenants": "^0.0.2",
