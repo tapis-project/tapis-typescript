@@ -35,6 +35,7 @@
     "@tapis/tapis-typescript-workflows": "^0.0.8",
     "@tapis/tapis-typescript-pods": "^0.0.2",
     "@tapis/tapis-typescript-mlhub-models": "^0.0.1",
+    "@tapis/tapis-typescript-notifications": "file:../gen/notifications",
     "@types/mocha": "^9.0.0"
   },
   "devDependencies": {
