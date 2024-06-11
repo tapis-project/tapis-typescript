@@ -1,6 +1,6 @@
 {
   "name": "@tapis/tapis-typescript",
-  "version": "0.0.29",
+  "version": "0.0.30",
   "description": "TypeScript bindings for tapis.io api",
   "main": "./dist/index.js",
   "typings": "./dist/index.d.ts",
@@ -35,7 +35,7 @@
     "@tapis/tapis-typescript-workflows": "^0.0.10",
     "@tapis/tapis-typescript-pods": "^0.0.2",
     "@tapis/tapis-typescript-mlhub-models": "^0.0.1",
-    "@tapis/tapis-typescript-notifications": "file:../gen/notifications",
+    "@tapis/tapis-typescript-notifications": "^0.0.1",
     "@types/mocha": "^9.0.0"
   },
   "devDependencies": {
