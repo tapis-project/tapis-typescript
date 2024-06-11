@@ -74,36 +74,40 @@ describe("Jobs e2e tests", async () => {
   });
 
   //test subscription api
-  // it("should subscribe to a job", async () => {
-  //   try {
-  //     const api: Jobs.SubscriptionsApi = new Jobs.SubscriptionsApi(
-  //       configuration
-  //     );
-  //     const body: Jobs.ReqSubscribe = {
-  //       description: "Test subscription",
-  //       enabled: true,
-  //       eventCategoryFilter:
-  //         Jobs.ReqSubscribeEventCategoryFilterEnum.JobNewStatus,
-  //       deliveryTargets: [],
-  //       ttlminutes: 60,
-  //     };
+  it("should subscribe to a job", async () => {
+    try {
+      const api: Jobs.SubscriptionsApi = new Jobs.SubscriptionsApi(
+        configuration
+      );
 
-  //     const request: Jobs.SubscribeRequest = {
-  //       jobUuid: testJobUuid,
-  //       reqSubscribe: body,
-  //     };
-  //     const { result: subscription }: Jobs.RespResourceUrl =
-  //       await api.subscribe(request);
-  //     expect(subscription).to.not.be.undefined;
-  //     // if (subscription === undefined) {
-  //     //   throw new Error("Subscription URL is undefined");
-  //     // } else {
-  //     //   console.info("Subscription URL", subscription.url);
-  //     //   expect(subscription.url).to.not.be.undefined;
-  //     // }
-  //   } catch (error) {
-  //     console.error(error);
-  //     throw error;
-  //   }
-  // });
+      const notifDeliveryTarget: Jobs.NotifDeliveryTarget = {
+        deliveryMethod: Jobs.NotifDeliveryTargetDeliveryMethodEnum.Email,
+        deliveryAddress: process.env.TEST_EMAIL,
+      };
+
+      const body: Jobs.ReqSubscribe = {
+        description: "Test subscription",
+        enabled: true,
+        eventCategoryFilter:
+          Jobs.ReqSubscribeEventCategoryFilterEnum.JobNewStatus,
+        deliveryTargets: [notifDeliveryTarget],
+        // ttlminutes: 60,
+      };
+
+      const request: Jobs.SubscribeRequest = {
+        jobUuid: testJobUuid,
+        reqSubscribe: body,
+      };
+      const { result: subscription }: Jobs.RespResourceUrl =
+        await api.subscribe(request);
+      if (subscription === undefined) {
+        throw new Error("Subscription URL is undefined");
+      } else {
+        expect(subscription.url).to.not.be.undefined;
+      }
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  });
 });
