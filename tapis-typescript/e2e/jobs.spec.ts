@@ -81,8 +81,8 @@ describe('Jobs e2e tests', async () => {
       );
 
       const notifDeliveryTarget: Jobs.NotifDeliveryTarget = {
-        deliveryMethod: Jobs.NotifDeliveryTargetDeliveryMethodEnum.Email,
-        deliveryAddress: process.env.TEST_EMAIL,
+        deliveryMethod: Jobs.NotifDeliveryTargetDeliveryMethodEnum.Webhook,
+        deliveryAddress: process.env.TEST_WEBHOOK_URL,
       };
 
       const body: Jobs.ReqSubscribe = {
@@ -91,7 +91,6 @@ describe('Jobs e2e tests', async () => {
         eventCategoryFilter:
           Jobs.ReqSubscribeEventCategoryFilterEnum.JobNewStatus,
         deliveryTargets: [notifDeliveryTarget],
-        // ttlminutes: 60,
       };
 
       const request: Jobs.SubscribeRequest = {
