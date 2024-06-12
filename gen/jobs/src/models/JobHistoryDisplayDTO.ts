@@ -27,16 +27,16 @@ export interface JobHistoryDisplayDTO {
     event?: string;
     /**
      * 
-     * @type {number}
+     * @type {Date}
      * @memberof JobHistoryDisplayDTO
      */
-    created?: number;
+    created?: Date;
     /**
      * 
      * @type {string}
      * @memberof JobHistoryDisplayDTO
      */
-    jobStatus?: string;
+    eventDetail?: string;
     /**
      * 
      * @type {string}
@@ -62,8 +62,8 @@ export function JobHistoryDisplayDTOFromJSONTyped(json: any, ignoreDiscriminator
     return {
         
         'event': !exists(json, 'event') ? undefined : json['event'],
-        'created': !exists(json, 'created') ? undefined : json['created'],
-        'jobStatus': !exists(json, 'jobStatus') ? undefined : json['jobStatus'],
+        'created': !exists(json, 'created') ? undefined : (new Date(json['created'])),
+        'eventDetail': !exists(json, 'eventDetail') ? undefined : json['eventDetail'],
         'description': !exists(json, 'description') ? undefined : json['description'],
         'transferTaskUuid': !exists(json, 'transferTaskUuid') ? undefined : json['transferTaskUuid'],
     };
@@ -79,8 +79,8 @@ export function JobHistoryDisplayDTOToJSON(value?: JobHistoryDisplayDTO | null):
     return {
         
         'event': value.event,
-        'created': value.created,
-        'jobStatus': value.jobStatus,
+        'created': value.created === undefined ? undefined : (value.created.toISOString()),
+        'eventDetail': value.eventDetail,
         'description': value.description,
         'transferTaskUuid': value.transferTaskUuid,
     };

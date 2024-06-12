@@ -46,6 +46,18 @@ export interface RespCancelJob {
     version?: string;
     /**
      * 
+     * @type {string}
+     * @memberof RespCancelJob
+     */
+    commit?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof RespCancelJob
+     */
+    build?: string;
+    /**
+     * 
      * @type {object}
      * @memberof RespCancelJob
      */
@@ -71,6 +83,8 @@ export function RespCancelJobFromJSONTyped(json: any, ignoreDiscriminator: boole
         'status': !exists(json, 'status') ? undefined : json['status'],
         'message': !exists(json, 'message') ? undefined : json['message'],
         'version': !exists(json, 'version') ? undefined : json['version'],
+        'commit': !exists(json, 'commit') ? undefined : json['commit'],
+        'build': !exists(json, 'build') ? undefined : json['build'],
         'metadata': !exists(json, 'metadata') ? undefined : json['metadata'],
         'result': !exists(json, 'result') ? undefined : JobCancelDisplayFromJSON(json['result']),
     };
@@ -88,6 +102,8 @@ export function RespCancelJobToJSON(value?: RespCancelJob | null): any {
         'status': value.status,
         'message': value.message,
         'version': value.version,
+        'commit': value.commit,
+        'build': value.build,
         'metadata': value.metadata,
         'result': JobCancelDisplayToJSON(value.result),
     };

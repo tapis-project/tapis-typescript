@@ -45,10 +45,10 @@ export interface JobListDTO {
     appId?: string;
     /**
      * 
-     * @type {number}
+     * @type {Date}
      * @memberof JobListDTO
      */
-    created?: number;
+    created?: Date;
     /**
      * 
      * @type {string}
@@ -57,16 +57,22 @@ export interface JobListDTO {
     status?: JobListDTOStatusEnum;
     /**
      * 
-     * @type {number}
+     * @type {string}
      * @memberof JobListDTO
      */
-    remoteStarted?: number;
+    condition?: JobListDTOConditionEnum;
     /**
      * 
-     * @type {number}
+     * @type {Date}
      * @memberof JobListDTO
      */
-    ended?: number;
+    remoteStarted?: Date;
+    /**
+     * 
+     * @type {Date}
+     * @memberof JobListDTO
+     */
+    ended?: Date;
     /**
      * 
      * @type {string}
@@ -93,10 +99,10 @@ export interface JobListDTO {
     appVersion?: string;
     /**
      * 
-     * @type {number}
+     * @type {Date}
      * @memberof JobListDTO
      */
-    lastUpdated?: number;
+    lastUpdated?: Date;
 }
 
 /**
@@ -117,6 +123,36 @@ export enum JobListDTOStatusEnum {
     Finished = 'FINISHED',
     Cancelled = 'CANCELLED',
     Failed = 'FAILED'
+}/**
+* @export
+* @enum {string}
+*/
+export enum JobListDTOConditionEnum {
+    CancelledByUser = 'CANCELLED_BY_USER',
+    JobArchivingFailed = 'JOB_ARCHIVING_FAILED',
+    JobDatabaseError = 'JOB_DATABASE_ERROR',
+    JobExecutionMonitoringError = 'JOB_EXECUTION_MONITORING_ERROR',
+    JobExecutionMonitoringTimeout = 'JOB_EXECUTION_MONITORING_TIMEOUT',
+    JobFilesServiceError = 'JOB_FILES_SERVICE_ERROR',
+    JobInternalError = 'JOB_INTERNAL_ERROR',
+    JobInvalidDefinition = 'JOB_INVALID_DEFINITION',
+    JobLaunchFailure = 'JOB_LAUNCH_FAILURE',
+    JobQueueMonitoringError = 'JOB_QUEUE_MONITORING_ERROR',
+    JobRecoveryFailure = 'JOB_RECOVERY_FAILURE',
+    JobRecoveryTimeout = 'JOB_RECOVERY_TIMEOUT',
+    JobRemoteAccessError = 'JOB_REMOTE_ACCESS_ERROR',
+    JobRemoteOutcomeError = 'JOB_REMOTE_OUTCOME_ERROR',
+    JobUnableToStageInputs = 'JOB_UNABLE_TO_STAGE_INPUTS',
+    JobUnableToStageJob = 'JOB_UNABLE_TO_STAGE_JOB',
+    JobTransferFailedOrCancelled = 'JOB_TRANSFER_FAILED_OR_CANCELLED',
+    JobTransferMonitoringTimeout = 'JOB_TRANSFER_MONITORING_TIMEOUT',
+    NormalCompletion = 'NORMAL_COMPLETION',
+    SchedulerCancelled = 'SCHEDULER_CANCELLED',
+    SchedulerDeadline = 'SCHEDULER_DEADLINE',
+    SchedulerOutOfMemory = 'SCHEDULER_OUT_OF_MEMORY',
+    SchedulerStopped = 'SCHEDULER_STOPPED',
+    SchedulerTimeout = 'SCHEDULER_TIMEOUT',
+    SchedulerTerminated = 'SCHEDULER_TERMINATED'
 }
 
 export function JobListDTOFromJSON(json: any): JobListDTO {
@@ -133,15 +169,16 @@ export function JobListDTOFromJSONTyped(json: any, ignoreDiscriminator: boolean)
         'name': !exists(json, 'name') ? undefined : json['name'],
         'owner': !exists(json, 'owner') ? undefined : json['owner'],
         'appId': !exists(json, 'appId') ? undefined : json['appId'],
-        'created': !exists(json, 'created') ? undefined : json['created'],
+        'created': !exists(json, 'created') ? undefined : (new Date(json['created'])),
         'status': !exists(json, 'status') ? undefined : json['status'],
-        'remoteStarted': !exists(json, 'remoteStarted') ? undefined : json['remoteStarted'],
-        'ended': !exists(json, 'ended') ? undefined : json['ended'],
+        'condition': !exists(json, 'condition') ? undefined : json['condition'],
+        'remoteStarted': !exists(json, 'remoteStarted') ? undefined : (new Date(json['remoteStarted'])),
+        'ended': !exists(json, 'ended') ? undefined : (new Date(json['ended'])),
         'tenant': !exists(json, 'tenant') ? undefined : json['tenant'],
         'execSystemId': !exists(json, 'execSystemId') ? undefined : json['execSystemId'],
         'archiveSystemId': !exists(json, 'archiveSystemId') ? undefined : json['archiveSystemId'],
         'appVersion': !exists(json, 'appVersion') ? undefined : json['appVersion'],
-        'lastUpdated': !exists(json, 'lastUpdated') ? undefined : json['lastUpdated'],
+        'lastUpdated': !exists(json, 'lastUpdated') ? undefined : (new Date(json['lastUpdated'])),
     };
 }
 
@@ -158,15 +195,16 @@ export function JobListDTOToJSON(value?: JobListDTO | null): any {
         'name': value.name,
         'owner': value.owner,
         'appId': value.appId,
-        'created': value.created,
+        'created': value.created === undefined ? undefined : (value.created.toISOString()),
         'status': value.status,
-        'remoteStarted': value.remoteStarted,
-        'ended': value.ended,
+        'condition': value.condition,
+        'remoteStarted': value.remoteStarted === undefined ? undefined : (value.remoteStarted.toISOString()),
+        'ended': value.ended === undefined ? undefined : (value.ended.toISOString()),
         'tenant': value.tenant,
         'execSystemId': value.execSystemId,
         'archiveSystemId': value.archiveSystemId,
         'appVersion': value.appVersion,
-        'lastUpdated': value.lastUpdated,
+        'lastUpdated': value.lastUpdated === undefined ? undefined : (value.lastUpdated.toISOString()),
     };
 }
 

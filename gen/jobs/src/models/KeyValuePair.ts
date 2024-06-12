@@ -31,6 +31,24 @@ export interface KeyValuePair {
      * @memberof KeyValuePair
      */
     value?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof KeyValuePair
+     */
+    description?: string;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof KeyValuePair
+     */
+    include?: boolean;
+    /**
+     * 
+     * @type {object}
+     * @memberof KeyValuePair
+     */
+    notes?: object;
 }
 
 export function KeyValuePairFromJSON(json: any): KeyValuePair {
@@ -45,6 +63,9 @@ export function KeyValuePairFromJSONTyped(json: any, ignoreDiscriminator: boolea
         
         'key': !exists(json, 'key') ? undefined : json['key'],
         'value': !exists(json, 'value') ? undefined : json['value'],
+        'description': !exists(json, 'description') ? undefined : json['description'],
+        'include': !exists(json, 'include') ? undefined : json['include'],
+        'notes': !exists(json, 'notes') ? undefined : json['notes'],
     };
 }
 
@@ -59,6 +80,9 @@ export function KeyValuePairToJSON(value?: KeyValuePair | null): any {
         
         'key': value.key,
         'value': value.value,
+        'description': value.description,
+        'include': value.include,
+        'notes': value.notes,
     };
 }
 

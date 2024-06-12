@@ -33,6 +33,12 @@ export interface JobFileInputArray {
     description?: string;
     /**
      * 
+     * @type {string}
+     * @memberof JobFileInputArray
+     */
+    envKey?: string;
+    /**
+     * 
      * @type {Array<string>}
      * @memberof JobFileInputArray
      */
@@ -43,6 +49,12 @@ export interface JobFileInputArray {
      * @memberof JobFileInputArray
      */
     targetDir?: string;
+    /**
+     * 
+     * @type {object}
+     * @memberof JobFileInputArray
+     */
+    notes?: object;
 }
 
 export function JobFileInputArrayFromJSON(json: any): JobFileInputArray {
@@ -57,8 +69,10 @@ export function JobFileInputArrayFromJSONTyped(json: any, ignoreDiscriminator: b
         
         'name': !exists(json, 'name') ? undefined : json['name'],
         'description': !exists(json, 'description') ? undefined : json['description'],
+        'envKey': !exists(json, 'envKey') ? undefined : json['envKey'],
         'sourceUrls': !exists(json, 'sourceUrls') ? undefined : json['sourceUrls'],
         'targetDir': !exists(json, 'targetDir') ? undefined : json['targetDir'],
+        'notes': !exists(json, 'notes') ? undefined : json['notes'],
     };
 }
 
@@ -73,8 +87,10 @@ export function JobFileInputArrayToJSON(value?: JobFileInputArray | null): any {
         
         'name': value.name,
         'description': value.description,
+        'envKey': value.envKey,
         'sourceUrls': value.sourceUrls,
         'targetDir': value.targetDir,
+        'notes': value.notes,
     };
 }
 

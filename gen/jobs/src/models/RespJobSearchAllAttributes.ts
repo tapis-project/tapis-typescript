@@ -46,6 +46,18 @@ export interface RespJobSearchAllAttributes {
     version?: string;
     /**
      * 
+     * @type {string}
+     * @memberof RespJobSearchAllAttributes
+     */
+    commit?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof RespJobSearchAllAttributes
+     */
+    build?: string;
+    /**
+     * 
      * @type {object}
      * @memberof RespJobSearchAllAttributes
      */
@@ -71,6 +83,8 @@ export function RespJobSearchAllAttributesFromJSONTyped(json: any, ignoreDiscrim
         'status': !exists(json, 'status') ? undefined : json['status'],
         'message': !exists(json, 'message') ? undefined : json['message'],
         'version': !exists(json, 'version') ? undefined : json['version'],
+        'commit': !exists(json, 'commit') ? undefined : json['commit'],
+        'build': !exists(json, 'build') ? undefined : json['build'],
         'metadata': !exists(json, 'metadata') ? undefined : json['metadata'],
         'result': !exists(json, 'result') ? undefined : ((json['result'] as Array<any>).map(JobFromJSON)),
     };
@@ -88,6 +102,8 @@ export function RespJobSearchAllAttributesToJSON(value?: RespJobSearchAllAttribu
         'status': value.status,
         'message': value.message,
         'version': value.version,
+        'commit': value.commit,
+        'build': value.build,
         'metadata': value.metadata,
         'result': value.result === undefined ? undefined : ((value.result as Array<any>).map(JobToJSON)),
     };

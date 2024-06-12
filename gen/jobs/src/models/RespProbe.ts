@@ -46,6 +46,18 @@ export interface RespProbe {
     version?: string;
     /**
      * 
+     * @type {string}
+     * @memberof RespProbe
+     */
+    commit?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof RespProbe
+     */
+    build?: string;
+    /**
+     * 
      * @type {object}
      * @memberof RespProbe
      */
@@ -71,6 +83,8 @@ export function RespProbeFromJSONTyped(json: any, ignoreDiscriminator: boolean):
         'status': !exists(json, 'status') ? undefined : json['status'],
         'message': !exists(json, 'message') ? undefined : json['message'],
         'version': !exists(json, 'version') ? undefined : json['version'],
+        'commit': !exists(json, 'commit') ? undefined : json['commit'],
+        'build': !exists(json, 'build') ? undefined : json['build'],
         'metadata': !exists(json, 'metadata') ? undefined : json['metadata'],
         'result': !exists(json, 'result') ? undefined : JobsProbeFromJSON(json['result']),
     };
@@ -88,6 +102,8 @@ export function RespProbeToJSON(value?: RespProbe | null): any {
         'status': value.status,
         'message': value.message,
         'version': value.version,
+        'commit': value.commit,
+        'build': value.build,
         'metadata': value.metadata,
         'result': JobsProbeToJSON(value.result),
     };

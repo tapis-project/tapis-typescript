@@ -18,6 +18,9 @@ import {
     ReqSubmitJob,
     ReqSubmitJobFromJSON,
     ReqSubmitJobToJSON,
+    ReqUserEvent,
+    ReqUserEventFromJSON,
+    ReqUserEventToJSON,
     RespBasic,
     RespBasicFromJSON,
     RespBasicToJSON,
@@ -36,6 +39,9 @@ import {
     RespGetJobStatus,
     RespGetJobStatusFromJSON,
     RespGetJobStatusToJSON,
+    RespGetResubmit,
+    RespGetResubmitFromJSON,
+    RespGetResubmitToJSON,
     RespHideJob,
     RespHideJobFromJSON,
     RespHideJobToJSON,
@@ -76,6 +82,7 @@ export interface GetJobListRequest {
     startAfter?: number;
     orderBy?: string;
     computeTotal?: boolean;
+    listType?: string;
     pretty?: boolean;
 }
 
@@ -84,6 +91,7 @@ export interface GetJobOutputDownloadRequest {
     outputPath: string;
     compress?: boolean;
     format?: string;
+    allowIfRunning?: boolean;
     pretty?: boolean;
 }
 
@@ -92,6 +100,7 @@ export interface GetJobOutputListRequest {
     outputPath: string;
     limit?: number;
     skip?: number;
+    allowIfRunning?: boolean;
     pretty?: boolean;
 }
 
@@ -102,6 +111,7 @@ export interface GetJobSearchListRequest {
     orderBy?: string;
     computeTotal?: boolean;
     select?: string;
+    listType?: string;
     pretty?: boolean;
 }
 
@@ -112,11 +122,17 @@ export interface GetJobSearchListByPostSqlStrRequest {
     orderBy?: string;
     computeTotal?: boolean;
     select?: string;
+    listType?: string;
     pretty?: boolean;
     body?: object;
 }
 
 export interface GetJobStatusRequest {
+    jobUuid: string;
+    pretty?: boolean;
+}
+
+export interface GetResubmitRequestJsonRequest {
     jobUuid: string;
     pretty?: boolean;
 }
@@ -127,7 +143,13 @@ export interface HideJobRequest {
 }
 
 export interface ResubmitJobRequest {
-    jobuuid: string;
+    jobUuid: string;
+    pretty?: boolean;
+}
+
+export interface SendEventRequest {
+    jobUuid: string;
+    reqUserEvent: ReqUserEvent;
     pretty?: boolean;
 }
 
@@ -269,7 +291,7 @@ export class JobsApi extends runtime.BaseAPI {
     }
 
     /**
-     * Retrieve list of jobs for the user.  The caller must be the job owner, creator or a tenant administrator.
+     * Retrieve list of jobs for which the user is the job owner, creator or a tenant administrator.  Also list the jobs that are shared with the user. listType allowed are: MY_JOBS, SHARED_JOBS, ALL_JOBS
      */
     async getJobListRaw(requestParameters: GetJobListRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespGetJobList>> {
         const queryParameters: any = {};
@@ -294,6 +316,10 @@ export class JobsApi extends runtime.BaseAPI {
             queryParameters['computeTotal'] = requestParameters.computeTotal;
         }
 
+        if (requestParameters.listType !== undefined) {
+            queryParameters['listType'] = requestParameters.listType;
+        }
+
         if (requestParameters.pretty !== undefined) {
             queryParameters['pretty'] = requestParameters.pretty;
         }
@@ -315,7 +341,7 @@ export class JobsApi extends runtime.BaseAPI {
     }
 
     /**
-     * Retrieve list of jobs for the user.  The caller must be the job owner, creator or a tenant administrator.
+     * Retrieve list of jobs for which the user is the job owner, creator or a tenant administrator.  Also list the jobs that are shared with the user. listType allowed are: MY_JOBS, SHARED_JOBS, ALL_JOBS
      */
     async getJobList(requestParameters: GetJobListRequest, initOverrides?: RequestInit): Promise<RespGetJobList> {
         const response = await this.getJobListRaw(requestParameters, initOverrides);
@@ -323,7 +349,7 @@ export class JobsApi extends runtime.BaseAPI {
     }
 
     /**
-     * Download job\'s output files for previously submitted job by its UUID. The job must be in a terminal state - FINISHED or FAILED.    The caller must be the job owner, creator or a tenant administrator. The URL must ends with \'/\' even if there is no outputPath is specified. 
+     * Download a job\'s output files using the job\'s UUID. By default, the job must be in a terminal state (FINISHED or FAILED or CANCELLED) for this command to execute. To execute when a job is not in a terminal state--and possibly receive incomplete results--set _allowIfRunning=true_.  The caller must be the job owner, creator or a tenant administrator. The _outputPath_ is always relative to the job output directory and must end with a \'/\'.
      */
     async getJobOutputDownloadRaw(requestParameters: GetJobOutputDownloadRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<Blob>> {
         if (requestParameters.jobUuid === null || requestParameters.jobUuid === undefined) {
@@ -342,6 +368,10 @@ export class JobsApi extends runtime.BaseAPI {
 
         if (requestParameters.format !== undefined) {
             queryParameters['format'] = requestParameters.format;
+        }
+
+        if (requestParameters.allowIfRunning !== undefined) {
+            queryParameters['allowIfRunning'] = requestParameters.allowIfRunning;
         }
 
         if (requestParameters.pretty !== undefined) {
@@ -365,7 +395,7 @@ export class JobsApi extends runtime.BaseAPI {
     }
 
     /**
-     * Download job\'s output files for previously submitted job by its UUID. The job must be in a terminal state - FINISHED or FAILED.    The caller must be the job owner, creator or a tenant administrator. The URL must ends with \'/\' even if there is no outputPath is specified. 
+     * Download a job\'s output files using the job\'s UUID. By default, the job must be in a terminal state (FINISHED or FAILED or CANCELLED) for this command to execute. To execute when a job is not in a terminal state--and possibly receive incomplete results--set _allowIfRunning=true_.  The caller must be the job owner, creator or a tenant administrator. The _outputPath_ is always relative to the job output directory and must end with a \'/\'.
      */
     async getJobOutputDownload(requestParameters: GetJobOutputDownloadRequest, initOverrides?: RequestInit): Promise<Blob> {
         const response = await this.getJobOutputDownloadRaw(requestParameters, initOverrides);
@@ -373,7 +403,7 @@ export class JobsApi extends runtime.BaseAPI {
     }
 
     /**
-     * Retrieve job\'s output files list for previously submitted job by its UUID. The job must be in a terminal state (FINISHED or FAILED or CANCELLED)    The caller must be the job owner, creator or a tenant administrator. The URL must ends with \'/\' even if there is no outputPath is specified. 
+     * Retrieve a job\'s output file listing using the job\'s UUID. By default, the job must be in a terminal state (FINISHED or FAILED or CANCELLED) for this command to execute. To execute when a job is not in a terminal state--and possibly receive incomplete results--set _allowIfRunning=true_.  The caller must be the job owner, creator or a tenant administrator. The _outputPath_ is always relative to the job output directory and must end with a \'/\'.
      */
     async getJobOutputListRaw(requestParameters: GetJobOutputListRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespGetJobOutputList>> {
         if (requestParameters.jobUuid === null || requestParameters.jobUuid === undefined) {
@@ -392,6 +422,10 @@ export class JobsApi extends runtime.BaseAPI {
 
         if (requestParameters.skip !== undefined) {
             queryParameters['skip'] = requestParameters.skip;
+        }
+
+        if (requestParameters.allowIfRunning !== undefined) {
+            queryParameters['allowIfRunning'] = requestParameters.allowIfRunning;
         }
 
         if (requestParameters.pretty !== undefined) {
@@ -415,7 +449,7 @@ export class JobsApi extends runtime.BaseAPI {
     }
 
     /**
-     * Retrieve job\'s output files list for previously submitted job by its UUID. The job must be in a terminal state (FINISHED or FAILED or CANCELLED)    The caller must be the job owner, creator or a tenant administrator. The URL must ends with \'/\' even if there is no outputPath is specified. 
+     * Retrieve a job\'s output file listing using the job\'s UUID. By default, the job must be in a terminal state (FINISHED or FAILED or CANCELLED) for this command to execute. To execute when a job is not in a terminal state--and possibly receive incomplete results--set _allowIfRunning=true_.  The caller must be the job owner, creator or a tenant administrator. The _outputPath_ is always relative to the job output directory and must end with a \'/\'.
      */
     async getJobOutputList(requestParameters: GetJobOutputListRequest, initOverrides?: RequestInit): Promise<RespGetJobOutputList> {
         const response = await this.getJobOutputListRaw(requestParameters, initOverrides);
@@ -423,7 +457,7 @@ export class JobsApi extends runtime.BaseAPI {
     }
 
     /**
-     * Retrieve list of jobs for the user based on search conditions in the query paramter on the dedicated search end-point.  The caller must be the job owner, creator or a tenant administrator.
+     * Retrieve list of jobs for the user based on search conditions in the query paramter on the dedicated search end-point.  The caller must be the job owner, creator or a tenant administrator.  List of Jobs shared with the user can also be searched
      */
     async getJobSearchListRaw(requestParameters: GetJobSearchListRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespJobSearchAllAttributes>> {
         const queryParameters: any = {};
@@ -452,6 +486,10 @@ export class JobsApi extends runtime.BaseAPI {
             queryParameters['select'] = requestParameters.select;
         }
 
+        if (requestParameters.listType !== undefined) {
+            queryParameters['listType'] = requestParameters.listType;
+        }
+
         if (requestParameters.pretty !== undefined) {
             queryParameters['pretty'] = requestParameters.pretty;
         }
@@ -473,7 +511,7 @@ export class JobsApi extends runtime.BaseAPI {
     }
 
     /**
-     * Retrieve list of jobs for the user based on search conditions in the query paramter on the dedicated search end-point.  The caller must be the job owner, creator or a tenant administrator.
+     * Retrieve list of jobs for the user based on search conditions in the query paramter on the dedicated search end-point.  The caller must be the job owner, creator or a tenant administrator.  List of Jobs shared with the user can also be searched
      */
     async getJobSearchList(requestParameters: GetJobSearchListRequest, initOverrides?: RequestInit): Promise<RespJobSearchAllAttributes> {
         const response = await this.getJobSearchListRaw(requestParameters, initOverrides);
@@ -508,6 +546,10 @@ export class JobsApi extends runtime.BaseAPI {
 
         if (requestParameters.select !== undefined) {
             queryParameters['select'] = requestParameters.select;
+        }
+
+        if (requestParameters.listType !== undefined) {
+            queryParameters['listType'] = requestParameters.listType;
         }
 
         if (requestParameters.pretty !== undefined) {
@@ -580,6 +622,44 @@ export class JobsApi extends runtime.BaseAPI {
     }
 
     /**
+     * Get Resubmit request for of a job in JSON format.  
+     */
+    async getResubmitRequestJsonRaw(requestParameters: GetResubmitRequestJsonRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespGetResubmit>> {
+        if (requestParameters.jobUuid === null || requestParameters.jobUuid === undefined) {
+            throw new runtime.RequiredError('jobUuid','Required parameter requestParameters.jobUuid was null or undefined when calling getResubmitRequestJson.');
+        }
+
+        const queryParameters: any = {};
+
+        if (requestParameters.pretty !== undefined) {
+            queryParameters['pretty'] = requestParameters.pretty;
+        }
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        if (this.configuration && this.configuration.apiKey) {
+            headerParameters["X-Tapis-Token"] = this.configuration.apiKey("X-Tapis-Token"); // TapisJWT authentication
+        }
+
+        const response = await this.request({
+            path: `/v3/jobs/{jobUuid}/resubmit_request`.replace(`{${"jobUuid"}}`, encodeURIComponent(String(requestParameters.jobUuid))),
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => RespGetResubmitFromJSON(jsonValue));
+    }
+
+    /**
+     * Get Resubmit request for of a job in JSON format.  
+     */
+    async getResubmitRequestJson(requestParameters: GetResubmitRequestJsonRequest, initOverrides?: RequestInit): Promise<RespGetResubmit> {
+        const response = await this.getResubmitRequestJsonRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
      * Hide a job by its UUID.  The caller must be the job owner, creator or a tenant administrator.
      */
     async hideJobRaw(requestParameters: HideJobRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespHideJob>> {
@@ -618,11 +698,11 @@ export class JobsApi extends runtime.BaseAPI {
     }
 
     /**
-     * Resubmit a job for execution using the original parameters.  The main phases of job execution are:    - validate input   - check resource availability   - stage input files   - stage application code   - launch application   - monitor application   - archive application output 
+     * Resubmit a job for execution using the job\'s original parameters.  The main phases of job execution are:    - validate input   - check resource availability   - stage input files   - stage application code   - launch application   - monitor application   - archive application output  When a job is submitted its request payload is captured and available for resubmission using this API. The resubmitted job is assigned a new UUID and does not reference or have any special access to the original job\'s information once the orginal job\'s request is copied. The resubmitted job\'s execution can differ from the original job\'s if the application, system or other aspects of the execution environment have changed.
      */
     async resubmitJobRaw(requestParameters: ResubmitJobRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespSubmitJob>> {
-        if (requestParameters.jobuuid === null || requestParameters.jobuuid === undefined) {
-            throw new runtime.RequiredError('jobuuid','Required parameter requestParameters.jobuuid was null or undefined when calling resubmitJob.');
+        if (requestParameters.jobUuid === null || requestParameters.jobUuid === undefined) {
+            throw new runtime.RequiredError('jobUuid','Required parameter requestParameters.jobUuid was null or undefined when calling resubmitJob.');
         }
 
         const queryParameters: any = {};
@@ -638,7 +718,7 @@ export class JobsApi extends runtime.BaseAPI {
         }
 
         const response = await this.request({
-            path: `/v3/jobs/{jobuuid}/resubmit`.replace(`{${"jobuuid"}}`, encodeURIComponent(String(requestParameters.jobuuid))),
+            path: `/v3/jobs/{jobUuid}/resubmit`.replace(`{${"jobUuid"}}`, encodeURIComponent(String(requestParameters.jobUuid))),
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
@@ -648,7 +728,7 @@ export class JobsApi extends runtime.BaseAPI {
     }
 
     /**
-     * Resubmit a job for execution using the original parameters.  The main phases of job execution are:    - validate input   - check resource availability   - stage input files   - stage application code   - launch application   - monitor application   - archive application output 
+     * Resubmit a job for execution using the job\'s original parameters.  The main phases of job execution are:    - validate input   - check resource availability   - stage input files   - stage application code   - launch application   - monitor application   - archive application output  When a job is submitted its request payload is captured and available for resubmission using this API. The resubmitted job is assigned a new UUID and does not reference or have any special access to the original job\'s information once the orginal job\'s request is copied. The resubmitted job\'s execution can differ from the original job\'s if the application, system or other aspects of the execution environment have changed.
      */
     async resubmitJob(requestParameters: ResubmitJobRequest, initOverrides?: RequestInit): Promise<RespSubmitJob> {
         const response = await this.resubmitJobRaw(requestParameters, initOverrides);
@@ -656,7 +736,52 @@ export class JobsApi extends runtime.BaseAPI {
     }
 
     /**
-     * Submit a job for execution.  The main phases of job execution are:    - validate input   - check resource availability   - stage input files   - stage application code   - launch application   - monitor application   - archive application output 
+     * Send a user event to an active job. The job must be in the same tenant as the caller, but no other authorization is needed. If the job has terminated the request will be rejected. The caller must specify a payload of non-empty string data in the *eventData* field. The *eventDetail* field can be set to further qualify the type of user event, which is useful when filtering events. If not provided the *eventDetail* defaults to \'DEFAULT\'.  Subscribers that register interest in events of type JOB_USER_EVENT will receive a notification as a result of this call.
+     */
+    async sendEventRaw(requestParameters: SendEventRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespBasic>> {
+        if (requestParameters.jobUuid === null || requestParameters.jobUuid === undefined) {
+            throw new runtime.RequiredError('jobUuid','Required parameter requestParameters.jobUuid was null or undefined when calling sendEvent.');
+        }
+
+        if (requestParameters.reqUserEvent === null || requestParameters.reqUserEvent === undefined) {
+            throw new runtime.RequiredError('reqUserEvent','Required parameter requestParameters.reqUserEvent was null or undefined when calling sendEvent.');
+        }
+
+        const queryParameters: any = {};
+
+        if (requestParameters.pretty !== undefined) {
+            queryParameters['pretty'] = requestParameters.pretty;
+        }
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'application/json';
+
+        if (this.configuration && this.configuration.apiKey) {
+            headerParameters["X-Tapis-Token"] = this.configuration.apiKey("X-Tapis-Token"); // TapisJWT authentication
+        }
+
+        const response = await this.request({
+            path: `/v3/jobs/{jobUuid}/sendEvent`.replace(`{${"jobUuid"}}`, encodeURIComponent(String(requestParameters.jobUuid))),
+            method: 'POST',
+            headers: headerParameters,
+            query: queryParameters,
+            body: ReqUserEventToJSON(requestParameters.reqUserEvent),
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => RespBasicFromJSON(jsonValue));
+    }
+
+    /**
+     * Send a user event to an active job. The job must be in the same tenant as the caller, but no other authorization is needed. If the job has terminated the request will be rejected. The caller must specify a payload of non-empty string data in the *eventData* field. The *eventDetail* field can be set to further qualify the type of user event, which is useful when filtering events. If not provided the *eventDetail* defaults to \'DEFAULT\'.  Subscribers that register interest in events of type JOB_USER_EVENT will receive a notification as a result of this call.
+     */
+    async sendEvent(requestParameters: SendEventRequest, initOverrides?: RequestInit): Promise<RespBasic> {
+        const response = await this.sendEventRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     * Submit a job for execution.  The main phases of job execution are:    - validate input   - check resource availability   - stage input files   - stage application code   - launch application   - monitor application   - archive application output  At a minimum, the job name, application ID and application version must be specified in the request payload. The optional parameters available in a job request provide great flexibility but must be considered in the context of the application and system definitions. The actual values used during job execution are a combination of the values in this request and those specified in the job\'s application and system definitions. It\'s often desirable to keep the submission request simple by specifying common values in these other two definitions. See the [Job Submission Request](https://tapis.readthedocs.io/en/latest/technical/jobs.html#the-job-submission-request) documentation for details.
      */
     async submitJobRaw(requestParameters: SubmitJobRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespSubmitJob>> {
         if (requestParameters.reqSubmitJob === null || requestParameters.reqSubmitJob === undefined) {
@@ -689,7 +814,7 @@ export class JobsApi extends runtime.BaseAPI {
     }
 
     /**
-     * Submit a job for execution.  The main phases of job execution are:    - validate input   - check resource availability   - stage input files   - stage application code   - launch application   - monitor application   - archive application output 
+     * Submit a job for execution.  The main phases of job execution are:    - validate input   - check resource availability   - stage input files   - stage application code   - launch application   - monitor application   - archive application output  At a minimum, the job name, application ID and application version must be specified in the request payload. The optional parameters available in a job request provide great flexibility but must be considered in the context of the application and system definitions. The actual values used during job execution are a combination of the values in this request and those specified in the job\'s application and system definitions. It\'s often desirable to keep the submission request simple by specifying common values in these other two definitions. See the [Job Submission Request](https://tapis.readthedocs.io/en/latest/technical/jobs.html#the-job-submission-request) documentation for details.
      */
     async submitJob(requestParameters: SubmitJobRequest, initOverrides?: RequestInit): Promise<RespSubmitJob> {
         const response = await this.submitJobRaw(requestParameters, initOverrides);

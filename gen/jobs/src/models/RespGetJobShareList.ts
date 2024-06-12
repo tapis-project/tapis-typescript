@@ -13,61 +13,68 @@
  */
 
 import { exists, mapValues } from '../runtime';
+import {
+    JobShareListDTO,
+    JobShareListDTOFromJSON,
+    JobShareListDTOFromJSONTyped,
+    JobShareListDTOToJSON,
+} from './';
+
 /**
  * 
  * @export
- * @interface RespBasic
+ * @interface RespGetJobShareList
  */
-export interface RespBasic {
+export interface RespGetJobShareList {
     /**
      * 
      * @type {string}
-     * @memberof RespBasic
+     * @memberof RespGetJobShareList
      */
     status?: string;
     /**
      * 
      * @type {string}
-     * @memberof RespBasic
+     * @memberof RespGetJobShareList
      */
     message?: string;
     /**
      * 
      * @type {string}
-     * @memberof RespBasic
+     * @memberof RespGetJobShareList
      */
     version?: string;
     /**
      * 
      * @type {string}
-     * @memberof RespBasic
+     * @memberof RespGetJobShareList
      */
     commit?: string;
     /**
      * 
      * @type {string}
-     * @memberof RespBasic
+     * @memberof RespGetJobShareList
      */
     build?: string;
     /**
      * 
      * @type {object}
-     * @memberof RespBasic
+     * @memberof RespGetJobShareList
      */
     metadata?: object;
     /**
      * 
-     * @type {object}
-     * @memberof RespBasic
+     * @type {Array<JobShareListDTO>}
+     * @memberof RespGetJobShareList
      */
-    result?: object;
+    result?: Array<JobShareListDTO>;
 }
 
-export function RespBasicFromJSON(json: any): RespBasic {
-    return RespBasicFromJSONTyped(json, false);
+export function RespGetJobShareListFromJSON(json: any): RespGetJobShareList {
+    return RespGetJobShareListFromJSONTyped(json, false);
 }
 
-export function RespBasicFromJSONTyped(json: any, ignoreDiscriminator: boolean): RespBasic {
+export function RespGetJobShareListFromJSONTyped(json: any, ignoreDiscriminator: boolean): RespGetJobShareList {
     if ((json === undefined) || (json === null)) {
         return json;
     }
@@ -79,11 +86,11 @@ export function RespBasicFromJSONTyped(json: any, ignoreDiscriminator: boolean):
         'commit': !exists(json, 'commit') ? undefined : json['commit'],
         'build': !exists(json, 'build') ? undefined : json['build'],
         'metadata': !exists(json, 'metadata') ? undefined : json['metadata'],
-        'result': !exists(json, 'result') ? undefined : json['result'],
+        'result': !exists(json, 'result') ? undefined : ((json['result'] as Array<any>).map(JobShareListDTOFromJSON)),
     };
 }
 
-export function RespBasicToJSON(value?: RespBasic | null): any {
+export function RespGetJobShareListToJSON(value?: RespGetJobShareList | null): any {
     if (value === undefined) {
         return undefined;
     }
@@ -98,7 +105,7 @@ export function RespBasicToJSON(value?: RespBasic | null): any {
         'commit': value.commit,
         'build': value.build,
         'metadata': value.metadata,
-        'result': value.result,
+        'result': value.result === undefined ? undefined : ((value.result as Array<any>).map(JobShareListDTOToJSON)),
     };
 }
 

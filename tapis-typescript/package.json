@@ -10,7 +10,7 @@
     "generate": "./generate_all.sh",
     "build-services": "./build-services.sh",
     "test": "env TS_NODE_COMPILER_OPTIONS='{\"module\": \"commonjs\" }' mocha -r ts-node/register 'tests/**/*.ts'",
-    "e2e": "env TS_NODE_COMPILER_OPTIONS='{\"module\": \"commonjs\" }' mocha --timeout 10000 -r ts-node/register 'e2e/**/*.ts'",
+    "e2e": "env TS_NODE_COMPILER_OPTIONS='{\"module\": \"commonjs\" }' mocha --timeout 10000 -r ts-node/register 'e2e/**.ts'",
     "prepare": "tsc"
   },
   "repository": {
@@ -28,7 +28,7 @@
     "@tapis/tapis-typescript-apps": "^0.0.8",
     "@tapis/tapis-typescript-authenticator": "^0.0.2",
     "@tapis/tapis-typescript-files": "^0.0.3",
-    "@tapis/tapis-typescript-jobs": "^0.0.4",
+    "@tapis/tapis-typescript-jobs": "^0.0.5",
     "@tapis/tapis-typescript-streams": "^0.0.4",
     "@tapis/tapis-typescript-systems": "^0.0.3",
     "@tapis/tapis-typescript-tenants": "^0.0.2",
