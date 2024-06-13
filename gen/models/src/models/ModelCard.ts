@@ -13,42 +13,42 @@
  */
 
 import { exists, mapValues } from '../runtime';
-import {
-    ModelDownloadInfo,
-    ModelDownloadInfoFromJSON,
-    ModelDownloadInfoFromJSONTyped,
-    ModelDownloadInfoToJSON,
-} from './';
-
 /**
  * 
  * @export
- * @interface RespModelDownloadAllOf
+ * @interface ModelCard
  */
-export interface RespModelDownloadAllOf {
+export interface ModelCard {
     /**
      * 
-     * @type {ModelDownloadInfo}
-     * @memberof RespModelDownloadAllOf
+     * @type {object}
+     * @memberof ModelCard
      */
-    result?: ModelDownloadInfo;
+    model_metadata?: object;
+    /**
+     * A string containing model card information in Markdown.
+     * @type {string}
+     * @memberof ModelCard
+     */
+    model_card?: string;
 }
 
-export function RespModelDownloadAllOfFromJSON(json: any): RespModelDownloadAllOf {
-    return RespModelDownloadAllOfFromJSONTyped(json, false);
+export function ModelCardFromJSON(json: any): ModelCard {
+    return ModelCardFromJSONTyped(json, false);
 }
 
-export function RespModelDownloadAllOfFromJSONTyped(json: any, ignoreDiscriminator: boolean): RespModelDownloadAllOf {
+export function ModelCardFromJSONTyped(json: any, ignoreDiscriminator: boolean): ModelCard {
     if ((json === undefined) || (json === null)) {
         return json;
     }
     return {
         
-        'result': !exists(json, 'result') ? undefined : ModelDownloadInfoFromJSON(json['result']),
+        'model_metadata': !exists(json, 'model_metadata') ? undefined : json['model_metadata'],
+        'model_card': !exists(json, 'model_card') ? undefined : json['model_card'],
     };
 }
 
-export function RespModelDownloadAllOfToJSON(value?: RespModelDownloadAllOf | null): any {
+export function ModelCardToJSON(value?: ModelCard | null): any {
     if (value === undefined) {
         return undefined;
     }
@@ -57,7 +57,8 @@ export function RespModelDownloadAllOfToJSON(value?: RespModelDownloadAllOf | nu
     }
     return {
         
-        'result': ModelDownloadInfoToJSON(value.result),
+        'model_metadata': value.model_metadata,
+        'model_card': value.model_card,
     };
 }
 

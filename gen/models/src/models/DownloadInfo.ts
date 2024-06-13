@@ -13,62 +13,48 @@
  */
 
 import { exists, mapValues } from '../runtime';
-import {
-    DownloadInfo,
-    DownloadInfoFromJSON,
-    DownloadInfoFromJSONTyped,
-    DownloadInfoToJSON,
-} from './';
-
 /**
  * 
  * @export
- * @interface ModelDownloadInfo
+ * @interface DownloadInfo
  */
-export interface ModelDownloadInfo {
+export interface DownloadInfo {
     /**
      * 
      * @type {string}
-     * @memberof ModelDownloadInfo
-     */
-    model_id?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof ModelDownloadInfo
+     * @memberof DownloadInfo
      */
     created_at?: string;
     /**
      * 
      * @type {string}
-     * @memberof ModelDownloadInfo
+     * @memberof DownloadInfo
      */
     last_modified?: string;
     /**
      * 
      * @type {string}
-     * @memberof ModelDownloadInfo
+     * @memberof DownloadInfo
      */
     sha?: string;
     /**
      * 
      * @type {object}
-     * @memberof ModelDownloadInfo
+     * @memberof DownloadInfo
      */
     download_links?: object;
 }
 
-export function ModelDownloadInfoFromJSON(json: any): ModelDownloadInfo {
-    return ModelDownloadInfoFromJSONTyped(json, false);
+export function DownloadInfoFromJSON(json: any): DownloadInfo {
+    return DownloadInfoFromJSONTyped(json, false);
 }
 
-export function ModelDownloadInfoFromJSONTyped(json: any, ignoreDiscriminator: boolean): ModelDownloadInfo {
+export function DownloadInfoFromJSONTyped(json: any, ignoreDiscriminator: boolean): DownloadInfo {
     if ((json === undefined) || (json === null)) {
         return json;
     }
     return {
         
-        'model_id': !exists(json, 'model_id') ? undefined : json['model_id'],
         'created_at': !exists(json, 'created_at') ? undefined : json['created_at'],
         'last_modified': !exists(json, 'last_modified') ? undefined : json['last_modified'],
         'sha': !exists(json, 'sha') ? undefined : json['sha'],
@@ -76,7 +62,7 @@ export function ModelDownloadInfoFromJSONTyped(json: any, ignoreDiscriminator: b
     };
 }
 
-export function ModelDownloadInfoToJSON(value?: ModelDownloadInfo | null): any {
+export function DownloadInfoToJSON(value?: DownloadInfo | null): any {
     if (value === undefined) {
         return undefined;
     }
@@ -85,7 +71,6 @@ export function ModelDownloadInfoToJSON(value?: ModelDownloadInfo | null): any {
     }
     return {
         
-        'model_id': value.model_id,
         'created_at': value.created_at,
         'last_modified': value.last_modified,
         'sha': value.sha,

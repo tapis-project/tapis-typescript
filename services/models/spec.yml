@@ -1,11 +1,11 @@
 openapi: 3.0.3
 info:
-  title: Tapis Machine Learning Hub API
-  description: The Tapis Machine Learning Hub API provides users access to machine learning models from HuggingFace within the Tapis framework.
-  version: "0.0.1"
+  title: Tapis Machine Learning Hub - Models API
+  description: The Tapis Machine Learning Hub - Models API provides users access to machine learning models from HuggingFace within the Tapis framework.
+  version: "0.0.2"
   termsOfService: "https://tapis-project.org"
   contact:
-    name: "Machine Learning Hub API - CICSupport"
+    name: "Machine Learning Hub - Models API - CICSupport"
     url: "https://tapis-project.org"
     email: "cicsupport@tacc.utexas.edu"
   license:
@@ -31,7 +31,7 @@ tags:
 # --- Paths -------------------------------------------------------------------
 # ------------------------------------------------------------------------------
 paths:
-  # --- Paths for /models -----------------------------------------------------
+  # --- Paths for /models --------------------------------------------------------------------------------------
   "/v3/ml-hub/models":
     get:
       tags:
@@ -44,7 +44,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/RespModelObject"
+                $ref: "#/components/schemas/RespModelsObject"
         "400":
           description: Input error.
           content:
@@ -156,7 +156,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/RespError"
 
-  "/v3/ml-hub/authors/{authorId}/models":
+  "/v3/ml-hub/models/authors/{authorId}":
     get:
       tags:
         - Models
@@ -174,7 +174,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/RespModelObject"
+                $ref: "#/components/schemas/RespModelsObject"
         "400":
           description: Input error.
           content:
@@ -262,7 +262,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/RespModelObject"
+                $ref: "#/components/schemas/RespModelsObject"
         "400":
           description: Input error.
           content:
@@ -288,7 +288,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/RespError"              
 
-  "/v3/ml-hub/tasks/{taskType}/models":
+  "/v3/ml-hub/models/tasks/{taskType}":
     get:
       tags:
         - Models
@@ -306,7 +306,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/RespModelObject"
+                $ref: "#/components/schemas/RespModelsObject"
         "400":
           description: Input error.
           content:
@@ -332,7 +332,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/RespError" 
 
-  "/v3/ml-hub/trained_datasets/{dataset}/models":
+  "/v3/ml-hub/models/trained_datasets/{dataset}":
     get:
       tags:
         - Models
@@ -350,7 +350,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/RespModelObject"
+                $ref: "#/components/schemas/RespModelsObject"
         "400":
           description: Input error.
           content:
@@ -376,7 +376,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/RespError" 
 
-  "/v3/ml-hub/libraries/{libraryName}/models":
+  "/v3/ml-hub/models/libraries/{libraryName}":
     get:
       tags:
         - Models
@@ -394,7 +394,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/RespModelObject"
+                $ref: "#/components/schemas/RespModelsObject"
         "400":
           description: Input error.
           content:
@@ -420,7 +420,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/RespError" 
 
-  "/v3/ml-hub/languages/{languageName}/models":
+  "/v3/ml-hub/models/languages/{languageName}":
     get:
       tags:
         - Models
@@ -438,7 +438,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/RespModelObject"
+                $ref: "#/components/schemas/RespModelsObject"
         "400":
           description: Input error.
           content:
@@ -463,6 +463,56 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/RespError" 
+
+  "/v3/ml-hub/model_card/{modelId}":
+    get:
+      tags:
+        - Models
+      description: Fetch model card information.
+      operationId: getModelCard
+      parameters:
+        - name: modelId
+          in: path
+          required: true
+          schema:
+            $ref: "#/components/schemas/IdString"
+      responses:
+        "200":
+          description: A JSON dictionary containing model card information of requested model.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RespModelCard"
+        "400":
+          description: Input error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RespError"
+        "401":
+          description: Authentication error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RespError"
+        "403":
+          description: Validation error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RespError"
+        "404":
+          description: Model not found.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RespError"
+        "500":
+          description: Server error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RespError"
 
 # ------------------------------------------------------------------------------
 # --- Components ---------------------------------------------------------------
@@ -482,6 +532,18 @@ components:
       type: string
       minLength: 1
       maxLength: 128
+    
+    DownloadInfo:
+      type: object
+      properties:
+        created_at:
+          type: string
+        last_modified:
+          type: string
+        sha:
+          type: string
+        download_links:
+          type: object
     
     ModelShortInfo:
       type: object
@@ -585,18 +647,21 @@ components:
           nullable: true
     
     ModelDownloadInfo:
-      type: object
+      allOf:
+        - $ref: "#/components/schemas/DownloadInfo"
+        - type: object
       properties:
         model_id:
           type: string
-        created_at:
-          type: string
-        last_modified:
-          type: string
-        sha:
-          type: string
-        download_links:
+    
+    ModelCard:
+      type: object
+      properties:
+        model_metadata:
           type: object
+        model_card:
+          type: string
+          description: A string containing model card information in Markdown.
 
     # -------------------------------------------------------------------------
     # --- Response objects ----------------------------------------------------
@@ -627,14 +692,6 @@ components:
               type: string
               default: error
     
-    RespDict:
-      allOf:
-        - $ref: "#/components/schemas/RespBasic"
-        - type: object
-          properties:
-            result:
-              type: object
-    
     RespModel:
       allOf:
         - $ref: "#/components/schemas/RespBasic"
@@ -643,7 +700,7 @@ components:
             result:
               $ref: "#/components/schemas/ModelFullInfo"
     
-    RespModelObject:
+    RespModelsObject:
       allOf:
         - $ref: "#/components/schemas/RespBasic"
         - type: object
@@ -676,4 +733,11 @@ components:
           properties:
             result:
               $ref: "#/components/schemas/ModelServerPossible"
-    
+
+    RespModelCard:
+      allOf:
+        - $ref: "#/components/schemas/RespBasic"
+        - type: object
+          properties:
+            result:
+              $ref: "#/components/schemas/ModelCard"
