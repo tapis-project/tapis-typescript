@@ -28,6 +28,12 @@ import {
 export interface ModelServerPossible {
     /**
      * 
+     * @type {string}
+     * @memberof ModelServerPossible
+     */
+    model_id?: string;
+    /**
+     * 
      * @type {boolean}
      * @memberof ModelServerPossible
      */
@@ -50,6 +56,7 @@ export function ModelServerPossibleFromJSONTyped(json: any, ignoreDiscriminator:
     }
     return {
         
+        'model_id': !exists(json, 'model_id') ? undefined : json['model_id'],
         'inference_server_possible': !exists(json, 'inference_server_possible') ? undefined : json['inference_server_possible'],
         'transformers_info': !exists(json, 'transformers_info') ? undefined : TransformersInfoFromJSON(json['transformers_info']),
     };
@@ -64,6 +71,7 @@ export function ModelServerPossibleToJSON(value?: ModelServerPossible | null): a
     }
     return {
         
+        'model_id': value.model_id,
         'inference_server_possible': value.inference_server_possible,
         'transformers_info': TransformersInfoToJSON(value.transformers_info),
     };

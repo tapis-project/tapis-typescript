@@ -138,9 +138,7 @@ paths:
           content:
             application/json:
               schema:
-                oneOf:
-                  - $ref: "#/components/schemas/RespError"
-                  - $ref: "#/components/schemas/RespModelServerError"
+                  $ref: "#/components/schemas/RespError"
         "404":
           description: Model not found.
           content:
@@ -149,6 +147,12 @@ paths:
                 oneOf:
                   - $ref: "#/components/schemas/RespError"
                   - $ref: "#/components/schemas/RespModelServerError"
+        "422":
+          description: Server can be provisioned, but currently not running.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RespModelServerError"
         "500":
           description: Server error.
           content:
@@ -640,6 +644,8 @@ components:
     ModelServerPossible:
       type: object
       properties:
+        model_id:
+          type: string
         inference_server_possible:
           type: boolean
         transformers_info:
