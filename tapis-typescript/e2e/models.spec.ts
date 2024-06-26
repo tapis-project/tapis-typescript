@@ -32,8 +32,8 @@ describe('Models e2e tests', async () => {
 
   it("should fetch information on the top 100 most downloaded models", async () => {
     try{
-        const modelsResponseObject: Models.RespModelObject = await modelsApi.listModels();
-        expect(modelsResponseObject.result.length).to.be.greaterThanOrEqual(0)
+        const modelsResponseObject: Models.RespModelsObject = await modelsApi.listModels();
+        expect(modelsResponseObject.result.length).to.be.greaterThanOrEqual(0);
     } catch (error) {
         checkJsonError(error)
     } 
@@ -54,8 +54,8 @@ describe('Models e2e tests', async () => {
   it("should fetch models based on query", async () => {
     try{
         const userQuery: Models.ListModelsByQueryRequest = { query: 'bert'};
-        const modelsResponseObject: Models.RespModelObject = await modelsApi.listModelsByQuery(userQuery);
-        expect(modelsResponseObject.result.length).to.be.greaterThanOrEqual(0)
+        const modelsResponseObject: Models.RespModelsObject = await modelsApi.listModelsByQuery(userQuery);
+        expect(modelsResponseObject.result.length).to.be.greaterThanOrEqual(0);
     } catch (error) {
         checkJsonError(error)
     } 
@@ -65,8 +65,8 @@ describe('Models e2e tests', async () => {
   it("should fetch models by author", async () => {
     try{
         const author: Models.ListModelsByAuthorRequest = { authorId: 'facebook'};
-        const modelsResponseObject: Models.RespModelObject = await modelsApi.listModelsByAuthor(author);
-        expect(modelsResponseObject.result.length).to.be.greaterThanOrEqual(0)
+        const modelsResponseObject: Models.RespModelsObject = await modelsApi.listModelsByAuthor(author);
+        expect(modelsResponseObject.result.length).to.be.greaterThanOrEqual(0);
     } catch (error) {
         checkJsonError(error)
     } 
@@ -76,8 +76,8 @@ describe('Models e2e tests', async () => {
   it("should fetch models by dataset", async () => {
     try{
         const datasetName: Models.ListModelsByDatasetRequest = { dataset: 'scikit-learn/iris'};
-        const modelsResponseObject: Models.RespModelObject = await modelsApi.listModelsByDataset(datasetName);
-        expect(modelsResponseObject.result.length).to.be.greaterThanOrEqual(0)
+        const modelsResponseObject: Models.RespModelsObject = await modelsApi.listModelsByDataset(datasetName);
+        expect(modelsResponseObject.result.length).to.be.greaterThanOrEqual(0);
     } catch (error) {
         checkJsonError(error)
     } 
@@ -87,8 +87,8 @@ describe('Models e2e tests', async () => {
   it("should fetch models by language", async () => {
     try{
         const language: Models.ListModelsByLanguageRequest = { languageName: 'en'};
-        const modelsResponseObject: Models.RespModelObject = await modelsApi.listModelsByLanguage(language);
-        expect(modelsResponseObject.result.length).to.be.greaterThanOrEqual(0)
+        const modelsResponseObject: Models.RespModelsObject = await modelsApi.listModelsByLanguage(language);
+        expect(modelsResponseObject.result.length).to.be.greaterThanOrEqual(0);
     } catch (error) {
         checkJsonError(error)
     } 
@@ -98,8 +98,8 @@ describe('Models e2e tests', async () => {
   it("should fetch models by library", async () => {
     try{
         const library: Models.ListModelsByLibraryRequest = { libraryName: 'PyTorch'};
-        const modelsResponseObject: Models.RespModelObject = await modelsApi.listModelsByLibrary(library);
-        expect(modelsResponseObject.result.length).to.be.greaterThanOrEqual(0)
+        const modelsResponseObject: Models.RespModelsObject = await modelsApi.listModelsByLibrary(library);
+        expect(modelsResponseObject.result.length).to.be.greaterThanOrEqual(0);
     } catch (error) {
         checkJsonError(error)
     } 
@@ -109,8 +109,8 @@ describe('Models e2e tests', async () => {
   it("should fetch models by task", async () => {
     try{
         const task: Models.ListModelsByTaskRequest = { taskType: 'summarization'};
-        const modelsResponseObject: Models.RespModelObject = await modelsApi.listModelsByTask(task);
-        expect(modelsResponseObject.result.length).to.be.greaterThanOrEqual(0)
+        const modelsResponseObject: Models.RespModelsObject = await modelsApi.listModelsByTask(task);
+        expect(modelsResponseObject.result.length).to.be.greaterThanOrEqual(0);
     } catch (error) {
         checkJsonError(error)
     } 
@@ -131,8 +131,19 @@ describe('Models e2e tests', async () => {
   it("should fetch download links for requested model", async () => {
     try{
         const reqModel: Models.DownloadModelRequest = { modelId: 'google/flan-t5-large'};
-        const downloadModelResponse: Models.RespModelServer = await modelsApi.downloadModel(reqModel);
+        const downloadModelResponse: Models.RespModelDownload = await modelsApi.downloadModel(reqModel);
         expect(downloadModelResponse.result.model_id).to.equal('google/flan-t5-large');
+    } catch (error) {
+        checkJsonError(error)
+    } 
+
+  });
+
+  it("should fetch model card information for requested model", async () => {
+    try{
+        const reqModel: Models.GetModelCardRequest = { modelId: 'google/flan-t5-large'};
+        const modelCardResponse: Models.RespModelCard = await modelsApi.getModelCard(reqModel);
+        expect(modelCardResponse.result.model_card.length).to.be.greaterThanOrEqual(0);
     } catch (error) {
         checkJsonError(error)
     } 

@@ -14,41 +14,41 @@
 
 import { exists, mapValues } from '../runtime';
 import {
-    ModelServerPossible,
-    ModelServerPossibleFromJSON,
-    ModelServerPossibleFromJSONTyped,
-    ModelServerPossibleToJSON,
+    ModelCard,
+    ModelCardFromJSON,
+    ModelCardFromJSONTyped,
+    ModelCardToJSON,
 } from './';
 
 /**
  * 
  * @export
- * @interface RespModelServerErrorAllOf
+ * @interface RespModelCardAllOf
  */
-export interface RespModelServerErrorAllOf {
+export interface RespModelCardAllOf {
     /**
      * 
-     * @type {ModelServerPossible}
-     * @memberof RespModelServerErrorAllOf
+     * @type {ModelCard}
+     * @memberof RespModelCardAllOf
      */
-    result?: ModelServerPossible;
+    result?: ModelCard;
 }
 
-export function RespModelServerErrorAllOfFromJSON(json: any): RespModelServerErrorAllOf {
-    return RespModelServerErrorAllOfFromJSONTyped(json, false);
+export function RespModelCardAllOfFromJSON(json: any): RespModelCardAllOf {
+    return RespModelCardAllOfFromJSONTyped(json, false);
 }
 
-export function RespModelServerErrorAllOfFromJSONTyped(json: any, ignoreDiscriminator: boolean): RespModelServerErrorAllOf {
+export function RespModelCardAllOfFromJSONTyped(json: any, ignoreDiscriminator: boolean): RespModelCardAllOf {
     if ((json === undefined) || (json === null)) {
         return json;
     }
     return {
         
-        'result': !exists(json, 'result') ? undefined : ModelServerPossibleFromJSON(json['result']),
+        'result': !exists(json, 'result') ? undefined : ModelCardFromJSON(json['result']),
     };
 }
 
-export function RespModelServerErrorAllOfToJSON(value?: RespModelServerErrorAllOf | null): any {
+export function RespModelCardAllOfToJSON(value?: RespModelCardAllOf | null): any {
     if (value === undefined) {
         return undefined;
     }
@@ -57,7 +57,7 @@ export function RespModelServerErrorAllOfToJSON(value?: RespModelServerErrorAllO
     }
     return {
         
-        'result': ModelServerPossibleToJSON(value.result),
+        'result': ModelCardToJSON(value.result),
     };
 }
 
