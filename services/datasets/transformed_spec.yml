@@ -1,0 +1,584 @@
+openapi: 3.0.3
+info:
+  title: Tapis Machine Learning Hub - Datasets API
+  description: The Tapis Machine Learning Hub - Datasets API provides users access to datasets from HuggingFace within the Tapis framework.
+  version: "0.0.1"
+  termsOfService: "https://tapis-project.org"
+  contact:
+    name: "Machine Learning Hub API - CICSupport"
+    url: "https://tapis-project.org"
+    email: "cicsupport@tacc.utexas.edu"
+  license:
+    name: 3-Clause BSD License
+    url: "https://opensource.org/licenses/BSD-3-Clause"
+externalDocs:
+  description: Tapis Project
+  url: "https://tapis-project.org"
+servers:
+  - url: "http://localhost:8080/"
+    description: Local test environment
+    variables: {}
+  - url: "https://dev.develop.tapis.io/"
+    description: Development environment
+    variables: {}
+security:
+  - TapisJWT: []
+tags:
+  - name: Datasets
+    description: List available dataset(s) for usage with relevant information.
+# ------------------------------------------------------------------------------
+# --- Paths -------------------------------------------------------------------
+# ------------------------------------------------------------------------------
+paths:
+  # --- Paths for /datasets ------------------------------------------------------------------------------
+  "/v3/ml-hub/datasets":
+    get:
+      tags:
+        - Datasets
+      description: Retrieve information on 100 most downloaded datasets.
+      operationId: listDatasets
+      responses:
+        "200":
+          description: A JSON dictionary containing information on 100 most downloaded datasets.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RespDatasetsObject"
+        "400":
+          description: Input error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RespError"
+        "401":
+          description: Authentication error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RespError"
+        "500":
+          description: Server error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RespError"
+
+  "/v3/ml-hub/datasets/{datasetId}":
+    get:
+      tags:
+        - Datasets
+      description: Retrieve information for a dataset given the datasetId.
+      operationId: getDataset
+      parameters:
+        - name: datasetId
+          in: path
+          required: true
+          schema:
+            $ref: "#/components/schemas/IdString"
+      responses:
+        "200":
+          description: A JSON dictionary containing information of dataset specified.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RespDataset"
+        "400":
+          description: Input error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RespError"
+        "401":
+          description: Authentication error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RespError"
+        "404":
+          description: Model not found.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RespError"
+        "500":
+          description: Server error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RespError"
+
+  "/v3/ml-hub/datasets/search/{query}":
+    get:
+      tags:
+        - Datasets
+      description: Retrieve information on top 100 most downloaded datasets filtered by query.
+      operationId: listDatasetsByQuery
+      parameters:
+        - name: query
+          in: path
+          required: true
+          schema:
+            $ref: "#/components/schemas/IdString"
+      responses:
+        "200":
+          description: A JSON dictionary containing information of top 100 datasets based on query.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RespDatasetsObject"
+        "400":
+          description: Input error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RespError"
+        "401":
+          description: Authentication error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RespError"
+        "404":
+          description: Model not found.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RespError"
+        "500":
+          description: Server error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RespError"    
+
+  "/v3/ml-hub/datasets/authors/{authorId}":
+    get:
+      tags:
+        - Datasets
+      description: Retrieve information on datasets created by specified authorId. authorId is case-sensitive.
+      operationId: listDatasetsByAuthor
+      parameters:
+        - name: authorId
+          in: path
+          required: true
+          schema:
+            $ref: "#/components/schemas/IdString"
+      responses:
+        "200":
+          description: A JSON dictionary containing information of datasets from specified author.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RespDatasetsObject"
+        "400":
+          description: Input error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RespError"
+        "401":
+          description: Authentication error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RespError"
+        "404":
+          description: Model not found.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RespError"
+        "500":
+          description: Server error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RespError"
+
+  "/v3/ml-hub/datasets/languages/{languageName}":
+    get:
+      tags:
+        - Datasets
+      description: Retrieve information on top 100 most downloaded datasets filtered by language.
+      operationId: listDatasetsByLanguage
+      parameters:
+        - name: languageName
+          in: path
+          required: true
+          schema:
+            $ref: "#/components/schemas/IdString"
+      responses:
+        "200":
+          description: A JSON dictionary containing information of top 100 datasets based on language.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RespDatasetsObject"
+        "400":
+          description: Input error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RespError"
+        "401":
+          description: Authentication error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RespError"
+        "404":
+          description: Model not found.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RespError"
+        "500":
+          description: Server error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RespError" 
+
+  "/v3/ml-hub/datasets/tasks/{taskType}":
+    get:
+      tags:
+        - Datasets
+      description: Retrieve information on top 100 most downloaded datasets filtered by taskType. taskType is case-sensitive.
+      operationId: listDatasetsByTask
+      parameters:
+        - name: taskType
+          in: path
+          required: true
+          schema:
+            $ref: "#/components/schemas/IdString"
+      responses:
+        "200":
+          description: A JSON dictionary containing information of top 100 datasets based for a specified taskName.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RespDatasetsObject"
+        "400":
+          description: Input error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RespError"
+        "401":
+          description: Authentication error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RespError"
+        "404":
+          description: Model not found.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RespError"
+        "500":
+          description: Server error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RespError" 
+  
+  "/v3/ml-hub/datasets/size-categories/{sizeCategory}":
+    get:
+      tags:
+        - Datasets
+      description: Retrieve information on top 100 most downloaded datasets filtered by their size category.
+      operationId: listDatasetsBySizeCategory
+      parameters:
+        - name: sizeCategory
+          in: path
+          required: true
+          schema:
+            $ref: "#/components/schemas/IdString"
+      responses:
+        "200":
+          description: A JSON dictionary containing information of top 100 datasets based on their size category.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RespDatasetsObject"
+        "400":
+          description: Input error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RespError"
+        "401":
+          description: Authentication error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RespError"
+        "404":
+          description: Model not found.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RespError"
+        "500":
+          description: Server error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RespError" 
+
+  "/v3/ml-hub/download_dataset/{datasetId}":
+    get:
+      tags:
+        - Datasets
+      description: Generates download links for dataset repository files.
+      operationId: downloadDataset
+      parameters:
+        - name: datasetId
+          in: path
+          required: true
+          schema:
+            $ref: "#/components/schemas/IdString"
+      responses:
+        "200":
+          description: A JSON dictionary containing download links of of requested dataset.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RespDatasetDownload"
+        "400":
+          description: Input error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RespError"
+        "401":
+          description: Authentication error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RespError"
+        "404":
+          description: Model not found.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RespError"
+        "500":
+          description: Server error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RespError"
+
+  "/v3/ml-hub/dataset_card/{datasetId}":
+    get:
+      tags:
+        - Datasets
+      description: Fetch dataset card information.
+      operationId: getDatasetCard
+      parameters:
+        - name: datasetId
+          in: path
+          required: true
+          schema:
+            $ref: "#/components/schemas/IdString"
+      responses:
+        "200":
+          description: A JSON dictionary containing dataset card information of requested dataset.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RespDatasetCard"
+        "400":
+          description: Input error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RespError"
+        "401":
+          description: Authentication error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RespError"
+        "403":
+          description: Validation error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RespError"
+        "404":
+          description: Model not found.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RespError"
+        "500":
+          description: Server error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RespError"
+
+# ------------------------------------------------------------------------------
+# --- Components ---------------------------------------------------------------
+# ------------------------------------------------------------------------------
+components:
+  securitySchemes:
+    TapisJWT:
+      type: apiKey
+      description: Tapis signed JWT token authentication
+      name: X-TAPIS-TOKEN
+      in: header
+  schemas:
+    # ------------------------------------------------------------------------------
+    # --- Model objects ------------------------------------------------------------
+    # ------------------------------------------------------------------------------
+    IdString:
+      type: string
+      minLength: 1
+      maxLength: 128
+    
+    DownloadInfo:
+      type: object
+      properties:
+        created_at:
+          type: string
+        last_modified:
+          type: string
+        sha:
+          type: string
+        download_links:
+          type: object
+
+    DatasetShortInfo:
+      type: object
+      properties:
+        dataset_id:
+          type: string
+        _id:
+          type: string
+        created_at:
+          type: string
+        last_modified:
+          type: string
+          nullable: true
+        author:
+          type: string
+        disabled:
+          type: boolean
+          nullable: true
+        downloads:
+          type: integer
+        gated:
+          type: boolean
+        private:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+      
+    DatasetFullInfo:
+      allOf:
+        - $ref: "#/components/schemas/DatasetShortInfo"
+        - type: object
+      properties:
+        description:
+          type: string
+        card_data:
+          type: object
+          nullable: true
+        citation:
+          type: string
+          nullable: true
+        repository_content:
+          type: array
+          items:
+            type: string
+        sha:
+          type: string
+        paperswithcode_id:
+          type: string
+          nullable: true
+
+    DatasetDownloadInfo:
+      allOf:
+        - $ref: "#/components/schemas/DownloadInfo"
+        - type: object
+      properties:
+        dataset_id:
+          type: string
+
+    DatasetCard:
+      type: object
+      properties:
+        dataset_metadata:
+          type: object
+        dataset_card:
+          type: string
+          description: A string containing dataset card information in Markdown.
+
+    # -------------------------------------------------------------------------
+    # --- Response objects ----------------------------------------------------
+    # -------------------------------------------------------------------------
+    RespBasic:
+      type: object
+      properties:
+        status:
+          type: string
+        message:
+          type: string
+        version:
+          type: string
+        result:
+          type: object
+        metadata:
+          type: object
+    
+    RespError:
+      allOf:
+        - $ref: "#/components/schemas/RespBasic"
+        - type: object
+          properties:
+            status:
+              type: string
+              default: error
+            message:
+              type: string
+              default: error
+    
+    RespDatasetsObject:
+      allOf:
+        - $ref: "#/components/schemas/RespBasic"
+        - type: object
+          properties:
+            result:
+              type: object
+              additionalProperties:
+                $ref: "#/components/schemas/DatasetShortInfo"
+
+    RespDataset:
+      allOf:
+        - $ref: "#/components/schemas/RespBasic"
+        - type: object
+          properties:
+            result:
+              $ref: "#/components/schemas/DatasetFullInfo"
+
+    RespDatasetDownload:
+      allOf:
+        - $ref: "#/components/schemas/RespBasic"
+        - type: object
+          properties:
+            result:
+              $ref: "#/components/schemas/DatasetDownloadInfo"
+
+    RespDatasetCard:
+      allOf:
+        - $ref: "#/components/schemas/RespBasic"
+        - type: object
+          properties:
+            result:
+              $ref: "#/components/schemas/DatasetCard"
