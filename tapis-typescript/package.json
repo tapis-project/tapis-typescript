@@ -1,6 +1,6 @@
 {
   "name": "@tapis/tapis-typescript",
-  "version": "0.0.31",
+  "version": "0.0.32",
   "description": "TypeScript bindings for tapis.io api",
   "main": "./dist/index.js",
   "typings": "./dist/index.d.ts",
@@ -37,7 +37,7 @@
     "@tapis/tapis-typescript-mlhub-models": "^0.0.2",
     "@tapis/tapis-typescript-notifications": "^0.0.1",
     "@types/mocha": "^9.0.0",
-    "@tapis/tapis-typescript-mlhub-datasets": "file:../gen/datasets"
+    "@tapis/tapis-typescript-mlhub-datasets": "^0.0.1"
   },
   "devDependencies": {
     "@openapitools/openapi-generator-cli": "^2.2.4",
