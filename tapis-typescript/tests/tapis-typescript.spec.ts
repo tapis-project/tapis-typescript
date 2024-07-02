@@ -12,6 +12,7 @@ import {
   Pods,
   Models,
   Notifications,
+  Datasets
 } from '../src';
 import { expect } from 'chai';
 
@@ -104,5 +105,8 @@ describe('tapis-typescript', () => {
     expect(Notifications).to.have.property('GeneralApi');
     expect(Notifications).to.have.property('SubscriptionsApi');
     expect(Notifications).to.have.property('TestApi');
+  });
+  it('should have Datasets service', () => {
+    expect(Datasets).to.have.property('DatasetsApi');
   });
 });
