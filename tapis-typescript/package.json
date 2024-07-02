@@ -36,7 +36,8 @@
     "@tapis/tapis-typescript-pods": "^0.0.2",
     "@tapis/tapis-typescript-mlhub-models": "^0.0.2",
     "@tapis/tapis-typescript-notifications": "^0.0.1",
-    "@types/mocha": "^9.0.0"
+    "@types/mocha": "^9.0.0",
+    "@tapis/tapis-typescript-mlhub-datasets": "file:../gen/datasets"
   },
   "devDependencies": {
     "@openapitools/openapi-generator-cli": "^2.2.4",
