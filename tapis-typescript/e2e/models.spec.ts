@@ -43,7 +43,7 @@ describe('Models e2e tests', async () => {
   it("should fetch information for a specific model", async () => {
     try{
         const reqModel: Models.GetModelRequest = { modelId: 'google/flan-t5-large'};
-        const modelResponse: Models.RespModelServer = await modelsApi.getModel(reqModel);
+        const modelResponse: Models.RespModel = await modelsApi.getModel(reqModel);
         expect(modelResponse.result.model_id).to.equal('google/flan-t5-large');
     } catch (error) {
         checkJsonError(error)
