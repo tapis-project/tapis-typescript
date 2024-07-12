@@ -30,10 +30,17 @@ import {
     RespResourceURL,
     RespResourceURLFromJSON,
     RespResourceURLToJSON,
+    RespString,
+    RespStringFromJSON,
+    RespStringToJSON,
 } from '../models';
 
 export interface CreateGroupRequest {
     reqGroup: ReqGroup;
+}
+
+export interface DeleteGroupRequest {
+    groupId: string;
 }
 
 export interface GetGroupRequest {
@@ -81,6 +88,42 @@ export class GroupsApi extends runtime.BaseAPI {
      */
     async createGroup(requestParameters: CreateGroupRequest, initOverrides?: RequestInit): Promise<RespResourceURL> {
         const response = await this.createGroupRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     * Delete a group and all of the objects that belong to them
+     * Delete a group
+     */
+    async deleteGroupRaw(requestParameters: DeleteGroupRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespString>> {
+        if (requestParameters.groupId === null || requestParameters.groupId === undefined) {
+            throw new runtime.RequiredError('groupId','Required parameter requestParameters.groupId was null or undefined when calling deleteGroup.');
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        if (this.configuration && this.configuration.apiKey) {
+            headerParameters["X-TAPIS-TOKEN"] = this.configuration.apiKey("X-TAPIS-TOKEN"); // TapisJWT authentication
+        }
+
+        const response = await this.request({
+            path: `/v3/workflows/groups/{group_id}`.replace(`{${"group_id"}}`, encodeURIComponent(String(requestParameters.groupId))),
+            method: 'DELETE',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => RespStringFromJSON(jsonValue));
+    }
+
+    /**
+     * Delete a group and all of the objects that belong to them
+     * Delete a group
+     */
+    async deleteGroup(requestParameters: DeleteGroupRequest, initOverrides?: RequestInit): Promise<RespString> {
+        const response = await this.deleteGroupRaw(requestParameters, initOverrides);
         return await response.value();
     }
 

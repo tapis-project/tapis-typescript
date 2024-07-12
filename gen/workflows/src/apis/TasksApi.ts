@@ -33,6 +33,9 @@ import {
     RespTaskList,
     RespTaskListFromJSON,
     RespTaskListToJSON,
+    Task,
+    TaskFromJSON,
+    TaskToJSON,
 } from '../models';
 
 export interface CreateTaskRequest {
@@ -56,6 +59,13 @@ export interface GetTaskRequest {
 export interface ListTasksRequest {
     groupId: string;
     pipelineId: string;
+}
+
+export interface PatchTaskRequest {
+    groupId: string;
+    pipelineId: string;
+    taskId: string;
+    task: Task;
 }
 
 /**
@@ -235,6 +245,57 @@ export class TasksApi extends runtime.BaseAPI {
      */
     async listTasks(requestParameters: ListTasksRequest, initOverrides?: RequestInit): Promise<RespTaskList> {
         const response = await this.listTasksRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     * Update details for a task
+     * Update task details
+     */
+    async patchTaskRaw(requestParameters: PatchTaskRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespTask>> {
+        if (requestParameters.groupId === null || requestParameters.groupId === undefined) {
+            throw new runtime.RequiredError('groupId','Required parameter requestParameters.groupId was null or undefined when calling patchTask.');
+        }
+
+        if (requestParameters.pipelineId === null || requestParameters.pipelineId === undefined) {
+            throw new runtime.RequiredError('pipelineId','Required parameter requestParameters.pipelineId was null or undefined when calling patchTask.');
+        }
+
+        if (requestParameters.taskId === null || requestParameters.taskId === undefined) {
+            throw new runtime.RequiredError('taskId','Required parameter requestParameters.taskId was null or undefined when calling patchTask.');
+        }
+
+        if (requestParameters.task === null || requestParameters.task === undefined) {
+            throw new runtime.RequiredError('task','Required parameter requestParameters.task was null or undefined when calling patchTask.');
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'application/json';
+
+        if (this.configuration && this.configuration.apiKey) {
+            headerParameters["X-TAPIS-TOKEN"] = this.configuration.apiKey("X-TAPIS-TOKEN"); // TapisJWT authentication
+        }
+
+        const response = await this.request({
+            path: `/v3/workflows/groups/{group_id}/pipelines/{pipeline_id}/tasks/{task_id}`.replace(`{${"group_id"}}`, encodeURIComponent(String(requestParameters.groupId))).replace(`{${"pipeline_id"}}`, encodeURIComponent(String(requestParameters.pipelineId))).replace(`{${"task_id"}}`, encodeURIComponent(String(requestParameters.taskId))),
+            method: 'PATCH',
+            headers: headerParameters,
+            query: queryParameters,
+            body: TaskToJSON(requestParameters.task),
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => RespTaskFromJSON(jsonValue));
+    }
+
+    /**
+     * Update details for a task
+     * Update task details
+     */
+    async patchTask(requestParameters: PatchTaskRequest, initOverrides?: RequestInit): Promise<RespTask> {
+        const response = await this.patchTaskRaw(requestParameters, initOverrides);
         return await response.value();
     }
 

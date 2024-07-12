@@ -51,13 +51,13 @@ export interface TapisActorTask {
      * @type {string}
      * @memberof TapisActorTask
      */
-    id: string;
+    id?: string;
     /**
      * 
      * @type {EnumTaskType}
      * @memberof TapisActorTask
      */
-    type: EnumTaskType;
+    type?: EnumTaskType;
     /**
      * 
      * @type {Array<TaskDependency>}
@@ -118,8 +118,8 @@ export function TapisActorTaskFromJSONTyped(json: any, ignoreDiscriminator: bool
     }
     return {
         
-        'id': json['id'],
-        'type': EnumTaskTypeFromJSON(json['type']),
+        'id': !exists(json, 'id') ? undefined : json['id'],
+        'type': !exists(json, 'type') ? undefined : EnumTaskTypeFromJSON(json['type']),
         'depends_on': !exists(json, 'depends_on') ? undefined : ((json['depends_on'] as Array<any>).map(TaskDependencyFromJSON)),
         'description': !exists(json, 'description') ? undefined : json['description'],
         'execution_profile': !exists(json, 'execution_profile') ? undefined : TaskExecutionProfileFromJSON(json['execution_profile']),

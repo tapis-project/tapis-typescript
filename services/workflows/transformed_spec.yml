@@ -199,6 +199,43 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/RespError'
+    delete:
+      tags:
+        - Groups
+      summary: Delete a group
+      description: Delete a group and all of the objects that belong to them
+      parameters:
+        - name: group_id
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/ID'
+      operationId: deleteGroup
+      responses:
+        '200':
+          description: Delete group.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RespString'
+        '401':
+          description: Not authorized. Invalid or Expired Token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RespError'
+        '403':
+          description: Cannot remove a user to this group.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RespError'
+        '404':
+          description: Group does not exist.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RespError'
 
   '/v3/workflows/groups/{group_id}/users':
     get:
@@ -1516,7 +1553,43 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/RespTask'
-    
+    patch:
+      tags:
+        - Tasks
+      summary: Update task details
+      description: Update details for a task
+      operationId: patchTask
+      parameters:
+        - name: group_id
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/ID'
+        - name: pipeline_id
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/ID'
+        - name: task_id
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/ID'
+      requestBody:
+        required: true
+        description: Request body for the pathTask operation.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Task'
+      responses:
+        '200':
+          description: Task found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RespTask'
+
     delete:
       tags:
         - Tasks
@@ -2185,6 +2258,16 @@ components:
           type: string
 
     # --- Task ---
+    ReqPatchTask:
+      anyOf:
+        - $ref: '#/components/schemas/ImageBuildTask'
+        - $ref: '#/components/schemas/RequestTask'
+        - $ref: '#/components/schemas/ApplicationTask'
+        - $ref: '#/components/schemas/TapisJobTask'
+        - $ref: '#/components/schemas/TapisActorTask'
+        - $ref: '#/components/schemas/FunctionTask'
+        - $ref: '#/components/schemas/TemplateTask'
+
     Task:
       oneOf:
         - $ref: '#/components/schemas/ImageBuildTask'
@@ -2207,9 +2290,6 @@ components:
         
     BaseTask:
       type: object
-      required:
-        - id
-        - type
       properties:
         id:
           type: string

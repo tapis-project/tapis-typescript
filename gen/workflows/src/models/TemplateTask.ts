@@ -55,13 +55,13 @@ export interface TemplateTask {
      * @type {string}
      * @memberof TemplateTask
      */
-    id: string;
+    id?: string;
     /**
      * 
      * @type {EnumTaskType}
      * @memberof TemplateTask
      */
-    type: EnumTaskType;
+    type?: EnumTaskType;
     /**
      * 
      * @type {Array<TaskDependency>}
@@ -110,8 +110,8 @@ export function TemplateTaskFromJSONTyped(json: any, ignoreDiscriminator: boolea
     }
     return {
         
-        'id': json['id'],
-        'type': EnumTaskTypeFromJSON(json['type']),
+        'id': !exists(json, 'id') ? undefined : json['id'],
+        'type': !exists(json, 'type') ? undefined : EnumTaskTypeFromJSON(json['type']),
         'depends_on': !exists(json, 'depends_on') ? undefined : ((json['depends_on'] as Array<any>).map(TaskDependencyFromJSON)),
         'description': !exists(json, 'description') ? undefined : json['description'],
         'execution_profile': !exists(json, 'execution_profile') ? undefined : TaskExecutionProfileFromJSON(json['execution_profile']),

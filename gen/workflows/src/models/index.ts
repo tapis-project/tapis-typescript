@@ -113,6 +113,7 @@ export * from './ReqLocalDestinationAllOf';
 export * from './ReqNonLocalContext';
 export * from './ReqNonLocalContextAllOf';
 export * from './ReqPatchPipelineRun';
+export * from './ReqPatchTask';
 export * from './ReqPatchTaskExecution';
 export * from './ReqPipeline';
 export * from './ReqPipelineLock';

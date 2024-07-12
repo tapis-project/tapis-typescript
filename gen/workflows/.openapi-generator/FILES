@@ -131,6 +131,7 @@ src/models/ReqLocalDestinationAllOf.ts
 src/models/ReqNonLocalContext.ts
 src/models/ReqNonLocalContextAllOf.ts
 src/models/ReqPatchPipelineRun.ts
+src/models/ReqPatchTask.ts
 src/models/ReqPatchTaskExecution.ts
 src/models/ReqPipeline.ts
 src/models/ReqPipelineLock.ts

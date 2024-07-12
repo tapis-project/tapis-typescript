@@ -23,6 +23,7 @@ let pipelineArchivesApi: Workflows.PipelineArchivesApi;
 let pipelineRunsApi: Workflows.PipelineRunsApi;
 let pipelinesApi: Workflows.PipelinesApi; // Need to create a pipeline run with task executions
 let taskExecutionsApi: Workflows.TaskExecutionsApi; // # Not testable without the X-Workflow-Executor-Token
+let pipelineLocksApi: Workflows.PipelineLocksApi
 let tasksApi: Workflows.TasksApi;
 let usersApi: Workflows.UsersApi;
 
@@ -53,6 +54,7 @@ describe('Workflows e2e tests', async () => {
     pipelineArchivesApi = new Workflows.PipelineArchivesApi(configuration);
     pipelineRunsApi = new Workflows.PipelineRunsApi(configuration);
     pipelinesApi = new Workflows.PipelinesApi(configuration);
+    pipelineLocksApi = new Workflows.PipelineLocksApi(configuration);
     taskExecutionsApi = new Workflows.TaskExecutionsApi(configuration);
     tasksApi = new Workflows.TasksApi(configuration);
     usersApi = new Workflows.UsersApi(configuration);
@@ -231,14 +233,14 @@ describe('Workflows e2e tests', async () => {
     expect(pipelineArchiveListResp.result.length).equals(1);
   });
 
-  it(`should list 2 tasks from the '${id("pipeline")}' pipeline`, async () => {
+  it(`should list 6 tasks from the '${id("pipeline")}' pipeline`, async () => {
     let listTasksParams: Workflows.ListTasksRequest = {
       groupId: id("group"),
       pipelineId: id("pipeline")
     }
     let taskListResp: Workflows.RespTaskList = await tasksApi.listTasks(listTasksParams)
     
-    expect(taskListResp.result.length).equals(2);
+    expect(taskListResp.result.length).equals(6);
   });
 
   it(`should list 0 pipeline runs for the '${id("pipeline")}' pipeline`, async () => {
