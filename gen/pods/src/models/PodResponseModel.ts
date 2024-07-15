@@ -14,18 +14,18 @@
 
 import { exists, mapValues } from '../runtime';
 import {
-    Networking,
-    NetworkingFromJSON,
-    NetworkingFromJSONTyped,
-    NetworkingToJSON,
-    Resources,
-    ResourcesFromJSON,
-    ResourcesFromJSONTyped,
-    ResourcesToJSON,
-    VolumeMount,
-    VolumeMountFromJSON,
-    VolumeMountFromJSONTyped,
-    VolumeMountToJSON,
+    ModelsPodsNetworking,
+    ModelsPodsNetworkingFromJSON,
+    ModelsPodsNetworkingFromJSONTyped,
+    ModelsPodsNetworkingToJSON,
+    ModelsPodsResources,
+    ModelsPodsResourcesFromJSON,
+    ModelsPodsResourcesFromJSONTyped,
+    ModelsPodsResourcesToJSON,
+    ModelsPodsVolumeMount,
+    ModelsPodsVolumeMountFromJSON,
+    ModelsPodsVolumeMountFromJSONTyped,
+    ModelsPodsVolumeMountToJSON,
 } from './';
 
 /**
@@ -41,11 +41,17 @@ export interface PodResponseModel {
      */
     pod_id: string;
     /**
-     * Which pod template to use, or which custom image to run, must be on allowlist.
+     * Which docker image to use, must be on allowlist, check /pods/images for list.
      * @type {string}
      * @memberof PodResponseModel
      */
-    pod_template: string;
+    image?: string;
+    /**
+     * Which pod template to use as base of pod fields. User set attributes will overwrite template fields.
+     * @type {string}
+     * @memberof PodResponseModel
+     */
+    template?: string;
     /**
      * Description of this pod.
      * @type {string}
@@ -59,7 +65,7 @@ export interface PodResponseModel {
      */
     command?: Array<string>;
     /**
-     * Arguments for the pod Command.
+     * Arguments for the Pod's command.
      * @type {Array<string>}
      * @memberof PodResponseModel
      */
@@ -71,18 +77,6 @@ export interface PodResponseModel {
      */
     environment_variables?: object;
     /**
-     * Requested pod names.
-     * @type {Array<string>}
-     * @memberof PodResponseModel
-     */
-    data_requests?: Array<string>;
-    /**
-     * Roles required to view this pod.
-     * @type {Array<string>}
-     * @memberof PodResponseModel
-     */
-    roles_required?: Array<string>;
-    /**
      * Status requested by user, `ON`, `OFF`, or `RESTART`.
      * @type {string}
      * @memberof PodResponseModel
@@ -90,10 +84,10 @@ export interface PodResponseModel {
     status_requested?: string;
     /**
      * Key: Volume name. Value: List of strs specifying volume folders/files to mount in pod
-     * @type {{ [key: string]: VolumeMount; }}
+     * @type {{ [key: string]: ModelsPodsVolumeMount; }}
      * @memberof PodResponseModel
      */
-    volume_mounts?: { [key: string]: VolumeMount; };
+    volume_mounts?: { [key: string]: ModelsPodsVolumeMount; };
     /**
      * Default time (sec) for pod to run from instance start. -1 for unlimited. 12 hour default.
      * @type {number}
@@ -108,16 +102,22 @@ export interface PodResponseModel {
     time_to_stop_instance?: number;
     /**
      * Networking information. `{"url_suffix": {"protocol": "http"  "tcp", "port": int}}`
-     * @type {{ [key: string]: Networking; }}
+     * @type {{ [key: string]: ModelsPodsNetworking; }}
      * @memberof PodResponseModel
      */
-    networking?: { [key: string]: Networking; };
+    networking?: { [key: string]: ModelsPodsNetworking; };
     /**
-     * Pod resource management `{"cpu_limit": 3000, "mem_limit": 3000, "cpu_request": 500, "mem_limit": 500, "gpu": 0}`
-     * @type {Resources}
+     * Pod resource management `{"cpu_limit": 3000, "mem_limit": 3000, "cpu_request": 500, "mem_limit": 500, "gpus": 0}`
+     * @type {ModelsPodsResources}
      * @memberof PodResponseModel
      */
-    resources?: Resources | null;
+    resources?: ModelsPodsResources | null;
+    /**
+     * Queue to run pod in. `default` is the default queue.
+     * @type {string}
+     * @memberof PodResponseModel
+     */
+    compute_queue?: string;
     /**
      * Time (UTC) that this pod is scheduled to be stopped. Change with time_to_stop_instance.
      * @type {Date}
@@ -137,18 +137,6 @@ export interface PodResponseModel {
      */
     status_container?: object;
     /**
-     * Data attached.
-     * @type {Array<string>}
-     * @memberof PodResponseModel
-     */
-    data_attached?: Array<string>;
-    /**
-     * Inherited roles required to view this pod
-     * @type {Array<string>}
-     * @memberof PodResponseModel
-     */
-    roles_inherited?: Array<string>;
-    /**
      * Time (UTC) that this pod was created.
      * @type {Date}
      * @memberof PodResponseModel
@@ -166,12 +154,6 @@ export interface PodResponseModel {
      * @memberof PodResponseModel
      */
     start_instance_ts?: Date;
-    /**
-     * Log of past 10 actions taken on this pod.
-     * @type {Array<string>}
-     * @memberof PodResponseModel
-     */
-    action_logs?: Array<string>;
 }
 
 export function PodResponseModelFromJSON(json: any): PodResponseModel {
@@ -185,28 +167,25 @@ export function PodResponseModelFromJSONTyped(json: any, ignoreDiscriminator: bo
     return {
         
         'pod_id': json['pod_id'],
-        'pod_template': json['pod_template'],
+        'image': !exists(json, 'image') ? undefined : json['image'],
+        'template': !exists(json, 'template') ? undefined : json['template'],
         'description': !exists(json, 'description') ? undefined : json['description'],
         'command': !exists(json, 'command') ? undefined : json['command'],
         'arguments': !exists(json, 'arguments') ? undefined : json['arguments'],
         'environment_variables': !exists(json, 'environment_variables') ? undefined : json['environment_variables'],
-        'data_requests': !exists(json, 'data_requests') ? undefined : json['data_requests'],
-        'roles_required': !exists(json, 'roles_required') ? undefined : json['roles_required'],
         'status_requested': !exists(json, 'status_requested') ? undefined : json['status_requested'],
-        'volume_mounts': !exists(json, 'volume_mounts') ? undefined : (mapValues(json['volume_mounts'], VolumeMountFromJSON)),
+        'volume_mounts': !exists(json, 'volume_mounts') ? undefined : (mapValues(json['volume_mounts'], ModelsPodsVolumeMountFromJSON)),
         'time_to_stop_default': !exists(json, 'time_to_stop_default') ? undefined : json['time_to_stop_default'],
         'time_to_stop_instance': !exists(json, 'time_to_stop_instance') ? undefined : json['time_to_stop_instance'],
-        'networking': !exists(json, 'networking') ? undefined : (mapValues(json['networking'], NetworkingFromJSON)),
-        'resources': !exists(json, 'resources') ? undefined : ResourcesFromJSON(json['resources']),
+        'networking': !exists(json, 'networking') ? undefined : (mapValues(json['networking'], ModelsPodsNetworkingFromJSON)),
+        'resources': !exists(json, 'resources') ? undefined : ModelsPodsResourcesFromJSON(json['resources']),
+        'compute_queue': !exists(json, 'compute_queue') ? undefined : json['compute_queue'],
         'time_to_stop_ts': !exists(json, 'time_to_stop_ts') ? undefined : (new Date(json['time_to_stop_ts'])),
         'status': !exists(json, 'status') ? undefined : json['status'],
         'status_container': !exists(json, 'status_container') ? undefined : json['status_container'],
-        'data_attached': !exists(json, 'data_attached') ? undefined : json['data_attached'],
-        'roles_inherited': !exists(json, 'roles_inherited') ? undefined : json['roles_inherited'],
         'creation_ts': !exists(json, 'creation_ts') ? undefined : (new Date(json['creation_ts'])),
         'update_ts': !exists(json, 'update_ts') ? undefined : (new Date(json['update_ts'])),
         'start_instance_ts': !exists(json, 'start_instance_ts') ? undefined : (new Date(json['start_instance_ts'])),
-        'action_logs': !exists(json, 'action_logs') ? undefined : json['action_logs'],
     };
 }
 
@@ -220,28 +199,25 @@ export function PodResponseModelToJSON(value?: PodResponseModel | null): any {
     return {
         
         'pod_id': value.pod_id,
-        'pod_template': value.pod_template,
+        'image': value.image,
+        'template': value.template,
         'description': value.description,
         'command': value.command,
         'arguments': value.arguments,
         'environment_variables': value.environment_variables,
-        'data_requests': value.data_requests,
-        'roles_required': value.roles_required,
         'status_requested': value.status_requested,
-        'volume_mounts': value.volume_mounts === undefined ? undefined : (mapValues(value.volume_mounts, VolumeMountToJSON)),
+        'volume_mounts': value.volume_mounts === undefined ? undefined : (mapValues(value.volume_mounts, ModelsPodsVolumeMountToJSON)),
         'time_to_stop_default': value.time_to_stop_default,
         'time_to_stop_instance': value.time_to_stop_instance,
-        'networking': value.networking === undefined ? undefined : (mapValues(value.networking, NetworkingToJSON)),
-        'resources': ResourcesToJSON(value.resources),
+        'networking': value.networking === undefined ? undefined : (mapValues(value.networking, ModelsPodsNetworkingToJSON)),
+        'resources': ModelsPodsResourcesToJSON(value.resources),
+        'compute_queue': value.compute_queue,
         'time_to_stop_ts': value.time_to_stop_ts === undefined ? undefined : (value.time_to_stop_ts.toISOString()),
         'status': value.status,
         'status_container': value.status_container,
-        'data_attached': value.data_attached,
-        'roles_inherited': value.roles_inherited,
         'creation_ts': value.creation_ts === undefined ? undefined : (value.creation_ts.toISOString()),
         'update_ts': value.update_ts === undefined ? undefined : (value.update_ts.toISOString()),
         'start_instance_ts': value.start_instance_ts === undefined ? undefined : (value.start_instance_ts.toISOString()),
-        'action_logs': value.action_logs,
     };
 }
 

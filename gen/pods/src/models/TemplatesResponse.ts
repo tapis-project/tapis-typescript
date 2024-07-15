@@ -13,49 +13,70 @@
  */
 
 import { exists, mapValues } from '../runtime';
+import {
+    TemplateResponseModel,
+    TemplateResponseModelFromJSON,
+    TemplateResponseModelFromJSONTyped,
+    TemplateResponseModelToJSON,
+} from './';
+
 /**
  * 
  * @export
- * @interface VolumeMount
+ * @interface TemplatesResponse
  */
-export interface VolumeMount {
+export interface TemplatesResponse {
     /**
-     * Type of volume to attach.
+     * 
      * @type {string}
-     * @memberof VolumeMount
+     * @memberof TemplatesResponse
      */
-    type?: string;
+    message: string;
     /**
-     * Path to mount volume to.
-     * @type {string}
-     * @memberof VolumeMount
+     * 
+     * @type {object}
+     * @memberof TemplatesResponse
      */
-    mount_path?: string;
+    metadata: object;
     /**
-     * Path to mount volume to.
-     * @type {string}
-     * @memberof VolumeMount
+     * 
+     * @type {Array<TemplateResponseModel>}
+     * @memberof TemplatesResponse
      */
-    sub_path?: string;
+    result: Array<TemplateResponseModel>;
+    /**
+     * 
+     * @type {string}
+     * @memberof TemplatesResponse
+     */
+    status: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof TemplatesResponse
+     */
+    version: string;
 }
 
-export function VolumeMountFromJSON(json: any): VolumeMount {
-    return VolumeMountFromJSONTyped(json, false);
+export function TemplatesResponseFromJSON(json: any): TemplatesResponse {
+    return TemplatesResponseFromJSONTyped(json, false);
 }
 
-export function VolumeMountFromJSONTyped(json: any, ignoreDiscriminator: boolean): VolumeMount {
+export function TemplatesResponseFromJSONTyped(json: any, ignoreDiscriminator: boolean): TemplatesResponse {
     if ((json === undefined) || (json === null)) {
         return json;
     }
     return {
         
-        'type': !exists(json, 'type') ? undefined : json['type'],
-        'mount_path': !exists(json, 'mount_path') ? undefined : json['mount_path'],
-        'sub_path': !exists(json, 'sub_path') ? undefined : json['sub_path'],
+        'message': json['message'],
+        'metadata': json['metadata'],
+        'result': ((json['result'] as Array<any>).map(TemplateResponseModelFromJSON)),
+        'status': json['status'],
+        'version': json['version'],
     };
 }
 
-export function VolumeMountToJSON(value?: VolumeMount | null): any {
+export function TemplatesResponseToJSON(value?: TemplatesResponse | null): any {
     if (value === undefined) {
         return undefined;
     }
@@ -64,9 +85,11 @@ export function VolumeMountToJSON(value?: VolumeMount | null): any {
     }
     return {
         
-        'type': value.type,
-        'mount_path': value.mount_path,
-        'sub_path': value.sub_path,
+        'message': value.message,
+        'metadata': value.metadata,
+        'result': ((value.result as Array<any>).map(TemplateResponseModelToJSON)),
+        'status': value.status,
+        'version': value.version,
     };
 }
 

@@ -16,60 +16,60 @@ import { exists, mapValues } from '../runtime';
 /**
  * 
  * @export
- * @interface Resources
+ * @interface ImageDeleteResponse
  */
-export interface Resources {
+export interface ImageDeleteResponse {
     /**
-     * CPU allocation pod requests at startup. In millicpus (m). 1000 = 1 cpu.
-     * @type {number}
-     * @memberof Resources
+     * 
+     * @type {string}
+     * @memberof ImageDeleteResponse
      */
-    cpu_request?: number;
+    message: string;
     /**
-     * CPU allocation pod is allowed to use. In millicpus (m). 1000 = 1 cpu.
-     * @type {number}
-     * @memberof Resources
+     * 
+     * @type {object}
+     * @memberof ImageDeleteResponse
      */
-    cpu_limit?: number;
+    metadata: object;
     /**
-     * Memory allocation pod requests at startup. In megabytes (Mi)
-     * @type {number}
-     * @memberof Resources
+     * 
+     * @type {string}
+     * @memberof ImageDeleteResponse
      */
-    mem_request?: number;
+    result: string;
     /**
-     * Memory allocation pod is allowed to use. In megabytes (Mi)
-     * @type {number}
-     * @memberof Resources
+     * 
+     * @type {string}
+     * @memberof ImageDeleteResponse
      */
-    mem_limit?: number;
+    status: string;
     /**
-     * GPU allocation pod is allowed to use. In integers of GPUs. (we only have 1 currently ;) )
-     * @type {number}
-     * @memberof Resources
+     * 
+     * @type {string}
+     * @memberof ImageDeleteResponse
      */
-    gpus?: number;
+    version: string;
 }
 
-export function ResourcesFromJSON(json: any): Resources {
-    return ResourcesFromJSONTyped(json, false);
+export function ImageDeleteResponseFromJSON(json: any): ImageDeleteResponse {
+    return ImageDeleteResponseFromJSONTyped(json, false);
 }
 
-export function ResourcesFromJSONTyped(json: any, ignoreDiscriminator: boolean): Resources {
+export function ImageDeleteResponseFromJSONTyped(json: any, ignoreDiscriminator: boolean): ImageDeleteResponse {
     if ((json === undefined) || (json === null)) {
         return json;
     }
     return {
         
-        'cpu_request': !exists(json, 'cpu_request') ? undefined : json['cpu_request'],
-        'cpu_limit': !exists(json, 'cpu_limit') ? undefined : json['cpu_limit'],
-        'mem_request': !exists(json, 'mem_request') ? undefined : json['mem_request'],
-        'mem_limit': !exists(json, 'mem_limit') ? undefined : json['mem_limit'],
-        'gpus': !exists(json, 'gpus') ? undefined : json['gpus'],
+        'message': json['message'],
+        'metadata': json['metadata'],
+        'result': json['result'],
+        'status': json['status'],
+        'version': json['version'],
     };
 }
 
-export function ResourcesToJSON(value?: Resources | null): any {
+export function ImageDeleteResponseToJSON(value?: ImageDeleteResponse | null): any {
     if (value === undefined) {
         return undefined;
     }
@@ -78,11 +78,11 @@ export function ResourcesToJSON(value?: Resources | null): any {
     }
     return {
         
-        'cpu_request': value.cpu_request,
-        'cpu_limit': value.cpu_limit,
-        'mem_request': value.mem_request,
-        'mem_limit': value.mem_limit,
-        'gpus': value.gpus,
+        'message': value.message,
+        'metadata': value.metadata,
+        'result': value.result,
+        'status': value.status,
+        'version': value.version,
     };
 }
 

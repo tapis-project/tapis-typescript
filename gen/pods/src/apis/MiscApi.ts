@@ -20,6 +20,10 @@ import {
     HTTPValidationErrorToJSON,
 } from '../models';
 
+export interface AuthRequest {
+    username?: string;
+}
+
 export interface ErrorHandlerRequest {
     status: any;
 }
@@ -28,6 +32,38 @@ export interface ErrorHandlerRequest {
  * 
  */
 export class MiscApi extends runtime.BaseAPI {
+
+    /**
+     * Write to session  Traefik continues to user pod if 200, otherwise goes to result. Process a callback from a Tapis authorization server:   1) Get the authorization code from the query parameters.   2) Exchange the code for a token   3) Add the user and token to the sessionhttps   4) Redirect to the /data endpoint.
+     * OAuth2 endpoint to act as middleware between pods and user traffic, checking for authorization on a per url basis.
+     */
+    async authRaw(requestParameters: AuthRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<any>> {
+        const queryParameters: any = {};
+
+        if (requestParameters.username !== undefined) {
+            queryParameters['username'] = requestParameters.username;
+        }
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        const response = await this.request({
+            path: `/v3/pods/auth`,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.TextApiResponse(response) as any;
+    }
+
+    /**
+     * Write to session  Traefik continues to user pod if 200, otherwise goes to result. Process a callback from a Tapis authorization server:   1) Get the authorization code from the query parameters.   2) Exchange the code for a token   3) Add the user and token to the sessionhttps   4) Redirect to the /data endpoint.
+     * OAuth2 endpoint to act as middleware between pods and user traffic, checking for authorization on a per url basis.
+     */
+    async auth(requestParameters: AuthRequest, initOverrides?: RequestInit): Promise<any> {
+        const response = await this.authRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
 
     /**
      * Handles all error codes from Traefik.
