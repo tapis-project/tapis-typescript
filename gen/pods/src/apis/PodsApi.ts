@@ -15,15 +15,15 @@
 
 import * as runtime from '../runtime';
 import {
-    DeletePodResponse,
-    DeletePodResponseFromJSON,
-    DeletePodResponseToJSON,
     HTTPValidationError,
     HTTPValidationErrorFromJSON,
     HTTPValidationErrorToJSON,
     NewPod,
     NewPodFromJSON,
     NewPodToJSON,
+    PodDeleteResponse,
+    PodDeleteResponseFromJSON,
+    PodDeleteResponseToJSON,
     PodResponse,
     PodResponseFromJSON,
     PodResponseToJSON,
@@ -40,6 +40,10 @@ export interface CreatePodRequest {
 }
 
 export interface DeletePodRequest {
+    podId: any;
+}
+
+export interface GetDerivedPodRequest {
     podId: any;
 }
 
@@ -108,7 +112,7 @@ export class PodsApi extends runtime.BaseAPI {
      * Delete a pod.  Returns \"\".
      * delete_pod
      */
-    async deletePodRaw(requestParameters: DeletePodRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<DeletePodResponse>> {
+    async deletePodRaw(requestParameters: DeletePodRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<PodDeleteResponse>> {
         if (requestParameters.podId === null || requestParameters.podId === undefined) {
             throw new runtime.RequiredError('podId','Required parameter requestParameters.podId was null or undefined when calling deletePod.');
         }
@@ -124,15 +128,47 @@ export class PodsApi extends runtime.BaseAPI {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => DeletePodResponseFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => PodDeleteResponseFromJSON(jsonValue));
     }
 
     /**
      * Delete a pod.  Returns \"\".
      * delete_pod
      */
-    async deletePod(requestParameters: DeletePodRequest, initOverrides?: RequestInit): Promise<DeletePodResponse> {
+    async deletePod(requestParameters: DeletePodRequest, initOverrides?: RequestInit): Promise<PodDeleteResponse> {
         const response = await this.deletePodRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     * Derive a pod\'s final definition if templates are used.  Returns final pod definition to be used for pod creation.
+     * get_derived_pod
+     */
+    async getDerivedPodRaw(requestParameters: GetDerivedPodRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<PodResponse>> {
+        if (requestParameters.podId === null || requestParameters.podId === undefined) {
+            throw new runtime.RequiredError('podId','Required parameter requestParameters.podId was null or undefined when calling getDerivedPod.');
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        const response = await this.request({
+            path: `/v3/pods/{pod_id}/derived`.replace(`{${"pod_id"}}`, encodeURIComponent(String(requestParameters.podId))),
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => PodResponseFromJSON(jsonValue));
+    }
+
+    /**
+     * Derive a pod\'s final definition if templates are used.  Returns final pod definition to be used for pod creation.
+     * get_derived_pod
+     */
+    async getDerivedPod(requestParameters: GetDerivedPodRequest, initOverrides?: RequestInit): Promise<PodResponse> {
+        const response = await this.getDerivedPodRaw(requestParameters, initOverrides);
         return await response.value();
     }
 

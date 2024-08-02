@@ -14,18 +14,18 @@
 
 import { exists, mapValues } from '../runtime';
 import {
-    Networking,
-    NetworkingFromJSON,
-    NetworkingFromJSONTyped,
-    NetworkingToJSON,
-    Resources,
-    ResourcesFromJSON,
-    ResourcesFromJSONTyped,
-    ResourcesToJSON,
-    VolumeMount,
-    VolumeMountFromJSON,
-    VolumeMountFromJSONTyped,
-    VolumeMountToJSON,
+    ModelsPodsNetworking,
+    ModelsPodsNetworkingFromJSON,
+    ModelsPodsNetworkingFromJSONTyped,
+    ModelsPodsNetworkingToJSON,
+    ModelsPodsResources,
+    ModelsPodsResourcesFromJSON,
+    ModelsPodsResourcesFromJSONTyped,
+    ModelsPodsResourcesToJSON,
+    ModelsPodsVolumeMount,
+    ModelsPodsVolumeMountFromJSON,
+    ModelsPodsVolumeMountFromJSONTyped,
+    ModelsPodsVolumeMountToJSON,
 } from './';
 
 /**
@@ -53,18 +53,6 @@ export interface UpdatePod {
      */
     environment_variables?: object;
     /**
-     * Requested pod names.
-     * @type {Array<string>}
-     * @memberof UpdatePod
-     */
-    data_requests?: Array<string>;
-    /**
-     * Roles required to view this pod.
-     * @type {Array<string>}
-     * @memberof UpdatePod
-     */
-    roles_required?: Array<string>;
-    /**
      * Status requested by user, `ON`, `OFF`, or `RESTART`.
      * @type {string}
      * @memberof UpdatePod
@@ -72,10 +60,10 @@ export interface UpdatePod {
     status_requested?: string;
     /**
      * Key: Volume name. Value: List of strs specifying volume folders/files to mount in pod
-     * @type {{ [key: string]: VolumeMount; }}
+     * @type {{ [key: string]: ModelsPodsVolumeMount; }}
      * @memberof UpdatePod
      */
-    volume_mounts?: { [key: string]: VolumeMount; };
+    volume_mounts?: { [key: string]: ModelsPodsVolumeMount; };
     /**
      * Default time (sec) for pod to run from instance start. -1 for unlimited. 12 hour default.
      * @type {number}
@@ -90,16 +78,16 @@ export interface UpdatePod {
     time_to_stop_instance?: number;
     /**
      * Networking information. {"url_suffix": {"protocol": "http"  "tcp", "port": int}}
-     * @type {{ [key: string]: Networking; }}
+     * @type {{ [key: string]: ModelsPodsNetworking; }}
      * @memberof UpdatePod
      */
-    networking?: { [key: string]: Networking; };
+    networking?: { [key: string]: ModelsPodsNetworking; };
     /**
      * Pod resource management {"cpu_limit": 3000, "mem_limit": 3000, "cpu_request": 500, "mem_limit": 500, "gpu": 0}
-     * @type {Resources}
+     * @type {ModelsPodsResources}
      * @memberof UpdatePod
      */
-    resources?: Resources | null;
+    resources?: ModelsPodsResources | null;
 }
 
 export function UpdatePodFromJSON(json: any): UpdatePod {
@@ -115,14 +103,12 @@ export function UpdatePodFromJSONTyped(json: any, ignoreDiscriminator: boolean):
         'description': !exists(json, 'description') ? undefined : json['description'],
         'command': !exists(json, 'command') ? undefined : json['command'],
         'environment_variables': !exists(json, 'environment_variables') ? undefined : json['environment_variables'],
-        'data_requests': !exists(json, 'data_requests') ? undefined : json['data_requests'],
-        'roles_required': !exists(json, 'roles_required') ? undefined : json['roles_required'],
         'status_requested': !exists(json, 'status_requested') ? undefined : json['status_requested'],
-        'volume_mounts': !exists(json, 'volume_mounts') ? undefined : (mapValues(json['volume_mounts'], VolumeMountFromJSON)),
+        'volume_mounts': !exists(json, 'volume_mounts') ? undefined : (mapValues(json['volume_mounts'], ModelsPodsVolumeMountFromJSON)),
         'time_to_stop_default': !exists(json, 'time_to_stop_default') ? undefined : json['time_to_stop_default'],
         'time_to_stop_instance': !exists(json, 'time_to_stop_instance') ? undefined : json['time_to_stop_instance'],
-        'networking': !exists(json, 'networking') ? undefined : (mapValues(json['networking'], NetworkingFromJSON)),
-        'resources': !exists(json, 'resources') ? undefined : ResourcesFromJSON(json['resources']),
+        'networking': !exists(json, 'networking') ? undefined : (mapValues(json['networking'], ModelsPodsNetworkingFromJSON)),
+        'resources': !exists(json, 'resources') ? undefined : ModelsPodsResourcesFromJSON(json['resources']),
     };
 }
 
@@ -138,14 +124,12 @@ export function UpdatePodToJSON(value?: UpdatePod | null): any {
         'description': value.description,
         'command': value.command,
         'environment_variables': value.environment_variables,
-        'data_requests': value.data_requests,
-        'roles_required': value.roles_required,
         'status_requested': value.status_requested,
-        'volume_mounts': value.volume_mounts === undefined ? undefined : (mapValues(value.volume_mounts, VolumeMountToJSON)),
+        'volume_mounts': value.volume_mounts === undefined ? undefined : (mapValues(value.volume_mounts, ModelsPodsVolumeMountToJSON)),
         'time_to_stop_default': value.time_to_stop_default,
         'time_to_stop_instance': value.time_to_stop_instance,
-        'networking': value.networking === undefined ? undefined : (mapValues(value.networking, NetworkingToJSON)),
-        'resources': ResourcesToJSON(value.resources),
+        'networking': value.networking === undefined ? undefined : (mapValues(value.networking, ModelsPodsNetworkingToJSON)),
+        'resources': ModelsPodsResourcesToJSON(value.resources),
     };
 }
 
