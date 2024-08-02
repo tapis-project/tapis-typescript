@@ -2546,7 +2546,7 @@ components:
     ValueFromArgs:
       type: object
       properties:
-        arg:
+        args:
           type: string
 
     ValueFromTaskOutput:

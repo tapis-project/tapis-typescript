@@ -24,7 +24,7 @@ export interface ValueFromArgs {
      * @type {string}
      * @memberof ValueFromArgs
      */
-    arg?: string;
+    args?: string;
 }
 
 export function ValueFromArgsFromJSON(json: any): ValueFromArgs {
@@ -37,7 +37,7 @@ export function ValueFromArgsFromJSONTyped(json: any, ignoreDiscriminator: boole
     }
     return {
         
-        'arg': !exists(json, 'arg') ? undefined : json['arg'],
+        'args': !exists(json, 'args') ? undefined : json['args'],
     };
 }
 
@@ -50,7 +50,7 @@ export function ValueFromArgsToJSON(value?: ValueFromArgs | null): any {
     }
     return {
         
-        'arg': value.arg,
+        'args': value.args,
     };
 }
 

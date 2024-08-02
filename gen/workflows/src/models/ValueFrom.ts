@@ -51,7 +51,7 @@ export interface ValueFrom {
      * @type {string}
      * @memberof ValueFrom
      */
-    arg?: string;
+    args?: string;
     /**
      * 
      * @type {string}
@@ -100,7 +100,7 @@ export function ValueFromFromJSONTyped(json: any, ignoreDiscriminator: boolean):
     }
     return {
         
-        'arg': !exists(json, 'arg') ? undefined : json['arg'],
+        'args': !exists(json, 'args') ? undefined : json['args'],
         'env': !exists(json, 'env') ? undefined : json['env'],
         'task_output': !exists(json, 'task_output') ? undefined : TaskOutputRefFromJSON(json['task_output']),
         'host': !exists(json, 'host') ? undefined : json['host'],
@@ -119,7 +119,7 @@ export function ValueFromToJSON(value?: ValueFrom | null): any {
     }
     return {
         
-        'arg': value.arg,
+        'args': value.args,
         'env': value.env,
         'task_output': TaskOutputRefToJSON(value.task_output),
         'host': value.host,
