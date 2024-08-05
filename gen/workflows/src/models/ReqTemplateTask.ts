@@ -94,6 +94,12 @@ export interface ReqTemplateTask {
     output?: { [key: string]: object; };
     /**
      * 
+     * @type {Array<{ [key: string]: object; }>}
+     * @memberof ReqTemplateTask
+     */
+    conditions?: Array<{ [key: string]: object; }>;
+    /**
+     * 
      * @type {Uses}
      * @memberof ReqTemplateTask
      */
@@ -117,6 +123,7 @@ export function ReqTemplateTaskFromJSONTyped(json: any, ignoreDiscriminator: boo
         'execution_profile': !exists(json, 'execution_profile') ? undefined : TaskExecutionProfileFromJSON(json['execution_profile']),
         'input': !exists(json, 'input') ? undefined : (mapValues(json['input'], SpecWithValueFromJSON)),
         'output': !exists(json, 'output') ? undefined : json['output'],
+        'conditions': !exists(json, 'conditions') ? undefined : json['conditions'],
         'uses': UsesFromJSON(json['uses']),
     };
 }
@@ -137,6 +144,7 @@ export function ReqTemplateTaskToJSON(value?: ReqTemplateTask | null): any {
         'execution_profile': TaskExecutionProfileToJSON(value.execution_profile),
         'input': value.input === undefined ? undefined : (mapValues(value.input, SpecWithValueToJSON)),
         'output': value.output,
+        'conditions': value.conditions,
         'uses': UsesToJSON(value.uses),
     };
 }

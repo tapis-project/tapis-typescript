@@ -52,6 +52,7 @@ src/models/ETLSystem.ts
 src/models/ETLSystemsConfiguration.ts
 src/models/EnumArchiveType.ts
 src/models/EnumBuilder.ts
+src/models/EnumComparisonOperator.ts
 src/models/EnumContextType.ts
 src/models/EnumContextVisibility.ts
 src/models/EnumDestinationType.ts
@@ -61,6 +62,9 @@ src/models/EnumIdentityType.ts
 src/models/EnumInputType.ts
 src/models/EnumInstaller.ts
 src/models/EnumInvocationMode.ts
+src/models/EnumLogicalOperator.ts
+src/models/EnumMembershipOperator.ts
+src/models/EnumNegationOperator.ts
 src/models/EnumPipelineType.ts
 src/models/EnumRetryPolicy.ts
 src/models/EnumRunStatus.ts

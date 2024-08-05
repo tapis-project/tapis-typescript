@@ -80,6 +80,12 @@ export interface BaseTask {
      * @memberof BaseTask
      */
     output?: { [key: string]: object; };
+    /**
+     * 
+     * @type {Array<{ [key: string]: object; }>}
+     * @memberof BaseTask
+     */
+    conditions?: Array<{ [key: string]: object; }>;
 }
 
 export function BaseTaskFromJSON(json: any): BaseTask {
@@ -99,6 +105,7 @@ export function BaseTaskFromJSONTyped(json: any, ignoreDiscriminator: boolean): 
         'execution_profile': !exists(json, 'execution_profile') ? undefined : TaskExecutionProfileFromJSON(json['execution_profile']),
         'input': !exists(json, 'input') ? undefined : (mapValues(json['input'], SpecWithValueFromJSON)),
         'output': !exists(json, 'output') ? undefined : json['output'],
+        'conditions': !exists(json, 'conditions') ? undefined : json['conditions'],
     };
 }
 
@@ -118,6 +125,7 @@ export function BaseTaskToJSON(value?: BaseTask | null): any {
         'execution_profile': TaskExecutionProfileToJSON(value.execution_profile),
         'input': value.input === undefined ? undefined : (mapValues(value.input, SpecWithValueToJSON)),
         'output': value.output,
+        'conditions': value.conditions,
     };
 }
 

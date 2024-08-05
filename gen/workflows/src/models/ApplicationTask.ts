@@ -90,6 +90,12 @@ export interface ApplicationTask {
     output?: { [key: string]: object; };
     /**
      * 
+     * @type {Array<{ [key: string]: object; }>}
+     * @memberof ApplicationTask
+     */
+    conditions?: Array<{ [key: string]: object; }>;
+    /**
+     * 
      * @type {string}
      * @memberof ApplicationTask
      */
@@ -113,6 +119,7 @@ export function ApplicationTaskFromJSONTyped(json: any, ignoreDiscriminator: boo
         'execution_profile': !exists(json, 'execution_profile') ? undefined : TaskExecutionProfileFromJSON(json['execution_profile']),
         'input': !exists(json, 'input') ? undefined : (mapValues(json['input'], SpecWithValueFromJSON)),
         'output': !exists(json, 'output') ? undefined : json['output'],
+        'conditions': !exists(json, 'conditions') ? undefined : json['conditions'],
         'image': !exists(json, 'image') ? undefined : json['image'],
     };
 }
@@ -133,6 +140,7 @@ export function ApplicationTaskToJSON(value?: ApplicationTask | null): any {
         'execution_profile': TaskExecutionProfileToJSON(value.execution_profile),
         'input': value.input === undefined ? undefined : (mapValues(value.input, SpecWithValueToJSON)),
         'output': value.output,
+        'conditions': value.conditions,
         'image': value.image,
     };
 }

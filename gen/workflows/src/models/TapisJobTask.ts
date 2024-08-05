@@ -90,6 +90,12 @@ export interface TapisJobTask {
     output?: { [key: string]: object; };
     /**
      * 
+     * @type {Array<{ [key: string]: object; }>}
+     * @memberof TapisJobTask
+     */
+    conditions?: Array<{ [key: string]: object; }>;
+    /**
+     * 
      * @type {boolean}
      * @memberof TapisJobTask
      */
@@ -119,6 +125,7 @@ export function TapisJobTaskFromJSONTyped(json: any, ignoreDiscriminator: boolea
         'execution_profile': !exists(json, 'execution_profile') ? undefined : TaskExecutionProfileFromJSON(json['execution_profile']),
         'input': !exists(json, 'input') ? undefined : (mapValues(json['input'], SpecWithValueFromJSON)),
         'output': !exists(json, 'output') ? undefined : json['output'],
+        'conditions': !exists(json, 'conditions') ? undefined : json['conditions'],
         'poll': !exists(json, 'poll') ? undefined : json['poll'],
         'tapis_job_def': !exists(json, 'tapis_job_def') ? undefined : json['tapis_job_def'],
     };
@@ -140,6 +147,7 @@ export function TapisJobTaskToJSON(value?: TapisJobTask | null): any {
         'execution_profile': TaskExecutionProfileToJSON(value.execution_profile),
         'input': value.input === undefined ? undefined : (mapValues(value.input, SpecWithValueToJSON)),
         'output': value.output,
+        'conditions': value.conditions,
         'poll': value.poll,
         'tapis_job_def': value.tapis_job_def,
     };

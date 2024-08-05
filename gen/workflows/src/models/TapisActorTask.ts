@@ -90,6 +90,12 @@ export interface TapisActorTask {
     output?: { [key: string]: object; };
     /**
      * 
+     * @type {Array<{ [key: string]: object; }>}
+     * @memberof TapisActorTask
+     */
+    conditions?: Array<{ [key: string]: object; }>;
+    /**
+     * 
      * @type {boolean}
      * @memberof TapisActorTask
      */
@@ -125,6 +131,7 @@ export function TapisActorTaskFromJSONTyped(json: any, ignoreDiscriminator: bool
         'execution_profile': !exists(json, 'execution_profile') ? undefined : TaskExecutionProfileFromJSON(json['execution_profile']),
         'input': !exists(json, 'input') ? undefined : (mapValues(json['input'], SpecWithValueFromJSON)),
         'output': !exists(json, 'output') ? undefined : json['output'],
+        'conditions': !exists(json, 'conditions') ? undefined : json['conditions'],
         'poll': !exists(json, 'poll') ? undefined : json['poll'],
         'tapis_actor_id': !exists(json, 'tapis_actor_id') ? undefined : json['tapis_actor_id'],
         'tapis_actor_message': !exists(json, 'tapis_actor_message') ? undefined : json['tapis_actor_message'],
@@ -147,6 +154,7 @@ export function TapisActorTaskToJSON(value?: TapisActorTask | null): any {
         'execution_profile': TaskExecutionProfileToJSON(value.execution_profile),
         'input': value.input === undefined ? undefined : (mapValues(value.input, SpecWithValueToJSON)),
         'output': value.output,
+        'conditions': value.conditions,
         'poll': value.poll,
         'tapis_actor_id': value.tapis_actor_id,
         'tapis_actor_message': value.tapis_actor_message,

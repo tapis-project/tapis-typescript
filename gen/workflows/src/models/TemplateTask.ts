@@ -94,6 +94,12 @@ export interface TemplateTask {
     output?: { [key: string]: object; };
     /**
      * 
+     * @type {Array<{ [key: string]: object; }>}
+     * @memberof TemplateTask
+     */
+    conditions?: Array<{ [key: string]: object; }>;
+    /**
+     * 
      * @type {Uses}
      * @memberof TemplateTask
      */
@@ -117,6 +123,7 @@ export function TemplateTaskFromJSONTyped(json: any, ignoreDiscriminator: boolea
         'execution_profile': !exists(json, 'execution_profile') ? undefined : TaskExecutionProfileFromJSON(json['execution_profile']),
         'input': !exists(json, 'input') ? undefined : (mapValues(json['input'], SpecWithValueFromJSON)),
         'output': !exists(json, 'output') ? undefined : json['output'],
+        'conditions': !exists(json, 'conditions') ? undefined : json['conditions'],
         'uses': !exists(json, 'uses') ? undefined : UsesFromJSON(json['uses']),
     };
 }
@@ -137,6 +144,7 @@ export function TemplateTaskToJSON(value?: TemplateTask | null): any {
         'execution_profile': TaskExecutionProfileToJSON(value.execution_profile),
         'input': value.input === undefined ? undefined : (mapValues(value.input, SpecWithValueToJSON)),
         'output': value.output,
+        'conditions': value.conditions,
         'uses': UsesToJSON(value.uses),
     };
 }

@@ -94,6 +94,12 @@ export interface ReqRequestTask {
     output?: { [key: string]: object; };
     /**
      * 
+     * @type {Array<{ [key: string]: object; }>}
+     * @memberof ReqRequestTask
+     */
+    conditions?: Array<{ [key: string]: object; }>;
+    /**
+     * 
      * @type {object}
      * @memberof ReqRequestTask
      */
@@ -147,6 +153,7 @@ export function ReqRequestTaskFromJSONTyped(json: any, ignoreDiscriminator: bool
         'execution_profile': !exists(json, 'execution_profile') ? undefined : TaskExecutionProfileFromJSON(json['execution_profile']),
         'input': !exists(json, 'input') ? undefined : (mapValues(json['input'], SpecWithValueFromJSON)),
         'output': !exists(json, 'output') ? undefined : json['output'],
+        'conditions': !exists(json, 'conditions') ? undefined : json['conditions'],
         'auth': !exists(json, 'auth') ? undefined : json['auth'],
         'data': !exists(json, 'data') ? undefined : json['data'],
         'headers': !exists(json, 'headers') ? undefined : json['headers'],
@@ -172,6 +179,7 @@ export function ReqRequestTaskToJSON(value?: ReqRequestTask | null): any {
         'execution_profile': TaskExecutionProfileToJSON(value.execution_profile),
         'input': value.input === undefined ? undefined : (mapValues(value.input, SpecWithValueToJSON)),
         'output': value.output,
+        'conditions': value.conditions,
         'auth': value.auth,
         'data': value.data,
         'headers': value.headers,

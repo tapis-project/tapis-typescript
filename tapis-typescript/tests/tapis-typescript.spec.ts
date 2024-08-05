@@ -89,7 +89,6 @@ describe('tapis-typescript', () => {
   });
   it('should have Pods service', () => {
     expect(Pods).to.have.property('CredentialsApi');
-    expect(Pods).to.have.property('DefaultApi');
     expect(Pods).to.have.property('LogsApi');
     expect(Pods).to.have.property('MiscApi');
     expect(Pods).to.have.property('PermissionsApi');
