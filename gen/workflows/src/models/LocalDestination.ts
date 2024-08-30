@@ -14,6 +14,10 @@
 
 import { exists, mapValues } from '../runtime';
 import {
+    BaseDestination,
+    BaseDestinationFromJSON,
+    BaseDestinationFromJSONTyped,
+    BaseDestinationToJSON,
     EnumDestinationType,
     EnumDestinationTypeFromJSON,
     EnumDestinationTypeFromJSONTyped,
@@ -22,37 +26,33 @@ import {
     LocalDestinationAllOfFromJSON,
     LocalDestinationAllOfFromJSONTyped,
     LocalDestinationAllOfToJSON,
-    ReqBaseDestination,
-    ReqBaseDestinationFromJSON,
-    ReqBaseDestinationFromJSONTyped,
-    ReqBaseDestinationToJSON,
 } from './';
 
 /**
  * 
  * @export
- * @interface ReqLocalDestination
+ * @interface LocalDestination
  */
-export interface ReqLocalDestination {
+export interface LocalDestination {
     /**
      * 
      * @type {EnumDestinationType}
-     * @memberof ReqLocalDestination
+     * @memberof LocalDestination
      */
     type: EnumDestinationType;
     /**
      * 
      * @type {string}
-     * @memberof ReqLocalDestination
+     * @memberof LocalDestination
      */
     filename?: string;
 }
 
-export function ReqLocalDestinationFromJSON(json: any): ReqLocalDestination {
-    return ReqLocalDestinationFromJSONTyped(json, false);
+export function LocalDestinationFromJSON(json: any): LocalDestination {
+    return LocalDestinationFromJSONTyped(json, false);
 }
 
-export function ReqLocalDestinationFromJSONTyped(json: any, ignoreDiscriminator: boolean): ReqLocalDestination {
+export function LocalDestinationFromJSONTyped(json: any, ignoreDiscriminator: boolean): LocalDestination {
     if ((json === undefined) || (json === null)) {
         return json;
     }
@@ -63,7 +63,7 @@ export function ReqLocalDestinationFromJSONTyped(json: any, ignoreDiscriminator:
     };
 }
 
-export function ReqLocalDestinationToJSON(value?: ReqLocalDestination | null): any {
+export function LocalDestinationToJSON(value?: LocalDestination | null): any {
     if (value === undefined) {
         return undefined;
     }

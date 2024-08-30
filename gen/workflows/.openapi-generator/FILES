@@ -25,6 +25,7 @@ src/models/ArgSpec.ts
 src/models/ArgSpecAllOf.ts
 src/models/BaseArchive.ts
 src/models/BaseDataIntegrityProfile.ts
+src/models/BaseDestination.ts
 src/models/BaseTask.ts
 src/models/ByteCheckDataIntegrityProfile.ts
 src/models/ChecksumDataIntegrityProfile.ts
@@ -32,6 +33,8 @@ src/models/ChecksumDataIntegrityProfileAllOf.ts
 src/models/Context.ts
 src/models/DataIntegrityProfile.ts
 src/models/Destination.ts
+src/models/DockerhubCred.ts
+src/models/DockerhubDestination.ts
 src/models/DoneFileDataIntegrityProfile.ts
 src/models/DoneFileDataIntegrityProfileAllOf.ts
 src/models/ETLActionFilter.ts
@@ -87,11 +90,15 @@ src/models/GroupUser.ts
 src/models/Identity.ts
 src/models/ImageBuildTask.ts
 src/models/ImageBuildTaskAllOf.ts
+src/models/LocalDestination.ts
+src/models/LocalDestinationAllOf.ts
 src/models/Pipeline.ts
 src/models/PipelineExecutionProfile.ts
 src/models/PipelineExecutionProfileAllOf.ts
 src/models/PipelineLock.ts
 src/models/PipelineRun.ts
+src/models/RegistryDestination.ts
+src/models/RegistryDestinationAllOf.ts
 src/models/ReqApplicationTask.ts
 src/models/ReqApplicationTaskAllOf.ts
 src/models/ReqArchive.ts
@@ -131,7 +138,6 @@ src/models/ReqImageBuildTaskAllOf.ts
 src/models/ReqLocalContext.ts
 src/models/ReqLocalContextAllOf.ts
 src/models/ReqLocalDestination.ts
-src/models/ReqLocalDestinationAllOf.ts
 src/models/ReqNonLocalContext.ts
 src/models/ReqNonLocalContextAllOf.ts
 src/models/ReqPatchPipelineRun.ts

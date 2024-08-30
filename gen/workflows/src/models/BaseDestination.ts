@@ -18,52 +18,37 @@ import {
     EnumDestinationTypeFromJSON,
     EnumDestinationTypeFromJSONTyped,
     EnumDestinationTypeToJSON,
-    LocalDestinationAllOf,
-    LocalDestinationAllOfFromJSON,
-    LocalDestinationAllOfFromJSONTyped,
-    LocalDestinationAllOfToJSON,
-    ReqBaseDestination,
-    ReqBaseDestinationFromJSON,
-    ReqBaseDestinationFromJSONTyped,
-    ReqBaseDestinationToJSON,
 } from './';
 
 /**
  * 
  * @export
- * @interface ReqLocalDestination
+ * @interface BaseDestination
  */
-export interface ReqLocalDestination {
+export interface BaseDestination {
     /**
      * 
      * @type {EnumDestinationType}
-     * @memberof ReqLocalDestination
+     * @memberof BaseDestination
      */
     type: EnumDestinationType;
-    /**
-     * 
-     * @type {string}
-     * @memberof ReqLocalDestination
-     */
-    filename?: string;
 }
 
-export function ReqLocalDestinationFromJSON(json: any): ReqLocalDestination {
-    return ReqLocalDestinationFromJSONTyped(json, false);
+export function BaseDestinationFromJSON(json: any): BaseDestination {
+    return BaseDestinationFromJSONTyped(json, false);
 }
 
-export function ReqLocalDestinationFromJSONTyped(json: any, ignoreDiscriminator: boolean): ReqLocalDestination {
+export function BaseDestinationFromJSONTyped(json: any, ignoreDiscriminator: boolean): BaseDestination {
     if ((json === undefined) || (json === null)) {
         return json;
     }
     return {
         
         'type': EnumDestinationTypeFromJSON(json['type']),
-        'filename': !exists(json, 'filename') ? undefined : json['filename'],
     };
 }
 
-export function ReqLocalDestinationToJSON(value?: ReqLocalDestination | null): any {
+export function BaseDestinationToJSON(value?: BaseDestination | null): any {
     if (value === undefined) {
         return undefined;
     }
@@ -73,7 +58,6 @@ export function ReqLocalDestinationToJSON(value?: ReqLocalDestination | null): a
     return {
         
         'type': EnumDestinationTypeToJSON(value.type),
-        'filename': value.filename,
     };
 }
 

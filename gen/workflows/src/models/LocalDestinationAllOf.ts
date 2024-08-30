@@ -16,22 +16,22 @@ import { exists, mapValues } from '../runtime';
 /**
  * 
  * @export
- * @interface ReqLocalDestinationAllOf
+ * @interface LocalDestinationAllOf
  */
-export interface ReqLocalDestinationAllOf {
+export interface LocalDestinationAllOf {
     /**
      * 
      * @type {string}
-     * @memberof ReqLocalDestinationAllOf
+     * @memberof LocalDestinationAllOf
      */
     filename?: string;
 }
 
-export function ReqLocalDestinationAllOfFromJSON(json: any): ReqLocalDestinationAllOf {
-    return ReqLocalDestinationAllOfFromJSONTyped(json, false);
+export function LocalDestinationAllOfFromJSON(json: any): LocalDestinationAllOf {
+    return LocalDestinationAllOfFromJSONTyped(json, false);
 }
 
-export function ReqLocalDestinationAllOfFromJSONTyped(json: any, ignoreDiscriminator: boolean): ReqLocalDestinationAllOf {
+export function LocalDestinationAllOfFromJSONTyped(json: any, ignoreDiscriminator: boolean): LocalDestinationAllOf {
     if ((json === undefined) || (json === null)) {
         return json;
     }
@@ -41,7 +41,7 @@ export function ReqLocalDestinationAllOfFromJSONTyped(json: any, ignoreDiscrimin
     };
 }
 
-export function ReqLocalDestinationAllOfToJSON(value?: ReqLocalDestinationAllOf | null): any {
+export function LocalDestinationAllOfToJSON(value?: LocalDestinationAllOf | null): any {
     if (value === undefined) {
         return undefined;
     }

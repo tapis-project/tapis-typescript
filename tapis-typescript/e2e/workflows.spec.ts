@@ -121,7 +121,7 @@ describe('Workflows e2e tests', async () => {
             // NOTE Uncomment to ensure there are no type errors.
             // TODO Remove comments when these task types are fully implemented
             {
-              id: id("task3-container-run"),
+              id: id("task3-application"),
               type: Workflows.EnumTaskType.Application,
               image: "my/image"
             },

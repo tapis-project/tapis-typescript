@@ -18,77 +18,51 @@ import {
     DockerhubCredFromJSON,
     DockerhubCredFromJSONTyped,
     DockerhubCredToJSON,
-    DockerhubDestination,
-    DockerhubDestinationFromJSON,
-    DockerhubDestinationFromJSONTyped,
-    DockerhubDestinationToJSON,
-    EnumDestinationType,
-    EnumDestinationTypeFromJSON,
-    EnumDestinationTypeFromJSONTyped,
-    EnumDestinationTypeToJSON,
-    LocalDestination,
-    LocalDestinationFromJSON,
-    LocalDestinationFromJSONTyped,
-    LocalDestinationToJSON,
 } from './';
 
 /**
  * 
  * @export
- * @interface Destination
+ * @interface RegistryDestinationAllOf
  */
-export interface Destination {
-    /**
-     * 
-     * @type {EnumDestinationType}
-     * @memberof Destination
-     */
-    type: EnumDestinationType;
+export interface RegistryDestinationAllOf {
     /**
      * 
      * @type {DockerhubCred}
-     * @memberof Destination
+     * @memberof RegistryDestinationAllOf
      */
     credentials?: DockerhubCred;
     /**
      * 
      * @type {string}
-     * @memberof Destination
+     * @memberof RegistryDestinationAllOf
      */
     tag?: string;
     /**
      * 
      * @type {string}
-     * @memberof Destination
+     * @memberof RegistryDestinationAllOf
      */
     url?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof Destination
-     */
-    filename?: string;
 }
 
-export function DestinationFromJSON(json: any): Destination {
-    return DestinationFromJSONTyped(json, false);
+export function RegistryDestinationAllOfFromJSON(json: any): RegistryDestinationAllOf {
+    return RegistryDestinationAllOfFromJSONTyped(json, false);
 }
 
-export function DestinationFromJSONTyped(json: any, ignoreDiscriminator: boolean): Destination {
+export function RegistryDestinationAllOfFromJSONTyped(json: any, ignoreDiscriminator: boolean): RegistryDestinationAllOf {
     if ((json === undefined) || (json === null)) {
         return json;
     }
     return {
         
-        'type': EnumDestinationTypeFromJSON(json['type']),
         'credentials': !exists(json, 'credentials') ? undefined : DockerhubCredFromJSON(json['credentials']),
         'tag': !exists(json, 'tag') ? undefined : json['tag'],
         'url': !exists(json, 'url') ? undefined : json['url'],
-        'filename': !exists(json, 'filename') ? undefined : json['filename'],
     };
 }
 
-export function DestinationToJSON(value?: Destination | null): any {
+export function RegistryDestinationAllOfToJSON(value?: RegistryDestinationAllOf | null): any {
     if (value === undefined) {
         return undefined;
     }
@@ -97,11 +71,9 @@ export function DestinationToJSON(value?: Destination | null): any {
     }
     return {
         
-        'type': EnumDestinationTypeToJSON(value.type),
         'credentials': DockerhubCredToJSON(value.credentials),
         'tag': value.tag,
         'url': value.url,
-        'filename': value.filename,
     };
 }
 
