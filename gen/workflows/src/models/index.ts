@@ -201,6 +201,7 @@ export * from './RespTaskList';
 export * from './RespTaskListAllOf';
 export * from './S3Archive';
 export * from './S3ArchiveAllOf';
+export * from './SecretRef';
 export * from './Spec';
 export * from './SpecWithValue';
 export * from './SpecWithValueAllOf';

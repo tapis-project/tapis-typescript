@@ -219,6 +219,7 @@ src/models/RespTaskList.ts
 src/models/RespTaskListAllOf.ts
 src/models/S3Archive.ts
 src/models/S3ArchiveAllOf.ts
+src/models/SecretRef.ts
 src/models/Spec.ts
 src/models/SpecWithValue.ts
 src/models/SpecWithValueAllOf.ts

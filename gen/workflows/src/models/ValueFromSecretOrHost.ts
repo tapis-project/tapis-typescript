@@ -14,6 +14,10 @@
 
 import { exists, mapValues } from '../runtime';
 import {
+    SecretRef,
+    SecretRefFromJSON,
+    SecretRefFromJSONTyped,
+    SecretRefToJSON,
     ValueFromHost,
     ValueFromHostFromJSON,
     ValueFromHostFromJSONTyped,
@@ -32,22 +36,10 @@ import {
 export interface ValueFromSecretOrHost {
     /**
      * 
-     * @type {string}
+     * @type {SecretRef}
      * @memberof ValueFromSecretOrHost
      */
-    engine?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof ValueFromSecretOrHost
-     */
-    pk?: string;
-    /**
-     * 
-     * @type {Array<string>}
-     * @memberof ValueFromSecretOrHost
-     */
-    field_selector?: Array<string>;
+    secret?: SecretRef;
     /**
      * 
      * @type {string}
@@ -66,9 +58,7 @@ export function ValueFromSecretOrHostFromJSONTyped(json: any, ignoreDiscriminato
     }
     return {
         
-        'engine': !exists(json, 'engine') ? undefined : json['engine'],
-        'pk': !exists(json, 'pk') ? undefined : json['pk'],
-        'field_selector': !exists(json, 'field_selector') ? undefined : json['field_selector'],
+        'secret': !exists(json, 'secret') ? undefined : SecretRefFromJSON(json['secret']),
         'host': !exists(json, 'host') ? undefined : json['host'],
     };
 }
@@ -82,9 +72,7 @@ export function ValueFromSecretOrHostToJSON(value?: ValueFromSecretOrHost | null
     }
     return {
         
-        'engine': value.engine,
-        'pk': value.pk,
-        'field_selector': value.field_selector,
+        'secret': SecretRefToJSON(value.secret),
         'host': value.host,
     };
 }

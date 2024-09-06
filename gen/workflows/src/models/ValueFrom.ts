@@ -14,6 +14,10 @@
 
 import { exists, mapValues } from '../runtime';
 import {
+    SecretRef,
+    SecretRefFromJSON,
+    SecretRefFromJSONTyped,
+    SecretRefToJSON,
     TaskOutputRef,
     TaskOutputRefFromJSON,
     TaskOutputRefFromJSONTyped,
@@ -72,22 +76,10 @@ export interface ValueFrom {
     host?: string;
     /**
      * 
-     * @type {string}
+     * @type {SecretRef}
      * @memberof ValueFrom
      */
-    engine?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof ValueFrom
-     */
-    pk?: string;
-    /**
-     * 
-     * @type {Array<string>}
-     * @memberof ValueFrom
-     */
-    field_selector?: Array<string>;
+    secret?: SecretRef;
 }
 
 export function ValueFromFromJSON(json: any): ValueFrom {
@@ -104,9 +96,7 @@ export function ValueFromFromJSONTyped(json: any, ignoreDiscriminator: boolean):
         'env': !exists(json, 'env') ? undefined : json['env'],
         'task_output': !exists(json, 'task_output') ? undefined : TaskOutputRefFromJSON(json['task_output']),
         'host': !exists(json, 'host') ? undefined : json['host'],
-        'engine': !exists(json, 'engine') ? undefined : json['engine'],
-        'pk': !exists(json, 'pk') ? undefined : json['pk'],
-        'field_selector': !exists(json, 'field_selector') ? undefined : json['field_selector'],
+        'secret': !exists(json, 'secret') ? undefined : SecretRefFromJSON(json['secret']),
     };
 }
 
@@ -123,9 +113,7 @@ export function ValueFromToJSON(value?: ValueFrom | null): any {
         'env': value.env,
         'task_output': TaskOutputRefToJSON(value.task_output),
         'host': value.host,
-        'engine': value.engine,
-        'pk': value.pk,
-        'field_selector': value.field_selector,
+        'secret': SecretRefToJSON(value.secret),
     };
 }
 

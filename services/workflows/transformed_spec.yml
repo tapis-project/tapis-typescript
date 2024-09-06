@@ -2795,6 +2795,12 @@ components:
     ValueFromSecret:
       type: object
       properties:
+        secret:
+          $ref: "#/components/schemas/SecretRef"
+
+    SecretRef:
+      type: object
+      properties:
         engine:
           type: string
         pk:

@@ -13,6 +13,13 @@
  */
 
 import { exists, mapValues } from '../runtime';
+import {
+    SecretRef,
+    SecretRefFromJSON,
+    SecretRefFromJSONTyped,
+    SecretRefToJSON,
+} from './';
+
 /**
  * 
  * @export
@@ -21,22 +28,10 @@ import { exists, mapValues } from '../runtime';
 export interface ValueFromSecret {
     /**
      * 
-     * @type {string}
+     * @type {SecretRef}
      * @memberof ValueFromSecret
      */
-    engine?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof ValueFromSecret
-     */
-    pk?: string;
-    /**
-     * 
-     * @type {Array<string>}
-     * @memberof ValueFromSecret
-     */
-    field_selector?: Array<string>;
+    secret?: SecretRef;
 }
 
 export function ValueFromSecretFromJSON(json: any): ValueFromSecret {
@@ -49,9 +44,7 @@ export function ValueFromSecretFromJSONTyped(json: any, ignoreDiscriminator: boo
     }
     return {
         
-        'engine': !exists(json, 'engine') ? undefined : json['engine'],
-        'pk': !exists(json, 'pk') ? undefined : json['pk'],
-        'field_selector': !exists(json, 'field_selector') ? undefined : json['field_selector'],
+        'secret': !exists(json, 'secret') ? undefined : SecretRefFromJSON(json['secret']),
     };
 }
 
@@ -64,9 +57,7 @@ export function ValueFromSecretToJSON(value?: ValueFromSecret | null): any {
     }
     return {
         
-        'engine': value.engine,
-        'pk': value.pk,
-        'field_selector': value.field_selector,
+        'secret': SecretRefToJSON(value.secret),
     };
 }
 
