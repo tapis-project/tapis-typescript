@@ -42,9 +42,6 @@ import {
     TemplateTagsResponse,
     TemplateTagsResponseFromJSON,
     TemplateTagsResponseToJSON,
-    TemplateTagsSmallResponse,
-    TemplateTagsSmallResponseFromJSON,
-    TemplateTagsSmallResponseToJSON,
     TemplatesResponse,
     TemplatesResponseFromJSON,
     TemplatesResponseToJSON,
@@ -376,7 +373,7 @@ export class TemplatesApi extends runtime.BaseAPI {
      * List tag entries the template has  Returns the ledger of template tags
      * list_template_tags
      */
-    async listTemplateTagsRaw(requestParameters: ListTemplateTagsRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<TemplateTagsSmallResponse>> {
+    async listTemplateTagsRaw(requestParameters: ListTemplateTagsRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<TemplateTagsResponse>> {
         if (requestParameters.templateId === null || requestParameters.templateId === undefined) {
             throw new runtime.RequiredError('templateId','Required parameter requestParameters.templateId was null or undefined when calling listTemplateTags.');
         }
@@ -396,14 +393,14 @@ export class TemplatesApi extends runtime.BaseAPI {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => TemplateTagsSmallResponseFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => TemplateTagsResponseFromJSON(jsonValue));
     }
 
     /**
      * List tag entries the template has  Returns the ledger of template tags
      * list_template_tags
      */
-    async listTemplateTags(requestParameters: ListTemplateTagsRequest, initOverrides?: RequestInit): Promise<TemplateTagsSmallResponse> {
+    async listTemplateTags(requestParameters: ListTemplateTagsRequest, initOverrides?: RequestInit): Promise<TemplateTagsResponse> {
         const response = await this.listTemplateTagsRaw(requestParameters, initOverrides);
         return await response.value();
     }

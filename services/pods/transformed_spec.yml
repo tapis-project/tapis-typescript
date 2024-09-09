@@ -303,7 +303,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/TemplateTagsSmallResponse'
+                $ref: '#/components/schemas/TemplateTagsResponse'
                 title: Response List Template Tags
         '422':
           description: Validation Error
