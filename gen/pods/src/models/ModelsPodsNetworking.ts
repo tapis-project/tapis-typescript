@@ -37,6 +37,48 @@ export interface ModelsPodsNetworking {
      * @memberof ModelsPodsNetworking
      */
     url?: string;
+    /**
+     * List of IPs that are allowed to access this specific pod port. If empty, all IPs are allowed. ex. ['127.0.0.1/32', '192.168.1.7']
+     * @type {Array<string>}
+     * @memberof ModelsPodsNetworking
+     */
+    ip_allow_list?: Array<string>;
+    /**
+     * If true, will require Tapis auth to access the pod.
+     * @type {boolean}
+     * @memberof ModelsPodsNetworking
+     */
+    tapis_auth?: boolean;
+    /**
+     * List of headers to forward to the pod when using Tapis auth.
+     * @type {Array<string>}
+     * @memberof ModelsPodsNetworking
+     */
+    tapis_auth_response_headers?: Array<string>;
+    /**
+     * List of users allowed to access the pod when using Tapis auth.
+     * @type {Array<string>}
+     * @memberof ModelsPodsNetworking
+     */
+    tapis_auth_allowed_users?: Array<string>;
+    /**
+     * Path to redirect to when accessing the pod via Tapis UI.
+     * @type {string}
+     * @memberof ModelsPodsNetworking
+     */
+    tapis_ui_uri?: string;
+    /**
+     * If true, will redirect to the tapis_ui_uri when accessing the pod via Tapis UI. Otherwise, just read-only uri.
+     * @type {boolean}
+     * @memberof ModelsPodsNetworking
+     */
+    tapis_ui_uri_redirect?: boolean;
+    /**
+     * Describing where the tapis_ui_uri will redirect to.
+     * @type {string}
+     * @memberof ModelsPodsNetworking
+     */
+    tapis_ui_uri_description?: string;
 }
 
 export function ModelsPodsNetworkingFromJSON(json: any): ModelsPodsNetworking {
@@ -52,6 +94,13 @@ export function ModelsPodsNetworkingFromJSONTyped(json: any, ignoreDiscriminator
         'protocol': !exists(json, 'protocol') ? undefined : json['protocol'],
         'port': !exists(json, 'port') ? undefined : json['port'],
         'url': !exists(json, 'url') ? undefined : json['url'],
+        'ip_allow_list': !exists(json, 'ip_allow_list') ? undefined : json['ip_allow_list'],
+        'tapis_auth': !exists(json, 'tapis_auth') ? undefined : json['tapis_auth'],
+        'tapis_auth_response_headers': !exists(json, 'tapis_auth_response_headers') ? undefined : json['tapis_auth_response_headers'],
+        'tapis_auth_allowed_users': !exists(json, 'tapis_auth_allowed_users') ? undefined : json['tapis_auth_allowed_users'],
+        'tapis_ui_uri': !exists(json, 'tapis_ui_uri') ? undefined : json['tapis_ui_uri'],
+        'tapis_ui_uri_redirect': !exists(json, 'tapis_ui_uri_redirect') ? undefined : json['tapis_ui_uri_redirect'],
+        'tapis_ui_uri_description': !exists(json, 'tapis_ui_uri_description') ? undefined : json['tapis_ui_uri_description'],
     };
 }
 
@@ -67,6 +116,13 @@ export function ModelsPodsNetworkingToJSON(value?: ModelsPodsNetworking | null):
         'protocol': value.protocol,
         'port': value.port,
         'url': value.url,
+        'ip_allow_list': value.ip_allow_list,
+        'tapis_auth': value.tapis_auth,
+        'tapis_auth_response_headers': value.tapis_auth_response_headers,
+        'tapis_auth_allowed_users': value.tapis_auth_allowed_users,
+        'tapis_ui_uri': value.tapis_ui_uri,
+        'tapis_ui_uri_redirect': value.tapis_ui_uri_redirect,
+        'tapis_ui_uri_description': value.tapis_ui_uri_description,
     };
 }
 

@@ -63,8 +63,8 @@ export interface UpdateVolumeRequest {
 }
 
 export interface UploadToVolumeRequest {
-    volumeId: any;
-    path: any;
+    volumeId: string;
+    path: string;
     file: Blob;
 }
 

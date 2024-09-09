@@ -58,7 +58,7 @@ export interface AddTemplateRequest {
 }
 
 export interface AddTemplateTagRequest {
-    templateId: any;
+    templateId: string;
     newTemplateTag: NewTemplateTag;
 }
 
@@ -80,12 +80,13 @@ export interface GetTemplatePermissionsRequest {
 }
 
 export interface GetTemplateTagsRequest {
-    templateId: any;
-    tagId: any;
+    templateId: string;
+    tagId: string;
 }
 
 export interface ListTemplateTagsRequest {
     templateId: any;
+    full?: boolean;
 }
 
 export interface SetTemplatePermissionRequest {
@@ -381,6 +382,10 @@ export class TemplatesApi extends runtime.BaseAPI {
         }
 
         const queryParameters: any = {};
+
+        if (requestParameters.full !== undefined) {
+            queryParameters['full'] = requestParameters.full;
+        }
 
         const headerParameters: runtime.HTTPHeaders = {};
 
