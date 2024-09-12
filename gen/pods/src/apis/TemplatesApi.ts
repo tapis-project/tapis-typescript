@@ -42,9 +42,6 @@ import {
     TemplateTagsResponse,
     TemplateTagsResponseFromJSON,
     TemplateTagsResponseToJSON,
-    TemplateTagsSmallResponse,
-    TemplateTagsSmallResponseFromJSON,
-    TemplateTagsSmallResponseToJSON,
     TemplatesResponse,
     TemplatesResponseFromJSON,
     TemplatesResponseToJSON,
@@ -58,7 +55,7 @@ export interface AddTemplateRequest {
 }
 
 export interface AddTemplateTagRequest {
-    templateId: any;
+    templateId: string;
     newTemplateTag: NewTemplateTag;
 }
 
@@ -80,12 +77,13 @@ export interface GetTemplatePermissionsRequest {
 }
 
 export interface GetTemplateTagsRequest {
-    templateId: any;
-    tagId: any;
+    templateId: string;
+    tagId: string;
 }
 
 export interface ListTemplateTagsRequest {
     templateId: any;
+    full?: boolean;
 }
 
 export interface SetTemplatePermissionRequest {
@@ -375,12 +373,16 @@ export class TemplatesApi extends runtime.BaseAPI {
      * List tag entries the template has  Returns the ledger of template tags
      * list_template_tags
      */
-    async listTemplateTagsRaw(requestParameters: ListTemplateTagsRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<TemplateTagsSmallResponse>> {
+    async listTemplateTagsRaw(requestParameters: ListTemplateTagsRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<TemplateTagsResponse>> {
         if (requestParameters.templateId === null || requestParameters.templateId === undefined) {
             throw new runtime.RequiredError('templateId','Required parameter requestParameters.templateId was null or undefined when calling listTemplateTags.');
         }
 
         const queryParameters: any = {};
+
+        if (requestParameters.full !== undefined) {
+            queryParameters['full'] = requestParameters.full;
+        }
 
         const headerParameters: runtime.HTTPHeaders = {};
 
@@ -391,14 +393,14 @@ export class TemplatesApi extends runtime.BaseAPI {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => TemplateTagsSmallResponseFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => TemplateTagsResponseFromJSON(jsonValue));
     }
 
     /**
      * List tag entries the template has  Returns the ledger of template tags
      * list_template_tags
      */
-    async listTemplateTags(requestParameters: ListTemplateTagsRequest, initOverrides?: RequestInit): Promise<TemplateTagsSmallResponse> {
+    async listTemplateTags(requestParameters: ListTemplateTagsRequest, initOverrides?: RequestInit): Promise<TemplateTagsResponse> {
         const response = await this.listTemplateTagsRaw(requestParameters, initOverrides);
         return await response.value();
     }
