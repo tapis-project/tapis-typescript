@@ -7,12 +7,14 @@ src/apis/ArchivesApi.ts
 src/apis/CICDApi.ts
 src/apis/ETLApi.ts
 src/apis/GeneralApi.ts
+src/apis/GroupSecretsApi.ts
 src/apis/GroupsApi.ts
 src/apis/IdentitiesApi.ts
 src/apis/PipelineArchivesApi.ts
 src/apis/PipelineLocksApi.ts
 src/apis/PipelineRunsApi.ts
 src/apis/PipelinesApi.ts
+src/apis/SecretsApi.ts
 src/apis/TaskExecutionsApi.ts
 src/apis/TasksApi.ts
 src/apis/UsersApi.ts
@@ -86,6 +88,7 @@ src/models/GitCloneDetailsAllOf.ts
 src/models/GitRepository.ts
 src/models/Group.ts
 src/models/GroupDetail.ts
+src/models/GroupSecret.ts
 src/models/GroupUser.ts
 src/models/Identity.ts
 src/models/ImageBuildTask.ts
@@ -111,6 +114,7 @@ src/models/ReqCIPipeline.ts
 src/models/ReqContext.ts
 src/models/ReqCreateETLPipeline.ts
 src/models/ReqCreateETLPipelineAllOf.ts
+src/models/ReqCreateSecret.ts
 src/models/ReqCreateTaskExecution.ts
 src/models/ReqDestination.ts
 src/models/ReqDockerhubContext.ts
@@ -130,6 +134,7 @@ src/models/ReqGitlabContext.ts
 src/models/ReqGitlabContextAllOf.ts
 src/models/ReqGitlabCred.ts
 src/models/ReqGroup.ts
+src/models/ReqGroupSecret.ts
 src/models/ReqGroupUser.ts
 src/models/ReqGroupUsers.ts
 src/models/ReqIdentity.ts
@@ -180,6 +185,10 @@ src/models/RespGroupDetail.ts
 src/models/RespGroupDetailAllOf.ts
 src/models/RespGroupList.ts
 src/models/RespGroupListAllOf.ts
+src/models/RespGroupSecret.ts
+src/models/RespGroupSecretAllOf.ts
+src/models/RespGroupSecretList.ts
+src/models/RespGroupSecretListAllOf.ts
 src/models/RespGroupUser.ts
 src/models/RespGroupUserAllOf.ts
 src/models/RespGroupUserList.ts
@@ -207,6 +216,10 @@ src/models/RespPipelineRunList.ts
 src/models/RespPipelineRunListAllOf.ts
 src/models/RespResourceURL.ts
 src/models/RespResourceURLAllOf.ts
+src/models/RespSecret.ts
+src/models/RespSecretAllOf.ts
+src/models/RespSecretList.ts
+src/models/RespSecretListAllOf.ts
 src/models/RespString.ts
 src/models/RespStringAllOf.ts
 src/models/RespTask.ts
@@ -219,6 +232,7 @@ src/models/RespTaskList.ts
 src/models/RespTaskListAllOf.ts
 src/models/S3Archive.ts
 src/models/S3ArchiveAllOf.ts
+src/models/Secret.ts
 src/models/SecretRef.ts
 src/models/Spec.ts
 src/models/SpecWithValue.ts

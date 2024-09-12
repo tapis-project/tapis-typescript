@@ -75,6 +75,8 @@ describe('tapis-typescript', () => {
     expect(Workflows).to.have.property('TaskExecutionsApi');
     expect(Workflows).to.have.property('TasksApi');
     expect(Workflows).to.have.property('UsersApi');
+    expect(Workflows).to.have.property('SecretsApi');
+    expect(Workflows).to.have.property('GroupSecretsApi');
   });
   it('should have Actors service', () => {
     expect(Actors).to.have.property('ActorsApi');
