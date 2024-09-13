@@ -1,6 +1,6 @@
 {
   "name": "@tapis/tapis-typescript-workflows",
-  "version": "0.0.16",
+  "version": "0.0.17",
   "description": "OpenAPI client for @tapis/tapis-typescript-workflows",
   "author": "OpenAPI-Generator",
   "main": "./dist/index.js",

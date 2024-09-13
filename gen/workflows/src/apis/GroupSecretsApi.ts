@@ -30,9 +30,6 @@ import {
     RespGroupSecretList,
     RespGroupSecretListFromJSON,
     RespGroupSecretListToJSON,
-    RespResourceURL,
-    RespResourceURLFromJSON,
-    RespResourceURLToJSON,
 } from '../models';
 
 export interface AddGroupSecretRequest {
@@ -63,7 +60,7 @@ export class GroupSecretsApi extends runtime.BaseAPI {
      * Add a user\'s secret to a group. 
      * Add a user\'s secret to a group
      */
-    async addGroupSecretRaw(requestParameters: AddGroupSecretRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespResourceURL>> {
+    async addGroupSecretRaw(requestParameters: AddGroupSecretRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespGroupSecret>> {
         if (requestParameters.groupId === null || requestParameters.groupId === undefined) {
             throw new runtime.RequiredError('groupId','Required parameter requestParameters.groupId was null or undefined when calling addGroupSecret.');
         }
@@ -90,14 +87,14 @@ export class GroupSecretsApi extends runtime.BaseAPI {
             body: ReqGroupSecretToJSON(requestParameters.reqGroupSecret),
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => RespResourceURLFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => RespGroupSecretFromJSON(jsonValue));
     }
 
     /**
      * Add a user\'s secret to a group. 
      * Add a user\'s secret to a group
      */
-    async addGroupSecret(requestParameters: AddGroupSecretRequest, initOverrides?: RequestInit): Promise<RespResourceURL> {
+    async addGroupSecret(requestParameters: AddGroupSecretRequest, initOverrides?: RequestInit): Promise<RespGroupSecret> {
         const response = await this.addGroupSecretRaw(requestParameters, initOverrides);
         return await response.value();
     }
