@@ -53,6 +53,12 @@ export interface GetVolumeRequest {
     volumeId: any;
 }
 
+export interface GetVolumeContentsRequest {
+    volumeId: string;
+    path: string;
+    zip?: boolean;
+}
+
 export interface ListVolumeFilesRequest {
     volumeId: any;
 }
@@ -173,30 +179,42 @@ export class VolumesApi extends runtime.BaseAPI {
     }
 
     /**
-     * Get all volumes in your respective tenant and site that you have READ or higher access to.  Returns a list of volumes.
-     * get_volumes
+     * Get file or directory contents as a stream of data from a Tapis Volume.  Use the **zip** query parameter to request directories as a zip archive. This is not allowed if path would result in all files in the volume being included. Please download individual directories, files or objects.
+     * get_volume_contents
      */
-    async getVolumesRaw(initOverrides?: RequestInit): Promise<runtime.ApiResponse<VolumesResponse>> {
+    async getVolumeContentsRaw(requestParameters: GetVolumeContentsRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<any>> {
+        if (requestParameters.volumeId === null || requestParameters.volumeId === undefined) {
+            throw new runtime.RequiredError('volumeId','Required parameter requestParameters.volumeId was null or undefined when calling getVolumeContents.');
+        }
+
+        if (requestParameters.path === null || requestParameters.path === undefined) {
+            throw new runtime.RequiredError('path','Required parameter requestParameters.path was null or undefined when calling getVolumeContents.');
+        }
+
         const queryParameters: any = {};
+
+        if (requestParameters.zip !== undefined) {
+            queryParameters['zip'] = requestParameters.zip;
+        }
 
         const headerParameters: runtime.HTTPHeaders = {};
 
         const response = await this.request({
-            path: `/v3/pods/volumes`,
+            path: `/v3/pods/volumes/{volume_id}/contents/{path}`.replace(`{${"volume_id"}}`, encodeURIComponent(String(requestParameters.volumeId))).replace(`{${"path"}}`, encodeURIComponent(String(requestParameters.path))),
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => VolumesResponseFromJSON(jsonValue));
+        return new runtime.TextApiResponse(response) as any;
     }
 
     /**
-     * Get all volumes in your respective tenant and site that you have READ or higher access to.  Returns a list of volumes.
-     * get_volumes
+     * Get file or directory contents as a stream of data from a Tapis Volume.  Use the **zip** query parameter to request directories as a zip archive. This is not allowed if path would result in all files in the volume being included. Please download individual directories, files or objects.
+     * get_volume_contents
      */
-    async getVolumes(initOverrides?: RequestInit): Promise<VolumesResponse> {
-        const response = await this.getVolumesRaw(initOverrides);
+    async getVolumeContents(requestParameters: GetVolumeContentsRequest, initOverrides?: RequestInit): Promise<any> {
+        const response = await this.getVolumeContentsRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
@@ -229,6 +247,34 @@ export class VolumesApi extends runtime.BaseAPI {
      */
     async listVolumeFiles(requestParameters: ListVolumeFilesRequest, initOverrides?: RequestInit): Promise<FilesListResponse> {
         const response = await this.listVolumeFilesRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     * Get all volumes in your respective tenant and site that you have READ or higher access to.  Returns a list of volumes.
+     * list_volumes
+     */
+    async listVolumesRaw(initOverrides?: RequestInit): Promise<runtime.ApiResponse<VolumesResponse>> {
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        const response = await this.request({
+            path: `/v3/pods/volumes`,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => VolumesResponseFromJSON(jsonValue));
+    }
+
+    /**
+     * Get all volumes in your respective tenant and site that you have READ or higher access to.  Returns a list of volumes.
+     * list_volumes
+     */
+    async listVolumes(initOverrides?: RequestInit): Promise<VolumesResponse> {
+        const response = await this.listVolumesRaw(initOverrides);
         return await response.value();
     }
 

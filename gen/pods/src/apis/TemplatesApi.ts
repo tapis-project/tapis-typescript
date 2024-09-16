@@ -76,13 +76,17 @@ export interface GetTemplatePermissionsRequest {
     templateId: any;
 }
 
-export interface GetTemplateTagsRequest {
+export interface GetTemplateTagRequest {
     templateId: string;
     tagId: string;
 }
 
 export interface ListTemplateTagsRequest {
-    templateId: any;
+    templateId: string;
+    full?: boolean;
+}
+
+export interface ListTemplatesAndTagsRequest {
     full?: boolean;
 }
 
@@ -306,16 +310,16 @@ export class TemplatesApi extends runtime.BaseAPI {
     }
 
     /**
-     * List tag entries the template has  Returns the ledger of template tags
-     * get_template_tags
+     * Get a specific tag entry the template has  Returns the tag entry
+     * get_template_tag
      */
-    async getTemplateTagsRaw(requestParameters: GetTemplateTagsRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<TemplateTagsResponse>> {
+    async getTemplateTagRaw(requestParameters: GetTemplateTagRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<TemplateTagsResponse>> {
         if (requestParameters.templateId === null || requestParameters.templateId === undefined) {
-            throw new runtime.RequiredError('templateId','Required parameter requestParameters.templateId was null or undefined when calling getTemplateTags.');
+            throw new runtime.RequiredError('templateId','Required parameter requestParameters.templateId was null or undefined when calling getTemplateTag.');
         }
 
         if (requestParameters.tagId === null || requestParameters.tagId === undefined) {
-            throw new runtime.RequiredError('tagId','Required parameter requestParameters.tagId was null or undefined when calling getTemplateTags.');
+            throw new runtime.RequiredError('tagId','Required parameter requestParameters.tagId was null or undefined when calling getTemplateTag.');
         }
 
         const queryParameters: any = {};
@@ -333,39 +337,11 @@ export class TemplatesApi extends runtime.BaseAPI {
     }
 
     /**
-     * List tag entries the template has  Returns the ledger of template tags
-     * get_template_tags
+     * Get a specific tag entry the template has  Returns the tag entry
+     * get_template_tag
      */
-    async getTemplateTags(requestParameters: GetTemplateTagsRequest, initOverrides?: RequestInit): Promise<TemplateTagsResponse> {
-        const response = await this.getTemplateTagsRaw(requestParameters, initOverrides);
-        return await response.value();
-    }
-
-    /**
-     * Get all templates allowed globally + in respective tenant + for specific user. Returns a list of templates.
-     * get_templates
-     */
-    async getTemplatesRaw(initOverrides?: RequestInit): Promise<runtime.ApiResponse<TemplatesResponse>> {
-        const queryParameters: any = {};
-
-        const headerParameters: runtime.HTTPHeaders = {};
-
-        const response = await this.request({
-            path: `/v3/pods/templates`,
-            method: 'GET',
-            headers: headerParameters,
-            query: queryParameters,
-        }, initOverrides);
-
-        return new runtime.JSONApiResponse(response, (jsonValue) => TemplatesResponseFromJSON(jsonValue));
-    }
-
-    /**
-     * Get all templates allowed globally + in respective tenant + for specific user. Returns a list of templates.
-     * get_templates
-     */
-    async getTemplates(initOverrides?: RequestInit): Promise<TemplatesResponse> {
-        const response = await this.getTemplatesRaw(initOverrides);
+    async getTemplateTag(requestParameters: GetTemplateTagRequest, initOverrides?: RequestInit): Promise<TemplateTagsResponse> {
+        const response = await this.getTemplateTagRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
@@ -402,6 +378,66 @@ export class TemplatesApi extends runtime.BaseAPI {
      */
     async listTemplateTags(requestParameters: ListTemplateTagsRequest, initOverrides?: RequestInit): Promise<TemplateTagsResponse> {
         const response = await this.listTemplateTagsRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     * Get all templates allowed globally + in respective tenant + for specific user. Returns a list of templates.
+     * list_templates
+     */
+    async listTemplatesRaw(initOverrides?: RequestInit): Promise<runtime.ApiResponse<TemplatesResponse>> {
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        const response = await this.request({
+            path: `/v3/pods/templates`,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => TemplatesResponseFromJSON(jsonValue));
+    }
+
+    /**
+     * Get all templates allowed globally + in respective tenant + for specific user. Returns a list of templates.
+     * list_templates
+     */
+    async listTemplates(initOverrides?: RequestInit): Promise<TemplatesResponse> {
+        const response = await this.listTemplatesRaw(initOverrides);
+        return await response.value();
+    }
+
+    /**
+     * Get all templates and their tags for the user. Returns a dictionary with templates and their tags.
+     * list_templates_and_tags
+     */
+    async listTemplatesAndTagsRaw(requestParameters: ListTemplatesAndTagsRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<object>> {
+        const queryParameters: any = {};
+
+        if (requestParameters.full !== undefined) {
+            queryParameters['full'] = requestParameters.full;
+        }
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        const response = await this.request({
+            path: `/v3/pods/templates/tags`,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse<any>(response);
+    }
+
+    /**
+     * Get all templates and their tags for the user. Returns a dictionary with templates and their tags.
+     * list_templates_and_tags
+     */
+    async listTemplatesAndTags(requestParameters: ListTemplatesAndTagsRequest, initOverrides?: RequestInit): Promise<object> {
+        const response = await this.listTemplatesAndTagsRaw(requestParameters, initOverrides);
         return await response.value();
     }
 

@@ -56,11 +56,9 @@ src/models/TemplatePermissionsResponse.ts
 src/models/TemplateResponse.ts
 src/models/TemplateResponseModel.ts
 src/models/TemplateTag.ts
-src/models/TemplateTagNoDefinition.ts
 src/models/TemplateTagPodDefinition.ts
 src/models/TemplateTagResponse.ts
 src/models/TemplateTagsResponse.ts
-src/models/TemplateTagsSmallResponse.ts
 src/models/TemplatesResponse.ts
 src/models/UpdatePod.ts
 src/models/UpdateSnapshot.ts

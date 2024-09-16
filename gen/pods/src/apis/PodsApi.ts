@@ -206,9 +206,9 @@ export class PodsApi extends runtime.BaseAPI {
 
     /**
      * Get all pods in your respective tenant and site that you have READ or higher access to.  Returns a list of pods.
-     * get_pods
+     * list_pods
      */
-    async getPodsRaw(initOverrides?: RequestInit): Promise<runtime.ApiResponse<PodsResponse>> {
+    async listPodsRaw(initOverrides?: RequestInit): Promise<runtime.ApiResponse<PodsResponse>> {
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -225,10 +225,10 @@ export class PodsApi extends runtime.BaseAPI {
 
     /**
      * Get all pods in your respective tenant and site that you have READ or higher access to.  Returns a list of pods.
-     * get_pods
+     * list_pods
      */
-    async getPods(initOverrides?: RequestInit): Promise<PodsResponse> {
-        const response = await this.getPodsRaw(initOverrides);
+    async listPods(initOverrides?: RequestInit): Promise<PodsResponse> {
+        const response = await this.listPodsRaw(initOverrides);
         return await response.value();
     }
 
