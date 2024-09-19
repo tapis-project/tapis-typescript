@@ -50,6 +50,12 @@ export interface GetSnapshotRequest {
     snapshotId: any;
 }
 
+export interface GetSnapshotContentsRequest {
+    snapshotId: string;
+    path: string;
+    zip?: boolean;
+}
+
 export interface ListSnapshotFilesRequest {
     snapshotId: any;
 }
@@ -164,30 +170,42 @@ export class SnapshotsApi extends runtime.BaseAPI {
     }
 
     /**
-     * Get all snapshots in your respective tenant and site that you have READ or higher access to.  Returns a list of snapshots.
-     * get_snapshots
+     * Get file or directory contents as a stream of data from a Tapis Snapshot.  Use the **zip** query parameter to request directories as a zip archive. This is not allowed if path would result in all files in the snapshot being included. Please download individual directories, files or objects.
+     * get_snapshot_contents
      */
-    async getSnapshotsRaw(initOverrides?: RequestInit): Promise<runtime.ApiResponse<SnapshotsResponse>> {
+    async getSnapshotContentsRaw(requestParameters: GetSnapshotContentsRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<any>> {
+        if (requestParameters.snapshotId === null || requestParameters.snapshotId === undefined) {
+            throw new runtime.RequiredError('snapshotId','Required parameter requestParameters.snapshotId was null or undefined when calling getSnapshotContents.');
+        }
+
+        if (requestParameters.path === null || requestParameters.path === undefined) {
+            throw new runtime.RequiredError('path','Required parameter requestParameters.path was null or undefined when calling getSnapshotContents.');
+        }
+
         const queryParameters: any = {};
+
+        if (requestParameters.zip !== undefined) {
+            queryParameters['zip'] = requestParameters.zip;
+        }
 
         const headerParameters: runtime.HTTPHeaders = {};
 
         const response = await this.request({
-            path: `/v3/pods/snapshots`,
+            path: `/v3/pods/snapshots/{snapshot_id}/contents/{path}`.replace(`{${"snapshot_id"}}`, encodeURIComponent(String(requestParameters.snapshotId))).replace(`{${"path"}}`, encodeURIComponent(String(requestParameters.path))),
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => SnapshotsResponseFromJSON(jsonValue));
+        return new runtime.TextApiResponse(response) as any;
     }
 
     /**
-     * Get all snapshots in your respective tenant and site that you have READ or higher access to.  Returns a list of snapshots.
-     * get_snapshots
+     * Get file or directory contents as a stream of data from a Tapis Snapshot.  Use the **zip** query parameter to request directories as a zip archive. This is not allowed if path would result in all files in the snapshot being included. Please download individual directories, files or objects.
+     * get_snapshot_contents
      */
-    async getSnapshots(initOverrides?: RequestInit): Promise<SnapshotsResponse> {
-        const response = await this.getSnapshotsRaw(initOverrides);
+    async getSnapshotContents(requestParameters: GetSnapshotContentsRequest, initOverrides?: RequestInit): Promise<any> {
+        const response = await this.getSnapshotContentsRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
@@ -220,6 +238,34 @@ export class SnapshotsApi extends runtime.BaseAPI {
      */
     async listSnapshotFiles(requestParameters: ListSnapshotFilesRequest, initOverrides?: RequestInit): Promise<FilesListResponse> {
         const response = await this.listSnapshotFilesRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     * Get all snapshots in your respective tenant and site that you have READ or higher access to.  Returns a list of snapshots.
+     * list_snapshots
+     */
+    async listSnapshotsRaw(initOverrides?: RequestInit): Promise<runtime.ApiResponse<SnapshotsResponse>> {
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        const response = await this.request({
+            path: `/v3/pods/snapshots`,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => SnapshotsResponseFromJSON(jsonValue));
+    }
+
+    /**
+     * Get all snapshots in your respective tenant and site that you have READ or higher access to.  Returns a list of snapshots.
+     * list_snapshots
+     */
+    async listSnapshots(initOverrides?: RequestInit): Promise<SnapshotsResponse> {
+        const response = await this.listSnapshotsRaw(initOverrides);
         return await response.value();
     }
 
