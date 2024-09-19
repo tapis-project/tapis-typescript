@@ -4,7 +4,7 @@ info:
   description: >-
     The Tapis Applications API provides for management of Tapis applications
     including permissions.
-  version: 1.4.2
+  version: 1.6.2
   termsOfService: https://tapis-project.org
   contact:
     name: Applications API - CICSupport
@@ -23,8 +23,6 @@ servers:
   - url: https://dev.develop.tapis.io/
     description: Development environment
     variables: {}
-security:
-  - TapisJWT: []
 tags:
   - name: General
     description: General service health and readiness
@@ -107,8 +105,11 @@ paths:
       tags:
         - Applications
       description: >
-        Retrieve list of applications. Use *listType*, *search* and *select*
-        query parameters to limit results. Query
+        Retrieve list of applications.
+
+
+        Use *listType*, *search* and *select* query parameters to limit results.
+        Query
 
         parameter *listType* allows for filtering results based on
         authorization. Options for *listType* are
@@ -120,6 +121,8 @@ paths:
           - *MINE* Include items owned or shared directly with requester. Exclude publicly shared items.
           - *ALL* Include all items requester is authorized to view. Includes check for READ or MODIFY permission.
       operationId: getApps
+      security:
+        - TapisJWT: []
       parameters:
         - name: search
           in: query
@@ -233,11 +236,15 @@ paths:
 
           - tenant
           - uuid
+          - isPublic
+          - sharedWithUsers
           - sharedAppCtx
           - deleted
           - created
           - updated
       operationId: createAppVersion
+      security:
+        - TapisJWT: []
       requestBody:
         required: true
         description: A JSON object specifying information for the app to be created.
@@ -298,6 +305,8 @@ paths:
           - *MINE* Include items owned or shared directly with requester. Exclude publicly shared items.
           - *ALL* Include all items requester is authorized to view. Includes check for READ or MODIFY permission.
       operationId: searchAppsQueryParameters
+      security:
+        - TapisJWT: []
       parameters:
         - name: listType
           in: query
@@ -392,6 +401,8 @@ paths:
           - *MINE* Include items owned or shared directly with requester. Exclude publicly shared items.
           - *ALL* Include all items requester is authorized to view. Includes check for READ or MODIFY permission.
       operationId: searchAppsRequestBody
+      security:
+        - TapisJWT: []
       parameters:
         - name: listType
           in: query
@@ -489,6 +500,8 @@ paths:
 
         will be the grantor, the Tapis user who shared the application.
       operationId: getAppLatestVersion
+      security:
+        - TapisJWT: []
       parameters:
         - name: appId
           in: path
@@ -567,6 +580,8 @@ paths:
 
         Tapis user. Tapis will use this user Id when performing authorization.
       operationId: getApp
+      security:
+        - TapisJWT: []
       parameters:
         - name: appId
           in: path
@@ -651,11 +666,15 @@ paths:
           - id
           - owner
           - enabled
+          - versionEnabled
           - locked
+          - deleted
 
-        Note that the attributes owner, enabled and locked may be modified using
-        other endpoints.
+        Note that the attributes owner, enabled, versionEnabled, locked and
+        deleted may be modified using other endpoints.
       operationId: patchApp
+      security:
+        - TapisJWT: []
       parameters:
         - name: appId
           in: path
@@ -723,23 +742,28 @@ paths:
 
           - tenant
           - uuid
+          - isPublic
+          - sharedWithUsers
           - sharedAppCtx
           - deleted
           - created
           - updated
 
-        In addition for a PUT operation the following non-updatable attributes
+        In addition, for a PUT operation, the following non-updatable attributes
         are allowed but ignored
 
           - id
           - version
           - owner
           - enabled
+          - versionEnabled
           - locked
 
-        Note that the attributes owner, enabled and locked may be modified using
-        other endpoints.
+        Note that the attributes owner, enabled, versionEnabled, locked and
+        deleted may be modified using other endpoints.
       operationId: putApp
+      security:
+        - TapisJWT: []
       parameters:
         - name: appId
           in: path
@@ -793,15 +817,29 @@ paths:
     get:
       tags:
         - Applications
-      description: |
-        Check if an application is currently enabled, i.e. available for use.
+      description: >
+        Check if an application is currently enabled, i.e. available for use. If
+        the query parameter *version*
+
+        is specified then both the top level attribute *enabled* and the version
+        specific attribute *versionEnabled*
+
+        are checked. Both must be set to *true* for the application to be
+        considered *enabled*.
       operationId: isEnabled
+      security:
+        - TapisJWT: []
       parameters:
         - name: appId
           in: path
           required: true
           schema:
             $ref: '#/components/schemas/IdString'
+        - name: version
+          in: query
+          description: Include specified application version in the check.
+          schema:
+            $ref: '#/components/schemas/AppVersionString'
       responses:
         '200':
           description: Check successful.
@@ -833,7 +871,10 @@ paths:
         - Applications
       description: |
         Mark an application available for use. Applies to all versions.
+        Requester must be owner of the app or a tenant administrator.
       operationId: enableApp
+      security:
+        - TapisJWT: []
       parameters:
         - name: appId
           in: path
@@ -871,13 +912,108 @@ paths:
         - Applications
       description: |
         Mark an application unavailable for use. Applies to all versions.
+        Requester must be owner of the app or a tenant administrator.
       operationId: disableApp
+      security:
+        - TapisJWT: []
       parameters:
         - name: appId
           in: path
           required: true
           schema:
             $ref: '#/components/schemas/IdString'
+      responses:
+        '200':
+          description: Application disabled.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RespChangeCount'
+        '403':
+          description: Permission denied.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RespBasic'
+        '404':
+          description: Application not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RespBasic'
+        '500':
+          description: Server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RespBasic'
+  /v3/apps/{appId}/{appVersion}/enable:
+    post:
+      tags:
+        - Applications
+      description: |
+        Mark a specific version of an application available for use.
+        Requester must be owner of the app or a tenant administrator.
+      operationId: enableAppVersion
+      security:
+        - TapisJWT: []
+      parameters:
+        - name: appId
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/IdString'
+        - name: appVersion
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/AppVersionString'
+      responses:
+        '200':
+          description: Application version enabled.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RespChangeCount'
+        '403':
+          description: Permission denied.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RespBasic'
+        '404':
+          description: Application not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RespBasic'
+        '500':
+          description: Server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RespBasic'
+  /v3/apps/{appId}/{appVersion}/disable:
+    post:
+      tags:
+        - Applications
+      description: |
+        Mark a specific version of an application unavailable for use.
+        Requester must be owner of the app or a tenant administrator.
+      operationId: disableAppVersion
+      security:
+        - TapisJWT: []
+      parameters:
+        - name: appId
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/IdString'
+        - name: appVersion
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/AppVersionString'
       responses:
         '200':
           description: Application disabled.
@@ -911,6 +1047,8 @@ paths:
         Lock a version of an application to prevent updates via PUT or PATCH.
         Requester must be owner of the app or a tenant administrator.
       operationId: lockApp
+      security:
+        - TapisJWT: []
       parameters:
         - name: appId
           in: path
@@ -955,6 +1093,8 @@ paths:
         Unlock a version of an application to allow updates via PUT and PATCH.
         Requester must be owner of the app or a tenant administrator.
       operationId: unlockApp
+      security:
+        - TapisJWT: []
       parameters:
         - name: appId
           in: path
@@ -999,6 +1139,8 @@ paths:
         Mark an application as deleted. Application will not appear in queries
         unless explicitly requested.
       operationId: deleteApp
+      security:
+        - TapisJWT: []
       parameters:
         - name: appId
           in: path
@@ -1037,6 +1179,8 @@ paths:
       description: |
         Mark an application as not deleted. Application will appear in queries.
       operationId: undeleteApp
+      security:
+        - TapisJWT: []
       parameters:
         - name: appId
           in: path
@@ -1075,6 +1219,8 @@ paths:
       description: |
         Change owner of an application. Applies to all versions.
       operationId: changeAppOwner
+      security:
+        - TapisJWT: []
       parameters:
         - name: appId
           in: path
@@ -1118,6 +1264,8 @@ paths:
       description: |
         Retrieve history of changes for a given appId.
       operationId: getHistory
+      security:
+        - TapisJWT: []
       parameters:
         - name: appId
           in: path
@@ -1157,6 +1305,8 @@ paths:
         Retrieve all application related permissions for a given application and
         user.
       operationId: getUserPerms
+      security:
+        - TapisJWT: []
       parameters:
         - name: appId
           in: path
@@ -1206,6 +1356,8 @@ paths:
         Create permissions in the Security Kernel for a user. Requester must be
         owner. Permissions are READ, MODIFY, EXECUTE.
       operationId: grantUserPerms
+      security:
+        - TapisJWT: []
       parameters:
         - name: appId
           in: path
@@ -1257,6 +1409,8 @@ paths:
         Remove permissions from the Security Kernel for a user. Requester must
         be owner. Permissions are READ, MODIFY, EXECUTE.
       operationId: revokeUserPerms
+      security:
+        - TapisJWT: []
       parameters:
         - name: appId
           in: path
@@ -1302,6 +1456,8 @@ paths:
         Remove user permission from the Security Kernel. Requester must be
         owner. Permissions are READ, MODIFY, EXECUTE.
       operationId: revokeUserPerm
+      security:
+        - TapisJWT: []
       parameters:
         - name: appId
           in: path
@@ -1355,6 +1511,8 @@ paths:
         has been shared and whether or not the app has been made publicly
         available.
       operationId: getShareInfo
+      security:
+        - TapisJWT: []
       parameters:
         - name: appId
           in: path
@@ -1402,6 +1560,8 @@ paths:
 
         provided in the request body. Requester must be owner of the app.
       operationId: shareApp
+      security:
+        - TapisJWT: []
       parameters:
         - name: appId
           in: path
@@ -1449,6 +1609,8 @@ paths:
         Share an app with all users in the tenant. Requester must be owner of
         the app.
       operationId: shareAppPublic
+      security:
+        - TapisJWT: []
       parameters:
         - name: appId
           in: path
@@ -1485,6 +1647,8 @@ paths:
 
         provided in the request body. Requester must be owner of the app.
       operationId: unShareApp
+      security:
+        - TapisJWT: []
       parameters:
         - name: appId
           in: path
@@ -1531,6 +1695,8 @@ paths:
       description: |
         Remove public sharing for an app. Requester must be owner of the app.
       operationId: unShareAppPublic
+      security:
+        - TapisJWT: []
       parameters:
         - name: appId
           in: path
@@ -1578,6 +1744,9 @@ components:
         owner:
           $ref: '#/components/schemas/UserNameApiDefaultString'
         enabled:
+          type: boolean
+          default: true
+        versionEnabled:
           type: boolean
           default: true
         locked:
@@ -1652,6 +1821,10 @@ components:
         execSystemInputDir:
           $ref: '#/components/schemas/DirString'
         execSystemOutputDir:
+          $ref: '#/components/schemas/DirString'
+        dtnSystemInputDir:
+          $ref: '#/components/schemas/DirString'
+        dtnSystemOutputDir:
           $ref: '#/components/schemas/DirString'
         execSystemLogicalQueue:
           $ref: '#/components/schemas/QueueNameString'
@@ -1756,6 +1929,9 @@ components:
           $ref: '#/components/schemas/ArgDescriptionString'
         inputMode:
           $ref: '#/components/schemas/FileInputModeEnum'
+        envKey:
+          type: string
+          minLength: 1
         autoMountLocal:
           type: boolean
           default: true
@@ -1779,6 +1955,9 @@ components:
           $ref: '#/components/schemas/ArgDescriptionString'
         inputMode:
           $ref: '#/components/schemas/FileInputModeEnum'
+        envKey:
+          type: string
+          minLength: 1
         notes:
           type: object
         sourceUrls:
@@ -1939,6 +2118,9 @@ components:
         owner:
           $ref: '#/components/schemas/UserNameApiDefaultString'
         enabled:
+          type: boolean
+          default: true
+        versionEnabled:
           type: boolean
           default: true
         locked:
@@ -2279,6 +2461,7 @@ components:
       enum:
         - SINGULARITY
         - DOCKER
+        - ZIP
     RuntimeOptionEnum:
       type: string
       enum:

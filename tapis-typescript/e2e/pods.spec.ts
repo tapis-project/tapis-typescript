@@ -29,7 +29,7 @@ describe('Pods e2e tests', async () => {
   it('should list pods', async () => {
     try {
       const api: Pods.PodsApi = new Pods.PodsApi(configuration);
-      const response: Pods.PodsResponse = await api.getPods();
+      const response: Pods.PodsResponse = await api.listPods();
       const pods: Array<Pods.PodResponseModel> = response.result;
       expect(pods.length).to.be.greaterThanOrEqual(0)
     } catch (error) {
@@ -40,7 +40,7 @@ describe('Pods e2e tests', async () => {
   it('should list volumes', async () => {
     try {
       const api: Pods.VolumesApi = new Pods.VolumesApi(configuration);
-      const response: Pods.VolumesResponse = await api.getVolumes();
+      const response: Pods.VolumesResponse = await api.listVolumes();
       const volumes: Array<Pods.VolumeResponseModel> = response.result;
       expect(volumes.length).to.be.greaterThanOrEqual(0)
     } catch (error) {
@@ -51,7 +51,7 @@ describe('Pods e2e tests', async () => {
   it('should list snapshots', async () => {
     try {
       const api: Pods.SnapshotsApi = new Pods.SnapshotsApi(configuration);
-      const response: Pods.SnapshotsResponse = await api.getSnapshots();
+      const response: Pods.SnapshotsResponse = await api.listSnapshots();
       const snapshots: Array<Pods.SnapshotResponseModel> = response.result;
       expect(snapshots.length).to.be.greaterThanOrEqual(0)
     } catch (error) {
