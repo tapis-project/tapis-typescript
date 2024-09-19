@@ -6,6 +6,7 @@ export * from './CategoryEnum';
 export * from './Credential';
 export * from './DatatypeEnum';
 export * from './JobRuntime';
+export * from './KeyValueInputModeEnum';
 export * from './KeyValuePair';
 export * from './ListTypeEnum';
 export * from './LogicalQueue';

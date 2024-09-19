@@ -18,6 +18,7 @@ src/models/CategoryEnum.ts
 src/models/Credential.ts
 src/models/DatatypeEnum.ts
 src/models/JobRuntime.ts
+src/models/KeyValueInputModeEnum.ts
 src/models/KeyValuePair.ts
 src/models/ListTypeEnum.ts
 src/models/LogicalQueue.ts

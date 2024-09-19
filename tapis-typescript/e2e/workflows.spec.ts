@@ -208,8 +208,11 @@ describe('Workflows e2e tests', async () => {
         }
       }
 
+      console.log(createSecretParams.reqCreateSecret.data)
       await secretsApi.createSecret(createSecretParams)
-    } catch {}
+    } catch (e) {
+      console.log({e})
+    }
 
     try {
       const createGroupSecretParams: Workflows.AddGroupSecretRequest = {
@@ -221,7 +224,9 @@ describe('Workflows e2e tests', async () => {
       }
 
       await groupSecretsApi.addGroupSecret(createGroupSecretParams)
-    } catch {}
+    } catch (e) {
+      console.log({e})
+    }
   });
 
   it("should return a healthcheck object", async () => {
