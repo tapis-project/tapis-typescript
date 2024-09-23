@@ -35,10 +35,11 @@ describe('tapis-typescript', () => {
   it('should have Files service', () => {
     expect(Files).to.have.property('ContentApi');
     expect(Files).to.have.property('FileOperationsApi');
-    expect(Files).to.have.property('HealthApi');
+    expect(Files).to.have.property('GeneralApi');
     expect(Files).to.have.property('PermissionsApi');
-    expect(Files).to.have.property('ShareApi');
+    expect(Files).to.have.property('SharingApi');
     expect(Files).to.have.property('TransfersApi');
+    expect(Files).to.have.property('PostItsApi');
   });
   it('should have Apps service', () => {
     expect(Apps).to.have.property('ApplicationsApi');

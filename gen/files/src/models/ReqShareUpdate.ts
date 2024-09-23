@@ -16,32 +16,32 @@ import { exists, mapValues } from '../runtime';
 /**
  * 
  * @export
- * @interface MkdirRequest
+ * @interface ReqShareUpdate
  */
-export interface MkdirRequest {
+export interface ReqShareUpdate {
     /**
      * 
-     * @type {string}
-     * @memberof MkdirRequest
+     * @type {Array<string>}
+     * @memberof ReqShareUpdate
      */
-    path: string;
+    users: Array<string>;
 }
 
-export function MkdirRequestFromJSON(json: any): MkdirRequest {
-    return MkdirRequestFromJSONTyped(json, false);
+export function ReqShareUpdateFromJSON(json: any): ReqShareUpdate {
+    return ReqShareUpdateFromJSONTyped(json, false);
 }
 
-export function MkdirRequestFromJSONTyped(json: any, ignoreDiscriminator: boolean): MkdirRequest {
+export function ReqShareUpdateFromJSONTyped(json: any, ignoreDiscriminator: boolean): ReqShareUpdate {
     if ((json === undefined) || (json === null)) {
         return json;
     }
     return {
         
-        'path': json['path'],
+        'users': json['users'],
     };
 }
 
-export function MkdirRequestToJSON(value?: MkdirRequest | null): any {
+export function ReqShareUpdateToJSON(value?: ReqShareUpdate | null): any {
     if (value === undefined) {
         return undefined;
     }
@@ -50,7 +50,7 @@ export function MkdirRequestToJSON(value?: MkdirRequest | null): any {
     }
     return {
         
-        'path': value.path,
+        'users': value.users,
     };
 }
 

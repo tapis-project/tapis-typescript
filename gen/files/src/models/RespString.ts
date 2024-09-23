@@ -13,56 +13,49 @@
  */
 
 import { exists, mapValues } from '../runtime';
-import {
-    FileStatInfo,
-    FileStatInfoFromJSON,
-    FileStatInfoFromJSONTyped,
-    FileStatInfoToJSON,
-} from './';
-
 /**
  * 
  * @export
- * @interface FileStatInfoResponse
+ * @interface RespString
  */
-export interface FileStatInfoResponse {
+export interface RespString {
     /**
      * 
      * @type {string}
-     * @memberof FileStatInfoResponse
+     * @memberof RespString
      */
     status?: string;
     /**
      * 
      * @type {string}
-     * @memberof FileStatInfoResponse
+     * @memberof RespString
      */
     message?: string;
     /**
      * 
-     * @type {FileStatInfo}
-     * @memberof FileStatInfoResponse
+     * @type {string}
+     * @memberof RespString
      */
-    result?: FileStatInfo;
+    result?: string;
     /**
      * 
      * @type {string}
-     * @memberof FileStatInfoResponse
+     * @memberof RespString
      */
     version?: string;
     /**
      * 
      * @type {object}
-     * @memberof FileStatInfoResponse
+     * @memberof RespString
      */
     metadata?: object;
 }
 
-export function FileStatInfoResponseFromJSON(json: any): FileStatInfoResponse {
-    return FileStatInfoResponseFromJSONTyped(json, false);
+export function RespStringFromJSON(json: any): RespString {
+    return RespStringFromJSONTyped(json, false);
 }
 
-export function FileStatInfoResponseFromJSONTyped(json: any, ignoreDiscriminator: boolean): FileStatInfoResponse {
+export function RespStringFromJSONTyped(json: any, ignoreDiscriminator: boolean): RespString {
     if ((json === undefined) || (json === null)) {
         return json;
     }
@@ -70,13 +63,13 @@ export function FileStatInfoResponseFromJSONTyped(json: any, ignoreDiscriminator
         
         'status': !exists(json, 'status') ? undefined : json['status'],
         'message': !exists(json, 'message') ? undefined : json['message'],
-        'result': !exists(json, 'result') ? undefined : FileStatInfoFromJSON(json['result']),
+        'result': !exists(json, 'result') ? undefined : json['result'],
         'version': !exists(json, 'version') ? undefined : json['version'],
         'metadata': !exists(json, 'metadata') ? undefined : json['metadata'],
     };
 }
 
-export function FileStatInfoResponseToJSON(value?: FileStatInfoResponse | null): any {
+export function RespStringToJSON(value?: RespString | null): any {
     if (value === undefined) {
         return undefined;
     }
@@ -87,7 +80,7 @@ export function FileStatInfoResponseToJSON(value?: FileStatInfoResponse | null):
         
         'status': value.status,
         'message': value.message,
-        'result': FileStatInfoToJSON(value.result),
+        'result': value.result,
         'version': value.version,
         'metadata': value.metadata,
     };

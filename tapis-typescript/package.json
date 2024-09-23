@@ -1,6 +1,6 @@
 {
   "name": "@tapis/tapis-typescript",
-  "version": "0.0.49",
+  "version": "0.0.50",
   "description": "TypeScript bindings for tapis.io api",
   "main": "./dist/index.js",
   "typings": "./dist/index.d.ts",
@@ -27,7 +27,7 @@
     "@tapis/tapis-typescript-actors": "^0.0.3",
     "@tapis/tapis-typescript-apps": "^0.0.9",
     "@tapis/tapis-typescript-authenticator": "^0.0.2",
-    "@tapis/tapis-typescript-files": "^0.0.3",
+    "@tapis/tapis-typescript-files": "^0.0.4",
     "@tapis/tapis-typescript-jobs": "^0.0.4",
     "@tapis/tapis-typescript-mlhub-datasets": "^0.0.1",
     "@tapis/tapis-typescript-mlhub-models": "^0.0.2",

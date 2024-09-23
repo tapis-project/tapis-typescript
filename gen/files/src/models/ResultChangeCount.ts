@@ -16,32 +16,32 @@ import { exists, mapValues } from '../runtime';
 /**
  * 
  * @export
- * @interface MkdirRequest
+ * @interface ResultChangeCount
  */
-export interface MkdirRequest {
+export interface ResultChangeCount {
     /**
      * 
-     * @type {string}
-     * @memberof MkdirRequest
+     * @type {number}
+     * @memberof ResultChangeCount
      */
-    path: string;
+    changes?: number;
 }
 
-export function MkdirRequestFromJSON(json: any): MkdirRequest {
-    return MkdirRequestFromJSONTyped(json, false);
+export function ResultChangeCountFromJSON(json: any): ResultChangeCount {
+    return ResultChangeCountFromJSONTyped(json, false);
 }
 
-export function MkdirRequestFromJSONTyped(json: any, ignoreDiscriminator: boolean): MkdirRequest {
+export function ResultChangeCountFromJSONTyped(json: any, ignoreDiscriminator: boolean): ResultChangeCount {
     if ((json === undefined) || (json === null)) {
         return json;
     }
     return {
         
-        'path': json['path'],
+        'changes': !exists(json, 'changes') ? undefined : json['changes'],
     };
 }
 
-export function MkdirRequestToJSON(value?: MkdirRequest | null): any {
+export function ResultChangeCountToJSON(value?: ResultChangeCount | null): any {
     if (value === undefined) {
         return undefined;
     }
@@ -50,7 +50,7 @@ export function MkdirRequestToJSON(value?: MkdirRequest | null): any {
     }
     return {
         
-        'path': value.path,
+        'changes': value.changes,
     };
 }
 

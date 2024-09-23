@@ -14,55 +14,55 @@
 
 import { exists, mapValues } from '../runtime';
 import {
-    FileStatInfo,
-    FileStatInfoFromJSON,
-    FileStatInfoFromJSONTyped,
-    FileStatInfoToJSON,
+    ResultShareInfo,
+    ResultShareInfoFromJSON,
+    ResultShareInfoFromJSONTyped,
+    ResultShareInfoToJSON,
 } from './';
 
 /**
  * 
  * @export
- * @interface FileStatInfoResponse
+ * @interface RespShareInfo
  */
-export interface FileStatInfoResponse {
+export interface RespShareInfo {
     /**
      * 
      * @type {string}
-     * @memberof FileStatInfoResponse
+     * @memberof RespShareInfo
      */
     status?: string;
     /**
      * 
      * @type {string}
-     * @memberof FileStatInfoResponse
+     * @memberof RespShareInfo
      */
     message?: string;
     /**
      * 
-     * @type {FileStatInfo}
-     * @memberof FileStatInfoResponse
-     */
-    result?: FileStatInfo;
-    /**
-     * 
      * @type {string}
-     * @memberof FileStatInfoResponse
+     * @memberof RespShareInfo
      */
     version?: string;
     /**
      * 
+     * @type {ResultShareInfo}
+     * @memberof RespShareInfo
+     */
+    result?: ResultShareInfo;
+    /**
+     * 
      * @type {object}
-     * @memberof FileStatInfoResponse
+     * @memberof RespShareInfo
      */
     metadata?: object;
 }
 
-export function FileStatInfoResponseFromJSON(json: any): FileStatInfoResponse {
-    return FileStatInfoResponseFromJSONTyped(json, false);
+export function RespShareInfoFromJSON(json: any): RespShareInfo {
+    return RespShareInfoFromJSONTyped(json, false);
 }
 
-export function FileStatInfoResponseFromJSONTyped(json: any, ignoreDiscriminator: boolean): FileStatInfoResponse {
+export function RespShareInfoFromJSONTyped(json: any, ignoreDiscriminator: boolean): RespShareInfo {
     if ((json === undefined) || (json === null)) {
         return json;
     }
@@ -70,13 +70,13 @@ export function FileStatInfoResponseFromJSONTyped(json: any, ignoreDiscriminator
         
         'status': !exists(json, 'status') ? undefined : json['status'],
         'message': !exists(json, 'message') ? undefined : json['message'],
-        'result': !exists(json, 'result') ? undefined : FileStatInfoFromJSON(json['result']),
         'version': !exists(json, 'version') ? undefined : json['version'],
+        'result': !exists(json, 'result') ? undefined : ResultShareInfoFromJSON(json['result']),
         'metadata': !exists(json, 'metadata') ? undefined : json['metadata'],
     };
 }
 
-export function FileStatInfoResponseToJSON(value?: FileStatInfoResponse | null): any {
+export function RespShareInfoToJSON(value?: RespShareInfo | null): any {
     if (value === undefined) {
         return undefined;
     }
@@ -87,8 +87,8 @@ export function FileStatInfoResponseToJSON(value?: FileStatInfoResponse | null):
         
         'status': value.status,
         'message': value.message,
-        'result': FileStatInfoToJSON(value.result),
         'version': value.version,
+        'result': ResultShareInfoToJSON(value.result),
         'metadata': value.metadata,
     };
 }

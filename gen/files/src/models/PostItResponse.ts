@@ -14,55 +14,55 @@
 
 import { exists, mapValues } from '../runtime';
 import {
-    FileStatInfo,
-    FileStatInfoFromJSON,
-    FileStatInfoFromJSONTyped,
-    FileStatInfoToJSON,
+    PostIt,
+    PostItFromJSON,
+    PostItFromJSONTyped,
+    PostItToJSON,
 } from './';
 
 /**
  * 
  * @export
- * @interface FileStatInfoResponse
+ * @interface PostItResponse
  */
-export interface FileStatInfoResponse {
+export interface PostItResponse {
     /**
      * 
      * @type {string}
-     * @memberof FileStatInfoResponse
+     * @memberof PostItResponse
      */
     status?: string;
     /**
      * 
      * @type {string}
-     * @memberof FileStatInfoResponse
+     * @memberof PostItResponse
      */
     message?: string;
     /**
      * 
-     * @type {FileStatInfo}
-     * @memberof FileStatInfoResponse
+     * @type {PostIt}
+     * @memberof PostItResponse
      */
-    result?: FileStatInfo;
+    result?: PostIt;
     /**
      * 
      * @type {string}
-     * @memberof FileStatInfoResponse
+     * @memberof PostItResponse
      */
     version?: string;
     /**
      * 
      * @type {object}
-     * @memberof FileStatInfoResponse
+     * @memberof PostItResponse
      */
     metadata?: object;
 }
 
-export function FileStatInfoResponseFromJSON(json: any): FileStatInfoResponse {
-    return FileStatInfoResponseFromJSONTyped(json, false);
+export function PostItResponseFromJSON(json: any): PostItResponse {
+    return PostItResponseFromJSONTyped(json, false);
 }
 
-export function FileStatInfoResponseFromJSONTyped(json: any, ignoreDiscriminator: boolean): FileStatInfoResponse {
+export function PostItResponseFromJSONTyped(json: any, ignoreDiscriminator: boolean): PostItResponse {
     if ((json === undefined) || (json === null)) {
         return json;
     }
@@ -70,13 +70,13 @@ export function FileStatInfoResponseFromJSONTyped(json: any, ignoreDiscriminator
         
         'status': !exists(json, 'status') ? undefined : json['status'],
         'message': !exists(json, 'message') ? undefined : json['message'],
-        'result': !exists(json, 'result') ? undefined : FileStatInfoFromJSON(json['result']),
+        'result': !exists(json, 'result') ? undefined : PostItFromJSON(json['result']),
         'version': !exists(json, 'version') ? undefined : json['version'],
         'metadata': !exists(json, 'metadata') ? undefined : json['metadata'],
     };
 }
 
-export function FileStatInfoResponseToJSON(value?: FileStatInfoResponse | null): any {
+export function PostItResponseToJSON(value?: PostItResponse | null): any {
     if (value === undefined) {
         return undefined;
     }
@@ -87,7 +87,7 @@ export function FileStatInfoResponseToJSON(value?: FileStatInfoResponse | null):
         
         'status': value.status,
         'message': value.message,
-        'result': FileStatInfoToJSON(value.result),
+        'result': PostItToJSON(value.result),
         'version': value.version,
         'metadata': value.metadata,
     };

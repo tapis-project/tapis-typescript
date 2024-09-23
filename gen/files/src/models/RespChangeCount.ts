@@ -14,55 +14,55 @@
 
 import { exists, mapValues } from '../runtime';
 import {
-    FileStatInfo,
-    FileStatInfoFromJSON,
-    FileStatInfoFromJSONTyped,
-    FileStatInfoToJSON,
+    ResultChangeCount,
+    ResultChangeCountFromJSON,
+    ResultChangeCountFromJSONTyped,
+    ResultChangeCountToJSON,
 } from './';
 
 /**
  * 
  * @export
- * @interface FileStatInfoResponse
+ * @interface RespChangeCount
  */
-export interface FileStatInfoResponse {
+export interface RespChangeCount {
     /**
      * 
      * @type {string}
-     * @memberof FileStatInfoResponse
+     * @memberof RespChangeCount
      */
     status?: string;
     /**
      * 
      * @type {string}
-     * @memberof FileStatInfoResponse
+     * @memberof RespChangeCount
      */
     message?: string;
     /**
      * 
-     * @type {FileStatInfo}
-     * @memberof FileStatInfoResponse
-     */
-    result?: FileStatInfo;
-    /**
-     * 
      * @type {string}
-     * @memberof FileStatInfoResponse
+     * @memberof RespChangeCount
      */
     version?: string;
     /**
      * 
+     * @type {ResultChangeCount}
+     * @memberof RespChangeCount
+     */
+    result?: ResultChangeCount;
+    /**
+     * 
      * @type {object}
-     * @memberof FileStatInfoResponse
+     * @memberof RespChangeCount
      */
     metadata?: object;
 }
 
-export function FileStatInfoResponseFromJSON(json: any): FileStatInfoResponse {
-    return FileStatInfoResponseFromJSONTyped(json, false);
+export function RespChangeCountFromJSON(json: any): RespChangeCount {
+    return RespChangeCountFromJSONTyped(json, false);
 }
 
-export function FileStatInfoResponseFromJSONTyped(json: any, ignoreDiscriminator: boolean): FileStatInfoResponse {
+export function RespChangeCountFromJSONTyped(json: any, ignoreDiscriminator: boolean): RespChangeCount {
     if ((json === undefined) || (json === null)) {
         return json;
     }
@@ -70,13 +70,13 @@ export function FileStatInfoResponseFromJSONTyped(json: any, ignoreDiscriminator
         
         'status': !exists(json, 'status') ? undefined : json['status'],
         'message': !exists(json, 'message') ? undefined : json['message'],
-        'result': !exists(json, 'result') ? undefined : FileStatInfoFromJSON(json['result']),
         'version': !exists(json, 'version') ? undefined : json['version'],
+        'result': !exists(json, 'result') ? undefined : ResultChangeCountFromJSON(json['result']),
         'metadata': !exists(json, 'metadata') ? undefined : json['metadata'],
     };
 }
 
-export function FileStatInfoResponseToJSON(value?: FileStatInfoResponse | null): any {
+export function RespChangeCountToJSON(value?: RespChangeCount | null): any {
     if (value === undefined) {
         return undefined;
     }
@@ -87,8 +87,8 @@ export function FileStatInfoResponseToJSON(value?: FileStatInfoResponse | null):
         
         'status': value.status,
         'message': value.message,
-        'result': FileStatInfoToJSON(value.result),
         'version': value.version,
+        'result': ResultChangeCountToJSON(value.result),
         'metadata': value.metadata,
     };
 }

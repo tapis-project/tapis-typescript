@@ -2,7 +2,8 @@
 /* eslint-disable */
 export * from './ContentApi';
 export * from './FileOperationsApi';
-export * from './HealthApi';
+export * from './GeneralApi';
 export * from './PermissionsApi';
-export * from './ShareApi';
+export * from './PostItsApi';
+export * from './SharingApi';
 export * from './TransfersApi';

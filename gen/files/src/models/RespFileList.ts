@@ -14,55 +14,55 @@
 
 import { exists, mapValues } from '../runtime';
 import {
-    FileStatInfo,
-    FileStatInfoFromJSON,
-    FileStatInfoFromJSONTyped,
-    FileStatInfoToJSON,
+    FileInfo,
+    FileInfoFromJSON,
+    FileInfoFromJSONTyped,
+    FileInfoToJSON,
 } from './';
 
 /**
  * 
  * @export
- * @interface FileStatInfoResponse
+ * @interface RespFileList
  */
-export interface FileStatInfoResponse {
+export interface RespFileList {
     /**
      * 
      * @type {string}
-     * @memberof FileStatInfoResponse
+     * @memberof RespFileList
      */
     status?: string;
     /**
      * 
      * @type {string}
-     * @memberof FileStatInfoResponse
+     * @memberof RespFileList
      */
     message?: string;
     /**
      * 
-     * @type {FileStatInfo}
-     * @memberof FileStatInfoResponse
+     * @type {Array<FileInfo>}
+     * @memberof RespFileList
      */
-    result?: FileStatInfo;
+    result?: Array<FileInfo>;
     /**
      * 
      * @type {string}
-     * @memberof FileStatInfoResponse
+     * @memberof RespFileList
      */
     version?: string;
     /**
      * 
      * @type {object}
-     * @memberof FileStatInfoResponse
+     * @memberof RespFileList
      */
     metadata?: object;
 }
 
-export function FileStatInfoResponseFromJSON(json: any): FileStatInfoResponse {
-    return FileStatInfoResponseFromJSONTyped(json, false);
+export function RespFileListFromJSON(json: any): RespFileList {
+    return RespFileListFromJSONTyped(json, false);
 }
 
-export function FileStatInfoResponseFromJSONTyped(json: any, ignoreDiscriminator: boolean): FileStatInfoResponse {
+export function RespFileListFromJSONTyped(json: any, ignoreDiscriminator: boolean): RespFileList {
     if ((json === undefined) || (json === null)) {
         return json;
     }
@@ -70,13 +70,13 @@ export function FileStatInfoResponseFromJSONTyped(json: any, ignoreDiscriminator
         
         'status': !exists(json, 'status') ? undefined : json['status'],
         'message': !exists(json, 'message') ? undefined : json['message'],
-        'result': !exists(json, 'result') ? undefined : FileStatInfoFromJSON(json['result']),
+        'result': !exists(json, 'result') ? undefined : ((json['result'] as Array<any>).map(FileInfoFromJSON)),
         'version': !exists(json, 'version') ? undefined : json['version'],
         'metadata': !exists(json, 'metadata') ? undefined : json['metadata'],
     };
 }
 
-export function FileStatInfoResponseToJSON(value?: FileStatInfoResponse | null): any {
+export function RespFileListToJSON(value?: RespFileList | null): any {
     if (value === undefined) {
         return undefined;
     }
@@ -87,7 +87,7 @@ export function FileStatInfoResponseToJSON(value?: FileStatInfoResponse | null):
         
         'status': value.status,
         'message': value.message,
-        'result': FileStatInfoToJSON(value.result),
+        'result': value.result === undefined ? undefined : ((value.result as Array<any>).map(FileInfoToJSON)),
         'version': value.version,
         'metadata': value.metadata,
     };

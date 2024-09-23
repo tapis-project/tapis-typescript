@@ -14,55 +14,55 @@
 
 import { exists, mapValues } from '../runtime';
 import {
-    FileStatInfo,
-    FileStatInfoFromJSON,
-    FileStatInfoFromJSONTyped,
-    FileStatInfoToJSON,
+    AclEntryInfo,
+    AclEntryInfoFromJSON,
+    AclEntryInfoFromJSONTyped,
+    AclEntryInfoToJSON,
 } from './';
 
 /**
  * 
  * @export
- * @interface FileStatInfoResponse
+ * @interface NativeLinuxGetFaclResponse
  */
-export interface FileStatInfoResponse {
+export interface NativeLinuxGetFaclResponse {
     /**
      * 
      * @type {string}
-     * @memberof FileStatInfoResponse
+     * @memberof NativeLinuxGetFaclResponse
      */
     status?: string;
     /**
      * 
      * @type {string}
-     * @memberof FileStatInfoResponse
+     * @memberof NativeLinuxGetFaclResponse
      */
     message?: string;
     /**
      * 
-     * @type {FileStatInfo}
-     * @memberof FileStatInfoResponse
+     * @type {Array<AclEntryInfo>}
+     * @memberof NativeLinuxGetFaclResponse
      */
-    result?: FileStatInfo;
+    result?: Array<AclEntryInfo>;
     /**
      * 
      * @type {string}
-     * @memberof FileStatInfoResponse
+     * @memberof NativeLinuxGetFaclResponse
      */
     version?: string;
     /**
      * 
      * @type {object}
-     * @memberof FileStatInfoResponse
+     * @memberof NativeLinuxGetFaclResponse
      */
     metadata?: object;
 }
 
-export function FileStatInfoResponseFromJSON(json: any): FileStatInfoResponse {
-    return FileStatInfoResponseFromJSONTyped(json, false);
+export function NativeLinuxGetFaclResponseFromJSON(json: any): NativeLinuxGetFaclResponse {
+    return NativeLinuxGetFaclResponseFromJSONTyped(json, false);
 }
 
-export function FileStatInfoResponseFromJSONTyped(json: any, ignoreDiscriminator: boolean): FileStatInfoResponse {
+export function NativeLinuxGetFaclResponseFromJSONTyped(json: any, ignoreDiscriminator: boolean): NativeLinuxGetFaclResponse {
     if ((json === undefined) || (json === null)) {
         return json;
     }
@@ -70,13 +70,13 @@ export function FileStatInfoResponseFromJSONTyped(json: any, ignoreDiscriminator
         
         'status': !exists(json, 'status') ? undefined : json['status'],
         'message': !exists(json, 'message') ? undefined : json['message'],
-        'result': !exists(json, 'result') ? undefined : FileStatInfoFromJSON(json['result']),
+        'result': !exists(json, 'result') ? undefined : ((json['result'] as Array<any>).map(AclEntryInfoFromJSON)),
         'version': !exists(json, 'version') ? undefined : json['version'],
         'metadata': !exists(json, 'metadata') ? undefined : json['metadata'],
     };
 }
 
-export function FileStatInfoResponseToJSON(value?: FileStatInfoResponse | null): any {
+export function NativeLinuxGetFaclResponseToJSON(value?: NativeLinuxGetFaclResponse | null): any {
     if (value === undefined) {
         return undefined;
     }
@@ -87,7 +87,7 @@ export function FileStatInfoResponseToJSON(value?: FileStatInfoResponse | null):
         
         'status': value.status,
         'message': value.message,
-        'result': FileStatInfoToJSON(value.result),
+        'result': value.result === undefined ? undefined : ((value.result as Array<any>).map(AclEntryInfoToJSON)),
         'version': value.version,
         'metadata': value.metadata,
     };

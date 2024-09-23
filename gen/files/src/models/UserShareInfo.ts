@@ -16,39 +16,39 @@ import { exists, mapValues } from '../runtime';
 /**
  * 
  * @export
- * @interface ShareFileRequest
+ * @interface UserShareInfo
  */
-export interface ShareFileRequest {
+export interface UserShareInfo {
     /**
-     * The user with which to share
+     * 
      * @type {string}
-     * @memberof ShareFileRequest
+     * @memberof UserShareInfo
      */
-    username: string;
+    username?: string;
     /**
-     * Time in seconds of expiration. minimum=1, maximum=604800 (1 week)
-     * @type {number}
-     * @memberof ShareFileRequest
+     * Path that resulted in specified path being shared with the user
+     * @type {string}
+     * @memberof UserShareInfo
      */
-    expiresIn: number;
+    path?: string;
 }
 
-export function ShareFileRequestFromJSON(json: any): ShareFileRequest {
-    return ShareFileRequestFromJSONTyped(json, false);
+export function UserShareInfoFromJSON(json: any): UserShareInfo {
+    return UserShareInfoFromJSONTyped(json, false);
 }
 
-export function ShareFileRequestFromJSONTyped(json: any, ignoreDiscriminator: boolean): ShareFileRequest {
+export function UserShareInfoFromJSONTyped(json: any, ignoreDiscriminator: boolean): UserShareInfo {
     if ((json === undefined) || (json === null)) {
         return json;
     }
     return {
         
-        'username': json['username'],
-        'expiresIn': json['expiresIn'],
+        'username': !exists(json, 'username') ? undefined : json['username'],
+        'path': !exists(json, 'path') ? undefined : json['path'],
     };
 }
 
-export function ShareFileRequestToJSON(value?: ShareFileRequest | null): any {
+export function UserShareInfoToJSON(value?: UserShareInfo | null): any {
     if (value === undefined) {
         return undefined;
     }
@@ -58,7 +58,7 @@ export function ShareFileRequestToJSON(value?: ShareFileRequest | null): any {
     return {
         
         'username': value.username,
-        'expiresIn': value.expiresIn,
+        'path': value.path,
     };
 }
 
