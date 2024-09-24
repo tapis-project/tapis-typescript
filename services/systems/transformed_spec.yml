@@ -2,7 +2,7 @@ openapi: 3.0.3
 info:
   title: Tapis Systems API
   description: The Tapis Systems API provides for management of Tapis Systems including permissions, credentials and Scheduler Profiles.
-  version: '1.6.3'
+  version: '1.7.0'
   termsOfService: "https://tapis-project.org"
   contact:
     name: "Systems API - CICSupport"
@@ -728,14 +728,6 @@ paths:
       description: |
         Update all updatable attributes of a system using a request body identical to POST. System must exist.
 
-        If the *effectiveUserId* is static (i.e. not *${apiUserId}*) then credentials may optionally be provided in the
-        *authnCredential* attribute of the request body. The Systems service does not store the secrets in its
-        database, they are persisted in the Security Kernel.
-
-
-        By default for LINUX and S3 type systems credentials provided are verified. Use query parameter
-        skipCredentialCheck=true to bypass initial verification of credentials.
-
         Note that certain attributes in the request body (such as tenant) are allowed but ignored so that the JSON
         result returned by a GET may be modified and used when making a PUT request to update a system.
 
@@ -752,12 +744,15 @@ paths:
           - id
           - systemType
           - owner
+          - effectiveUserId
+          - authnCredential
           - enabled
           - bucketName
           - rootDir
           - canExec
 
-        Note that the attributes owner and enabled may be modified using other endpoints.
+        Note that the attributes *owner*, *enabled* and *authnCredential* may be modified using other endpoints.
+        Attribute *effectiveUserId* may be updated using the endpoint **patchSystem**.
       operationId: putSystem
       security:
         - TapisJWT: []
@@ -2684,12 +2679,8 @@ components:
           $ref: '#/components/schemas/DescriptionString'
         host:
           $ref: '#/components/schemas/SysHost'
-        effectiveUserId:
-          $ref: '#/components/schemas/EffectiveUserId'
         defaultAuthnMethod:
           $ref: '#/components/schemas/AuthnEnum'
-        authnCredential:
-          $ref: '#/components/schemas/ReqPostPutCredential'
         port:
           type: integer
           format: int32
@@ -3186,7 +3177,7 @@ components:
       properties:
         url:
           type: string
-        sesssionId:
+        sessionId:
           type: string
         systemId:
           type: string
