@@ -2258,6 +2258,8 @@ components:
           type: boolean
           default: false
           description: Indicates if system allows for the creation of child systems.
+        parentId:
+          $ref: '#/components/schemas/ParentSysId'
         mpiCmd:
           type: string
           minLength: 1
@@ -2505,6 +2507,11 @@ components:
       minLength: 1
       maxLength: 80
       description: An alternate system to use as a Data Transfer Node (DTN) during job execution.
+    ParentSysId:
+      type: string
+      minLength: 1
+      maxLength: 80
+      description: Parent system associated with this child system.
     IdString:
       type: string
       minLength: 1

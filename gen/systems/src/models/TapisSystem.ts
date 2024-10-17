@@ -193,6 +193,12 @@ export interface TapisSystem {
      */
     allowChildren?: boolean;
     /**
+     * Parent system associated with this child system.
+     * @type {string}
+     * @memberof TapisSystem
+     */
+    parentId?: string;
+    /**
      * 
      * @type {string}
      * @memberof TapisSystem
@@ -335,6 +341,7 @@ export function TapisSystemFromJSONTyped(json: any, ignoreDiscriminator: boolean
         'canRunBatch': !exists(json, 'canRunBatch') ? undefined : json['canRunBatch'],
         'enableCmdPrefix': !exists(json, 'enableCmdPrefix') ? undefined : json['enableCmdPrefix'],
         'allowChildren': !exists(json, 'allowChildren') ? undefined : json['allowChildren'],
+        'parentId': !exists(json, 'parentId') ? undefined : json['parentId'],
         'mpiCmd': !exists(json, 'mpiCmd') ? undefined : json['mpiCmd'],
         'jobRuntimes': !exists(json, 'jobRuntimes') ? undefined : ((json['jobRuntimes'] as Array<any>).map(JobRuntimeFromJSON)),
         'jobWorkingDir': !exists(json, 'jobWorkingDir') ? undefined : json['jobWorkingDir'],
@@ -388,6 +395,7 @@ export function TapisSystemToJSON(value?: TapisSystem | null): any {
         'canRunBatch': value.canRunBatch,
         'enableCmdPrefix': value.enableCmdPrefix,
         'allowChildren': value.allowChildren,
+        'parentId': value.parentId,
         'mpiCmd': value.mpiCmd,
         'jobRuntimes': value.jobRuntimes === undefined ? undefined : ((value.jobRuntimes as Array<any>).map(JobRuntimeToJSON)),
         'jobWorkingDir': value.jobWorkingDir,
