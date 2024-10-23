@@ -43,6 +43,12 @@ export interface JobArgSpec {
      * @memberof JobArgSpec
      */
     arg?: string;
+    /**
+     * 
+     * @type {object}
+     * @memberof JobArgSpec
+     */
+    notes?: object;
 }
 
 export function JobArgSpecFromJSON(json: any): JobArgSpec {
@@ -59,6 +65,7 @@ export function JobArgSpecFromJSONTyped(json: any, ignoreDiscriminator: boolean)
         'description': !exists(json, 'description') ? undefined : json['description'],
         'include': !exists(json, 'include') ? undefined : json['include'],
         'arg': !exists(json, 'arg') ? undefined : json['arg'],
+        'notes': !exists(json, 'notes') ? undefined : json['notes'],
     };
 }
 
@@ -75,6 +82,7 @@ export function JobArgSpecToJSON(value?: JobArgSpec | null): any {
         'description': value.description,
         'include': value.include,
         'arg': value.arg,
+        'notes': value.notes,
     };
 }
 

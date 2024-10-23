@@ -16,39 +16,39 @@ import { exists, mapValues } from '../runtime';
 /**
  * 
  * @export
- * @interface JobStatusDisplay
+ * @interface LogConfig
  */
-export interface JobStatusDisplay {
+export interface LogConfig {
     /**
      * 
      * @type {string}
-     * @memberof JobStatusDisplay
+     * @memberof LogConfig
      */
-    status?: string;
+    stdoutFilename?: string;
     /**
      * 
      * @type {string}
-     * @memberof JobStatusDisplay
+     * @memberof LogConfig
      */
-    condition?: string;
+    stderrFilename?: string;
 }
 
-export function JobStatusDisplayFromJSON(json: any): JobStatusDisplay {
-    return JobStatusDisplayFromJSONTyped(json, false);
+export function LogConfigFromJSON(json: any): LogConfig {
+    return LogConfigFromJSONTyped(json, false);
 }
 
-export function JobStatusDisplayFromJSONTyped(json: any, ignoreDiscriminator: boolean): JobStatusDisplay {
+export function LogConfigFromJSONTyped(json: any, ignoreDiscriminator: boolean): LogConfig {
     if ((json === undefined) || (json === null)) {
         return json;
     }
     return {
         
-        'status': !exists(json, 'status') ? undefined : json['status'],
-        'condition': !exists(json, 'condition') ? undefined : json['condition'],
+        'stdoutFilename': !exists(json, 'stdoutFilename') ? undefined : json['stdoutFilename'],
+        'stderrFilename': !exists(json, 'stderrFilename') ? undefined : json['stderrFilename'],
     };
 }
 
-export function JobStatusDisplayToJSON(value?: JobStatusDisplay | null): any {
+export function LogConfigToJSON(value?: LogConfig | null): any {
     if (value === undefined) {
         return undefined;
     }
@@ -57,8 +57,8 @@ export function JobStatusDisplayToJSON(value?: JobStatusDisplay | null): any {
     }
     return {
         
-        'status': value.status,
-        'condition': value.condition,
+        'stdoutFilename': value.stdoutFilename,
+        'stderrFilename': value.stderrFilename,
     };
 }
 

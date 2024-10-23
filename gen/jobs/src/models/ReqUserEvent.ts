@@ -16,39 +16,39 @@ import { exists, mapValues } from '../runtime';
 /**
  * 
  * @export
- * @interface JobStatusDisplay
+ * @interface ReqUserEvent
  */
-export interface JobStatusDisplay {
+export interface ReqUserEvent {
     /**
      * 
      * @type {string}
-     * @memberof JobStatusDisplay
+     * @memberof ReqUserEvent
      */
-    status?: string;
+    eventData: string;
     /**
      * 
      * @type {string}
-     * @memberof JobStatusDisplay
+     * @memberof ReqUserEvent
      */
-    condition?: string;
+    eventDetail?: string;
 }
 
-export function JobStatusDisplayFromJSON(json: any): JobStatusDisplay {
-    return JobStatusDisplayFromJSONTyped(json, false);
+export function ReqUserEventFromJSON(json: any): ReqUserEvent {
+    return ReqUserEventFromJSONTyped(json, false);
 }
 
-export function JobStatusDisplayFromJSONTyped(json: any, ignoreDiscriminator: boolean): JobStatusDisplay {
+export function ReqUserEventFromJSONTyped(json: any, ignoreDiscriminator: boolean): ReqUserEvent {
     if ((json === undefined) || (json === null)) {
         return json;
     }
     return {
         
-        'status': !exists(json, 'status') ? undefined : json['status'],
-        'condition': !exists(json, 'condition') ? undefined : json['condition'],
+        'eventData': json['eventData'],
+        'eventDetail': !exists(json, 'eventDetail') ? undefined : json['eventDetail'],
     };
 }
 
-export function JobStatusDisplayToJSON(value?: JobStatusDisplay | null): any {
+export function ReqUserEventToJSON(value?: ReqUserEvent | null): any {
     if (value === undefined) {
         return undefined;
     }
@@ -57,8 +57,8 @@ export function JobStatusDisplayToJSON(value?: JobStatusDisplay | null): any {
     }
     return {
         
-        'status': value.status,
-        'condition': value.condition,
+        'eventData': value.eventData,
+        'eventDetail': value.eventDetail,
     };
 }
 

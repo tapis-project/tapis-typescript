@@ -33,6 +33,12 @@ export interface JobFileInput {
     description?: string;
     /**
      * 
+     * @type {string}
+     * @memberof JobFileInput
+     */
+    envKey?: string;
+    /**
+     * 
      * @type {boolean}
      * @memberof JobFileInput
      */
@@ -49,6 +55,12 @@ export interface JobFileInput {
      * @memberof JobFileInput
      */
     targetPath?: string;
+    /**
+     * 
+     * @type {object}
+     * @memberof JobFileInput
+     */
+    notes?: object;
 }
 
 export function JobFileInputFromJSON(json: any): JobFileInput {
@@ -63,9 +75,11 @@ export function JobFileInputFromJSONTyped(json: any, ignoreDiscriminator: boolea
         
         'name': !exists(json, 'name') ? undefined : json['name'],
         'description': !exists(json, 'description') ? undefined : json['description'],
+        'envKey': !exists(json, 'envKey') ? undefined : json['envKey'],
         'autoMountLocal': !exists(json, 'autoMountLocal') ? undefined : json['autoMountLocal'],
         'sourceUrl': !exists(json, 'sourceUrl') ? undefined : json['sourceUrl'],
         'targetPath': !exists(json, 'targetPath') ? undefined : json['targetPath'],
+        'notes': !exists(json, 'notes') ? undefined : json['notes'],
     };
 }
 
@@ -80,9 +94,11 @@ export function JobFileInputToJSON(value?: JobFileInput | null): any {
         
         'name': value.name,
         'description': value.description,
+        'envKey': value.envKey,
         'autoMountLocal': value.autoMountLocal,
         'sourceUrl': value.sourceUrl,
         'targetPath': value.targetPath,
+        'notes': value.notes,
     };
 }
 

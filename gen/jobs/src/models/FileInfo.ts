@@ -30,7 +30,7 @@ export interface FileInfo {
      * @type {string}
      * @memberof FileInfo
      */
-    type?: string;
+    type?: FileInfoTypeEnum;
     /**
      * 
      * @type {string}
@@ -57,10 +57,10 @@ export interface FileInfo {
     url?: string;
     /**
      * 
-     * @type {number}
+     * @type {Date}
      * @memberof FileInfo
      */
-    lastModified?: number;
+    lastModified?: Date;
     /**
      * 
      * @type {string}
@@ -81,6 +81,18 @@ export interface FileInfo {
     size?: number;
 }
 
+/**
+* @export
+* @enum {string}
+*/
+export enum FileInfoTypeEnum {
+    File = 'file',
+    Dir = 'dir',
+    SymbolicLink = 'symbolic_link',
+    Other = 'other',
+    Unknown = 'unknown'
+}
+
 export function FileInfoFromJSON(json: any): FileInfo {
     return FileInfoFromJSONTyped(json, false);
 }
@@ -97,7 +109,7 @@ export function FileInfoFromJSONTyped(json: any, ignoreDiscriminator: boolean): 
         'group': !exists(json, 'group') ? undefined : json['group'],
         'nativePermissions': !exists(json, 'nativePermissions') ? undefined : json['nativePermissions'],
         'url': !exists(json, 'url') ? undefined : json['url'],
-        'lastModified': !exists(json, 'lastModified') ? undefined : json['lastModified'],
+        'lastModified': !exists(json, 'lastModified') ? undefined : (new Date(json['lastModified'])),
         'name': !exists(json, 'name') ? undefined : json['name'],
         'path': !exists(json, 'path') ? undefined : json['path'],
         'size': !exists(json, 'size') ? undefined : json['size'],
@@ -119,7 +131,7 @@ export function FileInfoToJSON(value?: FileInfo | null): any {
         'group': value.group,
         'nativePermissions': value.nativePermissions,
         'url': value.url,
-        'lastModified': value.lastModified,
+        'lastModified': value.lastModified === undefined ? undefined : (value.lastModified.toISOString()),
         'name': value.name,
         'path': value.path,
         'size': value.size,

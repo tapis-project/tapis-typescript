@@ -60,6 +60,12 @@ export interface Job {
      * @type {string}
      * @memberof Job
      */
+    condition?: JobConditionEnum;
+    /**
+     * 
+     * @type {string}
+     * @memberof Job
+     */
     lastMessage?: string;
     /**
      * 
@@ -162,13 +168,13 @@ export interface Job {
      * @type {string}
      * @memberof Job
      */
-    dtnMountSourcePath?: string;
+    dtnSystemInputDir?: string;
     /**
      * 
      * @type {string}
      * @memberof Job
      */
-    dtnMountPoint?: string;
+    dtnSystemOutputDir?: string;
     /**
      * 
      * @type {number}
@@ -324,6 +330,42 @@ export interface Job {
      * @type {string}
      * @memberof Job
      */
+    stageAppTransactionId?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof Job
+     */
+    stageAppCorrelationId?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof Job
+     */
+    dtnInputTransactionId?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof Job
+     */
+    dtnInputCorrelationId?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof Job
+     */
+    dtnOutputTransactionId?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof Job
+     */
+    dtnOutputCorrelationId?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof Job
+     */
     tapisQueue?: string;
     /**
      * 
@@ -369,6 +411,24 @@ export interface Job {
     cmdPrefix?: string;
     /**
      * 
+     * @type {string}
+     * @memberof Job
+     */
+    sharedAppCtx?: string;
+    /**
+     * 
+     * @type {Array<string>}
+     * @memberof Job
+     */
+    sharedAppCtxAttribs?: Array<JobSharedAppCtxAttribsEnum>;
+    /**
+     * 
+     * @type {object}
+     * @memberof Job
+     */
+    notes?: object;
+    /**
+     * 
      * @type {boolean}
      * @memberof Job
      */
@@ -397,6 +457,36 @@ export enum JobStatusEnum {
 * @export
 * @enum {string}
 */
+export enum JobConditionEnum {
+    CancelledByUser = 'CANCELLED_BY_USER',
+    JobArchivingFailed = 'JOB_ARCHIVING_FAILED',
+    JobDatabaseError = 'JOB_DATABASE_ERROR',
+    JobExecutionMonitoringError = 'JOB_EXECUTION_MONITORING_ERROR',
+    JobExecutionMonitoringTimeout = 'JOB_EXECUTION_MONITORING_TIMEOUT',
+    JobFilesServiceError = 'JOB_FILES_SERVICE_ERROR',
+    JobInternalError = 'JOB_INTERNAL_ERROR',
+    JobInvalidDefinition = 'JOB_INVALID_DEFINITION',
+    JobLaunchFailure = 'JOB_LAUNCH_FAILURE',
+    JobQueueMonitoringError = 'JOB_QUEUE_MONITORING_ERROR',
+    JobRecoveryFailure = 'JOB_RECOVERY_FAILURE',
+    JobRecoveryTimeout = 'JOB_RECOVERY_TIMEOUT',
+    JobRemoteAccessError = 'JOB_REMOTE_ACCESS_ERROR',
+    JobRemoteOutcomeError = 'JOB_REMOTE_OUTCOME_ERROR',
+    JobUnableToStageInputs = 'JOB_UNABLE_TO_STAGE_INPUTS',
+    JobUnableToStageJob = 'JOB_UNABLE_TO_STAGE_JOB',
+    JobTransferFailedOrCancelled = 'JOB_TRANSFER_FAILED_OR_CANCELLED',
+    JobTransferMonitoringTimeout = 'JOB_TRANSFER_MONITORING_TIMEOUT',
+    NormalCompletion = 'NORMAL_COMPLETION',
+    SchedulerCancelled = 'SCHEDULER_CANCELLED',
+    SchedulerDeadline = 'SCHEDULER_DEADLINE',
+    SchedulerOutOfMemory = 'SCHEDULER_OUT_OF_MEMORY',
+    SchedulerStopped = 'SCHEDULER_STOPPED',
+    SchedulerTimeout = 'SCHEDULER_TIMEOUT',
+    SchedulerTerminated = 'SCHEDULER_TERMINATED'
+}/**
+* @export
+* @enum {string}
+*/
 export enum JobRemoteOutcomeEnum {
     Finished = 'FINISHED',
     Failed = 'FAILED',
@@ -408,6 +498,20 @@ export enum JobRemoteOutcomeEnum {
 export enum JobJobTypeEnum {
     Fork = 'FORK',
     Batch = 'BATCH'
+}/**
+* @export
+* @enum {string}
+*/
+export enum JobSharedAppCtxAttribsEnum {
+    ExecSystemId = 'SAC_EXEC_SYSTEM_ID',
+    ExecSystemExecDir = 'SAC_EXEC_SYSTEM_EXEC_DIR',
+    ExecSystemInputDir = 'SAC_EXEC_SYSTEM_INPUT_DIR',
+    ExecSystemOutputDir = 'SAC_EXEC_SYSTEM_OUTPUT_DIR',
+    ArchiveSystemId = 'SAC_ARCHIVE_SYSTEM_ID',
+    ArchiveSystemDir = 'SAC_ARCHIVE_SYSTEM_DIR',
+    DtnSystemId = 'SAC_DTN_SYSTEM_ID',
+    DtnSystemInputDir = 'SAC_DTN_SYSTEM_INPUT_DIR',
+    DtnSystemOutputDir = 'SAC_DTN_SYSTEM_OUTPUT_DIR'
 }
 
 export function JobFromJSON(json: any): Job {
@@ -426,6 +530,7 @@ export function JobFromJSONTyped(json: any, ignoreDiscriminator: boolean): Job {
         'tenant': !exists(json, 'tenant') ? undefined : json['tenant'],
         'description': !exists(json, 'description') ? undefined : json['description'],
         'status': !exists(json, 'status') ? undefined : json['status'],
+        'condition': !exists(json, 'condition') ? undefined : json['condition'],
         'lastMessage': !exists(json, 'lastMessage') ? undefined : json['lastMessage'],
         'created': !exists(json, 'created') ? undefined : json['created'],
         'ended': !exists(json, 'ended') ? undefined : json['ended'],
@@ -443,8 +548,8 @@ export function JobFromJSONTyped(json: any, ignoreDiscriminator: boolean): Job {
         'archiveSystemId': !exists(json, 'archiveSystemId') ? undefined : json['archiveSystemId'],
         'archiveSystemDir': !exists(json, 'archiveSystemDir') ? undefined : json['archiveSystemDir'],
         'dtnSystemId': !exists(json, 'dtnSystemId') ? undefined : json['dtnSystemId'],
-        'dtnMountSourcePath': !exists(json, 'dtnMountSourcePath') ? undefined : json['dtnMountSourcePath'],
-        'dtnMountPoint': !exists(json, 'dtnMountPoint') ? undefined : json['dtnMountPoint'],
+        'dtnSystemInputDir': !exists(json, 'dtnSystemInputDir') ? undefined : json['dtnSystemInputDir'],
+        'dtnSystemOutputDir': !exists(json, 'dtnSystemOutputDir') ? undefined : json['dtnSystemOutputDir'],
         'nodeCount': !exists(json, 'nodeCount') ? undefined : json['nodeCount'],
         'coresPerNode': !exists(json, 'coresPerNode') ? undefined : json['coresPerNode'],
         'memoryMB': !exists(json, 'memoryMB') ? undefined : json['memoryMB'],
@@ -470,6 +575,12 @@ export function JobFromJSONTyped(json: any, ignoreDiscriminator: boolean): Job {
         'inputCorrelationId': !exists(json, 'inputCorrelationId') ? undefined : json['inputCorrelationId'],
         'archiveTransactionId': !exists(json, 'archiveTransactionId') ? undefined : json['archiveTransactionId'],
         'archiveCorrelationId': !exists(json, 'archiveCorrelationId') ? undefined : json['archiveCorrelationId'],
+        'stageAppTransactionId': !exists(json, 'stageAppTransactionId') ? undefined : json['stageAppTransactionId'],
+        'stageAppCorrelationId': !exists(json, 'stageAppCorrelationId') ? undefined : json['stageAppCorrelationId'],
+        'dtnInputTransactionId': !exists(json, 'dtnInputTransactionId') ? undefined : json['dtnInputTransactionId'],
+        'dtnInputCorrelationId': !exists(json, 'dtnInputCorrelationId') ? undefined : json['dtnInputCorrelationId'],
+        'dtnOutputTransactionId': !exists(json, 'dtnOutputTransactionId') ? undefined : json['dtnOutputTransactionId'],
+        'dtnOutputCorrelationId': !exists(json, 'dtnOutputCorrelationId') ? undefined : json['dtnOutputCorrelationId'],
         'tapisQueue': !exists(json, 'tapisQueue') ? undefined : json['tapisQueue'],
         'visible': !exists(json, 'visible') ? undefined : json['visible'],
         'createdby': !exists(json, 'createdby') ? undefined : json['createdby'],
@@ -478,6 +589,9 @@ export function JobFromJSONTyped(json: any, ignoreDiscriminator: boolean): Job {
         'jobType': !exists(json, 'jobType') ? undefined : json['jobType'],
         'mpiCmd': !exists(json, 'mpiCmd') ? undefined : json['mpiCmd'],
         'cmdPrefix': !exists(json, 'cmdPrefix') ? undefined : json['cmdPrefix'],
+        'sharedAppCtx': !exists(json, 'sharedAppCtx') ? undefined : json['sharedAppCtx'],
+        'sharedAppCtxAttribs': !exists(json, 'sharedAppCtxAttribs') ? undefined : json['sharedAppCtxAttribs'],
+        'notes': !exists(json, 'notes') ? undefined : json['notes'],
         'mpi': !exists(json, 'mpi') ? undefined : json['mpi'],
     };
 }
@@ -497,6 +611,7 @@ export function JobToJSON(value?: Job | null): any {
         'tenant': value.tenant,
         'description': value.description,
         'status': value.status,
+        'condition': value.condition,
         'lastMessage': value.lastMessage,
         'created': value.created,
         'ended': value.ended,
@@ -514,8 +629,8 @@ export function JobToJSON(value?: Job | null): any {
         'archiveSystemId': value.archiveSystemId,
         'archiveSystemDir': value.archiveSystemDir,
         'dtnSystemId': value.dtnSystemId,
-        'dtnMountSourcePath': value.dtnMountSourcePath,
-        'dtnMountPoint': value.dtnMountPoint,
+        'dtnSystemInputDir': value.dtnSystemInputDir,
+        'dtnSystemOutputDir': value.dtnSystemOutputDir,
         'nodeCount': value.nodeCount,
         'coresPerNode': value.coresPerNode,
         'memoryMB': value.memoryMB,
@@ -541,6 +656,12 @@ export function JobToJSON(value?: Job | null): any {
         'inputCorrelationId': value.inputCorrelationId,
         'archiveTransactionId': value.archiveTransactionId,
         'archiveCorrelationId': value.archiveCorrelationId,
+        'stageAppTransactionId': value.stageAppTransactionId,
+        'stageAppCorrelationId': value.stageAppCorrelationId,
+        'dtnInputTransactionId': value.dtnInputTransactionId,
+        'dtnInputCorrelationId': value.dtnInputCorrelationId,
+        'dtnOutputTransactionId': value.dtnOutputTransactionId,
+        'dtnOutputCorrelationId': value.dtnOutputCorrelationId,
         'tapisQueue': value.tapisQueue,
         'visible': value.visible,
         'createdby': value.createdby,
@@ -549,6 +670,9 @@ export function JobToJSON(value?: Job | null): any {
         'jobType': value.jobType,
         'mpiCmd': value.mpiCmd,
         'cmdPrefix': value.cmdPrefix,
+        'sharedAppCtx': value.sharedAppCtx,
+        'sharedAppCtxAttribs': value.sharedAppCtxAttribs,
+        'notes': value.notes,
         'mpi': value.mpi,
     };
 }
