@@ -56,6 +56,12 @@ export interface ListPipelineRunsRequest {
     pipelineId: string;
 }
 
+export interface TerminatePipelineRequest {
+    groupId: string;
+    pipelineId: string;
+    pipelineRunUuid: string;
+}
+
 export interface UpdatePipelineRunStatusRequest {
     xWORKFLOWEXECUTORTOKEN: string;
     pipelineRunUuid: string;
@@ -200,6 +206,50 @@ export class PipelineRunsApi extends runtime.BaseAPI {
      */
     async listPipelineRuns(requestParameters: ListPipelineRunsRequest, initOverrides?: RequestInit): Promise<RespPipelineRunList> {
         const response = await this.listPipelineRunsRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     * Terminate a running pipeline
+     * Terminate a running pipeline
+     */
+    async terminatePipelineRaw(requestParameters: TerminatePipelineRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespPipelineRun>> {
+        if (requestParameters.groupId === null || requestParameters.groupId === undefined) {
+            throw new runtime.RequiredError('groupId','Required parameter requestParameters.groupId was null or undefined when calling terminatePipeline.');
+        }
+
+        if (requestParameters.pipelineId === null || requestParameters.pipelineId === undefined) {
+            throw new runtime.RequiredError('pipelineId','Required parameter requestParameters.pipelineId was null or undefined when calling terminatePipeline.');
+        }
+
+        if (requestParameters.pipelineRunUuid === null || requestParameters.pipelineRunUuid === undefined) {
+            throw new runtime.RequiredError('pipelineRunUuid','Required parameter requestParameters.pipelineRunUuid was null or undefined when calling terminatePipeline.');
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        if (this.configuration && this.configuration.apiKey) {
+            headerParameters["X-TAPIS-TOKEN"] = this.configuration.apiKey("X-TAPIS-TOKEN"); // TapisJWT authentication
+        }
+
+        const response = await this.request({
+            path: `/v3/workflows/groups/{group_id}/pipelines/{pipeline_id}/runs/{pipeline_run_uuid}`.replace(`{${"group_id"}}`, encodeURIComponent(String(requestParameters.groupId))).replace(`{${"pipeline_id"}}`, encodeURIComponent(String(requestParameters.pipelineId))).replace(`{${"pipeline_run_uuid"}}`, encodeURIComponent(String(requestParameters.pipelineRunUuid))),
+            method: 'POST',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => RespPipelineRunFromJSON(jsonValue));
+    }
+
+    /**
+     * Terminate a running pipeline
+     * Terminate a running pipeline
+     */
+    async terminatePipeline(requestParameters: TerminatePipelineRequest, initOverrides?: RequestInit): Promise<RespPipelineRun> {
+        const response = await this.terminatePipelineRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
