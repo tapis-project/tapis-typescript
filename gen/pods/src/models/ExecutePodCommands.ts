@@ -16,60 +16,53 @@ import { exists, mapValues } from '../runtime';
 /**
  * 
  * @export
- * @interface FilesUploadResponse
+ * @interface ExecutePodCommands
  */
-export interface FilesUploadResponse {
+export interface ExecutePodCommands {
     /**
-     * 
-     * @type {string}
-     * @memberof FilesUploadResponse
+     * List of commands to run in pod. ex. `['sleep 5000', 'ls -l']` or `[['sleep', '5000'], ['ls', '-l']]
+     * @type {Array<string>}
+     * @memberof ExecutePodCommands
      */
-    message: string;
+    commands: Array<string>;
     /**
-     * 
-     * @type {object}
-     * @memberof FilesUploadResponse
+     * Total time (sec) to wait for all commands to finish. Default 300 seconds.
+     * @type {number}
+     * @memberof ExecutePodCommands
      */
-    metadata: object;
+    total_timeout?: number;
     /**
-     * 
-     * @type {string}
-     * @memberof FilesUploadResponse
+     * Time (sec) to wait for each command to finish. Default 60 seconds.
+     * @type {number}
+     * @memberof ExecutePodCommands
      */
-    result: string;
+    command_timeout?: number;
     /**
-     * 
-     * @type {string}
-     * @memberof FilesUploadResponse
+     * If True, will fail if any command does not return 0. Default True.
+     * @type {boolean}
+     * @memberof ExecutePodCommands
      */
-    status: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof FilesUploadResponse
-     */
-    version: string;
+    fail_on_non_success?: boolean;
 }
 
-export function FilesUploadResponseFromJSON(json: any): FilesUploadResponse {
-    return FilesUploadResponseFromJSONTyped(json, false);
+export function ExecutePodCommandsFromJSON(json: any): ExecutePodCommands {
+    return ExecutePodCommandsFromJSONTyped(json, false);
 }
 
-export function FilesUploadResponseFromJSONTyped(json: any, ignoreDiscriminator: boolean): FilesUploadResponse {
+export function ExecutePodCommandsFromJSONTyped(json: any, ignoreDiscriminator: boolean): ExecutePodCommands {
     if ((json === undefined) || (json === null)) {
         return json;
     }
     return {
         
-        'message': json['message'],
-        'metadata': json['metadata'],
-        'result': json['result'],
-        'status': json['status'],
-        'version': json['version'],
+        'commands': json['commands'],
+        'total_timeout': !exists(json, 'total_timeout') ? undefined : json['total_timeout'],
+        'command_timeout': !exists(json, 'command_timeout') ? undefined : json['command_timeout'],
+        'fail_on_non_success': !exists(json, 'fail_on_non_success') ? undefined : json['fail_on_non_success'],
     };
 }
 
-export function FilesUploadResponseToJSON(value?: FilesUploadResponse | null): any {
+export function ExecutePodCommandsToJSON(value?: ExecutePodCommands | null): any {
     if (value === undefined) {
         return undefined;
     }
@@ -78,11 +71,10 @@ export function FilesUploadResponseToJSON(value?: FilesUploadResponse | null): a
     }
     return {
         
-        'message': value.message,
-        'metadata': value.metadata,
-        'result': value.result,
-        'status': value.status,
-        'version': value.version,
+        'commands': value.commands,
+        'total_timeout': value.total_timeout,
+        'command_timeout': value.command_timeout,
+        'fail_on_non_success': value.fail_on_non_success,
     };
 }
 
