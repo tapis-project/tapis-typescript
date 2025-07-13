@@ -14,62 +14,48 @@
 
 import { exists, mapValues } from '../runtime';
 /**
- * 
+ * Object with fields that users are allowed to specify for the Template class when creating a new template tag from a pod.
  * @export
- * @interface FilesUploadResponse
+ * @interface NewTemplateTagFromPod
  */
-export interface FilesUploadResponse {
+export interface NewTemplateTagFromPod {
     /**
-     * 
+     * Commit message for this template tag.
      * @type {string}
-     * @memberof FilesUploadResponse
+     * @memberof NewTemplateTagFromPod
      */
-    message: string;
+    commit_message: string;
     /**
-     * 
-     * @type {object}
-     * @memberof FilesUploadResponse
-     */
-    metadata: object;
-    /**
-     * 
+     * Tag for this template. Default is 'latest'.
      * @type {string}
-     * @memberof FilesUploadResponse
+     * @memberof NewTemplateTagFromPod
      */
-    result: string;
+    tag?: string;
     /**
-     * 
+     * template_id this tag is linked to
      * @type {string}
-     * @memberof FilesUploadResponse
+     * @memberof NewTemplateTagFromPod
      */
-    status: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof FilesUploadResponse
-     */
-    version: string;
+    template_id: string;
 }
 
-export function FilesUploadResponseFromJSON(json: any): FilesUploadResponse {
-    return FilesUploadResponseFromJSONTyped(json, false);
+export function NewTemplateTagFromPodFromJSON(json: any): NewTemplateTagFromPod {
+    return NewTemplateTagFromPodFromJSONTyped(json, false);
 }
 
-export function FilesUploadResponseFromJSONTyped(json: any, ignoreDiscriminator: boolean): FilesUploadResponse {
+export function NewTemplateTagFromPodFromJSONTyped(json: any, ignoreDiscriminator: boolean): NewTemplateTagFromPod {
     if ((json === undefined) || (json === null)) {
         return json;
     }
     return {
         
-        'message': json['message'],
-        'metadata': json['metadata'],
-        'result': json['result'],
-        'status': json['status'],
-        'version': json['version'],
+        'commit_message': json['commit_message'],
+        'tag': !exists(json, 'tag') ? undefined : json['tag'],
+        'template_id': json['template_id'],
     };
 }
 
-export function FilesUploadResponseToJSON(value?: FilesUploadResponse | null): any {
+export function NewTemplateTagFromPodToJSON(value?: NewTemplateTagFromPod | null): any {
     if (value === undefined) {
         return undefined;
     }
@@ -78,11 +64,9 @@ export function FilesUploadResponseToJSON(value?: FilesUploadResponse | null): a
     }
     return {
         
-        'message': value.message,
-        'metadata': value.metadata,
-        'result': value.result,
-        'status': value.status,
-        'version': value.version,
+        'commit_message': value.commit_message,
+        'tag': value.tag,
+        'template_id': value.template_id,
     };
 }
 

@@ -1,6 +1,10 @@
 {
   "name": "@tapis/tapis-typescript",
+<<<<<<< HEAD
   "version": "0.0.57",
+=======
+  "version": "0.0.56",
+>>>>>>> f0276461d8a5402600daaac7e86a8465916cb2df
   "description": "TypeScript bindings for tapis.io api",
   "main": "./dist/index.js",
   "typings": "./dist/index.d.ts",
@@ -32,7 +36,7 @@
     "@tapis/tapis-typescript-mlhub-datasets": "^0.0.1",
     "@tapis/tapis-typescript-mlhub-models": "^0.0.2",
     "@tapis/tapis-typescript-notifications": "^0.0.1",
-    "@tapis/tapis-typescript-pods": "^0.0.6",
+    "@tapis/tapis-typescript-pods": "^0.0.8",
     "@tapis/tapis-typescript-streams": "^0.0.4",
     "@tapis/tapis-typescript-systems": "^0.0.6",
     "@tapis/tapis-typescript-tenants": "^0.0.2",

@@ -1,8 +1,7 @@
 /* tslint:disable */
 /* eslint-disable */
-export * from './CredentialsApi';
 export * from './ImagesApi';
-export * from './LogsApi';
+export * from './JupyterApi';
 export * from './MiscApi';
 export * from './PermissionsApi';
 export * from './PodsApi';
