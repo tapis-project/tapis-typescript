@@ -103,9 +103,11 @@ const expandBasicResponses = (doc) => {
                     const methodRef = pathRef[method];
                     Object.keys(methodRef.responses).forEach(
                         status => {
+                            console.log({status})
                             const statusRef = methodRef.responses[status];
+                            console.log({statusRef})
                             const schemaRef = statusRef['content'][Object.keys(statusRef.content)[0]]['schema'];
-                            
+                            console.log({schemaRef})
                             if ('allOf' in schemaRef &&
                                 '$ref' in schemaRef['allOf'][0] &&
                                 schemaRef['allOf'][0]["$ref"] === '#/components/schemas/BasicResponse') {

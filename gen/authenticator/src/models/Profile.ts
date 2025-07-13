@@ -14,7 +14,7 @@
 
 import { exists, mapValues } from '../runtime';
 /**
- * 
+ * The profile associated with a Tapis identity. NOTE -the fields in the Profile object are populated on a best-effort basis and should not be relied upon. Only the username field is guaranteed to be populated.
  * @export
  * @interface Profile
  */

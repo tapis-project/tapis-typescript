@@ -14,64 +14,64 @@
 
 import { exists, mapValues } from '../runtime';
 import {
-    Profile,
-    ProfileFromJSON,
-    ProfileFromJSONTyped,
-    ProfileToJSON,
+    OAuth2Metadata,
+    OAuth2MetadataFromJSON,
+    OAuth2MetadataFromJSONTyped,
+    OAuth2MetadataToJSON,
 } from './';
 
 /**
  * 
  * @export
- * @interface RespListProfiles
+ * @interface RespGetServerMetadata
  */
-export interface RespListProfiles {
+export interface RespGetServerMetadata {
     /**
      * Version of the API
      * @type {string}
-     * @memberof RespListProfiles
+     * @memberof RespGetServerMetadata
      */
     version?: string;
     /**
      * Brief description of the response
      * @type {string}
-     * @memberof RespListProfiles
+     * @memberof RespGetServerMetadata
      */
     message?: string;
     /**
      * Whether the request was a success or failure.
      * @type {string}
-     * @memberof RespListProfiles
+     * @memberof RespGetServerMetadata
      */
-    status?: RespListProfilesStatusEnum;
+    status?: RespGetServerMetadataStatusEnum;
     /**
      * Metadata about the result object, including pagination information
      * @type {object}
-     * @memberof RespListProfiles
+     * @memberof RespGetServerMetadata
      */
     metadata?: object;
     /**
      * 
-     * @type {Array<Profile>}
-     * @memberof RespListProfiles
+     * @type {OAuth2Metadata}
+     * @memberof RespGetServerMetadata
      */
-    result?: Array<Profile>;
+    result?: OAuth2Metadata;
 }
 
 /**
 * @export
 * @enum {string}
 */
-export enum RespListProfilesStatusEnum {
+export enum RespGetServerMetadataStatusEnum {
     Success = 'success',
     Failure = 'failure'
 }
 
-export function RespListProfilesFromJSON(json: any): RespListProfiles {
-    return RespListProfilesFromJSONTyped(json, false);
+export function RespGetServerMetadataFromJSON(json: any): RespGetServerMetadata {
+    return RespGetServerMetadataFromJSONTyped(json, false);
 }
 
-export function RespListProfilesFromJSONTyped(json: any, ignoreDiscriminator: boolean): RespListProfiles {
+export function RespGetServerMetadataFromJSONTyped(json: any, ignoreDiscriminator: boolean): RespGetServerMetadata {
     if ((json === undefined) || (json === null)) {
         return json;
     }
@@ -81,11 +81,11 @@ export function RespListProfilesFromJSONTyped(json: any, ignoreDiscriminator: bo
         'message': !exists(json, 'message') ? undefined : json['message'],
         'status': !exists(json, 'status') ? undefined : json['status'],
         'metadata': !exists(json, 'metadata') ? undefined : json['metadata'],
-        'result': !exists(json, 'result') ? undefined : ((json['result'] as Array<any>).map(ProfileFromJSON)),
+        'result': !exists(json, 'result') ? undefined : OAuth2MetadataFromJSON(json['result']),
     };
 }
 
-export function RespListProfilesToJSON(value?: RespListProfiles | null): any {
+export function RespGetServerMetadataToJSON(value?: RespGetServerMetadata | null): any {
     if (value === undefined) {
         return undefined;
     }
@@ -98,7 +98,7 @@ export function RespListProfilesToJSON(value?: RespListProfiles | null): any {
         'message': value.message,
         'status': value.status,
         'metadata': value.metadata,
-        'result': value.result === undefined ? undefined : ((value.result as Array<any>).map(ProfileToJSON)),
+        'result': OAuth2MetadataToJSON(value.result),
     };
 }
 

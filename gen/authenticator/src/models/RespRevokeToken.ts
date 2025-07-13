@@ -13,65 +13,52 @@
  */
 
 import { exists, mapValues } from '../runtime';
-import {
-    Profile,
-    ProfileFromJSON,
-    ProfileFromJSONTyped,
-    ProfileToJSON,
-} from './';
-
 /**
  * 
  * @export
- * @interface RespListProfiles
+ * @interface RespRevokeToken
  */
-export interface RespListProfiles {
+export interface RespRevokeToken {
     /**
      * Version of the API
      * @type {string}
-     * @memberof RespListProfiles
+     * @memberof RespRevokeToken
      */
     version?: string;
     /**
      * Brief description of the response
      * @type {string}
-     * @memberof RespListProfiles
+     * @memberof RespRevokeToken
      */
     message?: string;
     /**
      * Whether the request was a success or failure.
      * @type {string}
-     * @memberof RespListProfiles
+     * @memberof RespRevokeToken
      */
-    status?: RespListProfilesStatusEnum;
+    status?: RespRevokeTokenStatusEnum;
     /**
      * Metadata about the result object, including pagination information
      * @type {object}
-     * @memberof RespListProfiles
+     * @memberof RespRevokeToken
      */
     metadata?: object;
-    /**
-     * 
-     * @type {Array<Profile>}
-     * @memberof RespListProfiles
-     */
-    result?: Array<Profile>;
 }
 
 /**
 * @export
 * @enum {string}
 */
-export enum RespListProfilesStatusEnum {
+export enum RespRevokeTokenStatusEnum {
     Success = 'success',
     Failure = 'failure'
 }
 
-export function RespListProfilesFromJSON(json: any): RespListProfiles {
-    return RespListProfilesFromJSONTyped(json, false);
+export function RespRevokeTokenFromJSON(json: any): RespRevokeToken {
+    return RespRevokeTokenFromJSONTyped(json, false);
 }
 
-export function RespListProfilesFromJSONTyped(json: any, ignoreDiscriminator: boolean): RespListProfiles {
+export function RespRevokeTokenFromJSONTyped(json: any, ignoreDiscriminator: boolean): RespRevokeToken {
     if ((json === undefined) || (json === null)) {
         return json;
     }
@@ -81,11 +68,10 @@ export function RespListProfilesFromJSONTyped(json: any, ignoreDiscriminator: bo
         'message': !exists(json, 'message') ? undefined : json['message'],
         'status': !exists(json, 'status') ? undefined : json['status'],
         'metadata': !exists(json, 'metadata') ? undefined : json['metadata'],
-        'result': !exists(json, 'result') ? undefined : ((json['result'] as Array<any>).map(ProfileFromJSON)),
     };
 }
 
-export function RespListProfilesToJSON(value?: RespListProfiles | null): any {
+export function RespRevokeTokenToJSON(value?: RespRevokeToken | null): any {
     if (value === undefined) {
         return undefined;
     }
@@ -98,7 +84,6 @@ export function RespListProfilesToJSON(value?: RespListProfiles | null): any {
         'message': value.message,
         'status': value.status,
         'metadata': value.metadata,
-        'result': value.result === undefined ? undefined : ((value.result as Array<any>).map(ProfileToJSON)),
     };
 }
 

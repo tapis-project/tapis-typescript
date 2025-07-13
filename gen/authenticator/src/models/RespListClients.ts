@@ -45,6 +45,12 @@ export interface RespListClients {
      */
     status?: RespListClientsStatusEnum;
     /**
+     * Metadata about the result object, including pagination information
+     * @type {object}
+     * @memberof RespListClients
+     */
+    metadata?: object;
+    /**
      * 
      * @type {Array<Client>}
      * @memberof RespListClients
@@ -74,6 +80,7 @@ export function RespListClientsFromJSONTyped(json: any, ignoreDiscriminator: boo
         'version': !exists(json, 'version') ? undefined : json['version'],
         'message': !exists(json, 'message') ? undefined : json['message'],
         'status': !exists(json, 'status') ? undefined : json['status'],
+        'metadata': !exists(json, 'metadata') ? undefined : json['metadata'],
         'result': !exists(json, 'result') ? undefined : ((json['result'] as Array<any>).map(ClientFromJSON)),
     };
 }
@@ -90,6 +97,7 @@ export function RespListClientsToJSON(value?: RespListClients | null): any {
         'version': value.version,
         'message': value.message,
         'status': value.status,
+        'metadata': value.metadata,
         'result': value.result === undefined ? undefined : ((value.result as Array<any>).map(ClientToJSON)),
     };
 }

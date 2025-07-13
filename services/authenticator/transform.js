@@ -8,6 +8,8 @@ try {
   transformed.paths['/v3/oauth2/tokens'].post.responses['201'].content['application/json'].schema.properties.result['$ref'] =
     "#/components/schemas/NewTokenResponse";
 
+  console.log({schemas: transformed.schemas});
+
   delete transformed.components.schemas.Token;
   transformed.components.schemas.NewTokenResponse = {
     "type": "object",

@@ -21,6 +21,9 @@ describe('tapis-typescript', () => {
     expect(Authenticator).to.have.property('ClientsApi');
     expect(Authenticator).to.have.property('ProfilesApi');
     expect(Authenticator).to.have.property('TokensApi');
+    expect(Authenticator).to.have.property('MetadataApi');
+    expect(Authenticator).to.have.property('HealthCheckApi');
+    expect(Authenticator).to.have.property('AdminApi');
   });
   it('should have Systems service', () => {
     expect(Systems).to.have.property('CredentialsApi');

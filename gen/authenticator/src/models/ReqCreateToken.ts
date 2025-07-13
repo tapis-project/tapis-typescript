@@ -32,6 +32,18 @@ export interface ReqCreateToken {
      */
     password?: string;
     /**
+     * The client_id being authenticated (for device_code grant).
+     * @type {string}
+     * @memberof ReqCreateToken
+     */
+    client_id?: string;
+    /**
+     * The client_key being authenticated (optional for authorization_code grant).
+     * @type {string}
+     * @memberof ReqCreateToken
+     */
+    client_key?: string;
+    /**
      * The OAuth2 grant type being used; either password, authorization_code or refresh_token.
      * @type {string}
      * @memberof ReqCreateToken
@@ -49,6 +61,12 @@ export interface ReqCreateToken {
      * @memberof ReqCreateToken
      */
     code?: string;
+    /**
+     * The device code associated with the request (for device_code grant)
+     * @type {string}
+     * @memberof ReqCreateToken
+     */
+    device_code?: string;
     /**
      * The refresh token associated with the request (for refresh_token grant).
      * @type {string}
@@ -69,9 +87,12 @@ export function ReqCreateTokenFromJSONTyped(json: any, ignoreDiscriminator: bool
         
         'username': !exists(json, 'username') ? undefined : json['username'],
         'password': !exists(json, 'password') ? undefined : json['password'],
+        'client_id': !exists(json, 'client_id') ? undefined : json['client_id'],
+        'client_key': !exists(json, 'client_key') ? undefined : json['client_key'],
         'grant_type': !exists(json, 'grant_type') ? undefined : json['grant_type'],
         'redirect_uri': !exists(json, 'redirect_uri') ? undefined : json['redirect_uri'],
         'code': !exists(json, 'code') ? undefined : json['code'],
+        'device_code': !exists(json, 'device_code') ? undefined : json['device_code'],
         'refresh_token': !exists(json, 'refresh_token') ? undefined : json['refresh_token'],
     };
 }
@@ -87,9 +108,12 @@ export function ReqCreateTokenToJSON(value?: ReqCreateToken | null): any {
         
         'username': value.username,
         'password': value.password,
+        'client_id': value.client_id,
+        'client_key': value.client_key,
         'grant_type': value.grant_type,
         'redirect_uri': value.redirect_uri,
         'code': value.code,
+        'device_code': value.device_code,
         'refresh_token': value.refresh_token,
     };
 }

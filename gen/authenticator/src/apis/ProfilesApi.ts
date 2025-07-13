@@ -18,6 +18,9 @@ import {
     RespGetProfile,
     RespGetProfileFromJSON,
     RespGetProfileToJSON,
+    RespGetUserinfo,
+    RespGetUserinfoFromJSON,
+    RespGetUserinfoToJSON,
     RespListProfiles,
     RespListProfilesFromJSON,
     RespListProfilesToJSON,
@@ -48,6 +51,10 @@ export class ProfilesApi extends runtime.BaseAPI {
 
         const headerParameters: runtime.HTTPHeaders = {};
 
+        if (this.configuration && this.configuration.apiKey) {
+            headerParameters["X-Tapis-Token"] = this.configuration.apiKey("X-Tapis-Token"); // TapisJWT authentication
+        }
+
         const response = await this.request({
             path: `/v3/oauth2/profiles/{username}`.replace(`{${"username"}}`, encodeURIComponent(String(requestParameters.username))),
             method: 'GET',
@@ -66,6 +73,36 @@ export class ProfilesApi extends runtime.BaseAPI {
     }
 
     /**
+     * Return the user profile associated with the Tapis Token. Also can be used to validate the token.
+     */
+    async getUserinfoRaw(initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespGetUserinfo>> {
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        if (this.configuration && this.configuration.apiKey) {
+            headerParameters["X-Tapis-Token"] = this.configuration.apiKey("X-Tapis-Token"); // TapisJWT authentication
+        }
+
+        const response = await this.request({
+            path: `/v3/oauth2/userinfo`,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => RespGetUserinfoFromJSON(jsonValue));
+    }
+
+    /**
+     * Return the user profile associated with the Tapis Token. Also can be used to validate the token.
+     */
+    async getUserinfo(initOverrides?: RequestInit): Promise<RespGetUserinfo> {
+        const response = await this.getUserinfoRaw(initOverrides);
+        return await response.value();
+    }
+
+    /**
      */
     async listProfilesRaw(requestParameters: ListProfilesRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespListProfiles>> {
         const queryParameters: any = {};
@@ -79,6 +116,10 @@ export class ProfilesApi extends runtime.BaseAPI {
         }
 
         const headerParameters: runtime.HTTPHeaders = {};
+
+        if (this.configuration && this.configuration.apiKey) {
+            headerParameters["X-Tapis-Token"] = this.configuration.apiKey("X-Tapis-Token"); // TapisJWT authentication
+        }
 
         const response = await this.request({
             path: `/v3/oauth2/profiles`,

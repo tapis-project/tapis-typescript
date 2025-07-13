@@ -37,6 +37,12 @@ export interface BasicResponse {
      * @memberof BasicResponse
      */
     status?: BasicResponseStatusEnum;
+    /**
+     * Metadata about the result object, including pagination information
+     * @type {object}
+     * @memberof BasicResponse
+     */
+    metadata?: object;
 }
 
 /**
@@ -61,6 +67,7 @@ export function BasicResponseFromJSONTyped(json: any, ignoreDiscriminator: boole
         'version': !exists(json, 'version') ? undefined : json['version'],
         'message': !exists(json, 'message') ? undefined : json['message'],
         'status': !exists(json, 'status') ? undefined : json['status'],
+        'metadata': !exists(json, 'metadata') ? undefined : json['metadata'],
     };
 }
 
@@ -76,6 +83,7 @@ export function BasicResponseToJSON(value?: BasicResponse | null): any {
         'version': value.version,
         'message': value.message,
         'status': value.status,
+        'metadata': value.metadata,
     };
 }
 

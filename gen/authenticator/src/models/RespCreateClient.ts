@@ -45,6 +45,12 @@ export interface RespCreateClient {
      */
     status?: RespCreateClientStatusEnum;
     /**
+     * Metadata about the result object, including pagination information
+     * @type {object}
+     * @memberof RespCreateClient
+     */
+    metadata?: object;
+    /**
      * 
      * @type {Client}
      * @memberof RespCreateClient
@@ -74,6 +80,7 @@ export function RespCreateClientFromJSONTyped(json: any, ignoreDiscriminator: bo
         'version': !exists(json, 'version') ? undefined : json['version'],
         'message': !exists(json, 'message') ? undefined : json['message'],
         'status': !exists(json, 'status') ? undefined : json['status'],
+        'metadata': !exists(json, 'metadata') ? undefined : json['metadata'],
         'result': !exists(json, 'result') ? undefined : ClientFromJSON(json['result']),
     };
 }
@@ -90,6 +97,7 @@ export function RespCreateClientToJSON(value?: RespCreateClient | null): any {
         'version': value.version,
         'message': value.message,
         'status': value.status,
+        'metadata': value.metadata,
         'result': ClientToJSON(value.result),
     };
 }

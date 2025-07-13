@@ -14,64 +14,64 @@
 
 import { exists, mapValues } from '../runtime';
 import {
-    Profile,
-    ProfileFromJSON,
-    ProfileFromJSONTyped,
-    ProfileToJSON,
+    V2TokenResponse,
+    V2TokenResponseFromJSON,
+    V2TokenResponseFromJSONTyped,
+    V2TokenResponseToJSON,
 } from './';
 
 /**
  * 
  * @export
- * @interface RespListProfiles
+ * @interface RespCreateV2Token
  */
-export interface RespListProfiles {
+export interface RespCreateV2Token {
     /**
      * Version of the API
      * @type {string}
-     * @memberof RespListProfiles
+     * @memberof RespCreateV2Token
      */
     version?: string;
     /**
      * Brief description of the response
      * @type {string}
-     * @memberof RespListProfiles
+     * @memberof RespCreateV2Token
      */
     message?: string;
     /**
      * Whether the request was a success or failure.
      * @type {string}
-     * @memberof RespListProfiles
+     * @memberof RespCreateV2Token
      */
-    status?: RespListProfilesStatusEnum;
+    status?: RespCreateV2TokenStatusEnum;
     /**
      * Metadata about the result object, including pagination information
      * @type {object}
-     * @memberof RespListProfiles
+     * @memberof RespCreateV2Token
      */
     metadata?: object;
     /**
      * 
-     * @type {Array<Profile>}
-     * @memberof RespListProfiles
+     * @type {V2TokenResponse}
+     * @memberof RespCreateV2Token
      */
-    result?: Array<Profile>;
+    result?: V2TokenResponse;
 }
 
 /**
 * @export
 * @enum {string}
 */
-export enum RespListProfilesStatusEnum {
+export enum RespCreateV2TokenStatusEnum {
     Success = 'success',
     Failure = 'failure'
 }
 
-export function RespListProfilesFromJSON(json: any): RespListProfiles {
-    return RespListProfilesFromJSONTyped(json, false);
+export function RespCreateV2TokenFromJSON(json: any): RespCreateV2Token {
+    return RespCreateV2TokenFromJSONTyped(json, false);
 }
 
-export function RespListProfilesFromJSONTyped(json: any, ignoreDiscriminator: boolean): RespListProfiles {
+export function RespCreateV2TokenFromJSONTyped(json: any, ignoreDiscriminator: boolean): RespCreateV2Token {
     if ((json === undefined) || (json === null)) {
         return json;
     }
@@ -81,11 +81,11 @@ export function RespListProfilesFromJSONTyped(json: any, ignoreDiscriminator: bo
         'message': !exists(json, 'message') ? undefined : json['message'],
         'status': !exists(json, 'status') ? undefined : json['status'],
         'metadata': !exists(json, 'metadata') ? undefined : json['metadata'],
-        'result': !exists(json, 'result') ? undefined : ((json['result'] as Array<any>).map(ProfileFromJSON)),
+        'result': !exists(json, 'result') ? undefined : V2TokenResponseFromJSON(json['result']),
     };
 }
 
-export function RespListProfilesToJSON(value?: RespListProfiles | null): any {
+export function RespCreateV2TokenToJSON(value?: RespCreateV2Token | null): any {
     if (value === undefined) {
         return undefined;
     }
@@ -98,7 +98,7 @@ export function RespListProfilesToJSON(value?: RespListProfiles | null): any {
         'message': value.message,
         'status': value.status,
         'metadata': value.metadata,
-        'result': value.result === undefined ? undefined : ((value.result as Array<any>).map(ProfileToJSON)),
+        'result': V2TokenResponseToJSON(value.result),
     };
 }
 

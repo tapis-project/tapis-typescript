@@ -23,55 +23,55 @@ import {
 /**
  * 
  * @export
- * @interface RespListProfiles
+ * @interface RespGetUserinfo
  */
-export interface RespListProfiles {
+export interface RespGetUserinfo {
     /**
      * Version of the API
      * @type {string}
-     * @memberof RespListProfiles
+     * @memberof RespGetUserinfo
      */
     version?: string;
     /**
      * Brief description of the response
      * @type {string}
-     * @memberof RespListProfiles
+     * @memberof RespGetUserinfo
      */
     message?: string;
     /**
      * Whether the request was a success or failure.
      * @type {string}
-     * @memberof RespListProfiles
+     * @memberof RespGetUserinfo
      */
-    status?: RespListProfilesStatusEnum;
+    status?: RespGetUserinfoStatusEnum;
     /**
      * Metadata about the result object, including pagination information
      * @type {object}
-     * @memberof RespListProfiles
+     * @memberof RespGetUserinfo
      */
     metadata?: object;
     /**
      * 
-     * @type {Array<Profile>}
-     * @memberof RespListProfiles
+     * @type {Profile}
+     * @memberof RespGetUserinfo
      */
-    result?: Array<Profile>;
+    result?: Profile;
 }
 
 /**
 * @export
 * @enum {string}
 */
-export enum RespListProfilesStatusEnum {
+export enum RespGetUserinfoStatusEnum {
     Success = 'success',
     Failure = 'failure'
 }
 
-export function RespListProfilesFromJSON(json: any): RespListProfiles {
-    return RespListProfilesFromJSONTyped(json, false);
+export function RespGetUserinfoFromJSON(json: any): RespGetUserinfo {
+    return RespGetUserinfoFromJSONTyped(json, false);
 }
 
-export function RespListProfilesFromJSONTyped(json: any, ignoreDiscriminator: boolean): RespListProfiles {
+export function RespGetUserinfoFromJSONTyped(json: any, ignoreDiscriminator: boolean): RespGetUserinfo {
     if ((json === undefined) || (json === null)) {
         return json;
     }
@@ -81,11 +81,11 @@ export function RespListProfilesFromJSONTyped(json: any, ignoreDiscriminator: bo
         'message': !exists(json, 'message') ? undefined : json['message'],
         'status': !exists(json, 'status') ? undefined : json['status'],
         'metadata': !exists(json, 'metadata') ? undefined : json['metadata'],
-        'result': !exists(json, 'result') ? undefined : ((json['result'] as Array<any>).map(ProfileFromJSON)),
+        'result': !exists(json, 'result') ? undefined : ProfileFromJSON(json['result']),
     };
 }
 
-export function RespListProfilesToJSON(value?: RespListProfiles | null): any {
+export function RespGetUserinfoToJSON(value?: RespGetUserinfo | null): any {
     if (value === undefined) {
         return undefined;
     }
@@ -98,7 +98,7 @@ export function RespListProfilesToJSON(value?: RespListProfiles | null): any {
         'message': value.message,
         'status': value.status,
         'metadata': value.metadata,
-        'result': value.result === undefined ? undefined : ((value.result as Array<any>).map(ProfileToJSON)),
+        'result': ProfileToJSON(value.result),
     };
 }
 

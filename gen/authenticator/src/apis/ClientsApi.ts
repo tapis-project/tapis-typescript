@@ -30,6 +30,12 @@ import {
     RespListClients,
     RespListClientsFromJSON,
     RespListClientsToJSON,
+    RespUpdateClient,
+    RespUpdateClientFromJSON,
+    RespUpdateClientToJSON,
+    UpdateClient,
+    UpdateClientFromJSON,
+    UpdateClientToJSON,
 } from '../models';
 
 export interface CreateClientRequest {
@@ -47,6 +53,11 @@ export interface GetClientRequest {
 export interface ListClientsRequest {
     limit?: number;
     offset?: number;
+}
+
+export interface UpdateClientRequest {
+    clientId: string;
+    updateClient: UpdateClient;
 }
 
 /**
@@ -67,6 +78,10 @@ export class ClientsApi extends runtime.BaseAPI {
 
         headerParameters['Content-Type'] = 'application/json';
 
+        if (this.configuration && this.configuration.apiKey) {
+            headerParameters["X-Tapis-Token"] = this.configuration.apiKey("X-Tapis-Token"); // TapisJWT authentication
+        }
+
         const response = await this.request({
             path: `/v3/oauth2/clients`,
             method: 'POST',
@@ -86,8 +101,8 @@ export class ClientsApi extends runtime.BaseAPI {
     }
 
     /**
-     * Permenantly delete a client.
-     * Delete a tenant
+     * Permanently set a client to inactive. Once set to inactive clients cannot be used.
+     * Permanently set a client to inactive.
      */
     async deleteClientRaw(requestParameters: DeleteClientRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespDeleteClient>> {
         if (requestParameters.clientId === null || requestParameters.clientId === undefined) {
@@ -97,6 +112,10 @@ export class ClientsApi extends runtime.BaseAPI {
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
+
+        if (this.configuration && this.configuration.apiKey) {
+            headerParameters["X-Tapis-Token"] = this.configuration.apiKey("X-Tapis-Token"); // TapisJWT authentication
+        }
 
         const response = await this.request({
             path: `/v3/oauth2/clients/{client_id}`.replace(`{${"client_id"}}`, encodeURIComponent(String(requestParameters.clientId))),
@@ -109,8 +128,8 @@ export class ClientsApi extends runtime.BaseAPI {
     }
 
     /**
-     * Permenantly delete a client.
-     * Delete a tenant
+     * Permanently set a client to inactive. Once set to inactive clients cannot be used.
+     * Permanently set a client to inactive.
      */
     async deleteClient(requestParameters: DeleteClientRequest, initOverrides?: RequestInit): Promise<RespDeleteClient> {
         const response = await this.deleteClientRaw(requestParameters, initOverrides);
@@ -129,6 +148,10 @@ export class ClientsApi extends runtime.BaseAPI {
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
+
+        if (this.configuration && this.configuration.apiKey) {
+            headerParameters["X-Tapis-Token"] = this.configuration.apiKey("X-Tapis-Token"); // TapisJWT authentication
+        }
 
         const response = await this.request({
             path: `/v3/oauth2/clients/{client_id}`.replace(`{${"client_id"}}`, encodeURIComponent(String(requestParameters.clientId))),
@@ -164,6 +187,10 @@ export class ClientsApi extends runtime.BaseAPI {
 
         const headerParameters: runtime.HTTPHeaders = {};
 
+        if (this.configuration && this.configuration.apiKey) {
+            headerParameters["X-Tapis-Token"] = this.configuration.apiKey("X-Tapis-Token"); // TapisJWT authentication
+        }
+
         const response = await this.request({
             path: `/v3/oauth2/clients`,
             method: 'GET',
@@ -178,6 +205,49 @@ export class ClientsApi extends runtime.BaseAPI {
      */
     async listClients(requestParameters: ListClientsRequest, initOverrides?: RequestInit): Promise<RespListClients> {
         const response = await this.listClientsRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     * Update details of a specific client by its id.
+     * Update client details
+     */
+    async updateClientRaw(requestParameters: UpdateClientRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespUpdateClient>> {
+        if (requestParameters.clientId === null || requestParameters.clientId === undefined) {
+            throw new runtime.RequiredError('clientId','Required parameter requestParameters.clientId was null or undefined when calling updateClient.');
+        }
+
+        if (requestParameters.updateClient === null || requestParameters.updateClient === undefined) {
+            throw new runtime.RequiredError('updateClient','Required parameter requestParameters.updateClient was null or undefined when calling updateClient.');
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'application/json';
+
+        if (this.configuration && this.configuration.apiKey) {
+            headerParameters["X-Tapis-Token"] = this.configuration.apiKey("X-Tapis-Token"); // TapisJWT authentication
+        }
+
+        const response = await this.request({
+            path: `/v3/oauth2/clients/{client_id}`.replace(`{${"client_id"}}`, encodeURIComponent(String(requestParameters.clientId))),
+            method: 'PUT',
+            headers: headerParameters,
+            query: queryParameters,
+            body: UpdateClientToJSON(requestParameters.updateClient),
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => RespUpdateClientFromJSON(jsonValue));
+    }
+
+    /**
+     * Update details of a specific client by its id.
+     * Update client details
+     */
+    async updateClient(requestParameters: UpdateClientRequest, initOverrides?: RequestInit): Promise<RespUpdateClient> {
+        const response = await this.updateClientRaw(requestParameters, initOverrides);
         return await response.value();
     }
 

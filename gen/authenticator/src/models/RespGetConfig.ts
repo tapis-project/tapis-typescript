@@ -14,64 +14,64 @@
 
 import { exists, mapValues } from '../runtime';
 import {
-    Profile,
-    ProfileFromJSON,
-    ProfileFromJSONTyped,
-    ProfileToJSON,
+    TenantConfig,
+    TenantConfigFromJSON,
+    TenantConfigFromJSONTyped,
+    TenantConfigToJSON,
 } from './';
 
 /**
  * 
  * @export
- * @interface RespListProfiles
+ * @interface RespGetConfig
  */
-export interface RespListProfiles {
+export interface RespGetConfig {
     /**
      * Version of the API
      * @type {string}
-     * @memberof RespListProfiles
+     * @memberof RespGetConfig
      */
     version?: string;
     /**
      * Brief description of the response
      * @type {string}
-     * @memberof RespListProfiles
+     * @memberof RespGetConfig
      */
     message?: string;
     /**
      * Whether the request was a success or failure.
      * @type {string}
-     * @memberof RespListProfiles
+     * @memberof RespGetConfig
      */
-    status?: RespListProfilesStatusEnum;
+    status?: RespGetConfigStatusEnum;
     /**
      * Metadata about the result object, including pagination information
      * @type {object}
-     * @memberof RespListProfiles
+     * @memberof RespGetConfig
      */
     metadata?: object;
     /**
      * 
-     * @type {Array<Profile>}
-     * @memberof RespListProfiles
+     * @type {TenantConfig}
+     * @memberof RespGetConfig
      */
-    result?: Array<Profile>;
+    result?: TenantConfig;
 }
 
 /**
 * @export
 * @enum {string}
 */
-export enum RespListProfilesStatusEnum {
+export enum RespGetConfigStatusEnum {
     Success = 'success',
     Failure = 'failure'
 }
 
-export function RespListProfilesFromJSON(json: any): RespListProfiles {
-    return RespListProfilesFromJSONTyped(json, false);
+export function RespGetConfigFromJSON(json: any): RespGetConfig {
+    return RespGetConfigFromJSONTyped(json, false);
 }
 
-export function RespListProfilesFromJSONTyped(json: any, ignoreDiscriminator: boolean): RespListProfiles {
+export function RespGetConfigFromJSONTyped(json: any, ignoreDiscriminator: boolean): RespGetConfig {
     if ((json === undefined) || (json === null)) {
         return json;
     }
@@ -81,11 +81,11 @@ export function RespListProfilesFromJSONTyped(json: any, ignoreDiscriminator: bo
         'message': !exists(json, 'message') ? undefined : json['message'],
         'status': !exists(json, 'status') ? undefined : json['status'],
         'metadata': !exists(json, 'metadata') ? undefined : json['metadata'],
-        'result': !exists(json, 'result') ? undefined : ((json['result'] as Array<any>).map(ProfileFromJSON)),
+        'result': !exists(json, 'result') ? undefined : TenantConfigFromJSON(json['result']),
     };
 }
 
-export function RespListProfilesToJSON(value?: RespListProfiles | null): any {
+export function RespGetConfigToJSON(value?: RespGetConfig | null): any {
     if (value === undefined) {
         return undefined;
     }
@@ -98,7 +98,7 @@ export function RespListProfilesToJSON(value?: RespListProfiles | null): any {
         'message': value.message,
         'status': value.status,
         'metadata': value.metadata,
-        'result': value.result === undefined ? undefined : ((value.result as Array<any>).map(ProfileToJSON)),
+        'result': TenantConfigToJSON(value.result),
     };
 }
 

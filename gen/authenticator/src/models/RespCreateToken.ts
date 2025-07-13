@@ -45,6 +45,12 @@ export interface RespCreateToken {
      */
     status?: RespCreateTokenStatusEnum;
     /**
+     * Metadata about the result object, including pagination information
+     * @type {object}
+     * @memberof RespCreateToken
+     */
+    metadata?: object;
+    /**
      * 
      * @type {NewTokenResponse}
      * @memberof RespCreateToken
@@ -74,6 +80,7 @@ export function RespCreateTokenFromJSONTyped(json: any, ignoreDiscriminator: boo
         'version': !exists(json, 'version') ? undefined : json['version'],
         'message': !exists(json, 'message') ? undefined : json['message'],
         'status': !exists(json, 'status') ? undefined : json['status'],
+        'metadata': !exists(json, 'metadata') ? undefined : json['metadata'],
         'result': !exists(json, 'result') ? undefined : NewTokenResponseFromJSON(json['result']),
     };
 }
@@ -90,6 +97,7 @@ export function RespCreateTokenToJSON(value?: RespCreateToken | null): any {
         'version': value.version,
         'message': value.message,
         'status': value.status,
+        'metadata': value.metadata,
         'result': NewTokenResponseToJSON(value.result),
     };
 }

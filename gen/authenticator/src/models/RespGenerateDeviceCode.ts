@@ -14,64 +14,64 @@
 
 import { exists, mapValues } from '../runtime';
 import {
-    Profile,
-    ProfileFromJSON,
-    ProfileFromJSONTyped,
-    ProfileToJSON,
+    DeviceCodeResposne,
+    DeviceCodeResposneFromJSON,
+    DeviceCodeResposneFromJSONTyped,
+    DeviceCodeResposneToJSON,
 } from './';
 
 /**
  * 
  * @export
- * @interface RespListProfiles
+ * @interface RespGenerateDeviceCode
  */
-export interface RespListProfiles {
+export interface RespGenerateDeviceCode {
     /**
      * Version of the API
      * @type {string}
-     * @memberof RespListProfiles
+     * @memberof RespGenerateDeviceCode
      */
     version?: string;
     /**
      * Brief description of the response
      * @type {string}
-     * @memberof RespListProfiles
+     * @memberof RespGenerateDeviceCode
      */
     message?: string;
     /**
      * Whether the request was a success or failure.
      * @type {string}
-     * @memberof RespListProfiles
+     * @memberof RespGenerateDeviceCode
      */
-    status?: RespListProfilesStatusEnum;
+    status?: RespGenerateDeviceCodeStatusEnum;
     /**
      * Metadata about the result object, including pagination information
      * @type {object}
-     * @memberof RespListProfiles
+     * @memberof RespGenerateDeviceCode
      */
     metadata?: object;
     /**
      * 
-     * @type {Array<Profile>}
-     * @memberof RespListProfiles
+     * @type {DeviceCodeResposne}
+     * @memberof RespGenerateDeviceCode
      */
-    result?: Array<Profile>;
+    result?: DeviceCodeResposne;
 }
 
 /**
 * @export
 * @enum {string}
 */
-export enum RespListProfilesStatusEnum {
+export enum RespGenerateDeviceCodeStatusEnum {
     Success = 'success',
     Failure = 'failure'
 }
 
-export function RespListProfilesFromJSON(json: any): RespListProfiles {
-    return RespListProfilesFromJSONTyped(json, false);
+export function RespGenerateDeviceCodeFromJSON(json: any): RespGenerateDeviceCode {
+    return RespGenerateDeviceCodeFromJSONTyped(json, false);
 }
 
-export function RespListProfilesFromJSONTyped(json: any, ignoreDiscriminator: boolean): RespListProfiles {
+export function RespGenerateDeviceCodeFromJSONTyped(json: any, ignoreDiscriminator: boolean): RespGenerateDeviceCode {
     if ((json === undefined) || (json === null)) {
         return json;
     }
@@ -81,11 +81,11 @@ export function RespListProfilesFromJSONTyped(json: any, ignoreDiscriminator: bo
         'message': !exists(json, 'message') ? undefined : json['message'],
         'status': !exists(json, 'status') ? undefined : json['status'],
         'metadata': !exists(json, 'metadata') ? undefined : json['metadata'],
-        'result': !exists(json, 'result') ? undefined : ((json['result'] as Array<any>).map(ProfileFromJSON)),
+        'result': !exists(json, 'result') ? undefined : DeviceCodeResposneFromJSON(json['result']),
     };
 }
 
-export function RespListProfilesToJSON(value?: RespListProfiles | null): any {
+export function RespGenerateDeviceCodeToJSON(value?: RespGenerateDeviceCode | null): any {
     if (value === undefined) {
         return undefined;
     }
@@ -98,7 +98,7 @@ export function RespListProfilesToJSON(value?: RespListProfiles | null): any {
         'message': value.message,
         'status': value.status,
         'metadata': value.metadata,
-        'result': value.result === undefined ? undefined : ((value.result as Array<any>).map(ProfileToJSON)),
+        'result': DeviceCodeResposneToJSON(value.result),
     };
 }
 
