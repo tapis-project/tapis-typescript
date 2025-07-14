@@ -86,6 +86,12 @@ export interface BaseTask {
      * @memberof BaseTask
      */
     conditions?: Array<{ [key: string]: object; }>;
+    /**
+     * 
+     * @type {Array<string>}
+     * @memberof BaseTask
+     */
+    tags?: Array<string>;
 }
 
 export function BaseTaskFromJSON(json: any): BaseTask {
@@ -106,6 +112,7 @@ export function BaseTaskFromJSONTyped(json: any, ignoreDiscriminator: boolean): 
         'input': !exists(json, 'input') ? undefined : (mapValues(json['input'], SpecWithValueFromJSON)),
         'output': !exists(json, 'output') ? undefined : json['output'],
         'conditions': !exists(json, 'conditions') ? undefined : json['conditions'],
+        'tags': !exists(json, 'tags') ? undefined : json['tags'],
     };
 }
 
@@ -126,6 +133,7 @@ export function BaseTaskToJSON(value?: BaseTask | null): any {
         'input': value.input === undefined ? undefined : (mapValues(value.input, SpecWithValueToJSON)),
         'output': value.output,
         'conditions': value.conditions,
+        'tags': value.tags,
     };
 }
 

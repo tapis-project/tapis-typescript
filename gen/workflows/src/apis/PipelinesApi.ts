@@ -15,6 +15,9 @@
 
 import * as runtime from '../runtime';
 import {
+    ReqPatchPipeline,
+    ReqPatchPipelineFromJSON,
+    ReqPatchPipelineToJSON,
     ReqPipeline,
     ReqPipelineFromJSON,
     ReqPipelineToJSON,
@@ -72,6 +75,12 @@ export interface GetPipelineRequest {
 
 export interface ListPipelinesRequest {
     groupId: string;
+}
+
+export interface PatchPipelineRequest {
+    groupId: string;
+    pipelineId: string;
+    reqPatchPipeline: ReqPatchPipeline;
 }
 
 export interface RemovePipelineArchiveRequest {
@@ -298,6 +307,38 @@ export class PipelinesApi extends runtime.BaseAPI {
     }
 
     /**
+     * Get a list of all pipleines from all groups 
+     * List all pipelines
+     */
+    async listAllPipelinesRaw(initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespPipelineList>> {
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        if (this.configuration && this.configuration.apiKey) {
+            headerParameters["X-TAPIS-TOKEN"] = this.configuration.apiKey("X-TAPIS-TOKEN"); // TapisJWT authentication
+        }
+
+        const response = await this.request({
+            path: `/v3/workflows/pipelines`,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => RespPipelineListFromJSON(jsonValue));
+    }
+
+    /**
+     * Get a list of all pipleines from all groups 
+     * List all pipelines
+     */
+    async listAllPipelines(initOverrides?: RequestInit): Promise<RespPipelineList> {
+        const response = await this.listAllPipelinesRaw(initOverrides);
+        return await response.value();
+    }
+
+    /**
      * Retrieve a list of pipelines for all groups that the requesting user belongs to.
      * Retrieve pipelines
      */
@@ -330,6 +371,53 @@ export class PipelinesApi extends runtime.BaseAPI {
      */
     async listPipelines(requestParameters: ListPipelinesRequest, initOverrides?: RequestInit): Promise<RespPipelineList> {
         const response = await this.listPipelinesRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     * Update a pipelines properties
+     * Patch a pipeline
+     */
+    async patchPipelineRaw(requestParameters: PatchPipelineRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespResourceURL>> {
+        if (requestParameters.groupId === null || requestParameters.groupId === undefined) {
+            throw new runtime.RequiredError('groupId','Required parameter requestParameters.groupId was null or undefined when calling patchPipeline.');
+        }
+
+        if (requestParameters.pipelineId === null || requestParameters.pipelineId === undefined) {
+            throw new runtime.RequiredError('pipelineId','Required parameter requestParameters.pipelineId was null or undefined when calling patchPipeline.');
+        }
+
+        if (requestParameters.reqPatchPipeline === null || requestParameters.reqPatchPipeline === undefined) {
+            throw new runtime.RequiredError('reqPatchPipeline','Required parameter requestParameters.reqPatchPipeline was null or undefined when calling patchPipeline.');
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'application/json';
+
+        if (this.configuration && this.configuration.apiKey) {
+            headerParameters["X-TAPIS-TOKEN"] = this.configuration.apiKey("X-TAPIS-TOKEN"); // TapisJWT authentication
+        }
+
+        const response = await this.request({
+            path: `/v3/workflows/groups/{group_id}/pipelines/{pipeline_id}`.replace(`{${"group_id"}}`, encodeURIComponent(String(requestParameters.groupId))).replace(`{${"pipeline_id"}}`, encodeURIComponent(String(requestParameters.pipelineId))),
+            method: 'PATCH',
+            headers: headerParameters,
+            query: queryParameters,
+            body: ReqPatchPipelineToJSON(requestParameters.reqPatchPipeline),
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => RespResourceURLFromJSON(jsonValue));
+    }
+
+    /**
+     * Update a pipelines properties
+     * Patch a pipeline
+     */
+    async patchPipeline(requestParameters: PatchPipelineRequest, initOverrides?: RequestInit): Promise<RespResourceURL> {
+        const response = await this.patchPipelineRaw(requestParameters, initOverrides);
         return await response.value();
     }
 

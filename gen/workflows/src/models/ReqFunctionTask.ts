@@ -108,6 +108,12 @@ export interface ReqFunctionTask {
     conditions?: Array<{ [key: string]: object; }>;
     /**
      * 
+     * @type {Array<string>}
+     * @memberof ReqFunctionTask
+     */
+    tags?: Array<string>;
+    /**
+     * 
      * @type {Array<GitCloneDetails>}
      * @memberof ReqFunctionTask
      */
@@ -168,6 +174,7 @@ export function ReqFunctionTaskFromJSONTyped(json: any, ignoreDiscriminator: boo
         'input': !exists(json, 'input') ? undefined : (mapValues(json['input'], SpecWithValueFromJSON)),
         'output': !exists(json, 'output') ? undefined : json['output'],
         'conditions': !exists(json, 'conditions') ? undefined : json['conditions'],
+        'tags': !exists(json, 'tags') ? undefined : json['tags'],
         'git_repositories': !exists(json, 'git_repositories') ? undefined : ((json['git_repositories'] as Array<any>).map(GitCloneDetailsFromJSON)),
         'runtime': EnumRuntimeEnvironmentFromJSON(json['runtime']),
         'installer': EnumInstallerFromJSON(json['installer']),
@@ -195,6 +202,7 @@ export function ReqFunctionTaskToJSON(value?: ReqFunctionTask | null): any {
         'input': value.input === undefined ? undefined : (mapValues(value.input, SpecWithValueToJSON)),
         'output': value.output,
         'conditions': value.conditions,
+        'tags': value.tags,
         'git_repositories': value.git_repositories === undefined ? undefined : ((value.git_repositories as Array<any>).map(GitCloneDetailsToJSON)),
         'runtime': EnumRuntimeEnvironmentToJSON(value.runtime),
         'installer': EnumInstallerToJSON(value.installer),

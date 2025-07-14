@@ -96,6 +96,12 @@ export interface ReqTapisActorTask {
     conditions?: Array<{ [key: string]: object; }>;
     /**
      * 
+     * @type {Array<string>}
+     * @memberof ReqTapisActorTask
+     */
+    tags?: Array<string>;
+    /**
+     * 
      * @type {boolean}
      * @memberof ReqTapisActorTask
      */
@@ -132,6 +138,7 @@ export function ReqTapisActorTaskFromJSONTyped(json: any, ignoreDiscriminator: b
         'input': !exists(json, 'input') ? undefined : (mapValues(json['input'], SpecWithValueFromJSON)),
         'output': !exists(json, 'output') ? undefined : json['output'],
         'conditions': !exists(json, 'conditions') ? undefined : json['conditions'],
+        'tags': !exists(json, 'tags') ? undefined : json['tags'],
         'poll': !exists(json, 'poll') ? undefined : json['poll'],
         'tapis_actor_id': json['tapis_actor_id'],
         'tapis_actor_message': !exists(json, 'tapis_actor_message') ? undefined : json['tapis_actor_message'],
@@ -155,6 +162,7 @@ export function ReqTapisActorTaskToJSON(value?: ReqTapisActorTask | null): any {
         'input': value.input === undefined ? undefined : (mapValues(value.input, SpecWithValueToJSON)),
         'output': value.output,
         'conditions': value.conditions,
+        'tags': value.tags,
         'poll': value.poll,
         'tapis_actor_id': value.tapis_actor_id,
         'tapis_actor_message': value.tapis_actor_message,

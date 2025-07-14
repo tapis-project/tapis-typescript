@@ -18,10 +18,6 @@ import {
     ArgSpecAllOfFromJSON,
     ArgSpecAllOfFromJSONTyped,
     ArgSpecAllOfToJSON,
-    EnumTaskIOType,
-    EnumTaskIOTypeFromJSON,
-    EnumTaskIOTypeFromJSONTyped,
-    EnumTaskIOTypeToJSON,
     SpecWithValue,
     SpecWithValueFromJSON,
     SpecWithValueFromJSONTyped,
@@ -56,10 +52,10 @@ export interface ArgSpec {
     required?: boolean;
     /**
      * 
-     * @type {EnumTaskIOType}
+     * @type {string}
      * @memberof ArgSpec
      */
-    type?: EnumTaskIOType;
+    type?: string;
     /**
      * 
      * @type {Value}
@@ -86,7 +82,7 @@ export function ArgSpecFromJSONTyped(json: any, ignoreDiscriminator: boolean): A
         
         'description': !exists(json, 'description') ? undefined : json['description'],
         'required': !exists(json, 'required') ? undefined : json['required'],
-        'type': !exists(json, 'type') ? undefined : EnumTaskIOTypeFromJSON(json['type']),
+        'type': !exists(json, 'type') ? undefined : json['type'],
         'value': !exists(json, 'value') ? undefined : ValueFromJSON(json['value']),
         'value_from': !exists(json, 'value_from') ? undefined : ValueFromSecretOrHostFromJSON(json['value_from']),
     };
@@ -103,7 +99,7 @@ export function ArgSpecToJSON(value?: ArgSpec | null): any {
         
         'description': value.description,
         'required': value.required,
-        'type': EnumTaskIOTypeToJSON(value.type),
+        'type': value.type,
         'value': ValueToJSON(value.value),
         'value_from': ValueFromSecretOrHostToJSON(value.value_from),
     };

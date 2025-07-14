@@ -100,6 +100,12 @@ export interface ReqRequestTask {
     conditions?: Array<{ [key: string]: object; }>;
     /**
      * 
+     * @type {Array<string>}
+     * @memberof ReqRequestTask
+     */
+    tags?: Array<string>;
+    /**
+     * 
      * @type {object}
      * @memberof ReqRequestTask
      */
@@ -154,6 +160,7 @@ export function ReqRequestTaskFromJSONTyped(json: any, ignoreDiscriminator: bool
         'input': !exists(json, 'input') ? undefined : (mapValues(json['input'], SpecWithValueFromJSON)),
         'output': !exists(json, 'output') ? undefined : json['output'],
         'conditions': !exists(json, 'conditions') ? undefined : json['conditions'],
+        'tags': !exists(json, 'tags') ? undefined : json['tags'],
         'auth': !exists(json, 'auth') ? undefined : json['auth'],
         'data': !exists(json, 'data') ? undefined : json['data'],
         'headers': !exists(json, 'headers') ? undefined : json['headers'],
@@ -180,6 +187,7 @@ export function ReqRequestTaskToJSON(value?: ReqRequestTask | null): any {
         'input': value.input === undefined ? undefined : (mapValues(value.input, SpecWithValueToJSON)),
         'output': value.output,
         'conditions': value.conditions,
+        'tags': value.tags,
         'auth': value.auth,
         'data': value.data,
         'headers': value.headers,

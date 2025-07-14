@@ -75,7 +75,6 @@ src/models/EnumRetryPolicy.ts
 src/models/EnumRunStatus.ts
 src/models/EnumRuntimeEnvironment.ts
 src/models/EnumTaskFlavor.ts
-src/models/EnumTaskIOType.ts
 src/models/EnumTaskType.ts
 src/models/EnvSpec.ts
 src/models/EnvSpecAllOf.ts
@@ -145,6 +144,7 @@ src/models/ReqLocalContextAllOf.ts
 src/models/ReqLocalDestination.ts
 src/models/ReqNonLocalContext.ts
 src/models/ReqNonLocalContextAllOf.ts
+src/models/ReqPatchPipeline.ts
 src/models/ReqPatchPipelineRun.ts
 src/models/ReqPatchTask.ts
 src/models/ReqPatchTaskExecution.ts

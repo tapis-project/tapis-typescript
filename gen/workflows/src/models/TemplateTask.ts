@@ -100,6 +100,12 @@ export interface TemplateTask {
     conditions?: Array<{ [key: string]: object; }>;
     /**
      * 
+     * @type {Array<string>}
+     * @memberof TemplateTask
+     */
+    tags?: Array<string>;
+    /**
+     * 
      * @type {Uses}
      * @memberof TemplateTask
      */
@@ -124,6 +130,7 @@ export function TemplateTaskFromJSONTyped(json: any, ignoreDiscriminator: boolea
         'input': !exists(json, 'input') ? undefined : (mapValues(json['input'], SpecWithValueFromJSON)),
         'output': !exists(json, 'output') ? undefined : json['output'],
         'conditions': !exists(json, 'conditions') ? undefined : json['conditions'],
+        'tags': !exists(json, 'tags') ? undefined : json['tags'],
         'uses': !exists(json, 'uses') ? undefined : UsesFromJSON(json['uses']),
     };
 }
@@ -145,6 +152,7 @@ export function TemplateTaskToJSON(value?: TemplateTask | null): any {
         'input': value.input === undefined ? undefined : (mapValues(value.input, SpecWithValueToJSON)),
         'output': value.output,
         'conditions': value.conditions,
+        'tags': value.tags,
         'uses': UsesToJSON(value.uses),
     };
 }

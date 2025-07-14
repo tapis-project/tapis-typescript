@@ -209,6 +209,38 @@ export class TasksApi extends runtime.BaseAPI {
     }
 
     /**
+     * Get a list of all tasks in all pipelines from all groups 
+     * List all tasks
+     */
+    async listAllTasksRaw(initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespTaskList>> {
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        if (this.configuration && this.configuration.apiKey) {
+            headerParameters["X-TAPIS-TOKEN"] = this.configuration.apiKey("X-TAPIS-TOKEN"); // TapisJWT authentication
+        }
+
+        const response = await this.request({
+            path: `/v3/workflows/tasks`,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => RespTaskListFromJSON(jsonValue));
+    }
+
+    /**
+     * Get a list of all tasks in all pipelines from all groups 
+     * List all tasks
+     */
+    async listAllTasks(initOverrides?: RequestInit): Promise<RespTaskList> {
+        const response = await this.listAllTasksRaw(initOverrides);
+        return await response.value();
+    }
+
+    /**
      * Retrieve all tasks for a given pipeline 
      * List tasks
      */

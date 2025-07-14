@@ -100,6 +100,12 @@ export interface ReqTemplateTask {
     conditions?: Array<{ [key: string]: object; }>;
     /**
      * 
+     * @type {Array<string>}
+     * @memberof ReqTemplateTask
+     */
+    tags?: Array<string>;
+    /**
+     * 
      * @type {Uses}
      * @memberof ReqTemplateTask
      */
@@ -124,6 +130,7 @@ export function ReqTemplateTaskFromJSONTyped(json: any, ignoreDiscriminator: boo
         'input': !exists(json, 'input') ? undefined : (mapValues(json['input'], SpecWithValueFromJSON)),
         'output': !exists(json, 'output') ? undefined : json['output'],
         'conditions': !exists(json, 'conditions') ? undefined : json['conditions'],
+        'tags': !exists(json, 'tags') ? undefined : json['tags'],
         'uses': UsesFromJSON(json['uses']),
     };
 }
@@ -145,6 +152,7 @@ export function ReqTemplateTaskToJSON(value?: ReqTemplateTask | null): any {
         'input': value.input === undefined ? undefined : (mapValues(value.input, SpecWithValueToJSON)),
         'output': value.output,
         'conditions': value.conditions,
+        'tags': value.tags,
         'uses': UsesToJSON(value.uses),
     };
 }

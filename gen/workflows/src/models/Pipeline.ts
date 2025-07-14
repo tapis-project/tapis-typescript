@@ -120,6 +120,12 @@ export interface Pipeline {
      * @memberof Pipeline
      */
     tasks?: Array<Task>;
+    /**
+     * 
+     * @type {Array<string>}
+     * @memberof Pipeline
+     */
+    tags?: Array<string>;
 }
 
 export function PipelineFromJSON(json: any): Pipeline {
@@ -145,6 +151,7 @@ export function PipelineFromJSONTyped(json: any, ignoreDiscriminator: boolean): 
         'current_run': !exists(json, 'current_run') ? undefined : json['current_run'],
         'last_run': !exists(json, 'last_run') ? undefined : json['last_run'],
         'tasks': !exists(json, 'tasks') ? undefined : ((json['tasks'] as Array<any>).map(TaskFromJSON)),
+        'tags': !exists(json, 'tags') ? undefined : json['tags'],
     };
 }
 
@@ -170,6 +177,7 @@ export function PipelineToJSON(value?: Pipeline | null): any {
         'current_run': value.current_run,
         'last_run': value.last_run,
         'tasks': value.tasks === undefined ? undefined : ((value.tasks as Array<any>).map(TaskToJSON)),
+        'tags': value.tags,
     };
 }
 

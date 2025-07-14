@@ -148,6 +148,12 @@ export interface ReqPatchTask {
     conditions?: Array<{ [key: string]: object; }>;
     /**
      * 
+     * @type {Array<string>}
+     * @memberof ReqPatchTask
+     */
+    tags?: Array<string>;
+    /**
+     * 
      * @type {EnumBuilder}
      * @memberof ReqPatchTask
      */
@@ -304,6 +310,7 @@ export function ReqPatchTaskFromJSONTyped(json: any, ignoreDiscriminator: boolea
         'input': !exists(json, 'input') ? undefined : (mapValues(json['input'], SpecWithValueFromJSON)),
         'output': !exists(json, 'output') ? undefined : json['output'],
         'conditions': !exists(json, 'conditions') ? undefined : json['conditions'],
+        'tags': !exists(json, 'tags') ? undefined : json['tags'],
         'builder': !exists(json, 'builder') ? undefined : EnumBuilderFromJSON(json['builder']),
         'cache': !exists(json, 'cache') ? undefined : json['cache'],
         'context': !exists(json, 'context') ? undefined : ContextFromJSON(json['context']),
@@ -347,6 +354,7 @@ export function ReqPatchTaskToJSON(value?: ReqPatchTask | null): any {
         'input': value.input === undefined ? undefined : (mapValues(value.input, SpecWithValueToJSON)),
         'output': value.output,
         'conditions': value.conditions,
+        'tags': value.tags,
         'builder': EnumBuilderToJSON(value.builder),
         'cache': value.cache,
         'context': ContextToJSON(value.context),

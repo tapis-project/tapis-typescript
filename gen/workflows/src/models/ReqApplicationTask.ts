@@ -96,6 +96,12 @@ export interface ReqApplicationTask {
     conditions?: Array<{ [key: string]: object; }>;
     /**
      * 
+     * @type {Array<string>}
+     * @memberof ReqApplicationTask
+     */
+    tags?: Array<string>;
+    /**
+     * 
      * @type {string}
      * @memberof ReqApplicationTask
      */
@@ -120,6 +126,7 @@ export function ReqApplicationTaskFromJSONTyped(json: any, ignoreDiscriminator: 
         'input': !exists(json, 'input') ? undefined : (mapValues(json['input'], SpecWithValueFromJSON)),
         'output': !exists(json, 'output') ? undefined : json['output'],
         'conditions': !exists(json, 'conditions') ? undefined : json['conditions'],
+        'tags': !exists(json, 'tags') ? undefined : json['tags'],
         'image': json['image'],
     };
 }
@@ -141,6 +148,7 @@ export function ReqApplicationTaskToJSON(value?: ReqApplicationTask | null): any
         'input': value.input === undefined ? undefined : (mapValues(value.input, SpecWithValueToJSON)),
         'output': value.output,
         'conditions': value.conditions,
+        'tags': value.tags,
         'image': value.image,
     };
 }

@@ -96,6 +96,12 @@ export interface ReqTapisJobTask {
     conditions?: Array<{ [key: string]: object; }>;
     /**
      * 
+     * @type {Array<string>}
+     * @memberof ReqTapisJobTask
+     */
+    tags?: Array<string>;
+    /**
+     * 
      * @type {boolean}
      * @memberof ReqTapisJobTask
      */
@@ -126,6 +132,7 @@ export function ReqTapisJobTaskFromJSONTyped(json: any, ignoreDiscriminator: boo
         'input': !exists(json, 'input') ? undefined : (mapValues(json['input'], SpecWithValueFromJSON)),
         'output': !exists(json, 'output') ? undefined : json['output'],
         'conditions': !exists(json, 'conditions') ? undefined : json['conditions'],
+        'tags': !exists(json, 'tags') ? undefined : json['tags'],
         'poll': !exists(json, 'poll') ? undefined : json['poll'],
         'tapis_job_def': json['tapis_job_def'],
     };
@@ -148,6 +155,7 @@ export function ReqTapisJobTaskToJSON(value?: ReqTapisJobTask | null): any {
         'input': value.input === undefined ? undefined : (mapValues(value.input, SpecWithValueToJSON)),
         'output': value.output,
         'conditions': value.conditions,
+        'tags': value.tags,
         'poll': value.poll,
         'tapis_job_def': value.tapis_job_def,
     };

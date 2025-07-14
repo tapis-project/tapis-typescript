@@ -140,6 +140,12 @@ export interface ReqCreateETLPipeline {
     tasks?: Array<ReqTask>;
     /**
      * 
+     * @type {Array<string>}
+     * @memberof ReqCreateETLPipeline
+     */
+    tags?: Array<string>;
+    /**
+     * 
      * @type {ETLActionFilter}
      * @memberof ReqCreateETLPipeline
      */
@@ -202,6 +208,7 @@ export function ReqCreateETLPipelineFromJSONTyped(json: any, ignoreDiscriminator
         'type': EnumPipelineTypeFromJSON(json['type']),
         'execution_profile': !exists(json, 'execution_profile') ? undefined : ExecutionProfileFromJSON(json['execution_profile']),
         'tasks': !exists(json, 'tasks') ? undefined : ((json['tasks'] as Array<any>).map(ReqTaskFromJSON)),
+        'tags': !exists(json, 'tags') ? undefined : json['tags'],
         'before': !exists(json, 'before') ? undefined : ETLActionFilterFromJSON(json['before']),
         'remote_outbox': ETLRemoteOutboxFromJSON(json['remote_outbox']),
         'local_inbox': ETLLocalInboxFromJSON(json['local_inbox']),
@@ -231,6 +238,7 @@ export function ReqCreateETLPipelineToJSON(value?: ReqCreateETLPipeline | null):
         'type': EnumPipelineTypeToJSON(value.type),
         'execution_profile': ExecutionProfileToJSON(value.execution_profile),
         'tasks': value.tasks === undefined ? undefined : ((value.tasks as Array<any>).map(ReqTaskToJSON)),
+        'tags': value.tags,
         'before': ETLActionFilterToJSON(value.before),
         'remote_outbox': ETLRemoteOutboxToJSON(value.remote_outbox),
         'local_inbox': ETLLocalInboxToJSON(value.local_inbox),

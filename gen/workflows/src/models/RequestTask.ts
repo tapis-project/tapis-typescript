@@ -100,6 +100,12 @@ export interface RequestTask {
     conditions?: Array<{ [key: string]: object; }>;
     /**
      * 
+     * @type {Array<string>}
+     * @memberof RequestTask
+     */
+    tags?: Array<string>;
+    /**
+     * 
      * @type {object}
      * @memberof RequestTask
      */
@@ -154,6 +160,7 @@ export function RequestTaskFromJSONTyped(json: any, ignoreDiscriminator: boolean
         'input': !exists(json, 'input') ? undefined : (mapValues(json['input'], SpecWithValueFromJSON)),
         'output': !exists(json, 'output') ? undefined : json['output'],
         'conditions': !exists(json, 'conditions') ? undefined : json['conditions'],
+        'tags': !exists(json, 'tags') ? undefined : json['tags'],
         'auth': !exists(json, 'auth') ? undefined : json['auth'],
         'data': !exists(json, 'data') ? undefined : json['data'],
         'headers': !exists(json, 'headers') ? undefined : json['headers'],
@@ -180,6 +187,7 @@ export function RequestTaskToJSON(value?: RequestTask | null): any {
         'input': value.input === undefined ? undefined : (mapValues(value.input, SpecWithValueToJSON)),
         'output': value.output,
         'conditions': value.conditions,
+        'tags': value.tags,
         'auth': value.auth,
         'data': value.data,
         'headers': value.headers,

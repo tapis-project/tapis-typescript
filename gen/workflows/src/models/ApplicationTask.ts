@@ -96,6 +96,12 @@ export interface ApplicationTask {
     conditions?: Array<{ [key: string]: object; }>;
     /**
      * 
+     * @type {Array<string>}
+     * @memberof ApplicationTask
+     */
+    tags?: Array<string>;
+    /**
+     * 
      * @type {string}
      * @memberof ApplicationTask
      */
@@ -120,6 +126,7 @@ export function ApplicationTaskFromJSONTyped(json: any, ignoreDiscriminator: boo
         'input': !exists(json, 'input') ? undefined : (mapValues(json['input'], SpecWithValueFromJSON)),
         'output': !exists(json, 'output') ? undefined : json['output'],
         'conditions': !exists(json, 'conditions') ? undefined : json['conditions'],
+        'tags': !exists(json, 'tags') ? undefined : json['tags'],
         'image': !exists(json, 'image') ? undefined : json['image'],
     };
 }
@@ -141,6 +148,7 @@ export function ApplicationTaskToJSON(value?: ApplicationTask | null): any {
         'input': value.input === undefined ? undefined : (mapValues(value.input, SpecWithValueToJSON)),
         'output': value.output,
         'conditions': value.conditions,
+        'tags': value.tags,
         'image': value.image,
     };
 }

@@ -108,6 +108,12 @@ export interface ImageBuildTask {
     conditions?: Array<{ [key: string]: object; }>;
     /**
      * 
+     * @type {Array<string>}
+     * @memberof ImageBuildTask
+     */
+    tags?: Array<string>;
+    /**
+     * 
      * @type {EnumBuilder}
      * @memberof ImageBuildTask
      */
@@ -150,6 +156,7 @@ export function ImageBuildTaskFromJSONTyped(json: any, ignoreDiscriminator: bool
         'input': !exists(json, 'input') ? undefined : (mapValues(json['input'], SpecWithValueFromJSON)),
         'output': !exists(json, 'output') ? undefined : json['output'],
         'conditions': !exists(json, 'conditions') ? undefined : json['conditions'],
+        'tags': !exists(json, 'tags') ? undefined : json['tags'],
         'builder': !exists(json, 'builder') ? undefined : EnumBuilderFromJSON(json['builder']),
         'cache': !exists(json, 'cache') ? undefined : json['cache'],
         'context': !exists(json, 'context') ? undefined : ContextFromJSON(json['context']),
@@ -174,6 +181,7 @@ export function ImageBuildTaskToJSON(value?: ImageBuildTask | null): any {
         'input': value.input === undefined ? undefined : (mapValues(value.input, SpecWithValueToJSON)),
         'output': value.output,
         'conditions': value.conditions,
+        'tags': value.tags,
         'builder': EnumBuilderToJSON(value.builder),
         'cache': value.cache,
         'context': ContextToJSON(value.context),

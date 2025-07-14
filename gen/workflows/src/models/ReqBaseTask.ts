@@ -86,6 +86,12 @@ export interface ReqBaseTask {
      * @memberof ReqBaseTask
      */
     conditions?: Array<{ [key: string]: object; }>;
+    /**
+     * 
+     * @type {Array<string>}
+     * @memberof ReqBaseTask
+     */
+    tags?: Array<string>;
 }
 
 export function ReqBaseTaskFromJSON(json: any): ReqBaseTask {
@@ -106,6 +112,7 @@ export function ReqBaseTaskFromJSONTyped(json: any, ignoreDiscriminator: boolean
         'input': !exists(json, 'input') ? undefined : (mapValues(json['input'], SpecWithValueFromJSON)),
         'output': !exists(json, 'output') ? undefined : json['output'],
         'conditions': !exists(json, 'conditions') ? undefined : json['conditions'],
+        'tags': !exists(json, 'tags') ? undefined : json['tags'],
     };
 }
 
@@ -126,6 +133,7 @@ export function ReqBaseTaskToJSON(value?: ReqBaseTask | null): any {
         'input': value.input === undefined ? undefined : (mapValues(value.input, SpecWithValueToJSON)),
         'output': value.output,
         'conditions': value.conditions,
+        'tags': value.tags,
     };
 }
 

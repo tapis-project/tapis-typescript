@@ -108,6 +108,12 @@ export interface ReqImageBuildTask {
     conditions?: Array<{ [key: string]: object; }>;
     /**
      * 
+     * @type {Array<string>}
+     * @memberof ReqImageBuildTask
+     */
+    tags?: Array<string>;
+    /**
+     * 
      * @type {EnumBuilder}
      * @memberof ReqImageBuildTask
      */
@@ -150,6 +156,7 @@ export function ReqImageBuildTaskFromJSONTyped(json: any, ignoreDiscriminator: b
         'input': !exists(json, 'input') ? undefined : (mapValues(json['input'], SpecWithValueFromJSON)),
         'output': !exists(json, 'output') ? undefined : json['output'],
         'conditions': !exists(json, 'conditions') ? undefined : json['conditions'],
+        'tags': !exists(json, 'tags') ? undefined : json['tags'],
         'builder': EnumBuilderFromJSON(json['builder']),
         'cache': !exists(json, 'cache') ? undefined : json['cache'],
         'context': ReqContextFromJSON(json['context']),
@@ -174,6 +181,7 @@ export function ReqImageBuildTaskToJSON(value?: ReqImageBuildTask | null): any {
         'input': value.input === undefined ? undefined : (mapValues(value.input, SpecWithValueToJSON)),
         'output': value.output,
         'conditions': value.conditions,
+        'tags': value.tags,
         'builder': EnumBuilderToJSON(value.builder),
         'cache': value.cache,
         'context': ReqContextToJSON(value.context),

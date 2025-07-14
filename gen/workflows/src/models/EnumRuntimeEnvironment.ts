@@ -40,7 +40,8 @@ export enum EnumRuntimeEnvironment {
     PytorchPytorchlatest = 'pytorch/pytorch:latest',
     HuggingfaceTransformersPytorchGpulatest = 'huggingface/transformers-pytorch-gpu:latest',
     HuggingfaceTransformersPytorchGpu4292 = 'huggingface/transformers-pytorch-gpu:4.29.2',
-    GhcrIoTobiashi26PygeofloodContainermain = 'ghcr.io/tobiashi26/pygeoflood-container:main'
+    GhcrIoTobiashi26PygeofloodContainermain = 'ghcr.io/tobiashi26/pygeoflood-container:main',
+    GhcrIoIcicleAiPlugNPlayMegadetectorV6bmain = 'ghcr.io/icicle-ai/plug-n-play-megadetector-v6b:main'
 }
 
 export function EnumRuntimeEnvironmentFromJSON(json: any): EnumRuntimeEnvironment {

@@ -14,18 +14,10 @@
 
 import { exists, mapValues } from '../runtime';
 import {
-    EnumPipelineType,
-    EnumPipelineTypeFromJSON,
-    EnumPipelineTypeFromJSONTyped,
-    EnumPipelineTypeToJSON,
     EnvSpec,
     EnvSpecFromJSON,
     EnvSpecFromJSONTyped,
     EnvSpecToJSON,
-    ExecutionProfile,
-    ExecutionProfileFromJSON,
-    ExecutionProfileFromJSONTyped,
-    ExecutionProfileToJSON,
     ReqTask,
     ReqTaskFromJSON,
     ReqTaskFromJSONTyped,
@@ -34,111 +26,72 @@ import {
     SpecFromJSON,
     SpecFromJSONTyped,
     SpecToJSON,
-    Uses,
-    UsesFromJSON,
-    UsesFromJSONTyped,
-    UsesToJSON,
 } from './';
 
 /**
  * 
  * @export
- * @interface ReqPipeline
+ * @interface ReqPatchPipeline
  */
-export interface ReqPipeline {
+export interface ReqPatchPipeline {
     /**
      * 
      * @type {string}
-     * @memberof ReqPipeline
-     */
-    id: string;
-    /**
-     * 
-     * @type {Uses}
-     * @memberof ReqPipeline
-     */
-    uses?: Uses;
-    /**
-     * 
-     * @type {Array<string>}
-     * @memberof ReqPipeline
-     */
-    archive_ids?: Array<string>;
-    /**
-     * 
-     * @type {string}
-     * @memberof ReqPipeline
+     * @memberof ReqPatchPipeline
      */
     description?: string;
     /**
      * 
      * @type {{ [key: string]: EnvSpec; }}
-     * @memberof ReqPipeline
+     * @memberof ReqPatchPipeline
      */
     env?: { [key: string]: EnvSpec; };
     /**
      * 
      * @type {boolean}
-     * @memberof ReqPipeline
+     * @memberof ReqPatchPipeline
      */
     enabled?: boolean;
     /**
      * 
      * @type {{ [key: string]: Spec; }}
-     * @memberof ReqPipeline
+     * @memberof ReqPatchPipeline
      */
     params?: { [key: string]: Spec; };
     /**
      * 
-     * @type {EnumPipelineType}
-     * @memberof ReqPipeline
-     */
-    type: EnumPipelineType;
-    /**
-     * 
-     * @type {ExecutionProfile}
-     * @memberof ReqPipeline
-     */
-    execution_profile?: ExecutionProfile;
-    /**
-     * 
      * @type {Array<ReqTask>}
-     * @memberof ReqPipeline
+     * @memberof ReqPatchPipeline
      */
     tasks?: Array<ReqTask>;
     /**
      * 
      * @type {Array<string>}
-     * @memberof ReqPipeline
+     * @memberof ReqPatchPipeline
      */
     tags?: Array<string>;
 }
 
-export function ReqPipelineFromJSON(json: any): ReqPipeline {
-    return ReqPipelineFromJSONTyped(json, false);
+export function ReqPatchPipelineFromJSON(json: any): ReqPatchPipeline {
+    return ReqPatchPipelineFromJSONTyped(json, false);
 }
 
-export function ReqPipelineFromJSONTyped(json: any, ignoreDiscriminator: boolean): ReqPipeline {
+export function ReqPatchPipelineFromJSONTyped(json: any, ignoreDiscriminator: boolean): ReqPatchPipeline {
     if ((json === undefined) || (json === null)) {
         return json;
     }
     return {
         
-        'id': json['id'],
-        'uses': !exists(json, 'uses') ? undefined : UsesFromJSON(json['uses']),
-        'archive_ids': !exists(json, 'archive_ids') ? undefined : json['archive_ids'],
         'description': !exists(json, 'description') ? undefined : json['description'],
         'env': !exists(json, 'env') ? undefined : (mapValues(json['env'], EnvSpecFromJSON)),
         'enabled': !exists(json, 'enabled') ? undefined : json['enabled'],
         'params': !exists(json, 'params') ? undefined : (mapValues(json['params'], SpecFromJSON)),
-        'type': EnumPipelineTypeFromJSON(json['type']),
-        'execution_profile': !exists(json, 'execution_profile') ? undefined : ExecutionProfileFromJSON(json['execution_profile']),
         'tasks': !exists(json, 'tasks') ? undefined : ((json['tasks'] as Array<any>).map(ReqTaskFromJSON)),
         'tags': !exists(json, 'tags') ? undefined : json['tags'],
     };
 }
 
-export function ReqPipelineToJSON(value?: ReqPipeline | null): any {
+export function ReqPatchPipelineToJSON(value?: ReqPatchPipeline | null): any {
     if (value === undefined) {
         return undefined;
     }
@@ -147,15 +100,10 @@ export function ReqPipelineToJSON(value?: ReqPipeline | null): any {
     }
     return {
         
-        'id': value.id,
-        'uses': UsesToJSON(value.uses),
-        'archive_ids': value.archive_ids,
         'description': value.description,
         'env': value.env === undefined ? undefined : (mapValues(value.env, EnvSpecToJSON)),
         'enabled': value.enabled,
         'params': value.params === undefined ? undefined : (mapValues(value.params, SpecToJSON)),
-        'type': EnumPipelineTypeToJSON(value.type),
-        'execution_profile': ExecutionProfileToJSON(value.execution_profile),
         'tasks': value.tasks === undefined ? undefined : ((value.tasks as Array<any>).map(ReqTaskToJSON)),
         'tags': value.tags,
     };

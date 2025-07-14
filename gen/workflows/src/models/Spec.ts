@@ -13,13 +13,6 @@
  */
 
 import { exists, mapValues } from '../runtime';
-import {
-    EnumTaskIOType,
-    EnumTaskIOTypeFromJSON,
-    EnumTaskIOTypeFromJSONTyped,
-    EnumTaskIOTypeToJSON,
-} from './';
-
 /**
  * 
  * @export
@@ -40,10 +33,10 @@ export interface Spec {
     required?: boolean;
     /**
      * 
-     * @type {EnumTaskIOType}
+     * @type {string}
      * @memberof Spec
      */
-    type?: EnumTaskIOType;
+    type?: string;
 }
 
 export function SpecFromJSON(json: any): Spec {
@@ -58,7 +51,7 @@ export function SpecFromJSONTyped(json: any, ignoreDiscriminator: boolean): Spec
         
         'description': !exists(json, 'description') ? undefined : json['description'],
         'required': !exists(json, 'required') ? undefined : json['required'],
-        'type': !exists(json, 'type') ? undefined : EnumTaskIOTypeFromJSON(json['type']),
+        'type': !exists(json, 'type') ? undefined : json['type'],
     };
 }
 
@@ -73,7 +66,7 @@ export function SpecToJSON(value?: Spec | null): any {
         
         'description': value.description,
         'required': value.required,
-        'type': EnumTaskIOTypeToJSON(value.type),
+        'type': value.type,
     };
 }
 
