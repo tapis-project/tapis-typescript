@@ -81,6 +81,7 @@ export * from './PipelineLock';
 export * from './PipelineRun';
 export * from './RegistryDestination';
 export * from './RegistryDestinationAllOf';
+export * from './ReqAddPipelineArchive';
 export * from './ReqApplicationTask';
 export * from './ReqApplicationTaskAllOf';
 export * from './ReqArchive';

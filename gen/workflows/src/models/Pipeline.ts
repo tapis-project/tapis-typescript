@@ -50,6 +50,12 @@ export interface Pipeline {
     id?: string;
     /**
      * 
+     * @type {Array<string>}
+     * @memberof Pipeline
+     */
+    archive_ids?: Array<string>;
+    /**
+     * 
      * @type {string}
      * @memberof Pipeline
      */
@@ -139,6 +145,7 @@ export function PipelineFromJSONTyped(json: any, ignoreDiscriminator: boolean): 
     return {
         
         'id': !exists(json, 'id') ? undefined : json['id'],
+        'archive_ids': !exists(json, 'archive_ids') ? undefined : json['archive_ids'],
         'description': !exists(json, 'description') ? undefined : json['description'],
         'uses': !exists(json, 'uses') ? undefined : UsesFromJSON(json['uses']),
         'env': !exists(json, 'env') ? undefined : (mapValues(json['env'], EnvSpecFromJSON)),
@@ -165,6 +172,7 @@ export function PipelineToJSON(value?: Pipeline | null): any {
     return {
         
         'id': value.id,
+        'archive_ids': value.archive_ids,
         'description': value.description,
         'uses': UsesToJSON(value.uses),
         'env': value.env === undefined ? undefined : (mapValues(value.env, EnvSpecToJSON)),

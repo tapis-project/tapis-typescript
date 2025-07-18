@@ -1,4 +1,4 @@
-## @tapis/tapis-typescript-workflows@1.9.0
+## @tapis/tapis-typescript-workflows@1.9.0-a1
 
 This generator creates TypeScript/JavaScript client that utilizes [Fetch API](https://fetch.spec.whatwg.org/). The generated Node module can be used in the following environments:
 
@@ -36,7 +36,7 @@ navigate to the folder of your consuming project and run one of the following co
 _published:_
 
 ```
-npm install @tapis/tapis-typescript-workflows@1.9.0 --save
+npm install @tapis/tapis-typescript-workflows@1.9.0-a1 --save
 ```
 
 _unPublished (not recommended):_

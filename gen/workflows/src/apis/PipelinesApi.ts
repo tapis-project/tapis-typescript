@@ -15,6 +15,9 @@
 
 import * as runtime from '../runtime';
 import {
+    ReqAddPipelineArchive,
+    ReqAddPipelineArchiveFromJSON,
+    ReqAddPipelineArchiveToJSON,
     ReqPatchPipeline,
     ReqPatchPipelineFromJSON,
     ReqPatchPipelineToJSON,
@@ -50,6 +53,7 @@ import {
 export interface AddPipelineArchiveRequest {
     groupId: string;
     pipelineId: string;
+    reqAddPipelineArchive: ReqAddPipelineArchive;
 }
 
 export interface ChangePipelineOwnerRequest {
@@ -112,9 +116,15 @@ export class PipelinesApi extends runtime.BaseAPI {
             throw new runtime.RequiredError('pipelineId','Required parameter requestParameters.pipelineId was null or undefined when calling addPipelineArchive.');
         }
 
+        if (requestParameters.reqAddPipelineArchive === null || requestParameters.reqAddPipelineArchive === undefined) {
+            throw new runtime.RequiredError('reqAddPipelineArchive','Required parameter requestParameters.reqAddPipelineArchive was null or undefined when calling addPipelineArchive.');
+        }
+
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'application/json';
 
         if (this.configuration && this.configuration.apiKey) {
             headerParameters["X-TAPIS-TOKEN"] = this.configuration.apiKey("X-TAPIS-TOKEN"); // TapisJWT authentication
@@ -125,6 +135,7 @@ export class PipelinesApi extends runtime.BaseAPI {
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
+            body: ReqAddPipelineArchiveToJSON(requestParameters.reqAddPipelineArchive),
         }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => RespBaseFromJSON(jsonValue));

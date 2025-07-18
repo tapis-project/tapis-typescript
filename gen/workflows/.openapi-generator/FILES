@@ -101,6 +101,7 @@ src/models/PipelineLock.ts
 src/models/PipelineRun.ts
 src/models/RegistryDestination.ts
 src/models/RegistryDestinationAllOf.ts
+src/models/ReqAddPipelineArchive.ts
 src/models/ReqApplicationTask.ts
 src/models/ReqApplicationTaskAllOf.ts
 src/models/ReqArchive.ts
