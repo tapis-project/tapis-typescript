@@ -135,6 +135,7 @@ export * from './ReqRegistryContext';
 export * from './ReqRegistryContextAllOf';
 export * from './ReqRegistryDestination';
 export * from './ReqRegistryDestinationAllOf';
+export * from './ReqRemovePipelineArchive';
 export * from './ReqRepoContext';
 export * from './ReqRepoContextAllOf';
 export * from './ReqRequestTask';

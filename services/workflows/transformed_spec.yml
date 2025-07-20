@@ -1584,6 +1584,13 @@ paths:
           required: true
           schema:
             $ref: '#/components/schemas/ID'
+      requestBody:
+        required: true
+        description: request body
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ReqAddPipelineArchive'
       responses:
         '200':
           description: Archive added
@@ -3630,6 +3637,14 @@ components:
             type: string
 
     ReqAddPipelineArchive:
+      type: object
+      required:
+        - archive_id
+      properties:
+        archive_id:
+          $ref: '#/components/schemas/ID'
+
+    ReqRemovePipelineArchive:
       type: object
       required:
         - archive_id

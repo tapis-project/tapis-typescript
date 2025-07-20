@@ -90,6 +90,7 @@ export interface PatchPipelineRequest {
 export interface RemovePipelineArchiveRequest {
     groupId: string;
     pipelineId: string;
+    reqAddPipelineArchive: ReqAddPipelineArchive;
 }
 
 export interface RunPipelineRequest {
@@ -445,9 +446,15 @@ export class PipelinesApi extends runtime.BaseAPI {
             throw new runtime.RequiredError('pipelineId','Required parameter requestParameters.pipelineId was null or undefined when calling removePipelineArchive.');
         }
 
+        if (requestParameters.reqAddPipelineArchive === null || requestParameters.reqAddPipelineArchive === undefined) {
+            throw new runtime.RequiredError('reqAddPipelineArchive','Required parameter requestParameters.reqAddPipelineArchive was null or undefined when calling removePipelineArchive.');
+        }
+
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'application/json';
 
         if (this.configuration && this.configuration.apiKey) {
             headerParameters["X-TAPIS-TOKEN"] = this.configuration.apiKey("X-TAPIS-TOKEN"); // TapisJWT authentication
@@ -458,6 +465,7 @@ export class PipelinesApi extends runtime.BaseAPI {
             method: 'DELETE',
             headers: headerParameters,
             query: queryParameters,
+            body: ReqAddPipelineArchiveToJSON(requestParameters.reqAddPipelineArchive),
         }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => RespBaseFromJSON(jsonValue));

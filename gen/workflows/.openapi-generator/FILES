@@ -155,6 +155,7 @@ src/models/ReqRegistryContext.ts
 src/models/ReqRegistryContextAllOf.ts
 src/models/ReqRegistryDestination.ts
 src/models/ReqRegistryDestinationAllOf.ts
+src/models/ReqRemovePipelineArchive.ts
 src/models/ReqRepoContext.ts
 src/models/ReqRepoContextAllOf.ts
 src/models/ReqRequestTask.ts
