@@ -1,6 +1,6 @@
 {
   "name": "@tapis/tapis-typescript",
-  "version": "0.0.61",
+  "version": "0.0.62",
   "description": "TypeScript bindings for tapis.io api",
   "main": "./dist/index.js",
   "typings": "./dist/index.d.ts",
@@ -36,7 +36,7 @@
     "@tapis/tapis-typescript-streams": "^0.0.4",
     "@tapis/tapis-typescript-systems": "^0.0.6",
     "@tapis/tapis-typescript-tenants": "^0.0.2",
-    "@tapis/tapis-typescript-workflows": "1.9.0-a2",
+    "@tapis/tapis-typescript-workflows": "1.9.0-a3",
     "@types/mocha": "^9.0.0"
   },
   "devDependencies": {

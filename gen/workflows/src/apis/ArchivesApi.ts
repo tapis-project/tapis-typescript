@@ -135,6 +135,38 @@ export class ArchivesApi extends runtime.BaseAPI {
     }
 
     /**
+     * Get a list of all archives from all groups 
+     * List all archives
+     */
+    async listAllArchivesRaw(initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespArchiveList>> {
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        if (this.configuration && this.configuration.apiKey) {
+            headerParameters["X-TAPIS-TOKEN"] = this.configuration.apiKey("X-TAPIS-TOKEN"); // TapisJWT authentication
+        }
+
+        const response = await this.request({
+            path: `/v3/workflows/archives`,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => RespArchiveListFromJSON(jsonValue));
+    }
+
+    /**
+     * Get a list of all archives from all groups 
+     * List all archives
+     */
+    async listAllArchives(initOverrides?: RequestInit): Promise<RespArchiveList> {
+        const response = await this.listAllArchivesRaw(initOverrides);
+        return await response.value();
+    }
+
+    /**
      * Retrieve a list of archives for in group
      * Retrieve archives
      */

@@ -83,6 +83,22 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/RespTaskList'
+  
+  '/v3/workflows/archives':
+    get:
+      tags:
+        - Archives
+      summary: List all archives
+      description: |
+        Get a list of all archives from all groups
+      operationId: listAllArchives
+      responses:
+        '200':
+          description: Archives found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RespArchiveList'
 
   '/v3/workflows/pipelines':
     get:
