@@ -52,6 +52,8 @@ describe('tapis-typescript', () => {
   it('should have Jobs service', () => {
     expect(Jobs).to.have.property('JobsApi');
     expect(Jobs).to.have.property('HealthApi');
+    expect(Jobs).to.have.property('SharingApi');
+    expect(Jobs).to.have.property('SubscriptionsApi');
   });
   it('should have Streams service', () => {
     expect(Streams).to.have.property('HealthApi');

@@ -5,7 +5,7 @@ README.md
 package.json
 src/apis/HealthApi.ts
 src/apis/JobsApi.ts
-src/apis/ShareApi.ts
+src/apis/SharingApi.ts
 src/apis/SubscriptionsApi.ts
 src/apis/index.ts
 src/index.ts

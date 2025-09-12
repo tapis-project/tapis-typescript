@@ -52,6 +52,14 @@ describe('Jobs e2e tests', async () => {
     }
   });
 
+  // TODO Cancel
+
+  // TODO Resubmit
+
+  // TODO Hide
+
+  // TODO Unhide
+
   it('should get a job listing', async() => {
     try {
       const api: Jobs.JobsApi = new Jobs.JobsApi(configuration);
