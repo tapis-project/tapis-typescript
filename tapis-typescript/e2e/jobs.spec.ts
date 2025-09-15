@@ -74,7 +74,7 @@ describe('Jobs e2e tests', async () => {
       };
       const cancelResp = await api.cancelJob(cancelReq);
       console.info("Cancelling result: ", cancelResp.result);
-      expect(cancelResp.result?.message?.indexOf("has been accepted") > 0).to.equal(true);
+      expect(cancelResp.result?.message?.includes("has been accepted") === true).to.equal(true);
 
       // SLEEP for 2 seconds to allow job to start
       await new Promise(resolve => setTimeout(resolve, 2000));
