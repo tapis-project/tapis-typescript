@@ -147,7 +147,7 @@ describe('Jobs e2e tests', async () => {
       expect(getCancelledJobResp.result.condition).to.equal(Jobs.JobConditionEnum.CancelledByUser);
       expect(Object.values(Jobs.JobStatusEnum)).to.include(getCancelledJobResp.result.status);
       expect(getCancelledJobResp.result.visible).to.equal(true);
-      console.info("Resubmitted job ", submittedJobUuid, " successfully cancelled");
+      console.info("Resubmitted job ", resubmittedJobUuid, " successfully cancelled");
 
     
   });
