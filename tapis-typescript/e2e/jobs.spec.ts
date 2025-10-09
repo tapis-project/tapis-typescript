@@ -105,7 +105,7 @@ describe('Jobs e2e tests', async () => {
       };
       const response = await api.resubmitJob(resubmitReq);
       const job: Jobs.Job = response.result;
-      resubmittedJobUuid = job.uuid;
+      resubmittedJobUuid = job.uuid!;
       expect(resubmittedJobUuid).to.not.equal(submittedJobUuid);
 
       // SLEEP for 2 seconds to allow job to start
@@ -116,7 +116,7 @@ describe('Jobs e2e tests', async () => {
         jobUuid: resubmittedJobUuid
       };
       const getJobResp: Jobs.RespGetJob = await api.getJob(getJobReq);
-      const getJobResult: Jobs.Job = getJobResp.result;
+      const getJobResult: Jobs.Job = getJobResp.result!;
       console.info("Resubmitted Job uuid = ", getJobResult.uuid, " condition=", getJobResult.condition, " visibility=", getJobResult.visible);
       expect(Object.values(Jobs.JobStatusEnum)).to.include(getJobResult.status);
       expect(getJobResult.visible).to.equal(true);
@@ -144,9 +144,9 @@ describe('Jobs e2e tests', async () => {
       const getCancelledJobResp: Jobs.RespGetJob = await api.getJob(getCancelledJobReq);
       console.info("Cancelled Job ", getCancelledJobResp.result?.uuid, " condition: ", 
         getCancelledJobResp.result?.condition, " visibility: ", getCancelledJobResp.result?.visible);
-      expect(getCancelledJobResp.result.condition).to.equal(Jobs.JobConditionEnum.CancelledByUser);
-      expect(Object.values(Jobs.JobStatusEnum)).to.include(getCancelledJobResp.result.status);
-      expect(getCancelledJobResp.result.visible).to.equal(true);
+      expect(getCancelledJobResp.result!.condition).to.equal(Jobs.JobConditionEnum.CancelledByUser);
+      expect(Object.values(Jobs.JobStatusEnum)).to.include(getCancelledJobResp.result!.status);
+      expect(getCancelledJobResp.result!.visible).to.equal(true);
       console.info("Resubmitted job ", resubmittedJobUuid, " successfully cancelled");
 
     
@@ -158,44 +158,93 @@ describe('Jobs e2e tests', async () => {
         jobUuid: resubmittedJobUuid
       };
       const hideResp = await api.hideJob(hideReq);
-      console.info("Hidden job: ", hideResp.result.message);
+      console.info("Hidden job: ", hideResp.result!.message);
 
       // Verify the job is now hidden
       const getHiddenJobReq: Jobs.GetJobRequest = {
         jobUuid: resubmittedJobUuid
       };
       const getHiddenJobResp: Jobs.RespGetJob = await api.getJob(getHiddenJobReq);
-      const getHiddenJobResult: Jobs.Job = getHiddenJobResp.result;
+      const getHiddenJobResult: Jobs.Job = getHiddenJobResp.result!;
       console.info("Hidden Job visibility", getHiddenJobResult.visible);
       expect(getHiddenJobResult.visible).to.equal(false);
   });
   // UNHIDE
-
   it('should unhide a job', async() => {
       const api: Jobs.JobsApi = new Jobs.JobsApi(configuration);
       const unhideReq: Jobs.UnhideJobRequest = {
         jobUuid: resubmittedJobUuid
       };
       const unhideResp = await api.unhideJob(unhideReq);
-      console.info("Unhidden job: ", unhideResp.result.message);
+      console.info("Unhidden job: ", unhideResp.result!.message);
 
       // Verify the job is now visible
       const getUnhiddenJobReq: Jobs.GetJobRequest = {
         jobUuid: resubmittedJobUuid
       };
       const getUnhiddenJobResp: Jobs.RespGetJob = await api.getJob(getUnhiddenJobReq);
-      const getUnhiddenJobResult: Jobs.Job = getUnhiddenJobResp.result;
+      const getUnhiddenJobResult: Jobs.Job = getUnhiddenJobResp.result!;
       console.info("Unhidden Job visibility", getUnhiddenJobResult.visible);
       expect(getUnhiddenJobResult.visible).to.equal(true);
   });
+  // PUT ANNOTATIONS
+  it('should put annotations on a job', async() => {
+    try {
+      const api: Jobs.JobsApi = new Jobs.JobsApi(configuration);
+      const putAnnotationsReq: Jobs.PutJobAnnotationsRequest = {
+        jobUuid: resubmittedJobUuid,
+        reqJobAnnotation: {
+          tags: ['tag1', 'tag2'],
+          notes: { 'key1': 'value1', 'key2': 'value2' }
+        }
+      };
+      const putAnnotationsResp: Jobs.RespJobAnnotations = await api.putJobAnnotations(putAnnotationsReq);
+      console.info("Put annotations response: ", putAnnotationsResp.result);
+      // Verify the annotations were updated
+      const getJobReq: Jobs.GetJobRequest = {
+        jobUuid: resubmittedJobUuid
+      };
+      const getJobResp: Jobs.RespGetJob = await api.getJob(getJobReq);
+      const getJobResult: Jobs.Job = getJobResp.result!;
+      expect(getJobResult.tags).to.include.members(['tag1', 'tag2']);
+      expect(getJobResult.notes).to.include({ 'key1': 'value1', 'key2': 'value2' });
+    } catch(error) {
+      checkJsonError(error);
+    }
+  });
+  // PATCH ANNOTATIONS
+  it('should patch annotations on a job', async() => {
+    try {
+      const api: Jobs.JobsApi = new Jobs.JobsApi(configuration);
+      const patchAnnotationsReq: Jobs.PatchJobAnnotationsRequest = {
+        jobUuid: resubmittedJobUuid,
+        reqJobAnnotation: {
+          tags: ['tag3', "TAG2"], // Add tag3 and 'TAG2' (case sensitive)
+          notes: { 'key2': 'new_value2', 'key3': 'value3' } // Update key2, add key3
+        },
+      };
+      const patchAnnotationsResp: Jobs.RespJobAnnotations = await api.patchJobAnnotations(patchAnnotationsReq);
+      console.info("Patch annotations response: ", patchAnnotationsResp.result);
 
-
+      // Verify the annotations were updated
+      const getJobReq: Jobs.GetJobRequest = {
+        jobUuid: resubmittedJobUuid
+      };
+      const getJobResp: Jobs.RespGetJob = await api.getJob(getJobReq);
+      const getJobResult: Jobs.Job = getJobResp.result!;
+      expect(getJobResult.tags).to.include.members(['tag1', 'tag2', "TAG2", 'tag3']);
+      expect(getJobResult.notes).to.include({ 'key1': 'value1', 'key2': 'new_value2', 'key3': 'value3' });
+    } catch(error) {
+      checkJsonError(error);
+    }
+  });
+  // GET JOB LISTING
   it('should get a job listing', async() => {
     try {
       const api: Jobs.JobsApi = new Jobs.JobsApi(configuration);
       const request: Jobs.GetJobListRequest = {};
       const response: Jobs.RespGetJobList = await api.getJobList(request);
-      const jobs: Array<Jobs.JobListDTO> = response.result;
+      const jobs: Array<Jobs.JobListDTO> = response.result!;
       expect(jobs.length).to.be.greaterThanOrEqual(1);
     } catch(error) {
       checkJsonError(error);
