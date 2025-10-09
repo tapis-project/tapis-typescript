@@ -14,6 +14,10 @@
 
 import { exists, mapValues } from '../runtime';
 import {
+    ArchiveModeEnum,
+    ArchiveModeEnumFromJSON,
+    ArchiveModeEnumFromJSONTyped,
+    ArchiveModeEnumToJSON,
     JobFileInput,
     JobFileInputFromJSON,
     JobFileInputFromJSONTyped,
@@ -86,6 +90,12 @@ export interface ReqSubmitJob {
      * @memberof ReqSubmitJob
      */
     archiveOnAppError?: boolean;
+    /**
+     * 
+     * @type {ArchiveModeEnum}
+     * @memberof ReqSubmitJob
+     */
+    archiveMode?: ArchiveModeEnum;
     /**
      * 
      * @type {boolean}
@@ -250,6 +260,7 @@ export function ReqSubmitJobFromJSONTyped(json: any, ignoreDiscriminator: boolea
         'appVersion': json['appVersion'],
         'jobType': !exists(json, 'jobType') ? undefined : json['jobType'],
         'archiveOnAppError': !exists(json, 'archiveOnAppError') ? undefined : json['archiveOnAppError'],
+        'archiveMode': !exists(json, 'archiveMode') ? undefined : ArchiveModeEnumFromJSON(json['archiveMode']),
         'dynamicExecSystem': !exists(json, 'dynamicExecSystem') ? undefined : json['dynamicExecSystem'],
         'execSystemId': !exists(json, 'execSystemId') ? undefined : json['execSystemId'],
         'execSystemExecDir': !exists(json, 'execSystemExecDir') ? undefined : json['execSystemExecDir'],
@@ -294,6 +305,7 @@ export function ReqSubmitJobToJSON(value?: ReqSubmitJob | null): any {
         'appVersion': value.appVersion,
         'jobType': value.jobType,
         'archiveOnAppError': value.archiveOnAppError,
+        'archiveMode': ArchiveModeEnumToJSON(value.archiveMode),
         'dynamicExecSystem': value.dynamicExecSystem,
         'execSystemId': value.execSystemId,
         'execSystemExecDir': value.execSystemExecDir,

@@ -13,6 +13,13 @@
  */
 
 import { exists, mapValues } from '../runtime';
+import {
+    ArchiveModeEnum,
+    ArchiveModeEnumFromJSON,
+    ArchiveModeEnumFromJSONTyped,
+    ArchiveModeEnumToJSON,
+} from './';
+
 /**
  * 
  * @export
@@ -109,6 +116,12 @@ export interface Job {
      * @memberof Job
      */
     archiveOnAppError?: boolean;
+    /**
+     * 
+     * @type {ArchiveModeEnum}
+     * @memberof Job
+     */
+    archiveMode?: ArchiveModeEnum;
     /**
      * 
      * @type {boolean}
@@ -546,6 +559,7 @@ export function JobFromJSONTyped(json: any, ignoreDiscriminator: boolean): Job {
         'appId': !exists(json, 'appId') ? undefined : json['appId'],
         'appVersion': !exists(json, 'appVersion') ? undefined : json['appVersion'],
         'archiveOnAppError': !exists(json, 'archiveOnAppError') ? undefined : json['archiveOnAppError'],
+        'archiveMode': !exists(json, 'archiveMode') ? undefined : ArchiveModeEnumFromJSON(json['archiveMode']),
         'dynamicExecSystem': !exists(json, 'dynamicExecSystem') ? undefined : json['dynamicExecSystem'],
         'execSystemId': !exists(json, 'execSystemId') ? undefined : json['execSystemId'],
         'execSystemExecDir': !exists(json, 'execSystemExecDir') ? undefined : json['execSystemExecDir'],
@@ -628,6 +642,7 @@ export function JobToJSON(value?: Job | null): any {
         'appId': value.appId,
         'appVersion': value.appVersion,
         'archiveOnAppError': value.archiveOnAppError,
+        'archiveMode': ArchiveModeEnumToJSON(value.archiveMode),
         'dynamicExecSystem': value.dynamicExecSystem,
         'execSystemId': value.execSystemId,
         'execSystemExecDir': value.execSystemExecDir,

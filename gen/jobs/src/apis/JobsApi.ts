@@ -15,6 +15,9 @@
 
 import * as runtime from '../runtime';
 import {
+    ReqJobAnnotation,
+    ReqJobAnnotationFromJSON,
+    ReqJobAnnotationToJSON,
     ReqSubmitJob,
     ReqSubmitJobFromJSON,
     ReqSubmitJobToJSON,
@@ -45,6 +48,9 @@ import {
     RespHideJob,
     RespHideJobFromJSON,
     RespHideJobToJSON,
+    RespJobAnnotations,
+    RespJobAnnotationsFromJSON,
+    RespJobAnnotationsToJSON,
     RespJobHistory,
     RespJobHistoryFromJSON,
     RespJobHistoryToJSON,
@@ -131,6 +137,16 @@ export interface GetResubmitRequestJsonRequest {
 export interface HideJobRequest {
     jobUuid: string;
     body?: object | null;
+}
+
+export interface PatchJobAnnotationsRequest {
+    jobUuid: string;
+    reqJobAnnotation: ReqJobAnnotation;
+}
+
+export interface PutJobAnnotationsRequest {
+    jobUuid: string;
+    reqJobAnnotation: ReqJobAnnotation;
 }
 
 export interface ResubmitJobRequest {
@@ -649,6 +665,88 @@ export class JobsApi extends runtime.BaseAPI {
     }
 
     /**
+     * Adding tags or notes with the following behavior: ## Behavior   - **Tags**: Repetitive tags will be ignored (case-sensitive merging)   - **Notes**: Old notes will be updated with new values if the key is the same   - If any of the tags/notes field is missing in the request body, the corresponding field in jobs will not be touched.  ## Limits   - Total number of bytes of tags/notes: **128KB maximum**.    - Depending on the byte-length of the characters, tags and notes can have 32768 (4-byte) - 131072 (ASCII) UTF-8 characters.   - Overall, there is no guarantee of success if tags/notes exceed 32768 UTF-8 characters.  ## Authorization    - Caller must be the job owner, creator, or tenant administrator  **Note**: This operation merges new data with existing annotations rather than replacing them.
+     */
+    async patchJobAnnotationsRaw(requestParameters: PatchJobAnnotationsRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespJobAnnotations>> {
+        if (requestParameters.jobUuid === null || requestParameters.jobUuid === undefined) {
+            throw new runtime.RequiredError('jobUuid','Required parameter requestParameters.jobUuid was null or undefined when calling patchJobAnnotations.');
+        }
+
+        if (requestParameters.reqJobAnnotation === null || requestParameters.reqJobAnnotation === undefined) {
+            throw new runtime.RequiredError('reqJobAnnotation','Required parameter requestParameters.reqJobAnnotation was null or undefined when calling patchJobAnnotations.');
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'application/json';
+
+        if (this.configuration && this.configuration.apiKey) {
+            headerParameters["X-Tapis-Token"] = this.configuration.apiKey("X-Tapis-Token"); // TapisJWT authentication
+        }
+
+        const response = await this.request({
+            path: `/v3/jobs/{jobUuid}/annotations`.replace(`{${"jobUuid"}}`, encodeURIComponent(String(requestParameters.jobUuid))),
+            method: 'PATCH',
+            headers: headerParameters,
+            query: queryParameters,
+            body: ReqJobAnnotationToJSON(requestParameters.reqJobAnnotation),
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => RespJobAnnotationsFromJSON(jsonValue));
+    }
+
+    /**
+     * Adding tags or notes with the following behavior: ## Behavior   - **Tags**: Repetitive tags will be ignored (case-sensitive merging)   - **Notes**: Old notes will be updated with new values if the key is the same   - If any of the tags/notes field is missing in the request body, the corresponding field in jobs will not be touched.  ## Limits   - Total number of bytes of tags/notes: **128KB maximum**.    - Depending on the byte-length of the characters, tags and notes can have 32768 (4-byte) - 131072 (ASCII) UTF-8 characters.   - Overall, there is no guarantee of success if tags/notes exceed 32768 UTF-8 characters.  ## Authorization    - Caller must be the job owner, creator, or tenant administrator  **Note**: This operation merges new data with existing annotations rather than replacing them.
+     */
+    async patchJobAnnotations(requestParameters: PatchJobAnnotationsRequest, initOverrides?: RequestInit): Promise<RespJobAnnotations> {
+        const response = await this.patchJobAnnotationsRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     * Replace tags or notes with the provided values.  ## Behavior   - **Tags**: Completely replaces existing tags with the provided array   - **Notes**: Completely replaces existing notes with the provided JSON object   - **Clearing Data**:      - Provide empty array `[]` for tags to remove all tags     - Provide empty object `{}` for notes to remove all notes   - If any of the tags/notes field is missing in the request body, the corresponding field in jobs will not be touched.  ## Limits   - Total number of bytes of tags/notes: **128KB maximum**.    - Depending on the byte-length of the characters, tags and notes can have 32768 (4-byte) - 131072 (ASCII) UTF-8 characters.   - Overall, there is no guarantee of success if tags/notes exceed 32768 UTF-8 characters.  ## Authorization   - The caller must be the job owner, creator, or a tenant administrator.  **Note**: This operation completely replaces existing annotations rather than merging them.
+     */
+    async putJobAnnotationsRaw(requestParameters: PutJobAnnotationsRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespJobAnnotations>> {
+        if (requestParameters.jobUuid === null || requestParameters.jobUuid === undefined) {
+            throw new runtime.RequiredError('jobUuid','Required parameter requestParameters.jobUuid was null or undefined when calling putJobAnnotations.');
+        }
+
+        if (requestParameters.reqJobAnnotation === null || requestParameters.reqJobAnnotation === undefined) {
+            throw new runtime.RequiredError('reqJobAnnotation','Required parameter requestParameters.reqJobAnnotation was null or undefined when calling putJobAnnotations.');
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'application/json';
+
+        if (this.configuration && this.configuration.apiKey) {
+            headerParameters["X-Tapis-Token"] = this.configuration.apiKey("X-Tapis-Token"); // TapisJWT authentication
+        }
+
+        const response = await this.request({
+            path: `/v3/jobs/{jobUuid}/annotations`.replace(`{${"jobUuid"}}`, encodeURIComponent(String(requestParameters.jobUuid))),
+            method: 'PUT',
+            headers: headerParameters,
+            query: queryParameters,
+            body: ReqJobAnnotationToJSON(requestParameters.reqJobAnnotation),
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => RespJobAnnotationsFromJSON(jsonValue));
+    }
+
+    /**
+     * Replace tags or notes with the provided values.  ## Behavior   - **Tags**: Completely replaces existing tags with the provided array   - **Notes**: Completely replaces existing notes with the provided JSON object   - **Clearing Data**:      - Provide empty array `[]` for tags to remove all tags     - Provide empty object `{}` for notes to remove all notes   - If any of the tags/notes field is missing in the request body, the corresponding field in jobs will not be touched.  ## Limits   - Total number of bytes of tags/notes: **128KB maximum**.    - Depending on the byte-length of the characters, tags and notes can have 32768 (4-byte) - 131072 (ASCII) UTF-8 characters.   - Overall, there is no guarantee of success if tags/notes exceed 32768 UTF-8 characters.  ## Authorization   - The caller must be the job owner, creator, or a tenant administrator.  **Note**: This operation completely replaces existing annotations rather than merging them.
+     */
+    async putJobAnnotations(requestParameters: PutJobAnnotationsRequest, initOverrides?: RequestInit): Promise<RespJobAnnotations> {
+        const response = await this.putJobAnnotationsRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
      * Resubmit a job for execution using the job\'s original parameters.  The main phases of job execution are:    - validate input   - check resource availability   - stage input files   - stage application code   - launch application   - monitor application   - archive application output  When a job is submitted its request payload is captured and available for resubmission using this API. The resubmitted job is assigned a new UUID and does not reference or have any special access to the original job\'s information once the orginal job\'s request is copied. The resubmitted job\'s execution can differ from the original job\'s if the application, system or other aspects of the execution environment have changed.
      */
     async resubmitJobRaw(requestParameters: ResubmitJobRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespSubmitJob>> {
@@ -727,7 +825,7 @@ export class JobsApi extends runtime.BaseAPI {
     }
 
     /**
-     * Submit a job for execution.  The main phases of job execution are:    - validate input   - check resource availability   - stage input files   - stage application code   - launch application   - monitor application   - archive application output  At a minimum, the job name, application ID and application version must be specified in the request payload. The optional parameters available in a job request provide great flexibility but must be considered in the context of the application and system definitions. The actual values used during job execution are a combination of the values in this request and those specified in the job\'s application and system definitions. It\'s often desirable to keep the submission request simple by specifying common values in these other two definitions. See the [Job Submission Request](https://tapis.readthedocs.io/en/latest/technical/jobs.html#the-job-submission-request) documentation for details.
+     * Submit a job for execution.  The main phases of job execution are:    - validate input   - check resource availability   - stage input files   - stage application code   - launch application   - monitor application   - archive application output  At a minimum, the job name, application ID and application version must be specified in the request payload. The optional parameters available in a job request provide great flexibility but must be considered in the context of the application and system definitions. The actual values used during job execution are a combination of the values in this request and those specified in the job\'s application and system definitions. It\'s often desirable to keep the submission request simple by specifying common values in these other two definitions. See the [Job Submission Request](https://tapis.readthedocs.io/en/latest/technical/jobs.html#the-job-submission-request) documentation for details. The total number of tags of a job is limited to be 128 and the total size of tags/notes is limited to be 128K bytes.
      */
     async submitJobRaw(requestParameters: SubmitJobRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespSubmitJob>> {
         if (requestParameters.reqSubmitJob === null || requestParameters.reqSubmitJob === undefined) {
@@ -756,7 +854,7 @@ export class JobsApi extends runtime.BaseAPI {
     }
 
     /**
-     * Submit a job for execution.  The main phases of job execution are:    - validate input   - check resource availability   - stage input files   - stage application code   - launch application   - monitor application   - archive application output  At a minimum, the job name, application ID and application version must be specified in the request payload. The optional parameters available in a job request provide great flexibility but must be considered in the context of the application and system definitions. The actual values used during job execution are a combination of the values in this request and those specified in the job\'s application and system definitions. It\'s often desirable to keep the submission request simple by specifying common values in these other two definitions. See the [Job Submission Request](https://tapis.readthedocs.io/en/latest/technical/jobs.html#the-job-submission-request) documentation for details.
+     * Submit a job for execution.  The main phases of job execution are:    - validate input   - check resource availability   - stage input files   - stage application code   - launch application   - monitor application   - archive application output  At a minimum, the job name, application ID and application version must be specified in the request payload. The optional parameters available in a job request provide great flexibility but must be considered in the context of the application and system definitions. The actual values used during job execution are a combination of the values in this request and those specified in the job\'s application and system definitions. It\'s often desirable to keep the submission request simple by specifying common values in these other two definitions. See the [Job Submission Request](https://tapis.readthedocs.io/en/latest/technical/jobs.html#the-job-submission-request) documentation for details. The total number of tags of a job is limited to be 128 and the total size of tags/notes is limited to be 128K bytes.
      */
     async submitJob(requestParameters: SubmitJobRequest, initOverrides?: RequestInit): Promise<RespSubmitJob> {
         const response = await this.submitJobRaw(requestParameters, initOverrides);

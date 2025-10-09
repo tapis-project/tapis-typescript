@@ -9,10 +9,12 @@ src/apis/SharingApi.ts
 src/apis/SubscriptionsApi.ts
 src/apis/index.ts
 src/index.ts
+src/models/ArchiveModeEnum.ts
 src/models/DeliveryTarget.ts
 src/models/FileInfo.ts
 src/models/IncludeExcludeFilter.ts
 src/models/Job.ts
+src/models/JobAnnotationDisplay.ts
 src/models/JobArgSpec.ts
 src/models/JobCancelDisplay.ts
 src/models/JobFileInput.ts
@@ -29,6 +31,7 @@ src/models/JobsProbe.ts
 src/models/KeyValuePair.ts
 src/models/LogConfig.ts
 src/models/NotifDeliveryTarget.ts
+src/models/ReqJobAnnotation.ts
 src/models/ReqShareJob.ts
 src/models/ReqSubmitJob.ts
 src/models/ReqSubscribe.ts
@@ -43,6 +46,7 @@ src/models/RespGetJobStatus.ts
 src/models/RespGetResubmit.ts
 src/models/RespGetSubscriptions.ts
 src/models/RespHideJob.ts
+src/models/RespJobAnnotations.ts
 src/models/RespJobHistory.ts
 src/models/RespJobSearchAllAttributes.ts
 src/models/RespName.ts

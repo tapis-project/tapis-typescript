@@ -1,9 +1,11 @@
 /* tslint:disable */
 /* eslint-disable */
+export * from './ArchiveModeEnum';
 export * from './DeliveryTarget';
 export * from './FileInfo';
 export * from './IncludeExcludeFilter';
 export * from './Job';
+export * from './JobAnnotationDisplay';
 export * from './JobArgSpec';
 export * from './JobCancelDisplay';
 export * from './JobFileInput';
@@ -20,6 +22,7 @@ export * from './JobsProbe';
 export * from './KeyValuePair';
 export * from './LogConfig';
 export * from './NotifDeliveryTarget';
+export * from './ReqJobAnnotation';
 export * from './ReqShareJob';
 export * from './ReqSubmitJob';
 export * from './ReqSubscribe';
@@ -34,6 +37,7 @@ export * from './RespGetJobStatus';
 export * from './RespGetResubmit';
 export * from './RespGetSubscriptions';
 export * from './RespHideJob';
+export * from './RespJobAnnotations';
 export * from './RespJobHistory';
 export * from './RespJobSearchAllAttributes';
 export * from './RespName';
