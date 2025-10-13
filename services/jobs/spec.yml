@@ -79,34 +79,43 @@ paths:
                 $ref: '#/components/schemas/RespProbe'
 
   # --- Paths for Jobs ------------------------------------------
-  /jobs/{jobUuid}/hide:
+  /jobs/submit:
     post:
       tags:
         - Jobs
       description: |-
-        Hide a job by its UUID.
+        Submit a job for execution.  The main phases of job execution are:
 
-        The caller must be the job owner, creator or a tenant administrator.
-      operationId: hideJob
-      parameters:
-        - name: jobUuid
-          in: path
-          required: true
-          schema:
-            type: string
+          - validate input
+          - check resource availability
+          - stage input files
+          - stage application code
+          - launch application
+          - monitor application
+          - archive application output
+
+        At a minimum, the job name, application ID and application version must be specified in the request payload.
+        The optional parameters available in a job request provide great flexibility but must be considered in the
+        context of the application and system definitions. The actual values used during job execution are a combination
+        of the values in this request and those specified in the job's application and system definitions. It's often
+        desirable to keep the submission request simple by specifying common values in these other two definitions. See
+        the [Job Submission Request](https://tapis.readthedocs.io/en/latest/technical/jobs.html#the-job-submission-request)
+        documentation for details.
+        The total number of tags of a job is limited to be 128 and the total size of tags/notes is limited to be 128K bytes.
+      operationId: submitJob
       requestBody:
         content:
-          'application/json':
+          application/json:
             schema:
-              type: object
-              nullable: true
+              $ref: '#/components/schemas/ReqSubmitJob'
+        required: true
       responses:
         '200':
-          description: Hide the job successfully
+          description: Job created.
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/RespHideJob'
+                $ref: '#/components/schemas/RespSubmitJob'
         '400':
           description: Input error.
           content:
@@ -125,84 +134,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/RespBasic'
-        '404':
-          description: Job not found.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/RespName'
-        '409':
-          description: Job is already in Terminal State (CANCELLED, FINISHED or FAILED). Job state conflicts with the cancel request. No action taken
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/RespName'
-        '500':
-          description: Server error.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/RespBasic'
-      security:
-        - TapisJWT: []
-  /jobs/{jobUuid}/unhide:
-    post:
-      tags:
-        - Jobs
-      description: |-
-        Un-hide a job by its UUID.
-
-        The caller must be the job owner, creator or a tenant administrator.
-      operationId: unhideJob
-      parameters:
-        - name: jobUuid
-          in: path
-          required: true
-          schema:
-            type: string
-      requestBody:
-        content:
-          'application/json':
-            schema:
-              type: object
-              nullable: true
-      responses:
-        '200':
-          description: Unhide the job successfuly.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/RespHideJob'
-        '400':
-          description: Input error.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/RespBasic'
-        '401':
-          description: Not authorized.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/RespBasic'
-        '403':
-          description: Forbidden.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/RespBasic'
-        '404':
-          description: Job not found.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/RespName'
-        '409':
-          description: Job is already in Terminal State (CANCELLED, FINISHED or FAILED). Job state conflicts with the cancel request. No action taken
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/RespName'
         '500':
           description: Server error.
           content:
@@ -898,6 +829,298 @@ paths:
                 $ref: '#/components/schemas/RespBasic'
       security:
         - TapisJWT: []
+  /jobs/{jobUuid}/hide:
+    post:
+      tags:
+        - Jobs
+      description: |-
+        Hide a job by its UUID.
+
+        The caller must be the job owner, creator or a tenant administrator.
+      operationId: hideJob
+      parameters:
+        - name: jobUuid
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          'application/json':
+            schema:
+              type: object
+              nullable: true
+      responses:
+        '200':
+          description: Hide the job successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RespHideJob'
+        '400':
+          description: Input error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RespBasic'
+        '401':
+          description: Not authorized.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RespBasic'
+        '403':
+          description: Forbidden.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RespBasic'
+        '404':
+          description: Job not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RespName'
+        '409':
+          description: Job is already in Terminal State (CANCELLED, FINISHED or FAILED). Job state conflicts with the cancel request. No action taken
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RespName'
+        '500':
+          description: Server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RespBasic'
+      security:
+        - TapisJWT: []
+  /jobs/{jobUuid}/unhide:
+    post:
+      tags:
+        - Jobs
+      description: |-
+        Un-hide a job by its UUID.
+
+        The caller must be the job owner, creator or a tenant administrator.
+      operationId: unhideJob
+      parameters:
+        - name: jobUuid
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          'application/json':
+            schema:
+              type: object
+              nullable: true
+      responses:
+        '200':
+          description: Unhide the job successfuly.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RespHideJob'
+        '400':
+          description: Input error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RespBasic'
+        '401':
+          description: Not authorized.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RespBasic'
+        '403':
+          description: Forbidden.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RespBasic'
+        '404':
+          description: Job not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RespName'
+        '409':
+          description: Job is already in Terminal State (CANCELLED, FINISHED or FAILED). Job state conflicts with the cancel request. No action taken
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RespName'
+        '500':
+          description: Server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RespBasic'
+      security:
+        - TapisJWT: []
+  /jobs/{jobUuid}/annotations:
+    patch:
+      tags:
+        - Jobs
+      description: |-
+        Adding tags or notes with the following behavior:
+        ## Behavior
+          - **Tags**: Repetitive tags will be ignored (case-sensitive merging)
+          - **Notes**: Old notes will be updated with new values if the key is the same
+          - If any of the tags/notes field is missing in the request body, the corresponding field in jobs will not be touched.
+
+        ## Limits
+          - Total number of bytes of tags/notes: **128KB maximum**. 
+          - Depending on the byte-length of the characters, tags and notes can have 32768 (4-byte) - 131072 (ASCII) UTF-8 characters.
+          - Overall, there is no guarantee of success if tags/notes exceed 32768 UTF-8 characters.
+
+        ## Authorization 
+          - Caller must be the job owner, creator, or tenant administrator
+
+        **Note**: This operation merges new data with existing annotations rather than replacing them.
+      operationId: patchJobAnnotations
+      parameters:
+        - name: jobUuid
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          'application/json':
+            schema:
+              $ref: '#/components/schemas/ReqJobAnnotation'
+        required: true
+      responses:
+        '200':
+          description: Job annotations updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RespJobAnnotations'
+        '400':
+          description: Input error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RespBasic'
+        '401':
+          description: Not authorized.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RespBasic'
+        '403':
+          description: Forbidden.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RespBasic'
+        '404':
+          description: Job not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RespName'
+        '409':
+          description: Job state is not valid for updating annotations.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RespName'
+        '500':
+          description: Server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RespBasic'
+      security:
+        - TapisJWT: []
+    put:
+      tags:
+        - Jobs
+      description: |-
+        Replace tags or notes with the provided values.
+        
+        ## Behavior
+          - **Tags**: Completely replaces existing tags with the provided array
+          - **Notes**: Completely replaces existing notes with the provided JSON object
+          - **Clearing Data**: 
+            - Provide empty array `[]` for tags to remove all tags
+            - Provide empty object `{}` for notes to remove all notes
+          - If any of the tags/notes field is missing in the request body, the corresponding field in jobs will not be touched.
+        
+        ## Limits
+          - Total number of bytes of tags/notes: **128KB maximum**. 
+          - Depending on the byte-length of the characters, tags and notes can have 32768 (4-byte) - 131072 (ASCII) UTF-8 characters.
+          - Overall, there is no guarantee of success if tags/notes exceed 32768 UTF-8 characters.
+        
+        ## Authorization
+          - The caller must be the job owner, creator, or a tenant administrator.
+        
+        **Note**: This operation completely replaces existing annotations rather than merging them.
+      operationId: putJobAnnotations
+      parameters:
+        - name: jobUuid
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          'application/json':
+            schema:
+              $ref: '#/components/schemas/ReqJobAnnotation'
+        required: true
+      responses:
+        '200':
+          description: Job annotations updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RespJobAnnotations'
+        '400':
+          description: Input error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RespBasic'
+        '401':
+          description: Not authorized.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RespBasic'
+        '403':
+          description: Forbidden.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RespBasic'
+        '404':
+          description: Job not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RespName'
+        '409':
+          description: Job state is not valid for updating annotations.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RespName'
+        '500':
+          description: Server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RespBasic'
+      security:
+        - TapisJWT: []
+
   /jobs/{jobUuid}/resubmit:
     post:
       tags:
@@ -1021,69 +1244,6 @@ paths:
                 $ref: '#/components/schemas/RespBasic'
       security:
         - TapisJWT: []
-  /jobs/submit:
-    post:
-      tags:
-        - Jobs
-      description: |-
-        Submit a job for execution.  The main phases of job execution are:
-
-          - validate input
-          - check resource availability
-          - stage input files
-          - stage application code
-          - launch application
-          - monitor application
-          - archive application output
-
-        At a minimum, the job name, application ID and application version must be specified in the request payload.
-        The optional parameters available in a job request provide great flexibility but must be considered in the
-        context of the application and system definitions. The actual values used during job execution are a combination
-        of the values in this request and those specified in the job's application and system definitions. It's often
-        desirable to keep the submission request simple by specifying common values in these other two definitions. See
-        the [Job Submission Request](https://tapis.readthedocs.io/en/latest/technical/jobs.html#the-job-submission-request)
-        documentation for details.
-      operationId: submitJob
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/ReqSubmitJob'
-        required: true
-      responses:
-        '200':
-          description: Job created.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/RespSubmitJob'
-        '400':
-          description: Input error.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/RespBasic'
-        '401':
-          description: Not authorized.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/RespBasic'
-        '403':
-          description: Forbidden.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/RespBasic'
-        '500':
-          description: Server error.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/RespBasic'
-      security:
-        - TapisJWT: []
-
   # --- Paths for Subscriptions ------------------------------------------
   /jobs/subscribe/{uuid}:
     delete:
@@ -1526,6 +1686,9 @@ components:
           type: string
         archiveOnAppError:
           type: boolean
+          deprecated: true
+        archiveMode:
+          $ref: '#/components/schemas/ArchiveModeEnum'
         dynamicExecSystem:
           type: boolean
         execSystemId:
@@ -1998,6 +2161,9 @@ components:
           type: string
         archiveOnAppError:
           type: boolean
+          deprecated: true
+        archiveMode:
+          $ref: '#/components/schemas/ArchiveModeEnum'
         dynamicExecSystem:
           type: boolean
         execSystemId:
@@ -2112,6 +2278,15 @@ components:
           type: string
         eventDetail:
           type: string
+    ReqJobAnnotation:
+      type: object
+      properties:
+        tags:
+          type: array
+          items:
+            type: string
+        notes:
+          type: object
 
     # -------------------------------------------------------------------------
     # --- Response objects ----------------------------------------------------
@@ -2434,6 +2609,23 @@ components:
           $ref: '#/components/schemas/ResultMetadata'
         result:
           $ref: '#/components/schemas/ResultResourceUrl'
+    RespJobAnnotations:
+      type: object
+      properties:
+        status:
+          type: string
+        message:
+          type: string
+        version:
+          type: string
+        commit:
+          type: string
+        build:
+          type: string
+        metadata:
+          $ref: '#/components/schemas/ResultMetadata'
+        result:
+          $ref: '#/components/schemas/JobAnnotationDisplay'
     # -------------------------------------------------------------------------
     # --- Result objects -----------------------------------------------------
     # -------------------------------------------------------------------------
@@ -2499,7 +2691,25 @@ components:
       properties:
         message:
           type: string
-
+    JobAnnotationDisplay:
+      type: object
+      properties:
+        uuid:
+          type: string
+        tags:
+          type: array
+          items:
+            type: string
+        notes:
+          type: object
+        
     # -------------------------------------------------------------------------
     # --- Enums ---------------------------------------------------------------
     # -------------------------------------------------------------------------
+    ArchiveModeEnum:
+      type: string
+      enum:
+        - ALWAYS
+        - SKIP_ON_FAIL
+        - NEVER
+      default: ALWAYS
