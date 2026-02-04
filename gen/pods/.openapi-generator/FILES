@@ -59,6 +59,7 @@ src/models/ModelsPodsNetworking.ts
 src/models/ModelsPodsResources.ts
 src/models/ModelsTemplatesTagsNetworking.ts
 src/models/ModelsTemplatesTagsResources.ts
+src/models/MountedBy.ts
 src/models/Networking.ts
 src/models/NewImage.ts
 src/models/NewPod.ts
@@ -125,6 +126,7 @@ src/models/ValidationError.ts
 src/models/ValidationErrorLocInner.ts
 src/models/VolumeMount.ts
 src/models/VolumeMounts.ts
+src/models/VolumeMountsValue.ts
 src/models/VolumePermissionsResponse.ts
 src/models/VolumeResponse.ts
 src/models/VolumeResponseModel.ts

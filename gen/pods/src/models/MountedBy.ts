@@ -14,33 +14,33 @@
 
 import { mapValues } from '../runtime';
 /**
- * Time (UTC) that this secret was created.
+ * Service-managed: Username who mounted this volume. Set automatically when volume_mounts are created/updated.
  * @export
- * @interface CreationTs2
+ * @interface MountedBy
  */
-export interface CreationTs2 {
+export interface MountedBy {
 }
 
 /**
- * Check if a given object implements the CreationTs2 interface.
+ * Check if a given object implements the MountedBy interface.
  */
-export function instanceOfCreationTs2(value: object): value is CreationTs2 {
+export function instanceOfMountedBy(value: object): value is MountedBy {
     return true;
 }
 
-export function CreationTs2FromJSON(json: any): CreationTs2 {
-    return CreationTs2FromJSONTyped(json, false);
+export function MountedByFromJSON(json: any): MountedBy {
+    return MountedByFromJSONTyped(json, false);
 }
 
-export function CreationTs2FromJSONTyped(json: any, ignoreDiscriminator: boolean): CreationTs2 {
+export function MountedByFromJSONTyped(json: any, ignoreDiscriminator: boolean): MountedBy {
     return json;
 }
 
-export function CreationTs2ToJSON(json: any): CreationTs2 {
-    return CreationTs2ToJSONTyped(json, false);
+export function MountedByToJSON(json: any): MountedBy {
+    return MountedByToJSONTyped(json, false);
 }
 
-export function CreationTs2ToJSONTyped(value?: CreationTs2 | null, ignoreDiscriminator: boolean = false): any {
+export function MountedByToJSONTyped(value?: MountedBy | null, ignoreDiscriminator: boolean = false): any {
     return value;
 }
 

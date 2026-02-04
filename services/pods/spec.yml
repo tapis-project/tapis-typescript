@@ -20,7 +20,7 @@ info:
   license:
     name: BSD 3.0
     url: https://github.com/tapis-project/pods_service
-  version: 1.9.1
+  version: 1.9.2
 paths:
   /traefik-config:
     get:
@@ -87,6 +87,18 @@ paths:
 
         Returns a list of templates.'
       operationId: list_templates
+      parameters:
+      - name: include_dependencies
+        in: query
+        required: false
+        schema:
+          type: boolean
+          description: Include dependency information (admin only). Shows which pods
+            and tags depend on each template tag.
+          default: false
+          title: Include Dependencies
+        description: Include dependency information (admin only). Shows which pods
+          and tags depend on each template tag.
       responses:
         '200':
           description: Successful Response
@@ -94,6 +106,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/TemplatesResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
     post:
       tags:
       - Templates
@@ -104,11 +122,11 @@ paths:
         Returns new template object.'
       operationId: add_template
       requestBody:
+        required: true
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/NewTemplate'
-        required: true
       responses:
         '200':
           description: Successful Response
@@ -141,6 +159,17 @@ paths:
           default: true
           title: Full
         description: Returns tag pod_definition with tag when full=true
+      - name: include_dependencies
+        in: query
+        required: false
+        schema:
+          type: boolean
+          description: Include dependency information (admin only). Shows which pods
+            and tags depend on each template tag.
+          default: false
+          title: Include Dependencies
+        description: Include dependency information (admin only). Shows which pods
+          and tags depend on each template tag.
       responses:
         '200':
           description: Successful Response
@@ -157,34 +186,6 @@ paths:
               schema:
                 $ref: '#/components/schemas/HTTPValidationError'
   /pods/templates/{template_id}:
-    get:
-      tags:
-      - Templates
-      summary: get_template
-      description: 'Get a template.
-
-
-        Returns retrieved templates object.'
-      operationId: get_template
-      parameters:
-      - required: true
-        schema:
-          title: Template Id
-        name: template_id
-        in: path
-      responses:
-        '200':
-          description: Successful Response
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/TemplateResponse'
-        '422':
-          description: Validation Error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/HTTPValidationError'
     put:
       tags:
       - Templates
@@ -253,6 +254,46 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/HTTPValidationError'
+    get:
+      tags:
+      - Templates
+      summary: get_template
+      description: 'Get a template.
+
+
+        Returns retrieved templates object.'
+      operationId: get_template
+      parameters:
+      - name: template_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Template Id
+      - name: include_dependencies
+        in: query
+        required: false
+        schema:
+          type: boolean
+          description: Include dependency information (admin only). Shows which pods
+            and tags depend on each template tag.
+          default: false
+          title: Include Dependencies
+        description: Include dependency information (admin only). Shows which pods
+          and tags depend on each template tag.
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TemplateResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
   /pods/templates/{template_id}/tags:
     get:
       tags:
@@ -290,6 +331,17 @@ paths:
           title: Include Configs
         description: 'Include full config_content for volume mounts using field. Default:
           false (shows placeholder with size)'
+      - name: include_dependencies
+        in: query
+        required: false
+        schema:
+          type: boolean
+          description: Include dependency information (admin only). Shows which pods
+            and tags depend on each template tag.
+          default: false
+          title: Include Dependencies
+        description: Include dependency information (admin only). Shows which pods
+          and tags depend on each template tag.
       responses:
         '200':
           description: Successful Response
@@ -507,6 +559,17 @@ paths:
           title: Include Configs
         description: 'Include full config_content for volume mounts using field. Default:
           false (shows placeholder with size)'
+      - name: include_dependencies
+        in: query
+        required: false
+        schema:
+          type: boolean
+          description: Include dependency information (admin only). Shows which pods
+            and tags depend on this template tag.
+          default: false
+          title: Include Dependencies
+        description: Include dependency information (admin only). Shows which pods
+          and tags depend on this template tag.
       responses:
         '200':
           description: Successful Response
@@ -524,6 +587,15 @@ paths:
       tags:
       - Templates
       summary: delete_template_tag
+      description: 'Delete a specific template tag. (Admin only)
+
+
+        If the tag has dependent pods or other template tags that inherit from it,
+
+        deletion will fail unless the `force=true` query parameter is provided.
+
+
+        Returns the deleted tag information.'
       operationId: delete_template_tag
       parameters:
       - name: template_id
@@ -538,6 +610,17 @@ paths:
         schema:
           type: string
           title: Tag Id
+      - name: force
+        in: query
+        required: false
+        schema:
+          type: boolean
+          description: Force deletion even if pods or other template tags depend on
+            this tag. Use with caution.
+          default: false
+          title: Force
+        description: Force deletion even if pods or other template tags depend on
+          this tag. Use with caution.
       responses:
         '200':
           description: Successful Response
@@ -3173,12 +3256,16 @@ components:
           description: Status requested by user, `ON`, `OFF`, or `RESTART`.
           default: 'ON'
         volume_mounts:
-          additionalProperties: true
+          additionalProperties:
+            anyOf:
+            - $ref: '#/components/schemas/VolumeMount'
+            - type: 'null'
           type: object
           title: Volume Mounts
-          description: 'Volume mounts keyed by mount_path. Ex: {"/data": {"type":
-            "tapisvolume", "source_id": "myvolume"}, "/etc/config.ini": {"type": "ephemeral",
-            "config_content": "key=value"}}'
+          description: 'Volume mounts keyed by mount_path. Values are VolumeMount
+            objects (see schema) or null (to remove inherited mount). Ex: {"/data":
+            {"type": "tapisvolume", "source_id": "myvolume"}, "/etc/config.ini": {"type":
+            "ephemeral", "config_content": "key=value"}}'
           default: {}
         time_to_stop_default:
           type: integer
@@ -3628,12 +3715,16 @@ components:
           description: Status requested by user, `ON`, `OFF`, or `RESTART`.
           default: 'ON'
         volume_mounts:
-          additionalProperties: true
+          additionalProperties:
+            anyOf:
+            - $ref: '#/components/schemas/VolumeMount'
+            - type: 'null'
           type: object
           title: Volume Mounts
-          description: 'Volume mounts keyed by mount_path. Ex: {"/data": {"type":
-            "tapisvolume", "source_id": "myvolume"}, "/etc/config.ini": {"type": "ephemeral",
-            "config_content": "key=value"}}'
+          description: 'Volume mounts keyed by mount_path. Values are VolumeMount
+            objects (see schema) or null (to remove inherited mount). Ex: {"/data":
+            {"type": "tapisvolume", "source_id": "myvolume"}, "/etc/config.ini": {"type":
+            "ephemeral", "config_content": "key=value"}}'
           default: {}
         time_to_stop_default:
           type: integer
@@ -4332,12 +4423,16 @@ components:
             ${:?desc} for required placeholders. Secrets resolved at pod start.
           default: {}
         volume_mounts:
-          additionalProperties: true
+          additionalProperties:
+            anyOf:
+            - $ref: '#/components/schemas/VolumeMount'
+            - type: 'null'
           type: object
           title: Volume Mounts
-          description: 'Volume mounts keyed by mount_path. Ex: {"/data": {"type":
-            "tapisvolume", "source_id": "myvolume"}, "/etc/config.ini": {"type": "ephemeral",
-            "config_content": "key=value"}}'
+          description: 'Volume mounts keyed by mount_path. For templates, tapisvolume/tapissnapshot
+            MUST use placeholder source_id (e.g., "${:?Description}"). Ex: {"/data":
+            {"type": "tapisvolume", "source_id": "${:?User data volume}"}, "/etc/config.ini":
+            {"type": "ephemeral", "config_content": "key=value"}}'
           default: {}
         time_to_stop_default:
           anyOf:
@@ -4513,14 +4608,18 @@ components:
           default: 'ON'
         volume_mounts:
           anyOf:
-          - items:
-              $ref: '#/components/schemas/VolumeMount'
-            type: array
+          - additionalProperties:
+              anyOf:
+              - $ref: '#/components/schemas/VolumeMount'
+              - type: 'null'
+            type: object
           - type: 'null'
           title: Volume Mounts
-          description: List of volume mounts. Each mount specifies type, source_id,
-            mount_path, and optionally sub_path and read_only.
-          default: []
+          description: 'Volume mounts keyed by mount_path. Values are VolumeMount
+            objects (see schema) or null (to remove inherited mount). Ex: {"/data":
+            {"type": "tapisvolume", "source_id": "myvolume"}, "/etc/config.ini": {"type":
+            "ephemeral", "config_content": "key=value"}}'
+          default: {}
         time_to_stop_default:
           anyOf:
           - type: integer
@@ -4693,6 +4792,11 @@ components:
       properties:
         type:
           type: string
+          enum:
+          - tapisvolume
+          - tapissnapshot
+          - ephemeral
+          - pvc
           title: Type
           description: 'Type of mount: ''tapisvolume'', ''tapissnapshot'', ''ephemeral'',
             or ''pvc''.'
@@ -4702,6 +4806,13 @@ components:
           - type: 'null'
           title: Source Id
           description: ID of the volume, snapshot, or PVC to mount. Required for tapisvolume/tapissnapshot/pvc.
+        mounted_by:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Mounted By
+          description: 'Service-managed: Username who mounted this volume. Set automatically
+            when volume_mounts are created/updated.'
         sub_path:
           type: string
           title: Sub Path
@@ -4764,7 +4875,10 @@ components:
         - config_content: For ephemeral type, the inline config file content (max
         1MB)
 
-        - config_permissions: For ephemeral type, Unix file permissions (default 0644)'
+        - config_permissions: For ephemeral type, Unix file permissions (default 0644)
+
+        - mounted_by: Service-managed field tracking which user mounted this volume
+        (set by API, not user)'
     VolumePermissionsResponse:
       properties:
         message:

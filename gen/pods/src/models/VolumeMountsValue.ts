@@ -41,6 +41,13 @@ import {
     SourceIdToJSON,
     SourceIdToJSONTyped,
 } from './SourceId';
+import type { VolumeMount } from './VolumeMount';
+import {
+    VolumeMountFromJSON,
+    VolumeMountFromJSONTyped,
+    VolumeMountToJSON,
+    VolumeMountToJSONTyped,
+} from './VolumeMount';
 import type { ConfigFilename } from './ConfigFilename';
 import {
     ConfigFilenameFromJSON,
@@ -50,73 +57,63 @@ import {
 } from './ConfigFilename';
 
 /**
- * Volume mount configuration for attaching volumes, snapshots, or inline configs to pods.
  * 
- * Object-keyed structure (v3) - mount_path is the key in volume_mounts dict:
- * - type: One of 'tapisvolume', 'tapissnapshot', 'ephemeral', 'pvc'
- * - source_id: Required for tapisvolume, tapissnapshot, pvc. Not used for ephemeral.
- * - sub_path: Optional sub-path within the source to mount (not applicable for ephemeral)
- * - read_only: Whether mount is read-only (default varies by type)
- * - config_content: For ephemeral type, the inline config file content (max 1MB)
- * - config_permissions: For ephemeral type, Unix file permissions (default 0644)
- * - mounted_by: Service-managed field tracking which user mounted this volume (set by API, not user)
  * @export
- * @interface VolumeMount
+ * @interface VolumeMountsValue
  */
-export interface VolumeMount {
-    [key: string]: any | any;
+export interface VolumeMountsValue {
     /**
      * Type of mount: 'tapisvolume', 'tapissnapshot', 'ephemeral', or 'pvc'.
      * @type {string}
-     * @memberof VolumeMount
+     * @memberof VolumeMountsValue
      */
-    type: VolumeMountTypeEnum;
+    type: VolumeMountsValueTypeEnum;
     /**
      * 
      * @type {SourceId}
-     * @memberof VolumeMount
+     * @memberof VolumeMountsValue
      */
     source_id?: SourceId;
     /**
      * 
      * @type {MountedBy}
-     * @memberof VolumeMount
+     * @memberof VolumeMountsValue
      */
     mounted_by?: MountedBy;
     /**
      * Sub-path within the source volume/snapshot to mount. Not used for ephemeral.
      * @type {string}
-     * @memberof VolumeMount
+     * @memberof VolumeMountsValue
      */
     sub_path?: string;
     /**
      * 
      * @type {ReadOnly}
-     * @memberof VolumeMount
+     * @memberof VolumeMountsValue
      */
     read_only?: ReadOnly;
     /**
      * 
      * @type {ConfigContent}
-     * @memberof VolumeMount
+     * @memberof VolumeMountsValue
      */
     config_content?: ConfigContent;
     /**
      * Unix file permissions for config file (e.g., '0644', '0600').
      * @type {string}
-     * @memberof VolumeMount
+     * @memberof VolumeMountsValue
      */
     config_permissions?: string;
     /**
      * 
      * @type {ConfigFilename}
-     * @memberof VolumeMount
+     * @memberof VolumeMountsValue
      */
     config_filename?: ConfigFilename;
     /**
      * Config update behavior: 'always' recreates config on each pod start, 'once' only creates if file/ConfigMap doesn't exist.
      * @type {string}
-     * @memberof VolumeMount
+     * @memberof VolumeMountsValue
      */
     config_update_mode?: string;
 }
@@ -125,34 +122,33 @@ export interface VolumeMount {
 /**
  * @export
  */
-export const VolumeMountTypeEnum = {
+export const VolumeMountsValueTypeEnum = {
     Tapisvolume: 'tapisvolume',
     Tapissnapshot: 'tapissnapshot',
     Ephemeral: 'ephemeral',
     Pvc: 'pvc'
 } as const;
-export type VolumeMountTypeEnum = typeof VolumeMountTypeEnum[keyof typeof VolumeMountTypeEnum];
+export type VolumeMountsValueTypeEnum = typeof VolumeMountsValueTypeEnum[keyof typeof VolumeMountsValueTypeEnum];
 
 
 /**
- * Check if a given object implements the VolumeMount interface.
+ * Check if a given object implements the VolumeMountsValue interface.
  */
-export function instanceOfVolumeMount(value: object): value is VolumeMount {
+export function instanceOfVolumeMountsValue(value: object): value is VolumeMountsValue {
     if (!('type' in value) || value['type'] === undefined) return false;
     return true;
 }
 
-export function VolumeMountFromJSON(json: any): VolumeMount {
-    return VolumeMountFromJSONTyped(json, false);
+export function VolumeMountsValueFromJSON(json: any): VolumeMountsValue {
+    return VolumeMountsValueFromJSONTyped(json, false);
 }
 
-export function VolumeMountFromJSONTyped(json: any, ignoreDiscriminator: boolean): VolumeMount {
+export function VolumeMountsValueFromJSONTyped(json: any, ignoreDiscriminator: boolean): VolumeMountsValue {
     if (json == null) {
         return json;
     }
     return {
         
-            ...json,
         'type': json['type'],
         'source_id': json['source_id'] == null ? undefined : SourceIdFromJSON(json['source_id']),
         'mounted_by': json['mounted_by'] == null ? undefined : MountedByFromJSON(json['mounted_by']),
@@ -165,18 +161,17 @@ export function VolumeMountFromJSONTyped(json: any, ignoreDiscriminator: boolean
     };
 }
 
-export function VolumeMountToJSON(json: any): VolumeMount {
-    return VolumeMountToJSONTyped(json, false);
+export function VolumeMountsValueToJSON(json: any): VolumeMountsValue {
+    return VolumeMountsValueToJSONTyped(json, false);
 }
 
-export function VolumeMountToJSONTyped(value?: VolumeMount | null, ignoreDiscriminator: boolean = false): any {
+export function VolumeMountsValueToJSONTyped(value?: VolumeMountsValue | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
 
     return {
         
-            ...value,
         'type': value['type'],
         'source_id': SourceIdToJSON(value['source_id']),
         'mounted_by': MountedByToJSON(value['mounted_by']),
