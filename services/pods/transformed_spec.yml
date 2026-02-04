@@ -1,4 +1,4 @@
-openapi: 3.0.5
+openapi: 3.1.0
 info:
   title: Tapis Pods Service
   description: >
@@ -23,12 +23,12 @@ info:
      The live-docs act as the most up-to-date API reference. Visit the [documentation for more information](https://tapis.readthedocs.io/en/latest/technical/pods.html).
   contact:
     name: CIC Support
-    url: https://tapis-project.org
+    url: https://tapis-project.org/
     email: cicsupport@tacc.utexas.edu
   license:
     name: BSD 3.0
     url: https://github.com/tapis-project/pods_service
-  version: 1.8.4
+  version: 1.9.1
 paths:
   /v3/traefik-config:
     get:
@@ -73,11 +73,11 @@ paths:
       description: Handles all error codes from Traefik.
       operationId: error_handler
       parameters:
-        - required: true
+        - name: status
+          in: path
+          required: true
           schema:
             title: Status
-          name: status
-          in: path
       responses:
         '200':
           description: Successful Response
@@ -146,15 +146,15 @@ paths:
         Returns a dictionary with templates and their tags.
       operationId: list_templates_and_tags
       parameters:
-        - description: Returns tag pod_definition with tag when full=true
+        - name: full
+          in: query
           required: false
           schema:
             type: boolean
-            title: Full
             description: Returns tag pod_definition with tag when full=true
             default: true
-          name: full
-          in: query
+            title: Full
+          description: Returns tag pod_definition with tag when full=true
       responses:
         '200':
           description: Successful Response
@@ -162,6 +162,7 @@ paths:
             application/json:
               schema:
                 type: object
+                additionalProperties: true
                 title: Response List Templates And Tags
         '422':
           description: Validation Error
@@ -175,7 +176,7 @@ paths:
         - Templates
       summary: get_template
       description: |-
-        Get a templates.
+        Get a template.
 
         Returns retrieved templates object.
       operationId: get_template
@@ -215,17 +216,17 @@ paths:
         Returns updated template object.
       operationId: update_template
       parameters:
-        - required: true
+        - name: template_id
+          in: path
+          required: true
           schema:
             title: Template Id
-          name: template_id
-          in: path
       requestBody:
+        required: true
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/UpdateTemplate'
-        required: true
       responses:
         '200':
           description: Successful Response
@@ -249,11 +250,11 @@ paths:
         Returns "".
       operationId: delete_template
       parameters:
-        - required: true
+        - name: template_id
+          in: path
+          required: true
           schema:
             title: Template Id
-          name: template_id
-          in: path
       responses:
         '200':
           description: Successful Response
@@ -278,21 +279,34 @@ paths:
         Returns the ledger of template tags
       operationId: list_template_tags
       parameters:
-        - required: true
+        - name: template_id
+          in: path
+          required: true
           schema:
             type: string
             title: Template Id
-          name: template_id
-          in: path
-        - description: Return pod_definition in tag when full=true
+        - name: full
+          in: query
           required: false
           schema:
             type: boolean
-            title: Full
             description: Return pod_definition in tag when full=true
             default: true
-          name: full
+            title: Full
+          description: Return pod_definition in tag when full=true
+        - name: include_configs
           in: query
+          required: false
+          schema:
+            type: boolean
+            description: >-
+              Include full config_content for volume mounts using field.
+              Default: false (shows placeholder with size)
+            default: false
+            title: Include Configs
+          description: >-
+            Include full config_content for volume mounts using field. Default:
+            false (shows placeholder with size)
       responses:
         '200':
           description: Successful Response
@@ -310,20 +324,50 @@ paths:
       tags:
         - Templates
       summary: add_template_tag
+      description: >-
+        Add a new tag to a template.
+
+
+        Template tags can include a ``pod_definition`` with ``secret_map`` to
+        define placeholders 
+
+        that users must or can optionally override when creating pods from this
+        template.
+
+
+        Secret Placeholders (25Q4 Feature):
+
+        - ``${pods:default:value:?description}`` - Placeholder with a default
+        value
+
+        - ``${:?description}`` - Required placeholder (pod creation fails if not
+        overridden)
+
+        - ``${secret:name}`` - Direct secret reference (for templates with
+        pre-configured secrets)
+
+
+        When users create pods from this template, they can override
+        placeholders with actual
+
+        secret references in their pod's ``secret_map``.
+
+
+        Returns new template tag object.
       operationId: add_template_tag
       parameters:
-        - required: true
+        - name: template_id
+          in: path
+          required: true
           schema:
             type: string
             title: Template Id
-          name: template_id
-          in: path
       requestBody:
+        required: true
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/NewTemplateTag'
-        required: true
       responses:
         '200':
           description: Successful Response
@@ -331,42 +375,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/TemplateTagResponse'
-        '422':
-          description: Validation Error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/HTTPValidationError'
-  /v3/pods/templates/{template_id}/tags/{tag_id}:
-    get:
-      tags:
-        - Templates
-      summary: get_template_tag
-      description: |-
-        Get a specific tag entry the template has
-
-        Returns the tag entry
-      operationId: get_template_tag
-      parameters:
-        - required: true
-          schema:
-            type: string
-            title: Template Id
-          name: template_id
-          in: path
-        - required: true
-          schema:
-            type: string
-            title: Tag Id
-          name: tag_id
-          in: path
-      responses:
-        '200':
-          description: Successful Response
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/TemplateTagsResponse'
         '422':
           description: Validation Error
           content:
@@ -395,11 +403,11 @@ paths:
         Returns all template permissions.
       operationId: get_template_permissions
       parameters:
-        - required: true
+        - name: template_id
+          in: path
+          required: true
           schema:
             title: Template Id
-          name: template_id
-          in: path
       responses:
         '200':
           description: Successful Response
@@ -417,23 +425,47 @@ paths:
       tags:
         - Permissions
       summary: set_template_permission
-      description: |-
+      description: >-
         Set a permission for a template.
+
+
+        Permission formats:
+
+        - username:LEVEL - Standard user permission (e.g., 'jsmith:READ')
+
+        - **:READ - Site-wide public access (all users across all tenants can
+        READ) [ADMIN ONLY]
+
+        - tenant.<tenant_id>:READ - Tenant-wide public access (all users in
+        specified tenant can READ) [ADMIN ONLY]
+
+
+        Notes:
+
+        - Both '**' and 'tenant.*' only allow READ level for security
+
+        - '**' and 'tenant.*' permissions require admin privileges
+
+        - There are 3 levels of permissions, READ, USER, and ADMIN.
+
+        - Permissions are granted to an individual usernames and are active
+        across tenants.
+
 
         Returns updated template permissions.
       operationId: set_template_permission
       parameters:
-        - required: true
+        - name: template_id
+          in: path
+          required: true
           schema:
             title: Template Id
-          name: template_id
-          in: path
       requestBody:
+        required: true
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/SetPermission'
-        required: true
       responses:
         '200':
           description: Successful Response
@@ -458,16 +490,16 @@ paths:
         Returns updated template permissions.
       operationId: delete_template_permission
       parameters:
-        - required: true
+        - name: template_id
+          in: path
+          required: true
           schema:
             title: Template Id
-          name: template_id
+        - name: user
           in: path
-        - required: true
+          required: true
           schema:
             title: User
-          name: user
-          in: path
       responses:
         '200':
           description: Successful Response
@@ -475,6 +507,86 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/TemplatePermissionsResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v3/pods/templates/{template_id}/tags/{tag_id}:
+    get:
+      tags:
+        - Templates
+      summary: get_template_tag
+      description: |-
+        Get a specific tag entry the template has
+
+        Returns the tag entry
+      operationId: get_template_tag
+      parameters:
+        - name: template_id
+          in: path
+          required: true
+          schema:
+            type: string
+            title: Template Id
+        - name: tag_id
+          in: path
+          required: true
+          schema:
+            type: string
+            title: Tag Id
+        - name: include_configs
+          in: query
+          required: false
+          schema:
+            type: boolean
+            description: >-
+              Include full config_content for volume mounts using field.
+              Default: false (shows placeholder with size)
+            default: false
+            title: Include Configs
+          description: >-
+            Include full config_content for volume mounts using field. Default:
+            false (shows placeholder with size)
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TemplateTagsResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    delete:
+      tags:
+        - Templates
+      summary: delete_template_tag
+      operationId: delete_template_tag
+      parameters:
+        - name: template_id
+          in: path
+          required: true
+          schema:
+            type: string
+            title: Template Id
+        - name: tag_id
+          in: path
+          required: true
+          schema:
+            type: string
+            title: Tag Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TemplateTagResponse'
         '422':
           description: Validation Error
           content:
@@ -537,24 +649,24 @@ paths:
         Returns new image objects.
       operationId: add_images
       parameters:
-        - description: Whether to skip duplicates or fail on duplicates.
+        - name: skip_duplicates
+          in: query
           required: false
           schema:
             type: boolean
-            title: Skip Duplicates
             description: Whether to skip duplicates or fail on duplicates.
             default: false
-          name: skip_duplicates
-          in: query
+            title: Skip Duplicates
+          description: Whether to skip duplicates or fail on duplicates.
       requestBody:
+        required: true
         content:
           application/json:
             schema:
+              type: array
               items:
                 $ref: '#/components/schemas/NewImage'
-              type: array
               title: New Images
-        required: true
       responses:
         '200':
           description: Successful Response
@@ -569,34 +681,6 @@ paths:
               schema:
                 $ref: '#/components/schemas/HTTPValidationError'
   /v3/pods/images/{image_id}:
-    get:
-      tags:
-        - Images
-      summary: get_image
-      description: |-
-        Get an image.
-
-        Returns retrieved image object.
-      operationId: get_image
-      parameters:
-        - required: true
-          schema:
-            title: Image Id
-          name: image_id
-          in: path
-      responses:
-        '200':
-          description: Successful Response
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ImageResponse'
-        '422':
-          description: Validation Error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/HTTPValidationError'
     delete:
       tags:
         - Images
@@ -607,11 +691,11 @@ paths:
         Returns "".
       operationId: delete_image
       parameters:
-        - required: true
+        - name: image_id
+          in: path
+          required: true
           schema:
             title: Image Id
-          name: image_id
-          in: path
       responses:
         '200':
           description: Successful Response
@@ -619,6 +703,37 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ImageDeleteResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    get:
+      tags:
+        - Images
+      summary: get_image
+      description: |-
+        Get an image.
+
+        Returns retrieved image object.
+      operationId: get_image
+      parameters:
+        - name: image_id
+          in: path
+          required: true
+          schema:
+            title: Image Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                anyOf:
+                  - $ref: '#/components/schemas/ImageResponse'
+                  - $ref: '#/components/schemas/ImageDeleteResponse'
+                title: Response Get Image
         '422':
           description: Validation Error
           content:
@@ -676,34 +791,6 @@ paths:
               schema:
                 $ref: '#/components/schemas/HTTPValidationError'
   /v3/pods/snapshots/{snapshot_id}:
-    get:
-      tags:
-        - Snapshots
-      summary: get_snapshot
-      description: |-
-        Get a snapshot.
-
-        Returns retrieved snapshot object.
-      operationId: get_snapshot
-      parameters:
-        - required: true
-          schema:
-            title: Snapshot Id
-          name: snapshot_id
-          in: path
-      responses:
-        '200':
-          description: Successful Response
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/SnapshotResponse'
-        '422':
-          description: Validation Error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/HTTPValidationError'
     put:
       tags:
         - Snapshots
@@ -721,17 +808,17 @@ paths:
         Returns updated snapshot object.
       operationId: update_snapshot
       parameters:
-        - required: true
+        - name: snapshot_id
+          in: path
+          required: true
           schema:
             title: Snapshot Id
-          name: snapshot_id
-          in: path
       requestBody:
+        required: true
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/UpdateSnapshot'
-        required: true
       responses:
         '200':
           description: Successful Response
@@ -755,11 +842,11 @@ paths:
         Returns "".
       operationId: delete_snapshot
       parameters:
-        - required: true
+        - name: snapshot_id
+          in: path
+          required: true
           schema:
             title: Snapshot Id
-          name: snapshot_id
-          in: path
       responses:
         '200':
           description: Successful Response
@@ -767,6 +854,34 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/DeleteSnapshotResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    get:
+      tags:
+        - Snapshots
+      summary: get_snapshot
+      description: |-
+        Get a snapshot.
+
+        Returns retrieved snapshot object.
+      operationId: get_snapshot
+      parameters:
+        - name: snapshot_id
+          in: path
+          required: true
+          schema:
+            title: Snapshot Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SnapshotResponse'
         '422':
           description: Validation Error
           content:
@@ -781,11 +896,11 @@ paths:
       description: List files in snapshot.
       operationId: list_snapshot_files
       parameters:
-        - required: true
+        - name: snapshot_id
+          in: path
+          required: true
           schema:
             title: Snapshot Id
-          name: snapshot_id
-          in: path
       responses:
         '200':
           description: Successful Response
@@ -815,35 +930,35 @@ paths:
         objects.
       operationId: get_snapshot_contents
       parameters:
-        - description: Unique identifier for the snapshot.
-          required: true
-          schema:
-            type: string
-            title: Snapshot Id
-            description: Unique identifier for the snapshot.
-          name: snapshot_id
+        - name: snapshot_id
           in: path
-        - description: >-
-            Path relative to the snapshot's root directory. Cannot be empty or
-            /.
           required: true
           schema:
             type: string
-            title: Path
+            description: Unique identifier for the snapshot.
+            title: Snapshot Id
+          description: Unique identifier for the snapshot.
+        - name: path
+          in: path
+          required: true
+          schema:
+            type: string
             description: >-
               Path relative to the snapshot's root directory. Cannot be empty or
               /.
-          name: path
-          in: path
-        - description: If true, directory contents are compressed using ZIP format.
+            title: Path
+          description: >-
+            Path relative to the snapshot's root directory. Cannot be empty or
+            /.
+        - name: zip
+          in: query
           required: false
           schema:
             type: boolean
-            title: Zip
             description: If true, directory contents are compressed using ZIP format.
             default: false
-          name: zip
-          in: query
+            title: Zip
+          description: If true, directory contents are compressed using ZIP format.
       responses:
         '200':
           description: A streamed response of the file contents.
@@ -852,6 +967,61 @@ paths:
               schema: {}
             application/octet-stream: {}
             application/zip: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v3/pods/snapshots/{snapshot_id}/download/{path}:
+    get:
+      tags:
+        - Snapshots
+      summary: download_snapshot_file
+      description: >-
+        Download a specific file from a Tapis Snapshot.
+
+
+        Efficiently handles large files (100MB - 10GB) from NFS-backed storage
+        by streaming in chunks.
+
+
+        Note:
+
+        - This endpoint is for downloading individual files
+
+        - For directories, use get_snapshot_contents with zip=true
+
+        - Path cannot be empty or / to prevent downloading entire snapshot
+      operationId: download_snapshot_file
+      parameters:
+        - name: snapshot_id
+          in: path
+          required: true
+          schema:
+            type: string
+            description: Unique identifier for the snapshot.
+            title: Snapshot Id
+          description: Unique identifier for the snapshot.
+        - name: path
+          in: path
+          required: true
+          schema:
+            type: string
+            description: >-
+              Path to the file relative to the snapshot's root directory. Cannot
+              be empty or /.
+            title: Path
+          description: >-
+            Path to the file relative to the snapshot's root directory. Cannot
+            be empty or /.
+      responses:
+        '200':
+          description: A streamed response of the file contents.
+          content:
+            application/json:
+              schema: {}
+            application/octet-stream: {}
         '422':
           description: Validation Error
           content:
@@ -873,11 +1043,11 @@ paths:
         Returns all volue permissions.
       operationId: get_snapshot_permissions
       parameters:
-        - required: true
+        - name: snapshot_id
+          in: path
+          required: true
           schema:
             title: Snapshot Id
-          name: snapshot_id
-          in: path
       responses:
         '200':
           description: Successful Response
@@ -901,17 +1071,17 @@ paths:
         Returns updated snapshot permissions.
       operationId: set_snapshot_permission
       parameters:
-        - required: true
+        - name: snapshot_id
+          in: path
+          required: true
           schema:
             title: Snapshot Id
-          name: snapshot_id
-          in: path
       requestBody:
+        required: true
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/SetPermission'
-        required: true
       responses:
         '200':
           description: Successful Response
@@ -936,16 +1106,16 @@ paths:
         Returns updated snapshot permissions.
       operationId: delete_snapshot_permission
       parameters:
-        - required: true
+        - name: snapshot_id
+          in: path
+          required: true
           schema:
             title: Snapshot Id
-          name: snapshot_id
+        - name: user
           in: path
-        - required: true
+          required: true
           schema:
             title: User
-          name: user
-          in: path
       responses:
         '200':
           description: Successful Response
@@ -1016,34 +1186,6 @@ paths:
               schema:
                 $ref: '#/components/schemas/HTTPValidationError'
   /v3/pods/volumes/{volume_id}:
-    get:
-      tags:
-        - Volumes
-      summary: get_volume
-      description: |-
-        Get a volume.
-
-        Returns retrieved volume object.
-      operationId: get_volume
-      parameters:
-        - required: true
-          schema:
-            title: Volume Id
-          name: volume_id
-          in: path
-      responses:
-        '200':
-          description: Successful Response
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/VolumeResponse'
-        '422':
-          description: Validation Error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/HTTPValidationError'
     put:
       tags:
         - Volumes
@@ -1061,17 +1203,17 @@ paths:
         Returns updated volume object.
       operationId: update_volume
       parameters:
-        - required: true
+        - name: volume_id
+          in: path
+          required: true
           schema:
             title: Volume Id
-          name: volume_id
-          in: path
       requestBody:
+        required: true
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/UpdateVolume'
-        required: true
       responses:
         '200':
           description: Successful Response
@@ -1095,11 +1237,11 @@ paths:
         Returns "".
       operationId: delete_volume
       parameters:
-        - required: true
+        - name: volume_id
+          in: path
+          required: true
           schema:
             title: Volume Id
-          name: volume_id
-          in: path
       responses:
         '200':
           description: Successful Response
@@ -1107,6 +1249,34 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/DeleteVolumeResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    get:
+      tags:
+        - Volumes
+      summary: get_volume
+      description: |-
+        Get a volume.
+
+        Returns retrieved volume object.
+      operationId: get_volume
+      parameters:
+        - name: volume_id
+          in: path
+          required: true
+          schema:
+            title: Volume Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VolumeResponse'
         '422':
           description: Validation Error
           content:
@@ -1121,11 +1291,11 @@ paths:
       description: List files in volume.
       operationId: list_volume_files
       parameters:
-        - required: true
+        - name: volume_id
+          in: path
+          required: true
           schema:
             title: Volume Id
-          name: volume_id
-          in: path
       responses:
         '200':
           description: Successful Response
@@ -1154,33 +1324,33 @@ paths:
         objects.
       operationId: get_volume_contents
       parameters:
-        - description: Unique identifier for the volume.
-          required: true
-          schema:
-            type: string
-            title: Volume Id
-            description: Unique identifier for the volume.
-          name: volume_id
+        - name: volume_id
           in: path
-        - description: Path relative to the volume's root directory. Cannot be empty or /.
           required: true
           schema:
             type: string
-            title: Path
+            description: Unique identifier for the volume.
+            title: Volume Id
+          description: Unique identifier for the volume.
+        - name: path
+          in: path
+          required: true
+          schema:
+            type: string
             description: >-
               Path relative to the volume's root directory. Cannot be empty or
               /.
-          name: path
-          in: path
-        - description: If true, directory contents are compressed using ZIP format.
+            title: Path
+          description: Path relative to the volume's root directory. Cannot be empty or /.
+        - name: zip
+          in: query
           required: false
           schema:
             type: boolean
-            title: Zip
             description: If true, directory contents are compressed using ZIP format.
             default: false
-          name: zip
-          in: query
+            title: Zip
+          description: If true, directory contents are compressed using ZIP format.
       responses:
         '200':
           description: A streamed response of the file contents.
@@ -1203,32 +1373,32 @@ paths:
       description: Upload to volume.
       operationId: upload_to_volume
       parameters:
-        - description: Unique identifier for the volume.
-          required: true
-          schema:
-            type: string
-            title: Volume Id
-            description: Unique identifier for the volume.
-          name: volume_id
+        - name: volume_id
           in: path
-        - description: >-
-            Path within the volume where the file will be uploaded. Cannot be
-            empty or /.
           required: true
           schema:
             type: string
-            title: Path
+            description: Unique identifier for the volume.
+            title: Volume Id
+          description: Unique identifier for the volume.
+        - name: path
+          in: path
+          required: true
+          schema:
+            type: string
             description: >-
               Path within the volume where the file will be uploaded. Cannot be
               empty or /.
-          name: path
-          in: path
+            title: Path
+          description: >-
+            Path within the volume where the file will be uploaded. Cannot be
+            empty or /.
       requestBody:
+        required: true
         content:
           multipart/form-data:
             schema:
               $ref: '#/components/schemas/Body_upload_to_volume'
-        required: true
       responses:
         '200':
           description: Successful Response
@@ -1236,6 +1406,61 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/FilesUploadResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v3/pods/volumes/{volume_id}/download/{path}:
+    get:
+      tags:
+        - Volumes
+      summary: download_volume_file
+      description: >-
+        Download a specific file from a Tapis Volume.
+
+
+        Efficiently handles large files (100MB - 10GB) from NFS-backed storage
+        by streaming in chunks.
+
+
+        Note:
+
+        - This endpoint is for downloading individual files
+
+        - For directories, use get_volume_contents with zip=true
+
+        - Path cannot be empty or / to prevent downloading entire volume
+      operationId: download_volume_file
+      parameters:
+        - name: volume_id
+          in: path
+          required: true
+          schema:
+            type: string
+            description: Unique identifier for the volume.
+            title: Volume Id
+          description: Unique identifier for the volume.
+        - name: path
+          in: path
+          required: true
+          schema:
+            type: string
+            description: >-
+              Path to the file relative to the volume's root directory. Cannot
+              be empty or /.
+            title: Path
+          description: >-
+            Path to the file relative to the volume's root directory. Cannot be
+            empty or /.
+      responses:
+        '200':
+          description: A streamed response of the file contents.
+          content:
+            application/json:
+              schema: {}
+            application/octet-stream: {}
         '422':
           description: Validation Error
           content:
@@ -1257,11 +1482,11 @@ paths:
         Returns all volue permissions.
       operationId: get_volume_permissions
       parameters:
-        - required: true
+        - name: volume_id
+          in: path
+          required: true
           schema:
             title: Volume Id
-          name: volume_id
-          in: path
       responses:
         '200':
           description: Successful Response
@@ -1285,17 +1510,17 @@ paths:
         Returns updated volume permissions.
       operationId: set_volume_permission
       parameters:
-        - required: true
+        - name: volume_id
+          in: path
+          required: true
           schema:
             title: Volume Id
-          name: volume_id
-          in: path
       requestBody:
+        required: true
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/SetPermission'
-        required: true
       responses:
         '200':
           description: Successful Response
@@ -1320,16 +1545,16 @@ paths:
         Returns updated volume permissions.
       operationId: delete_volume_permission
       parameters:
-        - required: true
+        - name: volume_id
+          in: path
+          required: true
           schema:
             title: Volume Id
-          name: volume_id
+        - name: user
           in: path
-        - required: true
+          required: true
           schema:
             title: User
-          name: user
-          in: path
       responses:
         '200':
           description: Successful Response
@@ -1377,24 +1602,357 @@ paths:
         Input: multipart form (file), and 'path' (destination in Jupyter).
       operationId: upload_to_jupyter
       parameters:
-        - required: true
+        - name: pod_id
+          in: path
+          required: true
           schema:
             type: string
             title: Pod Id
-          name: pod_id
-          in: path
       requestBody:
+        required: true
         content:
           multipart/form-data:
             schema:
               $ref: '#/components/schemas/Body_upload_to_jupyter'
-        required: true
       responses:
         '200':
           description: Successful Response
           content:
             application/json:
               schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v3/pods/secrets:
+    get:
+      tags:
+        - Secrets
+      summary: list_secrets
+      description: >-
+        Get all secrets you have permission to access.
+
+
+        25Q4 Feature: Pods Secrets allow secure injection of credentials into
+        pods.
+
+
+        Note:
+
+        - Returns metadata only, not secret values (use GET
+        /secrets/{name}/value).
+
+        - Filter shows only secrets where you have READ+ permission.
+
+
+        Returns a list of secrets (without secret values).
+      operationId: list_secrets
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SecretsResponse'
+    post:
+      tags:
+        - Secrets
+      summary: create_secret
+      description: >-
+        Create a secret with inputted information.
+
+
+        25Q4 Feature: Pods Secrets allow secure injection of credentials into
+        pods.
+
+
+        Notes:
+
+        - This endpoint creates new secrets only. Returns 409 Conflict if
+        secret_id already exists.
+
+        - To update an existing secret, use PUT /pods/secrets/{secret_id}.
+
+        - Secrets are stored securely in Tapis Security Kernel (SK).
+
+        - Secret names are automatically namespaced:
+        ``pods_{tenant}_user_{username}_{name}``
+
+        - Only initial ADMIN can use this secret in pods unless you grant
+        permissions.
+
+        - Use ``secret_map`` in pod definitions to inject as environment
+        variables.
+
+        - All secret operations are logged
+
+
+        Request Body Fields:
+
+        - **secret_id** (required): Alphanumeric name with underscores/dashes
+        allowed (max 100 chars)
+
+        - **secret_value** (required): The actual secret value to store securely
+
+        - **description** (optional): ASCII description (max 500 chars)
+
+        - **scope** (optional): ``user`` (default) or ``pod`` - determines
+        secret visibility
+
+        - **pod_id** (optional): Required if scope is ``pod``, must be omitted
+        if scope is ``user``
+
+        - **readable** (optional): ``true`` (default) or ``false`` - controls if
+        value can be retrieved via API
+
+        - **writable** (optional): ``true`` (default) or ``false`` - controls if
+        value can be updated via PUT
+
+
+        Access Mode Combinations:
+
+        - ``readable=true, writable=true`` (default): Full access - value can be
+        read and updated
+
+        - ``readable=true, writable=false``: Read-only - value can be read but
+        not updated (write-once)
+
+        - ``readable=false, writable=true``: Write-only - value can be updated
+        but not read via API
+
+        - ``readable=false, writable=false``: Locked - value cannot be read or
+        updated, only used via pod injection
+
+
+        Note: Pod injection via ``secret_map`` always works regardless of
+        ``readable`` setting.
+
+
+        Usage in Pods:
+
+        After creating a secret, reference it in your pod's ``secret_map``;
+        after that, reference it with ${} in the fields that support secrets::
+
+            {
+                "secret_map": {
+                    "DB_PASSWORD": "${secret:my_db_secret}"
+                },
+                "environment_variables": {
+                    "DATABASE_URL": "postgres://user:${pods:secrets:DB_PASSWORD}@localhost/db"
+                }
+            }
+
+        Returns new secret object (without the secret value).
+      operationId: create_secret
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NewSecret'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SecretResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v3/pods/secrets/{secret_id}:
+    get:
+      tags:
+        - Secrets
+      summary: get_secret
+      description: >-
+        Get secret metadata (not the secret value itself).
+
+
+        25Q4 Feature: Pods Secrets allow secure injection of credentials into
+        pods.
+
+
+        Note:
+
+        - Returns metadata only. Use GET /secrets/{name}/value to retrieve the
+        actual value.
+
+        - Requires READ permission on the secret.
+
+
+        Returns secret metadata.
+      operationId: get_secret
+      parameters:
+        - name: secret_id
+          in: path
+          required: true
+          schema:
+            type: string
+            title: Secret Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SecretResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    put:
+      tags:
+        - Secrets
+      summary: update_secret
+      description: >-
+        Update a secret's description and/or value.
+
+
+        25Q4 Feature: Pods Secrets allow secure injection of credentials into
+        pods.
+
+
+        Note:
+
+        - Requires USER permission on the secret.
+
+        - Secrets with ``writable=False`` cannot have their values updated
+        (write-once secrets).
+
+        - Description updates are always allowed regardless of ``writable``
+        setting.
+
+        - Updates are logged.
+
+        - Pods using this secret will get the new value on next start/restart.
+
+
+        Returns updated secret metadata.
+      operationId: update_secret
+      parameters:
+        - name: secret_id
+          in: path
+          required: true
+          schema:
+            type: string
+            title: Secret Id
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateSecret'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SecretResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    delete:
+      tags:
+        - Secrets
+      summary: delete_secret
+      description: >-
+        Delete a secret from both the database and Security Kernel (SK).
+
+
+        25Q4 Feature: Pods Secrets allow secure injection of credentials into
+        pods.
+
+
+        Note:
+
+        - Requires ADMIN permission on the secret (only the creator has this by
+        default).
+
+        - This operation is permanent and cannot be undone.
+
+        - Pods currently using this secret will fail to start until the secret
+        reference is removed or a new secret with the same name is created by
+        the pod owner.
+
+        - All delete operations are logged.
+
+
+        Returns the deleted secret name.
+      operationId: delete_secret
+      parameters:
+        - name: secret_id
+          in: path
+          required: true
+          schema:
+            type: string
+            title: Secret Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SecretDeleteResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v3/pods/secrets/{secret_id}/value:
+    get:
+      tags:
+        - Secrets
+      summary: get_secret_value
+      description: >-
+        Get the actual secret value from SK.
+
+
+        25Q4 Feature: Pods Secrets allow secure injection of credentials into
+        pods.
+
+
+        Note:
+
+        - Requires USER permission on the secret (higher than READ).
+
+        - Secrets with ``readable=False`` cannot have their values retrieved via
+        this endpoint.
+
+        - Pod injection via ``secret_map`` always works regardless of
+        ``readable`` setting.
+
+        - This operation is logged.
+
+
+        Returns the secret value.
+      operationId: get_secret_value
+      parameters:
+        - name: secret_id
+          in: path
+          required: true
+          schema:
+            type: string
+            title: Secret Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SecretValueResponse'
         '422':
           description: Validation Error
           content:
@@ -1458,34 +2016,6 @@ paths:
               schema:
                 $ref: '#/components/schemas/HTTPValidationError'
   /v3/pods/{pod_id}:
-    get:
-      tags:
-        - Pods
-      summary: get_pod
-      description: |-
-        Get a pod.
-
-        Returns retrieved pod object.
-      operationId: get_pod
-      parameters:
-        - required: true
-          schema:
-            title: Pod Id
-          name: pod_id
-          in: path
-      responses:
-        '200':
-          description: Successful Response
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/PodResponse'
-        '422':
-          description: Validation Error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/HTTPValidationError'
     put:
       tags:
         - Pods
@@ -1503,17 +2033,17 @@ paths:
         Returns updated pod object.
       operationId: update_pod
       parameters:
-        - required: true
+        - name: pod_id
+          in: path
+          required: true
           schema:
             title: Pod Id
-          name: pod_id
-          in: path
       requestBody:
+        required: true
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/UpdatePod'
-        required: true
       responses:
         '200':
           description: Successful Response
@@ -1537,11 +2067,11 @@ paths:
         Returns "".
       operationId: delete_pod
       parameters:
-        - required: true
+        - name: pod_id
+          in: path
+          required: true
           schema:
             title: Pod Id
-          name: pod_id
-          in: path
       responses:
         '200':
           description: Successful Response
@@ -1555,22 +2085,116 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/HTTPValidationError'
+    get:
+      tags:
+        - Pods
+      summary: get_pod
+      description: >-
+        Get a pod.
+
+
+        Returns retrieved pod object.
+
+
+        Use check_unresolved=true to detect any ${...} patterns that haven't
+        been resolved.
+      operationId: get_pod
+      parameters:
+        - name: pod_id
+          in: path
+          required: true
+          schema:
+            type: string
+            title: Pod Id
+        - name: include_configs
+          in: query
+          required: false
+          schema:
+            type: boolean
+            description: >-
+              Include full config_content for volume mounts using field.
+              Default: false (shows placeholder with size)
+            default: false
+            title: Include Configs
+          description: >-
+            Include full config_content for volume mounts using field. Default:
+            false (shows placeholder with size)
+        - name: check_unresolved
+          in: query
+          required: false
+          schema:
+            type: boolean
+            description: >-
+              Check for unresolved ${...} patterns and include in metadata.
+              Default: True
+            default: true
+            title: Check Unresolved
+          description: >-
+            Check for unresolved ${...} patterns and include in metadata.
+            Default: True
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PodResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
   /v3/pods/{pod_id}/derived:
     get:
       tags:
         - Pods
       summary: get_derived_pod
-      description: |-
+      description: >-
         Derive a pod's final definition if templates are used.
 
+
         Returns final pod definition to be used for pod creation.
+
+
+        Use resolve_secrets=true (admin only) to preview how secrets will be
+        interpolated
+
+        into environment_variables and config_content.
       operationId: get_derived_pod
       parameters:
-        - required: true
-          schema:
-            title: Pod Id
-          name: pod_id
+        - name: pod_id
           in: path
+          required: true
+          schema:
+            type: string
+            title: Pod Id
+        - name: include_configs
+          in: query
+          required: false
+          schema:
+            type: boolean
+            description: >-
+              Include full config_content for volume mounts using field.
+              Default: false (shows placeholder with size)
+            default: false
+            title: Include Configs
+          description: >-
+            Include full config_content for volume mounts using field. Default:
+            false (shows placeholder with size)
+        - name: resolve_secrets
+          in: query
+          required: false
+          schema:
+            type: boolean
+            description: >-
+              Resolve and show actual secret values (admin only). Default:
+              false. Use to preview how secrets will be interpolated.
+            default: false
+            title: Resolve Secrets
+          description: >-
+            Resolve and show actual secret values (admin only). Default: false.
+            Use to preview how secrets will be interpolated.
       responses:
         '200':
           description: Successful Response
@@ -1602,11 +2226,11 @@ paths:
         Returns user accessible credentials.
       operationId: get_pod_credentials
       parameters:
-        - required: true
+        - name: pod_id
+          in: path
+          required: true
           schema:
             title: Pod Id
-          name: pod_id
-          in: path
       responses:
         '200':
           description: Successful Response
@@ -1642,11 +2266,11 @@ paths:
         Returns pod stdout logs and action logs.
       operationId: get_pod_logs
       parameters:
-        - required: true
+        - name: pod_id
+          in: path
+          required: true
           schema:
             title: Pod Id
-          name: pod_id
-          in: path
       responses:
         '200':
           description: Successful Response
@@ -1675,11 +2299,11 @@ paths:
         Returns all pod permissions.
       operationId: get_pod_permissions
       parameters:
-        - required: true
+        - name: pod_id
+          in: path
+          required: true
           schema:
             title: Pod Id
-          name: pod_id
-          in: path
       responses:
         '200':
           description: Successful Response
@@ -1703,17 +2327,17 @@ paths:
         Returns updated pod permissions.
       operationId: set_pod_permission
       parameters:
-        - required: true
+        - name: pod_id
+          in: path
+          required: true
           schema:
             title: Pod Id
-          name: pod_id
-          in: path
       requestBody:
+        required: true
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/SetPermission'
-        required: true
       responses:
         '200':
           description: Successful Response
@@ -1751,17 +2375,17 @@ paths:
         - Execution duration
       operationId: exec_pod_commands
       parameters:
-        - required: true
+        - name: pod_id
+          in: path
+          required: true
           schema:
             title: Pod Id
-          name: pod_id
-          in: path
       requestBody:
+        required: true
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/ExecutePodCommands'
-        required: true
       responses:
         '200':
           description: Successful Response
@@ -1780,22 +2404,152 @@ paths:
         - Pods
       summary: Upload a file directly into the pod's filesystem
       description: >-
-        Upload a file to a specific path inside the pod using Kubernetes
-        exec/copy (chunked streaming, no temp file).
+        Upload a file to a specific path inside the pod using Kubernetes exec.
+
+
+        Notes:
+
+        - Pod must have /bin/sh available (most standard images include this)
+
+        - Distroless or minimal images without a shell will not work with this
+        endpoint.
       operationId: upload_to_pod
       parameters:
-        - required: true
+        - name: pod_id
+          in: path
+          required: true
           schema:
             type: string
             title: Pod Id
-          name: pod_id
-          in: path
       requestBody:
+        required: true
         content:
           multipart/form-data:
             schema:
               $ref: '#/components/schemas/Body_upload_to_pod'
-        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v3/pods/{pod_id}/list_files{url_path}:
+    get:
+      tags:
+        - Pods
+      summary: List files in the pod's filesystem
+      description: >-
+        List files and directories at a specific path inside the pod using
+        Kubernetes exec.
+
+
+        Path options (use one, not both):
+
+        - URL path: Relative paths only (e.g., /list_files/mydir -> "mydir")
+
+        - Query parameter: Absolute paths allowed (e.g., ?path=/tmp -> "/tmp")
+
+
+        Notes:
+
+        - Pod must have /bin/sh and ls available (most standard images include
+        these)
+
+        - Distroless or minimal images without a shell will return a 500 error.
+      operationId: list_files_in_pod
+      parameters:
+        - name: pod_id
+          in: path
+          required: true
+          schema:
+            type: string
+            description: Unique identifier for the pod.
+            title: Pod Id
+          description: Unique identifier for the pod.
+        - name: url_path
+          in: path
+          required: true
+          schema:
+            type: string
+            description: Path to list files from inside the pod.
+            title: Url Path
+          description: Path to list files from inside the pod.
+        - name: path
+          in: query
+          required: false
+          schema:
+            type: string
+            description: Alternative query parameter for path.
+            title: Path
+          description: Alternative query parameter for path.
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /v3/pods/{pod_id}/download_from_pod{url_path}:
+    get:
+      tags:
+        - Pods
+      summary: Download a file from the pod's filesystem
+      description: >-
+        Download a file from a specific path inside the pod using Kubernetes
+        exec.
+
+
+        Path options (use one, not both):
+
+        - URL path: Relative paths only (e.g., /download_from_pod/myfile.txt ->
+        "myfile.txt")
+
+        - Query parameter: Absolute paths allowed (e.g., ?path=/tmp/myfile.txt
+        -> "/tmp/myfile.txt")
+
+
+        Notes:
+
+        - Pod must have /bin/sh and base64 available (most standard images
+        include these)
+
+        - Distroless or minimal images without a shell or base64 will not work
+        with this endpoint.
+      operationId: download_from_pod
+      parameters:
+        - name: pod_id
+          in: path
+          required: true
+          schema:
+            type: string
+            description: Unique identifier for the pod.
+            title: Pod Id
+          description: Unique identifier for the pod.
+        - name: url_path
+          in: path
+          required: true
+          schema:
+            type: string
+            description: Path to the file inside the pod to download.
+            title: Url Path
+          description: Path to the file inside the pod to download.
+        - name: path
+          in: query
+          required: false
+          schema:
+            type: string
+            title: Path
       responses:
         '200':
           description: Successful Response
@@ -1819,16 +2573,16 @@ paths:
         Returns updated pod permissions.
       operationId: delete_pod_permission
       parameters:
-        - required: true
+        - name: pod_id
+          in: path
+          required: true
           schema:
             title: Pod Id
-          name: pod_id
+        - name: user
           in: path
-        - required: true
+          required: true
           schema:
             title: User
-          name: user
-          in: path
       responses:
         '200':
           description: Successful Response
@@ -1860,11 +2614,11 @@ paths:
         Returns updated pod object.
       operationId: stop_pod
       parameters:
-        - required: true
+        - name: pod_id
+          in: path
+          required: true
           schema:
             title: Pod Id
-          name: pod_id
-          in: path
       responses:
         '200':
           description: Successful Response
@@ -1892,11 +2646,11 @@ paths:
         Returns updated pod object.
       operationId: start_pod
       parameters:
-        - required: true
+        - name: pod_id
+          in: path
+          required: true
           schema:
             title: Pod Id
-          name: pod_id
-          in: path
       responses:
         '200':
           description: Successful Response
@@ -1932,18 +2686,18 @@ paths:
         Returns updated pod object.
       operationId: restart_pod
       parameters:
-        - required: true
+        - name: pod_id
+          in: path
+          required: true
           schema:
             title: Pod Id
-          name: pod_id
-          in: path
-        - required: false
+        - name: grab_latest_template_tag
+          in: query
+          required: false
           schema:
             type: boolean
-            title: Grab Latest Template Tag
             default: false
-          name: grab_latest_template_tag
-          in: query
+            title: Grab Latest Template Tag
       responses:
         '200':
           description: Successful Response
@@ -1976,17 +2730,17 @@ paths:
         Return the template tag object.
       operationId: save_pod_as_template_tag
       parameters:
-        - required: true
+        - name: pod_id_net
+          in: path
+          required: true
           schema:
             title: Pod Id Net
-          name: pod_id_net
-          in: path
       requestBody:
+        required: true
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/NewTemplateTagFromPod'
-        required: true
       responses:
         '200':
           description: Successful Response
@@ -2039,11 +2793,11 @@ paths:
          - tapis_auth_allowed_users, checks username against .lower() of username list to make sure it's in list. otherwise deny
       operationId: pod_auth
       parameters:
-        - required: true
+        - name: pod_id_net
+          in: path
+          required: true
           schema:
             title: Pod Id Net
-          name: pod_id_net
-          in: path
       responses:
         '200':
           description: Successful Response
@@ -2064,11 +2818,11 @@ paths:
       summary: pod_auth_callback
       operationId: pod_auth_callback
       parameters:
-        - required: true
+        - name: pod_id_net
+          in: path
+          required: true
           schema:
             title: Pod Id Net
-          name: pod_id_net
-          in: path
       responses:
         '200':
           description: Successful Response
@@ -2143,6 +2897,7 @@ components:
           type: string
           title: Message
         metadata:
+          additionalProperties: true
           type: object
           title: Metadata
         result:
@@ -2169,6 +2924,7 @@ components:
           type: string
           title: Message
         metadata:
+          additionalProperties: true
           type: object
           title: Metadata
         result:
@@ -2192,27 +2948,39 @@ components:
     ExecutePodCommands:
       properties:
         commands:
-          items:
-            type: string
-          type: array
+          anyOf:
+            - items:
+                type: string
+              type: array
+            - items:
+                items:
+                  type: string
+                type: array
+              type: array
           title: Commands
           description: >-
             List of commands to run in pod. ex. `['sleep 5000', 'ls -l']` or
             `[['sleep', '5000'], ['ls', '-l']]
         total_timeout:
-          type: integer
+          anyOf:
+            - type: integer
+            - type: 'null'
           title: Total Timeout
           description: >-
             Total time (sec) to wait for all commands to finish. Default 300
             seconds.
           default: 300
         command_timeout:
-          type: integer
+          anyOf:
+            - type: integer
+            - type: 'null'
           title: Command Timeout
           description: Time (sec) to wait for each command to finish. Default 60 seconds.
           default: 60
         fail_on_non_success:
-          type: boolean
+          anyOf:
+            - type: boolean
+            - type: 'null'
           title: Fail On Non Success
           description: If True, will fail if any command does not return 0. Default True.
           default: true
@@ -2262,6 +3030,7 @@ components:
           type: string
           title: Message
         metadata:
+          additionalProperties: true
           type: object
           title: Metadata
         result:
@@ -2290,6 +3059,7 @@ components:
           type: string
           title: Message
         metadata:
+          additionalProperties: true
           type: object
           title: Metadata
         result:
@@ -2325,6 +3095,7 @@ components:
           type: string
           title: Message
         metadata:
+          additionalProperties: true
           type: object
           title: Metadata
         result:
@@ -2351,6 +3122,7 @@ components:
           type: string
           title: Message
         metadata:
+          additionalProperties: true
           type: object
           title: Metadata
         result:
@@ -2389,10 +3161,13 @@ components:
           description: Description of image.
           default: ''
         creation_ts:
-          type: string
-          format: date-time
+          anyOf:
+            - type: string
+              format: date-time
+            - type: 'null'
           title: Creation Ts
           description: Time (UTC) that this image was created.
+          default: '2026-01-24T00:18:02.454803'
         added_by:
           type: string
           title: Added By
@@ -2410,6 +3185,7 @@ components:
           type: string
           title: Message
         metadata:
+          additionalProperties: true
           type: object
           title: Metadata
         result:
@@ -2501,23 +3277,41 @@ components:
           description: Description of this pod.
           default: ''
         command:
-          items:
-            type: string
-          type: array
+          anyOf:
+            - items:
+                type: string
+              type: array
+            - type: 'null'
           title: Command
           description: >-
             Command to run in pod. ex. `["sleep", "5000"]` or `["/bin/bash",
             "-c", "(exec myscript.sh)"]`
         arguments:
-          items:
-            type: string
-          type: array
+          anyOf:
+            - items:
+                type: string
+              type: array
+            - type: 'null'
           title: Arguments
           description: Arguments for the Pod's command.
         environment_variables:
+          additionalProperties: true
           type: object
           title: Environment Variables
-          description: Environment variables to inject into k8 pod; Only for custom pods.
+          description: >-
+            Environment variables to inject into k8 pod. Use
+            `${pods:secrets:KEY}` to reference secret_map entries.
+          default: {}
+        secret_map:
+          additionalProperties:
+            type: string
+          type: object
+          title: Secret Map
+          description: >-
+            Map of keys to secret values. Syntax: ${secret:name} (user secret),
+            ${secret:user:name} (explicit owner). Reference in
+            environment_variables via ${pods:secrets:KEY}. Resolved at pod
+            start.
           default: {}
         status_requested:
           type: string
@@ -2525,13 +3319,13 @@ components:
           description: Status requested by user, `ON`, `OFF`, or `RESTART`.
           default: 'ON'
         volume_mounts:
-          additionalProperties:
-            $ref: '#/components/schemas/models_pods__VolumeMount'
+          additionalProperties: true
           type: object
           title: Volume Mounts
           description: >-
-            Key: Volume name. Value: List of strs specifying volume
-            folders/files to mount in pod
+            Volume mounts keyed by mount_path. Ex: {"/data": {"type":
+            "tapisvolume", "source_id": "myvolume"}, "/etc/config.ini": {"type":
+            "ephemeral", "config_content": "key=value"}}
           default: {}
         time_to_stop_default:
           type: integer
@@ -2541,7 +3335,9 @@ components:
             unlimited. 12 hour default.
           default: 43200
         time_to_stop_instance:
-          type: integer
+          anyOf:
+            - type: integer
+            - type: 'null'
           title: Time To Stop Instance
           description: >-
             Time (sec) for pod to run from instance start. Reset each time
@@ -2559,9 +3355,7 @@ components:
               protocol: http
               port: 5000
         resources:
-          allOf:
-            - $ref: '#/components/schemas/models_pods__Resources'
-          title: Resources
+          $ref: '#/components/schemas/models_pods__Resources'
           description: >-
             Pod resource management `{"cpu_limit": 3000, "mem_limit": 3000,
             "cpu_request": 500, "mem_limit": 500, "gpus": 0}`
@@ -2571,12 +3365,72 @@ components:
           title: Compute Queue
           description: Queue to run pod in. `default` is the default queue.
           default: default
+        template_overrides:
+          anyOf:
+            - additionalProperties: true
+              type: object
+            - type: 'null'
+          title: Template Overrides
+          description: >-
+            Partial overrides for template values. Override volume_mounts or
+            secret_map values without rewriting full template field. Ex:
+            {"volume_mounts": {"/data": {"source_id": "my-vol"}}, "secret_map":
+            {"DB_PASS": "${secret:mypass}"}}
       additionalProperties: false
       type: object
       required:
         - pod_id
       title: NewPod
       description: Object with fields that users are allowed to specify for the Pod class.
+    NewSecret:
+      properties:
+        secret_id:
+          type: string
+          title: Secret Id
+          description: Name of the secret.
+        scope:
+          type: string
+          title: Scope
+          description: 'Scope of secret: ''user'' or ''pod'''
+          default: user
+        pod_id:
+          anyOf:
+            - type: string
+            - type: 'null'
+          title: Pod Id
+          description: Pod ID if scope is 'pod'
+        description:
+          type: string
+          title: Description
+          description: Description of this secret.
+          default: ''
+        readable:
+          type: boolean
+          title: Readable
+          description: >-
+            If True, secret value can be retrieved via GET /secrets/{id}/value.
+            Pod injection always works regardless of this setting.
+          default: true
+        writable:
+          type: boolean
+          title: Writable
+          description: >-
+            If True, secret value can be updated via PUT or POST recreation. If
+            False, secret is write-once.
+          default: true
+        secret_value:
+          type: string
+          title: Secret Value
+          description: The actual secret value to store.
+      additionalProperties: false
+      type: object
+      required:
+        - secret_id
+        - secret_value
+      title: NewSecret
+      description: >-
+        Object with fields that users are allowed to specify for the Secret
+        class.
     NewSnapshot:
       properties:
         snapshot_id:
@@ -2663,9 +3517,7 @@ components:
     NewTemplateTag:
       properties:
         pod_definition:
-          allOf:
-            - $ref: '#/components/schemas/TemplateTagPodDefinition'
-          title: Pod Definition
+          $ref: '#/components/schemas/TemplateTagPodDefinition'
           description: Pod definition for this template tag.
         commit_message:
           type: string
@@ -2753,6 +3605,7 @@ components:
           type: string
           title: Message
         metadata:
+          additionalProperties: true
           type: object
           title: Metadata
         result:
@@ -2778,6 +3631,7 @@ components:
           type: string
           title: Message
         metadata:
+          additionalProperties: true
           type: object
           title: Metadata
         result:
@@ -2804,6 +3658,7 @@ components:
           type: string
           title: Message
         metadata:
+          additionalProperties: true
           type: object
           title: Metadata
         result:
@@ -2829,6 +3684,7 @@ components:
           type: string
           title: Message
         metadata:
+          additionalProperties: true
           type: object
           title: Metadata
         result:
@@ -2854,6 +3710,7 @@ components:
           type: string
           title: Message
         metadata:
+          additionalProperties: true
           type: object
           title: Metadata
         result:
@@ -2899,23 +3756,41 @@ components:
           description: Description of this pod.
           default: ''
         command:
-          items:
-            type: string
-          type: array
+          anyOf:
+            - items:
+                type: string
+              type: array
+            - type: 'null'
           title: Command
           description: >-
             Command to run in pod. ex. `["sleep", "5000"]` or `["/bin/bash",
             "-c", "(exec myscript.sh)"]`
         arguments:
-          items:
-            type: string
-          type: array
+          anyOf:
+            - items:
+                type: string
+              type: array
+            - type: 'null'
           title: Arguments
           description: Arguments for the Pod's command.
         environment_variables:
+          additionalProperties: true
           type: object
           title: Environment Variables
-          description: Environment variables to inject into k8 pod; Only for custom pods.
+          description: >-
+            Environment variables to inject into k8 pod. Use
+            `${pods:secrets:KEY}` to reference secret_map entries.
+          default: {}
+        secret_map:
+          additionalProperties:
+            type: string
+          type: object
+          title: Secret Map
+          description: >-
+            Map of keys to secret values. Syntax: ${secret:name} (user secret),
+            ${secret:user:name} (explicit owner). Reference in
+            environment_variables via ${pods:secrets:KEY}. Resolved at pod
+            start.
           default: {}
         status_requested:
           type: string
@@ -2923,13 +3798,13 @@ components:
           description: Status requested by user, `ON`, `OFF`, or `RESTART`.
           default: 'ON'
         volume_mounts:
-          additionalProperties:
-            $ref: '#/components/schemas/models_pods__VolumeMount'
+          additionalProperties: true
           type: object
           title: Volume Mounts
           description: >-
-            Key: Volume name. Value: List of strs specifying volume
-            folders/files to mount in pod
+            Volume mounts keyed by mount_path. Ex: {"/data": {"type":
+            "tapisvolume", "source_id": "myvolume"}, "/etc/config.ini": {"type":
+            "ephemeral", "config_content": "key=value"}}
           default: {}
         time_to_stop_default:
           type: integer
@@ -2939,7 +3814,9 @@ components:
             unlimited. 12 hour default.
           default: 43200
         time_to_stop_instance:
-          type: integer
+          anyOf:
+            - type: integer
+            - type: 'null'
           title: Time To Stop Instance
           description: >-
             Time (sec) for pod to run from instance start. Reset each time
@@ -2957,9 +3834,7 @@ components:
               protocol: http
               port: 5000
         resources:
-          allOf:
-            - $ref: '#/components/schemas/models_pods__Resources'
-          title: Resources
+          $ref: '#/components/schemas/models_pods__Resources'
           description: >-
             Pod resource management `{"cpu_limit": 3000, "mem_limit": 3000,
             "cpu_request": 500, "mem_limit": 500, "gpus": 0}`
@@ -2969,9 +3844,22 @@ components:
           title: Compute Queue
           description: Queue to run pod in. `default` is the default queue.
           default: default
+        template_overrides:
+          anyOf:
+            - additionalProperties: true
+              type: object
+            - type: 'null'
+          title: Template Overrides
+          description: >-
+            Partial overrides for template values. Override volume_mounts or
+            secret_map values without rewriting full template field. Ex:
+            {"volume_mounts": {"/data": {"source_id": "my-vol"}}, "secret_map":
+            {"DB_PASS": "${secret:mypass}"}}
         time_to_stop_ts:
-          type: string
-          format: date-time
+          anyOf:
+            - type: string
+              format: date-time
+            - type: 'null'
           title: Time To Stop Ts
           description: >-
             Time (UTC) that this pod is scheduled to be stopped. Change with
@@ -2982,23 +3870,30 @@ components:
           description: Current status of pod.
           default: STOPPED
         status_container:
+          additionalProperties: true
           type: object
           title: Status Container
           description: Status of container if exists. Gives phase.
           default: {}
         creation_ts:
-          type: string
-          format: date-time
+          anyOf:
+            - type: string
+              format: date-time
+            - type: 'null'
           title: Creation Ts
           description: Time (UTC) that this pod was created.
         update_ts:
-          type: string
-          format: date-time
+          anyOf:
+            - type: string
+              format: date-time
+            - type: 'null'
           title: Update Ts
           description: Time (UTC) that this pod was updated.
         start_instance_ts:
-          type: string
-          format: date-time
+          anyOf:
+            - type: string
+              format: date-time
+            - type: 'null'
           title: Start Instance Ts
           description: Time (UTC) that this pod instance was started.
       additionalProperties: false
@@ -3013,6 +3908,7 @@ components:
           type: string
           title: Message
         metadata:
+          additionalProperties: true
           type: object
           title: Metadata
         result:
@@ -3035,6 +3931,177 @@ components:
         - status
         - version
       title: PodsResponse
+    SecretDeleteResponse:
+      properties:
+        message:
+          type: string
+          title: Message
+        metadata:
+          additionalProperties: true
+          type: object
+          title: Metadata
+        result:
+          type: string
+          title: Result
+        status:
+          type: string
+          title: Status
+        version:
+          type: string
+          title: Version
+      additionalProperties: false
+      type: object
+      required:
+        - message
+        - metadata
+        - result
+        - status
+        - version
+      title: SecretDeleteResponse
+    SecretResponse:
+      properties:
+        message:
+          type: string
+          title: Message
+        metadata:
+          additionalProperties: true
+          type: object
+          title: Metadata
+        result:
+          $ref: '#/components/schemas/SecretResponseModel'
+        status:
+          type: string
+          title: Status
+        version:
+          type: string
+          title: Version
+      additionalProperties: false
+      type: object
+      required:
+        - message
+        - metadata
+        - result
+        - status
+        - version
+      title: SecretResponse
+    SecretResponseModel:
+      properties:
+        secret_id:
+          type: string
+          title: Secret Id
+          description: Name of the secret.
+        scope:
+          type: string
+          title: Scope
+          description: 'Scope of secret: ''user'' or ''pod'''
+          default: user
+        pod_id:
+          anyOf:
+            - type: string
+            - type: 'null'
+          title: Pod Id
+          description: Pod ID if scope is 'pod'
+        description:
+          type: string
+          title: Description
+          description: Description of this secret.
+          default: ''
+        readable:
+          type: boolean
+          title: Readable
+          description: >-
+            If True, secret value can be retrieved via GET /secrets/{id}/value.
+            Pod injection always works regardless of this setting.
+          default: true
+        writable:
+          type: boolean
+          title: Writable
+          description: >-
+            If True, secret value can be updated via PUT or POST recreation. If
+            False, secret is write-once.
+          default: true
+        sk_secret_name:
+          type: string
+          title: Sk Secret Name
+          description: Full secret name used in SK (prefixed).
+          default: ''
+        creation_ts:
+          anyOf:
+            - type: string
+              format: date-time
+            - type: 'null'
+          title: Creation Ts
+          description: Time (UTC) that this secret was created.
+        added_by:
+          type: string
+          title: Added By
+          description: User who added this secret.
+          default: ''
+      additionalProperties: false
+      type: object
+      required:
+        - secret_id
+      title: SecretResponseModel
+      description: Response object for Secret class (no secret value returned).
+    SecretValueResponse:
+      properties:
+        message:
+          type: string
+          title: Message
+        metadata:
+          additionalProperties: true
+          type: object
+          title: Metadata
+        result:
+          additionalProperties:
+            type: string
+          type: object
+          title: Result
+        status:
+          type: string
+          title: Status
+        version:
+          type: string
+          title: Version
+      additionalProperties: false
+      type: object
+      required:
+        - message
+        - metadata
+        - result
+        - status
+        - version
+      title: SecretValueResponse
+      description: Response for getting the actual secret value.
+    SecretsResponse:
+      properties:
+        message:
+          type: string
+          title: Message
+        metadata:
+          additionalProperties: true
+          type: object
+          title: Metadata
+        result:
+          items:
+            $ref: '#/components/schemas/SecretResponseModel'
+          type: array
+          title: Result
+        status:
+          type: string
+          title: Status
+        version:
+          type: string
+          title: Version
+      additionalProperties: false
+      type: object
+      required:
+        - message
+        - metadata
+        - result
+        - status
+        - version
+      title: SecretsResponse
     SetPermission:
       properties:
         user:
@@ -3060,6 +4127,7 @@ components:
           type: string
           title: Message
         metadata:
+          additionalProperties: true
           type: object
           title: Metadata
         result:
@@ -3085,6 +4153,7 @@ components:
           type: string
           title: Message
         metadata:
+          additionalProperties: true
           type: object
           title: Metadata
         result:
@@ -3158,13 +4227,17 @@ components:
           description: Current status of snapshot.
           default: REQUESTED
         creation_ts:
-          type: string
-          format: date-time
+          anyOf:
+            - type: string
+              format: date-time
+            - type: 'null'
           title: Creation Ts
           description: Time (UTC) that this snapshot was created.
         update_ts:
-          type: string
-          format: date-time
+          anyOf:
+            - type: string
+              format: date-time
+            - type: 'null'
           title: Update Ts
           description: Time (UTC) that this snapshot was updated.
       additionalProperties: false
@@ -3181,6 +4254,7 @@ components:
           type: string
           title: Message
         metadata:
+          additionalProperties: true
           type: object
           title: Metadata
         result:
@@ -3209,6 +4283,7 @@ components:
           type: string
           title: Message
         metadata:
+          additionalProperties: true
           type: object
           title: Metadata
         result:
@@ -3235,6 +4310,7 @@ components:
           type: string
           title: Message
         metadata:
+          additionalProperties: true
           type: object
           title: Metadata
         result:
@@ -3260,6 +4336,7 @@ components:
           type: string
           title: Message
         metadata:
+          additionalProperties: true
           type: object
           title: Metadata
         result:
@@ -3305,13 +4382,17 @@ components:
           description: If set, metadata message to give users of this template.
           default: ''
         creation_ts:
-          type: string
-          format: date-time
+          anyOf:
+            - type: string
+              format: date-time
+            - type: 'null'
           title: Creation Ts
           description: Time (UTC) that this template was created.
         update_ts:
-          type: string
-          format: date-time
+          anyOf:
+            - type: string
+              format: date-time
+            - type: 'null'
           title: Update Ts
           description: Time (UTC) that this template was updated.
       additionalProperties: false
@@ -3326,9 +4407,7 @@ components:
           title: Template Id
           description: template_id this tag is linked to
         pod_definition:
-          allOf:
-            - $ref: '#/components/schemas/TemplateTagPodDefinition'
-          title: Pod Definition
+          $ref: '#/components/schemas/TemplateTagPodDefinition'
           description: Pod definition for this template.
           default: {}
         commit_message:
@@ -3341,6 +4420,16 @@ components:
           title: Tag
           description: Tag for this template. Default is 'latest'.
           default: latest
+        description:
+          type: string
+          title: Description
+          description: Description of template tag.
+          default: ''
+        archive_message:
+          type: string
+          title: Archive Message
+          description: If set, metadata message to give users of this template tag.
+          default: ''
         tag_timestamp:
           type: string
           title: Tag Timestamp
@@ -3352,10 +4441,22 @@ components:
           description: User who added this template tag.
           default: ''
         creation_ts:
-          type: string
-          format: date-time
+          anyOf:
+            - type: string
+              format: date-time
+            - type: 'null'
           title: Creation Ts
           description: Time (UTC) that this template tag was created.
+        tenant_id:
+          type: string
+          title: Tenant Id
+          description: Tapis tenant used during creation of this template tag.
+          default: ''
+        site_id:
+          type: string
+          title: Site Id
+          description: Tapis site used during creation of this template tag.
+          default: ''
       additionalProperties: false
       type: object
       required:
@@ -3364,55 +4465,83 @@ components:
     TemplateTagPodDefinition:
       properties:
         image:
-          type: string
+          anyOf:
+            - type: string
+            - type: 'null'
           title: Image
           description: >-
             Which docker image to use, must be on allowlist, check /pods/images
             for list.
         template:
-          type: string
+          anyOf:
+            - type: string
+            - type: 'null'
           title: Template
           description: Name of template to base this template off of.
         description:
-          type: string
+          anyOf:
+            - type: string
+            - type: 'null'
           title: Description
           description: Description of this pod.
         command:
-          items:
-            type: string
-          type: array
+          anyOf:
+            - items:
+                type: string
+              type: array
+            - type: 'null'
           title: Command
           description: >-
             Command to run in pod. ex. `["sleep", "5000"]` or `["/bin/bash",
             "-c", "(exec myscript.sh)"]`
         arguments:
-          items:
-            type: string
-          type: array
+          anyOf:
+            - items:
+                type: string
+              type: array
+            - type: 'null'
           title: Arguments
           description: Arguments for the Pod's command.
         environment_variables:
+          additionalProperties: true
           type: object
           title: Environment Variables
-          description: Environment variables to inject into k8 pod; Only for custom pods.
+          description: >-
+            Environment variables to inject into pod. Use `${pods:secrets:KEY}`
+            to reference secret_map entries.
+          default: {}
+        secret_map:
+          additionalProperties:
+            type: string
+          type: object
+          title: Secret Map
+          description: >-
+            Map of keys to secret references or placeholders. Use ${secret:name}
+            for user secrets, ${pods:default:val:?desc} for placeholders with
+            defaults, ${:?desc} for required placeholders. Secrets resolved at
+            pod start.
           default: {}
         volume_mounts:
-          additionalProperties:
-            $ref: '#/components/schemas/models_templates_tags__VolumeMount'
+          additionalProperties: true
           type: object
           title: Volume Mounts
           description: >-
-            Key: Volume name. Value: List of strs specifying volume
-            folders/files to mount in pod
+            Volume mounts keyed by mount_path. Ex: {"/data": {"type":
+            "tapisvolume", "source_id": "myvolume"}, "/etc/config.ini": {"type":
+            "ephemeral", "config_content": "key=value"}}
           default: {}
         time_to_stop_default:
-          type: integer
+          anyOf:
+            - type: integer
+            - type: 'null'
           title: Time To Stop Default
           description: >-
             Default time (sec) for pod to run from instance start. -1 for
             unlimited. 12 hour default.
         time_to_stop_instance:
-          type: integer
+          anyOf:
+            - type: integer
+            - type: 'null'
           title: Time To Stop Instance
           description: >-
             Time (sec) for pod to run from instance start. Reset each time
@@ -3427,9 +4556,7 @@ components:
             "port": int}}`
           default: {}
         resources:
-          allOf:
-            - $ref: '#/components/schemas/models_templates_tags__Resources'
-          title: Resources
+          $ref: '#/components/schemas/models_templates_tags__Resources'
           description: >-
             Pod resource management `{"cpu_limit": 3000, "mem_limit": 3000,
             "cpu_request": 500, "mem_limit": 500, "gpus": 0}`
@@ -3448,6 +4575,7 @@ components:
           type: string
           title: Message
         metadata:
+          additionalProperties: true
           type: object
           title: Metadata
         result:
@@ -3473,6 +4601,7 @@ components:
           type: string
           title: Message
         metadata:
+          additionalProperties: true
           type: object
           title: Metadata
         result:
@@ -3501,6 +4630,7 @@ components:
           type: string
           title: Message
         metadata:
+          additionalProperties: true
           type: object
           title: Metadata
         result:
@@ -3525,55 +4655,94 @@ components:
       title: TemplatesResponse
     UpdatePod:
       properties:
-        description:
+        image:
           type: string
+          title: Image
+          description: >-
+            Which docker image to use, must be on allowlist, check /pods/images
+            for list.
+          default: ''
+        template:
+          type: string
+          title: Template
+          description: >-
+            Which pod template to use as base of pod fields. User set attributes
+            will overwrite template fields.
+          default: ''
+        description:
+          anyOf:
+            - type: string
+            - type: 'null'
           title: Description
           description: Description of this pod.
           default: ''
         command:
-          items:
-            type: string
-          type: array
+          anyOf:
+            - items:
+                type: string
+              type: array
+            - type: 'null'
           title: Command
           description: >-
             Command to run in pod. ex. ["sleep", "5000"] or ["/bin/bash", "-c",
             "(exec myscript.sh)"]
+        arguments:
+          anyOf:
+            - items:
+                type: string
+              type: array
+            - type: 'null'
+          title: Arguments
+          description: Arguments for the Pod's command.
         environment_variables:
-          type: object
+          anyOf:
+            - additionalProperties: true
+              type: object
+            - type: 'null'
           title: Environment Variables
-          description: Environment variables to inject into k8 pod; Only for custom pods.
+          description: Environment variables to inject into k8 pod.
           default: {}
         status_requested:
-          type: string
+          anyOf:
+            - type: string
+            - type: 'null'
           title: Status Requested
           description: Status requested by user, `ON`, `OFF`, or `RESTART`.
           default: 'ON'
         volume_mounts:
-          additionalProperties:
-            $ref: '#/components/schemas/models_pods__VolumeMount'
-          type: object
+          anyOf:
+            - items:
+                $ref: '#/components/schemas/VolumeMount'
+              type: array
+            - type: 'null'
           title: Volume Mounts
           description: >-
-            Key: Volume name. Value: List of strs specifying volume
-            folders/files to mount in pod
-          default: {}
+            List of volume mounts. Each mount specifies type, source_id,
+            mount_path, and optionally sub_path and read_only.
+          default: []
         time_to_stop_default:
-          type: integer
+          anyOf:
+            - type: integer
+            - type: 'null'
           title: Time To Stop Default
           description: >-
             Default time (sec) for pod to run from instance start. -1 for
             unlimited. 12 hour default.
           default: 43200
         time_to_stop_instance:
-          type: integer
+          anyOf:
+            - type: integer
+            - type: 'null'
           title: Time To Stop Instance
           description: >-
             Time (sec) for pod to run from instance start. Reset each time
             instance is started. -1 for unlimited. None uses default.
         networking:
-          additionalProperties:
-            $ref: '#/components/schemas/models_pods__Networking'
-          type: object
+          anyOf:
+            - additionalProperties:
+                $ref: '#/components/schemas/models_pods__Networking'
+              type: object
+            - type: 'null'
           title: Networking
           description: >-
             Networking information. {"url_suffix": {"protocol": "http"  "tcp",
@@ -3583,38 +4752,71 @@ components:
               protocol: http
               port: 5000
         resources:
-          allOf:
+          anyOf:
             - $ref: '#/components/schemas/models_pods__Resources'
-          title: Resources
+            - type: 'null'
           description: >-
             Pod resource management {"cpu_limit": 3000, "mem_limit": 3000,
             "cpu_request": 500, "mem_limit": 500, "gpu": 0}
           default: {}
+        compute_queue:
+          type: string
+          title: Compute Queue
+          description: Queue to run pod in. `default` is the default queue.
+          default: default
       additionalProperties: false
       type: object
       title: UpdatePod
       description: Object with fields that users are allowed to specify for the Pod class.
+    UpdateSecret:
+      properties:
+        description:
+          anyOf:
+            - type: string
+            - type: 'null'
+          title: Description
+          description: Description of this secret.
+        secret_value:
+          anyOf:
+            - type: string
+            - type: 'null'
+          title: Secret Value
+          description: The new secret value to store.
+      additionalProperties: false
+      type: object
+      title: UpdateSecret
+      description: >-
+        Object with fields that users are allowed to update for the Secret
+        class.
     UpdateSnapshot:
       properties:
         description:
-          type: string
+          anyOf:
+            - type: string
+            - type: 'null'
           title: Description
           description: Description of this snapshot.
           default: ''
         size_limit:
-          type: integer
+          anyOf:
+            - type: integer
+            - type: 'null'
           title: Size Limit
           description: >-
             Size in MB to limit snapshot to. We'll start warning if you've gone
             past the limit.
           default: 1024
         cron:
-          type: string
+          anyOf:
+            - type: string
+            - type: 'null'
           title: Cron
           description: cron bits
           default: ''
         retention_policy:
-          type: string
+          anyOf:
+            - type: string
+            - type: 'null'
           title: Retention Policy
           description: retention_policy bits
           default: ''
@@ -3652,12 +4854,16 @@ components:
     UpdateVolume:
       properties:
         description:
-          type: string
+          anyOf:
+            - type: string
+            - type: 'null'
           title: Description
           description: Description of this volume.
           default: ''
         size_limit:
-          type: integer
+          anyOf:
+            - type: integer
+            - type: 'null'
           title: Size Limit
           description: >-
             Size in MB to limit volume to. We'll start warning if you've gone
@@ -3674,6 +4880,7 @@ components:
         loc:
           items:
             anyOf:
+              - type: string
               - type: integer
           type: array
           title: Location
@@ -3689,12 +4896,101 @@ components:
         - msg
         - type
       title: ValidationError
+    VolumeMount:
+      properties:
+        type:
+          type: string
+          title: Type
+          description: >-
+            Type of mount: 'tapisvolume', 'tapissnapshot', 'ephemeral', or
+            'pvc'.
+        source_id:
+          anyOf:
+            - type: string
+            - type: 'null'
+          title: Source Id
+          description: >-
+            ID of the volume, snapshot, or PVC to mount. Required for
+            tapisvolume/tapissnapshot/pvc.
+        sub_path:
+          type: string
+          title: Sub Path
+          description: >-
+            Sub-path within the source volume/snapshot to mount. Not used for
+            ephemeral.
+          default: ''
+        read_only:
+          anyOf:
+            - type: boolean
+            - type: 'null'
+          title: Read Only
+          description: >-
+            If true, mount will be read-only. Default: False for volumes/pvc,
+            True for snapshots/ephemeral.
+        config_content:
+          anyOf:
+            - type: string
+            - type: 'null'
+          title: Config Content
+          description: >-
+            Config file content. For ephemeral: mounted as ConfigMap. For
+            tapisvolume: written to NFS. Supports ${pods:secrets:KEY}
+            interpolation. Max 1MB.
+        config_permissions:
+          type: string
+          title: Config Permissions
+          description: Unix file permissions for config file (e.g., '0644', '0600').
+          default: '0644'
+        config_filename:
+          anyOf:
+            - type: string
+            - type: 'null'
+          title: Config Filename
+          description: >-
+            Filename for config file when using tapisvolume with config_content.
+            Defaults to basename of mount_path.
+        config_update_mode:
+          type: string
+          title: Config Update Mode
+          description: >-
+            Config update behavior: 'always' recreates config on each pod start,
+            'once' only creates if file/ConfigMap doesn't exist.
+          default: always
+      additionalProperties: false
+      type: object
+      required:
+        - type
+      title: VolumeMount
+      description: >-
+        Volume mount configuration for attaching volumes, snapshots, or inline
+        configs to pods.
+
+
+        Object-keyed structure (v3) - mount_path is the key in volume_mounts
+        dict:
+
+        - type: One of 'tapisvolume', 'tapissnapshot', 'ephemeral', 'pvc'
+
+        - source_id: Required for tapisvolume, tapissnapshot, pvc. Not used for
+        ephemeral.
+
+        - sub_path: Optional sub-path within the source to mount (not applicable
+        for ephemeral)
+
+        - read_only: Whether mount is read-only (default varies by type)
+
+        - config_content: For ephemeral type, the inline config file content
+        (max 1MB)
+
+        - config_permissions: For ephemeral type, Unix file permissions (default
+        0644)
     VolumePermissionsResponse:
       properties:
         message:
           type: string
           title: Message
         metadata:
+          additionalProperties: true
           type: object
           title: Metadata
         result:
@@ -3720,6 +5016,7 @@ components:
           type: string
           title: Message
         metadata:
+          additionalProperties: true
           type: object
           title: Metadata
         result:
@@ -3768,13 +5065,17 @@ components:
           description: Current status of volume.
           default: REQUESTED
         creation_ts:
-          type: string
-          format: date-time
+          anyOf:
+            - type: string
+              format: date-time
+            - type: 'null'
           title: Creation Ts
           description: Time (UTC) that this volume was created.
         update_ts:
-          type: string
-          format: date-time
+          anyOf:
+            - type: string
+              format: date-time
+            - type: 'null'
           title: Update Ts
           description: Time (UTC) that this volume was updated.
       additionalProperties: false
@@ -3789,6 +5090,7 @@ components:
           type: string
           title: Message
         metadata:
+          additionalProperties: true
           type: object
           title: Metadata
         result:
@@ -3950,6 +5252,16 @@ components:
           title: Mem Limit
           description: Memory allocation pod is allowed to use. In megabytes (Mi)
           default: 3072
+        ephemeral_storage_request:
+          type: integer
+          title: Ephemeral Storage Request
+          description: Ephemeral storage pod requests at startup. In mebibytes (Mi)
+          default: -1
+        ephemeral_storage_limit:
+          type: integer
+          title: Ephemeral Storage Limit
+          description: Ephemeral storage pod is allowed to use. In mebibytes (Mi)
+          default: -1
         gpus:
           type: integer
           title: Gpus
@@ -3960,26 +5272,6 @@ components:
       additionalProperties: false
       type: object
       title: Resources
-    models_pods__VolumeMount:
-      properties:
-        type:
-          type: string
-          title: Type
-          description: Type of volume to attach.
-          default: ''
-        mount_path:
-          type: string
-          title: Mount Path
-          description: Path to mount volume to.
-          default: /tapis_volume_mount
-        sub_path:
-          type: string
-          title: Sub Path
-          description: Path to mount volume to.
-          default: ''
-      additionalProperties: false
-      type: object
-      title: VolumeMount
     models_templates_tags__Networking:
       properties:
         protocol:
@@ -4094,27 +5386,49 @@ components:
     models_templates_tags__Resources:
       properties:
         cpu_request:
-          type: integer
+          anyOf:
+            - type: integer
+            - type: 'null'
           title: Cpu Request
           description: >-
             CPU allocation pod requests at startup. In millicpus (m). 1000 = 1
             cpu.
         cpu_limit:
-          type: integer
+          anyOf:
+            - type: integer
+            - type: 'null'
           title: Cpu Limit
           description: >-
             CPU allocation pod is allowed to use. In millicpus (m). 1000 = 1
             cpu.
         mem_request:
-          type: integer
+          anyOf:
+            - type: integer
+            - type: 'null'
           title: Mem Request
-          description: Memory allocation pod requests at startup. In megabytes (Mi)
+          description: Memory allocation pod requests at startup. In mebibytes (Mi)
         mem_limit:
-          type: integer
+          anyOf:
+            - type: integer
+            - type: 'null'
           title: Mem Limit
-          description: Memory allocation pod is allowed to use. In megabytes (Mi)
+          description: Memory allocation pod is allowed to use. In mebibytes (Mi)
+        ephemeral_storage_request:
+          anyOf:
+            - type: integer
+            - type: 'null'
+          title: Ephemeral Storage Request
+          description: Ephemeral storage pod requests at startup. In mebibytes (Mi)
+        ephemeral_storage_limit:
+          anyOf:
+            - type: integer
+            - type: 'null'
+          title: Ephemeral Storage Limit
+          description: Ephemeral storage pod is allowed to use. In mebibytes (Mi)
         gpus:
-          type: integer
+          anyOf:
+            - type: integer
+            - type: 'null'
           title: Gpus
           description: >-
             GPU allocation pod is allowed to use. In integers of GPUs. (we only
@@ -4122,26 +5436,6 @@ components:
       additionalProperties: false
       type: object
       title: Resources
-    models_templates_tags__VolumeMount:
-      properties:
-        type:
-          type: string
-          title: Type
-          description: Type of volume to attach.
-          default: ''
-        mount_path:
-          type: string
-          title: Mount Path
-          description: Path to mount volume to.
-          default: /tapis_volume_mount
-        sub_path:
-          type: string
-          title: Sub Path
-          description: Path to mount volume to.
-          default: ''
-      additionalProperties: false
-      type: object
-      title: VolumeMount
 tags:
   - name: Pods
     description: Create and command pods.

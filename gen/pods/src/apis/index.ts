@@ -5,6 +5,7 @@ export * from './JupyterApi';
 export * from './MiscApi';
 export * from './PermissionsApi';
 export * from './PodsApi';
+export * from './SecretsApi';
 export * from './SnapshotsApi';
 export * from './TemplatesApi';
 export * from './VolumesApi';
