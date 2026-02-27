@@ -2,7 +2,7 @@ openapi: 3.0.3
 info:
   title: Tapis Systems API
   description: The Tapis Systems API provides for management of Tapis Systems including permissions, credentials and Scheduler Profiles.
-  version: '1.7.0'
+  version: '25Q4.2'
   termsOfService: "https://tapis-project.org"
   contact:
     name: "Systems API - CICSupport"
@@ -43,6 +43,8 @@ tags:
       as well as share publicly with all users in a tenant. Sharing grants users READ and EXECUTE access to the system.
       When the system has a dynamic *effectiveUserId*, sharing also allows for MODIFY access to all paths for calls
       made through the Files service.
+      If system type is ``IRODS`` and the attribute *useProxy* is set to ``true`` then the system is also treated as
+      having a dynamic *effectiveUserId* and users will be granted MODIFY access.
       Note that Tapis permissions and sharing are independent of native permissions enforced by the underlying
       system host.
   - name: Child Systems
@@ -109,12 +111,18 @@ paths:
       description: |
         Retrieve list of systems.
 
-        Use *listType*, *search* and *select* query parameters to limit results. Query
-        parameter *listType* allows for filtering results based on authorization. Options for *listType* are
+        Use *listType*, *search* and *select* query parameters to limit results. Query parameter *listType* allows for
+        filtering results based on authorization. Please note that using *ALL* may have a significant negative impact
+        on performance. Options for *listType* are
 
-          - *OWNED* Include only items owned by requester (Default)
-          - *SHARED_PUBLIC* Include only items shared publicly
-          - *ALL* Include all items requester is authorized to view. Includes check for READ or MODIFY permission.
+          - *OWNED* Include only items owned by requester (Default).
+          - *SHARED_PUBLIC* Include only items shared publicly.
+          - *ALL* Include all items requester is authorized to view. Includes check for READ or MODIFY permission. May impact performance.
+
+        Use *hasCredentials* boolean query parameter to limit results based on the presence or absence of registered credentials
+        for a system. Filtering is based on registered credentials for the current *defaultAuthnMethod* of a system.
+        Credentials for other authentication method types are ignored. For a dynamic *effectiveUserId* filtering is
+        based on the Tapis user making the request. If the query parameter is absent then no filtering is done.
 
         Certain Tapis services or a tenant administrator may use the query parameter *impersonationId* to be used in
         place of the requesting Tapis user. Tapis will use this user Id when performing authorization and resolving
@@ -130,7 +138,7 @@ paths:
             type: string
         - name: listType
           in: query
-          description: Determines additional filtering of results based on ownership, permissions and sharing. Default is to only see items owned by requester.
+          description: Determines additional filtering of results based on ownership, permissions and sharing. Default is to only show systems owned by requester.
           schema:
             $ref: '#/components/schemas/ListTypeEnum'
         - name: limit
@@ -177,6 +185,11 @@ paths:
           description: Restricted. Only certain Tapis services or a tenant administrator may impersonate a Tapis user.
           schema:
             type: string
+        - name: hasCredentials
+          in: query
+          description: Determines additional filtering based on credentials. If absent no filtering is done.
+          schema:
+            type: boolean
       responses:
         '200':
           description: Success.
@@ -215,8 +228,9 @@ paths:
         the host login user.
 
         If the *effectiveUserId* is static (i.e. not *${apiUserId}*) then credentials may optionally be provided in the
-        *authnCredential* attribute of the request body. The Systems service does not store the secrets in its
-        database, they are persisted in the Security Kernel.
+        *authnCredential* attribute of the request body. Please note that if there is a *loginUser* field in the
+        credential request body, TAPIS will reject the request because the static effective user is always the login user.
+        The Systems service does not store the secrets in its database, they are persisted in the Security Kernel.
 
         By default for LINUX and S3 type systems credentials provided are verified. Use query parameter
         skipCredentialCheck=true to bypass initial verification of credentials.
@@ -234,7 +248,6 @@ paths:
         If after resolution the final path does not have the required leading slash (/) to make it an absolute path,
         then one will be prepended.
         The following conditions must be met in order to use the macro
-
           - System must be of type LINUX
           - Credentials must be provided when system is created.
           - Macro HOST_EVAL() must only appear once and must be the first element of the path. Including a leading slash is optional.
@@ -371,13 +384,20 @@ paths:
       tags:
         - Systems
       description: |
-        Retrieve details for systems. Use query parameters to specify search conditions. For example owner.eq=jdoe&port.gt=1024
-        Use *listType* and *select* query parameters to limit results. Query parameter *listType* allows
-        for filtering results based on authorization. Options for *listType* are
+        Retrieve details for systems. Use query parameters to specify search conditions.
+        For example owner.eq=jdoe&port.gt=1024
+        Use *listType* and *select* query parameters to limit results. Query parameter *listType* allows for filtering
+        results based on authorization. Please note that using *ALL* may have a significant negative impact
+        on performance. Options for *listType* are
 
           - *OWNED* Include only items owned by requester (Default)
           - *SHARED_PUBLIC* Include only items shared publicly
-          - *ALL* Include all items requester is authorized to view. Includes check for READ or MODIFY permission.
+          - *ALL* Include all items requester is authorized to view. Includes check for READ or MODIFY permission. May impact performance.
+        
+        Use *hasCredentials* boolean query parameter to limit results based on the presence or absence of registered credentials
+        for a system. Filtering is based on registered credentials for the current *defaultAuthnMethod* of a system.
+        Credentials for other authentication method types are ignored. For a dynamic *effectiveUserId* filtering is
+        based on the Tapis user making the request. If the query parameter is absent then no filtering is done.
       operationId: searchSystemsQueryParameters
       security:
         - TapisJWT: []
@@ -430,6 +450,11 @@ paths:
           schema:
             type: string
             default: 'summaryAttributes'
+        - name: hasCredentials
+          in: query
+          description: Determines additional filtering based on credentials. If absent no filtering is done.
+          schema:
+            type: boolean
       responses:
         '200':
           description: Success.
@@ -455,11 +480,18 @@ paths:
       description: |
         Retrieve details for systems. Use request body to specify SQL-like search conditions.
         Use *listType* and *select* query parameters to limit results. Query parameter *listType* allows
-        for filtering results based on authorization. Options for *listType* are
+        for filtering results based on authorization. Please note that using *ALL* may have a significant
+        negative impact on performance. Options for *listType* are
 
           - *OWNED* Include only items owned by requester (Default)
           - *SHARED_PUBLIC* Include only items shared publicly
-          - *ALL* Include all items requester is authorized to view. Includes check for READ or MODIFY permission.
+          - *ALL* Include all items requester is authorized to view. Includes check for READ or MODIFY permission. May impact performance.
+
+        Use *hasCredentials* boolean query parameter to limit results based on the presence or absence of registered credentials
+        for a system. Filtering is based on registered credentials for the current *defaultAuthnMethod* of a system.
+        Credentials for other authentication method types are ignored. For a dynamic *effectiveUserId* filtering is
+        based on the Tapis user making the request. If the query parameter is absent then no filtering is done.
+
       operationId: searchSystemsRequestBody
       security:
         - TapisJWT: []
@@ -502,6 +534,11 @@ paths:
           schema:
             type: string
             default: 'summaryAttributes'
+        - name: hasCredentials
+          in: query
+          description: Determines additional filtering based on credentials. If absent no filtering is done.
+          schema:
+            type: boolean
       requestBody:
         required: true
         description: A JSON object specifying SQL-like search conditions as an array of strings. Strings are concatenated to form full search query.
@@ -533,7 +570,8 @@ paths:
       tags:
         - Systems
       description: |
-        *WARNING Capability constraint matching is not yet supported.*
+        **WARNING** *Capability constraint matching is not yet supported.*
+        
         Retrieve details for systems. Use request body to specify constraint conditions as an SQL-like WHERE clause.
       operationId: matchConstraints
       security:
@@ -732,7 +770,6 @@ paths:
         result returned by a GET may be modified and used when making a PUT request to update a system.
 
         The attributes that are allowed but ignored for both PUT and POST are
-
           - tenant
           - uuid
           - deleted
@@ -740,7 +777,6 @@ paths:
           - updated
 
         In addition for a PUT operation the following non-updatable attributes are allowed but ignored
-
           - id
           - systemType
           - owner
@@ -789,7 +825,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/RespBasic'
         '401':
-          description: Not authorized.
+          description: Not Authenticated
           content:
             application/json:
               schema:
@@ -1018,6 +1054,12 @@ paths:
         - Systems
       description: |
         Change owner of a system.
+        
+        Please note that existing permission grants and shares will remain.
+        
+        **WARNING** Note also that no credentials are deleted during this process. So, for example, after the change
+        a system with a static *effectiveUserId* will retain the credentials and host access of the static
+        *effectiveUser*.
       operationId: changeSystemOwner
       security:
         - TapisJWT: []
@@ -1097,6 +1139,68 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/RespBasic'
+  '/v3/systems/{systemId}/hostEval/{envVarName}':
+    get:
+      tags:
+        - Systems
+      description: |
+        Resolve environment variable by connecting to host associated with system.
+        Note that this is done for the current *effectiveUserId*.
+        Appropriate valid credentials must have already been registered.
+        The system must be of type LINUX.
+        The provided *{envVarName}* must start with an alphabetic character or underscore followed by 0 or more
+        alphanumeric characters or underscores.
+      operationId: hostEval
+      security:
+        - TapisJWT: []
+      parameters:
+        - name: systemId
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/IdString'
+        - name: envVarName
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/EnvVarNameString'
+      responses:
+        '200':
+          description: Success.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RespName'
+        '400':
+          description: Bad request. Possibly an invalid character in envVarName.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RespBasic'
+        '401':
+          description: Not Authenticated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RespBasic'
+        '403':
+          description: Permission denied.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RespBasic'
+        '404':
+          description: System not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RespBasic'
+        '500':
+          description: Server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RespBasic'
   '/v3/systems/{childSystemId}/unlinkFromParent':
     post:
       tags:
@@ -1146,7 +1250,8 @@ paths:
       description: |
         Make a child system a standalone system.  This will break the connection with it's parent, and from
         this point on, the child system will not be connected to the parent.  This is similar to unlinkFromParent,
-        but permissions are required for the parent system rather than the child system.  Warning, this cannot be undone.
+        but permissions are required for the parent system rather than the child system.
+        **WARNING** This cannot be undone.
       operationId: unlinkChildren
       security:
         - TapisJWT: []
@@ -1206,7 +1311,8 @@ paths:
         Retrieve credentials for given system, target *userName* and authentication method.
 
         If the *effectiveUserId* for the system is dynamic (i.e. equal to *${apiUserId}*) then *{userName}* is
-        interpreted as a Tapis user. Note that there may me a mapping of the Tapis user to a host *loginUser*.
+        interpreted as a Tapis user. Note that there may me a mapping of the Tapis user to a host *loginUser* and
+        what we call the *Tapis user* comes from the username claim in the Tapis JWT.
 
         If the *effectiveUserId* for the system is static (i.e. not *${apiUserId}*) then *{userName}* is interpreted
         as the host *loginUser* that is used when accessing the host.
@@ -1280,14 +1386,24 @@ paths:
         If the *effectiveUserId* for the system is dynamic (i.e. equal to *${apiUserId}*) then *{userName}* is interpreted
         as a Tapis user and the request body may contain the optional attribute *loginUser* which will be used to map the
         Tapis user to a username to be used when accessing the system. If the login user is not provided then there is
-        no mapping and the Tapis user is always used when accessing the system.
+        no mapping and the Tapis user is always used when accessing the system. Note that what we call the *Tapis user*
+        comes from the username claim in the Tapis JWT.
 
         If the *effectiveUserId* for the system is static (i.e. not *${apiUserId}*) then *{userName}* is interpreted
-        as the login user to be used when accessing the host.
+        as the login user to be used when accessing the host. Please note that if there is a *loginUser* field in the
+        request body, TAPIS will reject the request because the static effective user is always the login user.
 
         Operation is allowed if requester is the system owner or a tenant administrator.
         If the *effectiveUserId* for the system is dynamic (i.e. equal to *${apiUserId}*) then the operation is allowed
         if *{userName}* is the Tapis user making the request.
+
+        Use query parameter *createTmsKeys=true* to have the service call a Trust Manager System (TMS) server to create and
+        store an ssh keypair. Default is *false*.
+        Please note that the following restrictions apply:
+          - Tapis installation for your site must be configured to support the Trust Manager System (TMS).
+          - The host for the system must have the sshd configuration set up to use TMS.
+          - The *effectiveUserId* must be dynamic.
+          - Mapping of user using *loginUser* is not supported.
 
         By default credentials for LINUX and S3 type systems are verified. Use query parameter
         *skipCredentialCheck=true* to bypass initial credential validation.
@@ -1305,6 +1421,12 @@ paths:
           required: true
           schema:
             $ref: '#/components/schemas/UserNameString'
+        - name: createTmsKeys
+          in: query
+          description: Use TMS to generate and store an ssh keypair. Default is false.
+          schema:
+            type: boolean
+            default: false
         - name: skipCredentialCheck
           in: query
           description: Bypass initial credential validation. Default is false.
@@ -1400,7 +1522,9 @@ paths:
         for LINUX and S3 type systems.
 
         If the *effectiveUserId* for the system is dynamic (i.e. equal to *${apiUserId}*) then *{userName}* is interpreted
-        as a Tapis user and a search is made for credentials associated with *{userName}*.
+        as a Tapis user and a search is made for credentials associated with *{userName}*. Note that the Tapis user
+        *{userName}* may have a mapping to a host *loginUser* in which case the *loginUser* will be used when verifying
+        the credentials. Note that what we call the *Tapis user* comes from the username claim in the Tapis JWT.
 
         If the *effectiveUserId* for the system is static (i.e. not *${apiUserId}*) then *{userName}* is interpreted
         as the login user to be used when accessing the host. Note that this would typically be the current
@@ -1471,7 +1595,7 @@ paths:
       summary: Retrieve a Globus URL that can be used to generate an authorization code for an OAuth2 flow.
       description: |
         Retrieve a Globus URL + Session Id that can be used to generate an oauth2 authorization code associated with
-        the given system.
+        the given system. System must be of type GLOBUS.
         In Globus, the code is referred to as a *Native App Authorization Code*.
         The host property of the system is used as the Globus Endpoint Id or Globus Collection Id.
         Once a user has obtained an authorization code, the corresponding Systems endpoint for generating
@@ -1497,13 +1621,13 @@ paths:
               schema:
                 $ref: '#/components/schemas/RespGlobusAuthUrl'
         '400':
-          description: Input error.
+          description: Input error or system not of type GLOBUS.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/RespBasic'
         '401':
-          description: Not authorized.
+          description: Not Authenticated
           content:
             application/json:
               schema:
@@ -1527,7 +1651,15 @@ paths:
       summary: Use a Globus authorization code + Tapis session Id to generate tokens
       description: |
         Use a Globus *Native App Authorization Code* and a Tapis session Id to generate a pair of access and refresh tokens.
+        System must be of type GLOBUS.
         The Systems service will use the Tapis Security Kernel to store the tokens for the given system and user.
+
+        If the *effectiveUserId* for the system is dynamic (i.e. equal to *${apiUserId}*) then *{userName}* must be set
+        to the Tapis user. Note that what we call the *Tapis user* comes from the username claim in the Tapis JWT.
+
+        If the *effectiveUserId* for the system is static (i.e. not *${apiUserId}*) then *{userName}* must be set to
+        the static *effectiveUserId*.
+
         The session Id is a Tapis Id that is used to track the oauth2 flow that is started when a call to the
         getGlobusAuthUrl endpoint is made.
         The authorization code, as per Globus documentation, is valid for 10 minutes.
@@ -1566,8 +1698,14 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/RespBasic'
+        '400':
+          description: Input error or system not of type GLOBUS.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RespBasic'
         '401':
-          description: Not authorized.
+          description: Not Authenticated
           content:
             application/json:
               schema:
@@ -2241,10 +2379,6 @@ components:
           format: int32
         dtnSystemId:
           $ref: '#/components/schemas/DtnSysId'
-        isPublic:
-          type: boolean
-        isDynamicEffectiveUser:
-          type: boolean
         canExec:
           type: boolean
           description: Indicates if system can be used to execute jobs.
@@ -2291,10 +2425,6 @@ components:
           $ref: '#/components/schemas/QueueNameString'
         batchSchedulerProfile:
           $ref: '#/components/schemas/IdString'
-        sharedWithUsers:
-          type: array
-          items:
-            type: string
         jobCapabilities:
           type: array
           items:
@@ -2314,6 +2444,18 @@ components:
           type: string
         updated:
           type: string
+    # ---- dynamic TapisSystem properties. Computed when a system is fetched.
+        hasCredentials:
+          type: boolean
+          default: false
+        isPublic:
+          type: boolean
+        isDynamicEffectiveUser:
+          type: boolean
+        sharedWithUsers:
+          type: array
+          items:
+            type: string
     # --- SystemHistory ------------------------------------------------------------------
     SystemHistory:
       type: object
@@ -2389,6 +2531,8 @@ components:
       properties:
         name:
           $ref: '#/components/schemas/QueueNameString'
+        description:
+          $ref: '#/components/schemas/DescriptionString'
         hpcQueueName:
           $ref: '#/components/schemas/QueueNameString'
         maxJobs:
@@ -2453,7 +2597,37 @@ components:
           type: string
         refreshToken:
           type: string
+        tmsPrivateKey:
+          type: string
+        tmsPublicKey:
+          type: string
+        tmsFingerprint:
+          type: string
         certificate:
+          type: string
+    # --- SkShareRecord ----------------------------------------------------------------
+    SkShareRecord:
+      type: object
+      properties:
+        tenant:
+          type: string
+        grantor:
+          type: string
+        grantee:
+          type: string
+        resourceType:
+          type: string
+        resourceId1:
+          type: string
+        resourceId2:
+          type: string
+        privilege:
+          type: string
+        created:
+          type: string
+        createdBy:
+          type: string
+        createdByTenant:
           type: string
     # --- ShareInfo ------------------------------------------------------------------
     ShareInfo:
@@ -2468,6 +2642,10 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/UserNameString'
+        shareRecords:
+          type: array
+          items:
+            $ref: '#/components/schemas/SkShareRecord'
     # --- KeyValuePair -------------------------------------------------------
     KeyValuePair:
       type: object
@@ -2520,6 +2698,9 @@ components:
       type: string
       minLength: 1
       maxLength: 60
+    EnvVarNameString:
+      type: string
+      minLength: 1
     EffectiveUserId:
       type: string
       minLength: 1
@@ -2971,6 +3152,28 @@ components:
       properties:
         aBool:
           type: boolean
+    RespName:
+      type: object
+      properties:
+        status:
+          type: string
+        message:
+          type: string
+        version:
+          type: string
+        commit:
+          type: string
+        build:
+          type: string
+        metadata:
+          type: object
+        result:
+          $ref: '#/components/schemas/ResultName'
+    ResultName:
+      type: object
+      properties:
+        name:
+          type: string
     RespNameArray:
       type: object
       properties:
@@ -3231,6 +3434,7 @@ components:
         - PKI_KEYS
         - ACCESS_KEY
         - TOKEN
+        - TMS_KEYS
         - CERT
     CategoryEnum:
       type: string
@@ -3270,6 +3474,7 @@ components:
       type: string
       enum:
         - MEM
+        - PARTITION
     OperationTypeEnum:
       type: string
       enum:

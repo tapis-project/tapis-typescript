@@ -41,6 +41,7 @@ src/models/RespBoolean.ts
 src/models/RespChangeCount.ts
 src/models/RespCredential.ts
 src/models/RespGlobusAuthUrl.ts
+src/models/RespName.ts
 src/models/RespNameArray.ts
 src/models/RespResourceUrl.ts
 src/models/RespSchedulerProfile.ts
@@ -53,6 +54,7 @@ src/models/RespSystemsMetadata.ts
 src/models/ResultBoolean.ts
 src/models/ResultChangeCount.ts
 src/models/ResultGlobusAuthUrl.ts
+src/models/ResultName.ts
 src/models/ResultNameArray.ts
 src/models/ResultResourceUrl.ts
 src/models/RuntimeTypeEnum.ts
@@ -60,6 +62,7 @@ src/models/SchedulerHiddenOptionEnum.ts
 src/models/SchedulerProfile.ts
 src/models/SchedulerTypeEnum.ts
 src/models/ShareInfo.ts
+src/models/SkShareRecord.ts
 src/models/SystemHistory.ts
 src/models/SystemTypeEnum.ts
 src/models/TapisSystem.ts
