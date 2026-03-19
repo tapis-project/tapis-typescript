@@ -14,33 +14,33 @@
 
 import { mapValues } from '../runtime';
 /**
- * Time (UTC) that this template was updated.
+ * Description of this volume.
  * @export
- * @interface UpdateTs2
+ * @interface Description5
  */
-export interface UpdateTs2 {
+export interface Description5 {
 }
 
 /**
- * Check if a given object implements the UpdateTs2 interface.
+ * Check if a given object implements the Description5 interface.
  */
-export function instanceOfUpdateTs2(value: object): value is UpdateTs2 {
+export function instanceOfDescription5(value: object): value is Description5 {
     return true;
 }
 
-export function UpdateTs2FromJSON(json: any): UpdateTs2 {
-    return UpdateTs2FromJSONTyped(json, false);
+export function Description5FromJSON(json: any): Description5 {
+    return Description5FromJSONTyped(json, false);
 }
 
-export function UpdateTs2FromJSONTyped(json: any, ignoreDiscriminator: boolean): UpdateTs2 {
+export function Description5FromJSONTyped(json: any, ignoreDiscriminator: boolean): Description5 {
     return json;
 }
 
-export function UpdateTs2ToJSON(json: any): UpdateTs2 {
-    return UpdateTs2ToJSONTyped(json, false);
+export function Description5ToJSON(json: any): Description5 {
+    return Description5ToJSONTyped(json, false);
 }
 
-export function UpdateTs2ToJSONTyped(value?: UpdateTs2 | null, ignoreDiscriminator: boolean = false): any {
+export function Description5ToJSONTyped(value?: Description5 | null, ignoreDiscriminator: boolean = false): any {
     return value;
 }
 

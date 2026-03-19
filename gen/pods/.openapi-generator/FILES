@@ -38,6 +38,7 @@ src/models/Description1.ts
 src/models/Description2.ts
 src/models/Description3.ts
 src/models/Description4.ts
+src/models/Description5.ts
 src/models/EnvironmentVariables.ts
 src/models/EphemeralStorageLimit.ts
 src/models/EphemeralStorageRequest.ts
@@ -55,12 +56,11 @@ src/models/ImagesResponse.ts
 src/models/LogsModel.ts
 src/models/MemLimit.ts
 src/models/MemRequest.ts
-src/models/ModelsPodsNetworking.ts
 src/models/ModelsPodsResources.ts
-src/models/ModelsTemplatesTagsNetworking.ts
 src/models/ModelsTemplatesTagsResources.ts
 src/models/MountedBy.ts
 src/models/Networking.ts
+src/models/Networking1.ts
 src/models/NewImage.ts
 src/models/NewPod.ts
 src/models/NewSecret.ts
@@ -125,10 +125,12 @@ src/models/TemplateWithDependentsModel.ts
 src/models/TemplateWithDependentsResponse.ts
 src/models/TemplatesResponse.ts
 src/models/TemplatesWithDependentsResponse.ts
+src/models/Tenants.ts
 src/models/TimeToStopDefault.ts
 src/models/TimeToStopDefault1.ts
 src/models/TimeToStopInstance.ts
 src/models/TimeToStopTs.ts
+src/models/UpdateImage.ts
 src/models/UpdatePod.ts
 src/models/UpdatePodResources.ts
 src/models/UpdateSecret.ts

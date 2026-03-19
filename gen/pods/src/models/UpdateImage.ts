@@ -13,70 +13,70 @@
  */
 
 import { mapValues } from '../runtime';
-import type { SizeLimit1 } from './SizeLimit1';
+import type { Description1 } from './Description1';
 import {
-    SizeLimit1FromJSON,
-    SizeLimit1FromJSONTyped,
-    SizeLimit1ToJSON,
-    SizeLimit1ToJSONTyped,
-} from './SizeLimit1';
-import type { Description5 } from './Description5';
+    Description1FromJSON,
+    Description1FromJSONTyped,
+    Description1ToJSON,
+    Description1ToJSONTyped,
+} from './Description1';
+import type { Tenants } from './Tenants';
 import {
-    Description5FromJSON,
-    Description5FromJSONTyped,
-    Description5ToJSON,
-    Description5ToJSONTyped,
-} from './Description5';
+    TenantsFromJSON,
+    TenantsFromJSONTyped,
+    TenantsToJSON,
+    TenantsToJSONTyped,
+} from './Tenants';
 
 /**
- * Object with fields that users are allowed to specify when updating the Volume class.
+ * 
  * @export
- * @interface UpdateVolume
+ * @interface UpdateImage
  */
-export interface UpdateVolume {
+export interface UpdateImage {
     [key: string]: any | any;
     /**
      * 
-     * @type {Description5}
-     * @memberof UpdateVolume
+     * @type {Tenants}
+     * @memberof UpdateImage
      */
-    description?: Description5;
+    tenants?: Tenants;
     /**
      * 
-     * @type {SizeLimit1}
-     * @memberof UpdateVolume
+     * @type {Description1}
+     * @memberof UpdateImage
      */
-    size_limit?: SizeLimit1;
+    description?: Description1;
 }
 
 /**
- * Check if a given object implements the UpdateVolume interface.
+ * Check if a given object implements the UpdateImage interface.
  */
-export function instanceOfUpdateVolume(value: object): value is UpdateVolume {
+export function instanceOfUpdateImage(value: object): value is UpdateImage {
     return true;
 }
 
-export function UpdateVolumeFromJSON(json: any): UpdateVolume {
-    return UpdateVolumeFromJSONTyped(json, false);
+export function UpdateImageFromJSON(json: any): UpdateImage {
+    return UpdateImageFromJSONTyped(json, false);
 }
 
-export function UpdateVolumeFromJSONTyped(json: any, ignoreDiscriminator: boolean): UpdateVolume {
+export function UpdateImageFromJSONTyped(json: any, ignoreDiscriminator: boolean): UpdateImage {
     if (json == null) {
         return json;
     }
     return {
         
             ...json,
-        'description': json['description'] == null ? undefined : Description5FromJSON(json['description']),
-        'size_limit': json['size_limit'] == null ? undefined : SizeLimit1FromJSON(json['size_limit']),
+        'tenants': json['tenants'] == null ? undefined : TenantsFromJSON(json['tenants']),
+        'description': json['description'] == null ? undefined : Description1FromJSON(json['description']),
     };
 }
 
-export function UpdateVolumeToJSON(json: any): UpdateVolume {
-    return UpdateVolumeToJSONTyped(json, false);
+export function UpdateImageToJSON(json: any): UpdateImage {
+    return UpdateImageToJSONTyped(json, false);
 }
 
-export function UpdateVolumeToJSONTyped(value?: UpdateVolume | null, ignoreDiscriminator: boolean = false): any {
+export function UpdateImageToJSONTyped(value?: UpdateImage | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
@@ -84,8 +84,8 @@ export function UpdateVolumeToJSONTyped(value?: UpdateVolume | null, ignoreDiscr
     return {
         
             ...value,
-        'description': Description5ToJSON(value['description']),
-        'size_limit': SizeLimit1ToJSON(value['size_limit']),
+        'tenants': TenantsToJSON(value['tenants']),
+        'description': Description1ToJSON(value['description']),
     };
 }
 

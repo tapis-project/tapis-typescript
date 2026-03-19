@@ -285,7 +285,7 @@ export const COLLECTION_FORMATS = {
     pipes: "|",
 };
 
-export type FetchAPI = WindowOrWorkerGlobalScope['fetch'];
+export type FetchAPI = typeof fetch;
 
 export type Json = any;
 export type HTTPMethod = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE' | 'OPTIONS' | 'HEAD';

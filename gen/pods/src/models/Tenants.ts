@@ -14,33 +14,33 @@
 
 import { mapValues } from '../runtime';
 /**
- * Time (UTC) that this template was updated.
+ * Tenants that can use this image.
  * @export
- * @interface UpdateTs2
+ * @interface Tenants
  */
-export interface UpdateTs2 {
+export interface Tenants {
 }
 
 /**
- * Check if a given object implements the UpdateTs2 interface.
+ * Check if a given object implements the Tenants interface.
  */
-export function instanceOfUpdateTs2(value: object): value is UpdateTs2 {
+export function instanceOfTenants(value: object): value is Tenants {
     return true;
 }
 
-export function UpdateTs2FromJSON(json: any): UpdateTs2 {
-    return UpdateTs2FromJSONTyped(json, false);
+export function TenantsFromJSON(json: any): Tenants {
+    return TenantsFromJSONTyped(json, false);
 }
 
-export function UpdateTs2FromJSONTyped(json: any, ignoreDiscriminator: boolean): UpdateTs2 {
+export function TenantsFromJSONTyped(json: any, ignoreDiscriminator: boolean): Tenants {
     return json;
 }
 
-export function UpdateTs2ToJSON(json: any): UpdateTs2 {
-    return UpdateTs2ToJSONTyped(json, false);
+export function TenantsToJSON(json: any): Tenants {
+    return TenantsToJSONTyped(json, false);
 }
 
-export function UpdateTs2ToJSONTyped(value?: UpdateTs2 | null, ignoreDiscriminator: boolean = false): any {
+export function TenantsToJSONTyped(value?: Tenants | null, ignoreDiscriminator: boolean = false): any {
     return value;
 }
 

@@ -13,34 +13,42 @@
  */
 
 import { mapValues } from '../runtime';
+import type { Networking } from './Networking';
+import {
+    NetworkingFromJSON,
+    NetworkingFromJSONTyped,
+    NetworkingToJSON,
+    NetworkingToJSONTyped,
+} from './Networking';
+
 /**
- * Time (UTC) that this template was updated.
+ * Networking information. {"url_suffix": {"protocol": "http"  "tcp", "port": int}}
  * @export
- * @interface UpdateTs2
+ * @interface Networking1
  */
-export interface UpdateTs2 {
+export interface Networking1 {
 }
 
 /**
- * Check if a given object implements the UpdateTs2 interface.
+ * Check if a given object implements the Networking1 interface.
  */
-export function instanceOfUpdateTs2(value: object): value is UpdateTs2 {
+export function instanceOfNetworking1(value: object): value is Networking1 {
     return true;
 }
 
-export function UpdateTs2FromJSON(json: any): UpdateTs2 {
-    return UpdateTs2FromJSONTyped(json, false);
+export function Networking1FromJSON(json: any): Networking1 {
+    return Networking1FromJSONTyped(json, false);
 }
 
-export function UpdateTs2FromJSONTyped(json: any, ignoreDiscriminator: boolean): UpdateTs2 {
+export function Networking1FromJSONTyped(json: any, ignoreDiscriminator: boolean): Networking1 {
     return json;
 }
 
-export function UpdateTs2ToJSON(json: any): UpdateTs2 {
-    return UpdateTs2ToJSONTyped(json, false);
+export function Networking1ToJSON(json: any): Networking1 {
+    return Networking1ToJSONTyped(json, false);
 }
 
-export function UpdateTs2ToJSONTyped(value?: UpdateTs2 | null, ignoreDiscriminator: boolean = false): any {
+export function Networking1ToJSONTyped(value?: Networking1 | null, ignoreDiscriminator: boolean = false): any {
     return value;
 }
 
