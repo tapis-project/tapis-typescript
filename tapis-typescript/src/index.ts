@@ -11,10 +11,10 @@ import * as Pods from '@tapis/tapis-typescript-pods';
 import * as Models from '@tapis/tapis-typescript-mlhub-models';
 import * as Notifications from '@tapis/tapis-typescript-notifications';
 import * as Datasets from '@tapis/tapis-typescript-mlhub-datasets';
+import * as SK from '@tapis/tapis-typescript-sk';
 /*
 import * as Meta from '@tapis/tapis-typescript-meta';
 import * as PGRest from '@tapis/tapis-typescript-pgrest';
-import * as SK from '@tapis/tapis-typescript-sk';
 import * as Tokens from '@tapis/tapis-typescript-tokens';
 */
 
@@ -31,11 +31,11 @@ export {
   Pods,
   Models,
   Notifications,
-  Datasets
+  Datasets,
+  SK
   /*
   Meta,
   PGRest,
-  SK,
   Tokens
   */
 };
