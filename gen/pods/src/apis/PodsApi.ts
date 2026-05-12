@@ -97,6 +97,11 @@ export interface ListFilesInPodRequest {
     path?: string;
 }
 
+export interface ListPodsRequest {
+    derived?: boolean;
+    derivedLite?: boolean;
+}
+
 export interface PodAuthRequest {
     podIdNet: any;
 }
@@ -521,8 +526,16 @@ export class PodsApi extends runtime.BaseAPI {
      * Get all pods in your respective tenant and site that you have READ or higher access to.  Returns a list of pods.
      * list_pods
      */
-    async listPodsRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<PodsResponse>> {
+    async listPodsRaw(requestParameters: ListPodsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<PodsResponse>> {
         const queryParameters: any = {};
+
+        if (requestParameters['derived'] != null) {
+            queryParameters['derived'] = requestParameters['derived'];
+        }
+
+        if (requestParameters['derivedLite'] != null) {
+            queryParameters['derived_lite'] = requestParameters['derivedLite'];
+        }
 
         const headerParameters: runtime.HTTPHeaders = {};
 
@@ -540,8 +553,8 @@ export class PodsApi extends runtime.BaseAPI {
      * Get all pods in your respective tenant and site that you have READ or higher access to.  Returns a list of pods.
      * list_pods
      */
-    async listPods(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<PodsResponse> {
-        const response = await this.listPodsRaw(initOverrides);
+    async listPods(requestParameters: ListPodsRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<PodsResponse> {
+        const response = await this.listPodsRaw(requestParameters, initOverrides);
         return await response.value();
     }
 

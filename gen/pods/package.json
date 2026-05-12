@@ -1,6 +1,6 @@
 {
   "name": "@tapis/tapis-typescript-pods",
-  "version": "0.0.13",
+  "version": "0.0.14",
   "description": "OpenAPI client for @tapis/tapis-typescript-pods",
   "author": "OpenAPI-Generator",
   "repository": {

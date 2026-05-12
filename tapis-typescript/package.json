@@ -32,7 +32,7 @@
     "@tapis/tapis-typescript-mlhub-datasets": "^0.0.1",
     "@tapis/tapis-typescript-mlhub-models": "^0.0.2",
     "@tapis/tapis-typescript-notifications": "^0.0.1",
-    "@tapis/tapis-typescript-pods": "^0.0.13",
+    "@tapis/tapis-typescript-pods": "^0.0.14",
     "@tapis/tapis-typescript-streams": "^0.0.4",
     "@tapis/tapis-typescript-systems": "^0.0.7",
     "@tapis/tapis-typescript-sk": "^0.0.3",
