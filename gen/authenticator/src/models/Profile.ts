@@ -12,31 +12,74 @@
  * Do not edit the class manually.
  */
 
-import { exists, mapValues } from '../runtime';
+import { mapValues } from '../runtime';
 /**
- * The profile associated with a Tapis identity. NOTE -the fields in the Profile object are populated on a best-effort basis and should not be relied upon. Only the username field is guaranteed to be populated.
+ * The profile associated with a Tapis identity. NOTE - fields are populated on a best-effort basis from the underlying LDAP directory and should not be relied upon. Only the username field is guaranteed to be populated.
  * @export
  * @interface Profile
  */
 export interface Profile {
     /**
-     * The username associated with the profile.
+     * The username (uid) associated with the profile.
      * @type {string}
      * @memberof Profile
      */
     username?: string;
     /**
+     * The LDAP distinguished name for the user entry.
+     * @type {string}
+     * @memberof Profile
+     */
+    dn?: string | null;
+    /**
+     * The user's first/given name.
+     * @type {string}
+     * @memberof Profile
+     */
+    given_name?: string | null;
+    /**
+     * The user's last/family name.
+     * @type {string}
+     * @memberof Profile
+     */
+    last_name?: string | null;
+    /**
      * The email address associated with the profile.
      * @type {string}
      * @memberof Profile
      */
-    email?: string;
+    email?: string | null;
     /**
-     * The full name of the user.
+     * The telephone number associated with the profile.
      * @type {string}
      * @memberof Profile
      */
-    name?: string;
+    phone?: string | null;
+    /**
+     * The mobile phone number associated with the profile.
+     * @type {string}
+     * @memberof Profile
+     */
+    mobile_phone?: string | null;
+    /**
+     * The timestamp when the LDAP entry was created.
+     * @type {string}
+     * @memberof Profile
+     */
+    create_time?: string | null;
+    /**
+     * The POSIX uid number associated with the user.
+     * @type {string}
+     * @memberof Profile
+     */
+    uid?: string | null;
+}
+
+/**
+ * Check if a given object implements the Profile interface.
+ */
+export function instanceOfProfile(value: object): value is Profile {
+    return true;
 }
 
 export function ProfileFromJSON(json: any): Profile {
@@ -44,29 +87,43 @@ export function ProfileFromJSON(json: any): Profile {
 }
 
 export function ProfileFromJSONTyped(json: any, ignoreDiscriminator: boolean): Profile {
-    if ((json === undefined) || (json === null)) {
+    if (json == null) {
         return json;
     }
     return {
         
-        'username': !exists(json, 'username') ? undefined : json['username'],
-        'email': !exists(json, 'email') ? undefined : json['email'],
-        'name': !exists(json, 'name') ? undefined : json['name'],
+        'username': json['username'] == null ? undefined : json['username'],
+        'dn': json['dn'] == null ? undefined : json['dn'],
+        'given_name': json['given_name'] == null ? undefined : json['given_name'],
+        'last_name': json['last_name'] == null ? undefined : json['last_name'],
+        'email': json['email'] == null ? undefined : json['email'],
+        'phone': json['phone'] == null ? undefined : json['phone'],
+        'mobile_phone': json['mobile_phone'] == null ? undefined : json['mobile_phone'],
+        'create_time': json['create_time'] == null ? undefined : json['create_time'],
+        'uid': json['uid'] == null ? undefined : json['uid'],
     };
 }
 
-export function ProfileToJSON(value?: Profile | null): any {
-    if (value === undefined) {
-        return undefined;
+export function ProfileToJSON(json: any): Profile {
+    return ProfileToJSONTyped(json, false);
+}
+
+export function ProfileToJSONTyped(value?: Profile | null, ignoreDiscriminator: boolean = false): any {
+    if (value == null) {
+        return value;
     }
-    if (value === null) {
-        return null;
-    }
+
     return {
         
-        'username': value.username,
-        'email': value.email,
-        'name': value.name,
+        'username': value['username'],
+        'dn': value['dn'],
+        'given_name': value['given_name'],
+        'last_name': value['last_name'],
+        'email': value['email'],
+        'phone': value['phone'],
+        'mobile_phone': value['mobile_phone'],
+        'create_time': value['create_time'],
+        'uid': value['uid'],
     };
 }
 

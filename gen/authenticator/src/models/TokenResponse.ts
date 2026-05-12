@@ -12,17 +12,21 @@
  * Do not edit the class manually.
  */
 
-import { exists, mapValues } from '../runtime';
+import { mapValues } from '../runtime';
+import type { TokenResponseRefreshToken } from './TokenResponseRefreshToken';
 import {
-    TokenResponseAccessToken,
-    TokenResponseAccessTokenFromJSON,
-    TokenResponseAccessTokenFromJSONTyped,
-    TokenResponseAccessTokenToJSON,
-    TokenResponseRefreshToken,
     TokenResponseRefreshTokenFromJSON,
     TokenResponseRefreshTokenFromJSONTyped,
     TokenResponseRefreshTokenToJSON,
-} from './';
+    TokenResponseRefreshTokenToJSONTyped,
+} from './TokenResponseRefreshToken';
+import type { TokenResponseAccessToken } from './TokenResponseAccessToken';
+import {
+    TokenResponseAccessTokenFromJSON,
+    TokenResponseAccessTokenFromJSONTyped,
+    TokenResponseAccessTokenToJSON,
+    TokenResponseAccessTokenToJSONTyped,
+} from './TokenResponseAccessToken';
 
 /**
  * 
@@ -44,32 +48,42 @@ export interface TokenResponse {
     refresh_token?: TokenResponseRefreshToken;
 }
 
+/**
+ * Check if a given object implements the TokenResponse interface.
+ */
+export function instanceOfTokenResponse(value: object): value is TokenResponse {
+    if (!('access_token' in value) || value['access_token'] === undefined) return false;
+    return true;
+}
+
 export function TokenResponseFromJSON(json: any): TokenResponse {
     return TokenResponseFromJSONTyped(json, false);
 }
 
 export function TokenResponseFromJSONTyped(json: any, ignoreDiscriminator: boolean): TokenResponse {
-    if ((json === undefined) || (json === null)) {
+    if (json == null) {
         return json;
     }
     return {
         
         'access_token': TokenResponseAccessTokenFromJSON(json['access_token']),
-        'refresh_token': !exists(json, 'refresh_token') ? undefined : TokenResponseRefreshTokenFromJSON(json['refresh_token']),
+        'refresh_token': json['refresh_token'] == null ? undefined : TokenResponseRefreshTokenFromJSON(json['refresh_token']),
     };
 }
 
-export function TokenResponseToJSON(value?: TokenResponse | null): any {
-    if (value === undefined) {
-        return undefined;
+export function TokenResponseToJSON(json: any): TokenResponse {
+    return TokenResponseToJSONTyped(json, false);
+}
+
+export function TokenResponseToJSONTyped(value?: TokenResponse | null, ignoreDiscriminator: boolean = false): any {
+    if (value == null) {
+        return value;
     }
-    if (value === null) {
-        return null;
-    }
+
     return {
         
-        'access_token': TokenResponseAccessTokenToJSON(value.access_token),
-        'refresh_token': TokenResponseRefreshTokenToJSON(value.refresh_token),
+        'access_token': TokenResponseAccessTokenToJSON(value['access_token']),
+        'refresh_token': TokenResponseRefreshTokenToJSON(value['refresh_token']),
     };
 }
 

@@ -12,13 +12,14 @@
  * Do not edit the class manually.
  */
 
-import { exists, mapValues } from '../runtime';
+import { mapValues } from '../runtime';
+import type { V2TokenResponse } from './V2TokenResponse';
 import {
-    V2TokenResponse,
     V2TokenResponseFromJSON,
     V2TokenResponseFromJSONTyped,
     V2TokenResponseToJSON,
-} from './';
+    V2TokenResponseToJSONTyped,
+} from './V2TokenResponse';
 
 /**
  * 
@@ -58,13 +59,22 @@ export interface RespCreateV2Token {
     result?: V2TokenResponse;
 }
 
+
 /**
-* @export
-* @enum {string}
-*/
-export enum RespCreateV2TokenStatusEnum {
-    Success = 'success',
-    Failure = 'failure'
+ * @export
+ */
+export const RespCreateV2TokenStatusEnum = {
+    Success: 'success',
+    Failure: 'failure'
+} as const;
+export type RespCreateV2TokenStatusEnum = typeof RespCreateV2TokenStatusEnum[keyof typeof RespCreateV2TokenStatusEnum];
+
+
+/**
+ * Check if a given object implements the RespCreateV2Token interface.
+ */
+export function instanceOfRespCreateV2Token(value: object): value is RespCreateV2Token {
+    return true;
 }
 
 export function RespCreateV2TokenFromJSON(json: any): RespCreateV2Token {
@@ -72,33 +82,35 @@ export function RespCreateV2TokenFromJSON(json: any): RespCreateV2Token {
 }
 
 export function RespCreateV2TokenFromJSONTyped(json: any, ignoreDiscriminator: boolean): RespCreateV2Token {
-    if ((json === undefined) || (json === null)) {
+    if (json == null) {
         return json;
     }
     return {
         
-        'version': !exists(json, 'version') ? undefined : json['version'],
-        'message': !exists(json, 'message') ? undefined : json['message'],
-        'status': !exists(json, 'status') ? undefined : json['status'],
-        'metadata': !exists(json, 'metadata') ? undefined : json['metadata'],
-        'result': !exists(json, 'result') ? undefined : V2TokenResponseFromJSON(json['result']),
+        'version': json['version'] == null ? undefined : json['version'],
+        'message': json['message'] == null ? undefined : json['message'],
+        'status': json['status'] == null ? undefined : json['status'],
+        'metadata': json['metadata'] == null ? undefined : json['metadata'],
+        'result': json['result'] == null ? undefined : V2TokenResponseFromJSON(json['result']),
     };
 }
 
-export function RespCreateV2TokenToJSON(value?: RespCreateV2Token | null): any {
-    if (value === undefined) {
-        return undefined;
+export function RespCreateV2TokenToJSON(json: any): RespCreateV2Token {
+    return RespCreateV2TokenToJSONTyped(json, false);
+}
+
+export function RespCreateV2TokenToJSONTyped(value?: RespCreateV2Token | null, ignoreDiscriminator: boolean = false): any {
+    if (value == null) {
+        return value;
     }
-    if (value === null) {
-        return null;
-    }
+
     return {
         
-        'version': value.version,
-        'message': value.message,
-        'status': value.status,
-        'metadata': value.metadata,
-        'result': V2TokenResponseToJSON(value.result),
+        'version': value['version'],
+        'message': value['message'],
+        'status': value['status'],
+        'metadata': value['metadata'],
+        'result': V2TokenResponseToJSON(value['result']),
     };
 }
 

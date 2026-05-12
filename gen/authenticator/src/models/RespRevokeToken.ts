@@ -12,7 +12,7 @@
  * Do not edit the class manually.
  */
 
-import { exists, mapValues } from '../runtime';
+import { mapValues } from '../runtime';
 /**
  * 
  * @export
@@ -45,13 +45,22 @@ export interface RespRevokeToken {
     metadata?: object;
 }
 
+
 /**
-* @export
-* @enum {string}
-*/
-export enum RespRevokeTokenStatusEnum {
-    Success = 'success',
-    Failure = 'failure'
+ * @export
+ */
+export const RespRevokeTokenStatusEnum = {
+    Success: 'success',
+    Failure: 'failure'
+} as const;
+export type RespRevokeTokenStatusEnum = typeof RespRevokeTokenStatusEnum[keyof typeof RespRevokeTokenStatusEnum];
+
+
+/**
+ * Check if a given object implements the RespRevokeToken interface.
+ */
+export function instanceOfRespRevokeToken(value: object): value is RespRevokeToken {
+    return true;
 }
 
 export function RespRevokeTokenFromJSON(json: any): RespRevokeToken {
@@ -59,31 +68,33 @@ export function RespRevokeTokenFromJSON(json: any): RespRevokeToken {
 }
 
 export function RespRevokeTokenFromJSONTyped(json: any, ignoreDiscriminator: boolean): RespRevokeToken {
-    if ((json === undefined) || (json === null)) {
+    if (json == null) {
         return json;
     }
     return {
         
-        'version': !exists(json, 'version') ? undefined : json['version'],
-        'message': !exists(json, 'message') ? undefined : json['message'],
-        'status': !exists(json, 'status') ? undefined : json['status'],
-        'metadata': !exists(json, 'metadata') ? undefined : json['metadata'],
+        'version': json['version'] == null ? undefined : json['version'],
+        'message': json['message'] == null ? undefined : json['message'],
+        'status': json['status'] == null ? undefined : json['status'],
+        'metadata': json['metadata'] == null ? undefined : json['metadata'],
     };
 }
 
-export function RespRevokeTokenToJSON(value?: RespRevokeToken | null): any {
-    if (value === undefined) {
-        return undefined;
+export function RespRevokeTokenToJSON(json: any): RespRevokeToken {
+    return RespRevokeTokenToJSONTyped(json, false);
+}
+
+export function RespRevokeTokenToJSONTyped(value?: RespRevokeToken | null, ignoreDiscriminator: boolean = false): any {
+    if (value == null) {
+        return value;
     }
-    if (value === null) {
-        return null;
-    }
+
     return {
         
-        'version': value.version,
-        'message': value.message,
-        'status': value.status,
-        'metadata': value.metadata,
+        'version': value['version'],
+        'message': value['message'],
+        'status': value['status'],
+        'metadata': value['metadata'],
     };
 }
 

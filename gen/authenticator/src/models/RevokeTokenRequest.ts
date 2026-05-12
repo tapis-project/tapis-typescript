@@ -12,7 +12,7 @@
  * Do not edit the class manually.
  */
 
-import { exists, mapValues } from '../runtime';
+import { mapValues } from '../runtime';
 /**
  * 
  * @export
@@ -27,30 +27,39 @@ export interface RevokeTokenRequest {
     token?: string;
 }
 
+/**
+ * Check if a given object implements the RevokeTokenRequest interface.
+ */
+export function instanceOfRevokeTokenRequest(value: object): value is RevokeTokenRequest {
+    return true;
+}
+
 export function RevokeTokenRequestFromJSON(json: any): RevokeTokenRequest {
     return RevokeTokenRequestFromJSONTyped(json, false);
 }
 
 export function RevokeTokenRequestFromJSONTyped(json: any, ignoreDiscriminator: boolean): RevokeTokenRequest {
-    if ((json === undefined) || (json === null)) {
+    if (json == null) {
         return json;
     }
     return {
         
-        'token': !exists(json, 'token') ? undefined : json['token'],
+        'token': json['token'] == null ? undefined : json['token'],
     };
 }
 
-export function RevokeTokenRequestToJSON(value?: RevokeTokenRequest | null): any {
-    if (value === undefined) {
-        return undefined;
+export function RevokeTokenRequestToJSON(json: any): RevokeTokenRequest {
+    return RevokeTokenRequestToJSONTyped(json, false);
+}
+
+export function RevokeTokenRequestToJSONTyped(value?: RevokeTokenRequest | null, ignoreDiscriminator: boolean = false): any {
+    if (value == null) {
+        return value;
     }
-    if (value === null) {
-        return null;
-    }
+
     return {
         
-        'token': value.token,
+        'token': value['token'],
     };
 }
 

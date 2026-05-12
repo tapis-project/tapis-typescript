@@ -12,13 +12,14 @@
  * Do not edit the class manually.
  */
 
-import { exists, mapValues } from '../runtime';
+import { mapValues } from '../runtime';
+import type { OAuth2Metadata } from './OAuth2Metadata';
 import {
-    OAuth2Metadata,
     OAuth2MetadataFromJSON,
     OAuth2MetadataFromJSONTyped,
     OAuth2MetadataToJSON,
-} from './';
+    OAuth2MetadataToJSONTyped,
+} from './OAuth2Metadata';
 
 /**
  * 
@@ -58,13 +59,22 @@ export interface RespGetServerMetadata {
     result?: OAuth2Metadata;
 }
 
+
 /**
-* @export
-* @enum {string}
-*/
-export enum RespGetServerMetadataStatusEnum {
-    Success = 'success',
-    Failure = 'failure'
+ * @export
+ */
+export const RespGetServerMetadataStatusEnum = {
+    Success: 'success',
+    Failure: 'failure'
+} as const;
+export type RespGetServerMetadataStatusEnum = typeof RespGetServerMetadataStatusEnum[keyof typeof RespGetServerMetadataStatusEnum];
+
+
+/**
+ * Check if a given object implements the RespGetServerMetadata interface.
+ */
+export function instanceOfRespGetServerMetadata(value: object): value is RespGetServerMetadata {
+    return true;
 }
 
 export function RespGetServerMetadataFromJSON(json: any): RespGetServerMetadata {
@@ -72,33 +82,35 @@ export function RespGetServerMetadataFromJSON(json: any): RespGetServerMetadata 
 }
 
 export function RespGetServerMetadataFromJSONTyped(json: any, ignoreDiscriminator: boolean): RespGetServerMetadata {
-    if ((json === undefined) || (json === null)) {
+    if (json == null) {
         return json;
     }
     return {
         
-        'version': !exists(json, 'version') ? undefined : json['version'],
-        'message': !exists(json, 'message') ? undefined : json['message'],
-        'status': !exists(json, 'status') ? undefined : json['status'],
-        'metadata': !exists(json, 'metadata') ? undefined : json['metadata'],
-        'result': !exists(json, 'result') ? undefined : OAuth2MetadataFromJSON(json['result']),
+        'version': json['version'] == null ? undefined : json['version'],
+        'message': json['message'] == null ? undefined : json['message'],
+        'status': json['status'] == null ? undefined : json['status'],
+        'metadata': json['metadata'] == null ? undefined : json['metadata'],
+        'result': json['result'] == null ? undefined : OAuth2MetadataFromJSON(json['result']),
     };
 }
 
-export function RespGetServerMetadataToJSON(value?: RespGetServerMetadata | null): any {
-    if (value === undefined) {
-        return undefined;
+export function RespGetServerMetadataToJSON(json: any): RespGetServerMetadata {
+    return RespGetServerMetadataToJSONTyped(json, false);
+}
+
+export function RespGetServerMetadataToJSONTyped(value?: RespGetServerMetadata | null, ignoreDiscriminator: boolean = false): any {
+    if (value == null) {
+        return value;
     }
-    if (value === null) {
-        return null;
-    }
+
     return {
         
-        'version': value.version,
-        'message': value.message,
-        'status': value.status,
-        'metadata': value.metadata,
-        'result': OAuth2MetadataToJSON(value.result),
+        'version': value['version'],
+        'message': value['message'],
+        'status': value['status'],
+        'metadata': value['metadata'],
+        'result': OAuth2MetadataToJSON(value['result']),
     };
 }
 

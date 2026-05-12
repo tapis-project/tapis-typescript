@@ -14,32 +14,34 @@
 
 
 import * as runtime from '../runtime';
+import type {
+  NewDeviceCode,
+  ReqCreateToken,
+  RespCreateToken,
+  RespCreateV2Token,
+  RespGenerateDeviceCode,
+  RespRevokeToken,
+  RevokeTokenRequest,
+  V2Token,
+} from '../models/index';
 import {
-    NewDeviceCode,
     NewDeviceCodeFromJSON,
     NewDeviceCodeToJSON,
-    ReqCreateToken,
     ReqCreateTokenFromJSON,
     ReqCreateTokenToJSON,
-    RespCreateToken,
     RespCreateTokenFromJSON,
     RespCreateTokenToJSON,
-    RespCreateV2Token,
     RespCreateV2TokenFromJSON,
     RespCreateV2TokenToJSON,
-    RespGenerateDeviceCode,
     RespGenerateDeviceCodeFromJSON,
     RespGenerateDeviceCodeToJSON,
-    RespRevokeToken,
     RespRevokeTokenFromJSON,
     RespRevokeTokenToJSON,
-    RevokeTokenRequest,
     RevokeTokenRequestFromJSON,
     RevokeTokenRequestToJSON,
-    V2Token,
     V2TokenFromJSON,
     V2TokenToJSON,
-} from '../models';
+} from '../models/index';
 
 export interface CreateTokenRequest {
     reqCreateToken: ReqCreateToken;
@@ -66,9 +68,12 @@ export class TokensApi extends runtime.BaseAPI {
      * Generate a Tapis JWT using some OAuth2 grant type. Typically, a request to this endpoint is the last step in the token generation process. The fields required in the request payload depend on the grant type being used (see details below).
      * Generate a Tapis JWT
      */
-    async createTokenRaw(requestParameters: CreateTokenRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespCreateToken>> {
-        if (requestParameters.reqCreateToken === null || requestParameters.reqCreateToken === undefined) {
-            throw new runtime.RequiredError('reqCreateToken','Required parameter requestParameters.reqCreateToken was null or undefined when calling createToken.');
+    async createTokenRaw(requestParameters: CreateTokenRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<RespCreateToken>> {
+        if (requestParameters['reqCreateToken'] == null) {
+            throw new runtime.RequiredError(
+                'reqCreateToken',
+                'Required parameter "reqCreateToken" was null or undefined when calling createToken().'
+            );
         }
 
         const queryParameters: any = {};
@@ -82,7 +87,7 @@ export class TokensApi extends runtime.BaseAPI {
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
-            body: ReqCreateTokenToJSON(requestParameters.reqCreateToken),
+            body: ReqCreateTokenToJSON(requestParameters['reqCreateToken']),
         }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => RespCreateTokenFromJSON(jsonValue));
@@ -92,7 +97,7 @@ export class TokensApi extends runtime.BaseAPI {
      * Generate a Tapis JWT using some OAuth2 grant type. Typically, a request to this endpoint is the last step in the token generation process. The fields required in the request payload depend on the grant type being used (see details below).
      * Generate a Tapis JWT
      */
-    async createToken(requestParameters: CreateTokenRequest, initOverrides?: RequestInit): Promise<RespCreateToken> {
+    async createToken(requestParameters: CreateTokenRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<RespCreateToken> {
         const response = await this.createTokenRaw(requestParameters, initOverrides);
         return await response.value();
     }
@@ -101,9 +106,12 @@ export class TokensApi extends runtime.BaseAPI {
      * Create a v2 token from a Tapis v3 JWT. Note that only some tenants for both v2 and v3 are supported.
      * Create a v2 bearer token from a Tapis v3 JWT.
      */
-    async createV2TokenRaw(requestParameters: CreateV2TokenRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespCreateV2Token>> {
-        if (requestParameters.v2Token === null || requestParameters.v2Token === undefined) {
-            throw new runtime.RequiredError('v2Token','Required parameter requestParameters.v2Token was null or undefined when calling createV2Token.');
+    async createV2TokenRaw(requestParameters: CreateV2TokenRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<RespCreateV2Token>> {
+        if (requestParameters['v2Token'] == null) {
+            throw new runtime.RequiredError(
+                'v2Token',
+                'Required parameter "v2Token" was null or undefined when calling createV2Token().'
+            );
         }
 
         const queryParameters: any = {};
@@ -113,7 +121,7 @@ export class TokensApi extends runtime.BaseAPI {
         headerParameters['Content-Type'] = 'application/json';
 
         if (this.configuration && this.configuration.apiKey) {
-            headerParameters["X-Tapis-Token"] = this.configuration.apiKey("X-Tapis-Token"); // TapisJWT authentication
+            headerParameters["X-Tapis-Token"] = await this.configuration.apiKey("X-Tapis-Token"); // TapisJWT authentication
         }
 
         const response = await this.request({
@@ -121,7 +129,7 @@ export class TokensApi extends runtime.BaseAPI {
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
-            body: V2TokenToJSON(requestParameters.v2Token),
+            body: V2TokenToJSON(requestParameters['v2Token']),
         }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => RespCreateV2TokenFromJSON(jsonValue));
@@ -131,7 +139,7 @@ export class TokensApi extends runtime.BaseAPI {
      * Create a v2 token from a Tapis v3 JWT. Note that only some tenants for both v2 and v3 are supported.
      * Create a v2 bearer token from a Tapis v3 JWT.
      */
-    async createV2Token(requestParameters: CreateV2TokenRequest, initOverrides?: RequestInit): Promise<RespCreateV2Token> {
+    async createV2Token(requestParameters: CreateV2TokenRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<RespCreateV2Token> {
         const response = await this.createV2TokenRaw(requestParameters, initOverrides);
         return await response.value();
     }
@@ -140,9 +148,12 @@ export class TokensApi extends runtime.BaseAPI {
      * Generate a device code; this is the first step in the device_code grant type. See the OAuth2 documentation for details.
      * Generate a device code.
      */
-    async generateDeviceCodeRaw(requestParameters: GenerateDeviceCodeRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespGenerateDeviceCode>> {
-        if (requestParameters.newDeviceCode === null || requestParameters.newDeviceCode === undefined) {
-            throw new runtime.RequiredError('newDeviceCode','Required parameter requestParameters.newDeviceCode was null or undefined when calling generateDeviceCode.');
+    async generateDeviceCodeRaw(requestParameters: GenerateDeviceCodeRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<RespGenerateDeviceCode>> {
+        if (requestParameters['newDeviceCode'] == null) {
+            throw new runtime.RequiredError(
+                'newDeviceCode',
+                'Required parameter "newDeviceCode" was null or undefined when calling generateDeviceCode().'
+            );
         }
 
         const queryParameters: any = {};
@@ -156,7 +167,7 @@ export class TokensApi extends runtime.BaseAPI {
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
-            body: NewDeviceCodeToJSON(requestParameters.newDeviceCode),
+            body: NewDeviceCodeToJSON(requestParameters['newDeviceCode']),
         }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => RespGenerateDeviceCodeFromJSON(jsonValue));
@@ -166,7 +177,7 @@ export class TokensApi extends runtime.BaseAPI {
      * Generate a device code; this is the first step in the device_code grant type. See the OAuth2 documentation for details.
      * Generate a device code.
      */
-    async generateDeviceCode(requestParameters: GenerateDeviceCodeRequest, initOverrides?: RequestInit): Promise<RespGenerateDeviceCode> {
+    async generateDeviceCode(requestParameters: GenerateDeviceCodeRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<RespGenerateDeviceCode> {
         const response = await this.generateDeviceCodeRaw(requestParameters, initOverrides);
         return await response.value();
     }
@@ -175,9 +186,12 @@ export class TokensApi extends runtime.BaseAPI {
      * Revoke a Tapis JWT. Pass the token to revoke in the body of the request. Once revoked, a token cannot be unrevoked. Only user tokens generated by this Authenticator can be revoked with this endpoint.
      * Revoke a token.
      */
-    async revokeTokenRaw(requestParameters: RevokeTokenOperationRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespRevokeToken>> {
-        if (requestParameters.revokeTokenRequest === null || requestParameters.revokeTokenRequest === undefined) {
-            throw new runtime.RequiredError('revokeTokenRequest','Required parameter requestParameters.revokeTokenRequest was null or undefined when calling revokeToken.');
+    async revokeTokenRaw(requestParameters: RevokeTokenOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<RespRevokeToken>> {
+        if (requestParameters['revokeTokenRequest'] == null) {
+            throw new runtime.RequiredError(
+                'revokeTokenRequest',
+                'Required parameter "revokeTokenRequest" was null or undefined when calling revokeToken().'
+            );
         }
 
         const queryParameters: any = {};
@@ -191,7 +205,7 @@ export class TokensApi extends runtime.BaseAPI {
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
-            body: RevokeTokenRequestToJSON(requestParameters.revokeTokenRequest),
+            body: RevokeTokenRequestToJSON(requestParameters['revokeTokenRequest']),
         }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => RespRevokeTokenFromJSON(jsonValue));
@@ -201,7 +215,7 @@ export class TokensApi extends runtime.BaseAPI {
      * Revoke a Tapis JWT. Pass the token to revoke in the body of the request. Once revoked, a token cannot be unrevoked. Only user tokens generated by this Authenticator can be revoked with this endpoint.
      * Revoke a token.
      */
-    async revokeToken(requestParameters: RevokeTokenOperationRequest, initOverrides?: RequestInit): Promise<RespRevokeToken> {
+    async revokeToken(requestParameters: RevokeTokenOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<RespRevokeToken> {
         const response = await this.revokeTokenRaw(requestParameters, initOverrides);
         return await response.value();
     }

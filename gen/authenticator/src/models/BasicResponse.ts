@@ -12,7 +12,7 @@
  * Do not edit the class manually.
  */
 
-import { exists, mapValues } from '../runtime';
+import { mapValues } from '../runtime';
 /**
  * 
  * @export
@@ -45,13 +45,22 @@ export interface BasicResponse {
     metadata?: object;
 }
 
+
 /**
-* @export
-* @enum {string}
-*/
-export enum BasicResponseStatusEnum {
-    Success = 'success',
-    Failure = 'failure'
+ * @export
+ */
+export const BasicResponseStatusEnum = {
+    Success: 'success',
+    Failure: 'failure'
+} as const;
+export type BasicResponseStatusEnum = typeof BasicResponseStatusEnum[keyof typeof BasicResponseStatusEnum];
+
+
+/**
+ * Check if a given object implements the BasicResponse interface.
+ */
+export function instanceOfBasicResponse(value: object): value is BasicResponse {
+    return true;
 }
 
 export function BasicResponseFromJSON(json: any): BasicResponse {
@@ -59,31 +68,33 @@ export function BasicResponseFromJSON(json: any): BasicResponse {
 }
 
 export function BasicResponseFromJSONTyped(json: any, ignoreDiscriminator: boolean): BasicResponse {
-    if ((json === undefined) || (json === null)) {
+    if (json == null) {
         return json;
     }
     return {
         
-        'version': !exists(json, 'version') ? undefined : json['version'],
-        'message': !exists(json, 'message') ? undefined : json['message'],
-        'status': !exists(json, 'status') ? undefined : json['status'],
-        'metadata': !exists(json, 'metadata') ? undefined : json['metadata'],
+        'version': json['version'] == null ? undefined : json['version'],
+        'message': json['message'] == null ? undefined : json['message'],
+        'status': json['status'] == null ? undefined : json['status'],
+        'metadata': json['metadata'] == null ? undefined : json['metadata'],
     };
 }
 
-export function BasicResponseToJSON(value?: BasicResponse | null): any {
-    if (value === undefined) {
-        return undefined;
+export function BasicResponseToJSON(json: any): BasicResponse {
+    return BasicResponseToJSONTyped(json, false);
+}
+
+export function BasicResponseToJSONTyped(value?: BasicResponse | null, ignoreDiscriminator: boolean = false): any {
+    if (value == null) {
+        return value;
     }
-    if (value === null) {
-        return null;
-    }
+
     return {
         
-        'version': value.version,
-        'message': value.message,
-        'status': value.status,
-        'metadata': value.metadata,
+        'version': value['version'],
+        'message': value['message'],
+        'status': value['status'],
+        'metadata': value['metadata'],
     };
 }
 

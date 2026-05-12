@@ -12,13 +12,14 @@
  * Do not edit the class manually.
  */
 
-import { exists, mapValues } from '../runtime';
+import { mapValues } from '../runtime';
+import type { Profile } from './Profile';
 import {
-    Profile,
     ProfileFromJSON,
     ProfileFromJSONTyped,
     ProfileToJSON,
-} from './';
+    ProfileToJSONTyped,
+} from './Profile';
 
 /**
  * 
@@ -58,13 +59,22 @@ export interface RespGetProfile {
     result?: Profile;
 }
 
+
 /**
-* @export
-* @enum {string}
-*/
-export enum RespGetProfileStatusEnum {
-    Success = 'success',
-    Failure = 'failure'
+ * @export
+ */
+export const RespGetProfileStatusEnum = {
+    Success: 'success',
+    Failure: 'failure'
+} as const;
+export type RespGetProfileStatusEnum = typeof RespGetProfileStatusEnum[keyof typeof RespGetProfileStatusEnum];
+
+
+/**
+ * Check if a given object implements the RespGetProfile interface.
+ */
+export function instanceOfRespGetProfile(value: object): value is RespGetProfile {
+    return true;
 }
 
 export function RespGetProfileFromJSON(json: any): RespGetProfile {
@@ -72,33 +82,35 @@ export function RespGetProfileFromJSON(json: any): RespGetProfile {
 }
 
 export function RespGetProfileFromJSONTyped(json: any, ignoreDiscriminator: boolean): RespGetProfile {
-    if ((json === undefined) || (json === null)) {
+    if (json == null) {
         return json;
     }
     return {
         
-        'version': !exists(json, 'version') ? undefined : json['version'],
-        'message': !exists(json, 'message') ? undefined : json['message'],
-        'status': !exists(json, 'status') ? undefined : json['status'],
-        'metadata': !exists(json, 'metadata') ? undefined : json['metadata'],
-        'result': !exists(json, 'result') ? undefined : ProfileFromJSON(json['result']),
+        'version': json['version'] == null ? undefined : json['version'],
+        'message': json['message'] == null ? undefined : json['message'],
+        'status': json['status'] == null ? undefined : json['status'],
+        'metadata': json['metadata'] == null ? undefined : json['metadata'],
+        'result': json['result'] == null ? undefined : ProfileFromJSON(json['result']),
     };
 }
 
-export function RespGetProfileToJSON(value?: RespGetProfile | null): any {
-    if (value === undefined) {
-        return undefined;
+export function RespGetProfileToJSON(json: any): RespGetProfile {
+    return RespGetProfileToJSONTyped(json, false);
+}
+
+export function RespGetProfileToJSONTyped(value?: RespGetProfile | null, ignoreDiscriminator: boolean = false): any {
+    if (value == null) {
+        return value;
     }
-    if (value === null) {
-        return null;
-    }
+
     return {
         
-        'version': value.version,
-        'message': value.message,
-        'status': value.status,
-        'metadata': value.metadata,
-        'result': ProfileToJSON(value.result),
+        'version': value['version'],
+        'message': value['message'],
+        'status': value['status'],
+        'metadata': value['metadata'],
+        'result': ProfileToJSON(value['result']),
     };
 }
 

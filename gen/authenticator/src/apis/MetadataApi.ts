@@ -14,11 +14,13 @@
 
 
 import * as runtime from '../runtime';
+import type {
+  RespGetServerMetadata,
+} from '../models/index';
 import {
-    RespGetServerMetadata,
     RespGetServerMetadataFromJSON,
     RespGetServerMetadataToJSON,
-} from '../models';
+} from '../models/index';
 
 /**
  * 
@@ -28,7 +30,7 @@ export class MetadataApi extends runtime.BaseAPI {
     /**
      * Get the OAuth2 server metadata for the tenant.
      */
-    async getServerMetadataRaw(initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespGetServerMetadata>> {
+    async getServerMetadataRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<RespGetServerMetadata>> {
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -46,7 +48,7 @@ export class MetadataApi extends runtime.BaseAPI {
     /**
      * Get the OAuth2 server metadata for the tenant.
      */
-    async getServerMetadata(initOverrides?: RequestInit): Promise<RespGetServerMetadata> {
+    async getServerMetadata(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<RespGetServerMetadata> {
         const response = await this.getServerMetadataRaw(initOverrides);
         return await response.value();
     }

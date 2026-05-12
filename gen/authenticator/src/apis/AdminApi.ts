@@ -14,17 +14,19 @@
 
 
 import * as runtime from '../runtime';
+import type {
+  NewTenantConfig,
+  RespGetConfig,
+  RespUpdateConfig,
+} from '../models/index';
 import {
-    NewTenantConfig,
     NewTenantConfigFromJSON,
     NewTenantConfigToJSON,
-    RespGetConfig,
     RespGetConfigFromJSON,
     RespGetConfigToJSON,
-    RespUpdateConfig,
     RespUpdateConfigFromJSON,
     RespUpdateConfigToJSON,
-} from '../models';
+} from '../models/index';
 
 export interface UpdateConfigRequest {
     newTenantConfig: NewTenantConfig;
@@ -38,13 +40,13 @@ export class AdminApi extends runtime.BaseAPI {
     /**
      * Get the authenticator configuraion for the tenant; restricted to Tenant admins.
      */
-    async getConfigRaw(initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespGetConfig>> {
+    async getConfigRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<RespGetConfig>> {
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
 
         if (this.configuration && this.configuration.apiKey) {
-            headerParameters["X-Tapis-Token"] = this.configuration.apiKey("X-Tapis-Token"); // TapisJWT authentication
+            headerParameters["X-Tapis-Token"] = await this.configuration.apiKey("X-Tapis-Token"); // TapisJWT authentication
         }
 
         const response = await this.request({
@@ -60,7 +62,7 @@ export class AdminApi extends runtime.BaseAPI {
     /**
      * Get the authenticator configuraion for the tenant; restricted to Tenant admins.
      */
-    async getConfig(initOverrides?: RequestInit): Promise<RespGetConfig> {
+    async getConfig(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<RespGetConfig> {
         const response = await this.getConfigRaw(initOverrides);
         return await response.value();
     }
@@ -68,9 +70,12 @@ export class AdminApi extends runtime.BaseAPI {
     /**
      * Update the authenticator configuraion for the tenant; restricted to Tenant admins.
      */
-    async updateConfigRaw(requestParameters: UpdateConfigRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespUpdateConfig>> {
-        if (requestParameters.newTenantConfig === null || requestParameters.newTenantConfig === undefined) {
-            throw new runtime.RequiredError('newTenantConfig','Required parameter requestParameters.newTenantConfig was null or undefined when calling updateConfig.');
+    async updateConfigRaw(requestParameters: UpdateConfigRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<RespUpdateConfig>> {
+        if (requestParameters['newTenantConfig'] == null) {
+            throw new runtime.RequiredError(
+                'newTenantConfig',
+                'Required parameter "newTenantConfig" was null or undefined when calling updateConfig().'
+            );
         }
 
         const queryParameters: any = {};
@@ -80,7 +85,7 @@ export class AdminApi extends runtime.BaseAPI {
         headerParameters['Content-Type'] = 'application/json';
 
         if (this.configuration && this.configuration.apiKey) {
-            headerParameters["X-Tapis-Token"] = this.configuration.apiKey("X-Tapis-Token"); // TapisJWT authentication
+            headerParameters["X-Tapis-Token"] = await this.configuration.apiKey("X-Tapis-Token"); // TapisJWT authentication
         }
 
         const response = await this.request({
@@ -88,7 +93,7 @@ export class AdminApi extends runtime.BaseAPI {
             method: 'PUT',
             headers: headerParameters,
             query: queryParameters,
-            body: NewTenantConfigToJSON(requestParameters.newTenantConfig),
+            body: NewTenantConfigToJSON(requestParameters['newTenantConfig']),
         }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => RespUpdateConfigFromJSON(jsonValue));
@@ -97,7 +102,7 @@ export class AdminApi extends runtime.BaseAPI {
     /**
      * Update the authenticator configuraion for the tenant; restricted to Tenant admins.
      */
-    async updateConfig(requestParameters: UpdateConfigRequest, initOverrides?: RequestInit): Promise<RespUpdateConfig> {
+    async updateConfig(requestParameters: UpdateConfigRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<RespUpdateConfig> {
         const response = await this.updateConfigRaw(requestParameters, initOverrides);
         return await response.value();
     }

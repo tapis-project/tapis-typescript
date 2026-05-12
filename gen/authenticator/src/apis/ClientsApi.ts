@@ -14,29 +14,31 @@
 
 
 import * as runtime from '../runtime';
+import type {
+  ReqCreateClient,
+  RespCreateClient,
+  RespDeleteClient,
+  RespGetClient,
+  RespListClients,
+  RespUpdateClient,
+  UpdateClient,
+} from '../models/index';
 import {
-    ReqCreateClient,
     ReqCreateClientFromJSON,
     ReqCreateClientToJSON,
-    RespCreateClient,
     RespCreateClientFromJSON,
     RespCreateClientToJSON,
-    RespDeleteClient,
     RespDeleteClientFromJSON,
     RespDeleteClientToJSON,
-    RespGetClient,
     RespGetClientFromJSON,
     RespGetClientToJSON,
-    RespListClients,
     RespListClientsFromJSON,
     RespListClientsToJSON,
-    RespUpdateClient,
     RespUpdateClientFromJSON,
     RespUpdateClientToJSON,
-    UpdateClient,
     UpdateClientFromJSON,
     UpdateClientToJSON,
-} from '../models';
+} from '../models/index';
 
 export interface CreateClientRequest {
     reqCreateClient: ReqCreateClient;
@@ -53,6 +55,7 @@ export interface GetClientRequest {
 export interface ListClientsRequest {
     limit?: number;
     offset?: number;
+    showInactive?: boolean;
 }
 
 export interface UpdateClientRequest {
@@ -67,9 +70,12 @@ export class ClientsApi extends runtime.BaseAPI {
 
     /**
      */
-    async createClientRaw(requestParameters: CreateClientRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespCreateClient>> {
-        if (requestParameters.reqCreateClient === null || requestParameters.reqCreateClient === undefined) {
-            throw new runtime.RequiredError('reqCreateClient','Required parameter requestParameters.reqCreateClient was null or undefined when calling createClient.');
+    async createClientRaw(requestParameters: CreateClientRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<RespCreateClient>> {
+        if (requestParameters['reqCreateClient'] == null) {
+            throw new runtime.RequiredError(
+                'reqCreateClient',
+                'Required parameter "reqCreateClient" was null or undefined when calling createClient().'
+            );
         }
 
         const queryParameters: any = {};
@@ -79,7 +85,7 @@ export class ClientsApi extends runtime.BaseAPI {
         headerParameters['Content-Type'] = 'application/json';
 
         if (this.configuration && this.configuration.apiKey) {
-            headerParameters["X-Tapis-Token"] = this.configuration.apiKey("X-Tapis-Token"); // TapisJWT authentication
+            headerParameters["X-Tapis-Token"] = await this.configuration.apiKey("X-Tapis-Token"); // TapisJWT authentication
         }
 
         const response = await this.request({
@@ -87,7 +93,7 @@ export class ClientsApi extends runtime.BaseAPI {
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
-            body: ReqCreateClientToJSON(requestParameters.reqCreateClient),
+            body: ReqCreateClientToJSON(requestParameters['reqCreateClient']),
         }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => RespCreateClientFromJSON(jsonValue));
@@ -95,7 +101,7 @@ export class ClientsApi extends runtime.BaseAPI {
 
     /**
      */
-    async createClient(requestParameters: CreateClientRequest, initOverrides?: RequestInit): Promise<RespCreateClient> {
+    async createClient(requestParameters: CreateClientRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<RespCreateClient> {
         const response = await this.createClientRaw(requestParameters, initOverrides);
         return await response.value();
     }
@@ -104,9 +110,12 @@ export class ClientsApi extends runtime.BaseAPI {
      * Permanently set a client to inactive. Once set to inactive clients cannot be used.
      * Permanently set a client to inactive.
      */
-    async deleteClientRaw(requestParameters: DeleteClientRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespDeleteClient>> {
-        if (requestParameters.clientId === null || requestParameters.clientId === undefined) {
-            throw new runtime.RequiredError('clientId','Required parameter requestParameters.clientId was null or undefined when calling deleteClient.');
+    async deleteClientRaw(requestParameters: DeleteClientRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<RespDeleteClient>> {
+        if (requestParameters['clientId'] == null) {
+            throw new runtime.RequiredError(
+                'clientId',
+                'Required parameter "clientId" was null or undefined when calling deleteClient().'
+            );
         }
 
         const queryParameters: any = {};
@@ -114,11 +123,11 @@ export class ClientsApi extends runtime.BaseAPI {
         const headerParameters: runtime.HTTPHeaders = {};
 
         if (this.configuration && this.configuration.apiKey) {
-            headerParameters["X-Tapis-Token"] = this.configuration.apiKey("X-Tapis-Token"); // TapisJWT authentication
+            headerParameters["X-Tapis-Token"] = await this.configuration.apiKey("X-Tapis-Token"); // TapisJWT authentication
         }
 
         const response = await this.request({
-            path: `/v3/oauth2/clients/{client_id}`.replace(`{${"client_id"}}`, encodeURIComponent(String(requestParameters.clientId))),
+            path: `/v3/oauth2/clients/{client_id}`.replace(`{${"client_id"}}`, encodeURIComponent(String(requestParameters['clientId']))),
             method: 'DELETE',
             headers: headerParameters,
             query: queryParameters,
@@ -131,7 +140,7 @@ export class ClientsApi extends runtime.BaseAPI {
      * Permanently set a client to inactive. Once set to inactive clients cannot be used.
      * Permanently set a client to inactive.
      */
-    async deleteClient(requestParameters: DeleteClientRequest, initOverrides?: RequestInit): Promise<RespDeleteClient> {
+    async deleteClient(requestParameters: DeleteClientRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<RespDeleteClient> {
         const response = await this.deleteClientRaw(requestParameters, initOverrides);
         return await response.value();
     }
@@ -140,9 +149,12 @@ export class ClientsApi extends runtime.BaseAPI {
      * Get details of a specific client by its id.
      * Get client details
      */
-    async getClientRaw(requestParameters: GetClientRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespGetClient>> {
-        if (requestParameters.clientId === null || requestParameters.clientId === undefined) {
-            throw new runtime.RequiredError('clientId','Required parameter requestParameters.clientId was null or undefined when calling getClient.');
+    async getClientRaw(requestParameters: GetClientRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<RespGetClient>> {
+        if (requestParameters['clientId'] == null) {
+            throw new runtime.RequiredError(
+                'clientId',
+                'Required parameter "clientId" was null or undefined when calling getClient().'
+            );
         }
 
         const queryParameters: any = {};
@@ -150,11 +162,11 @@ export class ClientsApi extends runtime.BaseAPI {
         const headerParameters: runtime.HTTPHeaders = {};
 
         if (this.configuration && this.configuration.apiKey) {
-            headerParameters["X-Tapis-Token"] = this.configuration.apiKey("X-Tapis-Token"); // TapisJWT authentication
+            headerParameters["X-Tapis-Token"] = await this.configuration.apiKey("X-Tapis-Token"); // TapisJWT authentication
         }
 
         const response = await this.request({
-            path: `/v3/oauth2/clients/{client_id}`.replace(`{${"client_id"}}`, encodeURIComponent(String(requestParameters.clientId))),
+            path: `/v3/oauth2/clients/{client_id}`.replace(`{${"client_id"}}`, encodeURIComponent(String(requestParameters['clientId']))),
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
@@ -167,28 +179,32 @@ export class ClientsApi extends runtime.BaseAPI {
      * Get details of a specific client by its id.
      * Get client details
      */
-    async getClient(requestParameters: GetClientRequest, initOverrides?: RequestInit): Promise<RespGetClient> {
+    async getClient(requestParameters: GetClientRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<RespGetClient> {
         const response = await this.getClientRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
     /**
      */
-    async listClientsRaw(requestParameters: ListClientsRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespListClients>> {
+    async listClientsRaw(requestParameters: ListClientsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<RespListClients>> {
         const queryParameters: any = {};
 
-        if (requestParameters.limit !== undefined) {
-            queryParameters['limit'] = requestParameters.limit;
+        if (requestParameters['limit'] != null) {
+            queryParameters['limit'] = requestParameters['limit'];
         }
 
-        if (requestParameters.offset !== undefined) {
-            queryParameters['offset'] = requestParameters.offset;
+        if (requestParameters['offset'] != null) {
+            queryParameters['offset'] = requestParameters['offset'];
+        }
+
+        if (requestParameters['showInactive'] != null) {
+            queryParameters['show_inactive'] = requestParameters['showInactive'];
         }
 
         const headerParameters: runtime.HTTPHeaders = {};
 
         if (this.configuration && this.configuration.apiKey) {
-            headerParameters["X-Tapis-Token"] = this.configuration.apiKey("X-Tapis-Token"); // TapisJWT authentication
+            headerParameters["X-Tapis-Token"] = await this.configuration.apiKey("X-Tapis-Token"); // TapisJWT authentication
         }
 
         const response = await this.request({
@@ -203,7 +219,7 @@ export class ClientsApi extends runtime.BaseAPI {
 
     /**
      */
-    async listClients(requestParameters: ListClientsRequest, initOverrides?: RequestInit): Promise<RespListClients> {
+    async listClients(requestParameters: ListClientsRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<RespListClients> {
         const response = await this.listClientsRaw(requestParameters, initOverrides);
         return await response.value();
     }
@@ -212,13 +228,19 @@ export class ClientsApi extends runtime.BaseAPI {
      * Update details of a specific client by its id.
      * Update client details
      */
-    async updateClientRaw(requestParameters: UpdateClientRequest, initOverrides?: RequestInit): Promise<runtime.ApiResponse<RespUpdateClient>> {
-        if (requestParameters.clientId === null || requestParameters.clientId === undefined) {
-            throw new runtime.RequiredError('clientId','Required parameter requestParameters.clientId was null or undefined when calling updateClient.');
+    async updateClientRaw(requestParameters: UpdateClientRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<RespUpdateClient>> {
+        if (requestParameters['clientId'] == null) {
+            throw new runtime.RequiredError(
+                'clientId',
+                'Required parameter "clientId" was null or undefined when calling updateClient().'
+            );
         }
 
-        if (requestParameters.updateClient === null || requestParameters.updateClient === undefined) {
-            throw new runtime.RequiredError('updateClient','Required parameter requestParameters.updateClient was null or undefined when calling updateClient.');
+        if (requestParameters['updateClient'] == null) {
+            throw new runtime.RequiredError(
+                'updateClient',
+                'Required parameter "updateClient" was null or undefined when calling updateClient().'
+            );
         }
 
         const queryParameters: any = {};
@@ -228,15 +250,15 @@ export class ClientsApi extends runtime.BaseAPI {
         headerParameters['Content-Type'] = 'application/json';
 
         if (this.configuration && this.configuration.apiKey) {
-            headerParameters["X-Tapis-Token"] = this.configuration.apiKey("X-Tapis-Token"); // TapisJWT authentication
+            headerParameters["X-Tapis-Token"] = await this.configuration.apiKey("X-Tapis-Token"); // TapisJWT authentication
         }
 
         const response = await this.request({
-            path: `/v3/oauth2/clients/{client_id}`.replace(`{${"client_id"}}`, encodeURIComponent(String(requestParameters.clientId))),
+            path: `/v3/oauth2/clients/{client_id}`.replace(`{${"client_id"}}`, encodeURIComponent(String(requestParameters['clientId']))),
             method: 'PUT',
             headers: headerParameters,
             query: queryParameters,
-            body: UpdateClientToJSON(requestParameters.updateClient),
+            body: UpdateClientToJSON(requestParameters['updateClient']),
         }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => RespUpdateClientFromJSON(jsonValue));
@@ -246,7 +268,7 @@ export class ClientsApi extends runtime.BaseAPI {
      * Update details of a specific client by its id.
      * Update client details
      */
-    async updateClient(requestParameters: UpdateClientRequest, initOverrides?: RequestInit): Promise<RespUpdateClient> {
+    async updateClient(requestParameters: UpdateClientRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<RespUpdateClient> {
         const response = await this.updateClientRaw(requestParameters, initOverrides);
         return await response.value();
     }

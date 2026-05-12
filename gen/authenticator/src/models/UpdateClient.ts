@@ -12,7 +12,7 @@
  * Do not edit the class manually.
  */
 
-import { exists, mapValues } from '../runtime';
+import { mapValues } from '../runtime';
 /**
  * 
  * @export
@@ -33,32 +33,41 @@ export interface UpdateClient {
     display_name?: string;
 }
 
+/**
+ * Check if a given object implements the UpdateClient interface.
+ */
+export function instanceOfUpdateClient(value: object): value is UpdateClient {
+    return true;
+}
+
 export function UpdateClientFromJSON(json: any): UpdateClient {
     return UpdateClientFromJSONTyped(json, false);
 }
 
 export function UpdateClientFromJSONTyped(json: any, ignoreDiscriminator: boolean): UpdateClient {
-    if ((json === undefined) || (json === null)) {
+    if (json == null) {
         return json;
     }
     return {
         
-        'callback_url': !exists(json, 'callback_url') ? undefined : json['callback_url'],
-        'display_name': !exists(json, 'display_name') ? undefined : json['display_name'],
+        'callback_url': json['callback_url'] == null ? undefined : json['callback_url'],
+        'display_name': json['display_name'] == null ? undefined : json['display_name'],
     };
 }
 
-export function UpdateClientToJSON(value?: UpdateClient | null): any {
-    if (value === undefined) {
-        return undefined;
+export function UpdateClientToJSON(json: any): UpdateClient {
+    return UpdateClientToJSONTyped(json, false);
+}
+
+export function UpdateClientToJSONTyped(value?: UpdateClient | null, ignoreDiscriminator: boolean = false): any {
+    if (value == null) {
+        return value;
     }
-    if (value === null) {
-        return null;
-    }
+
     return {
         
-        'callback_url': value.callback_url,
-        'display_name': value.display_name,
+        'callback_url': value['callback_url'],
+        'display_name': value['display_name'],
     };
 }
 

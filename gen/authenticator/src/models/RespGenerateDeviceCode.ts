@@ -12,13 +12,14 @@
  * Do not edit the class manually.
  */
 
-import { exists, mapValues } from '../runtime';
+import { mapValues } from '../runtime';
+import type { DeviceCodeResponse } from './DeviceCodeResponse';
 import {
-    DeviceCodeResposne,
-    DeviceCodeResposneFromJSON,
-    DeviceCodeResposneFromJSONTyped,
-    DeviceCodeResposneToJSON,
-} from './';
+    DeviceCodeResponseFromJSON,
+    DeviceCodeResponseFromJSONTyped,
+    DeviceCodeResponseToJSON,
+    DeviceCodeResponseToJSONTyped,
+} from './DeviceCodeResponse';
 
 /**
  * 
@@ -52,19 +53,28 @@ export interface RespGenerateDeviceCode {
     metadata?: object;
     /**
      * 
-     * @type {DeviceCodeResposne}
+     * @type {DeviceCodeResponse}
      * @memberof RespGenerateDeviceCode
      */
-    result?: DeviceCodeResposne;
+    result?: DeviceCodeResponse;
 }
 
+
 /**
-* @export
-* @enum {string}
-*/
-export enum RespGenerateDeviceCodeStatusEnum {
-    Success = 'success',
-    Failure = 'failure'
+ * @export
+ */
+export const RespGenerateDeviceCodeStatusEnum = {
+    Success: 'success',
+    Failure: 'failure'
+} as const;
+export type RespGenerateDeviceCodeStatusEnum = typeof RespGenerateDeviceCodeStatusEnum[keyof typeof RespGenerateDeviceCodeStatusEnum];
+
+
+/**
+ * Check if a given object implements the RespGenerateDeviceCode interface.
+ */
+export function instanceOfRespGenerateDeviceCode(value: object): value is RespGenerateDeviceCode {
+    return true;
 }
 
 export function RespGenerateDeviceCodeFromJSON(json: any): RespGenerateDeviceCode {
@@ -72,33 +82,35 @@ export function RespGenerateDeviceCodeFromJSON(json: any): RespGenerateDeviceCod
 }
 
 export function RespGenerateDeviceCodeFromJSONTyped(json: any, ignoreDiscriminator: boolean): RespGenerateDeviceCode {
-    if ((json === undefined) || (json === null)) {
+    if (json == null) {
         return json;
     }
     return {
         
-        'version': !exists(json, 'version') ? undefined : json['version'],
-        'message': !exists(json, 'message') ? undefined : json['message'],
-        'status': !exists(json, 'status') ? undefined : json['status'],
-        'metadata': !exists(json, 'metadata') ? undefined : json['metadata'],
-        'result': !exists(json, 'result') ? undefined : DeviceCodeResposneFromJSON(json['result']),
+        'version': json['version'] == null ? undefined : json['version'],
+        'message': json['message'] == null ? undefined : json['message'],
+        'status': json['status'] == null ? undefined : json['status'],
+        'metadata': json['metadata'] == null ? undefined : json['metadata'],
+        'result': json['result'] == null ? undefined : DeviceCodeResponseFromJSON(json['result']),
     };
 }
 
-export function RespGenerateDeviceCodeToJSON(value?: RespGenerateDeviceCode | null): any {
-    if (value === undefined) {
-        return undefined;
+export function RespGenerateDeviceCodeToJSON(json: any): RespGenerateDeviceCode {
+    return RespGenerateDeviceCodeToJSONTyped(json, false);
+}
+
+export function RespGenerateDeviceCodeToJSONTyped(value?: RespGenerateDeviceCode | null, ignoreDiscriminator: boolean = false): any {
+    if (value == null) {
+        return value;
     }
-    if (value === null) {
-        return null;
-    }
+
     return {
         
-        'version': value.version,
-        'message': value.message,
-        'status': value.status,
-        'metadata': value.metadata,
-        'result': DeviceCodeResposneToJSON(value.result),
+        'version': value['version'],
+        'message': value['message'],
+        'status': value['status'],
+        'metadata': value['metadata'],
+        'result': DeviceCodeResponseToJSON(value['result']),
     };
 }
 

@@ -12,7 +12,7 @@
  * Do not edit the class manually.
  */
 
-import { exists, mapValues } from '../runtime';
+import { mapValues } from '../runtime';
 /**
  * A v2 token response object.
  * @export
@@ -39,34 +39,43 @@ export interface V2TokenResponse {
     access_token?: string;
 }
 
+/**
+ * Check if a given object implements the V2TokenResponse interface.
+ */
+export function instanceOfV2TokenResponse(value: object): value is V2TokenResponse {
+    return true;
+}
+
 export function V2TokenResponseFromJSON(json: any): V2TokenResponse {
     return V2TokenResponseFromJSONTyped(json, false);
 }
 
 export function V2TokenResponseFromJSONTyped(json: any, ignoreDiscriminator: boolean): V2TokenResponse {
-    if ((json === undefined) || (json === null)) {
+    if (json == null) {
         return json;
     }
     return {
         
-        'expires_in': !exists(json, 'expires_in') ? undefined : json['expires_in'],
-        'refresh_token': !exists(json, 'refresh_token') ? undefined : json['refresh_token'],
-        'access_token': !exists(json, 'access_token') ? undefined : json['access_token'],
+        'expires_in': json['expires_in'] == null ? undefined : json['expires_in'],
+        'refresh_token': json['refresh_token'] == null ? undefined : json['refresh_token'],
+        'access_token': json['access_token'] == null ? undefined : json['access_token'],
     };
 }
 
-export function V2TokenResponseToJSON(value?: V2TokenResponse | null): any {
-    if (value === undefined) {
-        return undefined;
+export function V2TokenResponseToJSON(json: any): V2TokenResponse {
+    return V2TokenResponseToJSONTyped(json, false);
+}
+
+export function V2TokenResponseToJSONTyped(value?: V2TokenResponse | null, ignoreDiscriminator: boolean = false): any {
+    if (value == null) {
+        return value;
     }
-    if (value === null) {
-        return null;
-    }
+
     return {
         
-        'expires_in': value.expires_in,
-        'refresh_token': value.refresh_token,
-        'access_token': value.access_token,
+        'expires_in': value['expires_in'],
+        'refresh_token': value['refresh_token'],
+        'access_token': value['access_token'],
     };
 }
 

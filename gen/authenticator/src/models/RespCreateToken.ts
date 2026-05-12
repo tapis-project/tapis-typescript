@@ -12,13 +12,14 @@
  * Do not edit the class manually.
  */
 
-import { exists, mapValues } from '../runtime';
+import { mapValues } from '../runtime';
+import type { NewTokenResponse } from './NewTokenResponse';
 import {
-    NewTokenResponse,
     NewTokenResponseFromJSON,
     NewTokenResponseFromJSONTyped,
     NewTokenResponseToJSON,
-} from './';
+    NewTokenResponseToJSONTyped,
+} from './NewTokenResponse';
 
 /**
  * 
@@ -58,13 +59,22 @@ export interface RespCreateToken {
     result?: NewTokenResponse;
 }
 
+
 /**
-* @export
-* @enum {string}
-*/
-export enum RespCreateTokenStatusEnum {
-    Success = 'success',
-    Failure = 'failure'
+ * @export
+ */
+export const RespCreateTokenStatusEnum = {
+    Success: 'success',
+    Failure: 'failure'
+} as const;
+export type RespCreateTokenStatusEnum = typeof RespCreateTokenStatusEnum[keyof typeof RespCreateTokenStatusEnum];
+
+
+/**
+ * Check if a given object implements the RespCreateToken interface.
+ */
+export function instanceOfRespCreateToken(value: object): value is RespCreateToken {
+    return true;
 }
 
 export function RespCreateTokenFromJSON(json: any): RespCreateToken {
@@ -72,33 +82,35 @@ export function RespCreateTokenFromJSON(json: any): RespCreateToken {
 }
 
 export function RespCreateTokenFromJSONTyped(json: any, ignoreDiscriminator: boolean): RespCreateToken {
-    if ((json === undefined) || (json === null)) {
+    if (json == null) {
         return json;
     }
     return {
         
-        'version': !exists(json, 'version') ? undefined : json['version'],
-        'message': !exists(json, 'message') ? undefined : json['message'],
-        'status': !exists(json, 'status') ? undefined : json['status'],
-        'metadata': !exists(json, 'metadata') ? undefined : json['metadata'],
-        'result': !exists(json, 'result') ? undefined : NewTokenResponseFromJSON(json['result']),
+        'version': json['version'] == null ? undefined : json['version'],
+        'message': json['message'] == null ? undefined : json['message'],
+        'status': json['status'] == null ? undefined : json['status'],
+        'metadata': json['metadata'] == null ? undefined : json['metadata'],
+        'result': json['result'] == null ? undefined : NewTokenResponseFromJSON(json['result']),
     };
 }
 
-export function RespCreateTokenToJSON(value?: RespCreateToken | null): any {
-    if (value === undefined) {
-        return undefined;
+export function RespCreateTokenToJSON(json: any): RespCreateToken {
+    return RespCreateTokenToJSONTyped(json, false);
+}
+
+export function RespCreateTokenToJSONTyped(value?: RespCreateToken | null, ignoreDiscriminator: boolean = false): any {
+    if (value == null) {
+        return value;
     }
-    if (value === null) {
-        return null;
-    }
+
     return {
         
-        'version': value.version,
-        'message': value.message,
-        'status': value.status,
-        'metadata': value.metadata,
-        'result': NewTokenResponseToJSON(value.result),
+        'version': value['version'],
+        'message': value['message'],
+        'status': value['status'],
+        'metadata': value['metadata'],
+        'result': NewTokenResponseToJSON(value['result']),
     };
 }
 

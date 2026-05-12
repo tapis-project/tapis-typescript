@@ -12,7 +12,7 @@
  * Do not edit the class manually.
  */
 
-import { exists, mapValues } from '../runtime';
+import { mapValues } from '../runtime';
 /**
  * 
  * @export
@@ -27,12 +27,20 @@ export interface V2Token {
     access_token: string;
 }
 
+/**
+ * Check if a given object implements the V2Token interface.
+ */
+export function instanceOfV2Token(value: object): value is V2Token {
+    if (!('access_token' in value) || value['access_token'] === undefined) return false;
+    return true;
+}
+
 export function V2TokenFromJSON(json: any): V2Token {
     return V2TokenFromJSONTyped(json, false);
 }
 
 export function V2TokenFromJSONTyped(json: any, ignoreDiscriminator: boolean): V2Token {
-    if ((json === undefined) || (json === null)) {
+    if (json == null) {
         return json;
     }
     return {
@@ -41,16 +49,18 @@ export function V2TokenFromJSONTyped(json: any, ignoreDiscriminator: boolean): V
     };
 }
 
-export function V2TokenToJSON(value?: V2Token | null): any {
-    if (value === undefined) {
-        return undefined;
+export function V2TokenToJSON(json: any): V2Token {
+    return V2TokenToJSONTyped(json, false);
+}
+
+export function V2TokenToJSONTyped(value?: V2Token | null, ignoreDiscriminator: boolean = false): any {
+    if (value == null) {
+        return value;
     }
-    if (value === null) {
-        return null;
-    }
+
     return {
         
-        'access_token': value.access_token,
+        'access_token': value['access_token'],
     };
 }
 

@@ -2,7 +2,7 @@
 /* eslint-disable */
 export * from './BasicResponse';
 export * from './Client';
-export * from './DeviceCodeResposne';
+export * from './DeviceCodeResponse';
 export * from './NewAccessTokenResponse';
 export * from './NewDeviceCode';
 export * from './NewTenantConfig';

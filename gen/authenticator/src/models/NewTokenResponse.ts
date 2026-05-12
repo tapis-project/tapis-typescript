@@ -12,13 +12,14 @@
  * Do not edit the class manually.
  */
 
-import { exists, mapValues } from '../runtime';
+import { mapValues } from '../runtime';
+import type { NewAccessTokenResponse } from './NewAccessTokenResponse';
 import {
-    NewAccessTokenResponse,
     NewAccessTokenResponseFromJSON,
     NewAccessTokenResponseFromJSONTyped,
     NewAccessTokenResponseToJSON,
-} from './';
+    NewAccessTokenResponseToJSONTyped,
+} from './NewAccessTokenResponse';
 
 /**
  * 
@@ -34,30 +35,39 @@ export interface NewTokenResponse {
     access_token?: NewAccessTokenResponse;
 }
 
+/**
+ * Check if a given object implements the NewTokenResponse interface.
+ */
+export function instanceOfNewTokenResponse(value: object): value is NewTokenResponse {
+    return true;
+}
+
 export function NewTokenResponseFromJSON(json: any): NewTokenResponse {
     return NewTokenResponseFromJSONTyped(json, false);
 }
 
 export function NewTokenResponseFromJSONTyped(json: any, ignoreDiscriminator: boolean): NewTokenResponse {
-    if ((json === undefined) || (json === null)) {
+    if (json == null) {
         return json;
     }
     return {
         
-        'access_token': !exists(json, 'access_token') ? undefined : NewAccessTokenResponseFromJSON(json['access_token']),
+        'access_token': json['access_token'] == null ? undefined : NewAccessTokenResponseFromJSON(json['access_token']),
     };
 }
 
-export function NewTokenResponseToJSON(value?: NewTokenResponse | null): any {
-    if (value === undefined) {
-        return undefined;
+export function NewTokenResponseToJSON(json: any): NewTokenResponse {
+    return NewTokenResponseToJSONTyped(json, false);
+}
+
+export function NewTokenResponseToJSONTyped(value?: NewTokenResponse | null, ignoreDiscriminator: boolean = false): any {
+    if (value == null) {
+        return value;
     }
-    if (value === null) {
-        return null;
-    }
+
     return {
         
-        'access_token': NewAccessTokenResponseToJSON(value.access_token),
+        'access_token': NewAccessTokenResponseToJSON(value['access_token']),
     };
 }
 

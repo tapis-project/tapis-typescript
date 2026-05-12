@@ -12,7 +12,7 @@
  * Do not edit the class manually.
  */
 
-import { exists, mapValues } from '../runtime';
+import { mapValues } from '../runtime';
 /**
  * 
  * @export
@@ -105,56 +105,65 @@ export interface TenantConfig {
     impersadmin_password?: string;
 }
 
+/**
+ * Check if a given object implements the TenantConfig interface.
+ */
+export function instanceOfTenantConfig(value: object): value is TenantConfig {
+    return true;
+}
+
 export function TenantConfigFromJSON(json: any): TenantConfig {
     return TenantConfigFromJSONTyped(json, false);
 }
 
 export function TenantConfigFromJSONTyped(json: any, ignoreDiscriminator: boolean): TenantConfig {
-    if ((json === undefined) || (json === null)) {
+    if (json == null) {
         return json;
     }
     return {
         
-        'allowable_grant_types': !exists(json, 'allowable_grant_types') ? undefined : json['allowable_grant_types'],
-        'use_ldap': !exists(json, 'use_ldap') ? undefined : json['use_ldap'],
-        'use_token_webapp': !exists(json, 'use_token_webapp') ? undefined : json['use_token_webapp'],
-        'mfa_config': !exists(json, 'mfa_config') ? undefined : json['mfa_config'],
-        'default_access_token_ttl': !exists(json, 'default_access_token_ttl') ? undefined : json['default_access_token_ttl'],
-        'default_refresh_token_ttl': !exists(json, 'default_refresh_token_ttl') ? undefined : json['default_refresh_token_ttl'],
-        'max_access_token_ttl': !exists(json, 'max_access_token_ttl') ? undefined : json['max_access_token_ttl'],
-        'max_refresh_token_ttl': !exists(json, 'max_refresh_token_ttl') ? undefined : json['max_refresh_token_ttl'],
-        'custom_idp_configuration': !exists(json, 'custom_idp_configuration') ? undefined : json['custom_idp_configuration'],
-        'token_url': !exists(json, 'token_url') ? undefined : json['token_url'],
-        'impers_oauth_client_id': !exists(json, 'impers_oauth_client_id') ? undefined : json['impers_oauth_client_id'],
-        'impers_oauth_client_secret': !exists(json, 'impers_oauth_client_secret') ? undefined : json['impers_oauth_client_secret'],
-        'impersadmin_username': !exists(json, 'impersadmin_username') ? undefined : json['impersadmin_username'],
-        'impersadmin_password': !exists(json, 'impersadmin_password') ? undefined : json['impersadmin_password'],
+        'allowable_grant_types': json['allowable_grant_types'] == null ? undefined : json['allowable_grant_types'],
+        'use_ldap': json['use_ldap'] == null ? undefined : json['use_ldap'],
+        'use_token_webapp': json['use_token_webapp'] == null ? undefined : json['use_token_webapp'],
+        'mfa_config': json['mfa_config'] == null ? undefined : json['mfa_config'],
+        'default_access_token_ttl': json['default_access_token_ttl'] == null ? undefined : json['default_access_token_ttl'],
+        'default_refresh_token_ttl': json['default_refresh_token_ttl'] == null ? undefined : json['default_refresh_token_ttl'],
+        'max_access_token_ttl': json['max_access_token_ttl'] == null ? undefined : json['max_access_token_ttl'],
+        'max_refresh_token_ttl': json['max_refresh_token_ttl'] == null ? undefined : json['max_refresh_token_ttl'],
+        'custom_idp_configuration': json['custom_idp_configuration'] == null ? undefined : json['custom_idp_configuration'],
+        'token_url': json['token_url'] == null ? undefined : json['token_url'],
+        'impers_oauth_client_id': json['impers_oauth_client_id'] == null ? undefined : json['impers_oauth_client_id'],
+        'impers_oauth_client_secret': json['impers_oauth_client_secret'] == null ? undefined : json['impers_oauth_client_secret'],
+        'impersadmin_username': json['impersadmin_username'] == null ? undefined : json['impersadmin_username'],
+        'impersadmin_password': json['impersadmin_password'] == null ? undefined : json['impersadmin_password'],
     };
 }
 
-export function TenantConfigToJSON(value?: TenantConfig | null): any {
-    if (value === undefined) {
-        return undefined;
+export function TenantConfigToJSON(json: any): TenantConfig {
+    return TenantConfigToJSONTyped(json, false);
+}
+
+export function TenantConfigToJSONTyped(value?: TenantConfig | null, ignoreDiscriminator: boolean = false): any {
+    if (value == null) {
+        return value;
     }
-    if (value === null) {
-        return null;
-    }
+
     return {
         
-        'allowable_grant_types': value.allowable_grant_types,
-        'use_ldap': value.use_ldap,
-        'use_token_webapp': value.use_token_webapp,
-        'mfa_config': value.mfa_config,
-        'default_access_token_ttl': value.default_access_token_ttl,
-        'default_refresh_token_ttl': value.default_refresh_token_ttl,
-        'max_access_token_ttl': value.max_access_token_ttl,
-        'max_refresh_token_ttl': value.max_refresh_token_ttl,
-        'custom_idp_configuration': value.custom_idp_configuration,
-        'token_url': value.token_url,
-        'impers_oauth_client_id': value.impers_oauth_client_id,
-        'impers_oauth_client_secret': value.impers_oauth_client_secret,
-        'impersadmin_username': value.impersadmin_username,
-        'impersadmin_password': value.impersadmin_password,
+        'allowable_grant_types': value['allowable_grant_types'],
+        'use_ldap': value['use_ldap'],
+        'use_token_webapp': value['use_token_webapp'],
+        'mfa_config': value['mfa_config'],
+        'default_access_token_ttl': value['default_access_token_ttl'],
+        'default_refresh_token_ttl': value['default_refresh_token_ttl'],
+        'max_access_token_ttl': value['max_access_token_ttl'],
+        'max_refresh_token_ttl': value['max_refresh_token_ttl'],
+        'custom_idp_configuration': value['custom_idp_configuration'],
+        'token_url': value['token_url'],
+        'impers_oauth_client_id': value['impers_oauth_client_id'],
+        'impers_oauth_client_secret': value['impers_oauth_client_secret'],
+        'impersadmin_username': value['impersadmin_username'],
+        'impersadmin_password': value['impersadmin_password'],
     };
 }
 

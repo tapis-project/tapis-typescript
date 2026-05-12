@@ -12,13 +12,14 @@
  * Do not edit the class manually.
  */
 
-import { exists, mapValues } from '../runtime';
+import { mapValues } from '../runtime';
+import type { Profile } from './Profile';
 import {
-    Profile,
     ProfileFromJSON,
     ProfileFromJSONTyped,
     ProfileToJSON,
-} from './';
+    ProfileToJSONTyped,
+} from './Profile';
 
 /**
  * 
@@ -58,13 +59,22 @@ export interface RespListProfiles {
     result?: Array<Profile>;
 }
 
+
 /**
-* @export
-* @enum {string}
-*/
-export enum RespListProfilesStatusEnum {
-    Success = 'success',
-    Failure = 'failure'
+ * @export
+ */
+export const RespListProfilesStatusEnum = {
+    Success: 'success',
+    Failure: 'failure'
+} as const;
+export type RespListProfilesStatusEnum = typeof RespListProfilesStatusEnum[keyof typeof RespListProfilesStatusEnum];
+
+
+/**
+ * Check if a given object implements the RespListProfiles interface.
+ */
+export function instanceOfRespListProfiles(value: object): value is RespListProfiles {
+    return true;
 }
 
 export function RespListProfilesFromJSON(json: any): RespListProfiles {
@@ -72,33 +82,35 @@ export function RespListProfilesFromJSON(json: any): RespListProfiles {
 }
 
 export function RespListProfilesFromJSONTyped(json: any, ignoreDiscriminator: boolean): RespListProfiles {
-    if ((json === undefined) || (json === null)) {
+    if (json == null) {
         return json;
     }
     return {
         
-        'version': !exists(json, 'version') ? undefined : json['version'],
-        'message': !exists(json, 'message') ? undefined : json['message'],
-        'status': !exists(json, 'status') ? undefined : json['status'],
-        'metadata': !exists(json, 'metadata') ? undefined : json['metadata'],
-        'result': !exists(json, 'result') ? undefined : ((json['result'] as Array<any>).map(ProfileFromJSON)),
+        'version': json['version'] == null ? undefined : json['version'],
+        'message': json['message'] == null ? undefined : json['message'],
+        'status': json['status'] == null ? undefined : json['status'],
+        'metadata': json['metadata'] == null ? undefined : json['metadata'],
+        'result': json['result'] == null ? undefined : ((json['result'] as Array<any>).map(ProfileFromJSON)),
     };
 }
 
-export function RespListProfilesToJSON(value?: RespListProfiles | null): any {
-    if (value === undefined) {
-        return undefined;
+export function RespListProfilesToJSON(json: any): RespListProfiles {
+    return RespListProfilesToJSONTyped(json, false);
+}
+
+export function RespListProfilesToJSONTyped(value?: RespListProfiles | null, ignoreDiscriminator: boolean = false): any {
+    if (value == null) {
+        return value;
     }
-    if (value === null) {
-        return null;
-    }
+
     return {
         
-        'version': value.version,
-        'message': value.message,
-        'status': value.status,
-        'metadata': value.metadata,
-        'result': value.result === undefined ? undefined : ((value.result as Array<any>).map(ProfileToJSON)),
+        'version': value['version'],
+        'message': value['message'],
+        'status': value['status'],
+        'metadata': value['metadata'],
+        'result': value['result'] == null ? undefined : ((value['result'] as Array<any>).map(ProfileToJSON)),
     };
 }
 

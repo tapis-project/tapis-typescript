@@ -14,11 +14,13 @@
 
 
 import * as runtime from '../runtime';
+import type {
+  BasicResponse,
+} from '../models/index';
 import {
-    BasicResponse,
     BasicResponseFromJSON,
     BasicResponseToJSON,
-} from '../models';
+} from '../models/index';
 
 /**
  * 
@@ -28,7 +30,7 @@ export class HealthCheckApi extends runtime.BaseAPI {
     /**
      * Logged connectivity test. No authorization required.
      */
-    async helloRaw(initOverrides?: RequestInit): Promise<runtime.ApiResponse<BasicResponse>> {
+    async helloRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<BasicResponse>> {
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -46,7 +48,7 @@ export class HealthCheckApi extends runtime.BaseAPI {
     /**
      * Logged connectivity test. No authorization required.
      */
-    async hello(initOverrides?: RequestInit): Promise<BasicResponse> {
+    async hello(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<BasicResponse> {
         const response = await this.helloRaw(initOverrides);
         return await response.value();
     }
@@ -54,7 +56,7 @@ export class HealthCheckApi extends runtime.BaseAPI {
     /**
      * Logged connectivity test. No authorization required.
      */
-    async readyRaw(initOverrides?: RequestInit): Promise<runtime.ApiResponse<BasicResponse>> {
+    async readyRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<BasicResponse>> {
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -72,7 +74,7 @@ export class HealthCheckApi extends runtime.BaseAPI {
     /**
      * Logged connectivity test. No authorization required.
      */
-    async ready(initOverrides?: RequestInit): Promise<BasicResponse> {
+    async ready(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<BasicResponse> {
         const response = await this.readyRaw(initOverrides);
         return await response.value();
     }

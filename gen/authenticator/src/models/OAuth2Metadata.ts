@@ -12,7 +12,7 @@
  * Do not edit the class manually.
  */
 
-import { exists, mapValues } from '../runtime';
+import { mapValues } from '../runtime';
 /**
  * 
  * @export
@@ -57,40 +57,49 @@ export interface OAuth2Metadata {
     grant_types_supported?: Array<string>;
 }
 
+/**
+ * Check if a given object implements the OAuth2Metadata interface.
+ */
+export function instanceOfOAuth2Metadata(value: object): value is OAuth2Metadata {
+    return true;
+}
+
 export function OAuth2MetadataFromJSON(json: any): OAuth2Metadata {
     return OAuth2MetadataFromJSONTyped(json, false);
 }
 
 export function OAuth2MetadataFromJSONTyped(json: any, ignoreDiscriminator: boolean): OAuth2Metadata {
-    if ((json === undefined) || (json === null)) {
+    if (json == null) {
         return json;
     }
     return {
         
-        'issuer': !exists(json, 'issuer') ? undefined : json['issuer'],
-        'authorization_endpoint': !exists(json, 'authorization_endpoint') ? undefined : json['authorization_endpoint'],
-        'token_endpoint': !exists(json, 'token_endpoint') ? undefined : json['token_endpoint'],
-        'jwks_uri': !exists(json, 'jwks_uri') ? undefined : json['jwks_uri'],
-        'registration_endpoint': !exists(json, 'registration_endpoint') ? undefined : json['registration_endpoint'],
-        'grant_types_supported': !exists(json, 'grant_types_supported') ? undefined : json['grant_types_supported'],
+        'issuer': json['issuer'] == null ? undefined : json['issuer'],
+        'authorization_endpoint': json['authorization_endpoint'] == null ? undefined : json['authorization_endpoint'],
+        'token_endpoint': json['token_endpoint'] == null ? undefined : json['token_endpoint'],
+        'jwks_uri': json['jwks_uri'] == null ? undefined : json['jwks_uri'],
+        'registration_endpoint': json['registration_endpoint'] == null ? undefined : json['registration_endpoint'],
+        'grant_types_supported': json['grant_types_supported'] == null ? undefined : json['grant_types_supported'],
     };
 }
 
-export function OAuth2MetadataToJSON(value?: OAuth2Metadata | null): any {
-    if (value === undefined) {
-        return undefined;
+export function OAuth2MetadataToJSON(json: any): OAuth2Metadata {
+    return OAuth2MetadataToJSONTyped(json, false);
+}
+
+export function OAuth2MetadataToJSONTyped(value?: OAuth2Metadata | null, ignoreDiscriminator: boolean = false): any {
+    if (value == null) {
+        return value;
     }
-    if (value === null) {
-        return null;
-    }
+
     return {
         
-        'issuer': value.issuer,
-        'authorization_endpoint': value.authorization_endpoint,
-        'token_endpoint': value.token_endpoint,
-        'jwks_uri': value.jwks_uri,
-        'registration_endpoint': value.registration_endpoint,
-        'grant_types_supported': value.grant_types_supported,
+        'issuer': value['issuer'],
+        'authorization_endpoint': value['authorization_endpoint'],
+        'token_endpoint': value['token_endpoint'],
+        'jwks_uri': value['jwks_uri'],
+        'registration_endpoint': value['registration_endpoint'],
+        'grant_types_supported': value['grant_types_supported'],
     };
 }
 

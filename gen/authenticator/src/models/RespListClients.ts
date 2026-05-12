@@ -12,13 +12,14 @@
  * Do not edit the class manually.
  */
 
-import { exists, mapValues } from '../runtime';
+import { mapValues } from '../runtime';
+import type { Client } from './Client';
 import {
-    Client,
     ClientFromJSON,
     ClientFromJSONTyped,
     ClientToJSON,
-} from './';
+    ClientToJSONTyped,
+} from './Client';
 
 /**
  * 
@@ -58,13 +59,22 @@ export interface RespListClients {
     result?: Array<Client>;
 }
 
+
 /**
-* @export
-* @enum {string}
-*/
-export enum RespListClientsStatusEnum {
-    Success = 'success',
-    Failure = 'failure'
+ * @export
+ */
+export const RespListClientsStatusEnum = {
+    Success: 'success',
+    Failure: 'failure'
+} as const;
+export type RespListClientsStatusEnum = typeof RespListClientsStatusEnum[keyof typeof RespListClientsStatusEnum];
+
+
+/**
+ * Check if a given object implements the RespListClients interface.
+ */
+export function instanceOfRespListClients(value: object): value is RespListClients {
+    return true;
 }
 
 export function RespListClientsFromJSON(json: any): RespListClients {
@@ -72,33 +82,35 @@ export function RespListClientsFromJSON(json: any): RespListClients {
 }
 
 export function RespListClientsFromJSONTyped(json: any, ignoreDiscriminator: boolean): RespListClients {
-    if ((json === undefined) || (json === null)) {
+    if (json == null) {
         return json;
     }
     return {
         
-        'version': !exists(json, 'version') ? undefined : json['version'],
-        'message': !exists(json, 'message') ? undefined : json['message'],
-        'status': !exists(json, 'status') ? undefined : json['status'],
-        'metadata': !exists(json, 'metadata') ? undefined : json['metadata'],
-        'result': !exists(json, 'result') ? undefined : ((json['result'] as Array<any>).map(ClientFromJSON)),
+        'version': json['version'] == null ? undefined : json['version'],
+        'message': json['message'] == null ? undefined : json['message'],
+        'status': json['status'] == null ? undefined : json['status'],
+        'metadata': json['metadata'] == null ? undefined : json['metadata'],
+        'result': json['result'] == null ? undefined : ((json['result'] as Array<any>).map(ClientFromJSON)),
     };
 }
 
-export function RespListClientsToJSON(value?: RespListClients | null): any {
-    if (value === undefined) {
-        return undefined;
+export function RespListClientsToJSON(json: any): RespListClients {
+    return RespListClientsToJSONTyped(json, false);
+}
+
+export function RespListClientsToJSONTyped(value?: RespListClients | null, ignoreDiscriminator: boolean = false): any {
+    if (value == null) {
+        return value;
     }
-    if (value === null) {
-        return null;
-    }
+
     return {
         
-        'version': value.version,
-        'message': value.message,
-        'status': value.status,
-        'metadata': value.metadata,
-        'result': value.result === undefined ? undefined : ((value.result as Array<any>).map(ClientToJSON)),
+        'version': value['version'],
+        'message': value['message'],
+        'status': value['status'],
+        'metadata': value['metadata'],
+        'result': value['result'] == null ? undefined : ((value['result'] as Array<any>).map(ClientToJSON)),
     };
 }
 

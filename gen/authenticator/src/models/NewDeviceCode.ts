@@ -12,7 +12,7 @@
  * Do not edit the class manually.
  */
 
-import { exists, mapValues } from '../runtime';
+import { mapValues } from '../runtime';
 /**
  * 
  * @export
@@ -27,12 +27,20 @@ export interface NewDeviceCode {
     client_id: string;
 }
 
+/**
+ * Check if a given object implements the NewDeviceCode interface.
+ */
+export function instanceOfNewDeviceCode(value: object): value is NewDeviceCode {
+    if (!('client_id' in value) || value['client_id'] === undefined) return false;
+    return true;
+}
+
 export function NewDeviceCodeFromJSON(json: any): NewDeviceCode {
     return NewDeviceCodeFromJSONTyped(json, false);
 }
 
 export function NewDeviceCodeFromJSONTyped(json: any, ignoreDiscriminator: boolean): NewDeviceCode {
-    if ((json === undefined) || (json === null)) {
+    if (json == null) {
         return json;
     }
     return {
@@ -41,16 +49,18 @@ export function NewDeviceCodeFromJSONTyped(json: any, ignoreDiscriminator: boole
     };
 }
 
-export function NewDeviceCodeToJSON(value?: NewDeviceCode | null): any {
-    if (value === undefined) {
-        return undefined;
+export function NewDeviceCodeToJSON(json: any): NewDeviceCode {
+    return NewDeviceCodeToJSONTyped(json, false);
+}
+
+export function NewDeviceCodeToJSONTyped(value?: NewDeviceCode | null, ignoreDiscriminator: boolean = false): any {
+    if (value == null) {
+        return value;
     }
-    if (value === null) {
-        return null;
-    }
+
     return {
         
-        'client_id': value.client_id,
+        'client_id': value['client_id'],
     };
 }
 

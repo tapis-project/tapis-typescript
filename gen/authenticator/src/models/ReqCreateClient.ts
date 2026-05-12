@@ -12,7 +12,7 @@
  * Do not edit the class manually.
  */
 
-import { exists, mapValues } from '../runtime';
+import { mapValues } from '../runtime';
 /**
  * 
  * @export
@@ -51,38 +51,47 @@ export interface ReqCreateClient {
     description?: string;
 }
 
+/**
+ * Check if a given object implements the ReqCreateClient interface.
+ */
+export function instanceOfReqCreateClient(value: object): value is ReqCreateClient {
+    return true;
+}
+
 export function ReqCreateClientFromJSON(json: any): ReqCreateClient {
     return ReqCreateClientFromJSONTyped(json, false);
 }
 
 export function ReqCreateClientFromJSONTyped(json: any, ignoreDiscriminator: boolean): ReqCreateClient {
-    if ((json === undefined) || (json === null)) {
+    if (json == null) {
         return json;
     }
     return {
         
-        'client_id': !exists(json, 'client_id') ? undefined : json['client_id'],
-        'client_key': !exists(json, 'client_key') ? undefined : json['client_key'],
-        'callback_url': !exists(json, 'callback_url') ? undefined : json['callback_url'],
-        'display_name': !exists(json, 'display_name') ? undefined : json['display_name'],
-        'description': !exists(json, 'description') ? undefined : json['description'],
+        'client_id': json['client_id'] == null ? undefined : json['client_id'],
+        'client_key': json['client_key'] == null ? undefined : json['client_key'],
+        'callback_url': json['callback_url'] == null ? undefined : json['callback_url'],
+        'display_name': json['display_name'] == null ? undefined : json['display_name'],
+        'description': json['description'] == null ? undefined : json['description'],
     };
 }
 
-export function ReqCreateClientToJSON(value?: ReqCreateClient | null): any {
-    if (value === undefined) {
-        return undefined;
+export function ReqCreateClientToJSON(json: any): ReqCreateClient {
+    return ReqCreateClientToJSONTyped(json, false);
+}
+
+export function ReqCreateClientToJSONTyped(value?: ReqCreateClient | null, ignoreDiscriminator: boolean = false): any {
+    if (value == null) {
+        return value;
     }
-    if (value === null) {
-        return null;
-    }
+
     return {
         
-        'client_id': value.client_id,
-        'client_key': value.client_key,
-        'callback_url': value.callback_url,
-        'display_name': value.display_name,
-        'description': value.description,
+        'client_id': value['client_id'],
+        'client_key': value['client_key'],
+        'callback_url': value['callback_url'],
+        'display_name': value['display_name'],
+        'description': value['description'],
     };
 }
 

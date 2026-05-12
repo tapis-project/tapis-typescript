@@ -1,6 +1,6 @@
 {
 	"npmName": "@tapis/tapis-typescript-authenticator",
-	"npmVersion": "1.8.4",
+	"npmVersion": "1.8.5",
 	"snapshot" : false,
 	"supportsES6": false,
 	"modelPropertyNaming": "original"

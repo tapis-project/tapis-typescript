@@ -12,7 +12,7 @@
  * Do not edit the class manually.
  */
 
-import { exists, mapValues } from '../runtime';
+import { mapValues } from '../runtime';
 /**
  * 
  * @export
@@ -31,6 +31,18 @@ export interface Client {
      * @memberof Client
      */
     client_key?: string;
+    /**
+     * The username of the user who owns this client.
+     * @type {string}
+     * @memberof Client
+     */
+    owner?: string;
+    /**
+     * The tenant this client belongs to.
+     * @type {string}
+     * @memberof Client
+     */
+    tenant_id?: string;
     /**
      * URL for application to receive OAuth callbacks for executing flows such as authorization_code.
      * @type {string}
@@ -61,6 +73,19 @@ export interface Client {
      * @memberof Client
      */
     description?: string;
+    /**
+     * Whether this client is active. Inactive clients cannot be used.
+     * @type {boolean}
+     * @memberof Client
+     */
+    active?: boolean;
+}
+
+/**
+ * Check if a given object implements the Client interface.
+ */
+export function instanceOfClient(value: object): value is Client {
+    return true;
 }
 
 export function ClientFromJSON(json: any): Client {
@@ -68,37 +93,45 @@ export function ClientFromJSON(json: any): Client {
 }
 
 export function ClientFromJSONTyped(json: any, ignoreDiscriminator: boolean): Client {
-    if ((json === undefined) || (json === null)) {
+    if (json == null) {
         return json;
     }
     return {
         
-        'client_id': !exists(json, 'client_id') ? undefined : json['client_id'],
-        'client_key': !exists(json, 'client_key') ? undefined : json['client_key'],
-        'callback_url': !exists(json, 'callback_url') ? undefined : json['callback_url'],
-        'create_time': !exists(json, 'create_time') ? undefined : json['create_time'],
-        'last_update_time': !exists(json, 'last_update_time') ? undefined : json['last_update_time'],
-        'display_name': !exists(json, 'display_name') ? undefined : json['display_name'],
-        'description': !exists(json, 'description') ? undefined : json['description'],
+        'client_id': json['client_id'] == null ? undefined : json['client_id'],
+        'client_key': json['client_key'] == null ? undefined : json['client_key'],
+        'owner': json['owner'] == null ? undefined : json['owner'],
+        'tenant_id': json['tenant_id'] == null ? undefined : json['tenant_id'],
+        'callback_url': json['callback_url'] == null ? undefined : json['callback_url'],
+        'create_time': json['create_time'] == null ? undefined : json['create_time'],
+        'last_update_time': json['last_update_time'] == null ? undefined : json['last_update_time'],
+        'display_name': json['display_name'] == null ? undefined : json['display_name'],
+        'description': json['description'] == null ? undefined : json['description'],
+        'active': json['active'] == null ? undefined : json['active'],
     };
 }
 
-export function ClientToJSON(value?: Client | null): any {
-    if (value === undefined) {
-        return undefined;
+export function ClientToJSON(json: any): Client {
+    return ClientToJSONTyped(json, false);
+}
+
+export function ClientToJSONTyped(value?: Client | null, ignoreDiscriminator: boolean = false): any {
+    if (value == null) {
+        return value;
     }
-    if (value === null) {
-        return null;
-    }
+
     return {
         
-        'client_id': value.client_id,
-        'client_key': value.client_key,
-        'callback_url': value.callback_url,
-        'create_time': value.create_time,
-        'last_update_time': value.last_update_time,
-        'display_name': value.display_name,
-        'description': value.description,
+        'client_id': value['client_id'],
+        'client_key': value['client_key'],
+        'owner': value['owner'],
+        'tenant_id': value['tenant_id'],
+        'callback_url': value['callback_url'],
+        'create_time': value['create_time'],
+        'last_update_time': value['last_update_time'],
+        'display_name': value['display_name'],
+        'description': value['description'],
+        'active': value['active'],
     };
 }
 

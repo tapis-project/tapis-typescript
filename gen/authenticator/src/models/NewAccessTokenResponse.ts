@@ -12,7 +12,7 @@
  * Do not edit the class manually.
  */
 
-import { exists, mapValues } from '../runtime';
+import { mapValues } from '../runtime';
 /**
  * 
  * @export
@@ -39,34 +39,43 @@ export interface NewAccessTokenResponse {
     expires_in?: number;
 }
 
+/**
+ * Check if a given object implements the NewAccessTokenResponse interface.
+ */
+export function instanceOfNewAccessTokenResponse(value: object): value is NewAccessTokenResponse {
+    return true;
+}
+
 export function NewAccessTokenResponseFromJSON(json: any): NewAccessTokenResponse {
     return NewAccessTokenResponseFromJSONTyped(json, false);
 }
 
 export function NewAccessTokenResponseFromJSONTyped(json: any, ignoreDiscriminator: boolean): NewAccessTokenResponse {
-    if ((json === undefined) || (json === null)) {
+    if (json == null) {
         return json;
     }
     return {
         
-        'access_token': !exists(json, 'access_token') ? undefined : json['access_token'],
-        'expires_at': !exists(json, 'expires_at') ? undefined : json['expires_at'],
-        'expires_in': !exists(json, 'expires_in') ? undefined : json['expires_in'],
+        'access_token': json['access_token'] == null ? undefined : json['access_token'],
+        'expires_at': json['expires_at'] == null ? undefined : json['expires_at'],
+        'expires_in': json['expires_in'] == null ? undefined : json['expires_in'],
     };
 }
 
-export function NewAccessTokenResponseToJSON(value?: NewAccessTokenResponse | null): any {
-    if (value === undefined) {
-        return undefined;
+export function NewAccessTokenResponseToJSON(json: any): NewAccessTokenResponse {
+    return NewAccessTokenResponseToJSONTyped(json, false);
+}
+
+export function NewAccessTokenResponseToJSONTyped(value?: NewAccessTokenResponse | null, ignoreDiscriminator: boolean = false): any {
+    if (value == null) {
+        return value;
     }
-    if (value === null) {
-        return null;
-    }
+
     return {
         
-        'access_token': value.access_token,
-        'expires_at': value.expires_at,
-        'expires_in': value.expires_in,
+        'access_token': value['access_token'],
+        'expires_at': value['expires_at'],
+        'expires_in': value['expires_in'],
     };
 }
 

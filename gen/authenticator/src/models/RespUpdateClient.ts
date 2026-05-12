@@ -12,13 +12,14 @@
  * Do not edit the class manually.
  */
 
-import { exists, mapValues } from '../runtime';
+import { mapValues } from '../runtime';
+import type { Client } from './Client';
 import {
-    Client,
     ClientFromJSON,
     ClientFromJSONTyped,
     ClientToJSON,
-} from './';
+    ClientToJSONTyped,
+} from './Client';
 
 /**
  * 
@@ -58,13 +59,22 @@ export interface RespUpdateClient {
     result?: Client;
 }
 
+
 /**
-* @export
-* @enum {string}
-*/
-export enum RespUpdateClientStatusEnum {
-    Success = 'success',
-    Failure = 'failure'
+ * @export
+ */
+export const RespUpdateClientStatusEnum = {
+    Success: 'success',
+    Failure: 'failure'
+} as const;
+export type RespUpdateClientStatusEnum = typeof RespUpdateClientStatusEnum[keyof typeof RespUpdateClientStatusEnum];
+
+
+/**
+ * Check if a given object implements the RespUpdateClient interface.
+ */
+export function instanceOfRespUpdateClient(value: object): value is RespUpdateClient {
+    return true;
 }
 
 export function RespUpdateClientFromJSON(json: any): RespUpdateClient {
@@ -72,33 +82,35 @@ export function RespUpdateClientFromJSON(json: any): RespUpdateClient {
 }
 
 export function RespUpdateClientFromJSONTyped(json: any, ignoreDiscriminator: boolean): RespUpdateClient {
-    if ((json === undefined) || (json === null)) {
+    if (json == null) {
         return json;
     }
     return {
         
-        'version': !exists(json, 'version') ? undefined : json['version'],
-        'message': !exists(json, 'message') ? undefined : json['message'],
-        'status': !exists(json, 'status') ? undefined : json['status'],
-        'metadata': !exists(json, 'metadata') ? undefined : json['metadata'],
-        'result': !exists(json, 'result') ? undefined : ClientFromJSON(json['result']),
+        'version': json['version'] == null ? undefined : json['version'],
+        'message': json['message'] == null ? undefined : json['message'],
+        'status': json['status'] == null ? undefined : json['status'],
+        'metadata': json['metadata'] == null ? undefined : json['metadata'],
+        'result': json['result'] == null ? undefined : ClientFromJSON(json['result']),
     };
 }
 
-export function RespUpdateClientToJSON(value?: RespUpdateClient | null): any {
-    if (value === undefined) {
-        return undefined;
+export function RespUpdateClientToJSON(json: any): RespUpdateClient {
+    return RespUpdateClientToJSONTyped(json, false);
+}
+
+export function RespUpdateClientToJSONTyped(value?: RespUpdateClient | null, ignoreDiscriminator: boolean = false): any {
+    if (value == null) {
+        return value;
     }
-    if (value === null) {
-        return null;
-    }
+
     return {
         
-        'version': value.version,
-        'message': value.message,
-        'status': value.status,
-        'metadata': value.metadata,
-        'result': ClientToJSON(value.result),
+        'version': value['version'],
+        'message': value['message'],
+        'status': value['status'],
+        'metadata': value['metadata'],
+        'result': ClientToJSON(value['result']),
     };
 }
 

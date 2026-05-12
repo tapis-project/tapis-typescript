@@ -12,13 +12,14 @@
  * Do not edit the class manually.
  */
 
-import { exists, mapValues } from '../runtime';
+import { mapValues } from '../runtime';
+import type { TenantConfig } from './TenantConfig';
 import {
-    TenantConfig,
     TenantConfigFromJSON,
     TenantConfigFromJSONTyped,
     TenantConfigToJSON,
-} from './';
+    TenantConfigToJSONTyped,
+} from './TenantConfig';
 
 /**
  * 
@@ -58,13 +59,22 @@ export interface RespUpdateConfig {
     result?: TenantConfig;
 }
 
+
 /**
-* @export
-* @enum {string}
-*/
-export enum RespUpdateConfigStatusEnum {
-    Success = 'success',
-    Failure = 'failure'
+ * @export
+ */
+export const RespUpdateConfigStatusEnum = {
+    Success: 'success',
+    Failure: 'failure'
+} as const;
+export type RespUpdateConfigStatusEnum = typeof RespUpdateConfigStatusEnum[keyof typeof RespUpdateConfigStatusEnum];
+
+
+/**
+ * Check if a given object implements the RespUpdateConfig interface.
+ */
+export function instanceOfRespUpdateConfig(value: object): value is RespUpdateConfig {
+    return true;
 }
 
 export function RespUpdateConfigFromJSON(json: any): RespUpdateConfig {
@@ -72,33 +82,35 @@ export function RespUpdateConfigFromJSON(json: any): RespUpdateConfig {
 }
 
 export function RespUpdateConfigFromJSONTyped(json: any, ignoreDiscriminator: boolean): RespUpdateConfig {
-    if ((json === undefined) || (json === null)) {
+    if (json == null) {
         return json;
     }
     return {
         
-        'version': !exists(json, 'version') ? undefined : json['version'],
-        'message': !exists(json, 'message') ? undefined : json['message'],
-        'status': !exists(json, 'status') ? undefined : json['status'],
-        'metadata': !exists(json, 'metadata') ? undefined : json['metadata'],
-        'result': !exists(json, 'result') ? undefined : TenantConfigFromJSON(json['result']),
+        'version': json['version'] == null ? undefined : json['version'],
+        'message': json['message'] == null ? undefined : json['message'],
+        'status': json['status'] == null ? undefined : json['status'],
+        'metadata': json['metadata'] == null ? undefined : json['metadata'],
+        'result': json['result'] == null ? undefined : TenantConfigFromJSON(json['result']),
     };
 }
 
-export function RespUpdateConfigToJSON(value?: RespUpdateConfig | null): any {
-    if (value === undefined) {
-        return undefined;
+export function RespUpdateConfigToJSON(json: any): RespUpdateConfig {
+    return RespUpdateConfigToJSONTyped(json, false);
+}
+
+export function RespUpdateConfigToJSONTyped(value?: RespUpdateConfig | null, ignoreDiscriminator: boolean = false): any {
+    if (value == null) {
+        return value;
     }
-    if (value === null) {
-        return null;
-    }
+
     return {
         
-        'version': value.version,
-        'message': value.message,
-        'status': value.status,
-        'metadata': value.metadata,
-        'result': TenantConfigToJSON(value.result),
+        'version': value['version'],
+        'message': value['message'],
+        'status': value['status'],
+        'metadata': value['metadata'],
+        'result': TenantConfigToJSON(value['result']),
     };
 }
 

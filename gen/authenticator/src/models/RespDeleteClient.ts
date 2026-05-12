@@ -12,7 +12,15 @@
  * Do not edit the class manually.
  */
 
-import { exists, mapValues } from '../runtime';
+import { mapValues } from '../runtime';
+import type { Client } from './Client';
+import {
+    ClientFromJSON,
+    ClientFromJSONTyped,
+    ClientToJSON,
+    ClientToJSONTyped,
+} from './Client';
+
 /**
  * 
  * @export
@@ -45,25 +53,28 @@ export interface RespDeleteClient {
     metadata?: object;
     /**
      * 
-     * @type {string}
+     * @type {Client}
      * @memberof RespDeleteClient
      */
-    result?: RespDeleteClientResultEnum;
+    result?: Client;
 }
 
+
 /**
-* @export
-* @enum {string}
-*/
-export enum RespDeleteClientStatusEnum {
-    Success = 'success',
-    Failure = 'failure'
-}/**
-* @export
-* @enum {string}
-*/
-export enum RespDeleteClientResultEnum {
-    Null = 'null'
+ * @export
+ */
+export const RespDeleteClientStatusEnum = {
+    Success: 'success',
+    Failure: 'failure'
+} as const;
+export type RespDeleteClientStatusEnum = typeof RespDeleteClientStatusEnum[keyof typeof RespDeleteClientStatusEnum];
+
+
+/**
+ * Check if a given object implements the RespDeleteClient interface.
+ */
+export function instanceOfRespDeleteClient(value: object): value is RespDeleteClient {
+    return true;
 }
 
 export function RespDeleteClientFromJSON(json: any): RespDeleteClient {
@@ -71,33 +82,35 @@ export function RespDeleteClientFromJSON(json: any): RespDeleteClient {
 }
 
 export function RespDeleteClientFromJSONTyped(json: any, ignoreDiscriminator: boolean): RespDeleteClient {
-    if ((json === undefined) || (json === null)) {
+    if (json == null) {
         return json;
     }
     return {
         
-        'version': !exists(json, 'version') ? undefined : json['version'],
-        'message': !exists(json, 'message') ? undefined : json['message'],
-        'status': !exists(json, 'status') ? undefined : json['status'],
-        'metadata': !exists(json, 'metadata') ? undefined : json['metadata'],
-        'result': !exists(json, 'result') ? undefined : json['result'],
+        'version': json['version'] == null ? undefined : json['version'],
+        'message': json['message'] == null ? undefined : json['message'],
+        'status': json['status'] == null ? undefined : json['status'],
+        'metadata': json['metadata'] == null ? undefined : json['metadata'],
+        'result': json['result'] == null ? undefined : ClientFromJSON(json['result']),
     };
 }
 
-export function RespDeleteClientToJSON(value?: RespDeleteClient | null): any {
-    if (value === undefined) {
-        return undefined;
+export function RespDeleteClientToJSON(json: any): RespDeleteClient {
+    return RespDeleteClientToJSONTyped(json, false);
+}
+
+export function RespDeleteClientToJSONTyped(value?: RespDeleteClient | null, ignoreDiscriminator: boolean = false): any {
+    if (value == null) {
+        return value;
     }
-    if (value === null) {
-        return null;
-    }
+
     return {
         
-        'version': value.version,
-        'message': value.message,
-        'status': value.status,
-        'metadata': value.metadata,
-        'result': value.result,
+        'version': value['version'],
+        'message': value['message'],
+        'status': value['status'],
+        'metadata': value['metadata'],
+        'result': ClientToJSON(value['result']),
     };
 }
 

@@ -12,7 +12,7 @@
  * Do not edit the class manually.
  */
 
-import { exists, mapValues } from '../runtime';
+import { mapValues } from '../runtime';
 /**
  * A Tapis refresh token object.
  * @export
@@ -45,36 +45,45 @@ export interface TokenResponseRefreshToken {
     jti?: string;
 }
 
+/**
+ * Check if a given object implements the TokenResponseRefreshToken interface.
+ */
+export function instanceOfTokenResponseRefreshToken(value: object): value is TokenResponseRefreshToken {
+    return true;
+}
+
 export function TokenResponseRefreshTokenFromJSON(json: any): TokenResponseRefreshToken {
     return TokenResponseRefreshTokenFromJSONTyped(json, false);
 }
 
 export function TokenResponseRefreshTokenFromJSONTyped(json: any, ignoreDiscriminator: boolean): TokenResponseRefreshToken {
-    if ((json === undefined) || (json === null)) {
+    if (json == null) {
         return json;
     }
     return {
         
-        'refresh_token': !exists(json, 'refresh_token') ? undefined : json['refresh_token'],
-        'expires_at': !exists(json, 'expires_at') ? undefined : json['expires_at'],
-        'expires_in': !exists(json, 'expires_in') ? undefined : json['expires_in'],
-        'jti': !exists(json, 'jti') ? undefined : json['jti'],
+        'refresh_token': json['refresh_token'] == null ? undefined : json['refresh_token'],
+        'expires_at': json['expires_at'] == null ? undefined : json['expires_at'],
+        'expires_in': json['expires_in'] == null ? undefined : json['expires_in'],
+        'jti': json['jti'] == null ? undefined : json['jti'],
     };
 }
 
-export function TokenResponseRefreshTokenToJSON(value?: TokenResponseRefreshToken | null): any {
-    if (value === undefined) {
-        return undefined;
+export function TokenResponseRefreshTokenToJSON(json: any): TokenResponseRefreshToken {
+    return TokenResponseRefreshTokenToJSONTyped(json, false);
+}
+
+export function TokenResponseRefreshTokenToJSONTyped(value?: TokenResponseRefreshToken | null, ignoreDiscriminator: boolean = false): any {
+    if (value == null) {
+        return value;
     }
-    if (value === null) {
-        return null;
-    }
+
     return {
         
-        'refresh_token': value.refresh_token,
-        'expires_at': value.expires_at,
-        'expires_in': value.expires_in,
-        'jti': value.jti,
+        'refresh_token': value['refresh_token'],
+        'expires_at': value['expires_at'],
+        'expires_in': value['expires_in'],
+        'jti': value['jti'],
     };
 }
 

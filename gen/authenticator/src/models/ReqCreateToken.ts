@@ -12,7 +12,7 @@
  * Do not edit the class manually.
  */
 
-import { exists, mapValues } from '../runtime';
+import { mapValues } from '../runtime';
 /**
  * 
  * @export
@@ -75,46 +75,55 @@ export interface ReqCreateToken {
     refresh_token?: string;
 }
 
+/**
+ * Check if a given object implements the ReqCreateToken interface.
+ */
+export function instanceOfReqCreateToken(value: object): value is ReqCreateToken {
+    return true;
+}
+
 export function ReqCreateTokenFromJSON(json: any): ReqCreateToken {
     return ReqCreateTokenFromJSONTyped(json, false);
 }
 
 export function ReqCreateTokenFromJSONTyped(json: any, ignoreDiscriminator: boolean): ReqCreateToken {
-    if ((json === undefined) || (json === null)) {
+    if (json == null) {
         return json;
     }
     return {
         
-        'username': !exists(json, 'username') ? undefined : json['username'],
-        'password': !exists(json, 'password') ? undefined : json['password'],
-        'client_id': !exists(json, 'client_id') ? undefined : json['client_id'],
-        'client_key': !exists(json, 'client_key') ? undefined : json['client_key'],
-        'grant_type': !exists(json, 'grant_type') ? undefined : json['grant_type'],
-        'redirect_uri': !exists(json, 'redirect_uri') ? undefined : json['redirect_uri'],
-        'code': !exists(json, 'code') ? undefined : json['code'],
-        'device_code': !exists(json, 'device_code') ? undefined : json['device_code'],
-        'refresh_token': !exists(json, 'refresh_token') ? undefined : json['refresh_token'],
+        'username': json['username'] == null ? undefined : json['username'],
+        'password': json['password'] == null ? undefined : json['password'],
+        'client_id': json['client_id'] == null ? undefined : json['client_id'],
+        'client_key': json['client_key'] == null ? undefined : json['client_key'],
+        'grant_type': json['grant_type'] == null ? undefined : json['grant_type'],
+        'redirect_uri': json['redirect_uri'] == null ? undefined : json['redirect_uri'],
+        'code': json['code'] == null ? undefined : json['code'],
+        'device_code': json['device_code'] == null ? undefined : json['device_code'],
+        'refresh_token': json['refresh_token'] == null ? undefined : json['refresh_token'],
     };
 }
 
-export function ReqCreateTokenToJSON(value?: ReqCreateToken | null): any {
-    if (value === undefined) {
-        return undefined;
+export function ReqCreateTokenToJSON(json: any): ReqCreateToken {
+    return ReqCreateTokenToJSONTyped(json, false);
+}
+
+export function ReqCreateTokenToJSONTyped(value?: ReqCreateToken | null, ignoreDiscriminator: boolean = false): any {
+    if (value == null) {
+        return value;
     }
-    if (value === null) {
-        return null;
-    }
+
     return {
         
-        'username': value.username,
-        'password': value.password,
-        'client_id': value.client_id,
-        'client_key': value.client_key,
-        'grant_type': value.grant_type,
-        'redirect_uri': value.redirect_uri,
-        'code': value.code,
-        'device_code': value.device_code,
-        'refresh_token': value.refresh_token,
+        'username': value['username'],
+        'password': value['password'],
+        'client_id': value['client_id'],
+        'client_key': value['client_key'],
+        'grant_type': value['grant_type'],
+        'redirect_uri': value['redirect_uri'],
+        'code': value['code'],
+        'device_code': value['device_code'],
+        'refresh_token': value['refresh_token'],
     };
 }
 
